@@ -61,6 +61,12 @@ gulp.task('copyPayformStyles', () => {
         .pipe(livereload());
 });
 
+gulp.task('copyPayformImages', () => {
+    return gulp.src('src/payform/**/*.png')
+        .pipe(gulp.dest(config.payformDist))
+        .pipe(livereload());
+});
+
 gulp.task('runPayform', () => {
     connect.server({
         root: 'dist',
@@ -83,8 +89,9 @@ gulp.task('watch', () => {
     gulp.watch('src/payframe/**/*.js', ['bundlePayframe']);
     gulp.watch('src/payform/payform.pug', ['buildTemplate']);
     gulp.watch('src/**/*.css', ['copyStyles']);
+    gulp.watch('src/**/*.png', ['copyImages']);
 });
 
-gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles']);
+gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages']);
 gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
 gulp.task('default', ['build']);
