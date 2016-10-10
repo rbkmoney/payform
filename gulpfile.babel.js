@@ -23,7 +23,7 @@ gulp.task('bundlePayframe', ['lint'], () => {
         entries: 'src/payframe/payframe.js',
         extensions: ['.js'],
         debug: true
-    }).transform("babelify").bundle()
+    }).transform('babelify').bundle()
         .pipe(source('payframe.js'))
         .pipe(gulp.dest(config.payframeDist))
         .pipe(livereload());
@@ -34,7 +34,7 @@ gulp.task('bundlePayform', ['lint'], () => {
         entries: 'src/payform/payform.js',
         extensions: ['.js'],
         debug: true
-    }).transform("babelify").bundle()
+    }).transform('babelify').bundle()
         .pipe(source('payform.js'))
         .pipe(gulp.dest(config.payformDist))
         .pipe(livereload());
@@ -88,8 +88,9 @@ gulp.task('watch', () => {
     gulp.watch('src/payform/**/*.js', ['bundlePayform']);
     gulp.watch('src/payframe/**/*.js', ['bundlePayframe']);
     gulp.watch('src/payform/payform.pug', ['buildTemplate']);
-    gulp.watch('src/**/*.css', ['copyStyles']);
-    gulp.watch('src/**/*.png', ['copyImages']);
+    gulp.watch('src/**/*.css', ['copyPayformStyles']);
+    gulp.watch('src/**/*.css', ['copyPayframeStyles']);
+    gulp.watch('src/**/*.png', ['copyPayformImages']);
 });
 
 gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages']);
