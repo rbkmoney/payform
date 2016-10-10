@@ -4,7 +4,10 @@ export default class StyleLink {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
         link.setAttribute('href', href);
-        document.getElementsByTagName('head')[0].appendChild(link);
         this.element = link;
+    }
+
+    render() {
+        document.getElementsByTagName('head')[0].appendChild(this.element);
     }
 }

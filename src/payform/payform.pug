@@ -6,6 +6,7 @@ html(lang='en')
         meta(name='viewport', content='user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1')
         title Payform
         script(src="payform.js")
+        script(src="http://localhost:7000/tokenizer.min.js")
         link(href='payform.css', rel='stylesheet')
     body
         .modal
@@ -34,37 +35,37 @@ html(lang='en')
                     .payform
                         .payform--header
                             .payform--logo
-                                .payform--logo-image(style="background-image: url('logo.png')")
+                                .payform--logo-image(style="background-image: url('images/logo.png')")
                             .payform--company-name Company name
                             .payform--description Widget
                         .payform--form
                             form#payform(role='form')
-                                fieldset.payform--fieldset(style='display: none')
-                                    .payform--email.payform--field__error
-                                        input(type='email', value='', placeholder='Email', autocomplete='email', autocorrect='no', autocapitalize='no', spellcheck='no')
-                                        .payform--icon
-                                            svg(fill='#549928')
-                                                use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-envelope-desktop')
                                 fieldset.payform--fieldset
                                     .payform--card-holder.payform--field__error
-                                        input(type='text', value='', placeholder='Card holder', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
+                                        input#card-holder(type='text', value='', placeholder='Card holder', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-user-desktop')
                                 fieldset.payform--fieldset
                                     .payform--card-number.payform--field__error
-                                        input(type='tel', value='', placeholder='Card number', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
+                                        input#card-number(type='tel', value='', placeholder='Card number', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-creditCard-desktop')
                                     .payform--card-expire.payform--field__error.payform--field__focus
-                                        input(type='tel', value='', placeholder='MM / YY', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
+                                        input#exp-date(type='tel', value='', placeholder='MM / YY', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-calendar-desktop')
                                     .payform--card-cvc.payform--field__error
-                                        input(type='tel', value='', placeholder='CVC', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no', maxlength='4')
+                                        input#cvv(type='tel', value='', placeholder='CVC', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no', maxlength='4')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-lock-desktop')
-                            button.payform--pay-button(type='submit', form='payform') Pay $9.99
+                                fieldset.payform--fieldset
+                                    .payform--email.payform--field__error
+                                        input#email(type='email', value='', placeholder='Email', autocomplete='email', autocorrect='no', autocapitalize='no', spellcheck='no')
+                                        .payform--icon
+                                            svg(fill='#549928')
+                                                use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-envelope-desktop')
+                            button.payform--pay-button(type='button', form='payform', onclick="pay()") Pay

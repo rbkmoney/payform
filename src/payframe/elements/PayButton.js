@@ -5,7 +5,10 @@ export default class PayButton {
         const button = document.createElement('button');
         button.className = 'rbkmoney-button';
         button.appendChild(span);
-        document.body.appendChild(button);
         this.element = button;
+    }
+
+    render() {
+        document.body.appendChild(this.element);
     }
 }
