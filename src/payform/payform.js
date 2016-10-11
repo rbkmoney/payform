@@ -1,48 +1,55 @@
 import 'whatwg-fetch';
+import domReady from './utils/domReady';
 import Communicator from './backend-communication/Communicator'
-import Form from './Form';
+import EventPoller from './backend-communication/EventPoller';
+import Form from './elements/Form';
+import Spinner from './elements/Spinner';
 
-(function () {
+domReady(function () {
     let initParams = {};
 
-    this.addEventListener('message', (event) => {
+    window.addEventListener('message', (event) => {
         if (event && typeof event.data === 'object') {
             initParams = event.data
         }
     }, false);
-    this.payformClose = () => this.parent.postMessage('payform-close', '*');
+    window.payformClose = () => window.parent.postMessage('payform-close', '*');
 
-    function buildTokenizationRequest() {
+    const spinner = new Spinner('.spinner', '#payform');
+    const form = new Form();
+
+    function buildTokenizationRequest(form) {
         return {
             'paymentToolType': 'cardData',
-            'cardHolder': Form.getCardHolder(),
-            'cardNumber': Form.getCardNumber(),
-            'expDate': Form.getExpDate(),
-            'cvv': Form.getCvv()
+            'cardHolder': form.getCardHolder(),
+            'cardNumber': form.getCardNumber(),
+            'expDate': form.getExpDate(),
+            'cvv': form.getCvv()
         }
     }
 
-    function buildSendRequest(invoiceId, tokenizationResponse) {
+    function buildSendRequest(form, invoiceId, tokenizationResponse) {
         return {
             invoiceId: invoiceId,
             token: tokenizationResponse.token,
             session: tokenizationResponse.session,
             contractInfo: {
-                email: Form.getEmail()
+                email: form.getEmail()
             }
         }
     }
 
     const tokenizationHandler = response => {
-        Communicator.sendTokenization(initParams.endpointTokenization, buildSendRequest(initParams.invoiceId, response))
-            .then(() => {
-
-            });
+        spinner.show();
+        Communicator.sendTokenization(initParams.endpointTokenization, buildSendRequest(form, initParams.invoiceId, response))
+            .then(() => EventPoller.pollEvents(initParams.endpointEvents, initParams.invoiceId, 2000).then(() => {
+                spinner.hide();
+            }));
     };
 
-    this.pay = () => {
-        this.Tokenizer.setPublicKey(initParams.key);
-        this.Tokenizer.card.createToken(buildTokenizationRequest(), tokenizationHandler, error => console.error(error));
+    window.pay = () => {
+        // const isValid = form.validate();
+        window.Tokenizer.setPublicKey(initParams.key);
+        window.Tokenizer.card.createToken(buildTokenizationRequest(form), tokenizationHandler, error => console.error(error));
     };
-
-}).call(window || {});
+});

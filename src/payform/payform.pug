@@ -5,6 +5,8 @@ html(lang='en')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
         meta(name='viewport', content='user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1')
         title Payform
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js")
+        script(src="payment/payment.js")
         script(src="payform.js")
         script(src="http://localhost:7000/tokenizer.min.js")
         link(href='payform.css', rel='stylesheet')
@@ -41,31 +43,46 @@ html(lang='en')
                         .payform--form
                             form#payform(role='form')
                                 fieldset.payform--fieldset
-                                    .payform--card-holder.payform--field__error
+                                    .payform--group.payform--card-holder
                                         input#card-holder(type='text', value='', placeholder='Card holder', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-user-desktop')
                                 fieldset.payform--fieldset
-                                    .payform--card-number.payform--field__error
+                                    //.payform--card-number.payform--field__error.payform--field__focus
+                                    .payform--group.payform--card-number
                                         input#card-number(type='tel', value='', placeholder='Card number', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-creditCard-desktop')
-                                    .payform--card-expire.payform--field__error.payform--field__focus
+                                    .payform--group.payform--card-expire
                                         input#exp-date(type='tel', value='', placeholder='MM / YY', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-calendar-desktop')
-                                    .payform--card-cvc.payform--field__error
+                                    .payform--group.payform--card-cvc
                                         input#cvv(type='tel', value='', placeholder='CVC', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no', maxlength='4')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-lock-desktop')
                                 fieldset.payform--fieldset
-                                    .payform--email.payform--field__error
+                                    .payform--group.payform--email
                                         input#email(type='email', value='', placeholder='Email', autocomplete='email', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-envelope-desktop')
-                            button.payform--pay-button(type='button', form='payform', onclick="pay()") Pay
+                                button.payform--pay-button(type='button', form='payform', onclick="pay()") Pay
+                            div.spinner(style='transform:scale(0.99);')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(0deg) translate(0,-60px);transform:rotate(0deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(30deg) translate(0,-60px);transform:rotate(30deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(60deg) translate(0,-60px);transform:rotate(60deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(90deg) translate(0,-60px);transform:rotate(90deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(120deg) translate(0,-60px);transform:rotate(120deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(150deg) translate(0,-60px);transform:rotate(150deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(180deg) translate(0,-60px);transform:rotate(180deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(210deg) translate(0,-60px);transform:rotate(210deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(240deg) translate(0,-60px);transform:rotate(240deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(270deg) translate(0,-60px);transform:rotate(270deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(300deg) translate(0,-60px);transform:rotate(300deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                div(style='top:80px;left:93px;width:14px;height:40px;background:#00b2ff;-webkit-transform:rotate(330deg) translate(0,-60px);transform:rotate(330deg) translate(0,-60px);border-radius:10px;position:absolute;')
+                                
