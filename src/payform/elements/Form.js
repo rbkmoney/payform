@@ -1,5 +1,7 @@
 export default class Form {
     constructor() {
+        this.element = document.querySelector('#payform');
+
         this.email = $('#email');
         this.cardHolder = $('#card-holder');
 
@@ -15,6 +17,14 @@ export default class Form {
         $.fn.toggleInputError = function (isError) {
             this.parent('.payform--group').toggleClass('payform--field__error', isError);
         };
+    }
+
+    show() {
+        this.element.style.display = 'block';
+    }
+
+    hide() {
+        this.element.style.display = 'none';
     }
 
     getEmail() {

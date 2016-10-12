@@ -12,7 +12,7 @@ export default class InitScript {
         return {
             key: dataSet.key || {},
             invoiceId: dataSet.invoiceId || {},
-            endpointTokenization: dataSet.endpointTokenization || {},
+            endpointInit: dataSet.endpointInit || {},
             endpointEvents: dataSet.endpointEvents || {}
         }
     }

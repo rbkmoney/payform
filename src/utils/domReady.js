@@ -1,7 +1,7 @@
 export default function (callback) {
-    var ready = false;
+    let ready = false;
 
-    var detach = function () {
+    const detach = function () {
         if (document.addEventListener) {
             document.removeEventListener('DOMContentLoaded', completed);
             window.removeEventListener('load', completed);
@@ -10,7 +10,7 @@ export default function (callback) {
             window.detachEvent('onload', completed);
         }
     };
-    var completed = function () {
+    const completed = function () {
         if (!ready && (document.addEventListener || event.type === 'load' || document.readyState === 'complete')) {
             ready = true;
             detach();
@@ -27,7 +27,7 @@ export default function (callback) {
         document.attachEvent('onreadystatechange', completed);
         window.attachEvent('onload', completed);
 
-        var top = false;
+        let top = false;
 
         try {
             top = window.frameElement == null && document.documentElement;

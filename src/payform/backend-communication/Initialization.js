@@ -1,5 +1,6 @@
-export default class Communicator {
-    static sendTokenization(endpoint, data) {
+export default class Initialization {
+
+    static sendInit(endpoint, data) {
         return new Promise((resolve, reject) => {
             fetch(endpoint, {
                 method: 'POST',
@@ -13,7 +14,7 @@ export default class Communicator {
                 } else {
                     response.json().then(error => reject(error));
                 }
-            }).catch(() => reject('Error send to tokenization endpoint'));
+            }).catch(() => reject('Error send to init endpoint'));
         });
     }
 }

@@ -1,6 +1,6 @@
-export default class Spinner {
+export default class Checkmark {
     constructor() {
-        this.element = document.querySelector('.spinner');
+        this.element = document.querySelector('.checkmark');
         this.hide();
     }
 

@@ -2,17 +2,19 @@ export default class EventPoller {
 
     static pollEvents(endpointUrl, invoiceId, timeout) {
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                this.requestToEndpoint(endpointUrl, invoiceId).then(events => {
-                    if (this.isSuccess(events)) {
-                        resolve();
-                    } else if (this.isPadding(events)) {
-
-                    } else if (this.isError()) {
-                        reject();
-                    }
-                });
-            }, timeout);
+            (function poll(self) {
+                setTimeout(() => {
+                    self.requestToEndpoint(endpointUrl, invoiceId).then(events => {
+                        if (self.isSuccess(events)) {
+                            resolve();
+                        } else if (self.isError()) {
+                            reject();
+                        } else {
+                            poll(self);
+                        }
+                    });
+                }, timeout);
+            })(this);
         });
     }
 
@@ -45,12 +47,15 @@ export default class EventPoller {
         return (last && last.eventType === 'invoiceStatusChanged' && last.status === 'paid');
     }
 
-    static isPadding(events) {
-        return false;
-    }
-
     static isError(events) {
-        return false;
+        const last = this.getLastEvent(events);
+        let result = false;
+        if (last) {
+            const isPaymentFailed = (last.eventType === 'paymentStatusChanged' && last.status === 'failed');
+            const isInvoiceFailed = (last.eventType === 'invoiceStatusChanged' && (last.status === 'cancelled' || last.status === 'unpaid'));
+            result = isPaymentFailed || isInvoiceFailed;
+        }
+        return result;
     }
 
     static getLastEvent(events) {

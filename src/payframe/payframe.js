@@ -3,8 +3,9 @@ import PayButton from './elements/PayButton';
 import StyleLink from './elements/StyleLink';
 import InitScript from './elements/InitScript';
 import settings from '../settings';
+import domReady from '../utils/domReady';
 
-(function () {
+domReady(function () {
     const frameUrl = `${settings.host}/payform/payform.html`;
     const frameName = 'rbkmoney_payframe';
 
@@ -14,17 +15,19 @@ import settings from '../settings';
     const initScript = new InitScript('rbkmoney-payform');
 
     styles.render();
-    iframe.render();
     payButton.render();
+    iframe.render();
 
     payButton.element.onclick = () => {
-        this.frames[frameName].postMessage(initScript.getParams(), frameUrl);
         iframe.show();
+        window.frames[frameName].postMessage(initScript.getParams(), frameUrl);
     };
 
-    this.addEventListener('message', () => {
+    window.addEventListener('message', () => {
         if (event && event.data === 'payform-close') {
             iframe.hide();
+            iframe.destroy();
+            iframe.render();
         }
     }, false);
-}).call(window || {});
+});

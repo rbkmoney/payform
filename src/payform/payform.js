@@ -1,55 +1,53 @@
 import 'whatwg-fetch';
-import domReady from './utils/domReady';
-import Communicator from './backend-communication/Communicator'
+import Initialization from './backend-communication/Initialization';
 import EventPoller from './backend-communication/EventPoller';
 import Form from './elements/Form';
 import Spinner from './elements/Spinner';
+import Checkmark from './elements/Checkmark';
+import RequestBuilder from './builders/RequestBuilder';
+import settings from '../settings';
+import domReady from '../utils/domReady';
 
 domReady(function () {
-    let initParams = {};
+    let params = {};
 
     window.addEventListener('message', (event) => {
         if (event && typeof event.data === 'object') {
-            initParams = event.data
+            params = event.data
         }
     }, false);
     window.payformClose = () => window.parent.postMessage('payform-close', '*');
 
-    const spinner = new Spinner('.spinner', '#payform');
+    const spinner = new Spinner();
     const form = new Form();
+    const checkmark = new Checkmark();
 
-    function buildTokenizationRequest(form) {
-        return {
-            'paymentToolType': 'cardData',
-            'cardHolder': form.getCardHolder(),
-            'cardNumber': form.getCardNumber(),
-            'expDate': form.getExpDate(),
-            'cvv': form.getCvv()
-        }
-    }
-
-    function buildSendRequest(form, invoiceId, tokenizationResponse) {
-        return {
-            invoiceId: invoiceId,
-            token: tokenizationResponse.token,
-            session: tokenizationResponse.session,
-            contractInfo: {
-                email: form.getEmail()
-            }
-        }
-    }
-
-    const tokenizationHandler = response => {
-        spinner.show();
-        Communicator.sendTokenization(initParams.endpointTokenization, buildSendRequest(form, initParams.invoiceId, response))
-            .then(() => EventPoller.pollEvents(initParams.endpointEvents, initParams.invoiceId, 2000).then(() => {
+    const handler = paymentTools => {
+        const initRequest = RequestBuilder.buildInitRequest(params.invoiceId, paymentTools, form.getEmail());
+        Initialization.sendInit(params.endpointInit, initRequest).then(() => {
+            EventPoller.pollEvents(params.endpointEvents, params.invoiceId, settings.pollingTimeout).then(() => {
                 spinner.hide();
-            }));
+                checkmark.show();
+                setTimeout(() => window.parent.postMessage('payform-close', '*'), settings.closeFormTimeout);
+            }).catch(() => {
+                console.log('Error');
+            })
+        });
     };
 
     window.pay = () => {
         // const isValid = form.validate();
-        window.Tokenizer.setPublicKey(initParams.key);
-        window.Tokenizer.card.createToken(buildTokenizationRequest(form), tokenizationHandler, error => console.error(error));
+        spinner.show();
+        form.hide();
+        window.Tokenizer.setPublicKey(params.key);
+        const request = RequestBuilder.buildTokenizationRequest(
+            form.getCardHolder(),
+            form.getCardNumber(),
+            form.getExpDate(),
+            form.getCvv()
+        );
+        window.Tokenizer.card.createToken(request, handler, error => {
+            console.error(error)
+        });
     };
 });

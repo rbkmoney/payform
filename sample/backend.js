@@ -16,13 +16,11 @@ router.route('/processing/payment_tools').post((req, res) => res.json({
     session: 'sessionToken'
 }));
 
-router.route('/payment_tool_endpoint').post((req, res) => {
-    console.log('call payment tool endpoint');
+router.route('/init_endpoint').post((req, res) => {
     res.send('Ok');
 });
 
 router.route('/events_endpoint').get((req, res) => {
-    console.log('InvoiceId', req.param('invoiceId'));
     res.json([
         {
             id: 1,
@@ -35,7 +33,7 @@ router.route('/events_endpoint').get((req, res) => {
             createdAt: 'datetime',
             eventType: 'invoiceStatusChanged',
             status: 'paid'
-        },
+        }
     ]);
 });
 
