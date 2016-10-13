@@ -2,7 +2,7 @@ export default class RequestBuilder {
 
     static buildTokenizationRequest(cardHolder, cardNumber, expDate, cvv) {
         return {
-            paymentToolType: 'cardData',
+            paymentToolType: 'CardData',
             cardHolder: cardHolder,
             cardNumber: cardNumber,
             expDate: expDate,

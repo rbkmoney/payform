@@ -28,6 +28,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-pug": "^3.1.0",
+    "urijs": "^1.18.2",
     "vinyl-source-stream": "^1.1.0"
   }
 }
