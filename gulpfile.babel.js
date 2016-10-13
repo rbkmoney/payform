@@ -6,6 +6,8 @@ import source from 'vinyl-source-stream';
 import eslint from 'gulp-eslint';
 import livereload from 'gulp-livereload';
 import pug from 'gulp-pug';
+import nodemon from 'gulp-nodemon';
+import concat from 'gulp-concat';
 
 const config = {
     payframeDist: 'dist/payframe',
@@ -18,7 +20,7 @@ gulp.task('lint', () => {
         .pipe(eslint.format());
 });
 
-gulp.task('bundlePayframe', ['lint'], () => {
+gulp.task('bundlePayframe', () => {
     return browserify({
         entries: 'src/payframe/payframe.js',
         extensions: ['.js'],
@@ -29,7 +31,7 @@ gulp.task('bundlePayframe', ['lint'], () => {
         .pipe(livereload());
 });
 
-gulp.task('bundlePayform', ['lint'], () => {
+gulp.task('bundlePayform', () => {
     return browserify({
         entries: 'src/payform/payform.js',
         extensions: ['.js'],
@@ -56,14 +58,15 @@ gulp.task('copyPayframeStyles', () => {
 });
 
 gulp.task('copyPayformStyles', () => {
-    return gulp.src('src/payform/payform.css')
+    return gulp.src('src/payform/styles/**/*.css')
+        .pipe(concat('payform.css'))
         .pipe(gulp.dest(config.payformDist))
         .pipe(livereload());
 });
 
 gulp.task('copyPayformImages', () => {
-    return gulp.src('src/payform/**/*.png')
-        .pipe(gulp.dest(config.payformDist))
+    return gulp.src('src/payform/images/**/*')
+        .pipe(gulp.dest(`${config.payformDist}/images`))
         .pipe(livereload());
 });
 
@@ -76,10 +79,14 @@ gulp.task('runPayform', () => {
 });
 
 gulp.task('runSample', () => {
-    connect.server({
-        root: 'sample',
-        host: '127.0.0.1',
-        port: 7051
+    var started = false;
+    return nodemon({
+        script: 'sample/backend.js'
+    }).on('start', () => {
+        if (!started) {
+            cb();
+            started = true;
+        }
     });
 });
 
@@ -90,7 +97,7 @@ gulp.task('watch', () => {
     gulp.watch('src/payform/payform.pug', ['buildTemplate']);
     gulp.watch('src/**/*.css', ['copyPayformStyles']);
     gulp.watch('src/**/*.css', ['copyPayframeStyles']);
-    gulp.watch('src/**/*.png', ['copyPayformImages']);
+    gulp.watch('src/payform/images/**/*', ['copyPayformImages']);
 });
 
 gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages']);
