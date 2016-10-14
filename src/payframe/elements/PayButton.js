@@ -8,7 +8,7 @@ export default class PayButton {
         this.element = button;
     }
 
-    render() {
-        document.body.appendChild(this.element);
+    render(className) {
+        document.querySelector(`.${className}`).parentNode.appendChild(this.element);
     }
 }

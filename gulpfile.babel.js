@@ -90,9 +90,15 @@ gulp.task('runSample', () => {
     });
 });
 
+gulp.task('copyPaymentLib', () => {
+    return gulp.src('src/payform/payment/payment.js')
+        .pipe(gulp.dest(`${config.payformDist}/payment`))
+        .pipe(livereload());
+});
+
 gulp.task('watch', () => {
     livereload.listen();
-    gulp.watch('src/payform/**/*.js', ['bundlePayform']);
+    gulp.watch('src/payform/**/*.js', ['bundlePayform', 'copyPaymentLib']);
     gulp.watch('src/payframe/**/*.js', ['bundlePayframe']);
     gulp.watch('src/payform/payform.pug', ['buildTemplate']);
     gulp.watch('src/**/*.css', ['copyPayformStyles']);
@@ -100,6 +106,6 @@ gulp.task('watch', () => {
     gulp.watch('src/payform/images/**/*', ['copyPayformImages']);
 });
 
-gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages']);
+gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages', 'copyPaymentLib']);
 gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
 gulp.task('default', ['build']);
