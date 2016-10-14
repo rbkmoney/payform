@@ -9,15 +9,16 @@ import domReady from '../utils/domReady';
 domReady(function () {
     const frameUrl = `${settings.host}/payform/payform.html`;
     const frameName = 'rbkmoney_payframe';
+    const scriptClass = 'rbkmoney-payform';
 
     const styles = new StyleLink(`${settings.host}/payframe/payframe.css`);
     const iframe = new Iframe(frameUrl, frameName);
     const payButton = new PayButton('Pay with RBKmoney');
-    const initScript = new InitScript('rbkmoney-payform');
+    const initScript = new InitScript(scriptClass);
     const params = initScript.getParams();
 
     styles.render();
-    payButton.render();
+    payButton.render(scriptClass);
     iframe.render();
 
     if (StateInspector.isInProgress(params.invoiceId)) {
