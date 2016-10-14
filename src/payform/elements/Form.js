@@ -1,25 +1,18 @@
+import CardNumber from './form-elements/CardNumber';
+import ExpDate from './form-elements/ExpDate';
+
 export default class Form {
     constructor() { //TODO fix it
+        this.errorClass = 'payform--field__error';
+        this.focusClass = 'payform--field__focus';
+        
         this.element = document.querySelector('#payform');
 
-        this.email = $('#email');
-        this.cardHolder = $('#card-holder');
+        this.email = document.querySelector('#email');
+        this.cardHolder = document.querySelector('#card-holder');
 
-        this.cardNumber = $('#card-number');
-        this.cardNumber.focus(() => {
-            this.cardNumber.parent('.payform--group').toggleClass('payform--field__focus');
-        }).focusout(() => {
-            this.cardNumber.parent('.payform--group').toggleClass('payform--field__focus');
-        });
-        this.cardNumber.payment('formatCardNumber');
-
-        this.expDate = $('#exp-date');
-        this.expDate.focus(() => {
-            this.expDate.parent('.payform--group').toggleClass('payform--field__focus');
-        }).focusout(() => {
-            this.expDate.parent('.payform--group').toggleClass('payform--field__focus');
-        });
-        this.expDate.payment('formatCardExpiry');
+        this.cardNumber = new CardNumber(this.errorClass, this.focusClass);
+        this.expDate = new ExpDate(this.errorClass, this.focusClass);
 
         this.cvv = $('#cvv');
         this.cvv.focus(() => {
@@ -28,10 +21,6 @@ export default class Form {
             this.cvv.parent('.payform--group').toggleClass('payform--field__focus');
         });
         this.cvv.payment('formatCardCVC');
-
-        $.fn.toggleInputError = function (isError) {
-            this.parent('.payform--group').toggleClass('payform--field__error', isError);
-        };
     }
 
     show() {
@@ -43,31 +32,27 @@ export default class Form {
     }
 
     getEmail() {
-        return this.email.val();
+        return this.email.value;
     }
 
     getCardHolder() {
-        return this.cardHolder.val();
+        return this.cardHolder.value;
     }
 
     getCardNumber() {
-        return this.cardNumber.val();
+        return this.cardNumber.value;
     }
 
     validateCardNumber() {
-        const isValid = $.payment.validateCardNumber(this.getCardNumber());
-        this.cardNumber.toggleInputError(!isValid);
-        return isValid;
+        return this.cardNumber.validate();
     }
 
     getExpDate() {
-        return this.expDate.val();
+        return this.expDate.value;
     }
 
     validateExpDate() {
-        const isValid = $.payment.validateCardExpiry(this.getExpDate());
-        this.expDate.toggleInputError(!isValid);
-        return isValid;
+        return this.expDate.validate();
     }
 
     getCvv() {
@@ -78,9 +63,5 @@ export default class Form {
         const isValid = $.payment.validateCardCVC(this.getCvv());
         this.expDate.toggleInputError(!isValid);
         return isValid;
-    }
-
-    validate() {
-        return this.validateCardNumber() && this.validateExpDate() && this.validateCvv();
     }
 }

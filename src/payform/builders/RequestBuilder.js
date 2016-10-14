@@ -4,7 +4,7 @@ export default class RequestBuilder {
         return {
             paymentToolType: 'CardData',
             cardHolder: cardHolder,
-            cardNumber: this.replaceSpaces(cardNumber),
+            element: this.replaceSpaces(cardNumber),
             expDate: this.replaceSpaces(expDate),
             cvv: cvv
         }
