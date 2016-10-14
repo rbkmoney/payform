@@ -1,17 +1,32 @@
 export default class Form {
-    constructor() {
+    constructor() { //TODO fix it
         this.element = document.querySelector('#payform');
 
         this.email = $('#email');
         this.cardHolder = $('#card-holder');
 
         this.cardNumber = $('#card-number');
+        this.cardNumber.focus(() => {
+            this.cardNumber.parent('.payform--group').toggleClass('payform--field__focus');
+        }).focusout(() => {
+            this.cardNumber.parent('.payform--group').toggleClass('payform--field__focus');
+        });
         this.cardNumber.payment('formatCardNumber');
 
         this.expDate = $('#exp-date');
+        this.expDate.focus(() => {
+            this.expDate.parent('.payform--group').toggleClass('payform--field__focus');
+        }).focusout(() => {
+            this.expDate.parent('.payform--group').toggleClass('payform--field__focus');
+        });
         this.expDate.payment('formatCardExpiry');
 
         this.cvv = $('#cvv');
+        this.cvv.focus(() => {
+            this.cvv.parent('.payform--group').toggleClass('payform--field__focus');
+        }).focusout(() => {
+            this.cvv.parent('.payform--group').toggleClass('payform--field__focus');
+        });
         this.cvv.payment('formatCardCVC');
 
         $.fn.toggleInputError = function (isError) {

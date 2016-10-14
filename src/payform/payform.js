@@ -21,7 +21,6 @@ domReady(function () {
                 spinner.show();
                 form.hide();
                 polling();
-                params.state = 'payform receive';
             }
         }
     }, false);
@@ -36,13 +35,13 @@ domReady(function () {
         EventPoller.pollEvents(params.endpointEvents, params.invoiceId, settings.pollingTimeout).then(result => {
             console.info('polling resolve, data:', result);
             if (result.type === 'success') {
-                console.info('polling success, post message: done');
+                console.info('polling result: success, post message: done');
                 spinner.hide();
                 checkmark.show();
                 window.parent.postMessage('done', '*');
                 setTimeout(() => window.parent.postMessage('payform-close', '*'), settings.closeFormTimeout);
             } else if (result.type === 'interact') {
-                console.info('polling interact, post message: interact, starts 3ds interaction...');
+                console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
                 const redirectUrl = location.href;
                 const form3ds = new Form3ds(result.data, redirectUrl);
@@ -55,20 +54,20 @@ domReady(function () {
     };
 
     const handler = paymentTools => {
-        console.info('tokenization done');
+        console.info('tokenization done, data:', paymentTools);
         const initRequest = RequestBuilder.buildInitRequest(params.invoiceId, paymentTools, form.getEmail());
-        console.info('initialization start');
+        console.info('request to initialization endpoint start, data:', initRequest);
         Initialization.sendInit(params.endpointInit, initRequest).then(() => {
-            console.info('initialization done');
+            console.info('request to initialization endpoint done');
             polling();
         });
     };
 
     window.pay = () => {
+        console.info('pay start');
         // const isValid = form.validate();
         spinner.show();
         form.hide();
-        console.info('tokenization start');
         window.Tokenizer.setPublicKey(params.key);
         const request = RequestBuilder.buildTokenizationRequest(
             form.getCardHolder(),
@@ -76,6 +75,7 @@ domReady(function () {
             form.getExpDate(),
             form.getCvv()
         );
+        console.info('tokenization start, data:', request);
         window.Tokenizer.card.createToken(request, handler, error => {
             console.error(error)
         });
