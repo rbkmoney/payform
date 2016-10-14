@@ -2,10 +2,10 @@ export default class RequestBuilder {
 
     static buildTokenizationRequest(cardHolder, cardNumber, expDate, cvv) {
         return {
-            paymentToolType: 'cardData',
+            paymentToolType: 'CardData',
             cardHolder: cardHolder,
-            cardNumber: cardNumber,
-            expDate: expDate,
+            cardNumber: this.replaceSpaces(cardNumber),
+            expDate: this.replaceSpaces(expDate),
             cvv: cvv
         }
     }
@@ -19,5 +19,9 @@ export default class RequestBuilder {
                 email: email
             }
         }
+    }
+
+    static replaceSpaces(str) {
+        return str.replace(/\s+/g, '');
     }
 }
