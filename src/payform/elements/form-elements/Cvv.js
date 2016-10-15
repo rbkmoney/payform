@@ -1,20 +1,21 @@
-export default class ExpDate {
+export default class Cvv {
     constructor(errorClass, focusClass) {
         this.errorClass = errorClass;
         this.focusClass = focusClass;
 
-        this.element = document.querySelector('#exp-date');
+        this.element = document.querySelector('#cvv');
         this.element.onfocus = () => this.element.parentNode.classList.add(this.focusClass);
         this.element.onblur = () => this.element.parentNode.classList.remove(this.focusClass);
-        $('#exp-date').payment('formatCardExpiry');
+        $('#cvv').payment('formatCardCVC');
     }
 
     get value() {
         return this.element.value;
     }
 
-    validate() {
-        const isValid = $.payment.validateCardExpiry($('#exp-date').payment('cardExpiryVal'));
+    validate(cardNumber) {
+        const cardType = $.payment.cardType(cardNumber);
+        const isValid = $.payment.validateCardCVC(this.value, cardType);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);

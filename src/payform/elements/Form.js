@@ -1,11 +1,12 @@
 import CardNumber from './form-elements/CardNumber';
 import ExpDate from './form-elements/ExpDate';
+import Cvv from './form-elements/Cvv';
 
 export default class Form {
-    constructor() { //TODO fix it
+    constructor() {
         this.errorClass = 'payform--field__error';
         this.focusClass = 'payform--field__focus';
-        
+
         this.element = document.querySelector('#payform');
 
         this.email = document.querySelector('#email');
@@ -13,14 +14,7 @@ export default class Form {
 
         this.cardNumber = new CardNumber(this.errorClass, this.focusClass);
         this.expDate = new ExpDate(this.errorClass, this.focusClass);
-
-        this.cvv = $('#cvv');
-        this.cvv.focus(() => {
-            this.cvv.parent('.payform--group').toggleClass('payform--field__focus');
-        }).focusout(() => {
-            this.cvv.parent('.payform--group').toggleClass('payform--field__focus');
-        });
-        this.cvv.payment('formatCardCVC');
+        this.cvv = new Cvv(this.errorClass, this.focusClass);
     }
 
     show() {
@@ -56,12 +50,17 @@ export default class Form {
     }
 
     getCvv() {
-        return this.cvv.val();
+        return this.cvv.value;
     }
 
     validateCvv() {
-        const isValid = $.payment.validateCardCVC(this.getCvv());
-        this.expDate.toggleInputError(!isValid);
-        return isValid;
+        return this.cvv.validate(this.cardNumber.value);
+    }
+
+    isValid() {
+        const isCardNumberValid = this.validateCardNumber();
+        const isExpDateValid = this.validateExpDate();
+        const isCvvValid = this.validateCvv();
+        return isCardNumberValid && isExpDateValid && isCvvValid;
     }
 }

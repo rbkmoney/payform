@@ -65,9 +65,7 @@ domReady(function () {
 
     window.pay = () => {
         console.info('pay start');
-        const isCardNumberValid = form.validateCardNumber();
-        const isExpDateValid = form.validateExpDate();
-        if (isCardNumberValid && isExpDateValid) {
+        if (form.isValid()) {
             spinner.show();
             form.hide();
             window.Tokenizer.setPublicKey(params.key);
