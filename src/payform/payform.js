@@ -16,6 +16,12 @@ domReady(function () {
         if (event && typeof event.data === 'object') {
             console.info('payform receive message: object, data:', event.data);
             params = event.data;
+            if(params.logo) {
+                form.setLogo(params.logo);
+            }
+            if(params.name) {
+                form.setName(params.name);
+            }
             if (params.state && params.state === 'inProgress') {
                 console.info('checked state inProgress, starts polling...');
                 spinner.show();

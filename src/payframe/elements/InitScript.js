@@ -13,7 +13,10 @@ export default class InitScript {
             key: dataSet.key || {},
             invoiceId: dataSet.invoiceId || {},
             endpointInit: dataSet.endpointInit || {},
-            endpointEvents: dataSet.endpointEvents || {}
+            endpointEvents: dataSet.endpointEvents || {},
+            buttonColor: dataSet.buttonColor,
+            logo: dataSet.logo,
+            name: dataSet.name
         }
     }
 }

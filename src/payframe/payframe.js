@@ -13,9 +13,9 @@ domReady(function () {
 
     const styles = new StyleLink(`${settings.host}/payframe/payframe.css`);
     const iframe = new Iframe(frameUrl, frameName);
-    const payButton = new PayButton('Pay with RBKmoney');
     const initScript = new InitScript(scriptClass);
     const params = initScript.getParams();
+    const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
 
     styles.render();
     payButton.render(scriptClass);
