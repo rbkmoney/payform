@@ -13,7 +13,8 @@
     background-image: linear-gradient(#28a0e5, #015e94);
     -webkit-font-smoothing: antialiased;
     border: 0;
-    padding: 1px;
+    outline: 0;
+    padding: 0;
     text-decoration: none;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

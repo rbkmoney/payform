@@ -17,6 +17,16 @@ export default class Form {
         this.cvv = new Cvv(this.errorClass, this.focusClass);
     }
 
+    setLogo(url) {
+        this.logo = document.querySelector('.payform--logo-image');
+        this.logo.style.backgroundImage = 'url("' + url + '")';
+    }
+
+    setName(name) {
+        this.name = document.querySelector('.payform--company-name');
+        this.name.innerHTML = name;
+    }
+
     show() {
         this.element.style.display = 'block';
     }
