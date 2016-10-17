@@ -65,19 +65,22 @@ domReady(function () {
 
     window.pay = () => {
         console.info('pay start');
-        // const isValid = form.validate();
-        spinner.show();
-        form.hide();
-        window.Tokenizer.setPublicKey(params.key);
-        const request = RequestBuilder.buildTokenizationRequest(
-            form.getCardHolder(),
-            form.getCardNumber(),
-            form.getExpDate(),
-            form.getCvv()
-        );
-        console.info('tokenization start, data:', request);
-        window.Tokenizer.card.createToken(request, handler, error => {
-            console.error(error)
-        });
+        if (form.isValid()) {
+            spinner.show();
+            form.hide();
+            window.Tokenizer.setPublicKey(params.key);
+            const request = RequestBuilder.buildTokenizationRequest(
+                form.getCardHolder(),
+                form.getCardNumber(),
+                form.getExpDate(),
+                form.getCvv()
+            );
+            console.info('tokenization start, data:', request);
+            window.Tokenizer.card.createToken(request, handler, error => {
+                console.error(error)
+            });
+        } else {
+            console.warn('form is invalid');
+        }
     };
 });
