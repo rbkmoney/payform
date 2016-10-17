@@ -1,6 +1,6 @@
 #!groovy
 
-build('tokenizer.js', 'docker-host') {
+build('payform', 'docker-host') {
   checkoutRepo()
   loadBuildUtils()
 
