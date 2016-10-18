@@ -10,6 +10,7 @@ import nodemon from 'gulp-nodemon';
 import concat from 'gulp-concat';
 
 const config = {
+    dist: 'dist',
     payframeDist: 'dist/payframe',
     payformDist: 'dist/payform'
 };
@@ -70,6 +71,18 @@ gulp.task('copyPayformImages', () => {
         .pipe(livereload());
 });
 
+gulp.task('copyPaymentLib', () => {
+    return gulp.src('src/payform/payment/payment.js')
+        .pipe(gulp.dest(`${config.payformDist}/payment`))
+        .pipe(livereload());
+});
+
+gulp.task('copyConfig', () => {
+    return gulp.src('src/appConfig.json')
+        .pipe(gulp.dest(`${config.dist}`))
+        .pipe(livereload());
+});
+
 gulp.task('runPayform', () => {
     connect.server({
         root: 'dist',
@@ -90,12 +103,6 @@ gulp.task('runSample', () => {
     });
 });
 
-gulp.task('copyPaymentLib', () => {
-    return gulp.src('src/payform/payment/payment.js')
-        .pipe(gulp.dest(`${config.payformDist}/payment`))
-        .pipe(livereload());
-});
-
 gulp.task('watch', () => {
     livereload.listen();
     gulp.watch('src/payform/**/*.js', ['bundlePayform', 'copyPaymentLib']);
@@ -106,6 +113,7 @@ gulp.task('watch', () => {
     gulp.watch('src/payform/images/**/*', ['copyPayformImages']);
 });
 
-gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles', 'copyPayframeStyles', 'copyPayformImages', 'copyPaymentLib']);
+gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles',
+    'copyPayframeStyles', 'copyPayformImages', 'copyPaymentLib', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
 gulp.task('default', ['build']);
