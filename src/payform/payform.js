@@ -5,6 +5,7 @@ import Form from './elements/Form';
 import Spinner from './elements/Spinner';
 import Checkmark from './elements/Checkmark';
 import Form3ds from './elements/Form3ds';
+import TokenizerScript from './elements/TokenizerScript';
 import RequestBuilder from './builders/RequestBuilder';
 import settings from '../settings';
 import domReady from '../utils/domReady';
@@ -35,6 +36,8 @@ domReady(function () {
     const spinner = new Spinner();
     const form = new Form();
     const checkmark = new Checkmark();
+    const tokenizerScript = new TokenizerScript();
+    tokenizerScript.initSrc();
 
     const polling = () => {
         console.info('polling start');

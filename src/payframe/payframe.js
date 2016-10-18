@@ -3,15 +3,16 @@ import PayButton from './elements/PayButton';
 import StyleLink from './elements/StyleLink';
 import InitScript from './elements/InitScript';
 import StateInspector from './state/StateInspector';
-import settings from '../settings';
+import Utils from '../utils/Utils';
 import domReady from '../utils/domReady';
 
 domReady(function () {
-    const frameUrl = `${settings.host}/payform/payform.html`;
+    const host = Utils.getOriginUrl();
+    const frameUrl = `${host}/payform/payform.html`;
     const frameName = 'rbkmoney_payframe';
     const scriptClass = 'rbkmoney-payform';
 
-    const styles = new StyleLink(`${settings.host}/payframe/payframe.css`);
+    const styles = new StyleLink(`${host}/payframe/payframe.css`);
     const iframe = new Iframe(frameUrl, frameName);
     const initScript = new InitScript(scriptClass);
     const params = initScript.getParams();
