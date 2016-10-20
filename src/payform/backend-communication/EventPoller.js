@@ -5,14 +5,15 @@ export default class EventPoller {
             (function poll(self) {
                 setTimeout(() => {
                     self.requestToEndpoint(endpointUrl, invoiceId).then(events => {
-                        if (self.isSuccess(events)) {
-                            resolve(self.prepareResolve('success', events));
-                        } else if (self.isError(events)) {
-                            reject();
-                        } else if (self.isInteract(events)) {
-                            resolve(self.prepareResolve('interact', events));
+                        const event = self.getLastEvent(events);
+                        if (self.isSuccess(event)) {
+                            resolve(self.prepareResult('success', event));
+                        } else if (self.isError(event)) {
+                            reject(self.prepareResult('error', event));
+                        } else if (self.isInteract(event)) {
+                            resolve(self.prepareResult('interact', event));
                         } else {
-                            poll(self);
+                            poll();
                         }
                     });
                 }, timeout);
@@ -20,16 +21,19 @@ export default class EventPoller {
         });
     }
 
-    static prepareResolve(type, events) {
+    static prepareResult(type, event) {
         let result;
         if (type === 'success') {
             result = {type}
-        }
-        if (type === 'interact') {
-            const last = this.getLastEvent(events);
+        } else if (type === 'interact') {
             result = {
                 type: type,
-                data: last.userInteraction.request
+                data: event.userInteraction.request
+            }
+        } else if (type === 'error') {
+            result = {
+                type: type,
+                data: event
             }
         }
         return result;
@@ -59,25 +63,22 @@ export default class EventPoller {
         return url;
     }
 
-    static isSuccess(events) {
-        const last = this.getLastEvent(events);
-        return (last && last.eventType === 'EventInvoiceStatusChanged' && last.status === 'paid');
+    static isSuccess(event) {
+        return (event && event.eventType === 'EventInvoiceStatusChanged' && event.status === 'paid');
     }
 
-    static isError(events) {
-        const last = this.getLastEvent(events);
+    static isError(event) {
         let result = false;
-        if (last) {
-            const isPaymentFailed = (last.eventType === 'EventPaymentStatusChanged' && last.status === 'failed');
-            const isInvoiceFailed = (last.eventType === 'EventInvoiceStatusChanged' && (last.status === 'cancelled' || last.status === 'unpaid'));
+        if (event) {
+            const isPaymentFailed = (event.eventType === 'EventPaymentStatusChanged' && event.status === 'failed');
+            const isInvoiceFailed = (event.eventType === 'EventInvoiceStatusChanged' && (event.status === 'cancelled' || event.status === 'unpaid'));
             result = isPaymentFailed || isInvoiceFailed;
         }
         return result;
     }
 
-    static isInteract(events) {
-        const last = this.getLastEvent(events);
-        return (last && last.eventType === 'EventInvoicePaymentInteractionRequested')
+    static isInteract(event) {
+        return (event && event.eventType === 'EventInvoicePaymentInteractionRequested')
     }
 
     static getLastEvent(events) {
