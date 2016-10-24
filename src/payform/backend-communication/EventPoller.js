@@ -13,7 +13,7 @@ export default class EventPoller {
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
-                            poll();
+                            poll(self);
                         }
                     });
                 }, timeout);
