@@ -42,7 +42,7 @@ domReady(function () {
 
     const polling = () => {
         console.info('polling start');
-        EventPoller.pollEvents(params.endpointEvents, params.invoiceId, settings.pollingTimeout).then(result => {
+        EventPoller.pollEvents(params.endpointEvents, params.invoiceId, settings.pollingTimeout, settings.pollingRetries).then(result => {
             console.info('polling resolve, data:', result);
             if (result.type === 'success') {
                 console.info('polling result: success, post message: done');
@@ -61,7 +61,13 @@ domReady(function () {
         }).catch(error => {
             console.error('polling error, data:', error);
             spinner.hide();
-            errorPanel.show(`Error:\n${error.data.eventType}\nStatus: ${error.data.status}`);
+            if (error.type === 'error') {
+                errorPanel.show(`Error:\n${error.data.eventType}\nStatus: ${error.data.status}`);
+            } else if (error.type === 'long polling') {
+                errorPanel.show('Too long polling');
+            } else {
+                errorPanel.show('Unknown error');
+            }
         });
     };
 

@@ -1,6 +1,7 @@
 export default class EventPoller {
 
-    static pollEvents(endpointUrl, invoiceId, timeout) {
+    static pollEvents(endpointUrl, invoiceId, timeout, retries) {
+        let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
                 setTimeout(() => {
@@ -13,7 +14,13 @@ export default class EventPoller {
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
-                            poll(self);
+                            pollCount++;
+                            if (pollCount >= retries) {
+                                reject(self.prepareResult('long polling', event));
+                            } else {
+                                console.info('polling retry', event);
+                                poll(self);
+                            }
                         }
                     });
                 }, timeout);
@@ -34,6 +41,10 @@ export default class EventPoller {
             result = {
                 type: type,
                 data: event
+            }
+        } else if (type === 'long polling') {
+            result = {
+                type: type
             }
         }
         return result;
