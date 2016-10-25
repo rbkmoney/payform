@@ -57,28 +57,7 @@ domReady(function () {
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
-                // const redirectUrl = location.href;
                 const redirectUrl = 'http://testshop-drupal.rbkmoney.com:8080/cart/checkout/review';
-
-                // const decodedTermUrl = decodeURIComponent(result.data.form[0].template);
-                // const template = new URITemplate(decodedTermUrl);
-                // const termUrlValue = template.expand({termination_uri: redirectUrl});
-                // fetch(result.data.uriTemplate, {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/x-www-form-urlencoded'
-                //     },
-                //     body: `TermUrl=${termUrlValue}&PaReq=${result.data.form[1].template}&MD=${result.data.form[2].template}`
-                // }).then(response => {
-                //     if (response.status >= 200 && response.status < 300) {
-                //         response.json().then(formHtml => {
-                //             console.log(formHtml);
-                //         });
-                //     } else {
-                //         console.error('ERROR');
-                //     }
-                // });
-
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit();
