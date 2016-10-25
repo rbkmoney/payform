@@ -71,6 +71,6 @@ export default class Form {
         const isCardNumberValid = this.validateCardNumber();
         const isExpDateValid = this.validateExpDate();
         const isCvvValid = this.validateCvv();
-        return isCardNumberValid && isExpDateValid && isCvvValid;
+        return isExpDateValid && isCvvValid;
     }
 }
