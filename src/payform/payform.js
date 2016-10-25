@@ -10,7 +10,6 @@ import TokenizerScript from './elements/TokenizerScript';
 import RequestBuilder from './builders/RequestBuilder';
 import settings from '../settings';
 import domReady from '../utils/domReady';
-import URITemplate from 'urijs/src/URITemplate';
 
 domReady(function () {
     let params = {};
@@ -72,6 +71,7 @@ domReady(function () {
             } else {
                 errorPanel.show('Unknown error');
             }
+            window.parent.postMessage('error', '*');
         });
     };
 
