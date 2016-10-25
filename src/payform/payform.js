@@ -24,6 +24,9 @@ domReady(function () {
             if (params.name) {
                 form.setName(params.name);
             }
+            if (params.buttonColor) {
+                form.setPayButtonColor(params.buttonColor);
+            }
             if (params.state && params.state === 'inProgress') {
                 console.info('checked state inProgress, starts polling...');
                 spinner.show();

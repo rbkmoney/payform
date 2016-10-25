@@ -27,6 +27,11 @@ export default class Form {
         this.name.innerHTML = name;
     }
 
+    setPayButtonColor(color) {
+        this.payButton = document.querySelector('.payform--pay-button');
+        this.payButton.style.background = color;
+    }
+
     show() {
         this.element.style.display = 'block';
     }
