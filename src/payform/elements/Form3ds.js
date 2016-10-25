@@ -11,7 +11,8 @@ export default class Form3ds {
             const formParam = document.createElement('input');
             formParam.name = item.key;
             if (item.key === 'TermUrl') {
-                const template = new URITemplate(item.template);
+                const decoded = decodeURIComponent(item.template);
+                const template = new URITemplate(decoded);
                 formParam.value = template.expand({termination_uri: redirectUrl});
             } else {
                 formParam.value = item.template;
