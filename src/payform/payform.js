@@ -57,7 +57,8 @@ domReady(function () {
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
-                const redirectUrl = location.href;
+                // const redirectUrl = location.href;
+                const redirectUrl = 'http://testshop-drupal.rbkmoney.com:8080/cart/checkout/review';
 
                 // const decodedTermUrl = decodeURIComponent(result.data.form[0].template);
                 // const template = new URITemplate(decodedTermUrl);
