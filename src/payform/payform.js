@@ -10,7 +10,6 @@ import TokenizerScript from './elements/TokenizerScript';
 import RequestBuilder from './builders/RequestBuilder';
 import settings from '../settings';
 import domReady from '../utils/domReady';
-import URITemplate from 'urijs/src/URITemplate';
 
 domReady(function () {
     let params = {};
@@ -57,29 +56,10 @@ domReady(function () {
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
-                const decodedTermUrl = decodeURIComponent(result.data.form[0].template);
-                const template = new URITemplate(decodedTermUrl);
-                const redirectUrl = location.href;
-                const termUrlValue = template.expand({termination_uri: redirectUrl});
-                fetch(result.data.uriTemplate, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `TermUrl=${termUrlValue}&PaReq=${result.data.form[1].template}&MD=${result.data.form[2].template}`
-                }).then(response => {
-                    if (response.status >= 200 && response.status < 300) {
-                        response.json().then(formHtml => {
-                            debugger;
-                            console.log(formHtml);
-                        });
-                    } else {
-                        console.error('ERROR');
-                    }
-                });
-                // const form3ds = new Form3ds(result.data, redirectUrl);
-                // form3ds.render();
-                // form3ds.submit();
+                const redirectUrl = 'http://blackmarket.rbk.money:8080/cart/checkout/review';
+                const form3ds = new Form3ds(result.data, redirectUrl);
+                form3ds.render();
+                form3ds.submit();
             }
         }).catch(error => {
             console.error('polling error, data:', error);
@@ -91,6 +71,7 @@ domReady(function () {
             } else {
                 errorPanel.show('Unknown error');
             }
+            window.parent.postMessage('error', '*');
         });
     };
 

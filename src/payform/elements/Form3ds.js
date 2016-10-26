@@ -19,6 +19,7 @@ export default class Form3ds {
             }
             this.element.appendChild(formParam);
         });
+        this.element.setAttribute('target', '_top');
     }
 
     render() {

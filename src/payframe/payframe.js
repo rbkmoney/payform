@@ -51,6 +51,9 @@ domReady(function () {
         } else if (event.data === 'done') {
             StateInspector.resolve(params.invoiceId);
             console.info('payframe receive message: done');
+        } else if (event.data === 'error') {
+            StateInspector.resolve(params.invoiceId);
+            console.info('payframe receive message: error');
         }
     }, false);
 });
