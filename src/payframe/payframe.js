@@ -7,15 +7,19 @@ import Utils from '../utils/Utils';
 import domReady from '../utils/domReady';
 
 domReady(function () {
-    const host = Utils.getOriginUrl();
-    const frameUrl = `${host}/payform/payform.html`;
+    const scriptUrl = Utils.getScriptUrl();
+    const payformHost = Utils.getOriginUrl(scriptUrl);
+    const frameUrl = `${payformHost}/payform/payform.html`;
     const frameName = 'rbkmoney_payframe';
     const scriptClass = 'rbkmoney-payform';
 
-    const styles = new StyleLink(`${host}/payframe/payframe.css`);
+    const styles = new StyleLink(`${payformHost}/payframe/payframe.css`);
     const iframe = new Iframe(frameUrl, frameName);
     const initScript = new InitScript(scriptClass);
     const params = initScript.getParams();
+    Object.assign(params, {
+        locationHost: Utils.getOriginUrl(location.href)
+    });
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
 
     styles.render();

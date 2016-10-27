@@ -56,7 +56,7 @@ domReady(function () {
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
-                const redirectUrl = 'http://blackmarket.rbk.money:8080/cart/checkout/review';
+                const redirectUrl = params.locationHost;
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit();

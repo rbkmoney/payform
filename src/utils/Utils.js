@@ -5,9 +5,9 @@ export default class Utils {
         return element.src;
     }
 
-    static getOriginUrl() {
+    static getOriginUrl(url) {
         const parser = document.createElement('a');
-        parser.href = this.getScriptUrl();
+        parser.href = url;
         return parser.origin;
     }
 }
