@@ -1,6 +1,8 @@
 import CardNumber from './form-elements/CardNumber';
 import ExpDate from './form-elements/ExpDate';
 import Cvv from './form-elements/Cvv';
+import CardHolder from './form-elements/CardHolder';
+import Email from './form-elements/Email';
 
 export default class Form {
     constructor() {
@@ -9,9 +11,8 @@ export default class Form {
 
         this.element = document.querySelector('#payform');
 
-        this.email = document.querySelector('#email');
-        this.cardHolder = document.querySelector('#card-holder');
-
+        this.email = new Email(this.errorClass, this.focusClass);
+        this.cardHolder = new CardHolder(this.errorClass, this.focusClass);
         this.cardNumber = new CardNumber(this.errorClass, this.focusClass);
         this.expDate = new ExpDate(this.errorClass, this.focusClass);
         this.cvv = new Cvv(this.errorClass, this.focusClass);
@@ -27,11 +28,6 @@ export default class Form {
         this.name.innerHTML = name;
     }
 
-    setPayButtonColor(color) {
-        this.payButton = document.querySelector('.payform--pay-button');
-        this.payButton.style.background = color;
-    }
-
     show() {
         this.element.style.display = 'block';
     }
@@ -44,8 +40,16 @@ export default class Form {
         return this.email.value;
     }
 
+    validateEmail() {
+        return this.email.validate();
+    }
+
     getCardHolder() {
         return this.cardHolder.value;
+    }
+
+    validateCardHolder() {
+        return this.cardHolder.validate();
     }
 
     getCardNumber() {
@@ -73,9 +77,11 @@ export default class Form {
     }
 
     isValid() {
+        const isCardHolderValidate = this.validateCardHolder();
         const isCardNumberValid = this.validateCardNumber();
         const isExpDateValid = this.validateExpDate();
         const isCvvValid = this.validateCvv();
-        return isExpDateValid && isCvvValid;
+        const isEmailValidate = this.validateEmail();
+        return isCardHolderValidate && isCardNumberValid && isExpDateValid && isCvvValid && isEmailValidate;
     }
 }

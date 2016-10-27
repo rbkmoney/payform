@@ -55,9 +55,11 @@ domReady(function () {
         } else if (event.data === 'done') {
             StateInspector.resolve(params.invoiceId);
             console.info('payframe receive message: done');
+            window.top.location.href = params.successUrl;
         } else if (event.data === 'error') {
             StateInspector.resolve(params.invoiceId);
             console.info('payframe receive message: error');
+            window.top.location.href = params.failedUrl;
         }
     }, false);
 });

@@ -4,6 +4,7 @@ import EventPoller from './backend-communication/EventPoller';
 import Form from './elements/Form';
 import Spinner from './elements/Spinner';
 import Checkmark from './elements/Checkmark';
+import PayButton from './elements/PayButton'
 import ErrorPanel from './elements/ErrorPanel';
 import Form3ds from './elements/Form3ds';
 import TokenizerScript from './elements/TokenizerScript';
@@ -14,10 +15,18 @@ import domReady from '../utils/domReady';
 domReady(function () {
     let params = {};
 
+    new TokenizerScript();
+    const spinner = new Spinner();
+    const form = new Form();
+    const checkmark = new Checkmark();
+    const errorPanel = new ErrorPanel();
+    const payButton = new PayButton();
+
     window.addEventListener('message', (event) => {
         if (event && typeof event.data === 'object') {
             console.info('payform receive message: object, data:', event.data);
             params = event.data;
+            payButton.renderText(params.amount, params.currency);
             if (params.logo) {
                 form.setLogo(params.logo);
             }
@@ -25,7 +34,7 @@ domReady(function () {
                 form.setName(params.name);
             }
             if (params.buttonColor) {
-                form.setPayButtonColor(params.buttonColor);
+                payButton.setPayButtonColor(params.buttonColor);
             }
             if (params.state && params.state === 'inProgress') {
                 console.info('checked state inProgress, starts polling...');
@@ -37,12 +46,6 @@ domReady(function () {
     }, false);
     window.payformClose = () => window.parent.postMessage('payform-close', '*');
 
-    new TokenizerScript();
-    const spinner = new Spinner();
-    const form = new Form();
-    const checkmark = new Checkmark();
-    const errorPanel = new ErrorPanel();
-
     const polling = () => {
         console.info('polling start');
         EventPoller.pollEvents(params.endpointEvents, params.invoiceId, params.orderId, settings.pollingTimeout, settings.pollingRetries).then(result => {
@@ -52,11 +55,10 @@ domReady(function () {
                 spinner.hide();
                 checkmark.show();
                 window.parent.postMessage('done', '*');
-                setTimeout(() => window.parent.postMessage('payform-close', '*'), settings.closeFormTimeout);
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
-                const redirectUrl = params.locationHost;
+                const redirectUrl = `${params.locationHost}/cart/checkout/review`;
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit();
@@ -71,7 +73,7 @@ domReady(function () {
             } else {
                 errorPanel.show('Unknown error');
             }
-            window.parent.postMessage('error', '*');
+            setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
         });
     };
 
@@ -89,6 +91,7 @@ domReady(function () {
         if (window.Tokenizer === undefined) {
             form.hide();
             errorPanel.show('Tokenizer.js is not available');
+            setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
             return false;
         }
         if (form.isValid()) {
@@ -106,6 +109,7 @@ domReady(function () {
             window.Tokenizer.card.createToken(request, onTokenCreate, error => {
                 spinner.hide();
                 errorPanel.show(`Error create token:\n${error.message}`);
+                setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
             });
         } else {
             console.warn('form is invalid');
