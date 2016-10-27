@@ -1,11 +1,11 @@
 export default class EventPoller {
 
-    static pollEvents(endpointUrl, invoiceId, timeout, retries) {
+    static pollEvents(endpointUrl, invoiceId, orderId, timeout, retries) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
                 setTimeout(() => {
-                    self.requestToEndpoint(endpointUrl, invoiceId).then(events => {
+                    self.requestToEndpoint(endpointUrl, invoiceId, orderId).then(events => {
                         const event = self.getLastEvent(events);
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
@@ -50,9 +50,9 @@ export default class EventPoller {
         return result;
     }
 
-    static requestToEndpoint(endpointUrl, invoiceId) {
+    static requestToEndpoint(endpointUrl, invoiceId, orderId) {
         return new Promise((resolve, reject) => {
-            fetch(this.buildUrl(endpointUrl, invoiceId), {
+            fetch(this.buildUrl(endpointUrl, invoiceId, orderId), {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -68,9 +68,10 @@ export default class EventPoller {
         });
     }
 
-    static buildUrl(endpointUrl, invoiceId) {
+    static buildUrl(endpointUrl, invoiceId, orderId) {
         const url = new URL(endpointUrl);
         url.searchParams.append('invoiceId', invoiceId);
+        url.searchParams.append('orderId', orderId);
         return url;
     }
 

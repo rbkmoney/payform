@@ -45,7 +45,7 @@ domReady(function () {
 
     const polling = () => {
         console.info('polling start');
-        EventPoller.pollEvents(params.endpointEvents, params.invoiceId, settings.pollingTimeout, settings.pollingRetries).then(result => {
+        EventPoller.pollEvents(params.endpointEvents, params.invoiceId, params.orderId, settings.pollingTimeout, settings.pollingRetries).then(result => {
             console.info('polling resolve, data:', result);
             if (result.type === 'success') {
                 console.info('polling result: success, post message: done');

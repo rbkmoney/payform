@@ -8,7 +8,7 @@ export default class TokenizerScript {
 
     initSrc() {
         ConfigLoader.load().then(config => {
-            this.element.src = `${config.tokenizerUrl}/tokenizer.min.js`;
+            this.element.src = `${config.tokenizerUrl}/tokenizer.js`;
         });
     }
 }
