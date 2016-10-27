@@ -12,6 +12,7 @@ export default class InitScript {
         return {
             key: dataSet.key || {},
             invoiceId: dataSet.invoiceId || {},
+            orderId: dataSet.orderId,
             endpointInit: dataSet.endpointInit || {},
             endpointEvents: dataSet.endpointEvents || {},
             buttonColor: dataSet.buttonColor,
