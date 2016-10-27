@@ -17,7 +17,11 @@ export default class InitScript {
             endpointEvents: dataSet.endpointEvents || {},
             buttonColor: dataSet.buttonColor,
             logo: dataSet.logo,
-            name: dataSet.name
+            name: dataSet.name,
+            amount: dataSet.amount,
+            currency: dataSet.currency,
+            failedUrl: dataSet.failedUrl,
+            successUrl: dataSet.successUrl
         }
     }
 }
