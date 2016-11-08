@@ -2,13 +2,15 @@ import ConfigLoader from '../loaders/ConfigLoader';
 
 export default class TokenizerScript {
     constructor() {
-        this.element = document.querySelector('#tokenizer');
-        this.initSrc();
+        const script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        ConfigLoader.load().then(config => {
+            script.setAttribute('src', `${config.tokenizerUrl}/tokenizer.min.js`);
+        });
+        this.element = script;
     }
 
-    initSrc() {
-        ConfigLoader.load().then(config => {
-            this.element.src = `${config.tokenizerUrl}/tokenizer.min.js`;
-        });
+    render() {
+        document.getElementsByTagName('head')[0].appendChild(this.element);
     }
 }

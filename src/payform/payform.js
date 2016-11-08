@@ -8,6 +8,7 @@ import PayButton from './elements/PayButton'
 import ErrorPanel from './elements/ErrorPanel';
 import Form3ds from './elements/Form3ds';
 import TokenizerScript from './elements/TokenizerScript';
+import StyleLink from './elements/StyleLink';
 import RequestBuilder from './builders/RequestBuilder';
 import settings from '../settings';
 import domReady from '../utils/domReady';
@@ -15,7 +16,9 @@ import domReady from '../utils/domReady';
 domReady(function () {
     let params = {};
 
-    new TokenizerScript();
+    const styleLink = new StyleLink();
+    styleLink.render();
+    const tokenizerScript = new TokenizerScript();
     const spinner = new Spinner();
     const form = new Form();
     const checkmark = new Checkmark();
@@ -24,8 +27,8 @@ domReady(function () {
 
     window.addEventListener('message', (event) => {
         if (event && typeof event.data === 'object') {
-            const link = document.querySelector('link');
-            link.href = link.href; //TODO Fix it
+            tokenizerScript.render();
+            styleLink.rerender();
 
             console.info('payform receive message: object, data:', event.data);
             params = event.data;

@@ -9,15 +9,14 @@ import domReady from '../utils/domReady';
 domReady(function () {
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
-    const frameUrl = `${payformHost}/payform/payform.html`;
-    const frameName = 'rbkmoney_payframe';
-
-    const styles = new StyleLink(`${payformHost}/payframe/payframe.css`);
-    const iframe = new Iframe(frameUrl, frameName);
+    const styles = new StyleLink(payformHost);
+    const iframe = new Iframe(payformHost);
     const params = initScript.getParams();
+
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href)
     });
+
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
 
     styles.render();
@@ -29,7 +28,7 @@ domReady(function () {
         Object.assign(params, {
             state: 'inProgress'
         });
-        setTimeout(() => window.frames[frameName].postMessage(params, frameUrl), 300); //TODO Fix it
+        setTimeout(() => window.frames[iframe.getName()].postMessage(params, iframe.getSrc()), 300);
     } else {
         Object.assign(params, {
             state: undefined
@@ -37,11 +36,12 @@ domReady(function () {
     }
 
     payButton.element.onclick = () => {
-        window.frames[frameName].postMessage(params, frameUrl);
+        window.frames[iframe.getName()].postMessage(params, iframe.getSrc());
         iframe.show();
     };
 
     window.addEventListener('message', (event) => {
+        console.log(event);
         if (event.data === 'payform-close') {
             iframe.hide();
             iframe.destroy();

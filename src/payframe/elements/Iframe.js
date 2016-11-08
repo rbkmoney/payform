@@ -1,10 +1,10 @@
 import iframeStyles from './iframeStyles';
 
 export default class Iframe {
-    constructor(src, name) {
+    constructor(host) {
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', src);
-        iframe.setAttribute('name', name);
+        iframe.setAttribute('src', `${host}/payform/payform.html`);
+        iframe.setAttribute('name', 'rbkmoney_payframe');
         iframe.setAttribute('allowtransparency', 'true');
         iframe.setAttribute('frameborder', '0');
         Object.assign(iframe.style, iframeStyles);
@@ -25,5 +25,13 @@ export default class Iframe {
 
     hide() {
         this.element.style.display = 'none';
+    }
+
+    getName() {
+        return this.element.getAttribute('name');
+    }
+
+    getSrc() {
+        return this.element.getAttribute('src');
     }
 }
