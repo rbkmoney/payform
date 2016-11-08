@@ -7,15 +7,13 @@ import Utils from '../utils/Utils';
 import domReady from '../utils/domReady';
 
 domReady(function () {
-    const scriptUrl = Utils.getScriptUrl();
-    const payformHost = Utils.getOriginUrl(scriptUrl);
+    const initScript = new InitScript();
+    const payformHost = initScript.getHost();
     const frameUrl = `${payformHost}/payform/payform.html`;
     const frameName = 'rbkmoney_payframe';
-    const scriptClass = 'rbkmoney-payform';
 
     const styles = new StyleLink(`${payformHost}/payframe/payframe.css`);
     const iframe = new Iframe(frameUrl, frameName);
-    const initScript = new InitScript(scriptClass);
     const params = initScript.getParams();
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href)
@@ -23,7 +21,7 @@ domReady(function () {
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
 
     styles.render();
-    payButton.render(scriptClass);
+    payButton.render();
     iframe.render();
 
     if (StateInspector.isInProgress(params.invoiceId)) {
@@ -39,26 +37,22 @@ domReady(function () {
     }
 
     payButton.element.onclick = () => {
-        iframe.show();
         window.frames[frameName].postMessage(params, frameUrl);
+        iframe.show();
     };
 
-    window.addEventListener('message', () => {
+    window.addEventListener('message', (event) => {
         if (event.data === 'payform-close') {
             iframe.hide();
             iframe.destroy();
             iframe.render();
-            console.info('payframe receive message: payform-close');
         } else if (event.data === 'interact') {
             StateInspector.initLeaving(params.invoiceId);
-            console.info('payframe receive message: interact');
         } else if (event.data === 'done') {
             StateInspector.resolve(params.invoiceId);
-            console.info('payframe receive message: done');
             window.top.location.href = params.successUrl;
         } else if (event.data === 'error') {
             StateInspector.resolve(params.invoiceId);
-            console.info('payframe receive message: error');
             window.top.location.href = params.failedUrl;
         }
     }, false);

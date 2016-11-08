@@ -105,8 +105,7 @@ gulp.task('runSample', () => {
 
 gulp.task('watch', () => {
     livereload.listen();
-    gulp.watch('src/payform/**/*.js', ['bundlePayform', 'copyPaymentLib']);
-    gulp.watch('src/payframe/**/*.js', ['bundlePayframe']);
+    gulp.watch('src/**/*.js', ['bundlePayform', 'copyPaymentLib', 'bundlePayframe']);
     gulp.watch('src/payform/payform.pug', ['buildTemplate']);
     gulp.watch('src/**/*.css', ['copyPayformStyles']);
     gulp.watch('src/**/*.css', ['copyPayframeStyles']);

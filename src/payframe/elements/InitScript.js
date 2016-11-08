@@ -1,5 +1,9 @@
+import settings from '../../settings';
+import Utils from '../../utils/Utils';
+
 export default class InitScript {
-    constructor(className) {
+    constructor() {
+        const className = settings.integrationClassName;
         this.element = document.querySelector(`.${className}`);
         if (!this.element) {
             this.element = {};
@@ -8,13 +12,13 @@ export default class InitScript {
     }
 
     getParams() {
-        const dataSet = this.element.dataset;
+        const dataSet = this.element.dataset || {};
         return {
-            key: dataSet.key || {},
-            invoiceId: dataSet.invoiceId || {},
+            key: dataSet.key,
+            invoiceId: dataSet.invoiceId,
             orderId: dataSet.orderId,
-            endpointInit: dataSet.endpointInit || {},
-            endpointEvents: dataSet.endpointEvents || {},
+            endpointInit: dataSet.endpointInit,
+            endpointEvents: dataSet.endpointEvents,
             buttonColor: dataSet.buttonColor,
             logo: dataSet.logo,
             name: dataSet.name,
@@ -23,5 +27,9 @@ export default class InitScript {
             failedUrl: dataSet.failedUrl,
             successUrl: dataSet.successUrl
         }
+    }
+
+    getHost() {
+        return Utils.getOriginUrl(this.element.src);
     }
 }

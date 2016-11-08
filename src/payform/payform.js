@@ -24,6 +24,9 @@ domReady(function () {
 
     window.addEventListener('message', (event) => {
         if (event && typeof event.data === 'object') {
+            const link = document.querySelector('link');
+            link.href = link.href; //TODO Fix it
+
             console.info('payform receive message: object, data:', event.data);
             params = event.data;
             payButton.renderText(params.amount, params.currency);
@@ -44,6 +47,7 @@ domReady(function () {
             }
         }
     }, false);
+
     window.payformClose = () => window.parent.postMessage('payform-close', '*');
 
     const polling = () => {
@@ -54,7 +58,7 @@ domReady(function () {
                 console.info('polling result: success, post message: done');
                 spinner.hide();
                 checkmark.show();
-                window.parent.postMessage('done', '*');
+                setTimeout(() => window.parent.postMessage('done', '*'), settings.closeFormTimeout);
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 window.parent.postMessage('interact', '*');
