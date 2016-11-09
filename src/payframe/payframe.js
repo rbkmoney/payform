@@ -5,12 +5,15 @@ import InitScript from './elements/InitScript';
 import StateInspector from './state/StateInspector';
 import Utils from '../utils/Utils';
 import domReady from '../utils/domReady';
+import Listener from '../communication/Listener';
+import CheckoutCommunicator from '../communication/CheckoutCommunicator';
 
 domReady(function () {
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
     const styles = new StyleLink(payformHost);
     const iframe = new Iframe(payformHost);
+    const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const params = initScript.getParams();
 
     Object.assign(params, {
@@ -18,42 +21,40 @@ domReady(function () {
     });
 
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
+    payButton.onclick = () => {
+        communicator.send({
+            type: 'init',
+            data: params
+        });
+        iframe.show();
+    };
+    payButton.render();
 
     styles.render();
-    payButton.render();
     iframe.render();
 
     if (StateInspector.isInProgress(params.invoiceId)) {
         iframe.show();
-        Object.assign(params, {
-            state: 'inProgress'
-        });
-        setTimeout(() => window.frames[iframe.getName()].postMessage(params, iframe.getSrc()), 300);
-    } else {
-        Object.assign(params, {
-            state: undefined
-        });
+        setTimeout(() => communicator.send({
+            type: 'resume',
+            data: params
+        }), 500);
     }
 
-    payButton.element.onclick = () => {
-        window.frames[iframe.getName()].postMessage(params, iframe.getSrc());
-        iframe.show();
-    };
-
-    window.addEventListener('message', (event) => {
-        console.log(event);
-        if (event.data === 'payform-close') {
+    Listener.addListener(message => {
+        if (message.type === 'close') {
             iframe.hide();
             iframe.destroy();
             iframe.render();
-        } else if (event.data === 'interact') {
+        } else if (message.type === 'interact') {
             StateInspector.initLeaving(params.invoiceId);
-        } else if (event.data === 'done') {
+        } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
             window.top.location.href = params.successUrl;
-        } else if (event.data === 'error') {
+        } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
             window.top.location.href = params.failedUrl;
         }
-    }, false);
+    });
+
 });

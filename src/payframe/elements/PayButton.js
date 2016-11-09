@@ -21,4 +21,8 @@ export default class PayButton {
             console.error('append node is null');
         }
     }
+
+    set onclick(handler) {
+        this.element.onclick = handler;
+    }
 }
