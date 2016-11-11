@@ -62,7 +62,6 @@ domReady(function () {
                 spinner.hide();
                 checkmark.show();
                 communicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
-
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 communicator.send({type: 'interact'});

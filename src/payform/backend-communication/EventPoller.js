@@ -52,7 +52,7 @@ export default class EventPoller {
 
     static requestToEndpoint(endpointUrl, invoiceId, orderId) {
         return new Promise((resolve, reject) => {
-            fetch(this.buildUrl(endpointUrl, invoiceId, orderId), {
+            fetch(`${endpointUrl}?invoiceId=${invoiceId}&orderId=${orderId}`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
@@ -66,13 +66,6 @@ export default class EventPoller {
                 }
             });
         });
-    }
-
-    static buildUrl(endpointUrl, invoiceId, orderId) {
-        const url = new URL(endpointUrl);
-        url.searchParams.append('invoiceId', invoiceId);
-        url.searchParams.append('orderId', orderId);
-        return url;
     }
 
     static isSuccess(event) {
