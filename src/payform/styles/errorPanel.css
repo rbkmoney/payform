@@ -1,8 +1,6 @@
 .error-panel {
     border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-weight: 700;
+    padding: 9px 10px;
+    font-size: 13px;
     background: #ff7b7b;
-    margin: 70px 0;
 }

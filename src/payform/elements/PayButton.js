@@ -1,6 +1,7 @@
 export default class PayButton {
     constructor() {
         this.element = document.querySelector('.payform--pay-button');
+        this.disable();
     }
 
     renderText(amount, currency) {
@@ -11,5 +12,17 @@ export default class PayButton {
 
     setPayButtonColor(color) {
         this.element.style.background = color;
+    }
+
+    disable() {
+        this.element.setAttribute('disabled', 'true');
+    }
+
+    enable() {
+        this.element.removeAttribute('disabled');
+    }
+
+    set onclick(handler) {
+        this.element.onclick = handler;
     }
 }

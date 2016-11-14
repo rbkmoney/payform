@@ -453,3 +453,6 @@ input::-ms-clear {
     background-image: -webkit-linear-gradient(top, #328ac3, #277bbe);
     background-image: linear-gradient(180deg, #328ac3, #277bbe)
 }
+.payform--pay-button[disabled] {
+    background: #828282;
+}
