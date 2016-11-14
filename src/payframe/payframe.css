@@ -14,7 +14,7 @@
     -webkit-font-smoothing: antialiased;
     border: 0;
     outline: 0;
-    padding: 0;
+    padding: 1px;
     text-decoration: none;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

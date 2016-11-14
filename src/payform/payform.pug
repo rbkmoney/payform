@@ -4,12 +4,12 @@ html(lang='en')
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
         meta(name='viewport', content='user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1')
-        title Payform
+        title Checkout
+
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js")
         script(src="payment/payment.js")
+
         script(src="payform.js")
-        script#tokenizer
-        link(href='payform.css', rel='stylesheet')
     body
         .modal
             .preload
@@ -49,7 +49,6 @@ html(lang='en')
                                             svg(fill='#549928')
                                                 use(xmlns:xlink='http://www.w3.org/1999/xlink', xlink:href='#Icon-user-desktop')
                                 fieldset.payform--fieldset
-                                    //.payform--card-number.payform--field__error.payform--field__focus
                                     .payform--group.payform--card-number
                                         input#card-number(type='tel', value='', placeholder='Card number', autocomplete='off', autocorrect='no', autocapitalize='no', spellcheck='no')
                                         .payform--icon

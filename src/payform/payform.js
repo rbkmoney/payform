@@ -8,24 +8,31 @@ import PayButton from './elements/PayButton'
 import ErrorPanel from './elements/ErrorPanel';
 import Form3ds from './elements/Form3ds';
 import TokenizerScript from './elements/TokenizerScript';
+import StyleLink from './elements/StyleLink';
 import RequestBuilder from './builders/RequestBuilder';
 import settings from '../settings';
 import domReady from '../utils/domReady';
+import Listener from '../communication/Listener';
+import ParentCommunicator from '../communication/ParentCommunicator';
 
 domReady(function () {
     let params = {};
 
-    new TokenizerScript();
+    const styleLink = new StyleLink();
+    styleLink.render();
+    const tokenizerScript = new TokenizerScript();
     const spinner = new Spinner();
     const form = new Form();
     const checkmark = new Checkmark();
     const errorPanel = new ErrorPanel();
     const payButton = new PayButton();
+    const communicator = new ParentCommunicator();
 
-    window.addEventListener('message', (event) => {
-        if (event && typeof event.data === 'object') {
-            console.info('payform receive message: object, data:', event.data);
-            params = event.data;
+    Listener.addListener(message => {
+        if (message.type === 'init' || message.type === 'resume') {
+            tokenizerScript.render();
+            styleLink.rerender();
+            params = message.data;
             payButton.renderText(params.amount, params.currency);
             if (params.logo) {
                 form.setLogo(params.logo);
@@ -37,14 +44,14 @@ domReady(function () {
                 payButton.setPayButtonColor(params.buttonColor);
             }
             if (params.state && params.state === 'inProgress') {
-                console.info('checked state inProgress, starts polling...');
                 spinner.show();
                 form.hide();
                 polling();
             }
         }
-    }, false);
-    window.payformClose = () => window.parent.postMessage('payform-close', '*');
+    });
+
+    window.payformClose = () => communicator.send({type: 'close'});
 
     const polling = () => {
         console.info('polling start');
@@ -54,10 +61,10 @@ domReady(function () {
                 console.info('polling result: success, post message: done');
                 spinner.hide();
                 checkmark.show();
-                window.parent.postMessage('done', '*');
+                communicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
             } else if (result.type === 'interact') {
                 console.info('polling result: interact, post message: interact, starts 3ds interaction...');
-                window.parent.postMessage('interact', '*');
+                communicator.send({type: 'interact'});
                 const redirectUrl = `${params.locationHost}/cart/checkout/review`;
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
@@ -73,7 +80,7 @@ domReady(function () {
             } else {
                 errorPanel.show('Unknown error');
             }
-            setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
+            communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
         });
     };
 
@@ -91,11 +98,10 @@ domReady(function () {
         if (window.Tokenizer === undefined) {
             form.hide();
             errorPanel.show('Tokenizer.js is not available');
-            setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
+            communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
             return false;
         }
         if (form.isValid()) {
-            console.info('pay start');
             spinner.show();
             form.hide();
             window.Tokenizer.setPublicKey(params.key);
@@ -109,10 +115,8 @@ domReady(function () {
             window.Tokenizer.card.createToken(request, onTokenCreate, error => {
                 spinner.hide();
                 errorPanel.show(`Error create token:\n${error.message}`);
-                setTimeout(() => window.parent.postMessage('error', '*'), settings.closeFormTimeout);
+                communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
             });
-        } else {
-            console.warn('form is invalid');
         }
     };
 });

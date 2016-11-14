@@ -5,61 +5,56 @@ import InitScript from './elements/InitScript';
 import StateInspector from './state/StateInspector';
 import Utils from '../utils/Utils';
 import domReady from '../utils/domReady';
+import Listener from '../communication/Listener';
+import CheckoutCommunicator from '../communication/CheckoutCommunicator';
 
 domReady(function () {
-    const scriptUrl = Utils.getScriptUrl();
-    const payformHost = Utils.getOriginUrl(scriptUrl);
-    const frameUrl = `${payformHost}/payform/payform.html`;
-    const frameName = 'rbkmoney_payframe';
-    const scriptClass = 'rbkmoney-payform';
-
-    const styles = new StyleLink(`${payformHost}/payframe/payframe.css`);
-    const iframe = new Iframe(frameUrl, frameName);
-    const initScript = new InitScript(scriptClass);
+    const initScript = new InitScript();
+    const payformHost = initScript.getHost();
+    const styles = new StyleLink(payformHost);
+    const iframe = new Iframe(payformHost);
+    const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const params = initScript.getParams();
+
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href)
     });
+
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
+    payButton.onclick = () => {
+        communicator.send({
+            type: 'init',
+            data: params
+        });
+        iframe.show();
+    };
+    payButton.render();
 
     styles.render();
-    payButton.render(scriptClass);
     iframe.render();
 
     if (StateInspector.isInProgress(params.invoiceId)) {
         iframe.show();
-        Object.assign(params, {
-            state: 'inProgress'
-        });
-        setTimeout(() => window.frames[frameName].postMessage(params, frameUrl), 300); //TODO Fix it
-    } else {
-        Object.assign(params, {
-            state: undefined
-        });
+        setTimeout(() => communicator.send({
+            type: 'resume',
+            data: params
+        }), 500);
     }
 
-    payButton.element.onclick = () => {
-        iframe.show();
-        window.frames[frameName].postMessage(params, frameUrl);
-    };
-
-    window.addEventListener('message', () => {
-        if (event.data === 'payform-close') {
+    Listener.addListener(message => {
+        if (message.type === 'close') {
             iframe.hide();
             iframe.destroy();
             iframe.render();
-            console.info('payframe receive message: payform-close');
-        } else if (event.data === 'interact') {
+        } else if (message.type === 'interact') {
             StateInspector.initLeaving(params.invoiceId);
-            console.info('payframe receive message: interact');
-        } else if (event.data === 'done') {
+        } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
-            console.info('payframe receive message: done');
             window.top.location.href = params.successUrl;
-        } else if (event.data === 'error') {
+        } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
-            console.info('payframe receive message: error');
             window.top.location.href = params.failedUrl;
         }
-    }, false);
+    });
+
 });

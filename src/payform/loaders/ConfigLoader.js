@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 import Utils from '../../utils/Utils';
 
-
 export default class ConfigLoader {
     static load() {
         return new Promise((resolve, reject) => {
