@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 import Initialization from './backend-communication/Initialization';
 import EventPoller from './backend-communication/EventPoller';
+import Tokenization from './backend-communication/Tokenization';
 import Form from './elements/Form';
 import Spinner from './elements/Spinner';
 import Checkmark from './elements/Checkmark';
@@ -9,7 +10,7 @@ import ErrorPanel from './elements/ErrorPanel';
 import Form3ds from './elements/Form3ds';
 import TokenizerScript from './elements/TokenizerScript';
 import StyleLink from './elements/StyleLink';
-import RequestBuilder from './builders/RequestBuilder';
+import CloseButton from './elements/CloseButton';
 import settings from '../settings';
 import domReady from '../utils/domReady';
 import Listener from '../communication/Listener';
@@ -26,44 +27,47 @@ domReady(function () {
     const checkmark = new Checkmark();
     const errorPanel = new ErrorPanel();
     const payButton = new PayButton();
+    const closeButton = new CloseButton();
+    closeButton.onclick = () => communicator.send({type: 'close'});
     const communicator = new ParentCommunicator();
 
     Listener.addListener(message => {
         if (message.type === 'init' || message.type === 'resume') {
-            tokenizerScript.render();
-            styleLink.rerender();
             params = message.data;
-            payButton.renderText(params.amount, params.currency);
-            if (params.logo) {
-                form.setLogo(params.logo);
-            }
-            if (params.name) {
-                form.setName(params.name);
-            }
-            if (params.buttonColor) {
-                payButton.setPayButtonColor(params.buttonColor);
-            }
+            styleLink.rerender();
+            customizeForm();
             if (params.state && params.state === 'inProgress') {
                 spinner.show();
                 form.hide();
-                polling();
+                pollEvents();
             }
+            tokenizerScript.render()
+                .then(() => payButton.enable())
+                .catch(() => errorPanel.show('Tokenizer is not available'));
         }
     });
 
-    window.payformClose = () => communicator.send({type: 'close'});
+    payButton.onclick = () => {
+        if (form.isValid()) {
+            spinner.show();
+            form.hide();
+            errorPanel.hide();
+            closeButton.hide();
+            const tokenization = new Tokenization(window.Tokenizer);
+            tokenization.setPublicKey(params.key);
+            tokenization.createToken(form.getCardHolder(), form.getCardNumber(), form.getExpDate(), form.getCvv())
+                .then(paymentTools => sendInitRequest(paymentTools))
+                .catch(error => resolveElementsAfterError('Create token error', error, 'Card tokenization failed'));
+        }
+    };
 
-    const polling = () => {
-        console.info('polling start');
+    function pollEvents() {
         EventPoller.pollEvents(params.endpointEvents, params.invoiceId, params.orderId, settings.pollingTimeout, settings.pollingRetries).then(result => {
-            console.info('polling resolve, data:', result);
             if (result.type === 'success') {
-                console.info('polling result: success, post message: done');
                 spinner.hide();
                 checkmark.show();
                 communicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
             } else if (result.type === 'interact') {
-                console.info('polling result: interact, post message: interact, starts 3ds interaction...');
                 communicator.send({type: 'interact'});
                 const redirectUrl = `${params.locationHost}/cart/checkout/review`;
                 const form3ds = new Form3ds(result.data, redirectUrl);
@@ -71,52 +75,37 @@ domReady(function () {
                 form3ds.submit();
             }
         }).catch(error => {
-            console.error('polling error, data:', error);
-            spinner.hide();
-            if (error.type === 'error') {
-                errorPanel.show(`Error:\n${error.data.eventType}\nStatus: ${error.data.status}`);
-            } else if (error.type === 'long polling') {
-                errorPanel.show('Too long polling');
-            } else {
-                errorPanel.show('Unknown error');
-            }
-            communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
+            resolveElementsAfterError('Polling error:', error, 'An error occurred while processing your card');
         });
-    };
+    }
 
-    const onTokenCreate = paymentTools => {
-        console.info('tokenization done, data:', paymentTools);
-        const initRequest = RequestBuilder.buildInitRequest(params.invoiceId, paymentTools, form.getEmail());
-        console.info('request to initialization endpoint start, data:', initRequest);
-        Initialization.sendInit(params.endpointInit, initRequest).then(() => {
-            console.info('request to initialization endpoint done');
-            polling();
-        });
-    };
-
-    window.pay = () => {
-        if (window.Tokenizer === undefined) {
-            form.hide();
-            errorPanel.show('Tokenizer.js is not available');
-            communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
-            return false;
-        }
-        if (form.isValid()) {
-            spinner.show();
-            form.hide();
-            window.Tokenizer.setPublicKey(params.key);
-            const request = RequestBuilder.buildTokenizationRequest(
-                form.getCardHolder(),
-                form.getCardNumber(),
-                form.getExpDate(),
-                form.getCvv()
-            );
-            console.info('tokenization start, data:', request);
-            window.Tokenizer.card.createToken(request, onTokenCreate, error => {
-                spinner.hide();
-                errorPanel.show(`Error create token:\n${error.message}`);
+    function sendInitRequest(paymentTools) {
+        Initialization.sendInit(params.endpointInit, params.invoiceId, paymentTools, form.getEmail())
+            .then(() => pollEvents())
+            .catch(error => {
+                resolveElementsAfterError('Send init request error', error, error.message);
                 communicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
             });
+    }
+
+    function customizeForm() {
+        payButton.renderText(params.amount, params.currency);
+        if (params.logo) {
+            form.setLogo(params.logo);
         }
-    };
+        if (params.name) {
+            form.setName(params.name);
+        }
+        if (params.buttonColor) {
+            payButton.setPayButtonColor(params.buttonColor);
+        }
+    }
+
+    function resolveElementsAfterError(logMessage, error, panelMessage) {
+        console.error(logMessage, error);
+        spinner.hide();
+        form.show();
+        closeButton.show();
+        errorPanel.show(panelMessage);
+    }
 });

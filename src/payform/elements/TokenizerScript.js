@@ -11,6 +11,10 @@ export default class TokenizerScript {
     }
 
     render() {
-        document.getElementsByTagName('head')[0].appendChild(this.element);
+        return new Promise((resolve, error) => {
+            document.getElementsByTagName('head')[0].appendChild(this.element);
+            this.element.onload = () => resolve();
+            this.element.onerror = () => error();
+        });
     }
 }

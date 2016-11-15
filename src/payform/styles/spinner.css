@@ -24,11 +24,11 @@
 }
 
 .spinner {
-    margin-left: 17px;
     position: relative;
     background: none;
     width: 200px;
     height: 200px;
+    margin: 37px auto;
 }
 
 .spinner > div:nth-of-type(2) {
