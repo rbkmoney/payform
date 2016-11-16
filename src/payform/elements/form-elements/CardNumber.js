@@ -1,3 +1,5 @@
+import CardUtils from '../../../utils/card-utils/CardUtils';
+
 export default class CardNumber {
     constructor(errorClass, focusClass) {
         this.errorClass = errorClass;
@@ -6,7 +8,7 @@ export default class CardNumber {
         this.element = document.querySelector('#card-number');
         this.element.onfocus = () => this.element.parentNode.classList.add(this.focusClass);
         this.element.onblur = () => this.element.parentNode.classList.remove(this.focusClass);
-        $('#card-number').payment('formatCardNumber'); // TODO fix it
+        CardUtils.formatCardNumber(this.element);
     }
 
     get value() {

@@ -494,11 +494,11 @@
         this.on('keypress', restrictCardNumber);
         this.on('keypress', formatCardNumber);
         this.on('keydown', formatBackCardNumber);
-        this.on('keyup', setCardType);
+        this.on('keyup', setCardType); //miss
         this.on('paste', reFormatCardNumber);
         this.on('change', reFormatCardNumber);
         this.on('input', reFormatCardNumber);
-        this.on('input', setCardType);
+        this.on('input', setCardType); //miss
         return this;
     };
 
