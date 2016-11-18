@@ -16,12 +16,7 @@ export default class CardNumber {
     }
 
     validate() {
-        // const isValid = $.payment.validateCardNumber(this.value);
-        let isValid = false;
-        const value = this.element.value;
-        if (value && value.trim() !== '') {
-            isValid = true
-        }
+        const isValid = CardUtils.validateCardNumber(this.value);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);

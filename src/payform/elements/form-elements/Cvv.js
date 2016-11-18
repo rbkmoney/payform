@@ -16,8 +16,8 @@ export default class Cvv {
     }
 
     validate(cardNumber) {
-        const cardType = $.payment.cardType(cardNumber);
-        const isValid = $.payment.validateCardCVC(this.value, cardType);
+        const cardType = CardUtils.cardType(cardNumber);
+        const isValid = CardUtils.validateCardCvv(this.value, cardType);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);

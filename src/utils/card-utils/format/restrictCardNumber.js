@@ -1,5 +1,5 @@
 import hasTextSelected from './hasTextSelected';
-import cardFromNumber from './cardFromNumber';
+import cardFromNumber from '../common/cardFromNumber';
 
 export default function (e) {
     let card, digit, value;

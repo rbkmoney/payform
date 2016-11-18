@@ -11,6 +11,11 @@ import formatForwardSlashAndSpace from './format/formatForwardSlashAndSpace';
 import formatForwardExpiry from './format/formatForwardExpiry';
 import formatBackExpiry from './format/formatBackExpiry';
 import reFormatExpiry from './format/reFormatExpiry';
+import cardExpiryVal from './common/cardExpiryVal';
+import cardType from './common/cardType';
+import validateCardNumber from './validation/validateCardNumber';
+import validateCardExpiry from './validation/validateCardExpiry';
+import validateCardCvv from './validation/validateCardCvv';
 
 export default class CardUtils {
 
@@ -41,6 +46,23 @@ export default class CardUtils {
         element.addEventListener('keydown', formatBackExpiry);
         element.addEventListener('change', reFormatExpiry);
         element.addEventListener('input', reFormatExpiry);
+    }
+
+    static cardType(num) {
+        return cardType(num);
+    }
+
+    static validateCardCvv(cvc, type) {
+        return validateCardCvv(cvc, type);
+    }
+
+    static validateCardExpiry(value) {
+        const formatVal = cardExpiryVal(value);
+        return validateCardExpiry(formatVal);
+    }
+
+    static validateCardNumber(num) {
+        return validateCardNumber(num);
     }
 
 }

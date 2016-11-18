@@ -1,6 +1,6 @@
 import replaceFullWidthChars from './replaceFullWidthChars';
 import safeVal from './safeVal';
-import cardFromNumber from './cardFromNumber';
+import cardFromNumber from '../common/cardFromNumber';
 
 function format(num) {
     let card, groups, upperLength, _ref;

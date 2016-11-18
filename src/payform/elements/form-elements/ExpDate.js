@@ -16,7 +16,7 @@ export default class ExpDate {
     }
 
     validate() {
-        const isValid = $.payment.validateCardExpiry($('#exp-date').payment('cardExpiryVal'));
+        const isValid = CardUtils.validateCardExpiry(this.value);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);

@@ -1,4 +1,4 @@
-import cardFromNumber from './cardFromNumber';
+import cardFromNumber from '../common/cardFromNumber';
 
 export default function (e) {
     var card, digit, length, re, upperLength, value;
