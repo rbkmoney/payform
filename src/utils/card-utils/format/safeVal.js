@@ -1,14 +1,13 @@
-export default function(value, $target) {
-    var currPair, cursor, digit, error, last, prevPair;
+export default function(value, target) {
+    let currPair, cursor, digit, last, prevPair;
     try {
-        cursor = $target.prop('selectionStart');
+        cursor = target.selectionStart;
     } catch (_error) {
-        error = _error;
         cursor = null;
     }
-    last = $target.val();
-    $target.val(value);
-    if (cursor !== null && $target.is(":focus")) {
+    last = target.value;
+    target.value = value;
+    if (cursor !== null && target.matches(':focus')) {
         if (cursor === last.length) {
             cursor = value.length;
         }
@@ -16,11 +15,11 @@ export default function(value, $target) {
             prevPair = last.slice(cursor - 1, +cursor + 1 || 9e9);
             currPair = value.slice(cursor - 1, +cursor + 1 || 9e9);
             digit = value[cursor];
-            if (/\d/.test(digit) && prevPair === ("" + digit + " ") && currPair === (" " + digit)) {
+            if (/\d/.test(digit) && prevPair === ('' + digit + ' ') && currPair === (' ' + digit)) {
                 cursor = cursor + 1;
             }
         }
-        $target.prop('selectionStart', cursor);
-        return $target.prop('selectionEnd', cursor);
+        target.selectionStart = cursor;
+        return target.selectionEnd = cursor;
     }
 }

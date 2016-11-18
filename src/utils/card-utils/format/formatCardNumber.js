@@ -27,12 +27,12 @@ export default function (e) {
     }
     if (re.test(value)) {
         e.preventDefault();
-        return setTimeout(function() {
+        return setTimeout(function () {
             return target.value = value + ' ' + digit;
         });
     } else if (re.test(value + digit)) {
         e.preventDefault();
-        return setTimeout(function() {
+        return setTimeout(function () {
             return target.value = value + digit + ' ';
         });
     }

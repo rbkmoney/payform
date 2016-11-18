@@ -2,13 +2,12 @@ import replaceFullWidthChars from './replaceFullWidthChars';
 import safeVal from './safeVal';
 
 export default function(e) {
-    var $target;
-    $target = $(e.currentTarget);
+    const target = e.currentTarget;
     return setTimeout(function() {
-        var value;
-        value = $target.val();
+        let value;
+        value = target.value;
         value = replaceFullWidthChars(value);
         value = value.replace(/\D/g, '').slice(0, 4);
-        return safeVal(value, $target);
+        return safeVal(value, target);
     });
 }

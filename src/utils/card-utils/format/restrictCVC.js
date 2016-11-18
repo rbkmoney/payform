@@ -1,15 +1,15 @@
 import hasTextSelected from './hasTextSelected';
 
 export default function(e) {
-    var $target, digit, val;
-    $target = $(e.currentTarget);
+    let digit, val;
+    const target = e.currentTarget;
     digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {
         return;
     }
-    if (hasTextSelected($target)) {
+    if (hasTextSelected(target)) {
         return;
     }
-    val = $target.val() + digit;
+    val = target.value + digit;
     return val.length <= 4;
 }

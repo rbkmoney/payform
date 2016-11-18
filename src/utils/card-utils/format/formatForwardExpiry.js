@@ -1,12 +1,11 @@
-export default function(e) {
-    var $target, digit, val;
-    digit = String.fromCharCode(e.which);
+export default function (e) {
+    const digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {
         return;
     }
-    $target = $(e.currentTarget);
-    val = $target.val();
+    const target = e.currentTarget;
+    const val = target.value;
     if (/^\d\d$/.test(val)) {
-        return $target.val("" + val + " / ");
+        return target.value = '' + val + ' / ';
     }
 }
