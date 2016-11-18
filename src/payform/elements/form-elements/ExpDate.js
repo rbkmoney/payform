@@ -1,3 +1,5 @@
+import CardUtils from '../../../utils/card-utils/CardUtils';
+
 export default class ExpDate {
     constructor(errorClass, focusClass) {
         this.errorClass = errorClass;
@@ -6,7 +8,7 @@ export default class ExpDate {
         this.element = document.querySelector('#exp-date');
         this.element.onfocus = () => this.element.parentNode.classList.add(this.focusClass);
         this.element.onblur = () => this.element.parentNode.classList.remove(this.focusClass);
-        $('#exp-date').payment('formatCardExpiry');
+        CardUtils.formatCardExpiry(this.element);
     }
 
     get value() {
@@ -14,7 +16,7 @@ export default class ExpDate {
     }
 
     validate() {
-        const isValid = $.payment.validateCardExpiry($('#exp-date').payment('cardExpiryVal'));
+        const isValid = CardUtils.validateCardExpiry(this.value);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);

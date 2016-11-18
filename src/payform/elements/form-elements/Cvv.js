@@ -1,3 +1,5 @@
+import CardUtils from '../../../utils/card-utils/CardUtils';
+
 export default class Cvv {
     constructor(errorClass, focusClass) {
         this.errorClass = errorClass;
@@ -6,7 +8,7 @@ export default class Cvv {
         this.element = document.querySelector('#cvv');
         this.element.onfocus = () => this.element.parentNode.classList.add(this.focusClass);
         this.element.onblur = () => this.element.parentNode.classList.remove(this.focusClass);
-        $('#cvv').payment('formatCardCVC');
+        CardUtils.formatCardCvv(this.element);
     }
 
     get value() {
@@ -14,8 +16,8 @@ export default class Cvv {
     }
 
     validate(cardNumber) {
-        const cardType = $.payment.cardType(cardNumber);
-        const isValid = $.payment.validateCardCVC(this.value, cardType);
+        const cardType = CardUtils.cardType(cardNumber);
+        const isValid = CardUtils.validateCardCvv(this.value, cardType);
         const classList = this.element.parentNode.classList;
         if (!isValid) {
             classList.add(this.focusClass);
