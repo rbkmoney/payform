@@ -12,13 +12,24 @@ import concat from 'gulp-concat';
 const config = {
     dist: 'dist',
     payframeDist: 'dist/payframe',
-    payformDist: 'dist/payform'
+    checkoutDist: 'dist/checkout'
 };
 
 gulp.task('lint', () => {
     return gulp.src('src/**/*.js')
         .pipe(eslint())
         .pipe(eslint.format());
+});
+
+gulp.task('bundleCheckout', () => {
+    return browserify({
+        entries: 'src/checkout/checkout.js',
+        extensions: ['.js'],
+        debug: true
+    }).transform('babelify').bundle()
+        .pipe(source('checkout.js'))
+        .pipe(gulp.dest(config.checkoutDist))
+        .pipe(livereload());
 });
 
 gulp.task('bundlePayframe', () => {
@@ -32,23 +43,12 @@ gulp.task('bundlePayframe', () => {
         .pipe(livereload());
 });
 
-gulp.task('bundlePayform', () => {
-    return browserify({
-        entries: 'src/payform/payform.js',
-        extensions: ['.js'],
-        debug: true
-    }).transform('babelify').bundle()
-        .pipe(source('payform.js'))
-        .pipe(gulp.dest(config.payformDist))
-        .pipe(livereload());
-});
-
 gulp.task('buildTemplate', () => {
-    return gulp.src('src/payform/payform.pug')
+    return gulp.src('src/checkout/checkout.pug')
         .pipe(pug({
             pretty: true
         }))
-        .pipe(gulp.dest(config.payformDist))
+        .pipe(gulp.dest(config.checkoutDist))
         .pipe(livereload());
 });
 
@@ -58,16 +58,16 @@ gulp.task('copyPayframeStyles', () => {
         .pipe(livereload());
 });
 
-gulp.task('copyPayformStyles', () => {
+gulp.task('copyCheckoutStyles', () => {
     return gulp.src('src/payform/styles/**/*.css')
         .pipe(concat('payform.css'))
-        .pipe(gulp.dest(config.payformDist))
+        .pipe(gulp.dest(config.checkoutDist))
         .pipe(livereload());
 });
 
-gulp.task('copyPayformImages', () => {
-    return gulp.src('src/payform/images/**/*')
-        .pipe(gulp.dest(`${config.payformDist}/images`))
+gulp.task('copyCheckoutImages', () => {
+    return gulp.src('src/checkout/images/**/*')
+        .pipe(gulp.dest(`${config.checkoutDist}/images`))
         .pipe(livereload());
 });
 
@@ -99,14 +99,13 @@ gulp.task('runSample', () => {
 
 gulp.task('watch', () => {
     livereload.listen();
-    gulp.watch('src/**/*.js', ['bundlePayform', 'bundlePayframe']);
-    gulp.watch('src/payform/payform.pug', ['buildTemplate']);
-    gulp.watch('src/**/*.css', ['copyPayformStyles']);
-    gulp.watch('src/**/*.css', ['copyPayframeStyles']);
-    gulp.watch('src/payform/images/**/*', ['copyPayformImages']);
+    gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe']);
+    gulp.watch('src/checkout/checkout.pug', ['buildTemplate']);
+    gulp.watch('src/**/*.css', ['copyPayframeStyles', 'copyCheckoutStyles']);
+    gulp.watch('src/payform/images/**/*', ['copyCheckoutImages']);
 });
 
-gulp.task('build', ['bundlePayframe', 'bundlePayform', 'buildTemplate', 'copyPayformStyles',
-    'copyPayframeStyles', 'copyPayformImages', 'copyConfig']);
+gulp.task('build', ['bundlePayframe', 'bundleCheckout', 'buildTemplate', 'copyCheckoutStyles',
+    'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
 gulp.task('default', ['build']);
