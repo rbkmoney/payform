@@ -1,11 +1,11 @@
 export default class ParentCommunicator {
 
-    send(message) {
+    static send(message) {
         const serialized = JSON.stringify(message);
         window.parent.postMessage(serialized, '*');
     }
 
-    sendWithTimeout(message, timeout) {
+    static sendWithTimeout(message, timeout) {
         setTimeout(() => this.send(message), timeout);
     }
 }

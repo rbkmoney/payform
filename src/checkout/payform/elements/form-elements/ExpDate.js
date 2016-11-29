@@ -1,0 +1,30 @@
+import CardUtils from '../../../../utils/card-utils/CardUtils';
+
+export default class ExpDate {
+    constructor(errorClass, focusClass) {
+        this.errorClass = errorClass;
+        this.focusClass = focusClass;
+
+        this.element = document.querySelector('#exp-date');
+        this.element.onfocus = () => this.element.parentNode.classList.add(this.focusClass);
+        this.element.onblur = () => this.element.parentNode.classList.remove(this.focusClass);
+        CardUtils.formatCardExpiry(this.element);
+    }
+
+    get value() {
+        return this.element.value;
+    }
+
+    validate() {
+        const isValid = CardUtils.validateCardExpiry(this.value);
+        const classList = this.element.parentNode.classList;
+        if (!isValid) {
+            classList.add(this.focusClass);
+            classList.add(this.errorClass);
+        } else {
+            classList.remove(this.focusClass);
+            classList.remove(this.errorClass);
+        }
+        return isValid;
+    }
+}
