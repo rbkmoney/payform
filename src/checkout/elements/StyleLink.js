@@ -3,7 +3,7 @@ export default class StyleLink {
         const link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
-        link.setAttribute('href', 'payform.css');
+        link.setAttribute('href', 'checkout.css');
         this.element = link;
     }
 

@@ -1,5 +1,4 @@
 export default function (e) {
-    var input;
     if (e.metaKey || e.ctrlKey) {
         return true;
     }
@@ -12,6 +11,6 @@ export default function (e) {
     if (e.which < 33) {
         return true;
     }
-    input = String.fromCharCode(e.which);
+    const input = String.fromCharCode(e.which);
     return !!/[\d\s]/.test(input);
 }

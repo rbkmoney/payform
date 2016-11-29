@@ -32,13 +32,17 @@ function pollEvents(params, elementManager) {
             elementManager.manageSuccessPolling();
             ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
         }
-    }).catch(error => elementManager.manageError('An error occurred while processing your card'));
+    }).catch(error => {
+        console.error(error);
+        elementManager.manageError('An error occurred while processing your card')
+    });
 }
 
 function sendInitRequest(paymentTools, params, email, elementManager) {
     Initialization.sendInit(params.endpointInit, params.invoiceId, paymentTools, email)
         .then(() => pollEvents(params, elementManager))
         .catch(error => {
+            console.error(error);
             elementManager.manageError('Send init request error');
             ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
         });
@@ -73,7 +77,10 @@ export default class Payform {
                     tokenization.setPublicKey(this.params.key);
                     tokenization.createToken(form.getCardHolder(), form.getCardNumber(), form.getExpDate(), form.getCvv())
                         .then(paymentTools => sendInitRequest(paymentTools, this.params, form.getEmail(), elementManager))
-                        .catch(error => elementManager.manageError('Card tokenization failed'));
+                        .catch(error => {
+                            console.error(error);
+                            elementManager.manageError('Card tokenization failed')
+                        });
                 }
             };
         });

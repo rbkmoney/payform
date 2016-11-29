@@ -1,6 +1,6 @@
 export default function (e) {
     const target = e.currentTarget;
-    let value = target.value;
+    const value = target.value;
     if (e.which !== 8) {
         return;
     }

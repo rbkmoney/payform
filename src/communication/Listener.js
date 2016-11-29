@@ -5,7 +5,7 @@ export default class Listener {
             try {
                 const parsed = JSON.parse(event.data);
                 callback(parsed);
-            } catch (e) {}
+            } catch (e) { }
         }, false);
     }
 }

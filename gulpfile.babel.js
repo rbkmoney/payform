@@ -5,7 +5,6 @@ import babelify from 'babelify';
 import source from 'vinyl-source-stream';
 import eslint from 'gulp-eslint';
 import livereload from 'gulp-livereload';
-import pug from 'gulp-pug';
 import nodemon from 'gulp-nodemon';
 import concat from 'gulp-concat';
 
@@ -43,11 +42,8 @@ gulp.task('bundlePayframe', () => {
         .pipe(livereload());
 });
 
-gulp.task('buildTemplate', () => {
-    return gulp.src('src/checkout/checkout.pug')
-        .pipe(pug({
-            pretty: true
-        }))
+gulp.task('copyIndex', () => {
+    return gulp.src('src/checkout/checkout.html')
         .pipe(gulp.dest(config.checkoutDist))
         .pipe(livereload());
 });
@@ -60,7 +56,7 @@ gulp.task('copyPayframeStyles', () => {
 
 gulp.task('copyCheckoutStyles', () => {
     return gulp.src('src/payform/styles/**/*.css')
-        .pipe(concat('payform.css'))
+        .pipe(concat('checkout.css'))
         .pipe(gulp.dest(config.checkoutDist))
         .pipe(livereload());
 });
@@ -86,7 +82,7 @@ gulp.task('runPayform', () => {
 });
 
 gulp.task('runSample', () => {
-    var started = false;
+    let started = false;
     return nodemon({
         script: 'sample/backend.js'
     }).on('start', () => {
@@ -99,13 +95,13 @@ gulp.task('runSample', () => {
 
 gulp.task('watch', () => {
     livereload.listen();
-    gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe']);
-    gulp.watch('src/checkout/checkout.pug', ['buildTemplate']);
+    gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe', 'lint']);
+    gulp.watch('src/checkout/checkout.html', ['copyIndex']);
     gulp.watch('src/**/*.css', ['copyPayframeStyles', 'copyCheckoutStyles']);
     gulp.watch('src/payform/images/**/*', ['copyCheckoutImages']);
 });
 
-gulp.task('build', ['bundlePayframe', 'bundleCheckout', 'buildTemplate', 'copyCheckoutStyles',
+gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'copyCheckoutStyles',
     'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
 gulp.task('default', ['build']);
