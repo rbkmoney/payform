@@ -3,7 +3,6 @@ import iframeStyles from './iframeStyles';
 export default class Iframe {
     constructor(host) {
         const iframe = document.createElement('iframe');
-        // iframe.setAttribute('src', `${host}/payform/payform.html`);
         iframe.setAttribute('src', `${host}/checkout/checkout.html`);
         iframe.setAttribute('name', 'rbkmoney_payframe');
         iframe.setAttribute('allowtransparency', 'true');

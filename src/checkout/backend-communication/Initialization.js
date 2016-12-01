@@ -13,7 +13,7 @@ export default class Initialization {
                 if (response.status >= 200 && response.status < 300) {
                     resolve();
                 } else {
-                    response.json().then(error => reject(error));
+                    reject(response);
                 }
             }).catch(() => reject('Error send to init endpoint'));
         });

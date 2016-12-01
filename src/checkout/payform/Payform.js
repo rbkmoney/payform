@@ -12,6 +12,7 @@ import ElementManager from './ElementManager';
 import Initialization from '../backend-communication/Initialization';
 import EventPoller from '../backend-communication/EventPoller';
 import settings from '../../settings';
+import Form3ds from './elements/Form3ds';
 
 function customizeForm(params, payButton, form) {
     payButton.renderText(params.amount, params.currency);
@@ -31,6 +32,12 @@ function pollEvents(params, elementManager) {
         if (result.type === 'success') {
             elementManager.manageSuccessPolling();
             ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
+        } else if (result.type === 'interact') {
+            ParentCommunicator.send({type: 'interact'});
+            const redirectUrl = `${params.locationHost}/cart/checkout/review`;
+            const form3ds = new Form3ds(result.data, redirectUrl);
+            form3ds.render();
+            form3ds.submit();
         }
     }).catch(error => {
         console.error(error);
@@ -44,7 +51,6 @@ function sendInitRequest(paymentTools, params, email, elementManager) {
         .catch(error => {
             console.error(error);
             elementManager.manageError('Send init request error');
-            ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
         });
 }
 
@@ -55,7 +61,7 @@ export default class Payform {
         this.params = params;
     }
 
-    render() {
+    render(isResume) {
         this.modal.render().then(() => {
             const closeButton = new CloseButton();
             closeButton.onclick = () => ParentCommunicator.send({type: 'close'});
@@ -83,6 +89,11 @@ export default class Payform {
                         });
                 }
             };
+
+            if (isResume) {
+                elementManager.manageResumePolling();
+                pollEvents(this.params, elementManager);
+            }
         });
     }
 }

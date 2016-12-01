@@ -10,12 +10,13 @@ domReady(function () {
     styleLink.render();
 
     Listener.addListener(message => {
-        if (message.type === 'init-payform') {
+        if (message.type === 'init-payform' || message.type === 'resume') {
             if (Utils.isSafari()) {
                 styleLink.rerender();
             }
             const payform = new Payform(message.data);
-            payform.render();
+            const isResume = message.type === 'resume';
+            payform.render(isResume);
         }
     });
 });

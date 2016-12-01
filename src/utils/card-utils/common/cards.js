@@ -71,5 +71,12 @@ export default [
         length: [16],
         cvcLength: [3],
         luhn: true
+    }, {
+        type: 'test',
+        patterns: [5000],
+        format: defaultFormat,
+        length: [16],
+        cvcLength: [3],
+        luhn: true
     }
 ];

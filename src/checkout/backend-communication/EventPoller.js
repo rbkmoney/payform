@@ -20,7 +20,6 @@ export default class EventPoller {
                             if (pollCount >= settings.pollingRetries) {
                                 reject(self.prepareResult('long polling', event));
                             } else {
-                                console.info('polling retry', event);
                                 poll(self);
                             }
                         }
@@ -64,7 +63,7 @@ export default class EventPoller {
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response.json());
                 } else {
-                    reject(response.json());
+                    reject(response);
                 }
             });
         });

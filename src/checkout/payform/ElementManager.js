@@ -27,4 +27,9 @@ export default class ElementManager {
         this.spinner.hide();
         this.checkmark.show();
     }
+
+    manageResumePolling() {
+        this.form.hide();
+        this.spinner.show();
+    }
 }

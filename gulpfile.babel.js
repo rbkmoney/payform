@@ -55,7 +55,7 @@ gulp.task('copyPayframeStyles', () => {
 });
 
 gulp.task('copyCheckoutStyles', () => {
-    return gulp.src('src/payform/styles/**/*.css')
+    return gulp.src('src/checkout/styles/**/*.css')
         .pipe(concat('checkout.css'))
         .pipe(gulp.dest(config.checkoutDist))
         .pipe(livereload());
@@ -99,6 +99,7 @@ gulp.task('watch', () => {
     gulp.watch('src/checkout/checkout.html', ['copyIndex']);
     gulp.watch('src/**/*.css', ['copyPayframeStyles', 'copyCheckoutStyles']);
     gulp.watch('src/payform/images/**/*', ['copyCheckoutImages']);
+    gulp.watch('src/appConfig.json', ['copyConfig']);
 });
 
 gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'copyCheckoutStyles',
