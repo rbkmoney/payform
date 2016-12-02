@@ -2,8 +2,8 @@ import 'whatwg-fetch';
 import StyleLink from './elements/StyleLink';
 import domReady from '../utils/domReady';
 import Listener from '../communication/Listener';
-import Payform from './payform/payform';
 import Utils from '../utils/Utils';
+import Payform from './payform/Payform';
 
 domReady(function () {
     const styleLink = new StyleLink();
