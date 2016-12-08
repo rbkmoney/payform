@@ -1,6 +1,7 @@
 import ConfigLoader from '../loaders/ConfigLoader';
 
 export default class TokenizerScript {
+
     constructor() {
         const script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
@@ -11,10 +12,10 @@ export default class TokenizerScript {
     }
 
     render() {
-        return new Promise((resolve, error) => {
+        return new Promise((resolve, reject) => {
             document.getElementsByTagName('head')[0].appendChild(this.element);
             this.element.onload = () => resolve();
-            this.element.onerror = () => error();
+            this.element.onerror = () => reject();
         });
     }
 }

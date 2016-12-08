@@ -23,7 +23,7 @@ domReady(function () {
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
     payButton.onclick = () => {
         communicator.send({
-            type: 'init',
+            type: 'init-payform',
             data: params
         });
         iframe.show();

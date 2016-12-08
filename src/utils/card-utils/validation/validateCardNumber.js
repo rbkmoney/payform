@@ -3,12 +3,12 @@ import indexOf from '../common/indexOf';
 import cardFromNumber from '../common/cardFromNumber';
 
 export default function (num) {
-    let card, _ref;
+    let _ref;
     num = (num + '').replace(/\s+|-/g, '');
     if (!/^\d+$/.test(num)) {
         return false;
     }
-    card = cardFromNumber(num);
+    const card = cardFromNumber(num);
     if (!card) {
         return false;
     }

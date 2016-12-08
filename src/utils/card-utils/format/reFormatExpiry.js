@@ -2,14 +2,13 @@ import replaceFullWidthChars from './replaceFullWidthChars';
 import safeVal from './safeVal';
 
 function format(expiry) {
-    var mon, parts, sep, year;
-    parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/);
+    const parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/);
     if (!parts) {
         return '';
     }
-    mon = parts[1] || '';
-    sep = parts[2] || '';
-    year = parts[3] || '';
+    let mon = parts[1] || '';
+    let sep = parts[2] || '';
+    const year = parts[3] || '';
     if (year.length > 0) {
         sep = ' / ';
     } else if (sep === ' /') {

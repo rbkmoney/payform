@@ -1,11 +1,11 @@
 export default function(value, target) {
-    let currPair, cursor, digit, last, prevPair;
+    let currPair, cursor, digit, prevPair;
     try {
         cursor = target.selectionStart;
     } catch (_error) {
         cursor = null;
     }
-    last = target.value;
+    const last = target.value;
     target.value = value;
     if (cursor !== null && target.matches(':focus')) {
         if (cursor === last.length) {

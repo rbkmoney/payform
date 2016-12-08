@@ -1,12 +1,12 @@
-export default class Error {
+export default class Checkmark {
+
     constructor() {
-        this.element = document.querySelector('.error-panel');
+        this.element = document.querySelector('.checkmark');
         this.hide();
     }
 
-    show(text) {
+    show() {
         this.element.style.display = 'block';
-        this.element.innerText = text || 'error';
     }
 
     hide() {

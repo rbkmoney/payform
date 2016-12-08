@@ -1,4 +1,5 @@
 export default class Spinner {
+
     constructor() {
         this.element = document.querySelector('.spinner');
         this.hide();

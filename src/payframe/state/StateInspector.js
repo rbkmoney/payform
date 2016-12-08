@@ -18,13 +18,6 @@ export default class StateInspector {
     }
 
     static resolve(invoiceId) {
-        const value = localStorage.getItem(invoiceId);
-        if (value) {
-            const info = JSON.parse(value);
-            info.status = 'done';
-            info.timestamp = new Date();
-            localStorage.setItem(invoiceId, JSON.stringify(info));
-            localStorage.clear(); // TODO Fix it
-        }
+        localStorage.removeItem(invoiceId);
     }
 }

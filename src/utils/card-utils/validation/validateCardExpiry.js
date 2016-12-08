@@ -1,5 +1,5 @@
 export default function (month, year) {
-    let currentTime, expiry, _ref;
+    let _ref;
     if (typeof month === 'object' && 'month' in month) {
         _ref = month, month = _ref.month, year = _ref.year;
     }
@@ -27,8 +27,8 @@ export default function (month, year) {
     if (year.length !== 4) {
         return false;
     }
-    expiry = new Date(year, month);
-    currentTime = new Date;
+    const expiry = new Date(year, month);
+    const currentTime = new Date;
     expiry.setMonth(expiry.getMonth() - 1);
     expiry.setMonth(expiry.getMonth() + 1, 1);
     return expiry > currentTime;

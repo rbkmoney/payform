@@ -1,10 +1,9 @@
 export default function (num) {
-    var digit, digits, odd, sum, _i, _len;
-    odd = true;
-    sum = 0;
-    digits = (num + '').split('').reverse();
-    for (_i = 0, _len = digits.length; _i < _len; _i++) {
-        digit = digits[_i];
+    let odd = true;
+    let sum = 0;
+    const digits = (num + '').split('').reverse();
+    for (let _i = 0, _len = digits.length; _i < _len; _i++) {
+        let digit = digits[_i];
         digit = parseInt(digit, 10);
         if ((odd = !odd)) {
             digit *= 2;

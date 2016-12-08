@@ -5,8 +5,8 @@ export default class PayButton {
     }
 
     renderText(amount, currency) {
-        let renderAmount = amount || '';
-        let renderCurrency = currency || '';
+        const renderAmount = amount || '';
+        const renderCurrency = currency || '';
         this.element.innerText = `Оплатить ${renderAmount}${renderCurrency}`;
     }
 

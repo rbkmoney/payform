@@ -13,7 +13,7 @@ export default class Form3ds {
             if (item.key === 'TermUrl') {
                 const decoded = decodeURIComponent(item.template);
                 const template = new URITemplate(decoded);
-                formParam.value = template.expand({termination_uri: redirectUrl});
+                formParam.value = template.expand({'termination_uri': redirectUrl});
             } else {
                 formParam.value = item.template;
             }

@@ -1,4 +1,4 @@
-import CardUtils from '../../../utils/card-utils/CardUtils';
+import CardUtils from '../../../../utils/card-utils/CardUtils';
 
 export default class Cvv {
     constructor(errorClass, focusClass) {

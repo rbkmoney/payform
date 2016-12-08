@@ -1,6 +1,8 @@
+import settings from '../../settings';
+
 export default class EventPoller {
 
-    static pollEvents(endpointUrl, invoiceId, orderId, timeout, retries) {
+    static pollEvents(endpointUrl, invoiceId, orderId) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
@@ -15,15 +17,14 @@ export default class EventPoller {
                             resolve(self.prepareResult('interact', event));
                         } else {
                             pollCount++;
-                            if (pollCount >= retries) {
+                            if (pollCount >= settings.pollingRetries) {
                                 reject(self.prepareResult('long polling', event));
                             } else {
-                                console.info('polling retry', event);
                                 poll(self);
                             }
                         }
                     });
-                }, timeout);
+                }, settings.pollingTimeout);
             })(this);
         });
     }
@@ -62,7 +63,7 @@ export default class EventPoller {
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response.json());
                 } else {
-                    reject(response.json());
+                    reject(response);
                 }
             });
         });
