@@ -5,6 +5,10 @@ import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
 import Payform from './payform/Payform';
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Modal from './components/Modal';
+
 ready(function () {
     const styleLink = new StyleLink();
     styleLink.render();
@@ -14,9 +18,16 @@ ready(function () {
             if (Utils.isSafari()) {
                 styleLink.rerender();
             }
-            const payform = new Payform(message.data);
-            const isResume = message.type === 'resume';
-            payform.render(isResume);
+
+            ReactDOM.render(
+                <Modal/>,
+                document.getElementById('root')
+            );
+
+
+            // const payform = new Payform(message.data);
+            // const isResume = message.type === 'resume';
+            // payform.render(isResume);
         }
     });
 });
