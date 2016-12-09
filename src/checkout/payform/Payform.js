@@ -34,24 +34,18 @@ function pollEvents(params, elementManager) {
             ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
         } else if (result.type === 'interact') {
             ParentCommunicator.send({type: 'interact'});
-            const redirectUrl = `${params.locationHost}/cart/checkout/review`;
+            const redirectUrl = `${params.locationHost}/cart/checkout/review`; //TODO fix
             const form3ds = new Form3ds(result.data, redirectUrl);
             form3ds.render();
             form3ds.submit();
         }
-    }).catch(error => {
-        console.error(error);
-        elementManager.manageError('An error occurred while processing your card')
-    });
+    }).catch(error => elementManager.manageError(error.message));
 }
 
 function sendInitRequest(paymentTools, params, email, elementManager) {
     Initialization.sendInit(params.endpointInit, params.invoiceId, paymentTools, email)
         .then(() => pollEvents(params, elementManager))
-        .catch(error => {
-            console.error(error);
-            elementManager.manageError('Send init request error');
-        });
+        .catch(error => elementManager.manageError(error.message));
 }
 
 export default class Payform {
@@ -73,7 +67,10 @@ export default class Payform {
             const elementManager = new ElementManager(closeButton, spinner, form, checkmark, errorPanel, payButton);
 
             const tokenizerScript = new TokenizerScript();
-            tokenizerScript.render().then(() => payButton.enable()).catch(() => errorPanel.show('Tokenizer is not available'));
+            tokenizerScript.render()
+                .then(() => payButton.enable())
+                .catch(error => elementManager.manageError(error.message));
+
             customizeForm(this.params, payButton, form);
 
             payButton.onclick = () => {
@@ -83,10 +80,7 @@ export default class Payform {
                     tokenization.setPublicKey(this.params.key);
                     tokenization.createToken(form.getCardHolder(), form.getCardNumber(), form.getExpDate(), form.getCvv())
                         .then(paymentTools => sendInitRequest(paymentTools, this.params, form.getEmail(), elementManager))
-                        .catch(error => {
-                            console.error(error);
-                            elementManager.manageError('Card tokenization failed')
-                        });
+                        .catch(error => elementManager.manageError(error.message));
                 }
             };
 

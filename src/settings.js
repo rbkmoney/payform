@@ -1,5 +1,5 @@
 export default {
-    integrationClassName: 'rbkmoney-payform',
+    integrationClassName: 'rbkmoney-checkout',
     pollingTimeout: 1000,
     closeFormTimeout: 3000,
     pollingRetries: 10

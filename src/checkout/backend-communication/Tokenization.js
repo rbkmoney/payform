@@ -12,7 +12,11 @@ export default class Tokenization {
         const request = Tokenization.buildRequest(cardHolder, cardNumber, expDate, cvv);
         const tokenizer = this.Tokenizer;
         return new Promise((resolve, reject) => {
-            tokenizer.card.createToken(request, paymentTools => resolve(paymentTools), error => reject(error));
+            tokenizer.card.createToken(
+                request,
+                paymentTools => resolve(paymentTools),
+                () => reject({message: 'An error occurred while trying tokenize cart'})
+            );
         });
     }
 

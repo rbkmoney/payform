@@ -4,11 +4,12 @@ import StyleLink from './elements/StyleLink';
 import InitScript from './elements/InitScript';
 import StateInspector from './state/StateInspector';
 import Utils from '../utils/Utils';
-import domReady from '../utils/domReady';
 import Listener from '../communication/Listener';
 import CheckoutCommunicator from '../communication/CheckoutCommunicator';
+import ready from '../utils/domReady';
+import processingCallback from './callbacks/processingCallback';
 
-domReady(function () {
+ready(function () {
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
     const styles = new StyleLink(payformHost);
@@ -50,10 +51,10 @@ domReady(function () {
             StateInspector.initLeaving(params.invoiceId);
         } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
-            window.top.location.href = params.successUrl;
+            processingCallback(params.endpointSuccess, params.invoiceId);
         } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
-            window.top.location.href = params.failedUrl;
+            processingCallback(params.endpointFailed, params.invoiceId);
         }
     });
 

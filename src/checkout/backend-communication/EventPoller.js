@@ -12,18 +12,18 @@ export default class EventPoller {
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
-                            reject(self.prepareResult('error', event));
+                            reject({message: 'An error occurred while processing your card'});
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
                             pollCount++;
                             if (pollCount >= settings.pollingRetries) {
-                                reject(self.prepareResult('long polling', event));
+                                reject({message: 'Events polling timeout error'});
                             } else {
                                 poll(self);
                             }
                         }
-                    });
+                    }).catch(() => reject({message: 'An error occurred while polling events'}));
                 }, settings.pollingTimeout);
             })(this);
         });
@@ -37,15 +37,6 @@ export default class EventPoller {
             result = {
                 type: type,
                 data: event.userInteraction.request
-            }
-        } else if (type === 'error') {
-            result = {
-                type: type,
-                data: event
-            }
-        } else if (type === 'long polling') {
-            result = {
-                type: type
             }
         }
         return result;

@@ -26,6 +26,7 @@ export default class ElementManager {
     manageSuccessPolling() {
         this.spinner.hide();
         this.checkmark.show();
+        this.closeButton.show();
     }
 
     manageResumePolling() {

@@ -13,9 +13,9 @@ export default class Initialization {
                 if (response.status >= 200 && response.status < 300) {
                     resolve();
                 } else {
-                    reject(response);
+                    reject({message: 'An error occurred while trying send request to init endpoint'});
                 }
-            }).catch(() => reject('Error send to init endpoint'));
+            })
         });
     }
 
