@@ -1,5 +1,6 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
+import {focusClass, errorClass} from './cssClasses';
 
 class CardNumber extends React.Component {
 
@@ -15,9 +16,17 @@ class CardNumber extends React.Component {
     componentDidMount() {
         CardUtils.formatCardNumber(this.input);
         const classList = this.input.parentNode.classList;
-        const className = 'payform--field__focus';
-        this.input.onfocus = () => classList.add(className);
-        this.input.onblur = () => classList.remove(className);
+        this.input.onfocus = () => classList.add(focusClass);
+        this.input.onblur = () => classList.remove(focusClass);
+    }
+
+    componentWillReceiveProps(props) {
+        const classList = this.input.parentNode.classList;
+        if (props.isValid === false) {
+            classList.add(errorClass);
+        } else {
+            classList.remove(errorClass);
+        }
     }
 
     render() {
@@ -29,6 +38,10 @@ class CardNumber extends React.Component {
                    onChange={this.handleChange}
                    placeholder="Card number" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"/>
         </div>
+    }
+
+    static replaceSpaces(str) {
+        return str.replace(/\s+/g, '');
     }
 }
 

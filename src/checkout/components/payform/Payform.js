@@ -4,18 +4,25 @@ import CardNumber from './elements/CardNumber';
 import CardExpire from './elements/CardExpire';
 import CardCvv from './elements/CardCvv';
 import Email from './elements/Email';
+import ErrorPanel from './elements/ErrorPanel';
+import PayformValidation from './PayformValidation';
+import TokenizerScript from '../../elements/TokenizerScript';
+import Processing from '../../backend-communication/Processing';
 
 class Payform extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            cardHolder: '',
-            cardNumber: '',
-            cardExpire: '',
-            cardCvv: '',
-            email: ''
+            cardHolder: {value: ''},
+            cardNumber: {value: ''},
+            cardExpire: {value: ''},
+            cardCvv: {value: ''},
+            email: {value: ''}
         };
+        this.isShowErrorPanel = false;
+        this.isPayButtonDisabled = false;
+        this.errorMessage = '';
         this.handleCardHolder = this.handleCardHolder.bind(this);
         this.handleCardNumber = this.handleCardNumber.bind(this);
         this.handleCardExpire = this.handleCardExpire.bind(this);
@@ -24,45 +31,95 @@ class Payform extends React.Component {
         this.pay = this.pay.bind(this);
     }
 
-    handleCardHolder(cardHolder) {
-        this.setState({cardHolder});
+    componentWillMount() {
+        const tokenizerScript = new TokenizerScript();
+        tokenizerScript.render()
+            .catch(() => {
+                this.errorMessage = 'Tokenizer is not available';
+                this.isPayButtonDisabled = true;
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
     }
 
-    handleCardNumber(cardNumber) {
-        this.setState({cardNumber});
+    handleCardHolder(value) {
+        this.setState(Payform.assignValue(this.state.cardHolder, value));
     }
 
-    handleCardExpire(cardExpire) {
-        this.setState({cardExpire});
+    handleCardNumber(value) {
+        this.setState(Payform.assignValue(this.state.cardNumber, value));
     }
 
-    handleCardCvv(cardCvv) {
-        this.setState({cardCvv});
+    handleCardExpire(value) {
+        this.setState(Payform.assignValue(this.state.cardExpire, value));
     }
 
-    handleEmail(email) {
-        this.setState({email});
+    handleCardCvv(value) {
+        this.setState(Payform.assignValue(this.state.cardCvv, value));
+    }
+
+    handleEmail(value) {
+        this.setState(Payform.assignValue(this.state.email, value));
     }
 
     pay() {
-        console.log(this.state);
+        const state = this.state;
+        const formValidation = new PayformValidation(state);
+        const isValid = formValidation.validate();
+        this.forceUpdate();
+        if (isValid) {
+            Processing.process({
+                tokenizer: window.Tokenizer,
+                publicKey: this.props.publicKey,
+                cardHolder: state.cardHolder.value,
+                cardNumber: state.cardNumber.value,
+                cardExpire: state.cardExpire.value,
+                email: state.email.value,
+                cardCvv: state.cardCvv.value,
+                endpointInit: this.props.endpointInit,
+                endpointEvents: this.props.endpointEvents,
+                invoiceId: this.props.invoiceId,
+                orderId: this.props.orderId
+            }).then(result => {
+                console.log(result);
+            }).catch(error => {
+                this.errorMessage = error.message;
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
+        }
     }
 
     render() {
+        const state = this.state;
+        const cardHolder = state.cardHolder;
+        const cardNumber = state.cardNumber;
+        const cardExpire = state.cardExpire;
+        const cardCvv = state.cardCvv;
+        const email = state.email;
         return <form id="payform" role="form">
             <fieldset className="payform--fieldset">
-                <CardHolder value={this.state.cardHolder} onChange={this.handleCardHolder}/>
+                <CardHolder value={cardHolder.value} onChange={this.handleCardHolder} isValid={cardHolder.isValid}/>
             </fieldset>
             <fieldset className="payform--fieldset">
-                <CardNumber value={this.state.cardNumber} onChange={this.handleCardNumber}/>
-                <CardExpire value={this.state.cardExpire} onChange={this.handleCardExpire}/>
-                <CardCvv value={this.state.cardCvv} onChange={this.handleCardCvv}/>
+                <CardNumber value={cardNumber.value} onChange={this.handleCardNumber} isValid={cardNumber.isValid}/>
+                <CardExpire value={cardExpire.value} onChange={this.handleCardExpire} isValid={cardExpire.isValid}/>
+                <CardCvv value={cardCvv.value} onChange={this.handleCardCvv} isValid={cardCvv.isValid}/>
             </fieldset>
             <fieldset className="payform--fieldset">
-                <Email value={this.state.email} onChange={this.handleEmail}/>
+                <Email value={email.value} onChange={this.handleEmail} isValid={email.isValid}/>
             </fieldset>
-            <button className="payform--pay-button" type="button" form="payform" onClick={this.pay}>Оплатить</button>
+            <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
+            <button className="payform--pay-button" type="button" form="payform" onClick={this.pay}
+                    disabled={this.isPayButtonDisabled}>Оплатить {this.props.amount}{this.props.currency}
+            </button>
         </form>
+    }
+
+    static assignValue(prop, value) {
+        return Object.assign(prop, {
+            value: value
+        });
     }
 }
 
