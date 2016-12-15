@@ -44,18 +44,23 @@ ready(function () {
 
     Listener.addListener(message => {
         if (message.type === 'close') {
-            iframe.hide();
-            iframe.destroy();
-            iframe.render();
+            close();
         } else if (message.type === 'interact') {
             StateInspector.initLeaving(params.invoiceId);
         } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
+            close();
             processingCallback(params.endpointSuccess, params.invoiceId);
         } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
+            close();
             processingCallback(params.endpointFailed, params.invoiceId);
         }
     });
 
+    function close() {
+        iframe.hide();
+        iframe.destroy();
+        iframe.render();
+    }
 });

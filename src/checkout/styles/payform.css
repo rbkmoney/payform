@@ -419,8 +419,8 @@ input::-ms-clear {
 }
 .payform--icon {
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 2px;
+    top: 4px;
     bottom: 0;
     pointer-events: none;
     display: block;

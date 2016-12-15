@@ -6,8 +6,6 @@ import CardCvv from './elements/CardCvv';
 import Email from './elements/Email';
 import ErrorPanel from './elements/ErrorPanel';
 import PayformValidation from './PayformValidation';
-import TokenizerScript from '../../elements/TokenizerScript';
-import Processing from '../../backend-communication/Processing';
 
 class Payform extends React.Component {
 
@@ -20,9 +18,6 @@ class Payform extends React.Component {
             cardCvv: {value: ''},
             email: {value: ''}
         };
-        this.isShowErrorPanel = false;
-        this.isPayButtonDisabled = false;
-        this.errorMessage = '';
         this.handleCardHolder = this.handleCardHolder.bind(this);
         this.handleCardNumber = this.handleCardNumber.bind(this);
         this.handleCardExpire = this.handleCardExpire.bind(this);
@@ -31,15 +26,15 @@ class Payform extends React.Component {
         this.pay = this.pay.bind(this);
     }
 
-    componentWillMount() {
-        const tokenizerScript = new TokenizerScript();
-        tokenizerScript.render()
-            .catch(() => {
-                this.errorMessage = 'Tokenizer is not available';
-                this.isPayButtonDisabled = true;
-                this.isShowErrorPanel = true;
-                this.forceUpdate();
-            });
+    componentDidMount() {
+        Payform.changeVisibility(this.formElement.style, this.props.isShow);
+    }
+
+    componentWillUpdate(props) {
+        this.isShowErrorPanel = props.isShowErrorPanel;
+        this.isPayButtonDisabled = props.isPayButtonDisabled;
+        this.errorMessage = props.errorMessage;
+        Payform.changeVisibility(this.formElement.style, props.isShow);
     }
 
     handleCardHolder(value) {
@@ -68,24 +63,12 @@ class Payform extends React.Component {
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (isValid) {
-            Processing.process({
-                tokenizer: window.Tokenizer,
-                publicKey: this.props.publicKey,
+            this.props.handlePay({
                 cardHolder: state.cardHolder.value,
                 cardNumber: state.cardNumber.value,
                 cardExpire: state.cardExpire.value,
                 email: state.email.value,
-                cardCvv: state.cardCvv.value,
-                endpointInit: this.props.endpointInit,
-                endpointEvents: this.props.endpointEvents,
-                invoiceId: this.props.invoiceId,
-                orderId: this.props.orderId
-            }).then(result => {
-                console.log(result);
-            }).catch(error => {
-                this.errorMessage = error.message;
-                this.isShowErrorPanel = true;
-                this.forceUpdate();
+                cardCvv: state.cardCvv.value
             });
         }
     }
@@ -97,7 +80,7 @@ class Payform extends React.Component {
         const cardExpire = state.cardExpire;
         const cardCvv = state.cardCvv;
         const email = state.email;
-        return <form id="payform" role="form">
+        return <form id="payform" role="form" ref={(form) => { this.formElement = form; }}>
             <fieldset className="payform--fieldset">
                 <CardHolder value={cardHolder.value} onChange={this.handleCardHolder} isValid={cardHolder.isValid}/>
             </fieldset>
@@ -120,6 +103,10 @@ class Payform extends React.Component {
         return Object.assign(prop, {
             value: value
         });
+    }
+
+    static changeVisibility(style, isShow) {
+        isShow ? style.display = 'block': style.display = 'none';
     }
 }
 
