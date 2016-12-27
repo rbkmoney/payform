@@ -50,11 +50,11 @@ ready(function () {
         } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
             close();
-            processingCallback(params.endpointSuccess, params.invoiceId);
+            processingCallback(params.endpointSuccess);
         } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
             close();
-            processingCallback(params.endpointFailed, params.invoiceId);
+            processingCallback(params.endpointFailed);
         }
     });
 

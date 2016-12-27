@@ -93,7 +93,7 @@ class Payform extends React.Component {
                 <Email value={email.value} onChange={this.handleEmail} isValid={email.isValid}/>
             </fieldset>
             <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
-            <button className="payform--pay-button" type="button" form="payform" onClick={this.pay}
+            <button className="payform--pay-button" type="button" form="payform" onClick={this.pay} style={{background: this.props.buttonColor}}
                     disabled={this.isPayButtonDisabled}>Оплатить {this.props.amount}{this.props.currency}
             </button>
         </form>
