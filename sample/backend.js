@@ -45,6 +45,10 @@ router.route('/events_endpoint').get((req, res) => {
 //     res.json(paymentFailedEvents);
 // });
 
+router.route('/success_endpoint').post((req, res) => res.send('success'));
+
+router.route('/failed_endpoint').post((req, res) => res.send('failed'));
+
 app.use('/', router);
 
 app.use('/', express.static(__dirname + '/public'));

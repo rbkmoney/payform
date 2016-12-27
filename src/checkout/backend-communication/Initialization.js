@@ -1,3 +1,5 @@
+const errorMassage = 'An error occurred while trying send request to init endpoint';
+
 export default class Initialization {
 
     static sendInit(endpoint, invoiceId, token, email) {
@@ -13,9 +15,11 @@ export default class Initialization {
                 if (response.status >= 200 && response.status < 300) {
                     resolve();
                 } else {
-                    reject(response);
+                    reject({message: errorMassage});
                 }
-            }).catch(() => reject('Error send to init endpoint'));
+            }).catch(() => {
+                reject({message: errorMassage});
+            })
         });
     }
 

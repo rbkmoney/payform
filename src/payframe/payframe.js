@@ -4,11 +4,12 @@ import StyleLink from './elements/StyleLink';
 import InitScript from './elements/InitScript';
 import StateInspector from './state/StateInspector';
 import Utils from '../utils/Utils';
-import domReady from '../utils/domReady';
 import Listener from '../communication/Listener';
 import CheckoutCommunicator from '../communication/CheckoutCommunicator';
+import ready from '../utils/domReady';
+import processingCallback from './callbacks/processingCallback';
 
-domReady(function () {
+ready(function () {
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
     const styles = new StyleLink(payformHost);
@@ -43,18 +44,23 @@ domReady(function () {
 
     Listener.addListener(message => {
         if (message.type === 'close') {
-            iframe.hide();
-            iframe.destroy();
-            iframe.render();
+            close();
         } else if (message.type === 'interact') {
             StateInspector.initLeaving(params.invoiceId);
         } else if (message.type === 'done') {
             StateInspector.resolve(params.invoiceId);
-            window.top.location.href = params.successUrl;
+            close();
+            processingCallback(params.endpointSuccess);
         } else if (message.type === 'error') {
             StateInspector.resolve(params.invoiceId);
-            window.top.location.href = params.failedUrl;
+            close();
+            processingCallback(params.endpointFailed);
         }
     });
 
+    function close() {
+        iframe.hide();
+        iframe.destroy();
+        iframe.render();
+    }
 });

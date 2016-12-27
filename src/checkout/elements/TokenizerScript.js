@@ -15,7 +15,7 @@ export default class TokenizerScript {
         return new Promise((resolve, reject) => {
             document.getElementsByTagName('head')[0].appendChild(this.element);
             this.element.onload = () => resolve();
-            this.element.onerror = () => reject();
+            this.element.onerror = () => reject({message: 'Tokenizer is not available'});
         });
     }
 }

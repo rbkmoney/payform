@@ -19,13 +19,13 @@ export default class InitScript {
             orderId: dataSet.orderId,
             endpointInit: dataSet.endpointInit,
             endpointEvents: dataSet.endpointEvents,
+            endpointFailed: dataSet.endpointFailed,
+            endpointSuccess: dataSet.endpointSuccess,
             buttonColor: dataSet.buttonColor,
             logo: dataSet.logo,
             name: dataSet.name,
             amount: dataSet.amount,
-            currency: dataSet.currency,
-            failedUrl: dataSet.failedUrl,
-            successUrl: dataSet.successUrl
+            currency: dataSet.currency
         }
     }
 

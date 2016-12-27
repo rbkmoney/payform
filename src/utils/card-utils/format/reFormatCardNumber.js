@@ -26,11 +26,8 @@ function format(num) {
 
 export default function (e) {
     const target = e.currentTarget;
-    return setTimeout(function () {
-        let value;
-        value = target.value;
-        value = replaceFullWidthChars(value);
-        value = format(value);
-        return safeVal(value, target);
-    });
+    let value = target.value;
+    value = replaceFullWidthChars(value);
+    value = format(value);
+    return safeVal(value, target);
 }

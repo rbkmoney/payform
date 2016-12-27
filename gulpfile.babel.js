@@ -95,7 +95,7 @@ gulp.task('runSample', () => {
 
 gulp.task('watch', () => {
     livereload.listen();
-    gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe', 'lint']);
+    gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe']);
     gulp.watch('src/checkout/checkout.html', ['copyIndex']);
     gulp.watch('src/**/*.css', ['copyPayframeStyles', 'copyCheckoutStyles']);
     gulp.watch('src/payform/images/**/*', ['copyCheckoutImages']);

@@ -1,11 +1,13 @@
 import 'whatwg-fetch';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import StyleLink from './elements/StyleLink';
-import domReady from '../utils/domReady';
+import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
-import Payform from './payform/Payform';
+import Modal from './components/Modal';
 
-domReady(function () {
+ready(function () {
     const styleLink = new StyleLink();
     styleLink.render();
 
@@ -14,9 +16,22 @@ domReady(function () {
             if (Utils.isSafari()) {
                 styleLink.rerender();
             }
-            const payform = new Payform(message.data);
-            const isResume = message.type === 'resume';
-            payform.render(isResume);
+            ReactDOM.render(
+                <Modal publicKey={message.data.key}
+                       endpointInit={message.data.endpointInit}
+                       endpointEvents={message.data.endpointEvents}
+                       invoiceId={message.data.invoiceId}
+                       orderId={message.data.orderId}
+                       logo={message.data.logo}
+                       amount={message.data.amount}
+                       currency={message.data.currency}
+                       buttonColor={message.data.buttonColor}
+                       name={message.data.name}
+                       locationHost={message.data.locationHost}
+                       isResume={message.type === 'resume'}
+                />,
+                document.getElementById('root')
+            );
         }
     });
 });
