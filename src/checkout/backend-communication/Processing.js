@@ -17,6 +17,14 @@ class Processing {
             }).catch(error => reject(error));
         });
     }
+
+    static pollEvents(params) {
+        return new Promise((resolve, reject) => {
+            EventPoller.pollEvents(params.endpointEvents, params.invoiceId, params.orderId).then(result => {
+                resolve(result);
+            }).catch(error => reject(error));
+        })
+    }
 }
 
 export default Processing;

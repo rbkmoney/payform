@@ -16,7 +16,6 @@ ready(function () {
             if (Utils.isSafari()) {
                 styleLink.rerender();
             }
-
             ReactDOM.render(
                 <Modal publicKey={message.data.key}
                        endpointInit={message.data.endpointInit}
@@ -27,13 +26,12 @@ ready(function () {
                        amount={message.data.amount}
                        currency={message.data.currency}
                        buttonColor={message.data.buttonColor}
-                       name={message.data.name}/>,
+                       name={message.data.name}
+                       locationHost={message.data.locationHost}
+                       isResume={message.type === 'resume'}
+                />,
                 document.getElementById('root')
             );
-
-            // const payform = new Payform(message.data);
-            // const isResume = message.type === 'resume';
-            // payform.render(isResume);
         }
     });
 });

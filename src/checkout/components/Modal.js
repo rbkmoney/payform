@@ -8,12 +8,22 @@ import TokenizerScript from '../elements/TokenizerScript';
 import Processing from '../backend-communication/Processing';
 import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
+import Form3ds from '../interaction/Form3ds';
 
 class Modal extends React.Component {
 
     constructor(props) {
         super(props);
         this.handlePay = this.handlePay.bind(this);
+    }
+
+    handleSuccess(result) {
+        this.isInProcess = false;
+        this.isProcessSuccess = true;
+        this.forceUpdate();
+        if (result.type === 'success') {
+            ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
+        }
     }
 
     componentDidMount() {
@@ -27,6 +37,21 @@ class Modal extends React.Component {
                 this.isShowErrorPanel = true;
                 this.forceUpdate();
             });
+        if (this.props.isResume) {
+            this.isInProcess = true;
+            Processing.pollEvents({
+                endpointEvents: this.props.endpointEvents,
+                invoiceId: this.props.invoiceId,
+                orderId: this.props.orderId
+            }).then(result => {
+                if (result.type === 'success') {
+                    this.handleSuccess(result);
+                } else {
+                    ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
+                }
+            });
+        }
+        this.forceUpdate();
     }
 
     handlePay(formData) {
@@ -46,11 +71,14 @@ class Modal extends React.Component {
             invoiceId: this.props.invoiceId,
             orderId: this.props.orderId
         }).then(result => {
-            this.isInProcess = false;
-            this.isProcessSuccess = true;
-            this.forceUpdate();
             if (result.type === 'success') {
-                ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
+                this.handleSuccess(result);
+            } else if (result.type === 'interact') {
+                ParentCommunicator.send({type: 'interact'});
+                const redirectUrl = `${this.props.locationHost}/cart/checkout/review`; //TODO fix
+                const form3ds = new Form3ds(result.data, redirectUrl);
+                form3ds.render();
+                form3ds.submit(settings.closeFormTimeout);
             }
         }).catch(error => {
             this.isInProcess = false;
