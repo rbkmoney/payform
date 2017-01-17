@@ -6,6 +6,7 @@ COPY dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/vhosts.d/payform.js.conf
 COPY containerpilot.json /etc/containerpilot.json
 CMD /bin/containerpilot -config file:///etc/containerpilot.json /usr/sbin/nginx -g "daemon off;"
+EXPOSE 8080
 LABEL base_image_tag=$BASE_IMAGE_TAG
 LABEL build_image_tag=$BUILD_IMAGE_TAG
 # A bit of magic to get a proper branch name
