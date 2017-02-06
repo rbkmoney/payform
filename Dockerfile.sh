@@ -3,7 +3,7 @@ cat <<EOF
 FROM $BASE_IMAGE
 MAINTAINER Ildar Galeev <i.galeev@rbkmoney.com>
 COPY dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/vhosts.d/payform.js.conf
+COPY nginx.conf /etc/nginx/vhosts.d/payform.conf
 COPY containerpilot.json /etc/containerpilot.json
 CMD /bin/containerpilot -config file:///etc/containerpilot.json /usr/sbin/nginx -g "daemon off;"
 EXPOSE 8080
