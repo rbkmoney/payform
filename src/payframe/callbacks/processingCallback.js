@@ -4,6 +4,7 @@ export default function (endpointUrl) {
         callbackForm.method = 'POST';
         callbackForm.action = endpointUrl;
         callbackForm.setAttribute('target', '_top');
+        document.body.appendChild(callbackForm);
         callbackForm.submit();
     }
 }
