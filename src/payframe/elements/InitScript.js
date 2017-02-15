@@ -21,6 +21,8 @@ export default class InitScript {
             endpointEvents: dataSet.endpointEvents,
             endpointFailed: dataSet.endpointFailed,
             endpointSuccess: dataSet.endpointSuccess,
+            endpointFailedMethod: dataSet.endpointFailedMethod,
+            endpointSuccessMethod: dataSet.endpointSuccessMethod,
             buttonColor: dataSet.buttonColor,
             logo: dataSet.logo,
             name: dataSet.name,
