@@ -2,7 +2,6 @@ import Iframe from './elements/Iframe';
 import PayButton from './elements/PayButton';
 import StyleLink from './elements/StyleLink';
 import InitScript from './elements/InitScript';
-import StateInspector from './state/StateInspector';
 import Utils from '../utils/Utils';
 import Listener from '../communication/Listener';
 import CheckoutCommunicator from '../communication/CheckoutCommunicator';
@@ -18,7 +17,8 @@ ready(function () {
     const params = initScript.getParams();
 
     Object.assign(params, {
-        locationHost: Utils.getOriginUrl(location.href)
+        locationHost: Utils.getOriginUrl(location.href),
+        payformHost: payformHost
     });
 
     const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
@@ -34,28 +34,30 @@ ready(function () {
     styles.render();
     iframe.render();
 
-    if (StateInspector.isInProgress(params.invoiceId)) {
-        iframe.show();
-        setTimeout(() => communicator.send({
-            type: 'resume',
-            data: params
-        }), 500);
-    }
-
     Listener.addListener(message => {
-        if (message.type === 'close') {
-            close();
-        } else if (message.type === 'interact') {
-            StateInspector.initLeaving(params.invoiceId);
-        } else if (message.type === 'done') {
-            StateInspector.resolve(params.invoiceId);
-            close();
-            processingCallback(params.endpointSuccess);
-        } else if (message.type === 'error') {
-            StateInspector.resolve(params.invoiceId);
-            close();
-            processingCallback(params.endpointFailed);
+        switch (message.type) {
+            case 'close':
+                close();
+                break;
+            case 'done':
+                close();
+                processingCallback(params.endpointSuccess);
+                break;
+            case 'error':
+                close();
+                processingCallback(params.endpointFailed);
+                break;
+            case 'start3ds':
+                iframe.enable3DS();
+                break;
+            case 'finish3ds':
+                iframe.disable3DS();
+                break;
         }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        communicator.send({type: 'unload'});
     });
 
     function close() {

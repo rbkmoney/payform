@@ -6,32 +6,59 @@ import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
 import Modal from './components/Modal';
+import StateWorker from './state/StateWorker';
+import ParentCommunicator from '../communication/ParentCommunicator';
 
 ready(function () {
     const styleLink = new StyleLink();
     styleLink.render();
 
-    Listener.addListener(message => {
-        if (message.type === 'init-payform' || message.type === 'resume') {
-            if (Utils.isSafari()) {
-                styleLink.rerender();
+    function renderModal(data, isResumed) {
+        if (Utils.isSafari()) {
+            styleLink.rerender();
+        }
+        ReactDOM.render(
+            <Modal publicKey={data.key}
+                   endpointInit={data.endpointInit}
+                   endpointEvents={data.endpointEvents}
+                   invoiceId={data.invoiceId}
+                   orderId={data.orderId}
+                   logo={data.logo}
+                   amount={data.amount}
+                   currency={data.currency}
+                   buttonColor={data.buttonColor}
+                   name={data.name}
+                   locationHost={data.locationHost}
+                   payformHost={data.payformHost}
+                   isResume={isResumed}
+            />,
+            document.getElementById('root')
+        );
+    }
+
+    function checkPayformState() {
+        const payFormData = StateWorker.loadState();
+        if (payFormData) {
+            if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
+                ParentCommunicator.send({type: 'finish3ds'});
+                renderModal(payFormData, true);
+            } else {
+                StateWorker.flush();
             }
-            ReactDOM.render(
-                <Modal publicKey={message.data.key}
-                       endpointInit={message.data.endpointInit}
-                       endpointEvents={message.data.endpointEvents}
-                       invoiceId={message.data.invoiceId}
-                       orderId={message.data.orderId}
-                       logo={message.data.logo}
-                       amount={message.data.amount}
-                       currency={message.data.currency}
-                       buttonColor={message.data.buttonColor}
-                       name={message.data.name}
-                       locationHost={message.data.locationHost}
-                       isResume={message.type === 'resume'}
-                />,
-                document.getElementById('root')
-            );
+        }
+    }
+
+    Listener.addListener(message => {
+        switch (message.type) {
+            case 'init-payform':
+                StateWorker.saveState(message.data);
+                renderModal(message.data, false);
+                break;
+            case 'unload':
+                StateWorker.flush();
+                break;
         }
     });
+
+    checkPayformState();
 });

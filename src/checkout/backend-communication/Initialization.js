@@ -28,7 +28,7 @@ export default class Initialization {
             invoiceId: invoiceId,
             token: token.token,
             session: token.session,
-            contractInfo: {
+            contactInfo: {
                 email: email
             }
         }
