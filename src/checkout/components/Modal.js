@@ -9,6 +9,7 @@ import Processing from '../backend-communication/Processing';
 import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
+import StateWorker from '../state/StateWorker';
 
 class Modal extends React.Component {
 
@@ -22,6 +23,7 @@ class Modal extends React.Component {
         this.isProcessSuccess = true;
         this.forceUpdate();
         if (result.type === 'success') {
+            StateWorker.flush();
             ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
         }
     }
@@ -47,6 +49,7 @@ class Modal extends React.Component {
                 if (result.type === 'success') {
                     this.handleSuccess(result);
                 } else {
+                    StateWorker.flush();
                     ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
                 }
             });
@@ -74,8 +77,8 @@ class Modal extends React.Component {
             if (result.type === 'success') {
                 this.handleSuccess(result);
             } else if (result.type === 'interact') {
-                ParentCommunicator.send({type: 'interact'});
-                const redirectUrl = `${this.props.locationHost}/cart/checkout/review`; //TODO fix
+                StateWorker.init3DS(this.props.invoiceId);
+                const redirectUrl = `${this.props.payformHost}/checkout/checkout.html`; //TODO fix?
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit(settings.closeFormTimeout);
@@ -90,7 +93,6 @@ class Modal extends React.Component {
 
     render() {
         return <div className="modal">
-            <div className="modal--overlay"></div>
             <div className="modal--container">
                 <ModalClose/>
                 <div className="modal--body">
