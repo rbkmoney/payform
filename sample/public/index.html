@@ -3,83 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        #invoicebutton {
+            display: block;
+            width: 100px;
+            height: 40px;
+            border: 1px solid black;
+            border-radius: 2px;
+            padding: 3px;
+        }
+    </style>
 </head>
 <body>
 
 <script>
-    window.publicKey = 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJUdEZzelc3NDB2NTQ1MThVUVg1MGNnczN1U2pCSXkxbDdGcDVyMHdmYzFrIn0.eyJqdGkiOiJiZTg5MjAxNy03MzJlLTQ5ZTItYmJmZS1hOTg0MmNhZDcwMmYiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNDg3NTg1MDc0LCJpc3MiOiJodHRwOi8vYXV0aC5yYmsudGVzdDo4MDgwL2F1dGgvcmVhbG1zL2V4dGVybmFsIiwiYXVkIjoidG9rZW5pemVyIiwic3ViIjoiYmVmZGYxOWMtMmQyZS00OTFmLWI0N2ItNTE0ZDExYWYyOTQ5IiwidHlwIjoiT2ZmbGluZSIsImF6cCI6InRva2VuaXplciIsIm5vbmNlIjoiNDNjNjBmOWItOWFkNC00ZjUyLTliZGQtMmM2NmZiMjQxMmZjIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiMzdmYjAzZWQtY2IzYy00ZjA1LTg2ODAtNzg3OGJkYmQ3NGUxIiwiY2xpZW50X3Nlc3Npb24iOiJjODAwMDJmNC1jMzg2LTRjNGMtODUxNy02MWUyNGI1NTZjMTIiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiXX0sInJlc291cmNlX2FjY2VzcyI6eyJjb21tb24tYXBpIjp7InJvbGVzIjpbInBheW1lbnRfdG9vbF90b2tlbnM6Y3JlYXRlIl19fX0.NiPeC0_6jRG9E3AXyn-nUuzp7YInXpPEsEq1zALb6N_8utUJ_8gg1v1ozw7JjoZVq6kGRKLci5Mder0cMxUe75qLndOL7n7pMTnQ-oUcFX8if7Kmm210yKzIRq8-zSdkzrbj32qiv2TT4Q2fGrnqivHZ6aXyjJ-BOQW7L2yD8UgEY_gXy2vZFKuYch7GtAn6SL5dl1Eorr_P5PABW2XkS4p3S5yg7Rcx5ITJKYt2qiAJpb77rzcfLwrO1FaorIpnRzHzEIEWFThjn5cBBdKb80mr-cDJ2GlNmqur_Rt2Vlc6TbNngWxBPRWneEYIP4Uhw21g3ZwnjEx6deZ1Mhjb8Q';
+    (function(){
+        let publicKey = '';
 
-    function getDueDate(date) {
-        const checkFormat = (input) => {
-            let formatted = String(input);
-            if(formatted.length < 2) {
-                formatted = '0' + formatted;
-            }
-            return formatted;
-        };
+        function makeRequest(method, url, body, onSuccess, sync) {
+            const request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if(request.readyState === 4 && request.status >= 200 && request.status < 300) {
+                    let result =  JSON.parse(request.responseText);
+                    onSuccess(result);
+                }
+            };
+            request.open(method, url, !sync);
+            request.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+            request.send(body ? JSON.stringify(body) : null);
+        }
 
-        const year = date.getFullYear();
-        const month = checkFormat(date.getMonth() + 1);
-        const day = checkFormat(date.getDate() + 1);
-        const hours = checkFormat(date.getHours());
-        const minutes = checkFormat(date.getMinutes());
-        const seconds = checkFormat(date.getSeconds());
+        function getDueDate(date) {
+            const checkFormat = (input) => {
+                let formatted = String(input);
+                if(formatted.length < 2) {
+                    formatted = '0' + formatted;
+                }
+                return formatted;
+            };
 
-        return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + 'Z';
-    }
+            const year = date.getFullYear();
+            const month = checkFormat(date.getMonth() + 1);
+            const day = checkFormat(date.getDate() + 1);
+            const hours = checkFormat(date.getHours());
+            const minutes = checkFormat(date.getMinutes());
+            const seconds = checkFormat(date.getSeconds());
 
-    function getInvoiceId() {
-        const invoiceArgs = {
-            shopID: 1,
-            amount: 10000,
-            currency: 'RUB',
-            dueDate: getDueDate(new Date()),
-            product: 'test',
-            description: 'test',
-            metadata: {}
-        };
+            return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + 'Z';
+        }
 
-        const request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if(request.readyState === 4 && request.status >= 200 && request.status < 300) {
-                let invoice =  JSON.parse(request.responseText);
+        function getInvoiceId() {
+            const invoiceArgs = {
+                shopID: 1,
+                amount: 10000,
+                currency: 'RUB',
+                dueDate: getDueDate(new Date()),
+                product: 'test',
+                description: 'test',
+                metadata: {}
+            };
+
+            makeRequest('POST', 'http://localhost:8001/invoice', invoiceArgs, function(invoice) {
                 initPayButton(invoice);
-            }
-        };
-        request.open('POST', 'http://localhost:8001/invoice', true);
-        request.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
-        request.send(JSON.stringify(invoiceArgs));
-    }
+            });
+        }
 
-    function initPayButton(invoice) {
-        document.getElementById('invoicebutton').style.display = 'none';
+        function initPayButton(invoice) {
+            document.getElementById('invoicebutton').style.display = 'none';
 
-        const script = document.createElement('script');
-        script.setAttribute('src', 'http://localhost:7050/payframe/payframe.js');
-        script.setAttribute('class', 'rbkmoney-checkout');
-        script.setAttribute('data-key', window.publicKey);
-        script.setAttribute('data-invoice-id', invoice.id);
-        script.setAttribute('data-order-id', '1');
-        script.setAttribute('data-amount', String(Number(invoice.amount) / 100));
-        script.setAttribute('data-currency', invoice.currency);
-        script.setAttribute('data-endpoint-init', 'http://localhost:8001/init');
-        script.setAttribute('data-endpoint-events', 'http://localhost:8001/events');
-        script.setAttribute('data-endpoint-success', 'http://localhost:8000/integrations/trynow');
-        script.setAttribute('data-endpoint-failed', 'http://localhost:8000/integrations/trynow');
-        script.setAttribute('data-name', 'Company name');
-        script.setAttribute('data-logo', 'http://127.0.0.1:7051/logo.png');
-        document.body.appendChild(script);
-    }
+            const script = document.createElement('script');
+            script.setAttribute('src', 'http://localhost:7050/payframe/payframe.js');
+            script.setAttribute('class', 'rbkmoney-checkout');
+            script.setAttribute('data-key', publicKey);
+            script.setAttribute('data-invoice-id', invoice.id);
+            script.setAttribute('data-order-id', '1');
+            script.setAttribute('data-amount', String(Number(invoice.amount) / 100));
+            script.setAttribute('data-currency', invoice.currency);
+            script.setAttribute('data-endpoint-init', 'http://localhost:8001/init');
+            script.setAttribute('data-endpoint-events', 'http://localhost:8001/events');
+            script.setAttribute('data-endpoint-success', 'http://localhost:8000/integrations/trynow');
+            script.setAttribute('data-endpoint-failed', 'http://localhost:8000/integrations/trynow');
+            script.setAttribute('data-name', 'Company name');
+            script.setAttribute('data-logo', 'http://127.0.0.1:7051/logo.png');
+            document.body.appendChild(script);
+        }
+
+        window.getInvoiceId = getInvoiceId;
+
+        makeRequest('GET', 'http://localhost:7051/settings', null, function(result) {
+            publicKey = result.publicKey;
+        }, true);
+    })();
 </script>
 
-<input id="invoicebutton" type="button" value="get InvoiceId" onclick="getInvoiceId()" style="
-    display: block;
-    width: 100px;
-    height: 40px;
-    border: 1px solid black;
-    border-radius: 2px;
-    padding: 3px;
-">
+<input id="invoicebutton" type="button" value="get InvoiceId" onclick="getInvoiceId()">
 
 </body>
 </html>

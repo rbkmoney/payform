@@ -7,6 +7,7 @@ const router = express.Router();
 const paymentFailedEvents = require('./responses/paymentFailedEvents');
 const paymentSuccessEvents = require('./responses/paymentSuccessEvents');
 const paymentInteractionEvents = require('./responses/paymentInteractionEvents');
+const settings = require('./settings.json');
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'PUT');
@@ -48,6 +49,8 @@ router.route('/events_endpoint').get((req, res) => {
 router.route('/success_endpoint').post((req, res) => res.send('success'));
 
 router.route('/failed_endpoint').post((req, res) => res.send('failed'));
+
+router.route('/settings').get((req, res) => res.send(settings));
 
 app.use('/', router);
 
