@@ -38,11 +38,13 @@ export default class Iframe {
     enable3DS() {
         this.element.style.borderRadius = '6px';
         this.element.style.boxShadow = '0 12px 30px 0 rgba(0,0,0,.6)';
+        this.element.style.backgroundColor = '#FFFFFF';
     }
 
     disable3DS() {
         this.element.style.borderRadius = '0';
         this.element.style.boxShadow = 'none';
+        this.element.style.backgroundColor = '';
     }
 
     getName() {
