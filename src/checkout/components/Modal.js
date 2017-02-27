@@ -28,6 +28,11 @@ class Modal extends React.Component {
         }
     }
 
+    handleError(error) {
+        StateWorker.flush();
+        ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
+    }
+
     componentDidMount() {
         this.isInProcess = false;
         this.isProcessSuccess = false;
@@ -49,9 +54,10 @@ class Modal extends React.Component {
                 if (result.type === 'success') {
                     this.handleSuccess(result);
                 } else {
-                    StateWorker.flush();
-                    ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
+                    this.handleError(result);
                 }
+            }, error => {
+                this.handleError(error);
             });
         }
         this.forceUpdate();

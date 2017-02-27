@@ -20,6 +20,7 @@ export default class Form3ds {
             this.element.appendChild(formParam);
         });
         this.element.setAttribute('target', '_self');
+        this.element.style.visibility = 'hidden';
     }
 
     render() {

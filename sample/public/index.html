@@ -79,8 +79,8 @@
                 script.setAttribute('data-currency', invoice.currency);
                 script.setAttribute('data-endpoint-init', 'http://localhost:8001/init');
                 script.setAttribute('data-endpoint-events', 'http://localhost:8001/events');
-                script.setAttribute('data-endpoint-success', 'http://localhost:8000/integrations/trynow');
-                script.setAttribute('data-endpoint-failed', 'http://localhost:8000/integrations/trynow');
+                script.setAttribute('data-endpoint-success', 'http://localhost:8000/success');
+                script.setAttribute('data-endpoint-failed', 'http://localhost:8000/error');
                 script.setAttribute('data-name', 'Company name');
                 script.setAttribute('data-logo', 'http://127.0.0.1:7051/logo.png');
                 document.body.appendChild(script);
