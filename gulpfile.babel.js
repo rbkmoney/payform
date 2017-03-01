@@ -5,7 +5,6 @@ import babelify from 'babelify';
 import source from 'vinyl-source-stream';
 import eslint from 'gulp-eslint';
 import livereload from 'gulp-livereload';
-import nodemon from 'gulp-nodemon';
 import concat from 'gulp-concat';
 
 const config = {
@@ -81,18 +80,6 @@ gulp.task('runPayform', () => {
     });
 });
 
-gulp.task('runSample', () => {
-    let started = false;
-    return nodemon({
-        script: 'sample/backend.js'
-    }).on('start', () => {
-        if (!started) {
-            cb();
-            started = true;
-        }
-    });
-});
-
 gulp.task('watch', () => {
     livereload.listen();
     gulp.watch('src/**/*.js', ['bundleCheckout', 'bundlePayframe']);
@@ -104,5 +91,5 @@ gulp.task('watch', () => {
 
 gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'copyCheckoutStyles',
     'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
-gulp.task('develop', ['watch', 'runPayform', 'runSample', 'build']);
+gulp.task('develop', ['watch', 'runPayform', 'build']);
 gulp.task('default', ['build']);

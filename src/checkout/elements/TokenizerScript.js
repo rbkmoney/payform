@@ -1,13 +1,9 @@
-import ConfigLoader from '../loaders/ConfigLoader';
-
 export default class TokenizerScript {
 
-    constructor() {
+    constructor(tokenizerEndpoint) {
         const script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
-        ConfigLoader.load().then(config => {
-            script.setAttribute('src', `${config.tokenizerUrl}/tokenizer.min.js`);
-        });
+        script.setAttribute('src', `${tokenizerEndpoint}/tokenizer.js`);
         this.element = script;
     }
 
