@@ -3,26 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        #invoiceButton {
+            display: block;
+            width: 100px;
+            height: 40px;
+            border: 1px solid black;
+            border-radius: 2px;
+            padding: 3px;
+        }
+    </style>
+
+    <script>
+        (function(){
+            let publicKey = '';
+
+            function makeRequest(method, url, body, onSuccess, sync) {
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if(request.readyState === 4 && request.status >= 200 && request.status < 300) {
+                        let result =  JSON.parse(request.responseText);
+                        onSuccess(result);
+                    }
+                };
+                request.open(method, url, !sync);
+                request.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+                request.send(body ? JSON.stringify(body) : null);
+            }
+
+            function getDueDate(date) {
+                const checkFormat = (input) => {
+                    let formatted = String(input);
+                    if(formatted.length < 2) {
+                        formatted = '0' + formatted;
+                    }
+                    return formatted;
+                };
+
+                const year = date.getFullYear();
+                const month = checkFormat(date.getMonth() + 1);
+                const day = checkFormat(date.getDate() + 1);
+                const hours = checkFormat(date.getHours());
+                const minutes = checkFormat(date.getMinutes());
+                const seconds = checkFormat(date.getSeconds());
+
+                return year + '-' + month + '-' + day + 'T' + hours + ':' + minutes + ':' + seconds + 'Z';
+            }
+
+            function getInvoice() {
+                const invoiceArgs = {
+                    shopID: 1,
+                    amount: 10000,
+                    currency: 'RUB',
+                    dueDate: getDueDate(new Date()),
+                    product: 'test',
+                    description: 'test',
+                    metadata: {}
+                };
+
+                makeRequest('POST', 'http://localhost:8001/invoice', invoiceArgs, function(invoice) {
+                    document.getElementById('invoiceButton').style.display = 'none';
+                    initPayButton(invoice);
+                });
+            }
+
+            function initPayButton(invoice) {
+                const script = document.createElement('script');
+                script.setAttribute('src', 'http://localhost:7050/payframe/payframe.js');
+                script.setAttribute('class', 'rbkmoney-checkout');
+                script.setAttribute('data-key', publicKey);
+                script.setAttribute('data-invoice-id', invoice.id);
+                script.setAttribute('data-order-id', '1');
+                script.setAttribute('data-amount', String(Number(invoice.amount) / 100));
+                script.setAttribute('data-currency', invoice.currency);
+                script.setAttribute('data-endpoint-init', 'http://localhost:8001/init');
+                script.setAttribute('data-endpoint-events', 'http://localhost:8001/events');
+                script.setAttribute('data-endpoint-success', 'http://localhost:8000/success');
+                script.setAttribute('data-endpoint-failed', 'http://localhost:8000/error');
+                script.setAttribute('data-name', 'Company name');
+                script.setAttribute('data-logo', 'http://127.0.0.1:7051/logo.png');
+                document.body.appendChild(script);
+            }
+
+            makeRequest('GET', 'http://localhost:7051/settings', null, function(result) {
+                publicKey = result.publicKey;
+            }, true);
+
+            window.getInvoice = getInvoice;
+        })();
+    </script>
 </head>
 <body>
 
-<script src="http://127.0.0.1:7050/payframe/payframe.js" class="rbkmoney-checkout"
-        data-key="eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJUdEZzelc3NDB2NTQ1MThVUVg1MGNnczN1U2pCSXkxbDdGcDVyMHdmYzFrIn0.eyJqdGkiOiJiNGFhOTg3Yy0xMTVjLTRjNjgtYWJiNi1mZTY5NTM1MTFlMDIiLCJleHAiOjAsIm5iZiI6MCwiaWF0IjoxNDgxMjAzNjMwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvZXh0ZXJuYWwiLCJhdWQiOiJ0b2tlbml6ZXIiLCJzdWIiOiI0ZDEyZDIxMy1lZTVlLTRlYTMtODZhNi0wNzlmNmQ0Mzc1YTEiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoidG9rZW5pemVyIiwibm9uY2UiOiIxZDA1Y2ZlMi1jNDE4LTQwYTAtODFkNS04MmZlMmEzNGM2ZjAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxNDI0M2E4OS04OWQ2LTQ0NmUtYjU4My05ZjlhMGViOGJlNWQiLCJjbGllbnRfc2Vzc2lvbiI6IjI2ZGMwN2IxLWEzZDAtNGIyYi04YThlLWFmYTg2YjY3ZDQxMCIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvbW1vbi1hcGkiOnsicm9sZXMiOlsicGF5bWVudF90b29sX3Rva2VuczpjcmVhdGUiXX19fQ.Wh-4NNr3JZmGOFgo4BEMnRWkm9aTTzB9a_m1W9LYnytNxKFsD_NLud61SgMrRiMi--gJgenRX-7yL2j43luGUAqjjaxrGNeh7E31QtHKAVnOYOZXr2Z15Nyc43smwlJ4liDE-Ov3ZbPxr_tg8V5AVnjeyMzydLNFRdIPQdRxPt9U2vSV8xBPPfNu3R_FJwD1mJkrPqwRdexF3g6g-XqqOv-4F8M34P6GO49Pm-mx5P_2wfT6ZUZAM-g8VpVvU5vByzPr8eS2PrKIVRhy-9xCYYVYijraUirZp0HFilJz7qUSgWntItwAn59m8ujeexAWImgtCDaT3Pw2CaubsZ8DIQ"
-        data-invoice-id="e213ed1"
-
-        data-order-id="1"
-
-        data-endpoint-init="http://127.0.0.1:7051/init_endpoint"
-        data-endpoint-events="http://127.0.0.1:7051/events_endpoint"
-        data-endpoint-success="http://127.0.0.1:7051/success_endpoint"
-        data-endpoint-failed="http://127.0.0.1:7051/failed_endpoint"
-
-        data-amount="7,700"
-        data-currency="Р"
-        data-logo="http://127.0.0.1:7051/logo.png"
-        data-button-color="rgb(39, 136, 181)"
-        data-name="Company name">
-</script>
+    <input id="invoiceButton" type="button" value="get Invoice" onclick="getInvoice()">
 
 </body>
 </html>

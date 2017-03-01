@@ -1,4 +1,5 @@
 import URITemplate from 'urijs/src/URITemplate';
+import ParentCommunicator from '../../communication/ParentCommunicator';
 
 export default class Form3ds {
 
@@ -18,7 +19,8 @@ export default class Form3ds {
             }
             this.element.appendChild(formParam);
         });
-        this.element.setAttribute('target', '_top');
+        this.element.setAttribute('target', '_self');
+        this.element.style.visibility = 'hidden';
     }
 
     render() {
@@ -26,6 +28,9 @@ export default class Form3ds {
     }
 
     submit(timeout) {
-        setTimeout(() => this.element.submit(), timeout);
+        setTimeout(() => {
+            ParentCommunicator.send({type: 'start3ds'});
+            this.element.submit();
+        }, timeout);
     }
 }
