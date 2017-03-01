@@ -14,7 +14,7 @@ export default class InitScript {
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
-            key: dataSet.key,
+            accessToken: dataSet.accessToken,
             invoiceId: dataSet.invoiceId,
             orderId: dataSet.orderId,
             endpointInit: dataSet.endpointInit,
@@ -24,7 +24,7 @@ export default class InitScript {
             endpointFailedMethod: dataSet.endpointFailedMethod,
             endpointSuccessMethod: dataSet.endpointSuccessMethod,
             buttonColor: dataSet.buttonColor,
-            logo: dataSet.logo,
+            logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
             amount: dataSet.amount,
             currency: dataSet.currency

@@ -8,6 +8,7 @@ import Utils from '../utils/Utils';
 import Modal from './components/Modal';
 import StateWorker from './state/StateWorker';
 import ParentCommunicator from '../communication/ParentCommunicator';
+import ConfigLoader from './loaders/ConfigLoader';
 
 ready(function () {
     const styleLink = new StyleLink();
@@ -17,23 +18,27 @@ ready(function () {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
-        ReactDOM.render(
-            <Modal publicKey={data.key}
-                   endpointInit={data.endpointInit}
-                   endpointEvents={data.endpointEvents}
-                   invoiceId={data.invoiceId}
-                   orderId={data.orderId}
-                   logo={data.logo}
-                   amount={data.amount}
-                   currency={data.currency}
-                   buttonColor={data.buttonColor}
-                   name={data.name}
-                   locationHost={data.locationHost}
-                   payformHost={data.payformHost}
-                   isResume={isResumed}
-            />,
-            document.getElementById('root')
-        );
+        ConfigLoader.load().then((config) => {
+            ReactDOM.render(
+                <Modal accessToken={data.accessToken}
+                       capiEndpoint={config.capiEndpoint}
+                       tokenizerEndpoint={config.tokenizerEndpoint}
+                       endpointInit={data.endpointInit}
+                       endpointEvents={data.endpointEvents}
+                       invoiceId={data.invoiceId}
+                       orderId={data.orderId}
+                       logo={data.logo}
+                       amount={data.amount}
+                       currency={data.currency}
+                       buttonColor={data.buttonColor}
+                       name={data.name}
+                       locationHost={data.locationHost}
+                       payformHost={data.payformHost}
+                       isResume={isResumed}
+                />,
+                document.getElementById('root')
+            );
+        });
     }
 
     function checkPayformState() {

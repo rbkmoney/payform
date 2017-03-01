@@ -28,7 +28,7 @@ class Modal extends React.Component {
         }
     }
 
-    handleError(error) {
+    handleError() {
         StateWorker.flush();
         ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
     }
@@ -36,7 +36,7 @@ class Modal extends React.Component {
     componentDidMount() {
         this.isInProcess = false;
         this.isProcessSuccess = false;
-        const tokenizerScript = new TokenizerScript();
+        const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
         tokenizerScript.render()
             .catch(() => {
                 this.isPayButtonDisabled = true;
@@ -47,9 +47,9 @@ class Modal extends React.Component {
         if (this.props.isResume) {
             this.isInProcess = true;
             Processing.pollEvents({
-                endpointEvents: this.props.endpointEvents,
                 invoiceId: this.props.invoiceId,
-                orderId: this.props.orderId
+                accessToken: this.props.accessToken,
+                capiEndpoint: this.props.capiEndpoint
             }).then(result => {
                 if (result.type === 'success') {
                     this.handleSuccess(result);
@@ -69,22 +69,21 @@ class Modal extends React.Component {
         this.forceUpdate();
         Processing.process({
             tokenizer: window.Tokenizer,
-            publicKey: this.props.publicKey,
+            accessToken: this.props.accessToken,
+            invoiceId: this.props.invoiceId,
+            capiEndpoint: this.props.capiEndpoint,
+            tokenizerEndpoint: this.props.tokenizerEndpoint,
             cardHolder: formData.cardHolder,
             cardNumber: formData.cardNumber,
             cardExpire: formData.cardExpire,
             email: formData.email,
-            cardCvv: formData.cardCvv,
-            endpointInit: this.props.endpointInit,
-            endpointEvents: this.props.endpointEvents,
-            invoiceId: this.props.invoiceId,
-            orderId: this.props.orderId
+            cardCvv: formData.cardCvv
         }).then(result => {
             if (result.type === 'success') {
                 this.handleSuccess(result);
             } else if (result.type === 'interact') {
                 StateWorker.init3DS(this.props.invoiceId);
-                const redirectUrl = `${this.props.payformHost}/checkout/checkout.html`; //TODO fix?
+                const redirectUrl = `${this.props.payformHost}/checkout/checkout.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit(settings.closeFormTimeout);

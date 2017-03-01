@@ -33,7 +33,6 @@
     "gulp-connect": "^5.0.0",
     "gulp-eslint": "^3.0.1",
     "gulp-livereload": "^3.8.1",
-    "gulp-nodemon": "^2.1.0",
     "gulp-pug": "^3.1.0",
     "vinyl-source-stream": "^1.1.0"
   }

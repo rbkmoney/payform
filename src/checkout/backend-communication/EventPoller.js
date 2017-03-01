@@ -1,13 +1,14 @@
 import settings from '../../settings';
+import guid from '../utils/guid';
 
 export default class EventPoller {
 
-    static pollEvents(endpointUrl, invoiceId, orderId) {
+    static pollEvents(capiEndpoint, invoiceID, accessToken) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
                 setTimeout(() => {
-                    self.requestToEndpoint(endpointUrl, invoiceId, orderId).then(events => {
+                    self.requestToEndpoint(capiEndpoint, invoiceID, accessToken).then(events => {
                         const event = self.getLastEvent(events);
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
@@ -42,13 +43,14 @@ export default class EventPoller {
         return result;
     }
 
-    static requestToEndpoint(endpointUrl, invoiceId, orderId) {
+    static requestToEndpoint(capiEndpoint, invoiceID, accessToken) {
         return new Promise((resolve, reject) => {
-            fetch(`${endpointUrl}?invoiceId=${invoiceId}&orderId=${orderId}`, {
+            fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=100`, { // TODO fix limit count
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'X-Request-ID': guid()
                 }
             }).then(response => {
                 if (response.status >= 200 && response.status < 300) {

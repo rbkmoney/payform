@@ -5,15 +5,20 @@ build('payform', 'docker-host') {
   loadBuildUtils()
 
   def pipeDefault
+  def withWsCache
   runStage('load pipeline') {
     env.JENKINS_LIB = "build_utils/jenkins_lib"
     pipeDefault = load("${env.JENKINS_LIB}/pipeDefault.groovy")
+    withWsCache = load("${env.JENKINS_LIB}/withWsCache.groovy")
   }
 
   pipeDefault() {
-    //ToDo: npm stuff should be in a cache, when caching is implemented!
     runStage('init') {
-      sh 'make wc_init'
+      withGithubSshCredentials {
+        withWsCache("node_modules") {
+          sh 'make wc_init'
+        }
+      }
     }
     runStage('build') {
       sh 'make wc_build'

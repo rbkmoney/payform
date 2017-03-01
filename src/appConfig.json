@@ -1,3 +1,4 @@
 {
-  "tokenizerUrl": "http://rbkmoney.test:8080"
+  "tokenizerEndpoint": "http://localhost:7000",
+  "capiEndpoint": "http://api.rbk.test:8080"
 }
