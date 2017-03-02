@@ -8,8 +8,8 @@ export default {
     margin: '0px',
     padding: '0px',
     position: 'fixed',
-    left: '5%',
-    top: '5%',
-    width: '90%',
-    height: '90%'
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%'
 };
