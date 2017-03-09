@@ -13,7 +13,7 @@
 ```html
 <script src="https://checkout.rbk.money/payframe/payframe.js" class="rbkmoney-checkout"
         data-invoice-id="string"
-        data-access-token="string"
+        data-invoice-access-token="string"
         data-endpoint-success="https://<your-server-side>"
         data-endpoint-success-method="GET"
         data-endpoint-failed="https://<your-server-side>"
@@ -27,15 +27,15 @@
 ### Описание data-* атрибутов
 | data-* атрибут           | Описание                                              | Обязательный | Возможные значения           |
 | :----------------------: | ----------------------------------------------------- | :-----------:| :---------------------------:|
-| invoice id               | Идентификатор инвойса                                 | ✓            | string                       |
-| access token             | Токен для доступа к указанному инвойсу                | ✓            | string                       |
+| invoice id               | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                   |
+| invoice access token     | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...         |
 | endpoint success         | URL для отправки запроса в случае успешного платежа   |              | `https://<your-server-side>` |
 | endpoint success method  | Тип Http метода для endpoint success                  |              | GET, POST (по умолчанию)     |
 | endpoint failed          | URL для отправки запроса в случае неуспешного платежа |              | `https://<your-server-side>` |
 | endpoint failed method   | Тип Http метода для endpoint failed                   |              | GET, POST (по умолчанию)     |
-| name                     | Метка для задания именования формы                    |              | string                       |
-| access amount            | Метка для вывода стоимости платежа                    |              | string                       |
-| access currency          | Метка для вывода валюты                               |              | string                       |
-| access logo              | URL для задания логотипа                              |              | `https://<your-server-side>` |
+| name                     | Метка для задания именования формы                    |              | Company name                 |
+| amount                   | Метка для вывода стоимости платежа                    |              | 7000                         |
+| currency                 | Метка для вывода валюты                               |              | P                            |
+| logo                     | URL для задания логотипа                              |              | `https://<your-server-side>` |
 
 Примечание. Запросы на endpoint success, endpoint failed отправляются с `"Content-Type": "x-form-urlencoded"`.

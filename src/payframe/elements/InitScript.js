@@ -14,7 +14,7 @@ export default class InitScript {
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
-            accessToken: dataSet.accessToken,
+            accessToken: dataSet.invoiceAccessToken,
             invoiceId: dataSet.invoiceId,
             orderId: dataSet.orderId,
             endpointInit: dataSet.endpointInit,
