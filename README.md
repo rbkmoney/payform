@@ -34,8 +34,8 @@
 | endpoint failed          | URL для отправки запроса в случае неуспешного платежа |              | `https://<your-server-side>` |
 | endpoint failed method   | Тип Http метода для endpoint failed                   |              | GET, POST (по умолчанию)     |
 | name                     | Метка для задания именования формы                    |              | Company name                 |
-| access amount            | Метка для вывода стоимости платежа                    |              | 7000                         |
-| access currency          | Метка для вывода валюты                               |              | P                            |
-| access logo              | URL для задания логотипа                              |              | `https://<your-server-side>` |
+| amount                   | Метка для вывода стоимости платежа                    |              | 7000                         |
+| currency                 | Метка для вывода валюты                               |              | P                            |
+| logo                     | URL для задания логотипа                              |              | `https://<your-server-side>` |
 
 Примечание. Запросы на endpoint success, endpoint failed отправляются с `"Content-Type": "x-form-urlencoded"`.
