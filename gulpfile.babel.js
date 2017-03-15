@@ -89,7 +89,16 @@ gulp.task('watch', () => {
     gulp.watch('src/appConfig.json', ['copyConfig']);
 });
 
+gulp.task('newRun', () => {
+    connect.server({
+        root: 'new-markup',
+        host: '127.0.0.1',
+        port: 7050
+    });
+});
+
 gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'copyCheckoutStyles',
     'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'build']);
 gulp.task('default', ['build']);
+gulp.task('new', ['newRun']);
