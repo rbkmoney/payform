@@ -23,7 +23,6 @@ export default class InitScript {
             endpointSuccess: dataSet.endpointSuccess,
             endpointFailedMethod: dataSet.endpointFailedMethod,
             endpointSuccessMethod: dataSet.endpointSuccessMethod,
-            buttonColor: dataSet.buttonColor,
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
             amount: dataSet.amount,

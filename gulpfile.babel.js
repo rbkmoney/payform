@@ -8,6 +8,8 @@ import livereload from 'gulp-livereload';
 import concat from 'gulp-concat';
 import sass from 'gulp-sass';
 import rename from 'gulp-rename';
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer';
 
 const config = {
     dist: 'dist',
@@ -51,6 +53,7 @@ gulp.task('copyIndex', () => {
 
 gulp.task('copyPayframeStyles', () => {
     return gulp.src('src/payframe/payframe.css')
+        .pipe(postcss([autoprefixer]))
         .pipe(gulp.dest(config.payframeDist))
         .pipe(livereload());
 });
