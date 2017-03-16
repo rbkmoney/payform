@@ -6,6 +6,8 @@ import source from 'vinyl-source-stream';
 import eslint from 'gulp-eslint';
 import livereload from 'gulp-livereload';
 import concat from 'gulp-concat';
+import sass from 'gulp-sass';
+import rename from 'gulp-rename';
 
 const config = {
     dist: 'dist',
@@ -89,6 +91,18 @@ gulp.task('watch', () => {
     gulp.watch('src/appConfig.json', ['copyConfig']);
 });
 
+gulp.task('sass', function () {
+    return gulp.src('./new-markup/**/checkout.scss')
+        .pipe(sass())
+        .pipe(rename('checkout.css'))
+        .pipe(gulp.dest('./new-markup'))
+        .pipe(livereload());
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('./new-markup/**/*.scss', ['sass']);
+});
+
 gulp.task('newRun', () => {
     connect.server({
         root: 'new-markup',
@@ -101,4 +115,4 @@ gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'co
     'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'build']);
 gulp.task('default', ['build']);
-gulp.task('new', ['newRun']);
+gulp.task('new', ['sass:watch', 'newRun']);
