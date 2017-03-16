@@ -6,6 +6,10 @@ import source from 'vinyl-source-stream';
 import eslint from 'gulp-eslint';
 import livereload from 'gulp-livereload';
 import concat from 'gulp-concat';
+import sass from 'gulp-sass';
+import rename from 'gulp-rename';
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer';
 
 const config = {
     dist: 'dist',
@@ -49,6 +53,7 @@ gulp.task('copyIndex', () => {
 
 gulp.task('copyPayframeStyles', () => {
     return gulp.src('src/payframe/payframe.css')
+        .pipe(postcss([autoprefixer]))
         .pipe(gulp.dest(config.payframeDist))
         .pipe(livereload());
 });
@@ -89,7 +94,28 @@ gulp.task('watch', () => {
     gulp.watch('src/appConfig.json', ['copyConfig']);
 });
 
+gulp.task('sass', function () {
+    return gulp.src('./new-markup/**/checkout.scss')
+        .pipe(sass())
+        .pipe(rename('checkout.css'))
+        .pipe(gulp.dest('./new-markup'))
+        .pipe(livereload());
+});
+
+gulp.task('sass:watch', function () {
+    gulp.watch('./new-markup/**/*.scss', ['sass']);
+});
+
+gulp.task('newRun', () => {
+    connect.server({
+        root: 'new-markup',
+        host: '127.0.0.1',
+        port: 7050
+    });
+});
+
 gulp.task('build', ['lint', 'bundlePayframe', 'bundleCheckout', 'copyIndex', 'copyCheckoutStyles',
     'copyPayframeStyles', 'copyCheckoutImages', 'copyConfig']);
 gulp.task('develop', ['watch', 'runPayform', 'build']);
 gulp.task('default', ['build']);
+gulp.task('new', ['sass:watch', 'newRun']);

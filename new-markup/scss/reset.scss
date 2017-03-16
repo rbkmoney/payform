@@ -1,0 +1,89 @@
+html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+*, :after, :before {
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+body {
+    font: 400 12px/16px Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+a {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: none;
+}
+a:active, a:hover {
+    outline-width: 0;
+}
+svg:not(:root) {
+    overflow: hidden;
+}
+html [type=button],
+button,
+[type=reset],
+[type=submit] {
+    -webkit-appearance: button;
+}
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner,
+button::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring,
+button:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+[type=checkbox],
+[type=radio] {
+    box-sizing: border-box;
+    padding: 0;
+}
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+    height: auto;
+}
+[type=search] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
+[type=search]::-webkit-search-cancel-button,
+[type=search]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+::-webkit-input-placeholder {
+    color: inherit;
+    opacity: .54;
+}
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+input, select {
+    width: 100%;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    background: none;
+    text-transform: none;
+}
+input::-ms-clear {
+    display: none
+}

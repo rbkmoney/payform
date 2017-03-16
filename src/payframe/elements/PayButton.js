@@ -1,15 +1,10 @@
 import settings from '../../settings';
 
 export default class PayButton {
-    constructor(text, color) {
-        const span = document.createElement('span');
-        span.innerHTML = text;
-        if (color) {
-            span.style.background = color;
-        }
+    constructor(text) {
         const button = document.createElement('button');
         button.className = 'rbkmoney-button';
-        button.appendChild(span);
+        button.innerHTML = text;
         this.element = button;
     }
 
