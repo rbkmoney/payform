@@ -293,7 +293,7 @@ input::-ms-clear {
     top: 6px;
     width: 25px;
     height: 25px;
-    background: url('images/modal-close@2x.png') 4px 4px no-repeat;
+    background: url('../images/modal-close@2x.png') 4px 4px no-repeat;
     background-size: 17px;
     cursor: pointer;
     z-index: 100;
@@ -337,7 +337,7 @@ input::-ms-clear {
     bottom: 0;
     left: 0;
     right: 0;
-    background: url('./images/logo-overlay@2x.png') no-repeat;
+    background: url('../images/logo-overlay@2x.png') no-repeat;
     background-size: contain;
     margin: -5px;
 }
