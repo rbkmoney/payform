@@ -27,7 +27,7 @@ module.exports = {
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 loaders: [
-                    'file-loader?context=src&name=./dist/[path][name].[ext]',
+                    'file-loader?context=src&name=../dist/[path][name].[ext]',
                     {
                         loader: 'image-webpack-loader',
                         query: {
