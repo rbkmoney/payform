@@ -18,7 +18,7 @@ module.exports = {
             { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' },
             { test: /\.(js|jsx)$/, use: 'babel-loader' },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: ExtractTextPlugin.extract({
                     use: [
                         { loader: "css-loader" },
