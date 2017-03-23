@@ -97,18 +97,19 @@ class Modal extends React.Component {
     }
 
     render() {
-        return <div className="modal">
-            <div className="modal--container">
-                <ModalClose/>
-                <div className="modal--body">
-                    <div className="payform">
-                        <div className="payform--header">
-                            <div className="payform--logo">
-                                <Logo logoUrl={this.props.logo}/>
-                            </div>
-                            <div className="payform--company-name">{this.props.name}</div>
+        return (
+            <div className="checkout">
+                <div className="checkout--overlay" />
+                <div className="checkout--container">
+                    <div className="checkout--header">
+                        <ModalClose />
+                        <Logo logoUrl={this.props.logo}/>
+                        <div className="checkout--company-name">
+                            {this.props.name}
                         </div>
-                        <div className="payform--form">
+                    </div>
+                    <div className="checkout--body">
+                        <div className="payform">
                             <Spinner isShow={this.isInProcess}/>
                             <Checkmark isShow={this.isProcessSuccess}/>
                             <Payform isShow={!this.isInProcess && !this.isProcessSuccess}
@@ -123,7 +124,7 @@ class Modal extends React.Component {
                     </div>
                 </div>
             </div>
-        </div>
+        );
     }
 }
 

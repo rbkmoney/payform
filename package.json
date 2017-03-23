@@ -34,6 +34,7 @@
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "image-webpack-loader": "^3.2.0",
+    "node-sass": "^4.5.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.15.0",
     "webpack": "^2.2.1",

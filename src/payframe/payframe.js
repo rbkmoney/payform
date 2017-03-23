@@ -1,4 +1,4 @@
-import './payframe.css';
+import './payframe.scss';
 import Iframe from './elements/Iframe';
 import PayButton from './elements/PayButton';
 import StyleLink from './elements/StyleLink';

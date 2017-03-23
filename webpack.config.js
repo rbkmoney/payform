@@ -18,10 +18,14 @@ module.exports = {
             { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'eslint-loader' },
             { test: /\.(js|jsx)$/, use: 'babel-loader' },
             {
-                test: /\.(css|scss)$/,
+                test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader'
+                    use: [
+                        { loader: "css-loader" },
+                        { loader: "sass-loader" }
+                    ],
+                    fallback: 'style-loader'
+
                 })
             },
             {
