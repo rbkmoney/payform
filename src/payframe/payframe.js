@@ -10,30 +10,22 @@ import ready from '../utils/domReady';
 import processingCallback from './callbacks/processingCallback';
 
 ready(function () {
+    const RbkmoneyCheckout = {
+        config: {}
+    };
+
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
     const styles = new StyleLink(payformHost);
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const params = initScript.getParams();
+    const payButton = new PayButton('Pay with RBKmoney');
 
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href),
         payformHost: payformHost
     });
-
-    const payButton = new PayButton('Pay with RBKmoney');
-    payButton.onclick = () => {
-        communicator.send({
-            type: 'init-payform',
-            data: params
-        });
-        iframe.show();
-    };
-    payButton.render();
-
-    styles.render();
-    iframe.render();
 
     Listener.addListener(message => {
         switch (message.type) {
@@ -61,9 +53,43 @@ ready(function () {
         communicator.send({type: 'unload'});
     });
 
+    function open() {
+        communicator.send({
+            type: 'init-payform',
+            data: params
+        });
+        iframe.show();
+
+        RbkmoneyCheckout.config.opened ? RbkmoneyCheckout.config.opened() : false;
+    }
+
     function close() {
         iframe.hide();
         iframe.destroy();
         iframe.render();
+
+        RbkmoneyCheckout.config.closed ? RbkmoneyCheckout.config.closed() : false;
     }
+    
+    RbkmoneyCheckout.open = function() {
+        open();
+    };
+
+    RbkmoneyCheckout.close = function() {
+        close();
+    };
+
+    
+    RbkmoneyCheckout.configure = function(config) {
+        RbkmoneyCheckout.config = Object.assign(params, config);
+    };
+
+
+    payButton.onclick = open;
+    payButton.render();
+
+    styles.render();
+    iframe.render();
+
+    window.RbkmoneyCheckout = RbkmoneyCheckout;
 });
