@@ -71,15 +71,10 @@ ready(function () {
         RbkmoneyCheckout.config.closed ? RbkmoneyCheckout.config.closed() : false;
     }
     
-    RbkmoneyCheckout.open = function() {
-        open();
-    };
+    RbkmoneyCheckout.open = () => open();
+    RbkmoneyCheckout.close = () => close();
 
-    RbkmoneyCheckout.close = function() {
-        close();
-    };
-
-    RbkmoneyCheckout.configure = function(config) {
+    RbkmoneyCheckout.configure = (config) => {
         RbkmoneyCheckout.config = Object.assign(params, config);
     };
 
