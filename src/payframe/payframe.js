@@ -79,15 +79,13 @@ ready(function () {
         close();
     };
 
-    
     RbkmoneyCheckout.configure = function(config) {
         RbkmoneyCheckout.config = Object.assign(params, config);
     };
 
-
     payButton.onclick = open;
-    payButton.render();
 
+    payButton.render();
     styles.render();
     iframe.render();
 
