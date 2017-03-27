@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 module.exports = {
     name: 'js',
@@ -48,12 +49,13 @@ module.exports = {
                 { from: './src/appConfig.json', to: './dist/' }
             ],
             { debug: 'warning' }
-        )
+        ),
+        new WriteFilePlugin()
+
     ],
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        hot: true,
         port: 7050
     }
 };
