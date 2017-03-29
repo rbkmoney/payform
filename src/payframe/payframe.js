@@ -46,7 +46,7 @@ ready(function () {
             case 'done':
                 close();
                 processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
-                formNode ? formNode.submit() : false;
+                formNode && formNode.action ? formNode.submit() : false;
                 break;
             case 'error':
                 close();
