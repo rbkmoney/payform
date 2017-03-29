@@ -21,6 +21,7 @@
         flex-direction: column;
 
         @include responsive(sm) {
+            display: block;
             height: auto;
             width: auto;
             background: $white;

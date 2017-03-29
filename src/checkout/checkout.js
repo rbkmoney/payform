@@ -6,7 +6,7 @@ import StyleLink from './elements/StyleLink';
 import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
-import Modal from './components/Modal';
+import Checkout from './components/Checkout';
 import StateWorker from './state/StateWorker';
 import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
@@ -21,7 +21,7 @@ ready(function () {
         }
         ConfigLoader.load().then((config) => {
             ReactDOM.render(
-                <Modal accessToken={data.accessToken}
+                <Checkout accessToken={data.accessToken}
                        capiEndpoint={config.capiEndpoint}
                        tokenizerEndpoint={config.tokenizerEndpoint}
                        endpointInit={data.endpointInit}

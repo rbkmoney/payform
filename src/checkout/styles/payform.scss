@@ -1,8 +1,9 @@
 .payform {
     padding: 20px 35px;
-    height: 100%;
-    position: absolute;
-    width: 100%;
+
+    @include responsive(sm) {
+        position: relative;
+    }
 
     input {
         width: 100%;

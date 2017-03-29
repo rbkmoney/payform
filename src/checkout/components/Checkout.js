@@ -11,7 +11,7 @@ import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import StateWorker from '../state/StateWorker';
 
-class Modal extends React.Component {
+class Checkout extends React.Component {
 
     constructor(props) {
         super(props);
@@ -128,4 +128,4 @@ class Modal extends React.Component {
     }
 }
 
-export default Modal;
+export default Checkout;

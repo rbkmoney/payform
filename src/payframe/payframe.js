@@ -30,6 +30,7 @@ ready(function () {
         });
         iframe.show();
     };
+
     payButton.render();
 
     styles.render();
