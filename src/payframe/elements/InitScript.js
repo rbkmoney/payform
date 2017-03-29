@@ -13,7 +13,7 @@ export default class InitScript {
 
     getFormNode() {
         let formNode = this.element.parentNode;
-        formNoe.nodeName === 'FORM' ? return formNode : return undefined;
+        return formNoe.nodeName === 'FORM' ? formNode : undefined;
     }
 
     getParams() {
