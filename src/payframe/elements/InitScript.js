@@ -11,6 +11,20 @@ export default class InitScript {
         }
     }
 
+    getFormNode() {
+        let formNode = this.element;
+
+        while (formNode.nodeName !== 'FORM') {
+            if (formNode.nodeName === 'BODY') {
+                return undefined;
+            }
+
+            formNode = formNode.parentNode;
+        }
+
+        return formNode;
+    }
+
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
