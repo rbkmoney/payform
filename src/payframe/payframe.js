@@ -8,6 +8,7 @@ import Listener from '../communication/Listener';
 import CheckoutCommunicator from '../communication/CheckoutCommunicator';
 import ready from '../utils/domReady';
 import processingCallback from './callbacks/processingCallback';
+import Invoice from './classes/invoice';
 
 ready(function () {
     const initScript = new InitScript();
@@ -16,13 +17,25 @@ ready(function () {
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const params = initScript.getParams();
+    const invoice = new Invoice(params);
+
+    invoice.getInfo()
+        .then((response) => {
+            Object.assign(params, {
+                currency: response.currency,
+                amount:  String(Number(response.amount) / 100)
+            });
+        },
+        error => console.error(error));
 
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href),
         payformHost: payformHost
     });
 
-    const payButton = new PayButton('Pay with RBKmoney');
+    const btnText = params.label ? params.label : 'Pay with RBKmoney';
+    const payButton = new PayButton(btnText);
+
     payButton.onclick = () => {
         communicator.send({
             type: 'init-payform',

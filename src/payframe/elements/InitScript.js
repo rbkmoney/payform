@@ -26,7 +26,8 @@ export default class InitScript {
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
             amount: dataSet.amount,
-            currency: dataSet.currency
+            currency: dataSet.currency,
+            label: dataSet.label
         }
     }
 
