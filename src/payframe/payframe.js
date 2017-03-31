@@ -19,7 +19,6 @@ ready(function () {
     const styles = new StyleLink(payformHost);
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
-    const payButton = new PayButton('Pay with RBKmoney');
     const formNode = initScript.getFormNode();
 
     Object.assign(params, {
