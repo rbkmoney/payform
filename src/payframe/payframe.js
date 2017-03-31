@@ -19,13 +19,27 @@ ready(function () {
     const styles = new StyleLink(payformHost);
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
-    const params = initScript.getParams();
     const payButton = new PayButton('Pay with RBKmoney');
+    const formNode = initScript.getFormNode();
 
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href),
         payformHost: payformHost
     });
+
+    const payButton = new PayButton(params.label);
+    payButton.onclick = (e) => {
+        e.preventDefault();
+        communicator.send({
+            type: 'init-payform',
+            data: params
+        });
+        iframe.show();
+    };
+    payButton.render();
+
+    styles.render();
+    iframe.render();
 
     Listener.addListener(message => {
         switch (message.type) {
@@ -35,6 +49,7 @@ ready(function () {
             case 'done':
                 close();
                 processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
+                formNode && formNode.action ? formNode.submit() : false;
                 break;
             case 'error':
                 close();
