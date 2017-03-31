@@ -22,7 +22,7 @@ ready(function () {
         payformHost: payformHost
     });
 
-    const payButton = new PayButton('Pay with RBKmoney');
+    const payButton = new PayButton(params.label);
     payButton.onclick = () => {
         communicator.send({
             type: 'init-payform',
