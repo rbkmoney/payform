@@ -16,6 +16,7 @@ ready(function () {
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const params = initScript.getParams();
+    const formNode = initScript.getFormNode();
 
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href),
@@ -23,7 +24,8 @@ ready(function () {
     });
 
     const payButton = new PayButton(params.label);
-    payButton.onclick = () => {
+    payButton.onclick = (e) => {
+        e.preventDefault();
         communicator.send({
             type: 'init-payform',
             data: params
@@ -43,6 +45,7 @@ ready(function () {
             case 'done':
                 close();
                 processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
+                formNode && formNode.action ? formNode.submit() : false;
                 break;
             case 'error':
                 close();
