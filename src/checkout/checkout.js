@@ -22,7 +22,7 @@ ready(function () {
         }
 
         ConfigLoader.load().then((config) => {
-            Invoice.getInvoice(data.accessToken, config.capiEndpoint, data.invoiceId)
+            Invoice.getInvoice(config.capiEndpoint, data.invoiceId, data.accessToken)
                 .then((response) => {
 
                     Object.assign(data, {
