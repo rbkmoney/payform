@@ -25,9 +25,7 @@ export default class InitScript {
             endpointSuccessMethod: dataSet.endpointSuccessMethod,
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
-            amount: dataSet.amount,
-            currency: dataSet.currency,
-            label: dataSet.label
+            label: dataSet.label || 'Pay with RBKmoney'
         }
     }
 

@@ -117,9 +117,10 @@ class Modal extends React.Component {
                                      errorMessage={this.errorMessage}
                                      isPayButtonDisabled={this.isPayButtonDisabled}
                                      isShowErrorPanel={this.isShowErrorPanel}
+                                     buttonColor={this.props.buttonColor}
                                      amount={this.props.amount}
                                      currency={this.props.currency}
-                                     buttonColor={this.props.buttonColor}/>
+                            />
                         </div>
                     </div>
                 </div>

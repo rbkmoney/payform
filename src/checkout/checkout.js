@@ -10,6 +10,7 @@ import Modal from './components/Modal';
 import StateWorker from './state/StateWorker';
 import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
+import Invoice from './backend-communication/Invoice';
 
 ready(function () {
     const styleLink = new StyleLink();
@@ -19,26 +20,37 @@ ready(function () {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
+
         ConfigLoader.load().then((config) => {
-            ReactDOM.render(
-                <Modal accessToken={data.accessToken}
-                       capiEndpoint={config.capiEndpoint}
-                       tokenizerEndpoint={config.tokenizerEndpoint}
-                       endpointInit={data.endpointInit}
-                       endpointEvents={data.endpointEvents}
-                       invoiceId={data.invoiceId}
-                       orderId={data.orderId}
-                       logo={data.logo}
-                       amount={data.amount}
-                       currency={data.currency}
-                       buttonColor={data.buttonColor}
-                       name={data.name}
-                       locationHost={data.locationHost}
-                       payformHost={data.payformHost}
-                       isResume={isResumed}
-                />,
-                document.getElementById('root')
-            );
+            Invoice.getInvoice(data.accessToken, config.capiEndpoint, data.invoiceId)
+                .then((response) => {
+
+                    Object.assign(data, {
+                        currency: response.currency,
+                        amount:  String(Number(response.amount) / 100)
+                    });
+
+                    ReactDOM.render(
+                        <Modal accessToken={data.accessToken}
+                               capiEndpoint={config.capiEndpoint}
+                               tokenizerEndpoint={config.tokenizerEndpoint}
+                               endpointInit={data.endpointInit}
+                               endpointEvents={data.endpointEvents}
+                               invoiceId={data.invoiceId}
+                               orderId={data.orderId}
+                               logo={data.logo}
+                               amount={data.amount}
+                               currency={data.currency}
+                               buttonColor={data.buttonColor}
+                               name={data.name}
+                               locationHost={data.locationHost}
+                               payformHost={data.payformHost}
+                               isResume={isResumed}
+                        />,
+                        document.getElementById('root')
+                    );
+                },
+                error => console.error(error));
         });
     }
 
