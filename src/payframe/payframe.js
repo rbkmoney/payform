@@ -20,6 +20,7 @@ ready(function () {
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
     const formNode = initScript.getFormNode();
+    const params = initScript.getParams();
 
     Object.assign(params, {
         locationHost: Utils.getOriginUrl(location.href),
@@ -29,14 +30,9 @@ ready(function () {
     const payButton = new PayButton(params.label);
     payButton.onclick = (e) => {
         e.preventDefault();
-        communicator.send({
-            type: 'init-payform',
-            data: params
-        });
-        iframe.show();
+        open();
     };
     payButton.render();
-
     styles.render();
     iframe.render();
 
