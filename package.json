@@ -20,6 +20,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "file-loader": "^0.11.0",
     "autoprefixer": "6.7.7",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
