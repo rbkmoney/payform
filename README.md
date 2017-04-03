@@ -37,6 +37,6 @@
 | amount                   | Метка для вывода стоимости платежа                    |              | 7000                         |
 | currency                 | Метка для вывода валюты                               |              | P                            |
 | logo                     | URL для задания логотипа                              |              | `https://<your-server-side>` |
-| label                    | Текст для кнопки                                      |              | 'Pay with RBKmoney'          |
+| label                    | Текст для кнопки                                      |              |  Pay with RBKmoney           |
 
 Примечание. Запросы на endpoint success, endpoint failed отправляются с `"Content-Type": "x-form-urlencoded"`.
