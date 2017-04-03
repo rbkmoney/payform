@@ -1,5 +1,4 @@
 export default {
-    zIndex: '9999',
     overflowX: 'hidden',
     overflowY: 'auto',
     visibility: 'visible',
