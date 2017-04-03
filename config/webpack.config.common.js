@@ -6,8 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     name: 'js',
     entry: {
-        '/dist/payframe/payframe': './src/payframe/payframe.js',
-        '/dist/checkout/checkout': './src/checkout/checkout.js'
+        '../dist/payframe/payframe': path.join(__dirname, '../src/payframe/payframe.js'),
+        '../dist/checkout/checkout': path.join(__dirname, '../src/checkout/checkout.js')
     },
     output: {
         filename: '[name].js',
@@ -27,33 +27,17 @@ module.exports = {
                     fallback: 'style-loader'
 
                 })
-            },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loaders: [
-                    'file-loader?context=./src/&name=/[path][name].[ext]'
-                ],
-                exclude: /node_modules/,
-                include: path.join(__dirname, 'src'),
             }
         ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin(),
         new ExtractTextPlugin({filename: '[name].css'}),
         new CopyWebpackPlugin(
             [
-                { from: './src/checkout/checkout.html', to: './dist/checkout/' },
-                { from: './src/checkout/images', to: './dist/checkout/images/' },
-                { from: './src/appConfig.json', to: './dist/' }
+                { from: './src/checkout/checkout.html', to: '../dist/checkout/' },
+                { from: './src/appConfig.json', to: '../dist/' }
             ],
             { debug: 'warning' }
-        )
-    ],
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        hot: true,
-        port: 7050
-    }
+        ),
+    ]
 };
