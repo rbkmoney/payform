@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack --colors --progress",
-    "start": "webpack-dev-server --colors --progress"
+    "build": "webpack --colors --progress --config config/webpack.config.prod.js",
+    "start": "webpack-dev-server --colors --progress --config config/webpack.config.dev.js --port 7050"
   },
   "repository": {
     "type": "git",
@@ -33,11 +33,14 @@
     "eslint-plugin-react": "^6.8.0",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.10.1",
     "image-webpack-loader": "^3.2.0",
     "node-sass": "^4.5.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.15.0",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "webpack-merge": "^4.1.0",
+    "write-file-webpack-plugin": "^4.0.0"
   }
 }

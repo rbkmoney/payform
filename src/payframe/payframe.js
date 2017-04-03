@@ -10,11 +10,16 @@ import ready from '../utils/domReady';
 import processingCallback from './callbacks/processingCallback';
 
 ready(function () {
+    const RbkmoneyCheckout = {
+        config: {}
+    };
+
     const initScript = new InitScript();
     const payformHost = initScript.getHost();
     const styles = new StyleLink(payformHost);
     const iframe = new Iframe(payformHost);
     const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
+    const formNode = initScript.getFormNode();
     const params = initScript.getParams();
 
     Object.assign(params, {
@@ -22,17 +27,13 @@ ready(function () {
         payformHost: payformHost
     });
 
-    const payButton = new PayButton('Pay with RBKmoney');
-    payButton.onclick = () => {
-        communicator.send({
-            type: 'init-payform',
-            data: params
-        });
-        iframe.show();
+    const payButton = new PayButton(params.label);
+    payButton.onclick = (e) => {
+        e.preventDefault();
+        open();
     };
 
     payButton.render();
-
     styles.render();
     iframe.render();
 
@@ -44,6 +45,7 @@ ready(function () {
             case 'done':
                 close();
                 processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
+                formNode && formNode.action ? formNode.submit() : false;
                 break;
             case 'error':
                 close();
@@ -62,9 +64,36 @@ ready(function () {
         communicator.send({type: 'unload'});
     });
 
+    function open() {
+        communicator.send({
+            type: 'init-payform',
+            data: params
+        });
+        iframe.show();
+
+        RbkmoneyCheckout.config.opened ? RbkmoneyCheckout.config.opened() : false;
+    }
+
     function close() {
         iframe.hide();
         iframe.destroy();
         iframe.render();
+
+        RbkmoneyCheckout.config.closed ? RbkmoneyCheckout.config.closed() : false;
     }
+    
+    RbkmoneyCheckout.open = () => open();
+    RbkmoneyCheckout.close = () => close();
+
+    RbkmoneyCheckout.configure = (config) => {
+        RbkmoneyCheckout.config = Object.assign(params, config);
+    };
+
+    payButton.onclick = open;
+
+    payButton.render();
+    styles.render();
+    iframe.render();
+
+    window.RbkmoneyCheckout = RbkmoneyCheckout;
 });

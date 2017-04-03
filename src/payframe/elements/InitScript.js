@@ -11,6 +11,11 @@ export default class InitScript {
         }
     }
 
+    getFormNode() {
+        const formNode = this.element.parentNode;
+        return formNode.nodeName === 'FORM' ? formNode : undefined;
+    }
+
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
@@ -25,8 +30,7 @@ export default class InitScript {
             endpointSuccessMethod: dataSet.endpointSuccessMethod,
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
-            amount: dataSet.amount,
-            currency: dataSet.currency
+            label: dataSet.label || 'Pay with RBKmoney'
         }
     }
 
