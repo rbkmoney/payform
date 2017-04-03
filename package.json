@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack --colors --progress",
-    "start": "webpack-dev-server --colors --progress"
+    "build": "webpack --colors --progress --config config/webpack.config.prod.js",
+    "start": "webpack-dev-server --colors --progress --config config/webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,6 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
-    "file-loader": "^0.11.0",
     "autoprefixer": "6.7.7",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
