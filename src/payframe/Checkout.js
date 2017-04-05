@@ -12,16 +12,14 @@ export default class Checkout {
         this.params = params;
 
         this.initScript = new InitScript();
-        this.payformHost = this.initScript.getHost();
-        this.styles = new StyleLink(this.payformHost);
-        this.iframe = new Iframe(this.payformHost);
+        this.styles = new StyleLink(this.params.payformHost);
+        this.iframe = new Iframe(this.params.payformHost);
         this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
         this.formNode = this.initScript.getFormNode();
 
 
         Object.assign(this.params, {
-            locationHost: Utils.getOriginUrl(location.href),
-            payformHost: this.payformHost
+            locationHost: Utils.getOriginUrl(location.href)
         });
 
         this.styles.render();
@@ -60,7 +58,7 @@ export default class Checkout {
 
     open() {
         if (isMobile.any) {
-            window.open(`${this.payformHost}/checkout/checkout.html?${Utils.objectToParams(this.params)}`);
+            window.open(`${this.params.payformHost}/checkout/checkout.html?${Utils.objectToParams(this.params)}`);
         } else {
             this.communicator.send({
                 type: 'init-payform',
