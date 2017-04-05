@@ -16,7 +16,7 @@ export default class Utils {
             if (str !== '') {
                 str += '&';
             }
-            str += key + '=' + obj.key;
+            str += key + '=' + obj[key];
         }
 
         return str;
