@@ -1,5 +1,13 @@
 export default function (callback) {
     let ready = false;
+    const getScriptUrl = () => {
+        const scripts = document.getElementsByTagName('script');
+        const element = scripts[scripts.length - 1];
+        return element.src;
+    };
+
+    const parser = document.createElement('a');
+    parser.href = getScriptUrl();
 
     const detach = function () {
         if (document.addEventListener) {
@@ -14,7 +22,7 @@ export default function (callback) {
         if (!ready && (document.addEventListener || event.type === 'load' || document.readyState === 'complete')) {
             ready = true;
             detach();
-            callback();
+            callback(parser.origin);
         }
     };
 

@@ -5,10 +5,6 @@ export default class InitScript {
     constructor() {
         const className = settings.integrationClassName;
         this.element = document.querySelector(`.${className}`);
-        if (!this.element) {
-            this.element = {};
-            console.error(`Init script tag must contain ${className} class`);
-        }
     }
 
     getFormNode() {
@@ -19,8 +15,8 @@ export default class InitScript {
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
-            accessToken: dataSet.invoiceAccessToken,
-            invoiceId: dataSet.invoiceId,
+            invoiceAccessToken: dataSet.invoiceAccessToken,
+            invoiceID: dataSet.invoiceId,
             orderId: dataSet.orderId,
             endpointInit: dataSet.endpointInit,
             endpointEvents: dataSet.endpointEvents,
