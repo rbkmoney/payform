@@ -6,11 +6,12 @@ import StyleLink from './elements/StyleLink';
 import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
-import Modal from './components/Modal';
+import Checkout from './components/Checkout';
 import StateWorker from './state/StateWorker';
 import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
+import isMobile from 'ismobilejs';
 
 ready(function () {
     const styleLink = new StyleLink();
@@ -20,9 +21,8 @@ ready(function () {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
-
         ConfigLoader.load().then((config) => {
-            Invoice.getInvoice(config.capiEndpoint, data.invoiceId, data.accessToken)
+            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
                 .then((response) => {
 
                     Object.assign(data, {
@@ -31,7 +31,7 @@ ready(function () {
                     });
 
                     ReactDOM.render(
-                        <Modal accessToken={data.accessToken}
+                        <Checkout accessToken={data.accessToken}
                                capiEndpoint={config.capiEndpoint}
                                tokenizerEndpoint={config.tokenizerEndpoint}
                                endpointInit={data.endpointInit}
@@ -55,13 +55,21 @@ ready(function () {
     }
 
     function checkPayformState() {
+        if (isMobile.any) {
+            const search = location.search.substring(1);
+            if (search.length > 1) {
+                const params = search.length > 1 ? JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}') : undefined;
+                renderModal(params, false);
+            }
+        } else {
         const payFormData = StateWorker.loadState();
-        if (payFormData) {
-            if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
-                ParentCommunicator.send({type: 'finish3ds'});
-                renderModal(payFormData, true);
-            } else {
-                StateWorker.flush();
+            if (payFormData) {
+                if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
+                    ParentCommunicator.send({type: 'finish3ds'});
+                    renderModal(payFormData, true);
+                } else {
+                    StateWorker.flush();
+                }
             }
         }
     }

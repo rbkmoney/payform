@@ -35,6 +35,7 @@ module.exports = {
         new CopyWebpackPlugin(
             [
                 { from: './src/checkout/checkout.html', to: '../dist/checkout/' },
+                { from: './src/checkout/images', to: '../dist/checkout/images/' },
                 { from: './src/appConfig.json', to: '../dist/' }
             ],
             { debug: 'warning' }

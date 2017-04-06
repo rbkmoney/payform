@@ -5,10 +5,6 @@ export default class InitScript {
     constructor() {
         const className = settings.integrationClassName;
         this.element = document.querySelector(`.${className}`);
-        if (!this.element) {
-            this.element = {};
-            console.error(`Init script tag must contain ${className} class`);
-        }
     }
 
     getFormNode() {
@@ -19,15 +15,8 @@ export default class InitScript {
     getParams() {
         const dataSet = this.element.dataset || {};
         return {
-            accessToken: dataSet.invoiceAccessToken,
-            invoiceId: dataSet.invoiceId,
-            orderId: dataSet.orderId,
-            endpointInit: dataSet.endpointInit,
-            endpointEvents: dataSet.endpointEvents,
-            endpointFailed: dataSet.endpointFailed,
-            endpointSuccess: dataSet.endpointSuccess,
-            endpointFailedMethod: dataSet.endpointFailedMethod,
-            endpointSuccessMethod: dataSet.endpointSuccessMethod,
+            invoiceAccessToken: dataSet.invoiceAccessToken,
+            invoiceID: dataSet.invoiceId,
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney'
