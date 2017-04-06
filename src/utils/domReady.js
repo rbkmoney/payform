@@ -27,7 +27,7 @@ export default function (callback) {
     };
 
     if (document.readyState === 'complete') {
-        callback();
+        callback(parser.origin);
     } else if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', completed);
         window.addEventListener('load', completed);
@@ -53,7 +53,7 @@ export default function (callback) {
 
                 ready = true;
                 detach();
-                callback();
+                callback(parser.origin);
             })();
         }
     }
