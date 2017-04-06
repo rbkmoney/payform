@@ -11,7 +11,7 @@ import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import StateWorker from '../state/StateWorker';
 
-class Checkout extends React.Component {
+export default class Modal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -83,7 +83,7 @@ class Checkout extends React.Component {
                 this.handleSuccess(result);
             } else if (result.type === 'interact') {
                 StateWorker.init3DS(this.props.invoiceId);
-                const redirectUrl = `${this.props.payformHost}/checkout/checkout.html`;
+                const redirectUrl = `${this.props.payformHost}/payframe/payframe.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl);
                 form3ds.render();
                 form3ds.submit(settings.closeFormTimeout);
@@ -128,5 +128,3 @@ class Checkout extends React.Component {
         );
     }
 }
-
-export default Checkout;

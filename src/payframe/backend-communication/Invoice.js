@@ -1,4 +1,4 @@
-import guid from '../../checkout/utils/guid';
+import guid from '../../payframe/utils/guid';
 
 const errorMessage = 'An error when trying to request amount and currency.';
 

@@ -1,90 +1,38 @@
-import './app.scss';
-import 'whatwg-fetch';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import StyleLink from './elements/StyleLink';
+import './checkout.scss';
 import ready from '../utils/domReady';
-import Listener from '../communication/Listener';
-import Utils from '../utils/Utils';
-import Checkout from './components/Checkout';
-import StateWorker from './state/StateWorker';
-import ParentCommunicator from '../communication/ParentCommunicator';
-import ConfigLoader from './loaders/ConfigLoader';
-import Invoice from './backend-communication/Invoice';
-import isMobile from 'ismobilejs';
+import PayButton from './elements/PayButton';
+import InitScript from './elements/InitScript';
+import Checkout from './classes/Checkout';
 
-ready(function () {
-    const styleLink = new StyleLink();
-    styleLink.render();
+ready(function (origin) {
+    const initScript = new InitScript();
+    const invoiceID = initScript.element.dataset.invoiceId;
+    const invoiceAccessToken = initScript.element.dataset.invoiceAccessToken;
 
-    function renderModal(data, isResumed) {
-        if (Utils.isSafari()) {
-            styleLink.rerender();
-        }
-        ConfigLoader.load().then((config) => {
-            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
-                .then((response) => {
+    if (invoiceID && invoiceAccessToken) {
+        const params = initScript.getParams();
+        const payButton = new PayButton(params.label);
 
-                    Object.assign(data, {
-                        currency: response.currency,
-                        amount:  String(Number(response.amount) / 100)
-                    });
-
-                    ReactDOM.render(
-                        <Checkout accessToken={data.accessToken}
-                               capiEndpoint={config.capiEndpoint}
-                               tokenizerEndpoint={config.tokenizerEndpoint}
-                               endpointInit={data.endpointInit}
-                               endpointEvents={data.endpointEvents}
-                               invoiceId={data.invoiceId}
-                               orderId={data.orderId}
-                               logo={data.logo}
-                               amount={data.amount}
-                               currency={data.currency}
-                               buttonColor={data.buttonColor}
-                               name={data.name}
-                               locationHost={data.locationHost}
-                               payformHost={data.payformHost}
-                               isResume={isResumed}
-                        />,
-                        document.getElementById('root')
-                    );
-                },
-                error => console.error(error));
+        Object.assign(params, {
+           payformHost: origin
         });
+
+        const checkout = new Checkout(params);
+
+        payButton.onclick = (e) => {
+            e.preventDefault();
+            checkout.open();
+        };
+
+        payButton.render();
     }
 
-    function checkPayformState() {
-        if (isMobile.any) {
-            const search = location.search.substring(1);
-            if (search.length > 1) {
-                const params = search.length > 1 ? JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}') : undefined;
-                renderModal(params, false);
-            }
-        } else {
-        const payFormData = StateWorker.loadState();
-            if (payFormData) {
-                if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
-                    ParentCommunicator.send({type: 'finish3ds'});
-                    renderModal(payFormData, true);
-                } else {
-                    StateWorker.flush();
-                }
-            }
-        }
-    }
-
-    Listener.addListener(message => {
-        switch (message.type) {
-            case 'init-payform':
-                StateWorker.saveState(message.data);
-                renderModal(message.data, false);
-                break;
-            case 'unload':
-                StateWorker.flush();
-                break;
-        }
-    });
-
-    checkPayformState();
+    const RbkmoneyCheckout = {};
+    RbkmoneyCheckout.configure = (config) => {
+        Object.assign(config, {
+            payformHost: origin
+        });
+        return new Checkout(config);
+    };
+    window.RbkmoneyCheckout = RbkmoneyCheckout;
 });

@@ -1,10 +1,10 @@
-import Iframe from './elements/Iframe';
-import StyleLink from './elements/StyleLink';
-import InitScript from './elements/InitScript';
-import Utils from '../utils/Utils';
-import Listener from '../communication/Listener';
-import CheckoutCommunicator from '../communication/CheckoutCommunicator';
-import processingCallback from './callbacks/processingCallback';
+import Iframe from '../elements/Iframe';
+import StyleLink from '../elements/StyleLink';
+import InitScript from '../elements/InitScript';
+import Utils from '../../utils/Utils';
+import Listener from '../../communication/Listener';
+import CheckoutCommunicator from '../../communication/CheckoutCommunicator';
+import processingCallback from '../callbacks/processingCallback';
 import isMobile from 'ismobilejs';
 
 export default class Checkout {
@@ -19,7 +19,7 @@ export default class Checkout {
 
 
         Object.assign(this.params, {
-            locationHost: Utils.getOriginUrl(location.href)
+            locationHost: params.payformHost
         });
 
         this.styles.render();
@@ -58,7 +58,7 @@ export default class Checkout {
 
     open() {
         if (isMobile.any) {
-            window.open(`${this.params.payformHost}/checkout/checkout.html?${Utils.objectToParams(this.params)}`);
+            window.open(`${this.params.payformHost}/payframe/payframe.html?${Utils.objectToParams(this.params)}`);
         } else {
             this.communicator.send({
                 type: 'init-payform',

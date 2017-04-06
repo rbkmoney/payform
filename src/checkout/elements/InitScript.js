@@ -1,5 +1,4 @@
 import settings from '../../settings';
-import Utils from '../../utils/Utils';
 
 export default class InitScript {
     constructor() {
@@ -17,20 +16,9 @@ export default class InitScript {
         return {
             invoiceAccessToken: dataSet.invoiceAccessToken,
             invoiceID: dataSet.invoiceId,
-            orderId: dataSet.orderId,
-            endpointInit: dataSet.endpointInit,
-            endpointEvents: dataSet.endpointEvents,
-            endpointFailed: dataSet.endpointFailed,
-            endpointSuccess: dataSet.endpointSuccess,
-            endpointFailedMethod: dataSet.endpointFailedMethod,
-            endpointSuccessMethod: dataSet.endpointSuccessMethod,
             logo: dataSet.logo || 'images/logo.png',
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney'
         }
-    }
-
-    getHost() {
-        return Utils.getOriginUrl(this.element.src);
     }
 }

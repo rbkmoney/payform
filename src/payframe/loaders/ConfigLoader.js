@@ -1,10 +1,9 @@
 import 'whatwg-fetch';
-import Utils from '../../utils/Utils';
 
 export default class ConfigLoader {
-    static load() {
+    static load(url) {
         return new Promise((resolve, reject) => {
-            fetch(`${Utils.getOriginUrl()}/appConfig.json`, {
+            fetch(`${url}/appConfig.json`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
