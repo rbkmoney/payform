@@ -25,35 +25,11 @@ export default class Checkout {
         this.styles.render();
         this.iframe.render();
 
-        Listener.addListener(message => {
-            switch (message.type) {
-                case 'close':
-                    this.close();
-                    break;
-                case 'done':
-                    this.close();
-                    processingCallback(this.params.endpointSuccess, this.params.endpointSuccessMethod);
-                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
-                    break;
-                case 'error':
-                    this.close();
-                    processingCallback(this.params.endpointFailed, this.params.endpointFailedMethod);
-                    break;
-                case 'start3ds':
-                    this.iframe.enable3DS();
-                    break;
-                case 'finish3ds':
-                    this.iframe.disable3DS();
-                    break;
-            }
-        });
-
-        window.addEventListener('beforeunload', () => {
-            this.communicator.send({type: 'unload'});
-        });
+        this.makeEvents();
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.makeEvents = this.makeEvents.bind(this);
     }
 
     open() {
@@ -76,5 +52,37 @@ export default class Checkout {
         this.iframe.render();
 
         this.params.closed ? this.params.closed() : false;
+    }
+
+    makeEvents() {
+        window.addEventListener('beforeunload', () => {
+            this.communicator.send({type: 'unload'});
+        });
+
+        Listener.addListener(message => {
+            if (this.params.invoiceID === message.invoiceID) {
+                switch (message.type) {
+                    case 'close':
+                        this.close();
+                        break;
+                    case 'done':
+                        this.close();
+                        processingCallback(this.params.endpointSuccess, this.params.endpointSuccessMethod);
+                        this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                        break;
+                    case 'error':
+                        this.close();
+                        processingCallback(this.params.endpointFailed, this.params.endpointFailedMethod);
+                        break;
+                    case 'start3ds':
+                        this.iframe.enable3DS();
+                        break;
+                    case 'finish3ds':
+                        this.iframe.disable3DS();
+                        break;
+                }
+            }
+
+        });
     }
 }

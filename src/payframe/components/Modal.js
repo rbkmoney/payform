@@ -69,8 +69,8 @@ export default class Modal extends React.Component {
         this.forceUpdate();
         Processing.process({
             tokenizer: window.Tokenizer,
-            accessToken: this.props.accessToken,
-            invoiceId: this.props.invoiceId,
+            invoiceAccessToken: this.props.invoiceAccessToken,
+            invoiceID: this.props.invoiceID,
             capiEndpoint: this.props.capiEndpoint,
             tokenizerEndpoint: this.props.tokenizerEndpoint,
             cardHolder: formData.cardHolder,
@@ -102,7 +102,7 @@ export default class Modal extends React.Component {
                 <div className="checkout--overlay" />
                 <div className="checkout--container">
                     <div className="checkout--header">
-                        <ModalClose />
+                        <ModalClose invoiceID={this.props.invoiceID} />
                         <Logo logoUrl={this.props.logo}/>
                         <div className="checkout--company-name">
                             {this.props.name}

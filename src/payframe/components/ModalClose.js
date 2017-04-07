@@ -2,9 +2,15 @@ import React from 'react';
 import ParentCommunicator from '../../communication/ParentCommunicator';
 
 class ModalClose extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.close = this.close.bind(this);
+    }
+
 
     close() {
-        ParentCommunicator.send({type: 'close'});
+        ParentCommunicator.send({type: 'close', invoiceID: this.props.invoiceID});
     }
 
     render() {

@@ -31,12 +31,12 @@ ready(function () {
                     });
 
                     ReactDOM.render(
-                        <Modal accessToken={data.accessToken}
+                        <Modal invoiceAccessToken={data.invoiceAccessToken}
                                capiEndpoint={config.capiEndpoint}
                                tokenizerEndpoint={config.tokenizerEndpoint}
                                endpointInit={data.endpointInit}
                                endpointEvents={data.endpointEvents}
-                               invoiceId={data.invoiceId}
+                               invoiceID={data.invoiceID}
                                orderId={data.orderId}
                                logo={data.logo}
                                amount={data.amount}
@@ -62,9 +62,9 @@ ready(function () {
                 renderModal(params, false);
             }
         } else {
-        const payFormData = StateWorker.loadState();
+            const payFormData = StateWorker.loadState();
             if (payFormData) {
-                if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
+                if (StateWorker.is3DSInProgress(payFormData.invoiceID)) {
                     ParentCommunicator.send({type: 'finish3ds'});
                     renderModal(payFormData, true);
                 } else {
