@@ -7,15 +7,19 @@ import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
 import Modal from './components/Modal';
-import StateWorker from './state/StateWorker';
 import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
-import isMobile from 'ismobilejs';
 
 ready(function () {
     const styleLink = new StyleLink();
     styleLink.render();
+
+    let is3DSInProgress = false;
+
+    function set3DSStatus(state) {
+        is3DSInProgress = state;
+    }
 
     function renderModal(data, isResumed) {
         if (Utils.isSafari()) {
@@ -48,6 +52,8 @@ ready(function () {
                                name={data.name}
                                payformHost={data.payformHost}
                                isResume={isResumed}
+                               set3DSStatus={set3DSStatus}
+                               is3DSInProgress={is3DSInProgress}
                         />,
                         root
                     );
@@ -56,51 +62,35 @@ ready(function () {
         });
     }
 
-    function checkPayformState() {
-        if (isMobile.any) {
+    function checkPayformState(params) {
+        if (params) {
+            renderModal(params, is3DSInProgress);
+        } else {
             const search = location.search.substring(1);
             if (search.length > 1) {
-                const params = search.length > 1 ? JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`) : undefined;
-                renderModal(params, false);
-            }
-        } else {
-            const payFormData = StateWorker.loadState();
-            if (payFormData) {
-                if (StateWorker.is3DSInProgress(payFormData.invoiceID)) {
-                    ParentCommunicator.send({type: 'finish3ds', invoiceID: payFormData.invoiceID});
-                    renderModal(payFormData, true);
-                } else {
-                    StateWorker.flush();
-                }
+                const data = search.length > 1 ? JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`) : undefined;
+                renderModal(data, is3DSInProgress);
             }
         }
+
     }
 
     window.addEventListener('message', (message) => {
         switch (message.data.type) {
             case 'finish3ds': {
-                const payFormData = StateWorker.loadState();
-                if (payFormData) {
-                    if (StateWorker.is3DSInProgress(payFormData.invoiceID)) {
-                        ParentCommunicator.send({type: 'finish3ds', invoiceID: payFormData.invoiceID});
-                        renderModal(payFormData, true);
-                    } else {
-                        StateWorker.flush();
-                    }
-                }
+                set3DSStatus(false);
+                ParentCommunicator.send({type: 'finish3ds'});
+                checkPayformState();
                 break;
             }
         }
     });
 
     Listener.addListener(message => {
+
         switch (message.type) {
             case 'init-payform':
-                StateWorker.saveState(message.data);
-                renderModal(message.data, false);
-                break;
-            case 'unload':
-                StateWorker.flush();
+                checkPayformState(message.data);
                 break;
         }
     });

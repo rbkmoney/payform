@@ -13,7 +13,7 @@ export default class Checkout {
 
         this.initScript = new InitScript();
         this.styles = new StyleLink(this.params.payformHost);
-        this.iframe = new Iframe(this.params.payformHost);
+        this.iframe = new Iframe(this.params);
         this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
         this.formNode = this.initScript.getFormNode();
 

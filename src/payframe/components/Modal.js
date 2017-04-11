@@ -10,7 +10,6 @@ import Processing from '../backend-communication/Processing';
 import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
-import StateWorker from '../state/StateWorker';
 import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
 
@@ -38,7 +37,6 @@ export default class Modal extends React.Component {
                 checkmark: true
             });
 
-            StateWorker.flush();
 
             if (isMobile.any) {
                 setTimeout(() => {
@@ -51,7 +49,6 @@ export default class Modal extends React.Component {
     }
 
     handleError() {
-        StateWorker.flush();
         ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
     }
 
@@ -118,11 +115,11 @@ export default class Modal extends React.Component {
                     spinner: false,
                     checkmark: false
                 });
-                StateWorker.init3DS(this.props.invoiceID);
+                this.props.set3DSStatus(true);
                 const redirectUrl = `${this.props.payformHost}/payframe/finishInteraction.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl, this.refs['3ds']);
                 form3ds.render();
-                form3ds.submit(settings.closeFormTimeout);
+                form3ds.submit(settings.submitFormTimeout);
             }
         }).catch(error => {
             this.setState({
