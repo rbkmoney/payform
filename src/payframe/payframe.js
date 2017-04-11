@@ -2,6 +2,7 @@ import './app.scss';
 import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import isMobile from 'ismobilejs';
 import StyleLink from './elements/StyleLink';
 import ready from '../utils/domReady';
 import Listener from '../communication/Listener';
@@ -83,5 +84,7 @@ ready(function () {
         }
     });
 
-    renderModal(params);
+    if (isMobile.any) {
+        renderModal(params);
+    }
 });
