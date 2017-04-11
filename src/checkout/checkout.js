@@ -6,25 +6,27 @@ import Checkout from './classes/Checkout';
 
 ready(function (origin) {
     const initScript = new InitScript();
-    const invoiceID = initScript.element.dataset.invoiceId;
-    const invoiceAccessToken = initScript.element.dataset.invoiceAccessToken;
+    if (initScript.element) {
+        const invoiceID = initScript.element.dataset.invoiceId;
+        const invoiceAccessToken = initScript.element.dataset.invoiceAccessToken;
 
-    if (invoiceID && invoiceAccessToken) {
-        const params = initScript.getParams();
-        const payButton = new PayButton(params.label);
+        if (invoiceID && invoiceAccessToken) {
+            const params = initScript.getParams();
+            const payButton = new PayButton(params.label);
 
-        Object.assign(params, {
-           payformHost: origin
-        });
+            Object.assign(params, {
+               payformHost: origin
+            });
 
-        const checkout = new Checkout(params);
+            const checkout = new Checkout(params, initScript);
 
-        payButton.onclick = (e) => {
-            e.preventDefault();
-            checkout.open();
-        };
+            payButton.onclick = (e) => {
+                e.preventDefault();
+                checkout.open();
+            };
 
-        payButton.render();
+            payButton.render();
+        }
     }
 
     const RbkmoneyCheckout = {};
@@ -32,7 +34,7 @@ ready(function (origin) {
         Object.assign(config, {
             payformHost: origin
         });
-        return new Checkout(config);
+        return new Checkout(config, initScript);
     };
     window.RbkmoneyCheckout = RbkmoneyCheckout;
 });

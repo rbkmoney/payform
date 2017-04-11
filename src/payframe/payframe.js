@@ -12,6 +12,12 @@ import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 
 ready(function () {
+    const params = {};
+    const search = location.search.substring(1);
+    if (search.length > 1) {
+        search.length > 1 ? Object.assign(params, JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`)) : undefined;
+    }
+
     const styleLink = new StyleLink();
     styleLink.render();
 
@@ -21,7 +27,7 @@ ready(function () {
         is3DSInProgress = state;
     }
 
-    function renderModal(data, isResumed) {
+    function renderModal(data) {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
@@ -41,17 +47,13 @@ ready(function () {
                         <Modal invoiceAccessToken={data.invoiceAccessToken}
                                capiEndpoint={config.capiEndpoint}
                                tokenizerEndpoint={config.tokenizerEndpoint}
-                               endpointInit={data.endpointInit}
-                               endpointEvents={data.endpointEvents}
                                invoiceID={data.invoiceID}
-                               orderId={data.orderId}
                                logo={data.logo}
                                amount={data.amount}
                                currency={data.currency}
                                buttonColor={data.buttonColor}
                                name={data.name}
                                payformHost={data.payformHost}
-                               isResume={isResumed}
                                set3DSStatus={set3DSStatus}
                                is3DSInProgress={is3DSInProgress}
                         />,
@@ -62,38 +64,24 @@ ready(function () {
         });
     }
 
-    function checkPayformState(params) {
-        if (params) {
-            renderModal(params, is3DSInProgress);
-        } else {
-            const search = location.search.substring(1);
-            if (search.length > 1) {
-                const data = search.length > 1 ? JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`) : undefined;
-                renderModal(data, is3DSInProgress);
-            }
-        }
-
-    }
-
     window.addEventListener('message', (message) => {
         switch (message.data.type) {
             case 'finish3ds': {
                 set3DSStatus(false);
                 ParentCommunicator.send({type: 'finish3ds'});
-                checkPayformState();
+                renderModal(params);
                 break;
             }
         }
     });
 
     Listener.addListener(message => {
-
         switch (message.type) {
             case 'init-payform':
-                checkPayformState(message.data);
+                renderModal(message.data);
                 break;
         }
     });
 
-    checkPayformState();
+    renderModal(params);
 });

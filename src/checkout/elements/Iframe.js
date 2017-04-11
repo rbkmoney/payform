@@ -28,12 +28,6 @@ export default class Iframe {
         this.element.style.display = 'none';
     }
 
-    enable3DS() {
-    }
-
-    disable3DS() {
-    }
-
     getName() {
         return this.element.getAttribute('name');
     }
