@@ -26,15 +26,10 @@ class Payform extends React.Component {
         this.pay = this.pay.bind(this);
     }
 
-    componentDidMount() {
-        Payform.changeVisibility(this.formElement.style, this.props.isShow);
-    }
-
     componentWillUpdate(props) {
         this.isShowErrorPanel = props.isShowErrorPanel;
         this.isPayButtonDisabled = props.isPayButtonDisabled;
         this.errorMessage = props.errorMessage;
-        Payform.changeVisibility(this.formElement.style, props.isShow);
     }
 
     handleCardHolder(value) {
@@ -111,10 +106,6 @@ class Payform extends React.Component {
         return Object.assign(prop, {
             value: value
         });
-    }
-
-    static changeVisibility(style, isShow) {
-        isShow ? style.display = 'block': style.display = 'none';
     }
 }
 

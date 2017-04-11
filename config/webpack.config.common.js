@@ -35,6 +35,7 @@ module.exports = {
         new CopyWebpackPlugin(
             [
                 { from: './src/payframe/payframe.html', to: '../dist/payframe/' },
+                { from: './src/payframe/finishInteraction.html', to: '../dist/payframe/' },
                 { from: './src/payframe/images', to: '../dist/payframe/images/' },
                 { from: './src/appConfig.json', to: '../dist/' }
             ],

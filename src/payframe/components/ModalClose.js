@@ -1,5 +1,6 @@
 import React from 'react';
 import ParentCommunicator from '../../communication/ParentCommunicator';
+import isMobile from 'ismobilejs';
 
 class ModalClose extends React.Component {
     constructor(props) {
@@ -10,7 +11,12 @@ class ModalClose extends React.Component {
 
 
     close() {
-        ParentCommunicator.send({type: 'close', invoiceID: this.props.invoiceID});
+        if (isMobile.any) {
+            window.close();
+        } else {
+            ParentCommunicator.send({type: 'close', invoiceID: this.props.invoiceID});
+        }
+
     }
 
     render() {

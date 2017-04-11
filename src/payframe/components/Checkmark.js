@@ -16,14 +16,6 @@ class Checkmark extends React.Component {
         };
     }
 
-    componentDidMount() {
-        Checkmark.changeVisibility(this.element.style, this.props.isShow);
-    }
-
-    componentWillUpdate(props) {
-        Checkmark.changeVisibility(this.element.style, props.isShow);
-    }
-
     render() {
         return <div className="checkmark icon icon--order-success svg" ref={(element) => {this.element = element;}}>
             <svg width={72} height={72}>
@@ -33,10 +25,6 @@ class Checkmark extends React.Component {
                 </g>
             </svg>
         </div>
-    }
-
-    static changeVisibility(style, isShow) {
-        isShow ? style.display = 'block' : style.display = 'none';
     }
 }
 

@@ -13,15 +13,15 @@ export default class StateWorker {
         return storagedState;
     }
 
-    static init3DS(invoiceId) {
-        sessionStorage.setItem(invoiceId, JSON.stringify({
+    static init3DS(invoiceID) {
+        sessionStorage.setItem(invoiceID, JSON.stringify({
             status: '3ds',
             timestamp: new Date()
         }));
     }
 
-    static is3DSInProgress(invoiceId) {
-        const value = sessionStorage.getItem(invoiceId);
+    static is3DSInProgress(invoiceID) {
+        const value = sessionStorage.getItem(invoiceID);
         let result = false;
         if (value) {
             const info = JSON.parse(value);

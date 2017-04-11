@@ -3,7 +3,15 @@ import ParentCommunicator from '../../communication/ParentCommunicator';
 
 export default class Form3ds {
 
-    constructor(data, redirectUrl) {
+    constructor(data, redirectUrl, body) {
+        this.container = document.createElement('iframe');
+        body.appendChild(this.container);
+        const containerDoc = this.container.contentWindow.document;
+        containerDoc.open();
+        containerDoc.write('<html><body></body></html>');
+        containerDoc.close();
+        this.containerBody = containerDoc.body;
+
         this.element = document.createElement('form');
         this.element.method = 'POST';
         this.element.action = data.uriTemplate;
@@ -24,12 +32,12 @@ export default class Form3ds {
     }
 
     render() {
-        document.body.appendChild(this.element);
+        this.containerBody.appendChild(this.element);
     }
 
-    submit(timeout) {
+    submit(timeout, invoiceID) {
         setTimeout(() => {
-            ParentCommunicator.send({type: 'start3ds'});
+            ParentCommunicator.send({type: 'start3ds', invoiceID: invoiceID});
             this.element.submit();
         }, timeout);
     }

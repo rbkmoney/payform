@@ -21,6 +21,7 @@ ready(function () {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
+
         ConfigLoader.load(data.payformHost).then((config) => {
             Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
                 .then((response) => {
@@ -29,6 +30,8 @@ ready(function () {
                         currency: response.currency,
                         amount:  String(Number(response.amount) / 100)
                     });
+
+                    const root = document.getElementById('root');
 
                     ReactDOM.render(
                         <Modal invoiceAccessToken={data.invoiceAccessToken}
@@ -43,11 +46,10 @@ ready(function () {
                                currency={data.currency}
                                buttonColor={data.buttonColor}
                                name={data.name}
-                               locationHost={data.locationHost}
                                payformHost={data.payformHost}
                                isResume={isResumed}
                         />,
-                        document.getElementById('root')
+                        root
                     );
                 },
                 error => console.error(error));
@@ -58,14 +60,14 @@ ready(function () {
         if (isMobile.any) {
             const search = location.search.substring(1);
             if (search.length > 1) {
-                const params = search.length > 1 ? JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}') : undefined;
+                const params = search.length > 1 ? JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`) : undefined;
                 renderModal(params, false);
             }
         } else {
             const payFormData = StateWorker.loadState();
             if (payFormData) {
                 if (StateWorker.is3DSInProgress(payFormData.invoiceID)) {
-                    ParentCommunicator.send({type: 'finish3ds'});
+                    ParentCommunicator.send({type: 'finish3ds', invoiceID: payFormData.invoiceID});
                     renderModal(payFormData, true);
                 } else {
                     StateWorker.flush();
@@ -73,6 +75,23 @@ ready(function () {
             }
         }
     }
+
+    window.addEventListener('message', (message) => {
+        switch (message.data.type) {
+            case 'finish3ds': {
+                const payFormData = StateWorker.loadState();
+                if (payFormData) {
+                    if (StateWorker.is3DSInProgress(payFormData.invoiceID)) {
+                        ParentCommunicator.send({type: 'finish3ds', invoiceID: payFormData.invoiceID});
+                        renderModal(payFormData, true);
+                    } else {
+                        StateWorker.flush();
+                    }
+                }
+                break;
+            }
+        }
+    });
 
     Listener.addListener(message => {
         switch (message.type) {

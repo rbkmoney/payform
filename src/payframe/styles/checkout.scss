@@ -20,6 +20,20 @@
         display: flex;
         flex-direction: column;
 
+        &._interact {
+            @include responsive(sm) {
+                max-width: 700px;
+            }
+
+            .payform {
+                padding: 10px;
+
+                @include responsive(sm) {
+                    padding: 20px 35px;
+                }
+            }
+        }
+
         @include responsive(sm) {
             display: block;
             height: auto;
@@ -53,6 +67,7 @@
         background-color: $gray2;
         border-top: 1px solid $gray6;
         height: 100%;
+        width: auto;
         flex-shrink: 1;
 
         @include responsive(sm) {

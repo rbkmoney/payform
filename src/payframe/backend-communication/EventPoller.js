@@ -3,12 +3,12 @@ import guid from '../utils/guid';
 
 export default class EventPoller {
 
-    static pollEvents(capiEndpoint, invoiceID, accessToken) {
+    static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
                 setTimeout(() => {
-                    self.requestToEndpoint(capiEndpoint, invoiceID, accessToken).then(events => {
+                    self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
                         const event = self.getLastEvent(events);
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
@@ -43,13 +43,13 @@ export default class EventPoller {
         return result;
     }
 
-    static requestToEndpoint(capiEndpoint, invoiceID, accessToken) {
+    static requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=100`, { // TODO fix limit count
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Bearer ${invoiceAccessToken}`,
                     'X-Request-ID': guid()
                 }
             }).then(response => {

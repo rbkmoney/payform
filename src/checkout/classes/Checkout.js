@@ -17,11 +17,6 @@ export default class Checkout {
         this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
         this.formNode = this.initScript.getFormNode();
 
-
-        Object.assign(this.params, {
-            locationHost: params.payformHost
-        });
-
         this.styles.render();
         this.iframe.render();
 
@@ -60,27 +55,25 @@ export default class Checkout {
         });
 
         Listener.addListener(message => {
-            if (this.params.invoiceID === message.invoiceID) {
-                switch (message.type) {
-                    case 'close':
-                        this.close();
-                        break;
-                    case 'done':
-                        this.close();
-                        processingCallback(this.params.endpointSuccess, this.params.endpointSuccessMethod);
-                        this.formNode && this.formNode.action ? this.formNode.submit() : false;
-                        break;
-                    case 'error':
-                        this.close();
-                        processingCallback(this.params.endpointFailed, this.params.endpointFailedMethod);
-                        break;
-                    case 'start3ds':
-                        this.iframe.enable3DS();
-                        break;
-                    case 'finish3ds':
-                        this.iframe.disable3DS();
-                        break;
-                }
+            switch (message.type) {
+                case 'close':
+                    this.close();
+                    break;
+                case 'done':
+                    this.close();
+                    processingCallback(this.params.endpointSuccess, this.params.endpointSuccessMethod);
+                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                    break;
+                case 'error':
+                    this.close();
+                    processingCallback(this.params.endpointFailed, this.params.endpointFailedMethod);
+                    break;
+                case 'start3ds':
+                    this.iframe.enable3DS();
+                    break;
+                case 'finish3ds':
+                    this.iframe.disable3DS();
+                    break;
             }
 
         });

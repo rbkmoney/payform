@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import ModalClose from './ModalClose';
 import Logo from './Logo';
 import Spinner from './Spinner';
@@ -10,32 +11,51 @@ import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import StateWorker from '../state/StateWorker';
+import EventPoller from '../backend-communication/EventPoller';
+import isMobile from 'ismobilejs';
 
 export default class Modal extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            payform: true,
+            interact: false,
+            spinner: false,
+            checkmark: false
+        };
+
         this.handlePay = this.handlePay.bind(this);
     }
 
     handleSuccess(result) {
-        this.isInProcess = false;
-        this.isProcessSuccess = true;
-        this.forceUpdate();
         if (result.type === 'success') {
+            this.setState({
+                payform: false,
+                interact: false,
+                spinner: false,
+                checkmark: true
+            });
+
             StateWorker.flush();
-            ParentCommunicator.sendWithTimeout({type: 'done'}, settings.closeFormTimeout);
+
+            if (isMobile.any) {
+                setTimeout(() => {
+                    window.close();
+                }, settings.closeFormTimeout);
+            } else {
+                ParentCommunicator.sendWithTimeout({type: 'done', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
+            }
         }
     }
 
     handleError() {
         StateWorker.flush();
-        ParentCommunicator.sendWithTimeout({type: 'error'}, settings.closeFormTimeout);
+        ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
     }
 
     componentDidMount() {
-        this.isInProcess = false;
-        this.isProcessSuccess = false;
         const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
         tokenizerScript.render()
             .catch(() => {
@@ -44,11 +64,18 @@ export default class Modal extends React.Component {
                 this.isShowErrorPanel = true;
                 this.forceUpdate();
             });
+
         if (this.props.isResume) {
-            this.isInProcess = true;
+            this.setState({
+                payform: false,
+                interact: false,
+                spinner: true,
+                checkmark: false
+            });
+
             Processing.pollEvents({
-                invoiceId: this.props.invoiceId,
-                accessToken: this.props.accessToken,
+                invoiceID: this.props.invoiceID,
+                invoiceAccessToken: this.props.invoiceAccessToken,
                 capiEndpoint: this.props.capiEndpoint
             }).then(result => {
                 if (result.type === 'success') {
@@ -60,13 +87,16 @@ export default class Modal extends React.Component {
                 this.handleError(error);
             });
         }
-        this.forceUpdate();
     }
 
     handlePay(formData) {
         this.isShowErrorPanel = false;
-        this.isInProcess = true;
-        this.forceUpdate();
+        this.setState({
+            payform: false,
+            interact: false,
+            spinner: true,
+            checkmark: false
+        });
         Processing.process({
             tokenizer: window.Tokenizer,
             invoiceAccessToken: this.props.invoiceAccessToken,
@@ -82,25 +112,68 @@ export default class Modal extends React.Component {
             if (result.type === 'success') {
                 this.handleSuccess(result);
             } else if (result.type === 'interact') {
-                StateWorker.init3DS(this.props.invoiceId);
-                const redirectUrl = `${this.props.payformHost}/payframe/payframe.html`;
-                const form3ds = new Form3ds(result.data, redirectUrl);
+                this.setState({
+                    payform: false,
+                    interact: true,
+                    spinner: false,
+                    checkmark: false
+                });
+                StateWorker.init3DS(this.props.invoiceID);
+                const redirectUrl = `${this.props.payformHost}/payframe/finishInteraction.html`;
+                const form3ds = new Form3ds(result.data, redirectUrl, this.refs['3ds']);
                 form3ds.render();
                 form3ds.submit(settings.closeFormTimeout);
             }
         }).catch(error => {
-            this.isInProcess = false;
+            this.setState({
+                payform: true,
+                interact: false,
+                spinner: false,
+                checkmark: false
+            });
             this.errorMessage = error.message;
             this.isShowErrorPanel = true;
             this.forceUpdate();
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken).then((result) => {
+           if (result.type === 'success') {
+               this.setState({
+                    payform: false,
+                    interact: false,
+                    spinner: false,
+                    checkmark: true
+               });
+               this.handleSuccess(result);
+           }
+        });
+    }
+
+    renderPayform() {
+        return (
+            <Payform handlePay={this.handlePay}
+                     errorMessage={this.errorMessage}
+                     isPayButtonDisabled={this.isPayButtonDisabled}
+                     isShowErrorPanel={this.isShowErrorPanel}
+                     buttonColor={this.props.buttonColor}
+                     amount={this.props.amount}
+                     currency={this.props.currency}
+            />
+        );
+    }
+
     render() {
         return (
             <div className="checkout">
                 <div className="checkout--overlay" />
-                <div className="checkout--container">
+                <div className={cx(
+                    'checkout--container',
+                    {
+                        '_interact': this.state.interact
+                    }
+                )}>
                     <div className="checkout--header">
                         <ModalClose invoiceID={this.props.invoiceID} />
                         <Logo logoUrl={this.props.logo}/>
@@ -110,17 +183,10 @@ export default class Modal extends React.Component {
                     </div>
                     <div className="checkout--body">
                         <div className="payform">
-                            <Spinner isShow={this.isInProcess}/>
-                            <Checkmark isShow={this.isProcessSuccess}/>
-                            <Payform isShow={!this.isInProcess && !this.isProcessSuccess}
-                                     handlePay={this.handlePay}
-                                     errorMessage={this.errorMessage}
-                                     isPayButtonDisabled={this.isPayButtonDisabled}
-                                     isShowErrorPanel={this.isShowErrorPanel}
-                                     buttonColor={this.props.buttonColor}
-                                     amount={this.props.amount}
-                                     currency={this.props.currency}
-                            />
+                            { this.state.payform ? this.renderPayform() : false }
+                            { this.state.interact ? <div ref="3ds" className="payform--interact" /> : false }
+                            { this.state.spinner ? <Spinner /> : false }
+                            { this.state.checkmark ? <Checkmark /> : false }
                         </div>
                     </div>
                 </div>
