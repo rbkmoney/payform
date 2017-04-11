@@ -1,5 +1,11 @@
 .payform {
     padding: 20px 35px;
+    min-height: 317px;
+    min-width: 300px;
+
+    @include responsive(sm) {
+        position: relative;
+    }
 
     input {
         width: 100%;

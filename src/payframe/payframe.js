@@ -1,98 +1,90 @@
-import './payframe.scss';
-import Iframe from './elements/Iframe';
-import PayButton from './elements/PayButton';
+import './app.scss';
+import 'whatwg-fetch';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import isMobile from 'ismobilejs';
 import StyleLink from './elements/StyleLink';
-import InitScript from './elements/InitScript';
-import Utils from '../utils/Utils';
-import Listener from '../communication/Listener';
-import CheckoutCommunicator from '../communication/CheckoutCommunicator';
 import ready from '../utils/domReady';
-import processingCallback from './callbacks/processingCallback';
+import Listener from '../communication/Listener';
+import Utils from '../utils/Utils';
+import Modal from './components/Modal';
+import ParentCommunicator from '../communication/ParentCommunicator';
+import ConfigLoader from './loaders/ConfigLoader';
+import Invoice from './backend-communication/Invoice';
 
 ready(function () {
-    const RbkmoneyCheckout = {
-        config: {}
-    };
+    const params = {};
+    const search = location.search.substring(1);
+    if (search.length > 1) {
+        search.length > 1 ? Object.assign(params, JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`)) : undefined;
+    }
 
-    const initScript = new InitScript();
-    const payformHost = initScript.getHost();
-    const styles = new StyleLink(payformHost);
-    const iframe = new Iframe(payformHost);
-    const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
-    const formNode = initScript.getFormNode();
-    const params = initScript.getParams();
+    const styleLink = new StyleLink();
+    styleLink.render();
 
-    Object.assign(params, {
-        locationHost: Utils.getOriginUrl(location.href),
-        payformHost: payformHost
+    let is3DSInProgress = false;
+
+    function set3DSStatus(state) {
+        is3DSInProgress = state;
+    }
+
+    function renderModal(data) {
+        if (Utils.isSafari()) {
+            styleLink.rerender();
+        }
+
+        ConfigLoader.load(data.payformHost).then((config) => {
+            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
+                .then((response) => {
+
+                    Object.assign(data, {
+                        currency: response.currency,
+                        amount:  String(Number(response.amount) / 100)
+                    });
+
+                    const root = document.getElementById('root');
+
+                    ReactDOM.render(
+                        <Modal invoiceAccessToken={data.invoiceAccessToken}
+                               capiEndpoint={config.capiEndpoint}
+                               tokenizerEndpoint={config.tokenizerEndpoint}
+                               invoiceID={data.invoiceID}
+                               logo={data.logo}
+                               amount={data.amount}
+                               currency={data.currency}
+                               buttonColor={data.buttonColor}
+                               name={data.name}
+                               payformHost={data.payformHost}
+                               set3DSStatus={set3DSStatus}
+                               is3DSInProgress={is3DSInProgress}
+                        />,
+                        root
+                    );
+                },
+                error => console.error(error));
+        });
+    }
+
+    window.addEventListener('message', (message) => {
+        switch (message.data.type) {
+            case 'finish3ds': {
+                set3DSStatus(false);
+                ParentCommunicator.send({type: 'finish3ds'});
+                renderModal(params);
+                break;
+            }
+        }
     });
-
-    const payButton = new PayButton(params.label);
-    payButton.onclick = (e) => {
-        e.preventDefault();
-        open();
-    };
-    payButton.render();
-    styles.render();
-    iframe.render();
 
     Listener.addListener(message => {
         switch (message.type) {
-            case 'close':
-                close();
-                break;
-            case 'done':
-                close();
-                processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
-                formNode && formNode.action ? formNode.submit() : false;
-                break;
-            case 'error':
-                close();
-                processingCallback(params.endpointFailed, params.endpointFailedMethod);
-                break;
-            case 'start3ds':
-                iframe.enable3DS();
-                break;
-            case 'finish3ds':
-                iframe.disable3DS();
+            case 'init-payform':
+                renderModal(message.data);
                 break;
         }
     });
 
-    window.addEventListener('beforeunload', () => {
-        communicator.send({type: 'unload'});
-    });
-
-    function open() {
-        communicator.send({
-            type: 'init-payform',
-            data: params
-        });
-        iframe.show();
-
-        RbkmoneyCheckout.config.opened ? RbkmoneyCheckout.config.opened() : false;
+    if (isMobile.any) {
+        renderModal(params);
     }
-
-    function close() {
-        iframe.hide();
-        iframe.destroy();
-        iframe.render();
-
-        RbkmoneyCheckout.config.closed ? RbkmoneyCheckout.config.closed() : false;
-    }
-    
-    RbkmoneyCheckout.open = () => open();
-    RbkmoneyCheckout.close = () => close();
-
-    RbkmoneyCheckout.configure = (config) => {
-        RbkmoneyCheckout.config = Object.assign(params, config);
-    };
-
-    payButton.onclick = open;
-
-    payButton.render();
-    styles.render();
-    iframe.render();
-
-    window.RbkmoneyCheckout = RbkmoneyCheckout;
 });

@@ -12,33 +12,68 @@
 
     &--container {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: auto;
         width: 100%;
-        max-width: 300px;
-        background: $white;
-        border-radius: 5px;
+        height: 100%;
+        background-color: $gray2;
         font: 12px/16px Helvetica Neue, Helvetica, Arial, sans-serif;
         overflow: visible;
-        box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
+        display: flex;
+        flex-direction: column;
+
+        &._interact {
+            @include responsive(sm) {
+                max-width: 700px;
+            }
+
+            .payform {
+                padding: 10px;
+
+                @include responsive(sm) {
+                    padding: 20px 35px;
+                }
+            }
+        }
+
+        @include responsive(sm) {
+            display: block;
+            height: auto;
+            width: auto;
+            background: $white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 300px;
+            border-radius: 5px;
+            box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
+        }
     }
 
     &--header {
         display: block;
         position: relative;
-        padding: 55px 35px 20px;
+        padding: 20px 35px 20px;
         background-color: $gray5;
-        border-radius: 5px 5px 0 0;
+        height: auto;
+        flex-grow: 1;
+
+        @include responsive(sm) {
+            border-radius: 5px 5px 0 0;
+            padding: 55px 35px 20px;
+        }
     }
 
     &--body {
-        display: block;
         position: relative;
         background-color: $gray2;
         border-top: 1px solid $gray6;
-        border-radius: 0 0 5px 5px;
+        height: 100%;
+        width: auto;
+        flex-shrink: 1;
+
+        @include responsive(sm) {
+            display: block;
+            border-radius: 0 0 5px 5px;
+        }
     }
 
     &--close-button {
@@ -59,10 +94,7 @@
     }
 
     &--logo {
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -40%);
+        margin: auto;
         width: 60px;
         height: 60px;
         border: 3px solid $gray9;
@@ -71,6 +103,13 @@
         background-size: cover;
         box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 2px 2px 0 rgba(0,0,0,0.05);
         overflow: hidden;
+
+        @include responsive(sm) {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -40%);
+        }
     }
 
     &--company-name {
@@ -82,6 +121,11 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        margin-top: 10px;
+
+        @include responsive(sm) {
+            margin: 0;
+        }
     }
 
     .-large {

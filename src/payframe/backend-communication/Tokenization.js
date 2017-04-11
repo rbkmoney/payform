@@ -4,8 +4,8 @@ export default class Tokenization {
         this.Tokenizer = tokenizer;
     }
 
-    setAccessToken(accessToken) {
-        this.Tokenizer.setAccessToken(accessToken);
+    setAccessToken(invoiceAccessToken) {
+        this.Tokenizer.setAccessToken(invoiceAccessToken);
     }
 
     createToken(cardHolder, cardNumber, expDate, cvv) {

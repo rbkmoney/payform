@@ -4,7 +4,6 @@ class Spinner extends React.Component {
 
     componentDidMount() {
         this.spinner.style.transform = 'scale(0.54)';
-        Spinner.changeVisibility(this.spinner.style, this.props.isShow);
         Spinner.setStyle(this.deg0.style, 0);
         Spinner.setStyle(this.deg30.style, 30);
         Spinner.setStyle(this.deg60.style, 60);
@@ -19,10 +18,6 @@ class Spinner extends React.Component {
         Spinner.setStyle(this.deg330.style, 330);
     }
 
-    componentWillUpdate(props) {
-        Spinner.changeVisibility(this.spinner.style, props.isShow);
-    }
-
     static setStyle(style, degree) {
         return Object.assign(style, {
             top: '80px',
@@ -35,10 +30,6 @@ class Spinner extends React.Component {
             'border-radius': '10px',
             position: 'absolute'
         })
-    }
-
-    static changeVisibility(style, isShow) {
-        isShow ? style.display = 'block': style.display = 'none';
     }
 
     render() {

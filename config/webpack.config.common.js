@@ -6,8 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     name: 'js',
     entry: {
-        '../dist/payframe/payframe': path.join(__dirname, '../src/payframe/payframe.js'),
-        '../dist/checkout/checkout': path.join(__dirname, '../src/checkout/checkout.js')
+        '../dist/checkout': path.join(__dirname, '../src/checkout/checkout.js'),
+        '../dist/payframe/payframe': path.join(__dirname, '../src/payframe/payframe.js')
     },
     output: {
         filename: '[name].js',
@@ -34,7 +34,9 @@ module.exports = {
         new ExtractTextPlugin({filename: '[name].css'}),
         new CopyWebpackPlugin(
             [
-                { from: './src/checkout/checkout.html', to: '../dist/checkout/' },
+                { from: './src/payframe/payframe.html', to: '../dist/payframe/' },
+                { from: './src/payframe/finishInteraction.html', to: '../dist/payframe/' },
+                { from: './src/payframe/images', to: '../dist/payframe/images/' },
                 { from: './src/appConfig.json', to: '../dist/' }
             ],
             { debug: 'warning' }

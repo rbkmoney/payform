@@ -1,7 +1,8 @@
 .checkmark {
-    margin-left: 78px;
-    margin-top: 99px;
-    margin-bottom: 98px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
 }
 
 /* animations */

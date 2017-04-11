@@ -4,13 +4,13 @@ const errorMassage = 'An error occurred while trying create payment';
 
 class PaymentCreator {
 
-    static create(capiEndpoint, invoiceID, accessToken, tokenizerToken, email) {
+    static create(capiEndpoint, invoiceID, invoiceAccessToken, tokenizerToken, email) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/payments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Bearer ${invoiceAccessToken}`,
                     'X-Request-ID': guid()
                 },
                 body: JSON.stringify({
