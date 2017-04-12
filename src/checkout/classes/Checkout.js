@@ -41,9 +41,12 @@ export default class Checkout {
             }, 6000);
 
             window.addEventListener('message', (event) => {
+                if (event.origin !== this.params.payformHost) {
+                    return;
+                }
                 if (event.data.message === 'payment-done') {
-                    this.params.finished ? this.params.finished() : false;
-                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                    //this.params.finished ? this.params.finished() : false;
+                    //this.formNode && this.formNode.action ? this.formNode.submit() : false;
                 }
             });
 
