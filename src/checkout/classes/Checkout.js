@@ -8,7 +8,6 @@ import isMobile from 'ismobilejs';
 export default class Checkout {
     constructor(params, initScript) {
         this.params = params;
-
         this.initScript = initScript;
 
         if (this.initScript.element) {
@@ -17,10 +16,12 @@ export default class Checkout {
             this.styles.render();
         }
 
-        this.iframe = new Iframe(this.params);
-        this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
+        if (!isMobile.any) {
+            this.iframe = new Iframe(this.params);
+            this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
+            this.iframe.render();
+        }
 
-        this.iframe.render();
         this.makeEvents();
 
         this.open = this.open.bind(this);
@@ -30,7 +31,22 @@ export default class Checkout {
 
     open() {
         if (isMobile.any) {
-            window.open(`${this.params.payformHost}/payframe/payframe.html?${Utils.objectToParams(this.params)}`);
+            const popup = window.open(`${this.params.payformHost}/payframe/payframe.html?${Utils.objectToParams(this.params)}`);
+
+            setTimeout(() => {
+                popup.postMessage({
+                    message: 'init-transport',
+                    origin: location.origin
+                }, this.params.payformHost);
+            }, 6000);
+
+            window.addEventListener('message', (event) => {
+                if (event.data.message === 'payment-done') {
+                    this.params.finished ? this.params.finished() : false;
+                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                }
+            });
+
         } else {
             this.communicator.send({
                 type: 'init-payform',
@@ -62,6 +78,7 @@ export default class Checkout {
                     break;
                 case 'done':
                     this.close();
+                    this.params.finished ? this.params.finished() : false;
                     this.formNode && this.formNode.action ? this.formNode.submit() : false;
                     break;
             }

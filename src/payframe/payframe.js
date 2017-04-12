@@ -23,10 +23,15 @@ ready(function () {
     styleLink.render();
 
     let is3DSInProgress = false;
+    let sourceWindow = undefined;
 
-    function set3DSStatus(state) {
+    const set3DSStatus = (state) => {
         is3DSInProgress = state;
-    }
+    };
+
+    const setCheckoutDone = () => {
+        sourceWindow.source.postMessage({message: 'payment-done'}, sourceWindow.origin);
+    };
 
     function renderModal(data) {
         if (Utils.isSafari()) {
@@ -57,6 +62,7 @@ ready(function () {
                                payformHost={data.payformHost}
                                set3DSStatus={set3DSStatus}
                                is3DSInProgress={is3DSInProgress}
+                               setCheckoutDone={setCheckoutDone}
                         />,
                         root
                     );
@@ -65,8 +71,16 @@ ready(function () {
         });
     }
 
-    window.addEventListener('message', (message) => {
-        switch (message.data.type) {
+    if (isMobile.any) {
+        window.addEventListener('message', (event) => {
+            if (event.data.message === 'init-transport') {
+                sourceWindow = event;
+            }
+        });
+    }
+
+    window.addEventListener('message', (event) => {
+        switch (event.data.type) {
             case 'finish3ds': {
                 set3DSStatus(false);
                 ParentCommunicator.send({type: 'finish3ds'});

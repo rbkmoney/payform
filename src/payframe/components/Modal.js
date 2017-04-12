@@ -39,6 +39,7 @@ export default class Modal extends React.Component {
 
 
             if (isMobile.any) {
+                this.props.setCheckoutDone();
                 setTimeout(() => {
                     window.close();
                 }, settings.closeFormTimeout);
