@@ -48,9 +48,9 @@ export default class Modal extends React.Component {
         }
     }
 
-    handleError() {
-        ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
-    }
+    //handleError() {
+    //    ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
+    //}
 
     componentDidMount() {
         const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);

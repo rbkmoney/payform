@@ -9,11 +9,11 @@ export default class Checkout {
     constructor(params, initScript) {
         this.params = params;
         this.initScript = initScript;
+        this.styles = new StyleLink(this.params.payformHost);
+        this.styles.render();
 
         if (this.initScript.element) {
-            this.styles = new StyleLink(this.params.payformHost);
             this.formNode = this.initScript.getFormNode();
-            this.styles.render();
         }
 
         if (!isMobile.any) {
