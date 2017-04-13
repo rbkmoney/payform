@@ -45,8 +45,8 @@ export default class Checkout {
                     return;
                 }
                 if (event.data.message === 'payment-done') {
-                    //this.params.finished ? this.params.finished() : false;
-                    //this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                    this.params.finished ? this.params.finished() : false;
+                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
                 }
             });
 
