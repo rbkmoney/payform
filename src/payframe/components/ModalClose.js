@@ -24,7 +24,6 @@ class ModalClose extends React.Component {
         } else {
             ParentCommunicator.send({type: 'close', invoiceID: this.props.invoiceID});
         }
-
     }
 
     render() {
