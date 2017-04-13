@@ -22,12 +22,7 @@ ready(function () {
     const styleLink = new StyleLink();
     styleLink.render();
 
-    let is3DSInProgress = false;
     let sourceWindow = undefined;
-
-    const set3DSStatus = (state) => {
-        is3DSInProgress = state;
-    };
 
     const setCheckoutDone = () => {
         sourceWindow.source.postMessage({message: 'payment-done'}, sourceWindow.origin);
@@ -60,8 +55,6 @@ ready(function () {
                                buttonColor={data.buttonColor}
                                name={data.name}
                                payformHost={data.payformHost}
-                               set3DSStatus={set3DSStatus}
-                               is3DSInProgress={is3DSInProgress}
                                setCheckoutDone={setCheckoutDone}
                         />,
                         root
@@ -82,7 +75,6 @@ ready(function () {
     window.addEventListener('message', (event) => {
         switch (event.data.type) {
             case 'finish3ds': {
-                set3DSStatus(false);
                 ParentCommunicator.send({type: 'finish3ds'});
                 renderModal(params);
                 break;

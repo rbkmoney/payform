@@ -48,10 +48,6 @@ export default class Modal extends React.Component {
         }
     }
 
-    //handleError() {
-    //    ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
-    //}
-
     componentDidMount() {
         const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
         tokenizerScript.render()
@@ -92,7 +88,6 @@ export default class Modal extends React.Component {
                     spinner: false,
                     checkmark: false
                 });
-                this.props.set3DSStatus(true);
                 const redirectUrl = `${this.props.payformHost}/html/finishInteraction.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl, this.refs['3ds']);
                 form3ds.render();
