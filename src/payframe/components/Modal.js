@@ -136,17 +136,29 @@ export default class Modal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken).then((result) => {
-           if (result.type === 'success') {
-               this.setState({
-                    payform: false,
+        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
+            .then((result) => {
+               if (result.type === 'success') {
+                   this.setState({
+                        payform: false,
+                        interact: false,
+                        spinner: false,
+                        checkmark: true
+                   });
+                   this.handleSuccess(result);
+               }
+            })
+            .catch(error => {
+                this.setState({
+                    payform: true,
                     interact: false,
                     spinner: false,
-                    checkmark: true
+                    checkmark: false
                });
-               this.handleSuccess(result);
-           }
-        });
+                this.errorMessage = error.message;
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
     }
 
     renderPayform() {

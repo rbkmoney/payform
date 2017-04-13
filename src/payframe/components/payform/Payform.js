@@ -78,12 +78,12 @@ class Payform extends React.Component {
         return (
             <form id="payform" role="form" ref={(form) => { this.formElement = form; }}>
                 <fieldset className="payform--fieldset">
-                    <CardHolder value={cardHolder.value} onChange={this.handleCardHolder} isValid={cardHolder.isValid}/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
                     <CardNumber value={cardNumber.value} onChange={this.handleCardNumber} isValid={cardNumber.isValid}/>
                     <CardExpire value={cardExpire.value} onChange={this.handleCardExpire} isValid={cardExpire.isValid}/>
                     <CardCvv value={cardCvv.value} onChange={this.handleCardCvv} isValid={cardCvv.isValid}/>
+                </fieldset>
+                <fieldset className="payform--fieldset">
+                    <CardHolder value={cardHolder.value} onChange={this.handleCardHolder} isValid={cardHolder.isValid}/>
                 </fieldset>
                 <fieldset className="payform--fieldset">
                     <Email value={email.value} onChange={this.handleEmail} isValid={email.isValid}/>
