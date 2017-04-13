@@ -93,7 +93,7 @@ export default class Modal extends React.Component {
                     checkmark: false
                 });
                 this.props.set3DSStatus(true);
-                const redirectUrl = `${this.props.payformHost}/payframe/finishInteraction.html`;
+                const redirectUrl = `${this.props.payformHost}/html/finishInteraction.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl, this.refs['3ds']);
                 form3ds.render();
                 form3ds.submit(settings.submitFormTimeout);

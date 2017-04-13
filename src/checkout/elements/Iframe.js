@@ -4,7 +4,7 @@ import Utils from '../../utils/Utils';
 export default class Iframe {
     constructor(params) {
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', `${params.payformHost}/payframe/payframe.html?${Utils.objectToParams(params)}`);
+        iframe.setAttribute('src', `${params.payformHost}/html/payframe.html?${Utils.objectToParams(params)}`);
         iframe.setAttribute('name', 'rbkmoney_payframe');
         iframe.setAttribute('allowtransparency', 'true');
         iframe.setAttribute('frameborder', '0');

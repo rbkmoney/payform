@@ -31,7 +31,7 @@ export default class Checkout {
 
     open() {
         if (isMobile.any) {
-            const popup = window.open(`${this.params.payformHost}/payframe/payframe.html?${Utils.objectToParams(this.params)}`);
+            const popup = window.open(`${this.params.payformHost}/html/payframe.html?${Utils.objectToParams(this.params)}`);
 
             setTimeout(() => {
                 popup.postMessage({
