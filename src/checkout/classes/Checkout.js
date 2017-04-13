@@ -8,6 +8,15 @@ import isMobile from 'ismobilejs';
 export default class Checkout {
     constructor(params, initScript) {
         this.params = params;
+
+        this.opened = params.opened;
+        this.closed = params.closed;
+        this.finished = params.finished;
+
+        delete this.params.opened;
+        delete this.params.closed;
+        delete this.params.finished;
+
         this.initScript = initScript;
         this.styles = new StyleLink(this.params.payformHost);
         this.styles.render();
@@ -45,7 +54,7 @@ export default class Checkout {
                     return;
                 }
                 if (event.data.message === 'payment-done') {
-                    this.params.finished ? this.params.finished() : false;
+                    this.finished ? this.finished() : false;
                     this.formNode && this.formNode.action ? this.formNode.submit() : false;
                 }
             });
@@ -57,7 +66,7 @@ export default class Checkout {
             });
             this.iframe.show();
 
-            this.params.opened ? this.params.opened() : false;
+            this.opened ? this.opened() : false;
         }
     }
 
@@ -66,7 +75,7 @@ export default class Checkout {
         this.iframe.destroy();
         this.iframe.render();
 
-        this.params.closed ? this.params.closed() : false;
+        this.closed ? this.closed() : false;
     }
 
     makeEvents() {
@@ -75,13 +84,16 @@ export default class Checkout {
         });
 
         Listener.addListener(message => {
+            if (message.invoiceID !== this.params.invoiceID) {
+                return;
+            }
             switch (message.type) {
                 case 'close':
                     this.close();
                     break;
                 case 'done':
                     this.close();
-                    this.params.finished ? this.params.finished() : false;
+                    this.finished ? this.finished() : false;
                     this.formNode && this.formNode.action ? this.formNode.submit() : false;
                     break;
             }
