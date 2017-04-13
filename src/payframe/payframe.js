@@ -16,52 +16,52 @@ ready(function () {
     const params = {};
     const search = location.search.substring(1);
     if (search.length > 1) {
-        search.length > 1 ? Object.assign(params, JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`)) : undefined;
+        Object.assign(params, JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`));
     }
+    let sourceWindow = undefined;
 
     const styleLink = new StyleLink();
     styleLink.render();
 
-    let sourceWindow = undefined;
-
-    const setCheckoutDone = () => {
+    function setCheckoutDone() {
         sourceWindow.source.postMessage({message: 'payment-done'}, sourceWindow.origin);
-    };
+    }
 
     function renderModal(data) {
         if (Utils.isSafari()) {
             styleLink.rerender();
         }
 
-        ConfigLoader.load(data.payformHost).then((config) => {
-            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
-                .then((response) => {
+        ConfigLoader.load(data.payformHost)
+            .then((config) => {
+                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
+                    .then((response) => {
 
-                    Object.assign(data, {
-                        currency: response.currency,
-                        amount:  String(Number(response.amount) / 100)
-                    });
+                        Object.assign(data, {
+                            currency: response.currency,
+                            amount:  String(Number(response.amount) / 100)
+                        });
 
-                    const root = document.getElementById('root');
+                        const root = document.getElementById('root');
 
-                    ReactDOM.render(
-                        <Modal invoiceAccessToken={data.invoiceAccessToken}
-                               capiEndpoint={config.capiEndpoint}
-                               tokenizerEndpoint={config.tokenizerEndpoint}
-                               invoiceID={data.invoiceID}
-                               logo={data.logo}
-                               amount={data.amount}
-                               currency={data.currency}
-                               buttonColor={data.buttonColor}
-                               name={data.name}
-                               payformHost={data.payformHost}
-                               setCheckoutDone={setCheckoutDone}
-                        />,
-                        root
-                    );
-                },
-                error => console.error(error));
-        });
+                        ReactDOM.render(
+                            <Modal invoiceAccessToken={data.invoiceAccessToken}
+                                   capiEndpoint={config.capiEndpoint}
+                                   tokenizerEndpoint={config.tokenizerEndpoint}
+                                   invoiceID={data.invoiceID}
+                                   logo={data.logo}
+                                   amount={data.amount}
+                                   currency={data.currency}
+                                   buttonColor={data.buttonColor}
+                                   name={data.name}
+                                   payformHost={data.payformHost}
+                                   setCheckoutDone={setCheckoutDone}
+                            />,
+                            root
+                        );
+                    },
+                    error => console.error(error));
+            });
     }
 
     if (isMobile.any) {

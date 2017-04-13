@@ -14,7 +14,6 @@ import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
 
 export default class Modal extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -26,6 +25,49 @@ export default class Modal extends React.Component {
         };
 
         this.handlePay = this.handlePay.bind(this);
+    }
+
+    componentDidMount() {
+        const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
+        tokenizerScript.render()
+            .catch(() => {
+                this.isPayButtonDisabled = true;
+                this.errorMessage = 'Tokenizer is not available';
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
+    }
+
+    componentWillReceiveProps(nextProps) {
+       this.setState({
+            payform: false,
+            interact: false,
+            spinner: true,
+            checkmark: false
+       });
+        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
+            .then((result) => {
+               if (result.type === 'success') {
+                   this.setState({
+                        payform: false,
+                        interact: false,
+                        spinner: false,
+                        checkmark: true
+                   });
+                   this.handleSuccess(result);
+               }
+            })
+            .catch(error => {
+                this.setState({
+                    payform: true,
+                    interact: false,
+                    spinner: false,
+                    checkmark: false
+               });
+                this.errorMessage = error.message;
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
     }
 
     handleSuccess(result) {
@@ -46,17 +88,6 @@ export default class Modal extends React.Component {
                 ParentCommunicator.sendWithTimeout({type: 'done', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
             }
         }
-    }
-
-    componentDidMount() {
-        const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
-        tokenizerScript.render()
-            .catch(() => {
-                this.isPayButtonDisabled = true;
-                this.errorMessage = 'Tokenizer is not available';
-                this.isShowErrorPanel = true;
-                this.forceUpdate();
-            });
     }
 
     handlePay(formData) {
@@ -104,38 +135,6 @@ export default class Modal extends React.Component {
             this.isShowErrorPanel = true;
             this.forceUpdate();
         });
-    }
-
-    componentWillReceiveProps(nextProps) {
-       this.setState({
-            payform: false,
-            interact: false,
-            spinner: true,
-            checkmark: false
-       });
-        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
-            .then((result) => {
-               if (result.type === 'success') {
-                   this.setState({
-                        payform: false,
-                        interact: false,
-                        spinner: false,
-                        checkmark: true
-                   });
-                   this.handleSuccess(result);
-               }
-            })
-            .catch(error => {
-                this.setState({
-                    payform: true,
-                    interact: false,
-                    spinner: false,
-                    checkmark: false
-               });
-                this.errorMessage = error.message;
-                this.isShowErrorPanel = true;
-                this.forceUpdate();
-            });
     }
 
     renderPayform() {
