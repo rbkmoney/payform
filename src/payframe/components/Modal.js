@@ -37,7 +37,6 @@ export default class Modal extends React.Component {
                 checkmark: true
             });
 
-
             if (isMobile.any) {
                 this.props.setCheckoutDone();
                 setTimeout(() => {
@@ -62,29 +61,6 @@ export default class Modal extends React.Component {
                 this.isShowErrorPanel = true;
                 this.forceUpdate();
             });
-
-        if (this.props.isResume) {
-            this.setState({
-                payform: false,
-                interact: false,
-                spinner: true,
-                checkmark: false
-            });
-
-            Processing.pollEvents({
-                invoiceID: this.props.invoiceID,
-                invoiceAccessToken: this.props.invoiceAccessToken,
-                capiEndpoint: this.props.capiEndpoint
-            }).then(result => {
-                if (result.type === 'success') {
-                    this.handleSuccess(result);
-                } else {
-                    this.handleError(result);
-                }
-            }, error => {
-                this.handleError(error);
-            });
-        }
     }
 
     handlePay(formData) {
@@ -136,6 +112,12 @@ export default class Modal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+       this.setState({
+            payform: false,
+            interact: false,
+            spinner: true,
+            checkmark: false
+       });
         EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
             .then((result) => {
                if (result.type === 'success') {
