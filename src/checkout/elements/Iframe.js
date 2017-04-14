@@ -6,6 +6,7 @@ export default class Iframe {
         const iframe = document.createElement('iframe');
         iframe.setAttribute('src', `${params.payformHost}/html/payframe.html?${Utils.objectToParams(params)}`);
         iframe.setAttribute('name', `rbkmoney_payframe_${params.invoiceID}`);
+        iframe.setAttribute('class', `rbkmoney_payframe_${params.invoiceID}`);
         iframe.setAttribute('allowtransparency', 'true');
         iframe.setAttribute('frameborder', '0');
         Object.assign(iframe.style, iframeStyles);
