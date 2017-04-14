@@ -55,9 +55,11 @@ export default class Checkout {
                 if (event.origin !== this.params.payformHost) {
                     return;
                 }
-                if (event.data.message === 'payment-done') {
-                    this.finished ? this.finished() : false;
-                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                switch (event.data.type) {
+                    case 'payment-done':
+                        this.finished ? this.finished() : false;
+                        this.formNode && this.formNode.action ? this.formNode.submit() : false;
+                        break;
                 }
             });
 

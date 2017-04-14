@@ -15,9 +15,10 @@ module.exports = merge(commonConfig, {
                 dead_code: true,
                 evaluate: true,
                 if_return: true,
-                join_vars: true,
-                comments: false
-            }
+                join_vars: true
+            },
+            comments: false
+
         }),
         new webpack.DefinePlugin({
             'process.env': {

@@ -24,7 +24,7 @@ ready(function () {
     styleLink.render();
 
     function setCheckoutDone() {
-        sourceWindow.source.postMessage({message: 'payment-done'}, sourceWindow.origin);
+        sourceWindow.source.postMessage({type: 'payment-done', invoiceID: params.invoiceID}, sourceWindow.origin);
     }
 
     function renderModal(data) {
