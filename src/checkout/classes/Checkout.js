@@ -30,7 +30,7 @@ export default class Checkout {
             this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
             this.iframe.render();
             this.iframeIsLoaded = false;
-            this.iframeOpenAttempt = 0;
+            this.iframeOpenAttempts = 0;
         }
 
         this.makeEvents();
@@ -63,7 +63,7 @@ export default class Checkout {
 
         } else {
             if (this.iframeIsLoaded) {
-                this.iframeOpenAttempt = 0;
+                this.iframeOpenAttempts = 0;
 
                 this.communicator.send({
                     type: 'init-payform',
@@ -73,11 +73,11 @@ export default class Checkout {
                 this.iframe.show();
 
                 this.opened ? this.opened() : false;
-            } else if (this.iframeOpenAttempt <= 20){
-                this.iframeOpenAttempt++;
+            } else if (this.iframeOpenAttempts <= 20){
+                this.iframeOpenAttempts++;
                 setTimeout(this.open, 100)
             } else {
-                this.iframeOpenAttempt = 0;
+                this.iframeOpenAttempts = 0;
             }
         }
     }
