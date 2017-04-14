@@ -16,6 +16,12 @@ module.exports = merge(commonConfig, {
                 evaluate: true,
                 if_return: true,
                 join_vars: true,
+                comments: false
+            }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
             }
         })
     ]

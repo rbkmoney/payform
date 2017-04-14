@@ -29,6 +29,8 @@ export default class Checkout {
             this.iframe = new Iframe(this.params);
             this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
             this.iframe.render();
+            this.iframeIsLoaded = false;
+            this.iframeOpenAttempt = 0;
         }
 
         this.makeEvents();
@@ -60,19 +62,30 @@ export default class Checkout {
             });
 
         } else {
-            this.communicator.send({
-                type: 'init-payform',
-                data: this.params
-            });
-            this.iframe.show();
+            if (this.iframeIsLoaded && this.iframeOpenAttempt <= 20) {
+                this.iframeOpenAttempt = 0;
 
-            this.opened ? this.opened() : false;
+                this.communicator.send({
+                    type: 'init-payform',
+                    data: this.params
+                });
+
+                this.iframe.show();
+
+                this.opened ? this.opened() : false;
+            } else if (this.iframeOpenAttempt <= 20){
+                this.iframeOpenAttempt++;
+                setTimeout(this.open, 100)
+            } else {
+                this.iframeOpenAttempt = 0;
+            }
         }
     }
 
     close() {
         this.iframe.hide();
         this.iframe.destroy();
+        this.iframeIsLoaded = false;
         this.iframe.render();
 
         this.closed ? this.closed() : false;
@@ -88,6 +101,9 @@ export default class Checkout {
                 return;
             }
             switch (message.type) {
+                case 'payframe-ready':
+                    this.iframeIsLoaded = true;
+                    break;
                 case 'close':
                     this.close();
                     break;

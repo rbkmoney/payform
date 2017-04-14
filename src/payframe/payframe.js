@@ -93,4 +93,11 @@ ready(function () {
     if (isMobile.any) {
         renderModal(params);
     }
+
+    if (!isMobile.any) {
+        ParentCommunicator.send({
+            type: 'payframe-ready',
+            invoiceID: params.invoiceID
+        });
+    }
 });
