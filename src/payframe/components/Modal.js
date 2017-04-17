@@ -21,10 +21,18 @@ export default class Modal extends React.Component {
             payform: true,
             interact: false,
             spinner: false,
-            checkmark: false
+            checkmark: false,
+            payformState: {
+                cardHolder: {value: ''},
+                cardNumber: {value: ''},
+                cardExpire: {value: ''},
+                cardCvv: {value: ''},
+                email: {value: ''}
+            }
         };
 
         this.handlePay = this.handlePay.bind(this);
+        this.setPayformState = this.setPayformState.bind(this);
     }
 
     componentDidMount() {
@@ -70,6 +78,14 @@ export default class Modal extends React.Component {
             });
     }
 
+    setPayformState(data, name) {
+        this.setState({
+            payformState: Object.assign(this.state.payformState, {
+                [name]: data
+            })
+        })
+    }
+
     handleSuccess(result) {
         if (result.type === 'success') {
             this.setState({
@@ -90,7 +106,8 @@ export default class Modal extends React.Component {
         }
     }
 
-    handlePay(formData) {
+    handlePay() {
+        const formData = this.state.payformState;
         this.isShowErrorPanel = false;
         this.setState({
             payform: false,
@@ -104,11 +121,11 @@ export default class Modal extends React.Component {
             invoiceID: this.props.invoiceID,
             capiEndpoint: this.props.capiEndpoint,
             tokenizerEndpoint: this.props.tokenizerEndpoint,
-            cardHolder: formData.cardHolder,
-            cardNumber: formData.cardNumber,
-            cardExpire: formData.cardExpire,
-            email: formData.email,
-            cardCvv: formData.cardCvv
+            cardHolder: formData.cardHolder.value,
+            cardNumber: formData.cardNumber.value,
+            cardExpire: formData.cardExpire.value,
+            email: formData.email.value,
+            cardCvv: formData.cardCvv.value
         }).then(result => {
             if (result.type === 'success') {
                 this.handleSuccess(result);
@@ -146,6 +163,8 @@ export default class Modal extends React.Component {
                      buttonColor={this.props.buttonColor}
                      amount={this.props.amount}
                      currency={this.props.currency}
+                     payformState={this.state.payformState}
+                     setPayformState={this.setPayformState}
             />
         );
     }
