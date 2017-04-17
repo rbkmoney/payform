@@ -45,23 +45,10 @@ export default class Checkout {
             const popup = window.open(`${this.params.payformHost}/html/payframe.html?${Utils.objectToParams(this.params)}`);
 
             setTimeout(() => {
-                popup.postMessage({
-                    message: 'init-transport',
-                    origin: location.origin
-                }, this.params.payformHost);
+                popup.postMessage(
+                    `{ "type": "init-transport", "origin": "${location.origin}" }`,
+                    this.params.payformHost);
             }, 6000);
-
-            window.addEventListener('message', (event) => {
-                if (event.origin !== this.params.payformHost) {
-                    return;
-                }
-                switch (event.data.type) {
-                    case 'payment-done':
-                        this.finished ? this.finished() : false;
-                        this.formNode && this.formNode.action ? this.formNode.submit() : false;
-                        break;
-                }
-            });
 
         } else {
             if (this.iframeIsLoaded) {
@@ -110,12 +97,12 @@ export default class Checkout {
                     this.close();
                     break;
                 case 'done':
+                case 'payment-done':
                     this.close();
                     this.finished ? this.finished() : false;
                     this.formNode && this.formNode.action ? this.formNode.submit() : false;
                     break;
             }
-
         });
     }
 }

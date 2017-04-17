@@ -24,7 +24,7 @@ ready(function () {
     styleLink.render();
 
     function setCheckoutDone() {
-        sourceWindow.source.postMessage({type: 'payment-done', invoiceID: params.invoiceID}, sourceWindow.origin);
+        sourceWindow.source.postMessage(`{"type": "payment-done", "invoiceID": "${params.invoiceID}"}`, sourceWindow.origin);
     }
 
     function renderModal(data) {
@@ -64,28 +64,21 @@ ready(function () {
             });
     }
 
-    if (isMobile.any) {
-        window.addEventListener('message', (event) => {
-            if (event.data.message === 'init-transport') {
-                sourceWindow = event;
-            }
-        });
-    }
-
-    window.addEventListener('message', (event) => {
-        switch (event.data.type) {
-            case 'finish3ds': {
-                ParentCommunicator.send({type: 'finish3ds'});
-                renderModal(params);
-                break;
-            }
-        }
-    });
-
-    Listener.addListener(message => {
+    Listener.addListener((message, event) => {
         switch (message.type) {
             case 'init-payform':
                 renderModal(message.data);
+                break;
+            case 'init-transport':
+                sourceWindow = event;
+                break;
+            case 'finish3ds':
+                if (isMobile.any) {
+                    setCheckoutDone()
+                } else {
+                    ParentCommunicator.send({type: 'finish3ds'});
+                }
+                renderModal(params);
                 break;
         }
     });
