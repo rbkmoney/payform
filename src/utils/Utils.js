@@ -1,9 +1,10 @@
+import URL from 'url-parse';
+
 export default class Utils {
 
     static getOriginUrl(url) {
-        const parser = document.createElement('a');
-        parser.href = url;
-        return parser.origin;
+        const parsedUrl = new URL(url);
+        return parsedUrl.origin;
     }
 
     static isSafari() {
