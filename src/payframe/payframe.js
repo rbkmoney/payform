@@ -11,8 +11,17 @@ import Modal from './components/Modal';
 import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
+import Child from '../communication-2/Child';
 
 ready(function () {
+    const child = new Child();
+    child.then((transport) => {
+        transport.on('init-payform-2', (data) => {
+            console.log('Into payframe ', data);
+        });
+        transport.emit('close-payform-2');
+    });
+
     const params = {};
     const search = location.search.substring(1);
     if (search.length > 1) {

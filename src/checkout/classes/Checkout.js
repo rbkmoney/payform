@@ -4,6 +4,8 @@ import Utils from '../../utils/Utils';
 import Listener from '../../communication/Listener';
 import CheckoutCommunicator from '../../communication/CheckoutCommunicator';
 import isMobile from 'ismobilejs';
+import Parent from '../../communication-2/Parent';
+
 
 export default class Checkout {
     constructor(params, initScript) {
@@ -41,6 +43,15 @@ export default class Checkout {
     }
 
     open() {
+        const parent = new Parent(window.frames[this.iframe.getName()], this.iframe.getSrc());
+        parent.then((transport) => {
+            transport.emit('init-payform-2', this.params);
+            transport.on('close-payform-2', () => {
+                console.log('Into checkout ', data);
+            });
+        });
+
+
         if (isMobile.any) {
             const popup = window.open(`${this.params.payformHost}/html/payframe.html?${Utils.objectToParams(this.params)}`);
 
