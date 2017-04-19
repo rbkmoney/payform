@@ -7,11 +7,9 @@ import Checkmark from './Checkmark';
 import Payform from './payform/Payform';
 import TokenizerScript from '../elements/TokenizerScript';
 import Processing from '../backend-communication/Processing';
-import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
-import isMobile from 'ismobilejs';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -94,15 +92,7 @@ export default class Modal extends React.Component {
                 spinner: false,
                 checkmark: true
             });
-
-            if (isMobile.any) {
-                this.props.setCheckoutDone();
-                setTimeout(() => {
-                    window.close();
-                }, settings.closeFormTimeout);
-            } else {
-                ParentCommunicator.sendWithTimeout({type: 'done', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
-            }
+            this.props.setCheckoutDone();
         }
     }
 
@@ -160,7 +150,6 @@ export default class Modal extends React.Component {
                      errorMessage={this.errorMessage}
                      isPayButtonDisabled={this.isPayButtonDisabled}
                      isShowErrorPanel={this.isShowErrorPanel}
-                     buttonColor={this.props.buttonColor}
                      amount={this.props.amount}
                      currency={this.props.currency}
                      payformState={this.state.payformState}
@@ -180,7 +169,8 @@ export default class Modal extends React.Component {
                     }
                 )}>
                     <div className="checkout--header">
-                        <ModalClose invoiceID={this.props.invoiceID} />
+                        <ModalClose invoiceID={this.props.invoiceID}
+                                    setClose={this.props.setClose}/>
                         <Logo logoUrl={this.props.logo}/>
                         <div className="checkout--company-name">
                             {this.props.name}

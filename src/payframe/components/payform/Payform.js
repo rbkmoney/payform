@@ -80,9 +80,7 @@ class Payform extends React.Component {
                         type="button"
                         form="payform"
                         onClick={this.pay}
-                        style={{background: this.props.buttonColor}}
-                        disabled={this.isPayButtonDisabled}
-                >
+                        disabled={this.isPayButtonDisabled}>
                     Оплатить {this.props.amount}{this.props.currency}
                 </button>
             </form>

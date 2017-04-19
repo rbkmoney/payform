@@ -1,16 +1,10 @@
 import Transport from './Transport';
 
-function resolveOrigin(url) {
-    const a = document.createElement('a');
-    a.href = url;
-    return a.origin || `${a.protocol}//${a.hostname}`;
-}
-
 export default class Parent {
 
-    constructor(target, url) {
+    constructor(target, origin) {
         this.target = target;
-        this.origin = resolveOrigin(url);
+        this.origin = origin;
         this.parent = window;
         return this.sendHandshake();
     }

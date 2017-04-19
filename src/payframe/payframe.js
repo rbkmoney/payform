@@ -5,54 +5,47 @@ import ReactDOM from 'react-dom';
 import isMobile from 'ismobilejs';
 import StyleLink from './elements/StyleLink';
 import ready from '../utils/domReady';
-import Listener from '../communication/Listener';
 import Utils from '../utils/Utils';
 import Modal from './components/Modal';
-import ParentCommunicator from '../communication/ParentCommunicator';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication-2/Child';
+import settings from '../settings';
 
 ready(function () {
-    const child = new Child();
-    child.then((transport) => {
-        transport.on('init-payform-2', (data) => {
-            console.log('Into payframe ', data);
-        });
-        transport.emit('close-payform-2');
-    });
-
-    const params = {};
-    const search = location.search.substring(1);
-    if (search.length > 1) {
-        Object.assign(params, JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`));
-    }
-    let sourceWindow = undefined;
-
     const styleLink = new StyleLink();
     styleLink.render();
 
-    function setCheckoutDone() {
-        sourceWindow.source.postMessage(`{"type": "payment-done", "invoiceID": "${params.invoiceID}"}`, sourceWindow.origin);
-    }
+    const child = new Child();
+    child.then((transport) => {
+        let params;
+        transport.on('init-payform', (data) => {
+            params = data;
+            renderModal(data)
+        });
 
-    function renderModal(data) {
-        if (Utils.isSafari()) {
-            styleLink.rerender();
+        function setCheckoutDone() {
+            if (isMobile.any) {
+                window.close();
+            }
+            setTimeout(() => transport.emit('payment-done'), settings.closeFormTimeout);
         }
 
-        ConfigLoader.load(data.payformHost)
-            .then((config) => {
-                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
-                    .then((response) => {
+        function setClose() {
+            transport.emit('close');
+        }
 
+        function renderModal(data) {
+            if (Utils.isSafari()) {
+                styleLink.rerender();
+            }
+            ConfigLoader.load(data.payformHost).then((config) => {
+                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
                         Object.assign(data, {
                             currency: response.currency,
-                            amount:  String(Number(response.amount) / 100)
+                            amount: String(Number(response.amount) / 100)
                         });
-
                         const root = document.getElementById('root');
-
                         ReactDOM.render(
                             <Modal invoiceAccessToken={data.invoiceAccessToken}
                                    capiEndpoint={config.capiEndpoint}
@@ -61,45 +54,22 @@ ready(function () {
                                    logo={data.logo}
                                    amount={data.amount}
                                    currency={data.currency}
-                                   buttonColor={data.buttonColor}
                                    name={data.name}
                                    payformHost={data.payformHost}
                                    setCheckoutDone={setCheckoutDone}
+                                   setClose={setClose}
                             />,
                             root
                         );
                     },
                     error => console.error(error));
             });
-    }
-
-    Listener.addListener((message, event) => {
-        switch (message.type) {
-            case 'init-payform':
-                renderModal(message.data);
-                break;
-            case 'init-transport':
-                sourceWindow = event;
-                break;
-            case 'finish3ds':
-                if (isMobile.any) {
-                    setCheckoutDone()
-                } else {
-                    ParentCommunicator.send({type: 'finish3ds'});
-                }
-                renderModal(params);
-                break;
         }
-    });
 
-    if (isMobile.any) {
-        renderModal(params);
-    }
-
-    if (!isMobile.any) {
-        ParentCommunicator.send({
-            type: 'payframe-ready',
-            invoiceID: params.invoiceID
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                renderModal(params);
+            }
         });
-    }
+    });
 });
