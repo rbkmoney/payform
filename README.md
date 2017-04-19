@@ -52,7 +52,6 @@
 | invoiceAccessToken       | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...                  |
 | name                     | Метка для задания именования формы                    |              | Company name                          |
 | logo                     | URL для задания логотипа                              |              | `https://<your-server-side>/logo.png` |
-| label                    | Текст для кнопки                                      |              | Pay with RBKmoney                     |
 | opened                   | callback на открытие модального окна                  |              | function                              |
 | closed                   | callback на закрытие модального окна                  |              | function                              |
 | finished                 | callback на успешное завершение платежа               |              | function                              |

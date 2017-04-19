@@ -1,10 +1,9 @@
 import iframeStyles from './iframeStyles';
-import Utils from '../../utils/Utils';
 
 export default class Iframe {
     constructor(params) {
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', `${params.payformHost}/html/payframe.html?${Utils.objectToParams(params)}`);
+        iframe.setAttribute('src', `${params.payformHost}/html/payframe.html`);
         iframe.setAttribute('name', `rbkmoney_payframe_${params.invoiceID}`);
         iframe.setAttribute('class', `rbkmoney_payframe_${params.invoiceID}`);
         iframe.setAttribute('allowtransparency', 'true');
