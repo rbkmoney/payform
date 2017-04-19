@@ -1,4 +1,5 @@
 import Transport from './Transport';
+import settings from '../settings';
 
 export default class Parent {
 
@@ -21,7 +22,7 @@ export default class Parent {
             this.parent.addEventListener('message', reply, false);
 
             let attempt = 0;
-            const maxHandshakeRequests = 10;
+            const maxHandshakeRequests = settings.maxHandshakeRequests;
             const doSend = () => {
                 attempt++;
                 this.target.postMessage('rbkmoney-checkout-handshake', this.origin);

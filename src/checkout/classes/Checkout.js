@@ -1,5 +1,4 @@
 import Iframe from '../elements/Iframe';
-import StyleLink from '../elements/StyleLink';
 import isMobile from 'ismobilejs';
 import Parent from '../../communication/Parent';
 
@@ -16,8 +15,6 @@ export default class Checkout {
         delete this.params.finished;
 
         this.initScript = initScript;
-        this.styles = new StyleLink(this.params.payformHost);
-        this.styles.render();
 
         if (this.initScript.element) {
             this.formNode = this.initScript.getFormNode();
@@ -42,13 +39,17 @@ export default class Checkout {
         }
         const parent = new Parent(target, this.params.payformHost);
         parent.then((transport) => {
+            this.opened ? this.opened() : false;
             transport.emit('init-payform', this.params);
             transport.on('payment-done', () => {
                 this.close();
                 this.finished ? this.finished() : false;
                 this.formNode && this.formNode.action ? this.formNode.submit() : false;
             });
-            transport.on('close', () => this.close());
+            transport.on('close', () => {
+                transport.destroy();
+                this.close();
+            });
         });
     }
 
@@ -56,7 +57,6 @@ export default class Checkout {
         if (!isMobile.any) {
             this.iframe.hide();
             this.iframe.destroy();
-            this.iframe.render();
         }
         this.closed ? this.closed() : false;
     }

@@ -4,7 +4,7 @@ export default class Transport {
         this.target = target;
         this.origin = origin;
         this.events = {};
-        source.addEventListener('message', (e) => {
+        this.listener = (e) => {
             let parsed;
             try {
                 parsed = JSON.parse(e.data);
@@ -14,7 +14,8 @@ export default class Transport {
                     this.events[parsed.name].call(this, parsed.data);
                 }
             }
-        }, false);
+        };
+        source.addEventListener('message', this.listener, false);
     }
 
     emit(name, data) {
@@ -28,5 +29,9 @@ export default class Transport {
 
     on(eventName, callback) {
         this.events[eventName] = callback;
+    }
+
+    destroy() {
+        window.removeEventListener('message', this.listener, false);
     }
 }

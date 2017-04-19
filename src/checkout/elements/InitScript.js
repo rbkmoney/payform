@@ -2,7 +2,7 @@ import settings from '../../settings';
 
 export default class InitScript {
     constructor() {
-        const className = settings.integrationClassName;
+        const className = settings.htmlIntegrationClassName;
         this.element = document.querySelector(`.${className}`);
     }
 
@@ -20,5 +20,9 @@ export default class InitScript {
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney'
         }
+    }
+
+    isHtmlIntegration() {
+        return this.element && this.element.dataset;
     }
 }

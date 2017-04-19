@@ -33,6 +33,7 @@ ready(function () {
 
         function setClose() {
             transport.emit('close');
+            transport.destroy();
         }
 
         function renderModal(data) {
