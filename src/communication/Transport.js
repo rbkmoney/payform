@@ -1,11 +1,10 @@
 export default class Transport {
 
-    constructor(target, origin, win) {
+    constructor(target, origin, source) {
         this.target = target;
         this.origin = origin;
         this.events = {};
-
-        win.addEventListener('message', (e) => {
+        source.addEventListener('message', (e) => {
             let parsed;
             try {
                 parsed = JSON.parse(e.data);

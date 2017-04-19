@@ -1,7 +1,7 @@
 import Iframe from '../elements/Iframe';
 import StyleLink from '../elements/StyleLink';
 import isMobile from 'ismobilejs';
-import Parent from '../../communication-2/Parent';
+import Parent from '../../communication/Parent';
 
 export default class Checkout {
     constructor(params, initScript) {

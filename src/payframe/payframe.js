@@ -9,7 +9,7 @@ import Utils from '../utils/Utils';
 import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
-import Child from '../communication-2/Child';
+import Child from '../communication/Child';
 import settings from '../settings';
 
 ready(function () {
