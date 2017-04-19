@@ -1,71 +1,63 @@
 import Iframe from '../elements/Iframe';
-import StyleLink from '../elements/StyleLink';
-import Utils from '../../utils/Utils';
-import Listener from '../../communication/Listener';
-import CheckoutCommunicator from '../../communication/CheckoutCommunicator';
 import isMobile from 'ismobilejs';
+import Parent from '../../communication/Parent';
 
 export default class Checkout {
     constructor(params, initScript) {
         this.params = params;
 
+        this.opened = params.opened;
+        this.closed = params.closed;
+        this.finished = params.finished;
+
+        delete this.params.opened;
+        delete this.params.closed;
+        delete this.params.finished;
+
         this.initScript = initScript;
 
         if (this.initScript.element) {
-            this.styles = new StyleLink(this.params.payformHost);
             this.formNode = this.initScript.getFormNode();
-            this.styles.render();
         }
 
-        this.iframe = new Iframe(this.params);
-        this.communicator = new CheckoutCommunicator(this.iframe.getName(), this.iframe.getSrc());
-
-        this.iframe.render();
-        this.makeEvents();
+        if (!isMobile.any) {
+            this.iframe = new Iframe(this.params);
+            this.iframe.render();
+        }
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
-        this.makeEvents = this.makeEvents.bind(this);
     }
 
     open() {
+        let target;
         if (isMobile.any) {
-            window.open(`${this.params.payformHost}/payframe/payframe.html?${Utils.objectToParams(this.params)}`);
+            target = window.open(`${this.params.payformHost}/html/payframe.html`);
         } else {
-            this.communicator.send({
-                type: 'init-payform',
-                data: this.params
-            });
+            target = window.frames[this.iframe.getName()];
             this.iframe.show();
-
-            this.params.opened ? this.params.opened() : false;
         }
+        const parent = new Parent(target, this.params.payformHost);
+        parent.then((transport) => {
+            this.opened ? this.opened() : false;
+            transport.emit('init-payform', this.params);
+            transport.on('payment-done', () => {
+                this.close();
+                this.finished ? this.finished() : false;
+                this.formNode && this.formNode.action ? this.formNode.submit() : false;
+            });
+            transport.on('close', () => {
+                transport.destroy();
+                this.close();
+            });
+        });
     }
 
     close() {
-        this.iframe.hide();
-        this.iframe.destroy();
-        this.iframe.render();
-
-        this.params.closed ? this.params.closed() : false;
-    }
-
-    makeEvents() {
-        window.addEventListener('beforeunload', () => {
-            this.communicator.send({type: 'unload'});
-        });
-
-        Listener.addListener(message => {
-            switch (message.type) {
-                case 'close':
-                    this.close();
-                    break;
-                case 'done':
-                    this.close();
-                    this.formNode && this.formNode.action ? this.formNode.submit() : false;
-                    break;
-            }
-
-        });
+        if (!isMobile.any) {
+            this.iframe.hide();
+            this.iframe.destroy();
+        }
+        this.closed ? this.closed() : false;
     }
 }

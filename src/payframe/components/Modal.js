@@ -7,14 +7,11 @@ import Checkmark from './Checkmark';
 import Payform from './payform/Payform';
 import TokenizerScript from '../elements/TokenizerScript';
 import Processing from '../backend-communication/Processing';
-import ParentCommunicator from '../../communication/ParentCommunicator';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
-import isMobile from 'ismobilejs';
 
 export default class Modal extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -22,34 +19,18 @@ export default class Modal extends React.Component {
             payform: true,
             interact: false,
             spinner: false,
-            checkmark: false
+            checkmark: false,
+            payformState: {
+                cardHolder: {value: ''},
+                cardNumber: {value: ''},
+                cardExpire: {value: ''},
+                cardCvv: {value: ''},
+                email: {value: ''}
+            }
         };
 
         this.handlePay = this.handlePay.bind(this);
-    }
-
-    handleSuccess(result) {
-        if (result.type === 'success') {
-            this.setState({
-                payform: false,
-                interact: false,
-                spinner: false,
-                checkmark: true
-            });
-
-
-            if (isMobile.any) {
-                setTimeout(() => {
-                    window.close();
-                }, settings.closeFormTimeout);
-            } else {
-                ParentCommunicator.sendWithTimeout({type: 'done', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
-            }
-        }
-    }
-
-    handleError() {
-        ParentCommunicator.sendWithTimeout({type: 'error', invoiceID: this.props.invoiceID}, settings.closeFormTimeout);
+        this.setPayformState = this.setPayformState.bind(this);
     }
 
     componentDidMount() {
@@ -61,32 +42,62 @@ export default class Modal extends React.Component {
                 this.isShowErrorPanel = true;
                 this.forceUpdate();
             });
+    }
 
-        if (this.props.isResume) {
+    componentWillReceiveProps(nextProps) {
+       this.setState({
+            payform: false,
+            interact: false,
+            spinner: true,
+            checkmark: false
+       });
+        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
+            .then((result) => {
+               if (result.type === 'success') {
+                   this.setState({
+                        payform: false,
+                        interact: false,
+                        spinner: false,
+                        checkmark: true
+                   });
+                   this.handleSuccess(result);
+               }
+            })
+            .catch(error => {
+                this.setState({
+                    payform: true,
+                    interact: false,
+                    spinner: false,
+                    checkmark: false
+               });
+                this.errorMessage = error.message;
+                this.isShowErrorPanel = true;
+                this.forceUpdate();
+            });
+    }
+
+    setPayformState(data, name) {
+        this.setState({
+            payformState: Object.assign(this.state.payformState, {
+                [name]: data
+            })
+        })
+    }
+
+    handleSuccess(result) {
+        if (result.type === 'success') {
             this.setState({
                 payform: false,
                 interact: false,
-                spinner: true,
-                checkmark: false
+                spinner: false,
+                checkmark: true
             });
-
-            Processing.pollEvents({
-                invoiceID: this.props.invoiceID,
-                invoiceAccessToken: this.props.invoiceAccessToken,
-                capiEndpoint: this.props.capiEndpoint
-            }).then(result => {
-                if (result.type === 'success') {
-                    this.handleSuccess(result);
-                } else {
-                    this.handleError(result);
-                }
-            }, error => {
-                this.handleError(error);
-            });
+            this.props.setCheckoutDone();
         }
     }
 
-    handlePay(formData) {
+    handlePay() {
+        const formData = this.state.payformState;
         this.isShowErrorPanel = false;
         this.setState({
             payform: false,
@@ -100,11 +111,11 @@ export default class Modal extends React.Component {
             invoiceID: this.props.invoiceID,
             capiEndpoint: this.props.capiEndpoint,
             tokenizerEndpoint: this.props.tokenizerEndpoint,
-            cardHolder: formData.cardHolder,
-            cardNumber: formData.cardNumber,
-            cardExpire: formData.cardExpire,
-            email: formData.email,
-            cardCvv: formData.cardCvv
+            cardHolder: formData.cardHolder.value,
+            cardNumber: formData.cardNumber.value,
+            cardExpire: formData.cardExpire.value,
+            email: formData.email.value,
+            cardCvv: formData.cardCvv.value
         }).then(result => {
             if (result.type === 'success') {
                 this.handleSuccess(result);
@@ -115,8 +126,7 @@ export default class Modal extends React.Component {
                     spinner: false,
                     checkmark: false
                 });
-                this.props.set3DSStatus(true);
-                const redirectUrl = `${this.props.payformHost}/payframe/finishInteraction.html`;
+                const redirectUrl = `${this.props.payformHost}/html/finishInteraction.html`;
                 const form3ds = new Form3ds(result.data, redirectUrl, this.refs['3ds']);
                 form3ds.render();
                 form3ds.submit(settings.submitFormTimeout);
@@ -134,29 +144,16 @@ export default class Modal extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken).then((result) => {
-           if (result.type === 'success') {
-               this.setState({
-                    payform: false,
-                    interact: false,
-                    spinner: false,
-                    checkmark: true
-               });
-               this.handleSuccess(result);
-           }
-        });
-    }
-
     renderPayform() {
         return (
             <Payform handlePay={this.handlePay}
                      errorMessage={this.errorMessage}
                      isPayButtonDisabled={this.isPayButtonDisabled}
                      isShowErrorPanel={this.isShowErrorPanel}
-                     buttonColor={this.props.buttonColor}
                      amount={this.props.amount}
                      currency={this.props.currency}
+                     payformState={this.state.payformState}
+                     setPayformState={this.setPayformState}
             />
         );
     }
@@ -172,7 +169,8 @@ export default class Modal extends React.Component {
                     }
                 )}>
                     <div className="checkout--header">
-                        <ModalClose invoiceID={this.props.invoiceID} />
+                        <ModalClose invoiceID={this.props.invoiceID}
+                                    setClose={this.props.setClose}/>
                         <Logo logoUrl={this.props.logo}/>
                         <div className="checkout--company-name">
                             {this.props.name}

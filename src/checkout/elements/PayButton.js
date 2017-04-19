@@ -9,7 +9,7 @@ export default class PayButton {
     }
 
     render() {
-        const appendNode = document.querySelector(`.${settings.integrationClassName}`);
+        const appendNode = document.querySelector(`.${settings.htmlIntegrationClassName}`);
         if (appendNode) {
             appendNode.parentNode.appendChild(this.element);
         } else {

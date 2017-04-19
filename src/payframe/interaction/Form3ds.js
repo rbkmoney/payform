@@ -1,5 +1,4 @@
 import URITemplate from 'urijs/src/URITemplate';
-import ParentCommunicator from '../../communication/ParentCommunicator';
 
 export default class Form3ds {
 
@@ -35,9 +34,8 @@ export default class Form3ds {
         this.containerBody.appendChild(this.element);
     }
 
-    submit(timeout, invoiceID) {
+    submit(timeout) {
         setTimeout(() => {
-            ParentCommunicator.send({type: 'start3ds', invoiceID: invoiceID});
             this.element.submit();
         }, timeout);
     }

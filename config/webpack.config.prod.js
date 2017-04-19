@@ -1,21 +1,8 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const path = require('path');
 const commonConfig = require('./webpack.config.common');
 
 module.exports = merge(commonConfig, {
-    module: {
-        rules: [
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loaders: [
-                    'file-loader?context=./src/&name=../dist/[path][name].[ext]'
-                ],
-                exclude: /node_modules/,
-                include: path.join(__dirname, '../src'),
-            }
-        ]
-    },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -28,7 +15,14 @@ module.exports = merge(commonConfig, {
                 dead_code: true,
                 evaluate: true,
                 if_return: true,
-                join_vars: true,
+                join_vars: true
+            },
+            comments: false
+
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
             }
         })
     ]
