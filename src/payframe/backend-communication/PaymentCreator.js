@@ -1,4 +1,4 @@
-import guid from '../utils/guid';
+import guid from '../../utils/guid';
 
 const errorMassage = 'An error occurred while trying create payment';
 
