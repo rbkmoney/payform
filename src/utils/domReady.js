@@ -1,3 +1,5 @@
+import URL from 'url-parse';
+
 export default function (callback) {
     let ready = false;
     const getScriptUrl = () => {
@@ -6,8 +8,7 @@ export default function (callback) {
         return element.src;
     };
 
-    const parser = document.createElement('a');
-    parser.href = getScriptUrl();
+    const parser = new URL(getScriptUrl());
 
     const detach = function () {
         if (document.addEventListener) {
