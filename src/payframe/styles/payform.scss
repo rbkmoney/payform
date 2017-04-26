@@ -138,4 +138,19 @@
             background: $gray4;
         }
     }
+
+    &--interact {
+        @include responsive(sm) {
+            width: 600px;
+            height: 350px;
+        }
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: scroll;
+        }
+    }
 }
