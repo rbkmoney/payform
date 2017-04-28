@@ -1,5 +1,5 @@
 import settings from '../../settings';
-import guid from '../utils/guid';
+import guid from '../../utils/guid';
 
 export default class EventPoller {
 

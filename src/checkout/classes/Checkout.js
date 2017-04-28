@@ -57,6 +57,7 @@ export default class Checkout {
         if (!isMobile.any) {
             this.iframe.hide();
             this.iframe.destroy();
+            this.iframe.render();
         }
         this.closed ? this.closed() : false;
     }

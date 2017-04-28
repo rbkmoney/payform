@@ -1,11 +1,8 @@
 import './app.scss';
-import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import isMobile from 'ismobilejs';
-import StyleLink from './elements/StyleLink';
 import ready from '../utils/domReady';
-import Utils from '../utils/Utils';
 import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
@@ -13,9 +10,6 @@ import Child from '../communication/Child';
 import settings from '../settings';
 
 ready(function () {
-    const styleLink = new StyleLink();
-    styleLink.render();
-
     const child = new Child();
     child.then((transport) => {
         let params;
@@ -37,9 +31,6 @@ ready(function () {
         }
 
         function renderModal(data) {
-            if (Utils.isSafari()) {
-                styleLink.rerender();
-            }
             ConfigLoader.load(data.payformHost).then((config) => {
                 Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
                         Object.assign(data, {
