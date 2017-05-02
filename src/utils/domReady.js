@@ -1,5 +1,14 @@
+import URL from 'url-parse';
+
 export default function (callback) {
     let ready = false;
+    const getScriptUrl = () => {
+        const scripts = document.getElementsByTagName('script');
+        const element = scripts[scripts.length - 1];
+        return element.src;
+    };
+
+    const parser = new URL(getScriptUrl());
 
     const detach = function () {
         if (document.addEventListener) {
@@ -14,12 +23,12 @@ export default function (callback) {
         if (!ready && (document.addEventListener || event.type === 'load' || document.readyState === 'complete')) {
             ready = true;
             detach();
-            callback();
+            callback(parser.origin);
         }
     };
 
     if (document.readyState === 'complete') {
-        callback();
+        callback(parser.origin);
     } else if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', completed);
         window.addEventListener('load', completed);
@@ -45,7 +54,7 @@ export default function (callback) {
 
                 ready = true;
                 detach();
-                callback();
+                callback(parser.origin);
             })();
         }
     }

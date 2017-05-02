@@ -1,0 +1,152 @@
+.checkout {
+    &--overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: $black;
+        opacity: 0.6;
+        z-index: -1;
+    }
+
+    &--container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: $gray2;
+        font: 12px/16px Helvetica Neue, Helvetica, Arial, sans-serif;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+
+        &._interact {
+            @include responsive(sm) {
+                max-width: 700px;
+            }
+
+            .payform {
+                padding: 10px;
+
+                @include responsive(sm) {
+                    padding: 20px 35px;
+                }
+            }
+        }
+
+        @include responsive(sm) {
+            display: block;
+            height: auto;
+            width: auto;
+            background: $white;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 300px;
+            border-radius: 5px;
+            box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
+        }
+    }
+
+    &--header {
+        display: block;
+        position: relative;
+        padding: 20px 35px 20px;
+        background-color: $gray5;
+        height: auto;
+        flex-grow: 1;
+
+        @include responsive(sm) {
+            border-radius: 5px 5px 0 0;
+            padding: 55px 35px 20px;
+        }
+    }
+
+    &--body {
+        position: relative;
+        background-color: $gray2;
+        border-top: 1px solid $gray6;
+        height: 100%;
+        width: auto;
+        flex-shrink: 1;
+
+        @include responsive(sm) {
+            display: block;
+            border-radius: 0 0 5px 5px;
+        }
+    }
+
+    &--close-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 12px;
+        height: 12px;
+        padding: 2px;
+        margin: 10px;
+        border: 1px solid $gray7;
+        border-radius: 100%;
+        background-color: $gray8;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 16px;
+        box-sizing: content-box;
+    }
+
+    &--logo {
+        margin: auto;
+        width: 60px;
+        height: 60px;
+        border: 3px solid $gray9;
+        border-radius: 100%;
+        background: $gray9 center no-repeat;
+        background-size: cover;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 2px 2px 0 rgba(0,0,0,0.05);
+        overflow: hidden;
+
+        @include responsive(sm) {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -40%);
+        }
+    }
+
+    &--company-name {
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+        color: $black;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: 10px;
+
+        @include responsive(sm) {
+            margin: 0;
+        }
+    }
+
+    .-large {
+        .checkout {
+            &--container {
+                max-width: 75%;
+                transform: translate(-50%, -50%);
+            }
+
+            &--header {
+                padding: 9px 40px;
+            }
+
+            &--logo {
+                opacity: 0;
+            }
+        }
+
+        iframe {
+            width: 100%;
+            height: 70vh;
+        }
+    }
+}

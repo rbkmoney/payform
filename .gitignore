@@ -2,3 +2,4 @@
 /node_modules/
 /dist/
 Dockerfile
+.DS_Store

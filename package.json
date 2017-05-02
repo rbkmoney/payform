@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "gulp build"
+    "build": "webpack --colors --progress --config config/webpack.config.prod.js",
+    "start": "webpack-dev-server --colors --progress --config config/webpack.config.dev.js --port 7050"
   },
   "repository": {
     "type": "git",
@@ -16,24 +17,33 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "urijs": "^1.18.2",
+    "url-parse": "^1.1.8",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "autoprefixer": "6.7.7",
+    "babel-loader": "^6.4.1",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.16.3",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
+    "classnames": "^2.2.5",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.27.3",
     "eslint": "^3.12.2",
+    "eslint-loader": "^1.6.3",
     "eslint-plugin-react": "^6.8.0",
     "express": "^4.14.0",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.0",
-    "gulp-connect": "^5.0.0",
-    "gulp-eslint": "^3.0.1",
-    "gulp-livereload": "^3.8.1",
-    "gulp-pug": "^3.1.0",
-    "vinyl-source-stream": "^1.1.0"
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.10.1",
+    "image-webpack-loader": "^3.2.0",
+    "ismobilejs": "^0.4.1",
+    "node-sass": "^4.5.1",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.15.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2",
+    "webpack-merge": "^4.1.0",
+    "write-file-webpack-plugin": "^4.0.0"
   }
 }

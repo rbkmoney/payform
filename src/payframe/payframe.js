@@ -1,68 +1,67 @@
-import Iframe from './elements/Iframe';
-import PayButton from './elements/PayButton';
-import StyleLink from './elements/StyleLink';
-import InitScript from './elements/InitScript';
-import Utils from '../utils/Utils';
-import Listener from '../communication/Listener';
-import CheckoutCommunicator from '../communication/CheckoutCommunicator';
+import './app.scss';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import isMobile from 'ismobilejs';
 import ready from '../utils/domReady';
-import processingCallback from './callbacks/processingCallback';
+import Modal from './components/Modal';
+import ConfigLoader from './loaders/ConfigLoader';
+import Invoice from './backend-communication/Invoice';
+import Child from '../communication/Child';
+import settings from '../settings';
 
 ready(function () {
-    const initScript = new InitScript();
-    const payformHost = initScript.getHost();
-    const styles = new StyleLink(payformHost);
-    const iframe = new Iframe(payformHost);
-    const communicator = new CheckoutCommunicator(iframe.getName(), iframe.getSrc());
-    const params = initScript.getParams();
-
-    Object.assign(params, {
-        locationHost: Utils.getOriginUrl(location.href),
-        payformHost: payformHost
-    });
-
-    const payButton = new PayButton('Pay with RBKmoney', params.buttonColor);
-    payButton.onclick = () => {
-        communicator.send({
-            type: 'init-payform',
-            data: params
+    const child = new Child();
+    child.then((transport) => {
+        let params;
+        transport.on('init-payform', (data) => {
+            params = data;
+            renderModal(data)
         });
-        iframe.show();
-    };
-    payButton.render();
 
-    styles.render();
-    iframe.render();
-
-    Listener.addListener(message => {
-        switch (message.type) {
-            case 'close':
-                close();
-                break;
-            case 'done':
-                close();
-                processingCallback(params.endpointSuccess, params.endpointSuccessMethod);
-                break;
-            case 'error':
-                close();
-                processingCallback(params.endpointFailed, params.endpointFailedMethod);
-                break;
-            case 'start3ds':
-                iframe.enable3DS();
-                break;
-            case 'finish3ds':
-                iframe.disable3DS();
-                break;
+        function setCheckoutDone() {
+            if (isMobile.any) {
+                window.close();
+            }
+            setTimeout(() => transport.emit('payment-done'), settings.closeFormTimeout);
         }
-    });
 
-    window.addEventListener('beforeunload', () => {
-        communicator.send({type: 'unload'});
-    });
+        function setClose() {
+            transport.emit('close');
+            transport.destroy();
+        }
 
-    function close() {
-        iframe.hide();
-        iframe.destroy();
-        iframe.render();
-    }
+        function renderModal(data) {
+            ConfigLoader.load(data.payformHost).then((config) => {
+                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
+                        Object.assign(data, {
+                            currency: response.currency,
+                            amount: String(Number(response.amount) / 100)
+                        });
+                        const root = document.getElementById('root');
+                        ReactDOM.render(
+                            <Modal invoiceAccessToken={data.invoiceAccessToken}
+                                   capiEndpoint={config.capiEndpoint}
+                                   tokenizerEndpoint={config.tokenizerEndpoint}
+                                   invoiceID={data.invoiceID}
+                                   logo={data.logo}
+                                   amount={data.amount}
+                                   currency={data.currency}
+                                   name={data.name}
+                                   payformHost={data.payformHost}
+                                   setCheckoutDone={setCheckoutDone}
+                                   setClose={setClose}
+                            />,
+                            root
+                        );
+                    },
+                    error => console.error(error));
+            });
+        }
+
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                renderModal(params);
+            }
+        });
+    });
 });

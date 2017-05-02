@@ -9,33 +9,49 @@
 Например в случае с nginx `appConfig.json` нужно положить в `/usr/share/nginx/html`
 
 ## Использование
-### Пример интеграции
+### Пример html интеграции
 ```html
-<script src="https://checkout.rbk.money/payframe/payframe.js" class="rbkmoney-checkout"
-        data-invoice-id="string"
-        data-invoice-access-token="string"
-        data-endpoint-success="https://<your-server-side>"
-        data-endpoint-success-method="GET"
-        data-endpoint-failed="https://<your-server-side>"
-        data-endpoint-failed-method="POST"
-        data-name="Company name"
-        data-amount="7,700"
-        data-currency="Р"
-        data-logo="https://checkout.rbk.money/checkout/images/logo.png">
+<form action="/success" method="GET">
+    <script src="https://checkout.rbk.money/checkout.js" class="rbkmoney-checkout"
+            data-invoice-id="string"
+            data-invoice-access-token="string"
+            data-name="Company name"
+            data-logo="https://checkout.rbk.money/checkout/images/logo.png">
+    </script>
+</form>
+```
+
+При успешном платеже будет выполнен submit обрамляющей формы при ее наличии.
+### Описание data-* атрибутов
+| data-* атрибут           | Описание                                              | Обязательный | Возможные значения                    |
+| :----------------------: | ----------------------------------------------------- | :-----------:| :------------------------------------:|
+| invoice id               | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                            |
+| invoice access token     | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...                  |
+| name                     | Метка для задания именования формы                    |              | Company name                          |
+| logo                     | URL для задания логотипа                              |              | `https://<your-server-side>/logo.png` |
+| label                    | Текст для кнопки                                      |              |  Pay with RBKmoney                    |
+
+### Пример js интеграции
+```html
+<script src="https://checkout.rbk.money/checkout.js"></script>
+<script>
+    const checkout = RbkmoneyCheckout.configure(config);
 </script>
 ```
-### Описание data-* атрибутов
-| data-* атрибут           | Описание                                              | Обязательный | Возможные значения           |
-| :----------------------: | ----------------------------------------------------- | :-----------:| :---------------------------:|
-| invoice id               | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                   |
-| invoice access token     | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...         |
-| endpoint success         | URL для отправки запроса в случае успешного платежа   |              | `https://<your-server-side>` |
-| endpoint success method  | Тип Http метода для endpoint success                  |              | GET, POST (по умолчанию)     |
-| endpoint failed          | URL для отправки запроса в случае неуспешного платежа |              | `https://<your-server-side>` |
-| endpoint failed method   | Тип Http метода для endpoint failed                   |              | GET, POST (по умолчанию)     |
-| name                     | Метка для задания именования формы                    |              | Company name                 |
-| amount                   | Метка для вывода стоимости платежа                    |              | 7000                         |
-| currency                 | Метка для вывода валюты                               |              | P                            |
-| logo                     | URL для задания логотипа                              |              | `https://<your-server-side>` |
+### Описание методов RbkmoneyCheckout
+| Метод                    | Описание                                              | Аргументы                 |
+| :----------------------: | ----------------------------------------------------- | :------------------------:|
+| configure                | Возвращает новое модальное окно с платежом            | config                    |
+| open                     | Открывает модальное окно с платежом                   |                           |
+| close                    | Закрывает модальное окно с платежом                   |                           |
 
-Примечание. Запросы на endpoint success, endpoint failed отправляются с `"Content-Type": "x-form-urlencoded"`.
+### Описание config-объекта
+| Свойство                 | Описание                                              | Обязательный | Возможные значения                    |
+| :----------------------: | ----------------------------------------------------- | :-----------:| :------------------------------------:|
+| invoiceID                | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                            |
+| invoiceAccessToken       | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...                  |
+| name                     | Метка для задания именования формы                    |              | Company name                          |
+| logo                     | URL для задания логотипа                              |              | `https://<your-server-side>/logo.png` |
+| opened                   | callback на открытие модального окна                  |              | function                              |
+| closed                   | callback на закрытие модального окна                  |              | function                              |
+| finished                 | callback на успешное завершение платежа               |              | function                              |

@@ -1,69 +1,33 @@
-import 'whatwg-fetch';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import StyleLink from './elements/StyleLink';
+import './checkout.scss';
 import ready from '../utils/domReady';
-import Listener from '../communication/Listener';
-import Utils from '../utils/Utils';
-import Modal from './components/Modal';
-import StateWorker from './state/StateWorker';
-import ParentCommunicator from '../communication/ParentCommunicator';
-import ConfigLoader from './loaders/ConfigLoader';
+import PayButton from './elements/PayButton';
+import InitScript from './elements/InitScript';
+import Checkout from './classes/Checkout';
+import StyleLink from './elements/StyleLink';
 
-ready(function () {
-    const styleLink = new StyleLink();
-    styleLink.render();
+ready(function (origin) {
+    const initScript = new InitScript();
 
-    function renderModal(data, isResumed) {
-        if (Utils.isSafari()) {
-            styleLink.rerender();
-        }
-        ConfigLoader.load().then((config) => {
-            ReactDOM.render(
-                <Modal accessToken={data.accessToken}
-                       capiEndpoint={config.capiEndpoint}
-                       tokenizerEndpoint={config.tokenizerEndpoint}
-                       endpointInit={data.endpointInit}
-                       endpointEvents={data.endpointEvents}
-                       invoiceId={data.invoiceId}
-                       orderId={data.orderId}
-                       logo={data.logo}
-                       amount={data.amount}
-                       currency={data.currency}
-                       buttonColor={data.buttonColor}
-                       name={data.name}
-                       locationHost={data.locationHost}
-                       payformHost={data.payformHost}
-                       isResume={isResumed}
-                />,
-                document.getElementById('root')
-            );
+    const RbkmoneyCheckout = {};
+    RbkmoneyCheckout.configure = (config) => {
+        Object.assign(config, {
+            payformHost: origin
         });
-    }
+        return new Checkout(config, initScript);
+    };
 
-    function checkPayformState() {
-        const payFormData = StateWorker.loadState();
-        if (payFormData) {
-            if (StateWorker.is3DSInProgress(payFormData.invoiceId)) {
-                ParentCommunicator.send({type: 'finish3ds'});
-                renderModal(payFormData, true);
-            } else {
-                StateWorker.flush();
-            }
+    if (initScript.isHtmlIntegration()) {
+        const styles = new StyleLink(origin);
+        styles.render();
+        const params = initScript.getParams();
+        const payButton = new PayButton(params.label);
+        payButton.render();
+        payButton.onclick = (e) => {
+            e.preventDefault();
+            const checkout = RbkmoneyCheckout.configure(params);
+            checkout.open();
         }
     }
 
-    Listener.addListener(message => {
-        switch (message.type) {
-            case 'init-payform':
-                StateWorker.saveState(message.data);
-                renderModal(message.data, false);
-                break;
-            case 'unload':
-                StateWorker.flush();
-                break;
-        }
-    });
-
-    checkPayformState();
+    window.RbkmoneyCheckout = RbkmoneyCheckout;
 });
