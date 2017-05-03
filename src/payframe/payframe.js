@@ -19,10 +19,12 @@ ready(function () {
         });
 
         function setCheckoutDone() {
-            if (isMobile.any) {
-                window.close();
-            }
-            setTimeout(() => transport.emit('payment-done'), settings.closeFormTimeout);
+            setTimeout(() => {
+                transport.emit('payment-done');
+                if (isMobile.any) {
+                    window.close();
+                }
+            }, settings.closeFormTimeout);
         }
 
         function setClose() {
