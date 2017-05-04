@@ -97,6 +97,22 @@
             display: block;
             border-radius: 0 0 5px 5px;
         }
+
+        &-appear {
+            @include responsive(sm) {
+                opacity: 0;
+                transform: scale(.7);
+            }
+
+            &.checkout--body-appear-active {
+                @include responsive(sm) {
+                    opacity: 1;
+                    transform: scale(1);
+                    transition-timing-function: cubic-bezier(.15,1.45,.55,1);
+                    transition-duration: .7s
+                }
+            }
+        }
     }
 
     &--close-button {
@@ -172,36 +188,21 @@
             height: 70vh;
         }
     }
-}
 
-.checkout-appear {
-    @include responsive(sm) {
-        opacity: 0;
-        transform: translate3d(-50%, -45%, 0) scale(.9);
+    &-appear {
+        @include responsive(sm) {
+            opacity: 0;
+            transform: translate3d(-50%, -45%, 0) scale(.9);
+        }
+
+        &.checkout-appear-active {
+            @include responsive(sm) {
+                opacity: 1;
+                transform: translate3d(-50%, -50%, 0) scale(1);
+                transition-timing-function: cubic-bezier(.15,1.45,.55,1);
+                transition-duration: .4s
+            }
+        }
     }
 }
 
-.checkout-appear.checkout-appear-active {
-    @include responsive(sm) {
-        opacity: 1;
-        transform: translate3d(-50%, -50%, 0) scale(1);
-        transition-timing-function: cubic-bezier(.15,1.45,.55,1);
-        transition-duration: .4s
-    }
-}
-
-.checkout-body-appear {
-    @include responsive(sm) {
-        opacity: 0;
-        transform: scale(.7);
-    }
-}
-
-.checkout-body-appear.checkout-body-appear-active {
-    @include responsive(sm) {
-        opacity: 1;
-        transform: scale(1);
-        transition-timing-function: cubic-bezier(.15,1.45,.55,1);
-        transition-duration: .7s
-    }
-}
