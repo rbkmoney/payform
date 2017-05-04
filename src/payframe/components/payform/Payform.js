@@ -14,11 +14,17 @@ class Payform extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            error: false
+        };
+
         this.handleCardHolder = this.handleCardHolder.bind(this);
         this.handleCardNumber = this.handleCardNumber.bind(this);
         this.handleCardExpire = this.handleCardExpire.bind(this);
         this.handleCardCvv = this.handleCardCvv.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
+        this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
     }
 
@@ -48,6 +54,19 @@ class Payform extends React.Component {
         this.props.setPayformState(Payform.assignValue(this.props.payformState.email, value), 'email');
     }
 
+    triggerError() {
+        this.setState({
+            error: true
+        });
+
+        setTimeout(() => {
+            this.setState({
+                error: false
+            });
+        }, 2000)
+
+    }
+
     pay() {
         const props = this.props;
         const formValidation = new PayformValidation(props.payformState);
@@ -55,6 +74,8 @@ class Payform extends React.Component {
         this.forceUpdate();
         if (isValid) {
             this.props.handlePay();
+        } else {
+            this.triggerError()
         }
     }
 
@@ -66,7 +87,9 @@ class Payform extends React.Component {
         const cardCvv = props.payformState.cardCvv;
         const email = props.payformState.email;
         return (
-            <form id="payform" role="form" ref={(form) => { this.formElement = form; }}>
+            <form className={cx('payform--form', {
+                _error: this.state.error
+            })} id="payform" role="form" ref={(form) => { this.formElement = form; }}>
                 <fieldset className="payform--fieldset">
                     <CardNumber value={cardNumber.value} onChange={this.handleCardNumber} isValid={cardNumber.isValid}/>
                     <CardExpire value={cardExpire.value} onChange={this.handleCardExpire} isValid={cardExpire.isValid}/>
