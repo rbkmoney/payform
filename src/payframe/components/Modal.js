@@ -160,6 +160,7 @@ export default class Modal extends React.Component {
     renderInteract() {
         return (
             <div ref="3ds" className="payform--interact"/>
+
         );
     }
 
