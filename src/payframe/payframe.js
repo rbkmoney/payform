@@ -10,6 +10,8 @@ import Child from '../communication/Child';
 import settings from '../settings';
 
 ready(function () {
+    const overlay = document.querySelector('.checkout--overlay');
+    const modal = document.getElementById('modal');
     const child = new Child();
     child.then((transport) => {
         let params;
@@ -19,25 +21,33 @@ ready(function () {
         });
 
         function setCheckoutDone() {
-            if (isMobile.any) {
-                window.close();
-            }
-            setTimeout(() => transport.emit('payment-done'), settings.closeFormTimeout);
+            setTimeout(() => {
+                transport.emit('payment-done');
+
+                if (isMobile.any) {
+                    window.close();
+                }
+            }, settings.closeFormTimeout)
         }
 
         function setClose() {
-            transport.emit('close');
-            transport.destroy();
+            ReactDOM.unmountComponentAtNode(modal);
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                transport.emit('close');
+                transport.destroy();
+            }, 300);
+
         }
 
         function renderModal(data) {
+            overlay.style.opacity = '0.6';
             ConfigLoader.load(data.payformHost).then((config) => {
                 Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
                         Object.assign(data, {
                             currency: response.currency,
                             amount: String(Number(response.amount) / 100)
                         });
-                        const root = document.getElementById('root');
                         ReactDOM.render(
                             <Modal invoiceAccessToken={data.invoiceAccessToken}
                                    capiEndpoint={config.capiEndpoint}
@@ -51,7 +61,7 @@ ready(function () {
                                    setCheckoutDone={setCheckoutDone}
                                    setClose={setClose}
                             />,
-                            root
+                            modal
                         );
                     },
                     error => console.error(error));

@@ -1,30 +1,13 @@
 import React from 'react';
 
 class Checkmark extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.styles = {
-            circle: {
-                strokeDasharray: '240px',
-                strokeDashoffset: '480px'
-            },
-            path: {
-                strokeDasharray: '50px',
-                strokeDashoffset: '0px'
-            }
-        };
-    }
-
     render() {
-        return <div className="checkmark icon icon--order-success svg" ref={(element) => {this.element = element;}}>
-            <svg width={72} height={72}>
-                <g fill="none" stroke="#8EC343" strokeWidth={2}>
-                    <circle cx={36} cy={36} r={35} style={this.styles.circle} />
-                    <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style={this.styles.path} />
-                </g>
+        return (
+            <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
             </svg>
-        </div>
+        );
     }
 }
 

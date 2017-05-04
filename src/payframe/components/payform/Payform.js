@@ -1,4 +1,7 @@
 import React from 'react';
+import cx from 'classnames';
+import Spinner from '../Spinner';
+import Checkmark from '../Checkmark';
 import CardHolder from './elements/CardHolder';
 import CardNumber from './elements/CardNumber';
 import CardExpire from './elements/CardExpire';
@@ -76,12 +79,17 @@ class Payform extends React.Component {
                     <Email value={email.value} onChange={this.handleEmail} isValid={email.isValid}/>
                 </fieldset>
                 <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
-                <button className="payform--pay-button"
+                <button className={cx('payform--pay-button', {
+                    _success: this.props.checkmark
+                })}
                         type="button"
                         form="payform"
                         onClick={this.pay}
-                        disabled={this.isPayButtonDisabled}>
-                    Оплатить {this.props.amount}{this.props.currency}
+                        disabled={this.isPayButtonDisabled}
+                >
+                    { this.props.spinner ? <Spinner /> : false }
+                    { this.props.checkmark ? <Checkmark /> : false }
+                    { !this.props.spinner && !this.props.checkmark ? `Оплатить ${this.props.amount} ${this.props.currency}` : false }
                 </button>
             </form>
         );

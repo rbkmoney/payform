@@ -1,9 +1,8 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
 import ModalClose from './ModalClose';
 import Logo from './Logo';
-import Spinner from './Spinner';
-import Checkmark from './Checkmark';
 import Payform from './payform/Payform';
 import TokenizerScript from '../elements/TokenizerScript';
 import Processing from '../backend-communication/Processing';
@@ -46,7 +45,7 @@ export default class Modal extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            payform: false,
+            payform: true,
             interact: false,
             spinner: true,
             checkmark: false
@@ -89,7 +88,7 @@ export default class Modal extends React.Component {
 
     handleSuccess() {
         this.setState({
-            payform: false,
+            payform: true,
             interact: false,
             spinner: false,
             checkmark: true
@@ -114,7 +113,7 @@ export default class Modal extends React.Component {
         const formData = this.state.payformState;
         this.isShowErrorPanel = false;
         this.setState({
-            payform: false,
+            payform: true,
             interact: false,
             spinner: true,
             checkmark: false
@@ -136,22 +135,43 @@ export default class Modal extends React.Component {
 
     renderPayform() {
         return (
-            <Payform handlePay={this.handlePay}
-                     errorMessage={this.errorMessage}
-                     isPayButtonDisabled={this.isPayButtonDisabled}
-                     isShowErrorPanel={this.isShowErrorPanel}
-                     amount={this.props.amount}
-                     currency={this.props.currency}
-                     payformState={this.state.payformState}
-                     setPayformState={this.setPayformState}
-            />
+            <ReactCSSTransitionGroup
+                transitionName='checkout--body'
+                transitionAppear={true}
+                transitionAppearTimeout={700}
+                transitionEnter={false}
+                transitionLeave={false}
+            >
+                <Payform handlePay={this.handlePay}
+                         errorMessage={this.errorMessage}
+                         isPayButtonDisabled={this.isPayButtonDisabled}
+                         isShowErrorPanel={this.isShowErrorPanel}
+                         amount={this.props.amount}
+                         currency={this.props.currency}
+                         payformState={this.state.payformState}
+                         setPayformState={this.setPayformState}
+                         spinner={this.state.spinner}
+                         checkmark={this.state.checkmark}
+                />
+            </ReactCSSTransitionGroup>
+        );
+    }
+
+    renderInteract() {
+        return (
+            <div ref="3ds" className="payform--interact"/>
         );
     }
 
     render() {
         return (
-            <div className="checkout">
-                <div className="checkout--overlay"/>
+            <ReactCSSTransitionGroup
+                transitionName='checkout'
+                transitionAppear={true}
+                transitionAppearTimeout={500}
+                transitionEnter={false}
+                transitionLeave={false}
+            >
                 <div className={cx(
                     'checkout--container',
                     {
@@ -169,13 +189,11 @@ export default class Modal extends React.Component {
                     <div className="checkout--body">
                         <div className="payform">
                             { this.state.payform ? this.renderPayform() : false }
-                            { this.state.interact ? <div ref="3ds" className="payform--interact"/> : false }
-                            { this.state.spinner ? <Spinner /> : false }
-                            { this.state.checkmark ? <Checkmark /> : false }
+                            { this.state.interact ? this.renderInteract() : false }
                         </div>
                     </div>
                 </div>
-            </div>
+            </ReactCSSTransitionGroup>
         );
     }
 }

@@ -5,19 +5,10 @@ class ModalClose extends React.Component {
     constructor(props) {
         super(props);
 
-        document.querySelector('#root').addEventListener('click', (e) => {
-            e = e || event;
-            const target = e.target || e.srcElement;
-            if (target.tagName == 'DIV' && target.className == 'checkout--overlay') {
-                this.close();
-            }
-        });
-
         this.close = this.close.bind(this);
     }
 
     close() {
-        document.removeEventListener('click', this.listenClick);
         if (isMobile.any) {
             window.close();
         } else {
