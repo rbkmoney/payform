@@ -42,7 +42,8 @@ ready(function () {
 
         function renderModal(data) {
             overlay.style.opacity = '0.6';
-            ConfigLoader.load(data.payformHost).then((config) => {
+            setTimeout(() => {
+                ConfigLoader.load(data.payformHost).then((config) => {
                 Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
                         Object.assign(data, {
                             currency: response.currency,
@@ -66,6 +67,7 @@ ready(function () {
                     },
                     error => console.error(error));
             });
+            }, 300)
         }
 
         window.addEventListener('message', (e) => {

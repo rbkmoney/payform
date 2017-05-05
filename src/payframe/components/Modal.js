@@ -169,7 +169,7 @@ export default class Modal extends React.Component {
             <ReactCSSTransitionGroup
                 transitionName='checkout'
                 transitionAppear={true}
-                transitionAppearTimeout={500}
+                transitionAppearTimeout={400}
                 transitionEnter={false}
                 transitionLeave={false}
             >
