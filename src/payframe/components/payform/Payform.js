@@ -34,6 +34,12 @@ class Payform extends React.Component {
         this.errorMessage = props.errorMessage;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isShowErrorPanel) {
+            this.triggerError();
+        }
+    }
+
     handleCardHolder(value) {
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardHolder, value), 'cardHolder');
     }
@@ -108,7 +114,7 @@ class Payform extends React.Component {
                         type="button"
                         form="payform"
                         onClick={this.pay}
-                        disabled={this.isPayButtonDisabled}
+                        disabled={this.isPayButtonDisabled || this.props.spinner}
                 >
                     { this.props.spinner ? <Spinner /> : false }
                     { this.props.checkmark ? <Checkmark /> : false }
