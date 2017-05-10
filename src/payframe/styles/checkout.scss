@@ -6,12 +6,12 @@
         left: 0;
         right: 0;
         background: $black;
-        opacity: 0.6;
+        opacity: 0;
         z-index: -1;
+        transition: opacity .3s;
     }
 
     &--container {
-        position: absolute;
         width: 100%;
         height: 100%;
         background-color: $gray2;
@@ -19,10 +19,13 @@
         overflow: visible;
         display: flex;
         flex-direction: column;
+        transition: all .5s;
 
         &._interact {
             @include responsive(sm) {
                 max-width: 700px;
+                width: 100%;
+                margin: 40px auto;
             }
 
             .payform {
@@ -32,6 +35,26 @@
                     padding: 20px 35px;
                 }
             }
+
+            .checkout {
+                &--logo {
+                    display: none;
+
+                    @include responsive(sm) {
+                        display: block;
+                    }
+                }
+                &--header {
+                    padding: 15px 35px;
+
+                    @include responsive(sm) {
+                        padding: 55px 35px 20px;
+                    }
+                }
+                &--company-name {
+                    margin-top: 0;
+                }
+            }
         }
 
         @include responsive(sm) {
@@ -39,12 +62,10 @@
             height: auto;
             width: auto;
             background: $white;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             max-width: 300px;
             border-radius: 5px;
             box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
+            margin: 100px auto;
         }
     }
 
@@ -73,6 +94,20 @@
         @include responsive(sm) {
             display: block;
             border-radius: 0 0 5px 5px;
+        }
+
+        &-appear {
+            @include responsive(sm) {
+                transform: scale(.7);
+            }
+
+            &.checkout--body-appear-active {
+                @include responsive(sm) {
+                    transform: scale(1);
+                    transition-timing-function: cubic-bezier(.15,1.45,.55,1);
+                    transition-duration: .7s
+                }
+            }
         }
     }
 
@@ -108,7 +143,7 @@
             position: absolute;
             top: 0;
             left: 50%;
-            transform: translate(-50%, -40%);
+            transform: translate3d(-50%, -40%, 0);
         }
     }
 
@@ -132,7 +167,7 @@
         .checkout {
             &--container {
                 max-width: 75%;
-                transform: translate(-50%, -50%);
+                transform: translate3d(-50%, -50%, 0);
             }
 
             &--header {
@@ -149,4 +184,21 @@
             height: 70vh;
         }
     }
+
+    &-appear {
+        @include responsive(sm) {
+            opacity: 0;
+            transform: scale(.8);
+        }
+
+        &.checkout-appear-active {
+            @include responsive(sm) {
+                opacity: 1;
+                transform: scale(1);
+                transition-timing-function: cubic-bezier(.15,1.45,.55,1);
+                transition-duration: .4s
+            }
+        }
+    }
 }
+

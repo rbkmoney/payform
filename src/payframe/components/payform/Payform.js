@@ -1,4 +1,7 @@
 import React from 'react';
+import cx from 'classnames';
+import Spinner from '../Spinner';
+import Checkmark from '../Checkmark';
 import CardHolder from './elements/CardHolder';
 import CardNumber from './elements/CardNumber';
 import CardExpire from './elements/CardExpire';
@@ -11,11 +14,17 @@ class Payform extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            error: false
+        };
+
         this.handleCardHolder = this.handleCardHolder.bind(this);
         this.handleCardNumber = this.handleCardNumber.bind(this);
         this.handleCardExpire = this.handleCardExpire.bind(this);
         this.handleCardCvv = this.handleCardCvv.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
+        this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
     }
 
@@ -25,24 +34,48 @@ class Payform extends React.Component {
         this.errorMessage = props.errorMessage;
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isShowErrorPanel) {
+            this.triggerError();
+        }
+    }
+
     handleCardHolder(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardHolder, value), 'cardHolder');
     }
 
     handleCardNumber(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardNumber, value), 'cardNumber');
     }
 
     handleCardExpire(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardExpire, value), 'cardExpire');
     }
 
     handleCardCvv(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardCvv, value), 'cardCvv');
     }
 
     handleEmail(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.email, value), 'email');
+    }
+
+    triggerError() {
+        this.setState({
+            error: true
+        });
+
+        setTimeout(() => {
+            this.setState({
+                error: false
+            });
+        }, 2000)
+
     }
 
     pay() {
@@ -52,6 +85,8 @@ class Payform extends React.Component {
         this.forceUpdate();
         if (isValid) {
             this.props.handlePay();
+        } else {
+            this.triggerError()
         }
     }
 
@@ -63,7 +98,9 @@ class Payform extends React.Component {
         const cardCvv = props.payformState.cardCvv;
         const email = props.payformState.email;
         return (
-            <form id="payform" role="form" ref={(form) => { this.formElement = form; }}>
+            <form className={cx('payform--form', {
+                _error: this.state.error
+            })} id="payform" role="form" ref={(form) => { this.formElement = form; }}>
                 <fieldset className="payform--fieldset">
                     <CardNumber value={cardNumber.value} onChange={this.handleCardNumber} isValid={cardNumber.isValid}/>
                     <CardExpire value={cardExpire.value} onChange={this.handleCardExpire} isValid={cardExpire.isValid}/>
@@ -76,12 +113,17 @@ class Payform extends React.Component {
                     <Email value={email.value} onChange={this.handleEmail} isValid={email.isValid}/>
                 </fieldset>
                 <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
-                <button className="payform--pay-button"
+                <button className={cx('payform--pay-button', {
+                    _success: this.props.checkmark
+                })}
                         type="button"
                         form="payform"
                         onClick={this.pay}
-                        disabled={this.isPayButtonDisabled}>
-                    Оплатить {this.props.amount}{this.props.currency}
+                        disabled={this.isPayButtonDisabled || this.props.spinner}
+                >
+                    { this.props.spinner ? <Spinner /> : false }
+                    { this.props.checkmark ? <Checkmark /> : false }
+                    { !this.props.spinner && !this.props.checkmark ? `Оплатить ${this.props.amount} ${this.props.currency}` : false }
                 </button>
             </form>
         );
