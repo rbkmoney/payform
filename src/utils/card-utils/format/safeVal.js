@@ -7,7 +7,7 @@ export default function(value, target) {
     }
     const last = target.value;
     target.value = value;
-    if (cursor !== null && target.matches(':focus')) {
+    if (cursor !== null && target === document.activeElement) {
         if (cursor === last.length) {
             cursor = value.length;
         }
