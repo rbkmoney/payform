@@ -30,6 +30,7 @@ export default class Modal extends React.Component {
 
         this.handlePay = this.handlePay.bind(this);
         this.setPayformState = this.setPayformState.bind(this);
+        this.setShowErrorPanel = this.setShowErrorPanel.bind(this);
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ export default class Modal extends React.Component {
             .catch(() => {
                 this.isPayButtonDisabled = true;
                 this.errorMessage = 'Tokenizer is not available';
-                this.isShowErrorPanel = true;
+                this.setShowErrorPanel(true);
                 this.forceUpdate();
             });
     }
@@ -53,6 +54,10 @@ export default class Modal extends React.Component {
         EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
+    }
+
+    setShowErrorPanel(state) {
+        this.isShowErrorPanel = state;
     }
 
     setPayformState(data, name) {
@@ -82,7 +87,7 @@ export default class Modal extends React.Component {
             checkmark: false
         });
         this.errorMessage = error.message;
-        this.isShowErrorPanel = true;
+        this.setShowErrorPanel(true);
         this.forceUpdate();
     }
 
@@ -111,7 +116,7 @@ export default class Modal extends React.Component {
 
     handlePay() {
         const formData = this.state.payformState;
-        this.isShowErrorPanel = false;
+        this.setShowErrorPanel(false);
         this.setState({
             payform: true,
             interact: false,
@@ -146,6 +151,7 @@ export default class Modal extends React.Component {
                          errorMessage={this.errorMessage}
                          isPayButtonDisabled={this.isPayButtonDisabled}
                          isShowErrorPanel={this.isShowErrorPanel}
+                         setShowErrorPanel={this.setShowErrorPanel}
                          amount={this.props.amount}
                          currency={this.props.currency}
                          payformState={this.state.payformState}
@@ -160,7 +166,6 @@ export default class Modal extends React.Component {
     renderInteract() {
         return (
             <div ref="3ds" className="payform--interact"/>
-
         );
     }
 

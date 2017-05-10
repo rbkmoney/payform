@@ -41,22 +41,27 @@ class Payform extends React.Component {
     }
 
     handleCardHolder(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardHolder, value), 'cardHolder');
     }
 
     handleCardNumber(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardNumber, value), 'cardNumber');
     }
 
     handleCardExpire(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardExpire, value), 'cardExpire');
     }
 
     handleCardCvv(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.cardCvv, value), 'cardCvv');
     }
 
     handleEmail(value) {
+        this.props.setShowErrorPanel(false);
         this.props.setPayformState(Payform.assignValue(this.props.payformState.email, value), 'email');
     }
 
