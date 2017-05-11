@@ -61,8 +61,9 @@ class Payform extends React.Component {
     }
 
     handleEmail(value) {
+        const email = value.toLowerCase();
         this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.email, value), 'email');
+        this.props.setPayformState(Payform.assignValue(this.props.payformState.email, email), 'email');
     }
 
     triggerError() {
