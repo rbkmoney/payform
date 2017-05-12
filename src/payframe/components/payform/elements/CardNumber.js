@@ -3,16 +3,6 @@ import CardUtils from '../../../../utils/card-utils/CardUtils';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardNumber extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.props.onChange(event.target.value);
-    }
-
     componentDidMount() {
         CardUtils.formatCardNumber(this.input);
         const classList = this.input.parentNode.classList;
@@ -30,12 +20,9 @@ class CardNumber extends React.Component {
     }
 
     render() {
-        const value = this.props.value;
         return <div className="payform--group payform--card-number">
-            <input id="card-number" type="tel"
+            <input id="card-number" type="tel" name="card-number"
                    ref={(input) => { this.input = input; }}
-                   value={value}
-                   onChange={this.handleChange}
                    placeholder="Card number" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"/>
             <div className="payform--icon">
                 <svg fill="#2b2b2b">

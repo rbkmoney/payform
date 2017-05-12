@@ -3,16 +3,6 @@ import CardUtils from '../../../../utils/card-utils/CardUtils';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardCvv extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.props.onChange(event.target.value);
-    }
-
     componentDidMount() {
         CardUtils.formatCardCvv(this.input);
         const classList = this.input.parentNode.classList;
@@ -30,12 +20,9 @@ class CardCvv extends React.Component {
     }
 
     render() {
-        const value = this.props.value;
         return <div className="payform--group payform--card-cvc">
-            <input id="cvv" type="tel"
+            <input id="cvv" type="tel" name="cvv"
                    ref={(input) => { this.input = input; }}
-                   value={value}
-                   onChange={this.handleChange}
                    placeholder="CVC" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no" maxLength="4"/>
             <div className="payform--icon">
                 <svg fill="#2b2b2b">

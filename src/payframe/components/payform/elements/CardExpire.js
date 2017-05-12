@@ -3,16 +3,6 @@ import CardUtils from '../../../../utils/card-utils/CardUtils';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardExpire extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    handleChange(event) {
-        this.props.onChange(event.target.value);
-    }
-
     componentDidMount() {
         CardUtils.formatCardExpiry(this.input);
         const classList = this.input.parentNode.classList;
@@ -30,13 +20,10 @@ class CardExpire extends React.Component {
     }
 
     render() {
-        const value = this.props.value;
         return (
             <div className="payform--card-expire">
-                <input id="exp-date" type="tel"
+                <input id="exp-date" type="tel" name="exp-date"
                        ref={(input) => { this.input = input; }}
-                       value={value}
-                       onChange={this.handleChange}
                        placeholder="MM / YY" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
                 />
                 <div className="payform--icon">
