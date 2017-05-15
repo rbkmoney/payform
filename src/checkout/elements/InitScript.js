@@ -18,7 +18,8 @@ export default class InitScript {
             invoiceID: dataSet.invoiceId,
             logo: dataSet.logo,
             name: dataSet.name,
-            label: dataSet.label || 'Pay with RBKmoney'
+            label: dataSet.label || 'Pay with RBKmoney',
+            popupMode: dataSet.popupMode
         }
     }
 

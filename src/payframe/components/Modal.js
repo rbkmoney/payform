@@ -185,8 +185,8 @@ export default class Modal extends React.Component {
                     }
                 )}>
                     <div className="checkout--header">
-                        <ModalClose invoiceID={this.props.invoiceID}
-                                    setClose={this.props.setClose}/>
+                        <ModalClose setClose={this.props.setClose}
+                                    popupMode={this.props.popupMode}/>
                         <Logo logo={this.props.logo}/>
                         <div className="checkout--company-name">
                             {this.props.name}

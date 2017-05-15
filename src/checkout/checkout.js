@@ -1,4 +1,5 @@
 import './checkout.scss';
+import isMobile from 'ismobilejs';
 import ready from '../utils/domReady';
 import PayButton from './elements/PayButton';
 import InitScript from './elements/InitScript';
@@ -11,9 +12,10 @@ ready(function (origin) {
     const RbkmoneyCheckout = {};
     RbkmoneyCheckout.configure = (config) => {
         Object.assign(config, {
-            payformHost: origin
+            payformHost: origin,
+            popupMode: isMobile.any || config.popupMode
         });
-        return new Checkout(config, initScript);
+        return new Checkout(config);
     };
 
     if (initScript.isHtmlIntegration()) {
@@ -24,6 +26,14 @@ ready(function (origin) {
         payButton.render();
         payButton.onclick = (e) => {
             e.preventDefault();
+            Object.assign(params, {
+                finished: () => {
+                    const formNode = initScript.getFormNode();
+                    if (formNode && formNode.action) {
+                        formNode.submit();
+                    }
+                }
+            });
             const checkout = RbkmoneyCheckout.configure(params);
             checkout.open();
         }

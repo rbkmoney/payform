@@ -32,8 +32,4 @@ export default class Iframe {
     getName() {
         return this.element.getAttribute('name');
     }
-
-    getSrc() {
-        return this.element.getAttribute('src');
-    }
 }
