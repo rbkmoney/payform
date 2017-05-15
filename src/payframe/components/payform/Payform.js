@@ -126,7 +126,7 @@ class Payform extends React.Component {
                 })}
                         type="submit"
                         form="payform"
-                        disabled={this.isPayButtonDisabled || this.props.spinner}
+                        disabled={this.isPayButtonDisabled || this.props.spinner || this.props.checkmark}
                 >
                     { this.props.spinner ? <Spinner /> : false }
                     { this.props.checkmark ? <Checkmark /> : false }
