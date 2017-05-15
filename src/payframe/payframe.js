@@ -1,7 +1,6 @@
 import './app.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import isMobile from 'ismobilejs';
 import ready from '../utils/domReady';
 import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
@@ -23,8 +22,7 @@ ready(function () {
         function setCheckoutDone() {
             setTimeout(() => {
                 transport.emit('payment-done');
-
-                if (isMobile.any) {
+                if (params.popupMode) {
                     window.close();
                 }
             }, settings.closeFormTimeout)
@@ -61,6 +59,7 @@ ready(function () {
                                    payformHost={data.payformHost}
                                    setCheckoutDone={setCheckoutDone}
                                    setClose={setClose}
+                                   popupMode={data.popupMode}
                             />,
                             modal
                         );

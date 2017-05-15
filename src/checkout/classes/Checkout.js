@@ -1,9 +1,8 @@
 import Iframe from '../elements/Iframe';
-import isMobile from 'ismobilejs';
 import Parent from '../../communication/Parent';
 
 export default class Checkout {
-    constructor(params, initScript) {
+    constructor(params) {
         this.params = params;
 
         this.opened = params.opened;
@@ -14,24 +13,15 @@ export default class Checkout {
         delete this.params.closed;
         delete this.params.finished;
 
-        this.initScript = initScript;
-
-        if (this.initScript.element) {
-            this.formNode = this.initScript.getFormNode();
-        }
-
-        if (!isMobile.any) {
+        if (!this.params.popupMode) {
             this.iframe = new Iframe(this.params);
             this.iframe.render();
         }
-
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
     }
 
     open() {
         let target;
-        if (isMobile.any) {
+        if (this.params.popupMode) {
             target = window.open(`${this.params.payformHost}/html/payframe.html`);
         } else {
             target = window.frames[this.iframe.getName()];
@@ -44,7 +34,6 @@ export default class Checkout {
             transport.on('payment-done', () => {
                 this.close();
                 this.finished ? this.finished() : false;
-                this.formNode && this.formNode.action ? this.formNode.submit() : false;
             });
             transport.on('close', () => {
                 transport.destroy();
@@ -54,7 +43,7 @@ export default class Checkout {
     }
 
     close() {
-        if (!isMobile.any) {
+        if (!this.params.popupMode) {
             this.iframe.hide();
             this.iframe.destroy();
             this.iframe.render();

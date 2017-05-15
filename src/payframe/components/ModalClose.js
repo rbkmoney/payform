@@ -1,5 +1,4 @@
 import React from 'react';
-import isMobile from 'ismobilejs';
 
 class ModalClose extends React.Component {
     constructor(props) {
@@ -9,7 +8,7 @@ class ModalClose extends React.Component {
     }
 
     close() {
-        if (isMobile.any) {
+        if (this.props.popupMode) {
             window.close();
         } else {
             this.props.setClose();
