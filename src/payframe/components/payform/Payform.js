@@ -110,15 +110,15 @@ class Payform extends React.Component {
                 _error: this.state.error
             })} id="payform" role="form" ref={(form) => { this.formElement = form; }} onSubmit={this.pay}>
                 <fieldset className="payform--fieldset">
-                    <CardNumber value={cardNumber.value} isValid={cardNumber.isValid}/>
-                    <CardExpire value={cardExpire.value} isValid={cardExpire.isValid}/>
-                    <CardCvv value={cardCvv.value} isValid={cardCvv.isValid}/>
+                    <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid}/>
+                    <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid}/>
+                    <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid}/>
                 </fieldset>
                 <fieldset className="payform--fieldset">
-                    <CardHolder value={cardHolder.value} isValid={cardHolder.isValid}/>
+                    <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid}/>
                 </fieldset>
                 <fieldset className="payform--fieldset">
-                    <Email value={email.value} isValid={email.isValid}/>
+                    <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
                 </fieldset>
                 <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
                 <button className={cx('payform--pay-button', {

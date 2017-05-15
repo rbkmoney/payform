@@ -2,6 +2,12 @@ import React from 'react';
 import {focusClass, errorClass} from './cssClasses';
 
 class Email extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
     componentDidMount() {
         const classList = this.input.parentNode.classList;
         this.input.onfocus = () => classList.add(focusClass);
@@ -17,9 +23,15 @@ class Email extends React.Component {
         }
     }
 
+    handleChange(event) {
+        this.props.onChange(event.target.value);
+    }
+
     render() {
         return <div className="payform--group payform--email">
             <input id="email" type="email" name="email"
+                   value={this.props.value}
+                   onChange={this.handleChange}
                    ref={(input) => { this.input = input; }}
                    placeholder="Email" autoComplete="on" autoCorrect="no" autoCapitalize="no" spellCheck="no"/>
             <div className="payform--icon">
