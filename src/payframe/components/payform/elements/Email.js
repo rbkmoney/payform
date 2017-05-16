@@ -32,6 +32,7 @@ class Email extends React.Component {
             <input id="email" type="email" name="email"
                    value={this.props.value}
                    onChange={this.handleChange}
+                   onBlur={this.handleChange}
                    ref={(input) => { this.input = input; }}
                    placeholder="Email" autoComplete="on" autoCorrect="no" autoCapitalize="no" spellCheck="no"/>
             <div className="payform--icon">
