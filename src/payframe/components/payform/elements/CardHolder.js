@@ -2,9 +2,9 @@ import React from 'react';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardHolder extends React.Component {
-
     constructor(props) {
         super(props);
+
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -24,17 +24,16 @@ class CardHolder extends React.Component {
     }
 
     handleChange(event) {
-        this.props.onChange(event.target.value.toUpperCase());
+        this.props.onChange(event.target.value);
     }
 
     render() {
-        const value = this.props.value;
         return (
             <div className="payform--card-holder">
-                <input id="card-holder" type="text"
-                       ref={(input) => { this.input = input; }}
-                       value={value}
+                <input id="card-holder" type="text" name="card-holder"
+                       value={this.props.value}
                        onChange={this.handleChange}
+                       ref={(input) => { this.input = input; }}
                        placeholder="Card holder" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
                 />
                 <div className="payform--icon">

@@ -75,6 +75,25 @@
         }
     }
 
+    &--card-holder {
+        input {
+            text-transform: uppercase;
+
+            &::-webkit-input-placeholder {
+                text-transform: none;
+            }
+            &::-moz-placeholder {
+                text-transform: none;
+            }
+            &:-ms-input-placeholder {
+                text-transform: none;
+            }
+            &:-moz-placeholder {
+                text-transform: none;
+            }
+        }
+    }
+
     &--field {
         &__error {
             z-index: 10;
