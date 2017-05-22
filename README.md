@@ -28,6 +28,8 @@
 | invoice id               | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                            |
 | invoice access token     | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...                  |
 | name                     | Метка для задания именования формы                    |              | Company name                          |
+| description              | Метка для задания описания формы                      |              | Description                           |
+| payButtonLabel           | Метка для задания текста на кнопке оплаты             |              | Pay                                   |
 | logo                     | URL для задания логотипа                              |              | `https://<your-server-side>/logo.png` |
 | label                    | Текст для кнопки                                      |              | Pay with RBKmoney                     |
 | popup mode               | Открыть Checkout в новом окне                         |              | boolean                               |
@@ -52,6 +54,8 @@
 | invoiceID                | Идентификатор инвойса                                 | ✓            | oVU2LzUCbQ                            |
 | invoiceAccessToken       | Токен для доступа к указанному инвойсу                | ✓            | eyJhbGciOiJSUzI1N...                  |
 | name                     | Метка для задания именования формы                    |              | Company name                          |
+| description              | Метка для задания описания формы                      |              | Description                           |
+| payButtonLabel           | Метка для задания текста на кнопке оплаты             |              | Pay                                   |
 | logo                     | URL для задания логотипа                              |              | `https://<your-server-side>/logo.png` |
 | opened                   | callback на открытие модального окна                  |              | function                              |
 | closed                   | callback на закрытие модального окна                  |              | function                              |

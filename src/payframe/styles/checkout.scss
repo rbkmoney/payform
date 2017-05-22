@@ -147,19 +147,31 @@
         }
     }
 
-    &--company-name {
-        font-weight: 700;
-        font-size: 17px;
-        line-height: 20px;
-        color: $black;
-        text-align: center;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin-top: 10px;
+    &--company {
+        &-name {
+            font-weight: 700;
+            font-size: 17px;
+            line-height: 20px;
+            color: $black;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 10px;
 
-        @include responsive(sm) {
-            margin: 0;
+            @include responsive(sm) {
+                margin: 0;
+            }
+        }
+
+        &-description {
+            text-align: center;
+            opacity: .5;
+            font-size: 13px;
+            margin-top: 5px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 

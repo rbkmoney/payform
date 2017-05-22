@@ -158,6 +158,7 @@ export default class Modal extends React.Component {
                          setPayformState={this.setPayformState}
                          spinner={this.state.spinner}
                          checkmark={this.state.checkmark}
+                         payButtonLabel={this.props.payButtonLabel}
                 />
             </ReactCSSTransitionGroup>
         );
@@ -191,6 +192,13 @@ export default class Modal extends React.Component {
                         <div className="checkout--company-name">
                             {this.props.name}
                         </div>
+                        {this.props.description ?
+                                <div className="checkout--company-description">
+                                    {this.props.description}
+                                </div>
+                            :
+                                false
+                        }
                     </div>
                     <div className="checkout--body">
                         <div className="payform">
