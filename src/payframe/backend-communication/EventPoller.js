@@ -13,7 +13,7 @@ export default class EventPoller {
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
-                            reject({message: 'An error occurred while processing your card'});
+                            reject({message: event.error.message});
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
@@ -24,7 +24,9 @@ export default class EventPoller {
                                 poll(self);
                             }
                         }
-                    }).catch(() => reject({message: 'An error occurred while polling events'}));
+                    }).catch(() => {
+                        reject({message: 'An error occurred while polling events'})
+                    });
                 }, settings.pollingTimeout);
             })(this);
         });
