@@ -29,7 +29,7 @@ class CardHolder extends React.Component {
 
     render() {
         return (
-            <div className="payform--card-holder">
+            <div className="payform--group payform--card-holder">
                 <input id="card-holder" type="text" name="card-holder"
                        value={this.props.value}
                        onChange={this.handleChange}
