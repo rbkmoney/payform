@@ -94,6 +94,23 @@
         }
     }
 
+    &--group {
+        input {
+            &::-webkit-input-placeholder {
+                color: rgba(0, 0, 0, .5);
+            }
+            &::-moz-placeholder {
+                color: rgba(0, 0, 0, .5);
+            }
+            &:-ms-input-placeholder {
+                color: rgba(0, 0, 0, .5);
+            }
+            &:-moz-placeholder {
+                color: rgba(0, 0, 0, .5);
+            }
+        }
+    }
+
     &--field {
         &__error {
             z-index: 10;

@@ -1,5 +1,6 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
+import isIE from '../../../../utils/isIE';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardNumber extends React.Component {
@@ -34,6 +35,7 @@ class CardNumber extends React.Component {
             <input id="card-number" type="tel" name="card-number"
                    value={this.props.value}
                    onChange={this.handleChange}
+                   onKeyUp={isIE ? this.handleChange : false}
                    ref={(input) => { this.input = input; }}
                    placeholder="Card number" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"/>
             <div className="payform--icon">
