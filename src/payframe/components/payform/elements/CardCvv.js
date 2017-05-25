@@ -1,6 +1,6 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
-import browsers from '../../../../utils/browsers';
+import isIE from '../../../../utils/isIE';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardCvv extends React.Component {
@@ -35,7 +35,7 @@ class CardCvv extends React.Component {
             <input id="cvv" type="tel" name="cvv"
                    value={this.props.value}
                    onChange={this.handleChange}
-                   onKeyUp={browsers.isIE ? this.handleChange : false}
+                   onKeyUp={isIE ? this.handleChange : false}
                    ref={(input) => { this.input = input; }}
                    placeholder="CVC" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no" maxLength="4"
             />
