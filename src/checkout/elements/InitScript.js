@@ -20,7 +20,7 @@ export default class InitScript {
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney',
             description: dataSet.description,
-            payButtonLabel: dataSet.payButtonLabe || 'Оплатить',
+            payButtonLabel: dataSet.payButtonLabel || 'Оплатить',
             popupMode: dataSet.popupMode
         }
     }
