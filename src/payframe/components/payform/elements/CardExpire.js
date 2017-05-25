@@ -1,5 +1,6 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
+import browsers from '../../../../utils/browsers';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardExpire extends React.Component {
@@ -35,6 +36,7 @@ class CardExpire extends React.Component {
                 <input id="exp-date" type="tel" name="exp-date"
                        value={this.props.value}
                        onChange={this.handleChange}
+                       onKeyUp={browsers.isIE ? this.handleChange : false}
                        ref={(input) => { this.input = input; }}
                        placeholder="MM / YY" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
                 />
