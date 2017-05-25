@@ -130,7 +130,11 @@ class Payform extends React.Component {
                 >
                     { this.props.spinner ? <Spinner /> : false }
                     { this.props.checkmark ? <Checkmark /> : false }
-                    { !this.props.spinner && !this.props.checkmark ? `Оплатить ${this.props.amount} ${this.props.currency}` : false }
+                    { !this.props.spinner && !this.props.checkmark ?
+                            <div><span className="payform--pay-button--label">{this.props.payButtonLabel ? this.props.payButtonLabel : 'Оплатить'}</span> <span>{this.props.amount} {this.props.currency}</span></div>
+                        :
+                            false
+                    }
                 </button>
             </form>
         );

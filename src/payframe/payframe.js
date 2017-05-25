@@ -56,10 +56,12 @@ ready(function () {
                                    amount={data.amount}
                                    currency={data.currency}
                                    name={data.name}
+                                   description={data.description}
                                    payformHost={data.payformHost}
                                    setCheckoutDone={setCheckoutDone}
                                    setClose={setClose}
                                    popupMode={data.popupMode}
+                                   payButtonLabel={data.payButtonLabel}
                             />,
                             modal
                         );
