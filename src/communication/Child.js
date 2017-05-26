@@ -13,6 +13,7 @@ export default class Child {
                 if (e.data === 'rbkmoney-checkout-handshake') {
                     const target = e.source;
                     target.postMessage('rbkmoney-payframe-handshake', e.origin);
+                    sessionStorage.setItem('rbkmoney-checkout-origin', e.origin);
                     return resolve(new Transport(target, e.origin, this.child));
                 }
             };
