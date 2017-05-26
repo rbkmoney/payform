@@ -1,5 +1,6 @@
 import './checkout.scss';
 import isMobile from 'ismobilejs';
+import checkIntegration from '../utils/check-integration';
 import ready from '../utils/domReady';
 import PayButton from './elements/PayButton';
 import InitScript from './elements/InitScript';
@@ -11,6 +12,7 @@ ready(function (origin) {
 
     const RbkmoneyCheckout = {};
     RbkmoneyCheckout.configure = (config) => {
+        checkIntegration(config);
         Object.assign(config, {
             payformHost: origin,
             popupMode: isMobile.any || config.popupMode
