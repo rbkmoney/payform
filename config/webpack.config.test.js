@@ -1,10 +1,8 @@
-const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    name: 'js',
+    devtool: 'inline-source-map',
     entry: {
         '../dist/checkout': path.join(__dirname, '../src/checkout/checkout.js'),
         '../dist/payframe': path.join(__dirname, '../src/payframe/payframe.js')
@@ -15,8 +13,10 @@ module.exports = {
     },
     module: {
         rules: [
-            // {enforce: 'pre', test: /\.js$/, exclude: /node_modules/, use: 'eslint-loader'},
-            {test: /\.(js|jsx)$/, use: 'babel-loader'},
+            {
+                test: /\.(js|jsx)$/,
+                use: 'babel-loader'
+            },
             {
                 test: /\.(css|scss)$/,
                 use: ExtractTextPlugin.extract({
@@ -30,15 +30,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({filename: '[name].css'}),
-        new CopyWebpackPlugin(
-            [
-                {from: './src/payframe/payframe.html', to: '../dist/html/'},
-                {from: './src/payframe/finishInteraction.html', to: '../dist/html/'},
-                {from: './src/payframe/images', to: '../dist/images'},
-                {from: './src/appConfig.json', to: '../dist/'}
-            ],
-            {debug: 'warning'}
-        ),
+        new ExtractTextPlugin({filename: '[name].css'})
     ]
 };
