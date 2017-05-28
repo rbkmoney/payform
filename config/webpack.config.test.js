@@ -15,7 +15,8 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                use: 'babel-loader'
+                use: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.(css|scss)$/,
@@ -31,5 +32,10 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin({filename: '[name].css'})
-    ]
+    ],
+    externals: {
+        'react/addons': 'react',
+        'react/lib/ExecutionEnvironment': 'react',
+        'react/lib/ReactContext': 'react'
+    }
 };
