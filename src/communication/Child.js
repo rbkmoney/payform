@@ -4,11 +4,17 @@ export default class Child {
 
     constructor() {
         this.child = window;
+        this.data = JSON.parse(sessionStorage.getItem('rbkmoney-checkout'));
         return this.sendHandshakeReply();
     }
 
     sendHandshakeReply() {
         return new Promise((resolve) => {
+            if (this.data) {
+                const target = window.opener;
+                const origin = sessionStorage.getItem('rbkmoney-checkout-origin');
+                return resolve(new Transport(target, origin, this.child));
+            }
             const shake = (e) => {
                 if (e.data === 'rbkmoney-checkout-handshake') {
                     const target = e.source;
