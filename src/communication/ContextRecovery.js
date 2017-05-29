@@ -9,8 +9,6 @@ export default class ContextRecovery {
         return new Promise((resolve, reject) => {
             if (this.data) {
                 return resolve(this.data);
-            } else {
-                reject();
             }
         });
     }

@@ -18,20 +18,19 @@ ready(function () {
     child.then((transport) => {
         let params;
 
+        transport.on('init-payform', (data) => {
+            params = data;
+
+            if (data.popupMode) {
+                sessionStorage.setItem('rbkmoney-checkout', JSON.stringify(params));
+            }
+
+            renderModal(data);
+        });
+
         context.then((data) => {
             params = data;
             renderModal(params);
-        })
-        .catch(() => {
-            transport.on('init-payform', (data) => {
-                params = data;
-
-                if (data.popupMode) {
-                    sessionStorage.setItem('rbkmoney-checkout', JSON.stringify(params));
-                }
-
-                renderModal(data);
-            });
         });
 
 
