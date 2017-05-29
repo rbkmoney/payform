@@ -3,27 +3,51 @@ const STORAGE_ORIGIN_KEY = 'rbkmoney-checkout-origin';
 
 export default class ContextResolver {
     static setContext(context) {
-        sessionStorage.setItem(STORAGE_PARAMS_KEY, JSON.stringify(context));
+        try {
+            sessionStorage.setItem(STORAGE_PARAMS_KEY, JSON.stringify(context));
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     static setOrigin(origin) {
-        sessionStorage.setItem(STORAGE_ORIGIN_KEY, origin);
+        try {
+            sessionStorage.setItem(STORAGE_ORIGIN_KEY, origin);
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     static getContext() {
-        return JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
+        try {
+            return JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     static getOrigin() {
-        return sessionStorage.getItem(STORAGE_ORIGIN_KEY);
+        try {
+            return sessionStorage.getItem(STORAGE_ORIGIN_KEY);
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     static isAvailable() {
-        return !!JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
+        try {
+            return !!JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     static removeContext() {
-        sessionStorage.removeItem(STORAGE_PARAMS_KEY);
-        sessionStorage.removeItem(STORAGE_ORIGIN_KEY);
+        try {
+            sessionStorage.removeItem(STORAGE_PARAMS_KEY);
+            sessionStorage.removeItem(STORAGE_ORIGIN_KEY);
+        } catch (e) {
+            console.warn(e);
+        }
     }
 }
