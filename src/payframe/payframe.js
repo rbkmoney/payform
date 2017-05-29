@@ -18,12 +18,7 @@ ready(function () {
     child.then((transport) => {
         let params;
 
-        context.then((data) => {
-            params = data;
-            renderModal(params);
-        })
-        .catch(() => {
-            transport.on('init-payform', (data) => {
+        transport.on('init-payform', (data) => {
                 params = data;
 
                 if (data.popupMode) {
@@ -32,6 +27,10 @@ ready(function () {
 
                 renderModal(data);
             });
+
+        context.then((data) => {
+            params = data;
+            renderModal(params);
         });
 
 
