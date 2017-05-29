@@ -1,25 +1,25 @@
 import Transport from './Transport';
+import ContextResolver from './ContextResolver';
 
 export default class Child {
 
     constructor() {
         this.child = window;
-        this.data = JSON.parse(sessionStorage.getItem('rbkmoney-checkout'));
         return this.sendHandshakeReply();
     }
 
     sendHandshakeReply() {
         return new Promise((resolve) => {
-            if (this.data) {
+            if (ContextResolver.isAvaible()) {
                 const target = window.opener;
-                const origin = sessionStorage.getItem('rbkmoney-checkout-origin');
+                const origin = ContextResolver.getOrigin();
                 return resolve(new Transport(target, origin, this.child));
             }
             const shake = (e) => {
                 if (e.data === 'rbkmoney-checkout-handshake') {
                     const target = e.source;
                     target.postMessage('rbkmoney-payframe-handshake', e.origin);
-                    sessionStorage.setItem('rbkmoney-checkout-origin', e.origin);
+                    ContextResolver.setOrigin(e.origin);
                     return resolve(new Transport(target, e.origin, this.child));
                 }
             };

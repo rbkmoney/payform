@@ -6,14 +6,13 @@ import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
-import ContextRecovery from '../communication/ContextRecovery';
+import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
     const child = new Child();
-    const context = new ContextRecovery();
 
     child.then((transport) => {
         let params;
@@ -22,20 +21,19 @@ ready(function () {
             params = data;
 
             if (data.popupMode) {
-                sessionStorage.setItem('rbkmoney-checkout', JSON.stringify(params));
+                ContextResolver.setContext(params)
             }
 
             renderModal(data);
         });
 
-        context.then((data) => {
-            params = data;
+        if (ContextResolver.isAvaible()) {
+            params = ContextResolver.getContext();
             renderModal(params);
-        });
-
+        }
 
         function setCheckoutDone() {
-            sessionStorage.removeItem('rbkmoney-checkout');
+            ContextResolver.removeContext();
             setTimeout(() => {
                 transport.emit('payment-done');
                 if (params.popupMode) {
