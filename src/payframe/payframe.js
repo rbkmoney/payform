@@ -27,7 +27,7 @@ ready(function () {
             renderModal(data);
         });
 
-        if (ContextResolver.isAvaible()) {
+        if (ContextResolver.isAvailable()) {
             params = ContextResolver.getContext();
             renderModal(params);
         }

@@ -10,7 +10,7 @@ export default class Child {
 
     sendHandshakeReply() {
         return new Promise((resolve) => {
-            if (ContextResolver.isAvaible()) {
+            if (ContextResolver.isAvailable()) {
                 const target = window.opener;
                 const origin = ContextResolver.getOrigin();
                 return resolve(new Transport(target, origin, this.child));

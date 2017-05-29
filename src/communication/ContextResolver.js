@@ -18,7 +18,7 @@ export default class ContextResolver {
         return sessionStorage.getItem(STORAGE_ORIGIN_KEY);
     }
 
-    static isAvaible() {
+    static isAvailable() {
         return !!JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
     }
 
