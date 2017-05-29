@@ -54,7 +54,7 @@ export default class EventPoller {
                     'Authorization': `Bearer ${invoiceAccessToken}`,
                     'X-Request-ID': guid()
                 }
-            }).then(response => {
+            }).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response.json());
                 } else {
@@ -72,7 +72,7 @@ export default class EventPoller {
         let result = false;
         if (event) {
             const isPaymentFailed = (event.eventType === 'EventPaymentStatusChanged' && event.status === 'failed');
-            const isInvoiceFailed = (event.eventType === 'EventInvoiceStatusChanged' && (event.status === 'cancelled' || event.status === 'unpaid'));
+            const isInvoiceFailed = (event.eventType === 'EventInvoiceStatusChanged' && event.status === 'cancelled');
             result = isPaymentFailed || isInvoiceFailed;
         }
         return result;
