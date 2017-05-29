@@ -6,20 +6,34 @@ import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
+import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
     const child = new Child();
+
     child.then((transport) => {
         let params;
+
         transport.on('init-payform', (data) => {
             params = data;
-            renderModal(data)
+
+            if (data.popupMode) {
+                ContextResolver.setContext(params)
+            }
+
+            renderModal(data);
         });
 
+        if (ContextResolver.isAvailable()) {
+            params = ContextResolver.getContext();
+            renderModal(params);
+        }
+
         function setCheckoutDone() {
+            ContextResolver.removeContext();
             setTimeout(() => {
                 transport.emit('payment-done');
                 if (params.popupMode) {
