@@ -1,5 +1,6 @@
 import './checkout.scss';
-import 'babel-polyfill';
+import 'core-js/es6/promise';
+import 'core-js/es6/object';
 import isMobile from 'ismobilejs';
 import ready from '../utils/domReady';
 import PayButton from './elements/PayButton';
