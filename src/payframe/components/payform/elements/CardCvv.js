@@ -1,6 +1,6 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
-import isIE from '../../../../utils/isIE';
+import { isIE } from '../../../../utils/browsers';
 import {focusClass, errorClass} from './cssClasses';
 
 class CardCvv extends React.Component {

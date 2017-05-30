@@ -1,5 +1,7 @@
 import Iframe from '../elements/Iframe';
 import Parent from '../../communication/Parent';
+import UrlUtils from '../../utils/UrlUtils';
+import { isSafariWebView } from '../../utils/browsers';
 
 export default class Checkout {
     constructor(params) {
@@ -22,7 +24,7 @@ export default class Checkout {
     open() {
         let target;
         if (this.params.popupMode) {
-            target = window.open(`${this.params.payformHost}/html/payframe.html`);
+            target = window.open(`${this.params.payformHost}/html/payframe.html?${isSafariWebView ? UrlUtils.encodeParams(this.params) : ''}`);
         } else {
             target = window.frames[this.iframe.getName()];
             this.iframe.show();

@@ -8,11 +8,27 @@ import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
+import UrlUtils from '../utils/UrlUtils';
+import { isSafariWebView } from '../utils/browsers';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
     const child = new Child();
+
+    if (!!location.search && isSafariWebView) {
+        const data = UrlUtils.decodeParams(location.search);
+        data.payformHost = decodeURIComponent(data.payformHost);
+        switch (data.popupMode) {
+            case 'true':
+                data.popupMode = true;
+                break;
+            case 'false':
+                data.popupMode = false;
+                break;
+        }
+        ContextResolver.setContext(data);
+    }
 
     child.then((transport) => {
         let params;
