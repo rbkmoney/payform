@@ -1,4 +1,5 @@
 import './app.scss';
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
