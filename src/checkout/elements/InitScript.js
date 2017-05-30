@@ -1,4 +1,3 @@
-import checkIntegration from '../../utils/check-integration';
 import settings from '../../settings';
 
 export default class InitScript {
@@ -14,7 +13,6 @@ export default class InitScript {
 
     getParams() {
         const dataSet = this.element.dataset || {};
-        checkIntegration(dataSet);
         return {
             invoiceAccessToken: dataSet.invoiceAccessToken,
             invoiceID: dataSet.invoiceId,
