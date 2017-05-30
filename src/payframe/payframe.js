@@ -11,14 +11,14 @@ import Child from '../communication/Child';
 import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
 import UrlUtils from '../utils/UrlUtils';
-import { isSafariWebView } from '../utils/browsers';
+import browsers from '../utils/browsers';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
     const child = new Child();
 
-    if (!!location.search && isSafariWebView) {
+    if (!!location.search && browsers.isSafariWebView) {
         const data = UrlUtils.decodeParams(location.search);
         data.payformHost = decodeURIComponent(data.payformHost);
         switch (data.popupMode) {

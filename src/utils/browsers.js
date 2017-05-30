@@ -2,7 +2,12 @@
 const isIE = /*@cc_on!@*/false || !!document.documentMode;
 
 // Safari UIWebView
-const isSafariWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Version)/i.test(navigator.userAgent);
+let isSafariWebView = false;
+if (navigator.platform.substr(0,2) === 'iP') {
+    if (document.body.indexOf('tel:') == -1) {
+        isSafariWebView = true;
+    }
+}
 
 export default {
     isIE: isIE,
