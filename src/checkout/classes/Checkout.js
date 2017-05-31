@@ -31,7 +31,9 @@ export default class Checkout {
         const parent = new Parent(target, this.params.payformHost);
         parent.then((transport) => {
             this.opened ? this.opened() : false;
-            transport.emit('init-payform', this.params);
+            if (!this.params.popupMode) {
+                transport.emit('init-payform', this.params);
+            }
             transport.on('payment-done', () => {
                 this.close();
                 this.finished ? this.finished() : false;

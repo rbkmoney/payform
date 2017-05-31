@@ -8,50 +8,23 @@ import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
-import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
-import UrlUtils from '../utils/UrlUtils';
-import browsers from '../utils/browsers';
+import StateResolver from './StateResolver';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
     const child = new Child();
 
-    if (!!location.search && browsers.isSafariWebView) {
-        const data = UrlUtils.decodeParams(location.search);
-        data.payformHost = decodeURIComponent(data.payformHost);
-        switch (data.popupMode) {
-            case 'true':
-                data.popupMode = true;
-                break;
-            case 'false':
-                data.popupMode = false;
-                break;
-        }
-        ContextResolver.setContext(data);
-    }
-
     child.then((transport) => {
         let params;
 
-        transport.on('init-payform', (data) => {
-            params = data;
-
-            if (data.popupMode) {
-                ContextResolver.setContext(params)
-            }
-
-            renderModal(data);
+        StateResolver.resolve(transport).then((state) => {
+            params = state;
+            renderModal(state);
         });
 
-        if (ContextResolver.isAvailable()) {
-            params = ContextResolver.getContext();
-            renderModal(params);
-        }
-
         function setCheckoutDone() {
-            ContextResolver.removeContext();
             setTimeout(() => {
                 transport.emit('payment-done');
                 if (params.popupMode) {
