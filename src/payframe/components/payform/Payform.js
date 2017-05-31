@@ -81,6 +81,9 @@ class Payform extends React.Component {
     }
 
     pay(e) {
+        if (this.props.back) {
+            return;
+        }
         e.preventDefault();
         this.handleCardHolder(e.target['card-holder'].value);
         this.handleCardNumber(e.target['card-number'].value);
@@ -96,6 +99,10 @@ class Payform extends React.Component {
         } else {
             this.triggerError()
         }
+    }
+
+    goBack() {
+        history.back();
     }
 
     render() {
@@ -122,19 +129,21 @@ class Payform extends React.Component {
                 </fieldset>
                 <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
                 <button className={cx('payform--pay-button', {
-                    _success: this.props.checkmark
+                    _success: this.props.checkmark || this.props.back
                 })}
                         type="submit"
                         form="payform"
                         disabled={this.isPayButtonDisabled || this.props.spinner || this.props.checkmark}
+                        onClick={this.props.back ? this.goBack : false}
                 >
                     { this.props.spinner ? <Spinner /> : false }
                     { this.props.checkmark ? <Checkmark /> : false }
-                    { !this.props.spinner && !this.props.checkmark ?
+                    { !this.props.spinner && !this.props.checkmark && !this.props.back ?
                             <div><span className="payform--pay-button--label">{this.props.payButtonLabel ? this.props.payButtonLabel : 'Оплатить'}</span> <span>{this.props.amount} {this.props.currency}</span></div>
                         :
                             false
                     }
+                    { this.props.back ? 'Назад' : false }
                 </button>
             </form>
         );

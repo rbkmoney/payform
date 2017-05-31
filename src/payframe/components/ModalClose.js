@@ -1,5 +1,5 @@
 import React from 'react';
-//import isMobile from 'ismobilejs';
+import isMobile from 'ismobilejs';
 
 class ModalClose extends React.Component {
     constructor(props) {
@@ -10,17 +10,16 @@ class ModalClose extends React.Component {
 
     close() {
         if (this.props.popupMode) {
-            //window.close();
-            history.back();
+            window.close();
         } else {
             this.props.setClose();
         }
     }
 
     render() {
-        //if (isMobile.any) {
-        //  return false;
-        //} else {
+        if (isMobile.any) {
+          return false;
+        } else {
             return (
                 <div className="checkout--close-button" onClick={this.close}>
                     <svg width="12" height="12">
@@ -28,7 +27,7 @@ class ModalClose extends React.Component {
                     </svg>
                 </div>
             );
-        //}
+        }
 
     }
 }

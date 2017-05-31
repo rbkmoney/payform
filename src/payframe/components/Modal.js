@@ -9,6 +9,7 @@ import Processing from '../backend-communication/Processing';
 import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
+import isMobile from 'ismobilejs';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class Modal extends React.Component {
             interact: false,
             spinner: false,
             checkmark: false,
+            back: false,
             payformState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
@@ -99,6 +101,17 @@ export default class Modal extends React.Component {
             checkmark: true
         });
         this.props.setCheckoutDone();
+        if (isMobile.any) {
+            setTimeout(() => {
+                this.setState({
+                    payform: true,
+                    interact: false,
+                    spinner: false,
+                    checkmark: false,
+                    back: true
+                })
+            }, 3000)
+        }
     }
 
     handleInteract(event) {
@@ -159,6 +172,7 @@ export default class Modal extends React.Component {
                          spinner={this.state.spinner}
                          checkmark={this.state.checkmark}
                          payButtonLabel={this.props.payButtonLabel}
+                         back={this.state.back}
                 />
             </ReactCSSTransitionGroup>
         );
