@@ -81,10 +81,10 @@ class Payform extends React.Component {
     }
 
     pay(e) {
+        e.preventDefault();
         if (this.props.back) {
             return;
         }
-        e.preventDefault();
         this.handleCardHolder(e.target['card-holder'].value);
         this.handleCardNumber(e.target['card-number'].value);
         this.handleCardCvv(e.target['cvv'].value);
