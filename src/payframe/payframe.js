@@ -1,4 +1,6 @@
 import './app.scss';
+import 'core-js/es6/promise';
+import 'core-js/es6/object';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
@@ -6,8 +8,8 @@ import Modal from './components/Modal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
-import ContextResolver from '../communication/ContextResolver';
 import settings from '../settings';
+import StateResolver from './StateResolver';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
@@ -17,23 +19,12 @@ ready(function () {
     child.then((transport) => {
         let params;
 
-        transport.on('init-payform', (data) => {
-            params = data;
-
-            if (data.popupMode) {
-                ContextResolver.setContext(params)
-            }
-
-            renderModal(data);
+        StateResolver.resolve(transport).then((state) => {
+            params = state;
+            renderModal(state);
         });
 
-        if (ContextResolver.isAvailable()) {
-            params = ContextResolver.getContext();
-            renderModal(params);
-        }
-
         function setCheckoutDone() {
-            ContextResolver.removeContext();
             setTimeout(() => {
                 transport.emit('payment-done');
                 if (params.popupMode) {
@@ -48,6 +39,9 @@ ready(function () {
             setTimeout(() => {
                 transport.emit('close');
                 transport.destroy();
+                if (params.popupMode) {
+                    window.close();
+                }
             }, 300);
 
         }

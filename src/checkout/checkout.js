@@ -1,4 +1,6 @@
 import './checkout.scss';
+import 'core-js/es6/promise';
+import 'core-js/es6/object';
 import isMobile from 'ismobilejs';
 import checkIntegration from '../utils/check-integration';
 import ready from '../utils/domReady';
@@ -6,6 +8,7 @@ import PayButton from './elements/PayButton';
 import InitScript from './elements/InitScript';
 import Checkout from './classes/Checkout';
 import StyleLink from './elements/StyleLink';
+import removeUndefined from '../utils/remove-undefined';
 
 ready(function (origin) {
     const initScript = new InitScript();
@@ -17,6 +20,9 @@ ready(function (origin) {
             payformHost: origin,
             popupMode: isMobile.any || config.popupMode
         });
+
+        config = removeUndefined(config);
+
         return new Checkout(config);
     };
 

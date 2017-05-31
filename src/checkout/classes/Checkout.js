@@ -1,5 +1,6 @@
 import Iframe from '../elements/Iframe';
 import Parent from '../../communication/Parent';
+import UrlUtils from '../../utils/UrlUtils';
 
 export default class Checkout {
     constructor(params) {
@@ -22,7 +23,7 @@ export default class Checkout {
     open() {
         let target;
         if (this.params.popupMode) {
-            target = window.open(`${this.params.payformHost}/html/payframe.html`);
+            target = window.open(`${this.params.payformHost}/html/payframe.html?${UrlUtils.encodeParams(this.params)}`);
         } else {
             target = window.frames[this.iframe.getName()];
             this.iframe.show();
@@ -30,7 +31,9 @@ export default class Checkout {
         const parent = new Parent(target, this.params.payformHost);
         parent.then((transport) => {
             this.opened ? this.opened() : false;
-            transport.emit('init-payform', this.params);
+            if (!this.params.popupMode) {
+                transport.emit('init-payform', this.params);
+            }
             transport.on('payment-done', () => {
                 this.close();
                 this.finished ? this.finished() : false;

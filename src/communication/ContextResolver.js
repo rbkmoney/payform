@@ -1,34 +1,18 @@
-const STORAGE_PARAMS_KEY = 'rbkmoney-checkout';
-const STORAGE_ORIGIN_KEY = 'rbkmoney-checkout-origin';
+const key = 'checkout-context';
 
 export default class ContextResolver {
-    static setContext(context) {
+
+    static set(context) {
         try {
-            sessionStorage.setItem(STORAGE_PARAMS_KEY, JSON.stringify(context));
+            sessionStorage.setItem(key, JSON.stringify(context));
         } catch (e) {
             console.warn(e);
         }
     }
 
-    static setOrigin(origin) {
+    static get() {
         try {
-            sessionStorage.setItem(STORAGE_ORIGIN_KEY, origin);
-        } catch (e) {
-            console.warn(e);
-        }
-    }
-
-    static getContext() {
-        try {
-            return JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
-        } catch (e) {
-            console.warn(e);
-        }
-    }
-
-    static getOrigin() {
-        try {
-            return sessionStorage.getItem(STORAGE_ORIGIN_KEY);
+            return JSON.parse(sessionStorage.getItem(key));
         } catch (e) {
             console.warn(e);
         }
@@ -36,16 +20,7 @@ export default class ContextResolver {
 
     static isAvailable() {
         try {
-            return !!JSON.parse(sessionStorage.getItem(STORAGE_PARAMS_KEY));
-        } catch (e) {
-            console.warn(e);
-        }
-    }
-
-    static removeContext() {
-        try {
-            sessionStorage.removeItem(STORAGE_PARAMS_KEY);
-            sessionStorage.removeItem(STORAGE_ORIGIN_KEY);
+            return !!JSON.parse(sessionStorage.getItem(key));
         } catch (e) {
             console.warn(e);
         }

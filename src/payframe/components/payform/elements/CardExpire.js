@@ -1,7 +1,7 @@
 import React from 'react';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
-import isIE from '../../../../utils/isIE';
 import {focusClass, errorClass} from './cssClasses';
+import isIE from '../../../../utils/isIE';
 
 class CardExpire extends React.Component {
     constructor(props) {
