@@ -110,7 +110,7 @@ export default class Modal extends React.Component {
                     checkmark: false,
                     back: true
                 })
-            }, 3000)
+            }, settings.closeFormTimeout + 100)
         }
     }
 
