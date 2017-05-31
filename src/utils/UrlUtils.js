@@ -14,6 +14,20 @@ export default class UrlUtils {
 
     static decodeParams(url) {
         const search = url.split('?')[1];
-        return JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`);
+        const obj = JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`);
+
+        for (const prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                switch (obj[prop]) {
+                    case 'true':
+                        obj[prop] = true;
+                        break;
+                    case 'false':
+                        obj[prop] = false;
+                }
+            }
+        }
+
+        return obj;
     }
 }

@@ -39,6 +39,9 @@ ready(function () {
             setTimeout(() => {
                 transport.emit('close');
                 transport.destroy();
+                if (params.popupMode) {
+                    window.close();
+                }
             }, 300);
 
         }
