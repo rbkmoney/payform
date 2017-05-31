@@ -101,7 +101,7 @@ export default class Modal extends React.Component {
             checkmark: true
         });
         this.props.setCheckoutDone();
-        if (isMobile.any) {
+        if (isMobile.any && history.length > 1) {
             setTimeout(() => {
                 this.setState({
                     payform: true,
