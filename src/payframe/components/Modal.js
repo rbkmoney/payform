@@ -200,8 +200,7 @@ export default class Modal extends React.Component {
                     }
                 )}>
                     <div className="checkout--header">
-                        <ModalClose setClose={this.props.setClose}
-                                    popupMode={this.props.popupMode}/>
+                        { !isMobile.any ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/> : false }
                         <Logo logo={this.props.logo}/>
                         <div className="checkout--company-name">
                             {this.props.name}
