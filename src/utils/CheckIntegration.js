@@ -20,6 +20,7 @@ export default class CheckIntegration {
     static check(props) {
         const m = CheckIntegration.getMatcher();
         let errors = 0;
+        let criticalErrors = 0;
 
         for (const prop in props) {
             if (props.hasOwnProperty(prop)) {
@@ -30,8 +31,19 @@ export default class CheckIntegration {
             }
         }
 
+        for (const prop in integration) {
+            if (integration.hasOwnProperty(prop)) {
+                if (integration[prop].isRequired && !props[prop]) {
+                    ++criticalErrors;
+                    console.error(`RbkmoneyCheckout.configure: '${prop}' is a required option, but was not found.`)
+                }
+            }
+        }
+
         if (errors > 0) {
             console.warn('You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout');
         }
+
+        return criticalErrors <= 0;
     }
 }

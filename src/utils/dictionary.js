@@ -7,10 +7,6 @@ const integration = {
         isRequired: true,
         isEnabled: true
     },
-    invoiceId: {
-        isRequired: true,
-        isEnabled: true
-    },
     logo: {
         isRequired: false,
         isEnabled: true

@@ -15,7 +15,9 @@ ready(function (origin) {
 
     const RbkmoneyCheckout = {};
     RbkmoneyCheckout.configure = (config) => {
-        CheckIntegration.check(config);
+        if (!CheckIntegration.check(config)) {
+            return;
+        }
         Object.assign(config, {
             payformHost: origin,
             popupMode: isMobile.any || config.popupMode
