@@ -102,7 +102,7 @@ class Payform extends React.Component {
     }
 
     goBack() {
-        history.back();
+        history.go(-history.length + 1);
     }
 
     render() {
