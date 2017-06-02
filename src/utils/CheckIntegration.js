@@ -3,7 +3,7 @@ import integration from './dictionary';
 import jwtDecode from 'jwt-decode';
 
 export default class CheckIntegration {
-    static getMatcher() {
+    static makeDictionary() {
         let dictionary = '';
 
         for (const prop in integration) {
@@ -12,7 +12,11 @@ export default class CheckIntegration {
             }
         }
 
-        const m = new Matcher(dictionary);
+        return dictionary;
+    }
+
+    static getMatcher() {
+        const m = new Matcher(CheckIntegration.makeDictionary());
         m.ignoreCase();
 
         return m;
