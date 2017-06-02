@@ -31,5 +31,13 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props).should.be.equal(true);
         });
+
+        it('should return false', function() {
+            const props = {
+                invoiceAccessToken: 'token'
+            };
+
+            CheckIntegration.check(props).should.be.equal(false);
+        });
     });
 });
