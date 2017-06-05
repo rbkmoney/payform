@@ -2,13 +2,12 @@ import URL from 'url-parse';
 
 export default function (callback) {
     let ready = false;
-    const getScriptUrl = () => {
+    const currentScript = document.currentScript || (function () {
         const scripts = document.getElementsByTagName('script');
-        const element = scripts[scripts.length - 1];
-        return element.src;
-    };
+        return scripts[scripts.length - 1];
+    })();
 
-    const parser = new URL(getScriptUrl());
+    const parser = new URL(currentScript.src);
 
     const detach = function () {
         if (document.addEventListener) {
