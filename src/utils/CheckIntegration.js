@@ -1,17 +1,17 @@
 import Matcher from 'did-you-mean';
+import difference from 'lodash.difference';
 import integration from './dictionary';
 
 export default class CheckIntegration {
     static makeDictionary() {
-        let dictionary = '';
-
-        for (const prop in integration) {
-            if (integration.hasOwnProperty(prop)) {
-                dictionary += `${prop} `;
+        return integration.reduce((previousValue, currentValue, index) => {
+            if (index === 1) {
+                return `${previousValue.name} ${currentValue.name}`;
+            } else {
+                return `${previousValue} ${currentValue.name}`;
             }
-        }
 
-        return dictionary;
+        });
     }
 
     static getMatcher() {
@@ -23,35 +23,40 @@ export default class CheckIntegration {
 
     static check(props) {
         const m = CheckIntegration.getMatcher();
-        let errors = 0;
-        let criticalErrors = 0;
+        let errors = false;
+        let criticalErrors = false;
+        const propsKeys = Object.keys(props);
+        const integrationKeys = integration.map((item) => item.name);
+        const requiredKeys = integration.filter((item) => item.isRequired).map((item) => item.name);
+        const diff = difference(propsKeys, integrationKeys);
+        const inter = difference(requiredKeys, propsKeys);
 
-        for (const prop in props) {
-            if (props.hasOwnProperty(prop)) {
-                if (!integration[prop]) {
-                    ++errors;
-                    console.warn(`RbkmoneyCheckout.configure: Unrecognized option '${prop}'. ${integration[m.get(prop)] ? `Did you mean '${m.get(prop)}'?` : ''}`);
-                }
-            }
+        for (let i = 0; i < diff.length; i++) {
+            errors = true;
+            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${diff[i]}'. ${m.get(diff[i]) ? `Did you mean '${m.get(diff[i])}'?` : ''}`);
         }
 
-        for (const prop in integration) {
-            if (integration.hasOwnProperty(prop)) {
-                if (integration[prop].isRequired && !props[prop]) {
-                    ++criticalErrors;
-                    console.error(`RbkmoneyCheckout.configure: '${prop}' is a required option, but was not found.`)
-                }
-            }
+        for (let i = 0; i < inter.length; i++) {
+            criticalErrors = true;
+            this.log('error', `RbkmoneyCheckout.configure: '${inter[i]}' is a required option, but was not found.`)
         }
 
-        if (criticalErrors > 0) {
-            alert('RbkmoneyCheckout.configure: Critical error! Check your console for more info.');
+        if (criticalErrors) {
+            this.alert('RbkmoneyCheckout.configure: Critical error! Check your console for more info.');
         }
 
-        if (errors > 0 || criticalErrors > 0) {
-            console.warn('You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout');
+        if (errors || criticalErrors) {
+            this.log('warn', 'You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout');
         }
 
-        return criticalErrors <= 0;
+        return !criticalErrors;
+    }
+
+    static log(level, message) {
+        console[level](message);
+    }
+
+    static alert(message) {
+        alert(message);
     }
 }

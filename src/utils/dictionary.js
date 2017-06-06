@@ -1,48 +1,48 @@
-const integration = {
-    invoiceAccessToken: {
-        isRequired: true,
-        isEnabled: true
+const integration = [
+    {
+        name: 'invoiceAccessToken',
+        isRequired: true
     },
-    invoiceID: {
-        isRequired: true,
-        isEnabled: true
+    {
+        name: 'invoiceID',
+        isRequired: true
     },
-    logo: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'logo',
+        isRequired: false
     },
-    name: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'name',
+        isRequired: false
     },
-    label: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'label',
+        isRequired: false
     },
-    description: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'description',
+        isRequired: false
     },
-    payButtonLabel: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'payButtonLabel',
+        isRequired: false
     },
-    popupMode: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'popupMode',
+        isRequired: false
     },
-    opened: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'opened',
+        isRequired: false
     },
-    closed: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'closed',
+        isRequired: false
     },
-    finished: {
-        isRequired: false,
-        isEnabled: true
+    {
+        name: 'finished',
+        isRequired: false
     }
-};
+];
 
 export default integration;
