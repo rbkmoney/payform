@@ -115,7 +115,7 @@ class Payform extends React.Component {
         return (
             <form className={cx('payform--form', {
                 _error: this.state.error
-            })} id="payform" role="form" ref={(form) => { this.formElement = form; }} onSubmit={this.pay}>
+            })} id="payform" role="form" ref={(form) => { this.formElement = form; }} onSubmit={this.pay} noValidate>
                 <fieldset className="payform--fieldset">
                     <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid}/>
                     <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid}/>
