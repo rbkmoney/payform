@@ -20,6 +20,11 @@
         display: flex;
         flex-direction: column;
         transition: all .5s;
+        position: absolute;
+
+        @include responsive(sm) {
+            position: relative;
+        }
 
         &._interact {
             @include responsive(sm) {
@@ -90,10 +95,14 @@
         height: 100%;
         width: auto;
         flex-shrink: 1;
+        display: flex;
+        justify-content: center;
+        min-height: 317px;
 
         @include responsive(sm) {
             display: block;
             border-radius: 0 0 5px 5px;
+            min-height: inherit;
         }
 
         &-appear {

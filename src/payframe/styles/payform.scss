@@ -2,6 +2,7 @@
     padding: 20px 35px;
     min-height: 317px;
     min-width: 300px;
+    align-self: center;
 
     @include responsive(sm) {
         position: relative;
@@ -10,13 +11,20 @@
     input {
         width: 100%;
         box-sizing: border-box;
-        padding: 9px 9px 9px 30px;
+        padding: 11px 9px 11px 30px;
         font-size: 15px;
         color: $black;
         border: 1px solid $gray1;
         border-radius: 4px;
         background: $white;
         transition: box-shadow 0.2s ease-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        @include responsive(sm) {
+            padding: 9px 9px 9px 30px;
+        }
 
         &:focus {
             border-radius: 4px !important;
@@ -129,12 +137,16 @@
     &--icon {
         position: absolute;
         left: 2px;
-        top: 4px;
+        top: 6px;
         bottom: 0;
         pointer-events: none;
         display: block;
         height: 100%;
         width: 30px;
+
+        @include responsive(sm) {
+            top: 4px;
+        }
 
         svg {
             width: 100%;
@@ -156,7 +168,7 @@
         min-height: 36px;
         width: 100%;
         position: relative;
-        padding: 8px;
+        padding: 11px;
         margin: 15px auto;
         border-radius: 4px;
         background-color: $blue1;
@@ -167,6 +179,10 @@
         color: $white;
         cursor: pointer;
         transition: all .3s;
+
+        @include responsive(sm) {
+            padding: 8px;
+        }
 
         &:active {
             background-image: linear-gradient(180deg, $blue2, $blue3)
