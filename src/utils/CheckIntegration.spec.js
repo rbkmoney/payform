@@ -2,6 +2,16 @@ import CheckIntegration from './CheckIntegration';
 
 describe('CheckIntegration', function () {
 
+    beforeEach(function () {
+        this.consoleSpy = sinon.spy(CheckIntegration, 'log');
+        this.alertSpy = sinon.spy(CheckIntegration, 'alert');
+    });
+
+    afterEach(function () {
+        CheckIntegration.log.restore();
+        CheckIntegration.alert.restore();
+    });
+
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
             const dictionary = 'invoiceAccessToken invoiceID logo name label description payButtonLabel popupMode opened closed finished ';
@@ -40,4 +50,99 @@ describe('CheckIntegration', function () {
             CheckIntegration.check(props).should.be.equal(false);
         });
     });
+
+    describe('#log()', function() {
+       it('message should be error and contain text about missing invoiceID', function() {
+           const props = {
+                invoiceAccessToken: 'token'
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`);
+       });
+
+       it('message should be error and contain text about missing invoiceAccessToken', function() {
+           const props = {
+                invoiceID: 'invoice'
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`);
+       });
+
+       it('message should be warn and contain text about Unrecognized option nema', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nema: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'nema'. Did you mean 'name'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`);
+       });
+
+       it('message should be warn and contain text about Unrecognized option testerror', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                name: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                testerror: true,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'testerror'. `);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`);
+       });
+    });
+
+    describe('#alert()', function() {
+        it('alert critical error when invoiceAccessToken is unrecognized', function() {
+            const props = {
+                invoiceID: 'invoice'
+            };
+
+            CheckIntegration.check(props);
+
+            sinon.assert.calledWith(this.alertSpy, `RbkmoneyCheckout.configure: Critical error! Check your console for more info.`);
+        });
+
+        it('alert critical error when invoiceID is unrecognized', function() {
+            const props = {
+                invoiceAccessToken: 'token'
+            };
+
+            CheckIntegration.check(props);
+
+            sinon.assert.calledWith(this.alertSpy, `RbkmoneyCheckout.configure: Critical error! Check your console for more info.`);
+        });
+    })
 });
