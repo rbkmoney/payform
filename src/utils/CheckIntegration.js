@@ -29,17 +29,17 @@ export default class CheckIntegration {
         const integrationKeys = integration.map((item) => item.name);
         const requiredKeys = integration.filter((item) => item.isRequired).map((item) => item.name);
         const diff = difference(propsKeys, integrationKeys);
-        const inter = difference(requiredKeys, propsKeys);
+        const reqDiff = difference(requiredKeys, propsKeys);
 
-        for (let i = 0; i < diff.length; i++) {
+        diff.forEach((item) => {
             errors = true;
-            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${diff[i]}'. ${m.get(diff[i]) ? `Did you mean '${m.get(diff[i])}'?` : ''}`);
-        }
+            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${item}'. ${m.get(item) ? `Did you mean '${m.get(item)}'?` : ''}`);
+        });
 
-        for (let i = 0; i < inter.length; i++) {
+        reqDiff.forEach((item) => {
             criticalErrors = true;
-            this.log('error', `RbkmoneyCheckout.configure: '${inter[i]}' is a required option, but was not found.`)
-        }
+            this.log('error', `RbkmoneyCheckout.configure: '${item}' is a required option, but was not found.`)
+        });
 
         if (criticalErrors) {
             this.alert('RbkmoneyCheckout.configure: Critical error! Check your console for more info.');
