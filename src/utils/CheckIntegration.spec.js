@@ -65,6 +65,18 @@ describe('CheckIntegration', function () {
            sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
        });
 
+       it('message should be error and contain text about missing invoiceID', function() {
+           const props = {
+                invoicceID: 'invoice',
+                invoiceAccessToken: 'token'
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoicceID'. Did you mean 'invoiceID'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
        it('message should be error and contain text about missing invoiceAccessToken', function() {
            const props = {
                 invoiceID: 'invoice'
@@ -73,6 +85,18 @@ describe('CheckIntegration', function () {
             CheckIntegration.check(props);
 
            sinon.assert.calledWith(this.consoleSpy, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be error and contain text about missing invoiceAccessToken', function() {
+           const props = {
+                invoicceID: 'invoice',
+                invoiceAcсcessToken: 'token'
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoiceAcсcessToken'. Did you mean 'invoiceAccessToken'?`);
            sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
        });
 
@@ -97,6 +121,126 @@ describe('CheckIntegration', function () {
             CheckIntegration.check(props);
 
            sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'nema'. Did you mean 'name'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option payBuuttonLabel', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payBuuttonLabel: 'Pay',
+                popupMode: false,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'payBuuttonLabel'. Did you mean 'payButtonLabel'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option popuppMode', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payButtonLabel: 'Pay',
+                popuppMode: false,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'popuppMode'. Did you mean 'popupMode'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option oopened', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                oopened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'oopened'. Did you mean 'opened'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option cllosed', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                cllosed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'cllosed'. Did you mean 'closed'?`);
+           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option finnished', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finnished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'finnished'. Did you mean 'finished'?`);
            sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
        });
 
