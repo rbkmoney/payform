@@ -5,8 +5,8 @@ describe('CheckIntegration', function () {
     const criticalError = 'RbkmoneyCheckout.configure: Critical error! Check your console for more info.';
 
     beforeEach(function () {
-        this.consoleSpy = sinon.spy(CheckIntegration, 'log');
-        this.alertSpy = sinon.spy(CheckIntegration, 'alert');
+        this.consoleStub = sinon.stub(CheckIntegration, 'log');
+        this.alertStub = sinon.stub(CheckIntegration, 'alert');
     });
 
     afterEach(function () {
@@ -61,8 +61,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be error and contain text about missing invoiceID', function() {
@@ -73,8 +73,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoicceID'. Did you mean 'invoiceID'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoicceID'. Did you mean 'invoiceID'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be error and contain text about missing invoiceAccessToken', function() {
@@ -84,8 +84,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be error and contain text about missing invoiceAccessToken', function() {
@@ -96,8 +96,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoiceAcсcessToken'. Did you mean 'invoiceAccessToken'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'invoiceAcсcessToken'. Did you mean 'invoiceAccessToken'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option nema', function() {
@@ -120,8 +120,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'nema'. Did you mean 'name'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'nema'. Did you mean 'name'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option payBuuttonLabel', function() {
@@ -144,8 +144,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'payBuuttonLabel'. Did you mean 'payButtonLabel'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'payBuuttonLabel'. Did you mean 'payButtonLabel'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option popuppMode', function() {
@@ -168,8 +168,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'popuppMode'. Did you mean 'popupMode'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'popuppMode'. Did you mean 'popupMode'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option oopened', function() {
@@ -192,8 +192,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'oopened'. Did you mean 'opened'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'oopened'. Did you mean 'opened'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option cllosed', function() {
@@ -216,8 +216,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'cllosed'. Did you mean 'closed'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'cllosed'. Did you mean 'closed'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option finnished', function() {
@@ -240,8 +240,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'finnished'. Did you mean 'finished'?`);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'finnished'. Did you mean 'finished'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
        it('message should be warn and contain text about Unrecognized option testerror', function() {
@@ -265,8 +265,8 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-           sinon.assert.calledWith(this.consoleSpy, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'testerror'. `);
-           sinon.assert.calledWith(this.consoleSpy, 'warn', checkDocs);
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'testerror'. `);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
     });
 
@@ -278,7 +278,7 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-            sinon.assert.calledWith(this.alertSpy, criticalError);
+            sinon.assert.calledWith(this.alertStub, criticalError);
         });
 
         it('alert critical error when invoiceID is unrecognized', function() {
@@ -288,7 +288,7 @@ describe('CheckIntegration', function () {
 
             CheckIntegration.check(props);
 
-            sinon.assert.calledWith(this.alertSpy, criticalError);
+            sinon.assert.calledWith(this.alertStub, criticalError);
         });
     })
 });
