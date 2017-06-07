@@ -8,40 +8,31 @@ const integration = [
         isRequired: true
     },
     {
-        name: 'logo',
-        isRequired: false
+        name: 'logo'
     },
     {
-        name: 'name',
-        isRequired: false
+        name: 'name'
     },
     {
-        name: 'label',
-        isRequired: false
+        name: 'label'
     },
     {
-        name: 'description',
-        isRequired: false
+        name: 'description'
     },
     {
-        name: 'payButtonLabel',
-        isRequired: false
+        name: 'payButtonLabel'
     },
     {
-        name: 'popupMode',
-        isRequired: false
+        name: 'popupMode'
     },
     {
-        name: 'opened',
-        isRequired: false
+        name: 'opened'
     },
     {
-        name: 'closed',
-        isRequired: false
+        name: 'closed'
     },
     {
-        name: 'finished',
-        isRequired: false
+        name: 'finished'
     }
 ];
 

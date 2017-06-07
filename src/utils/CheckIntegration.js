@@ -1,55 +1,48 @@
 import Matcher from 'did-you-mean';
 import difference from 'lodash.difference';
-import integration from './dictionary';
+import dictionary from './dictionary';
 
 export default class CheckIntegration {
-    static makeDictionary() {
-        return integration.reduce((previousValue, currentValue, index) => {
-            if (index === 1) {
-                return `${previousValue.name} ${currentValue.name}`;
-            } else {
-                return `${previousValue} ${currentValue.name}`;
-            }
 
-        });
+    static makeDictionary() {
+        return dictionary.reduce((a, c, i) => a += (i > 0 ? ` ${c.name}` : `${c.name}`), '');
     }
 
     static getMatcher() {
-        const m = new Matcher(CheckIntegration.makeDictionary());
-        m.ignoreCase();
-
-        return m;
+        return new Matcher(CheckIntegration.makeDictionary()).ignoreCase();
     }
 
-    static check(props) {
-        const m = CheckIntegration.getMatcher();
-        let errors = false;
-        let criticalErrors = false;
-        const propsKeys = Object.keys(props);
-        const integrationKeys = integration.map((item) => item.name);
-        const requiredKeys = integration.filter((item) => item.isRequired).map((item) => item.name);
-        const diff = difference(propsKeys, integrationKeys);
-        const reqDiff = difference(requiredKeys, propsKeys);
-
-        diff.forEach((item) => {
-            errors = true;
-            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${item}'. ${m.get(item) ? `Did you mean '${m.get(item)}'?` : ''}`);
-        });
-
-        reqDiff.forEach((item) => {
-            criticalErrors = true;
-            this.log('error', `RbkmoneyCheckout.configure: '${item}' is a required option, but was not found.`)
-        });
-
-        if (criticalErrors) {
+    static check(config) {
+        const configFields = Object.keys(config);
+        const dictionaryFields = dictionary.map((item) => item.name);
+        const requiredDictionaryFields = dictionary.filter((item) => item.isRequired).map((item) => item.name);
+        const configDifference = difference(configFields, dictionaryFields);
+        const missedRequiredFields = difference(requiredDictionaryFields, configFields);
+        const warnings = configDifference.length > 0;
+        const errors = missedRequiredFields.length > 0;
+        this.logWarnings(configDifference);
+        this.logErrors(missedRequiredFields);
+        if (errors) {
             this.alert('RbkmoneyCheckout.configure: Critical error! Check your console for more info.');
         }
-
-        if (errors || criticalErrors) {
+        if (warnings || errors) {
             this.log('warn', 'You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout');
         }
+        return !errors;
+    }
 
-        return !criticalErrors;
+    static logWarnings(warnings) {
+        const matcher = CheckIntegration.getMatcher();
+        warnings.forEach((warning) => {
+            const guess = matcher.get(warning);
+            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${warning}'. ${guess ? `Did you mean '${guess}'?` : ''}`);
+        });
+    }
+
+    static logErrors(errors) {
+        errors.forEach((item) => {
+            this.log('error', `RbkmoneyCheckout.configure: '${item}' is a required option, but was not found.`)
+        })
     }
 
     static log(level, message) {
