@@ -11,11 +11,11 @@ import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
 
-ready(function () {
+ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
     const modal = document.getElementById('modal');
+    const payformHost = origin;
     const child = new Child();
-
     child.then((transport) => {
         let params;
 
@@ -27,6 +27,7 @@ ready(function () {
         function setCheckoutDone() {
             setTimeout(() => {
                 transport.emit('payment-done');
+                transport.destroy();
                 if (params.popupMode) {
                     window.close();
                 }
@@ -43,39 +44,38 @@ ready(function () {
                     window.close();
                 }
             }, 300);
-
         }
 
         function renderModal(data) {
             overlay.style.opacity = '0.6';
             setTimeout(() => {
-                ConfigLoader.load(data.payformHost).then((config) => {
-                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
-                        Object.assign(data, {
-                            currency: response.currency,
-                            amount: String(Number(response.amount) / 100)
-                        });
-                        ReactDOM.render(
-                            <Modal invoiceAccessToken={data.invoiceAccessToken}
-                                   capiEndpoint={config.capiEndpoint}
-                                   tokenizerEndpoint={config.tokenizerEndpoint}
-                                   invoiceID={data.invoiceID}
-                                   logo={data.logo}
-                                   amount={data.amount}
-                                   currency={data.currency}
-                                   name={data.name}
-                                   description={data.description}
-                                   payformHost={data.payformHost}
-                                   setCheckoutDone={setCheckoutDone}
-                                   setClose={setClose}
-                                   popupMode={data.popupMode}
-                                   payButtonLabel={data.payButtonLabel}
-                            />,
-                            modal
-                        );
-                    },
-                    error => console.error(error));
-            });
+                ConfigLoader.load().then((config) => {
+                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
+                            Object.assign(data, {
+                                currency: response.currency,
+                                amount: String(Number(response.amount) / 100)
+                            });
+                            ReactDOM.render(
+                                <Modal invoiceAccessToken={data.invoiceAccessToken}
+                                       capiEndpoint={config.capiEndpoint}
+                                       tokenizerEndpoint={config.tokenizerEndpoint}
+                                       invoiceID={data.invoiceID}
+                                       logo={data.logo}
+                                       amount={data.amount}
+                                       currency={data.currency}
+                                       name={data.name}
+                                       description={data.description}
+                                       payformHost={payformHost}
+                                       setCheckoutDone={setCheckoutDone}
+                                       setClose={setClose}
+                                       popupMode={data.popupMode}
+                                       payButtonLabel={data.payButtonLabel}
+                                />,
+                                modal
+                            );
+                        },
+                        error => console.error(error));
+                });
             }, 300)
         }
 

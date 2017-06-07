@@ -1,9 +1,9 @@
 import 'whatwg-fetch';
 
 export default class ConfigLoader {
-    static load(url) {
+    static load() {
         return new Promise((resolve, reject) => {
-            fetch(`${url}/appConfig.json`, {
+            fetch('../appConfig.json', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

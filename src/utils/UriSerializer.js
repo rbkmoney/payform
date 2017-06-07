@@ -1,21 +1,25 @@
-export default class UrlUtils {
-    static encodeParams(params) {
+export default class UriSerializer {
+
+    static serialize(params) {
         let urlParams = '';
         for (const prop in params) {
             if (params.hasOwnProperty(prop)) {
+                const value = params[prop];
+                if (typeof value === 'function') {
+                    continue;
+                }
                 if (urlParams != '') {
                     urlParams += '&';
                 }
-                urlParams += `${prop}=${encodeURIComponent(params[prop])}`;
+                urlParams += `${prop}=${encodeURIComponent(value)}`;
             }
         }
         return urlParams;
     }
 
-    static decodeParams(url) {
+    static deserialize(url) {
         const search = url.split('?')[1];
-        const obj = JSON.parse(`{"${decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"')}"}`);
-
+        const obj = JSON.parse(`{"${decodeURIComponent(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"')}"}`);
         for (const prop in obj) {
             if (obj.hasOwnProperty(prop)) {
                 switch (obj[prop]) {
@@ -27,7 +31,6 @@ export default class UrlUtils {
                 }
             }
         }
-
         return obj;
     }
 }

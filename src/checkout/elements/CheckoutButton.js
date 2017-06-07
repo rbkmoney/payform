@@ -1,7 +1,6 @@
-import settings from '../../settings';
-
-export default class PayButton {
-    constructor(text) {
+export default class CheckoutButton {
+    constructor(text, className) {
+        this.className = className;
         const button = document.createElement('button');
         button.className = 'rbkmoney-button';
         button.innerHTML = text;
@@ -9,7 +8,7 @@ export default class PayButton {
     }
 
     render() {
-        const appendNode = document.querySelector(`.${settings.htmlIntegrationClassName}`);
+        const appendNode = document.querySelector(`.${this.className}`);
         if (appendNode) {
             appendNode.parentNode.appendChild(this.element);
         } else {
