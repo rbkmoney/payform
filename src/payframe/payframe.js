@@ -78,11 +78,5 @@ ready(function (origin) {
                 });
             }, 300)
         }
-
-        window.addEventListener('message', (e) => {
-            if (e.data === 'finish-interaction') {
-                renderModal(params);
-            }
-        });
     });
 });

@@ -30,6 +30,20 @@ export default class Modal extends React.Component {
             }
         };
 
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                this.setState({
+                    payform: true,
+                    interact: false,
+                    spinner: true,
+                    checkmark: false
+                });
+                EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken)
+                    .then((event) => this.handleEvent(event))
+                    .catch(error => this.handleError(error));
+            }
+        });
+
         this.handlePay = this.handlePay.bind(this);
         this.setPayformState = this.setPayformState.bind(this);
         this.setShowErrorPanel = this.setShowErrorPanel.bind(this);
@@ -44,18 +58,6 @@ export default class Modal extends React.Component {
                 this.setShowErrorPanel(true);
                 this.forceUpdate();
             });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            payform: true,
-            interact: false,
-            spinner: true,
-            checkmark: false
-        });
-        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
     }
 
     setShowErrorPanel(state) {
@@ -193,24 +195,19 @@ export default class Modal extends React.Component {
                 transitionEnter={false}
                 transitionLeave={false}
             >
-                <div className={cx(
-                    'checkout--container',
-                    {
-                        '_interact': this.state.interact
-                    }
-                )}>
+                <div className={cx('checkout--container', {'_interact': this.state.interact})}>
                     <div className="checkout--header">
-                        { !isMobile.any ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/> : false }
+                        {
+                            !isMobile.any
+                                ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/>
+                                : false
+                        }
                         <Logo logo={this.props.logo}/>
-                        <div className="checkout--company-name">
-                            {this.props.name}
-                        </div>
-                        {this.props.description ?
-                                <div className="checkout--company-description">
-                                    {this.props.description}
-                                </div>
-                            :
-                                false
+                        <div className="checkout--company-name">{this.props.name}</div>
+                        {
+                            this.props.description
+                                ? <div className="checkout--company-description"> {this.props.description}</div>
+                                : false
                         }
                     </div>
                     <div className="checkout--body">
