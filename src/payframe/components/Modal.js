@@ -155,28 +155,20 @@ export default class Modal extends React.Component {
 
     renderPayform() {
         return (
-            <ReactCSSTransitionGroup
-                transitionName='checkout--body'
-                transitionAppear={true}
-                transitionAppearTimeout={700}
-                transitionEnter={false}
-                transitionLeave={false}
-            >
-                <Payform handlePay={this.handlePay}
-                         errorMessage={this.errorMessage}
-                         isPayButtonDisabled={this.isPayButtonDisabled}
-                         isShowErrorPanel={this.isShowErrorPanel}
-                         setShowErrorPanel={this.setShowErrorPanel}
-                         amount={this.props.amount}
-                         currency={this.props.currency}
-                         payformState={this.state.payformState}
-                         setPayformState={this.setPayformState}
-                         spinner={this.state.spinner}
-                         checkmark={this.state.checkmark}
-                         payButtonLabel={this.props.payButtonLabel}
-                         back={this.state.back}
-                />
-            </ReactCSSTransitionGroup>
+            <Payform handlePay={this.handlePay}
+                     errorMessage={this.errorMessage}
+                     isPayButtonDisabled={this.isPayButtonDisabled}
+                     isShowErrorPanel={this.isShowErrorPanel}
+                     setShowErrorPanel={this.setShowErrorPanel}
+                     amount={this.props.amount}
+                     currency={this.props.currency}
+                     payformState={this.state.payformState}
+                     setPayformState={this.setPayformState}
+                     spinner={this.state.spinner}
+                     checkmark={this.state.checkmark}
+                     payButtonLabel={this.props.payButtonLabel}
+                     back={this.state.back}
+            />
         );
     }
 
