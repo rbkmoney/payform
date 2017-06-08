@@ -13,6 +13,7 @@ import StateResolver from './StateResolver';
 
 ready(function () {
     const overlay = document.querySelector('.checkout--overlay');
+    const loading = document.querySelector('.loading');
     const modal = document.getElementById('modal');
     const child = new Child();
 
@@ -50,11 +51,12 @@ ready(function () {
             overlay.style.opacity = '0.6';
             setTimeout(() => {
                 ConfigLoader.load(data.payformHost).then((config) => {
-                Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
+                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
                         Object.assign(data, {
                             currency: response.currency,
                             amount: String(Number(response.amount) / 100)
                         });
+                        loading.parentNode.removeChild(loading);
                         ReactDOM.render(
                             <Modal invoiceAccessToken={data.invoiceAccessToken}
                                    capiEndpoint={config.capiEndpoint}
