@@ -10,6 +10,7 @@ import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
+import CardUtils from '../../utils/card-utils/CardUtils';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -21,7 +22,7 @@ export default class Modal extends React.Component {
             spinner: false,
             checkmark: false,
             back: false,
-            defaultEmail: props.defaultEmail ? props.defaultEmail : false,
+            defaultEmail: props.defaultEmail && CardUtils.validateEmail(props.defaultEmail) ? props.defaultEmail : false,
             payformState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
