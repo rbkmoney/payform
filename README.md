@@ -33,6 +33,7 @@
 | logo                     | URL для задания логотипа                                  |              | `https://<your-server-side>/logo.png` |
 | label                    | Текст для кнопки                                          |              | Pay with RBKmoney                     |
 | popup mode               | Открыть Checkout в новом окне                             |              | boolean                               |
+| email                    | Емейл по умолчанию                                        |              | test@test.com                         |
 
 ### Пример js интеграции
 ```html
@@ -61,3 +62,4 @@
 | closed                   | callback на закрытие модального окна                      |              | function                              |
 | finished                 | callback на успешное завершение платежа                   |              | function                              |
 | popup mode               | Открыть Checkout в новом окне                             |              | boolean                               |
+| email                    | Емейл по умолчанию                                        |              | test@test.com                         |
