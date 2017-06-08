@@ -5,6 +5,7 @@
 
     @include responsive(sm) {
         position: relative;
+        min-height: inherit;
     }
 
     input {
