@@ -1,4 +1,5 @@
 import UrlUtils from '../utils/UrlUtils';
+import isMobile from 'ismobilejs';
 
 export default class StateResolver {
 
@@ -28,6 +29,9 @@ export default class StateResolver {
             case 'false':
                 state.popupMode = false;
                 break;
+        }
+        if (state.email && isMobile.any) {
+            state.email = state.email.replace('%40', '@')
         }
         return state;
     }

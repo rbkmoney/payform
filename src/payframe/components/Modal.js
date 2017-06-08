@@ -16,19 +16,13 @@ export default class Modal extends React.Component {
     constructor(props) {
         super(props);
 
-        let defaultEmail = props.defaultEmail;
-
-        if (defaultEmail && isMobile.any) {
-            defaultEmail = defaultEmail.replace('%40', '@')
-        }
-
         this.state = {
             payform: true,
             interact: false,
             spinner: false,
             checkmark: false,
             back: false,
-            defaultEmail: defaultEmail && CardUtils.validateEmail(defaultEmail) ? defaultEmail : false,
+            defaultEmail: props.defaultEmail && CardUtils.validateEmail(props.defaultEmail) ? props.defaultEmail : undefined,
             payformState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
