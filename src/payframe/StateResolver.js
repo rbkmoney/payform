@@ -30,7 +30,7 @@ export default class StateResolver {
                 state.popupMode = false;
                 break;
         }
-        if (state.email && isMobile.any) {
+        if (state.email && state.popupMode) {
             state.email = state.email.replace('%40', '@')
         }
         return state;
