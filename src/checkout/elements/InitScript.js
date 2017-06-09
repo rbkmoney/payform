@@ -23,6 +23,7 @@ export default class InitScript {
         return {
             invoiceAccessToken: dataSet.invoiceAccessToken,
             invoiceID: dataSet.invoiceID,
+            email: dataSet.email,
             logo: dataSet.logo,
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney',

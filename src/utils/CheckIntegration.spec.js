@@ -16,7 +16,7 @@ describe('CheckIntegration', function () {
 
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
-            const dictionary = 'invoiceAccessToken invoiceID logo name label description payButtonLabel popupMode opened closed finished';
+            const dictionary = 'invoiceAccessToken invoiceID email logo name label description payButtonLabel popupMode opened closed finished';
 
             CheckIntegration.makeDictionary().should.be.equal(dictionary);
         });
@@ -121,6 +121,31 @@ describe('CheckIntegration', function () {
             CheckIntegration.check(props);
 
            sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'nema'. Did you mean 'name'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option emmail', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                name: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                emmail: 'email',
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'emmail'. Did you mean 'email'?`);
            sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 

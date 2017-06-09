@@ -88,7 +88,7 @@ class Payform extends React.Component {
         this.handleCardHolder(e.target['card-holder'].value);
         this.handleCardNumber(e.target['card-number'].value);
         this.handleCardCvv(e.target['cvv'].value);
-        this.handleEmail(e.target['email'].value);
+        this.handleEmail(this.props.defaultEmail ? this.props.defaultEmail : e.target['email'].value);
         this.handleCardExpire(e.target['exp-date'].value);
         const props = this.props;
         const formValidation = new PayformValidation(props.payformState);
@@ -124,9 +124,13 @@ class Payform extends React.Component {
                 <fieldset className="payform--fieldset">
                     <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid}/>
                 </fieldset>
-                <fieldset className="payform--fieldset">
-                    <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
-                </fieldset>
+                {this.props.defaultEmail ?
+                    false
+                    :
+                    <fieldset className="payform--fieldset">
+                        <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
+                    </fieldset>
+                }
                 <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
                 <button className={cx('payform--pay-button', {
                     _success: this.props.checkmark || this.props.back

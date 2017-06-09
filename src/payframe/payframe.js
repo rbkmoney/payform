@@ -62,6 +62,7 @@ ready(function () {
                                    capiEndpoint={config.capiEndpoint}
                                    tokenizerEndpoint={config.tokenizerEndpoint}
                                    invoiceID={data.invoiceID}
+                                   defaultEmail={data.email}
                                    logo={data.logo}
                                    amount={data.amount}
                                    currency={data.currency}
