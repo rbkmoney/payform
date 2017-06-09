@@ -130,8 +130,8 @@
 
     &--logo {
         margin: auto;
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         border: 3px solid $gray9;
         border-radius: 100%;
         background: $gray9 center no-repeat;
@@ -177,6 +177,9 @@
     }
 
     &--default-email {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         text-align: center;
         color: $gray4;
 
