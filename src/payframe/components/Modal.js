@@ -10,6 +10,7 @@ import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
+import CardUtils from '../../utils/card-utils/CardUtils';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -21,6 +22,7 @@ export default class Modal extends React.Component {
             spinner: false,
             checkmark: false,
             back: false,
+            defaultEmail: props.defaultEmail && CardUtils.validateEmail(props.defaultEmail) ? props.defaultEmail : undefined,
             payformState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
@@ -161,6 +163,7 @@ export default class Modal extends React.Component {
                 transitionLeave={false}
             >
                 <Payform handlePay={this.handlePay}
+                         defaultEmail={this.state.defaultEmail}
                          errorMessage={this.errorMessage}
                          isPayButtonDisabled={this.isPayButtonDisabled}
                          isShowErrorPanel={this.isShowErrorPanel}
@@ -211,6 +214,16 @@ export default class Modal extends React.Component {
                                 </div>
                             :
                                 false
+                        }
+                        {this.state.defaultEmail ?
+                            <div className="checkout--default-email--container">
+                                <hr/>
+                                <div className="checkout--default-email">
+                                    {this.state.defaultEmail}
+                                </div>
+                            </div>
+                        :
+                            false
                         }
                     </div>
                     <div className="checkout--body">

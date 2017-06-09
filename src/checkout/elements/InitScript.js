@@ -1,3 +1,4 @@
+import CheckIntegration from '../../utils/CheckIntegration';
 import settings from '../../settings';
 
 export default class InitScript {
@@ -13,9 +14,16 @@ export default class InitScript {
 
     getParams() {
         const dataSet = this.element.dataset || {};
+        if (dataSet.invoiceId) {
+            dataSet.invoiceID = dataSet.invoiceId;
+            delete dataSet.invoiceId;
+        }
+        CheckIntegration.check(dataSet);
+
         return {
             invoiceAccessToken: dataSet.invoiceAccessToken,
-            invoiceID: dataSet.invoiceId,
+            invoiceID: dataSet.invoiceID,
+            email: dataSet.email,
             logo: dataSet.logo,
             name: dataSet.name,
             label: dataSet.label || 'Pay with RBKmoney',
