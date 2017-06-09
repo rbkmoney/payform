@@ -57,6 +57,12 @@ describe('UriSerializer', function () {
             }).should.be.equal('stringField=value&emailField=test%40test.com');
         });
 
+        it('should not serialize null field', function () {
+            UriSerializer.serialize({
+                nullField: null
+            }).should.be.equal('');
+        });
+
         it('should not serialize undefined field', function () {
             UriSerializer.serialize({
                 undefinedField: undefined
@@ -90,6 +96,12 @@ describe('UriSerializer', function () {
         it('should deserialize blank field', function () {
             UriSerializer.deserialize('blankField=').should.be.deep.equal({
                 blankField: ''
+            });
+        });
+
+        it('should deserialize null field', function () {
+            UriSerializer.deserialize('nullField=null').should.be.deep.equal({
+                nullField: null
             });
         });
 

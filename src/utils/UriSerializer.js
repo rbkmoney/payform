@@ -5,7 +5,7 @@ export default class UriSerializer {
         for (const prop in params) {
             if (params.hasOwnProperty(prop)) {
                 const value = params[prop];
-                if ((typeof value === 'function') || (value === undefined)) {
+                if ((typeof value === 'function') || (value === undefined) || (value === null)) {
                     continue;
                 }
                 if (urlParams !== '') {
@@ -33,6 +33,8 @@ export default class UriSerializer {
                     result[prop] = false;
                 } else if (value === 'undefined') {
                     result[prop] = undefined;
+                } else if (value === 'null') {
+                    result[prop] = null;
                 } else if (value !== '' && !isNaN(value)) {
                     result[prop] = parseFloat(value);
                 } else {
