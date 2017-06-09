@@ -13,6 +13,7 @@ import StateResolver from './StateResolver';
 
 ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
+    const loading = document.querySelector('.loading');
     const modal = document.getElementById('modal');
     const payformHost = origin;
     const child = new Child();
@@ -55,11 +56,13 @@ ready(function (origin) {
                                 currency: response.currency,
                                 amount: String(Number(response.amount) / 100)
                             });
+                            loading.parentNode.removeChild(loading);
                             ReactDOM.render(
                                 <Modal invoiceAccessToken={data.invoiceAccessToken}
                                        capiEndpoint={config.capiEndpoint}
                                        tokenizerEndpoint={config.tokenizerEndpoint}
                                        invoiceID={data.invoiceID}
+                                       defaultEmail={data.email}
                                        logo={data.logo}
                                        amount={data.amount}
                                        currency={data.currency}
