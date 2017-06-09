@@ -1,5 +1,4 @@
 import UrlUtils from '../utils/UrlUtils';
-import isMobile from 'ismobilejs';
 
 export default class StateResolver {
 
