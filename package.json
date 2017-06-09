@@ -15,6 +15,7 @@
   "license": "",
   "private": true,
   "dependencies": {
+    "did-you-mean": "0.0.1",
     "classnames": "^2.2.5",
     "ismobilejs": "^0.4.1",
     "lodash.difference": "^4.5.0",
@@ -38,7 +39,6 @@
     "chai-enzyme": "^0.7.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.27.3",
-    "did-you-mean": "0.0.1",
     "enzyme": "^2.8.2",
     "eslint": "^3.12.2",
     "eslint-loader": "^1.6.3",

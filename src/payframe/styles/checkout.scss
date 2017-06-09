@@ -177,6 +177,9 @@
     }
 
     &--default-email {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         text-align: center;
         color: $gray4;
 
