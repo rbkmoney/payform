@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
-import ModalClose from './ModalClose';
-import Logo from './Logo';
 import Payform from './payform/Payform';
 import TokenizerScript from '../elements/TokenizerScript';
 import Processing from '../backend-communication/Processing';
@@ -11,6 +9,7 @@ import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
 import CardUtils from '../../utils/card-utils/CardUtils';
+import Header from './header/Header';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -52,6 +51,7 @@ export default class Modal extends React.Component {
     }
 
     componentDidMount() {
+        // TODO move up
         const tokenizerScript = new TokenizerScript(this.props.tokenizerEndpoint);
         tokenizerScript.render()
             .catch(() => {
@@ -125,10 +125,8 @@ export default class Modal extends React.Component {
             spinner: false,
             checkmark: false
         });
-        const redirectUrl = `${this.props.payformHost}/html/finishInteraction.html`;
-        const form3ds = new Form3ds(event.data, redirectUrl, this.refs['3ds']);
-        form3ds.render();
-        form3ds.submit(settings.submitFormTimeout);
+        const form3ds = new Form3ds(event.data, this.props.payformHost, this.refs['3ds']);
+        form3ds.submit(settings.submitFormTimeout); // TODO fix it
     }
 
     handlePay() {
@@ -176,6 +174,7 @@ export default class Modal extends React.Component {
     }
 
     renderInteract() {
+        // TODO fix it
         return (
             <div ref="3ds" className="payform--interact"/>
         );
@@ -191,30 +190,13 @@ export default class Modal extends React.Component {
                 transitionLeave={false}
             >
                 <div className={cx('checkout--container', {'_interact': this.state.interact})}>
-                    <div className="checkout--header">
-                        {
-                            !isMobile.any
-                                ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/>
-                                : false
-                        }
-                        <Logo logo={this.props.logo}/>
-                        <div className="checkout--company-name">{this.props.name}</div>
-                        {
-                            this.props.description
-                                ? <div className="checkout--company-description"> {this.props.description}</div>
-                                : false
-                        }
-                        {
-                            this.state.defaultEmail
-                                ? <div className="checkout--default-email--container">
-                                    <hr/>
-                                    <div className="checkout--default-email">
-                                        {this.state.defaultEmail}
-                                    </div>
-                                </div>
-                                : false
-                        }
-                    </div>
+                    <Header
+                        setClose={this.props.setClose}
+                        logo={this.props.logo}
+                        name={this.props.name}
+                        description={this.props.description}
+                        defaultEmail={this.props.defaultEmail}
+                    />
                     <div className="checkout--body">
                         <div className="payform">
                             { this.state.payform ? this.renderPayform() : false }
