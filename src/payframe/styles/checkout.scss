@@ -21,6 +21,7 @@
         flex-direction: column;
         transition: all .5s;
         position: absolute;
+        min-height: 100%;
 
         @include responsive(sm) {
             position: relative;
@@ -38,9 +39,13 @@
 
             .payform {
                 padding: 10px;
+                position: absolute;
+                height: 100%;
+                width: 100%;
 
                 @include responsive(sm) {
                     padding: 20px 35px;
+                    position: relative;
                 }
             }
 
@@ -53,13 +58,16 @@
                     }
                 }
                 &--header {
-                    padding: 15px 35px;
+                    padding: 15px 35px 10px 35px;
                     flex-grow: 0;
 
                     @include responsive(sm) {
                         flex-grow: 1;
                         padding: 55px 35px 20px;
                     }
+                }
+                &--body {
+                    flex-grow: 1;
                 }
                 &--company-name {
                     margin-top: 0;
@@ -86,6 +94,7 @@
         background-color: $gray5;
         height: auto;
         flex-grow: 1;
+        max-height: 185px;
 
         @include responsive(sm) {
             border-radius: 5px 5px 0 0;
@@ -94,15 +103,13 @@
     }
 
     &--body {
-        position: relative;
         background-color: $gray2;
+        position: relative;
         border-top: 1px solid $gray6;
         min-height: 100%;
         height: auto;
         width: auto;
         flex-shrink: 1;
-        display: flex;
-        justify-content: center;
 
         @include responsive(sm) {
             height: 100%;

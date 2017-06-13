@@ -2,9 +2,11 @@
     padding: 20px 35px;
     min-height: 317px;
     min-width: 300px;
+    width: 100%;
     align-self: center;
 
     @include responsive(sm) {
+        width: inherit;
         position: relative;
         min-height: inherit;
     }
@@ -207,6 +209,9 @@
     }
 
     &--interact {
+        height: 100%;
+        width: 100%;
+
         @include responsive(sm) {
             width: 100%;
             height: 480px;;
