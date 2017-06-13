@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
-import CardHolder from './elements/CardHolder';
-import CardNumber from './elements/CardNumber';
-import CardExpire from './elements/CardExpire';
-import CardCvv from './elements/CardCvv';
-import Email from './elements/Email';
 import ErrorPanel from './elements/ErrorPanel';
 import PayformValidation from './PayformValidation';
 import PayButton from './elements/PayButton';
@@ -15,6 +10,7 @@ import settings from '../../../settings';
 import isMobile from 'ismobilejs';
 import Form3ds from '../../interaction/Form3ds';
 import EventPoller from '../../backend-communication/EventPoller';
+import Fieldset from './elements/Fieldset';
 
 class Payform extends React.Component {
 
@@ -28,12 +24,12 @@ class Payform extends React.Component {
             spinner: false,
             checkmark: false,
             back: false,
-            payformState: {
+            fieldsState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
                 cardExpire: {value: ''},
                 cardCvv: {value: ''},
-                email: {value: ''}
+                email: {value: this.props.defaultEmail ? this.props.defaultEmail : ''}
             }
         };
 
@@ -51,63 +47,24 @@ class Payform extends React.Component {
                     .catch(error => this.handleError(error));
             }
         });
-
-        this.handleCardHolder = this.handleCardHolder.bind(this);
-        this.handleCardNumber = this.handleCardNumber.bind(this);
-        this.handleCardExpire = this.handleCardExpire.bind(this);
-        this.handleCardCvv = this.handleCardCvv.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
         this.triggerError = this.triggerError.bind(this);
-        this.setPayformState = this.setPayformState.bind(this);
+        this.handleFieldsChange = this.handleFieldsChange.bind(this);
         this.pay = this.pay.bind(this);
     }
 
-    handleCardHolder(value) {
-        const name = value.toUpperCase();
-        this.isShowErrorPanel = false;
-        this.setPayformState(Payform.assignValue(this.state.payformState.cardHolder, name), 'cardHolder');
-    }
-
-    handleCardNumber(value) {
-        this.isShowErrorPanel = false;
-        this.setPayformState(Payform.assignValue(this.state.payformState.cardNumber, value), 'cardNumber');
-    }
-
-    handleCardExpire(value) {
-        this.isShowErrorPanel = false;
-        this.setPayformState(Payform.assignValue(this.state.payformState.cardExpire, value), 'cardExpire');
-    }
-
-    handleCardCvv(value) {
-        this.isShowErrorPanel = false;
-        this.setPayformState(Payform.assignValue(this.state.payformState.cardCvv, value), 'cardCvv');
-    }
-
-    handleEmail(value) {
-        const email = value.toLowerCase();
-        this.isShowErrorPanel = false;
-        this.setPayformState(Payform.assignValue(this.state.payformState.email, email), 'email');
-    }
-
-    setPayformState(data, name) {
-        this.setState({
-            payformState: Object.assign(this.state.payformState, {
-                [name]: data
-            })
-        })
+    handleFieldsChange(fieldsState) {
+        this.setState({fieldsState});
     }
 
     triggerError() {
         this.setState({
             error: true
         });
-
         setTimeout(() => {
             this.setState({
                 error: false
             });
-        }, 2000)
-
+        }, 500)
     }
 
     handleEvent(event) {
@@ -172,12 +129,9 @@ class Payform extends React.Component {
         if (this.props.back) {
             return;
         }
-        this.handleCardHolder(e.target['card-holder'].value);
-        this.handleCardNumber(e.target['card-number'].value);
-        this.handleCardCvv(e.target['cvv'].value);
-        this.handleEmail(this.props.defaultEmail ? this.props.defaultEmail : e.target['email'].value);
-        this.handleCardExpire(e.target['exp-date'].value);
-        const formValidation = new PayformValidation(this.state.payformState);
+        this.isShowErrorPanel = false;
+        const fieldsState = this.state.fieldsState;
+        const formValidation = new PayformValidation(fieldsState);
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (isValid) {
@@ -187,16 +141,15 @@ class Payform extends React.Component {
                 spinner: true,
                 checkmark: false
             });
-            const payformState = this.state.payformState;
             Processing.process({
                 invoiceAccessToken: this.props.invoiceAccessToken,
                 invoiceID: this.props.invoiceID,
                 capiEndpoint: this.props.capiEndpoint,
-                cardHolder: payformState.cardHolder.value,
-                cardNumber: payformState.cardNumber.value,
-                cardExpire: payformState.cardExpire.value,
-                email: payformState.email.value,
-                cardCvv: payformState.cardCvv.value
+                cardHolder: fieldsState.cardHolder.value,
+                cardNumber: fieldsState.cardNumber.value,
+                cardExpire: fieldsState.cardExpire.value,
+                email: fieldsState.email.value,
+                cardCvv: fieldsState.cardCvv.value
             }).then(event => this.handleEvent(event))
                 .catch(error => this.handleError(error));
         } else {
@@ -212,12 +165,6 @@ class Payform extends React.Component {
     }
 
     renderPayform() {
-        const payformState = this.state.payformState;
-        const cardHolder = payformState.cardHolder;
-        const cardNumber = payformState.cardNumber;
-        const cardExpire = payformState.cardExpire;
-        const cardCvv = payformState.cardCvv;
-        const email = payformState.email;
         const form = 'payform';
         return (
             <ReactCSSTransitionGroup
@@ -227,23 +174,17 @@ class Payform extends React.Component {
                 transitionEnter={false}
                 transitionLeave={false}>
                 <form className={cx('payform--form', {_error: this.state.error})}
-                      id={form} role="form" onSubmit={this.pay}>
-                    <fieldset className="payform--fieldset">
-                        <CardNumber onChange={this.handleCardNumber} value={cardNumber.value}
-                                    isValid={cardNumber.isValid}/>
-                        <CardExpire onChange={this.handleCardExpire} value={cardExpire.value}
-                                    isValid={cardExpire.isValid}/>
-                        <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid}/>
-                    </fieldset>
-                    <fieldset className="payform--fieldset">
-                        <CardHolder onChange={this.handleCardHolder} value={cardHolder.value}
-                                    isValid={cardHolder.isValid}/>
-                    </fieldset>
-                    {this.props.defaultEmail ? false:
-                        <fieldset className="payform--fieldset">
-                            <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
-                        </fieldset> }
-                    <ErrorPanel visible={this.isShowErrorPanel} message={this.errorMessage}/>
+                      id={form}
+                      role="form"
+                      onSubmit={this.pay}
+                      noValidate>
+                    <Fieldset
+                        defaultEmail={this.props.defaultEmail}
+                        onFieldsChange={this.handleFieldsChange}
+                        fieldsState={this.state.fieldsState}/>
+                    <ErrorPanel
+                        visible={this.isShowErrorPanel}
+                        message={this.errorMessage}/>
                     {this.state.back
                         ? <BackButton/>
                         : <PayButton
@@ -266,12 +207,6 @@ class Payform extends React.Component {
                 { this.state.interact ? this.renderInteract() : false }
             </div>
         );
-    }
-
-    static assignValue(prop, value) {
-        return Object.assign(prop, {
-            value: value
-        });
     }
 }
 

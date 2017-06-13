@@ -29,16 +29,14 @@ export default class Modal extends React.Component {
                 transitionAppear={true}
                 transitionAppearTimeout={400}
                 transitionEnter={false}
-                transitionLeave={false}
-            >
+                transitionLeave={false}>
                 <div className={cx('checkout--container', {'_large': this.state.largeContainer})}>
                     <Header
                         setClose={this.props.setClose}
                         logo={this.props.logo}
                         name={this.props.name}
                         description={this.props.description}
-                        defaultEmail={this.state.defaultEmail}
-                    />
+                        defaultEmail={this.state.defaultEmail}/>
                     <div className="checkout--body">
                         <Payform
                             capiEndpoint={this.props.capiEndpoint}
@@ -50,8 +48,7 @@ export default class Modal extends React.Component {
                             payButtonLabel={this.props.payButtonLabel}
                             payformHost={this.props.payformHost}
                             onPaymentSuccess={this.props.setCheckoutDone}
-                            onPayformInteract={this.handlePayformInteract}
-                        />
+                            onPayformInteract={this.handlePayformInteract}/>
                     </div>
                 </div>
             </ReactCSSTransitionGroup>
