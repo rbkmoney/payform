@@ -10,6 +10,7 @@ import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
+import TokenizerScript from './elements/TokenizerScript';
 
 ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
@@ -51,16 +52,20 @@ ready(function (origin) {
             overlay.style.opacity = '0.6';
             setTimeout(() => {
                 ConfigLoader.load().then((config) => {
-                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
+                    const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
+                    Promise.all([
+                        tokenizerScript.render(),
+                        Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
+                    ]).then((response) => {
+                            const invoice = response[1];
                             Object.assign(data, {
-                                currency: response.currency,
-                                amount: String(Number(response.amount) / 100)
+                                currency: invoice.currency,
+                                amount: String(Number(invoice.amount) / 100)
                             });
                             loading.parentNode.removeChild(loading);
                             ReactDOM.render(
                                 <Modal invoiceAccessToken={data.invoiceAccessToken}
                                        capiEndpoint={config.capiEndpoint}
-                                       tokenizerEndpoint={config.tokenizerEndpoint}
                                        invoiceID={data.invoiceID}
                                        defaultEmail={data.email}
                                        logo={data.logo}
