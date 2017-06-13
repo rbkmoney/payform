@@ -99,7 +99,6 @@
         &-appear {
             @include responsive(sm) {
                 transform: scale(.7);
-                -ms-animation: none;
             }
 
             &.checkout--body-appear-active {
@@ -225,7 +224,6 @@
         @include responsive(sm) {
             opacity: 0;
             transform: scale(.95);
-            -ms-animation: none;
         }
 
         &.checkout-appear-active {
