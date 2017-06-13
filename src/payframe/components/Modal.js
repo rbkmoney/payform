@@ -46,7 +46,6 @@ export default class Modal extends React.Component {
         });
 
         this.handlePay = this.handlePay.bind(this);
-        this.setPayformState = this.setPayformState.bind(this);
         this.setShowErrorPanel = this.setShowErrorPanel.bind(this);
     }
 
@@ -64,14 +63,6 @@ export default class Modal extends React.Component {
 
     setShowErrorPanel(state) {
         this.isShowErrorPanel = state;
-    }
-
-    setPayformState(data, name) {
-        this.setState({
-            payformState: Object.assign(this.state.payformState, {
-                [name]: data
-            })
-        })
     }
 
     handleEvent(event) {
@@ -139,11 +130,9 @@ export default class Modal extends React.Component {
             checkmark: false
         });
         Processing.process({
-            tokenizer: window.Tokenizer,
             invoiceAccessToken: this.props.invoiceAccessToken,
             invoiceID: this.props.invoiceID,
             capiEndpoint: this.props.capiEndpoint,
-            tokenizerEndpoint: this.props.tokenizerEndpoint,
             cardHolder: formData.cardHolder.value,
             cardNumber: formData.cardNumber.value,
             cardExpire: formData.cardExpire.value,
@@ -160,11 +149,9 @@ export default class Modal extends React.Component {
                      errorMessage={this.errorMessage}
                      isPayButtonDisabled={this.isPayButtonDisabled}
                      isShowErrorPanel={this.isShowErrorPanel}
-                     setShowErrorPanel={this.setShowErrorPanel}
                      amount={this.props.amount}
                      currency={this.props.currency}
                      payformState={this.state.payformState}
-                     setPayformState={this.setPayformState}
                      spinner={this.state.spinner}
                      checkmark={this.state.checkmark}
                      payButtonLabel={this.props.payButtonLabel}

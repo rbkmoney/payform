@@ -1,7 +1,7 @@
 export default class Tokenization {
 
-    constructor(tokenizer) {
-        this.Tokenizer = tokenizer;
+    constructor() {
+        this.Tokenizer = window.Tokenizer;
     }
 
     setAccessToken(invoiceAccessToken) {

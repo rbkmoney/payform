@@ -17,7 +17,14 @@ class Payform extends React.Component {
         super(props);
 
         this.state = {
-            error: false
+            error: false,
+            payformState: {
+                cardHolder: {value: ''},
+                cardNumber: {value: ''},
+                cardExpire: {value: ''},
+                cardCvv: {value: ''},
+                email: {value: ''}
+            }
         };
 
         this.handleCardHolder = this.handleCardHolder.bind(this);
@@ -26,6 +33,7 @@ class Payform extends React.Component {
         this.handleCardCvv = this.handleCardCvv.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.triggerError = this.triggerError.bind(this);
+        this.setPayformState = this.setPayformState.bind(this);
         this.pay = this.pay.bind(this);
     }
 
@@ -43,29 +51,37 @@ class Payform extends React.Component {
 
     handleCardHolder(value) {
         const name = value.toUpperCase();
-        this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.cardHolder, name), 'cardHolder');
+        this.isShowErrorPanel = false;
+        this.setPayformState(Payform.assignValue(this.props.payformState.cardHolder, name), 'cardHolder');
     }
 
     handleCardNumber(value) {
-        this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.cardNumber, value), 'cardNumber');
+        this.isShowErrorPanel = false;
+        this.setPayformState(Payform.assignValue(this.props.payformState.cardNumber, value), 'cardNumber');
     }
 
     handleCardExpire(value) {
-        this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.cardExpire, value), 'cardExpire');
+        this.isShowErrorPanel = false;
+        this.setPayformState(Payform.assignValue(this.props.payformState.cardExpire, value), 'cardExpire');
     }
 
     handleCardCvv(value) {
-        this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.cardCvv, value), 'cardCvv');
+        this.isShowErrorPanel = false;
+        this.setPayformState(Payform.assignValue(this.props.payformState.cardCvv, value), 'cardCvv');
     }
 
     handleEmail(value) {
         const email = value.toLowerCase();
-        this.props.setShowErrorPanel(false);
-        this.props.setPayformState(Payform.assignValue(this.props.payformState.email, email), 'email');
+        this.isShowErrorPanel = false;
+        this.setPayformState(Payform.assignValue(this.props.payformState.email, email), 'email');
+    }
+
+    setPayformState(data, name) {
+        this.setState({
+            payformState: Object.assign(this.props.payformState, {
+                [name]: data
+            })
+        })
     }
 
     triggerError() {
@@ -91,8 +107,7 @@ class Payform extends React.Component {
         this.handleCardCvv(e.target['cvv'].value);
         this.handleEmail(this.props.defaultEmail ? this.props.defaultEmail : e.target['email'].value);
         this.handleCardExpire(e.target['exp-date'].value);
-        const props = this.props;
-        const formValidation = new PayformValidation(props.payformState);
+        const formValidation = new PayformValidation(this.props.payformState);
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (isValid) {
