@@ -10,15 +10,15 @@ export default class Modal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            interact: false, // TODO rename to container size
-            defaultEmail: props.defaultEmail && CardUtils.validateEmail(props.defaultEmail) ? props.defaultEmail : undefined
+            largeContainer: false,
+            defaultEmail: CardUtils.validateEmail(props.defaultEmail) && props.defaultEmail
         };
         this.handlePayformInteract = this.handlePayformInteract.bind(this);
     }
 
     handlePayformInteract(interact) {
         this.setState({
-            interact: interact
+            largeContainer: interact
         });
     }
 
@@ -31,13 +31,13 @@ export default class Modal extends React.Component {
                 transitionEnter={false}
                 transitionLeave={false}
             >
-                <div className={cx('checkout--container', {'_interact': this.state.interact})}>
+                <div className={cx('checkout--container', {'_large': this.state.largeContainer})}>
                     <Header
                         setClose={this.props.setClose}
                         logo={this.props.logo}
                         name={this.props.name}
                         description={this.props.description}
-                        defaultEmail={this.props.defaultEmail}
+                        defaultEmail={this.state.defaultEmail}
                     />
                     <div className="checkout--body">
                         <Payform
