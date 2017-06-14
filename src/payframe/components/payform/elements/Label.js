@@ -1,4 +1,5 @@
 import React from 'react';
+import formatCurrency from '../../../../utils/formatCurrency';
 
 class Label extends React.Component {
 
@@ -11,7 +12,7 @@ class Label extends React.Component {
                     {props.label ? props.label : 'Оплатить'}
                 </span>&nbsp;
                 <span>
-                    {props.amount} {props.currency}
+                    {formatCurrency(props.amount, props.currency)}
                 </span>
             </div>
         );
