@@ -27,8 +27,8 @@
             position: relative;
             height: 100%;
         }
-
-        &._interact {
+      
+        &._large {
             min-height: 100%;
             @include responsive(sm) {
                 min-height: inherit;
