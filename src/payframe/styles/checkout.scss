@@ -20,6 +20,7 @@
         display: flex;
         flex-direction: column;
         transition: all .5s;
+        position: relative;
 
         &._interact {
             @include responsive(sm) {
@@ -111,6 +112,44 @@
         }
     }
 
+    &--support {
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+
+        @include responsive(sm) {
+            top: auto;
+            bottom: -35px;
+            left: 0;
+            right: 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 9px;
+            cursor: pointer;
+
+            span {
+                display: none;
+                font: 400 14px/14px sans-serif;
+                color: $gray7;
+
+                @include responsive(sm) {
+                    display: inline-block;
+                }
+            }
+
+            svg {
+                width: 20px;
+
+                @include responsive(sm) {
+                    display: none;
+                }
+            }
+        }
+    }
+
     &--close-button {
         position: absolute;
         top: 0;
@@ -119,7 +158,7 @@
         height: 12px;
         padding: 2px;
         margin: 10px;
-        border: 1px solid $gray7;
+        border: 1px solid $gray8;
         border-radius: 100%;
         background-color: $gray8;
         cursor: pointer;

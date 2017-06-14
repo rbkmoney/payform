@@ -2,6 +2,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
 import ModalClose from './ModalClose';
+import SupportButton from './SupportButton';
 import Logo from './Logo';
 import Payform from './payform/Payform';
 import TokenizerScript from '../elements/TokenizerScript';
@@ -219,6 +220,7 @@ export default class Modal extends React.Component {
                             { this.state.interact ? this.renderInteract() : false }
                         </div>
                     </div>
+                    <SupportButton invoiceID={this.props.invoiceID} />
                 </div>
             </ReactCSSTransitionGroup>
         );
