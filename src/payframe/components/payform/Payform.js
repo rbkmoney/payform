@@ -1,7 +1,6 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
-import Spinner from '../Spinner';
-import Checkmark from '../Checkmark';
 import CardHolder from './elements/CardHolder';
 import CardNumber from './elements/CardNumber';
 import CardExpire from './elements/CardExpire';
@@ -9,6 +8,8 @@ import CardCvv from './elements/CardCvv';
 import Email from './elements/Email';
 import ErrorPanel from './elements/ErrorPanel';
 import PayformValidation from './PayformValidation';
+import PayButton from './elements/PayButton';
+import BackButton from './elements/BackButton';
 
 class Payform extends React.Component {
 
@@ -88,7 +89,7 @@ class Payform extends React.Component {
         this.handleCardHolder(e.target['card-holder'].value);
         this.handleCardNumber(e.target['card-number'].value);
         this.handleCardCvv(e.target['cvv'].value);
-        this.handleEmail(e.target['email'].value);
+        this.handleEmail(this.props.defaultEmail ? this.props.defaultEmail : e.target['email'].value);
         this.handleCardExpire(e.target['exp-date'].value);
         const props = this.props;
         const formValidation = new PayformValidation(props.payformState);
@@ -101,10 +102,6 @@ class Payform extends React.Component {
         }
     }
 
-    goBack() {
-        history.go(-history.length + 1);
-    }
-
     render() {
         const props = this.props;
         const cardHolder = props.payformState.cardHolder;
@@ -112,40 +109,45 @@ class Payform extends React.Component {
         const cardExpire = props.payformState.cardExpire;
         const cardCvv = props.payformState.cardCvv;
         const email = props.payformState.email;
+        const form = 'payform';
         return (
-            <form className={cx('payform--form', {
-                _error: this.state.error
-            })} id="payform" role="form" ref={(form) => { this.formElement = form; }} onSubmit={this.pay} noValidate>
-                <fieldset className="payform--fieldset">
-                    <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid}/>
-                    <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid}/>
-                    <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid}/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid}/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
-                </fieldset>
-                <ErrorPanel isShow={this.isShowErrorPanel} message={this.errorMessage}/>
-                <button className={cx('payform--pay-button', {
-                    _success: this.props.checkmark || this.props.back
-                })}
-                        type="submit"
-                        form="payform"
-                        disabled={this.isPayButtonDisabled || this.props.spinner || this.props.checkmark}
-                        onClick={this.props.back ? this.goBack : false}
-                >
-                    { this.props.spinner ? <Spinner /> : false }
-                    { this.props.checkmark ? <Checkmark /> : false }
-                    { !this.props.spinner && !this.props.checkmark && !this.props.back ?
-                            <div><span className="payform--pay-button--label">{this.props.payButtonLabel ? this.props.payButtonLabel : 'Оплатить'}</span> <span>{this.props.amount} {this.props.currency}</span></div>
-                        :
-                            false
-                    }
-                    { this.props.back ? 'Назад' : false }
-                </button>
-            </form>
+            <ReactCSSTransitionGroup
+                transitionName='checkout--body'
+                transitionAppear={true}
+                transitionAppearTimeout={700}
+                transitionEnter={false}
+                transitionLeave={false}>
+                <form className={cx('payform--form', {_error: this.state.error})}
+                      id={form} role="form" onSubmit={this.pay}>
+                    <fieldset className="payform--fieldset">
+                        <CardNumber onChange={this.handleCardNumber} value={cardNumber.value}
+                                    isValid={cardNumber.isValid}/>
+                        <CardExpire onChange={this.handleCardExpire} value={cardExpire.value}
+                                    isValid={cardExpire.isValid}/>
+                        <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid}/>
+                    </fieldset>
+                    <fieldset className="payform--fieldset">
+                        <CardHolder onChange={this.handleCardHolder} value={cardHolder.value}
+                                    isValid={cardHolder.isValid}/>
+                    </fieldset>
+                    {this.props.defaultEmail ? false:
+                        <fieldset className="payform--fieldset">
+                            <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
+                        </fieldset> }
+                    <ErrorPanel visible={this.isShowErrorPanel} message={this.errorMessage}/>
+                    {this.props.back
+                        ? <BackButton/>
+                        : <PayButton
+                            form={form}
+                            disabled={this.isPayButtonDisabled}
+                            checkmark={this.props.checkmark}
+                            spinner={this.props.spinner}
+                            label={this.props.payButtonLabel}
+                            amount={this.props.amount}
+                            currency={this.props.currency}
+                        />}
+                </form>
+            </ReactCSSTransitionGroup>
         );
     }
 

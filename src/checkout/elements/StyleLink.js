@@ -1,3 +1,5 @@
+import '../checkout.scss';
+
 export default class StyleLink {
     constructor(host) {
         const link = document.createElement('link');

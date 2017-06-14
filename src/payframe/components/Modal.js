@@ -11,6 +11,7 @@ import settings from '../../settings';
 import Form3ds from '../interaction/Form3ds';
 import EventPoller from '../backend-communication/EventPoller';
 import isMobile from 'ismobilejs';
+import CardUtils from '../../utils/card-utils/CardUtils';
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ export default class Modal extends React.Component {
             spinner: false,
             checkmark: false,
             back: false,
+            defaultEmail: props.defaultEmail && CardUtils.validateEmail(props.defaultEmail) ? props.defaultEmail : undefined,
             payformState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
@@ -30,6 +32,20 @@ export default class Modal extends React.Component {
                 email: {value: ''}
             }
         };
+
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                this.setState({
+                    payform: true,
+                    interact: false,
+                    spinner: true,
+                    checkmark: false
+                });
+                EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken)
+                    .then((event) => this.handleEvent(event))
+                    .catch(error => this.handleError(error));
+            }
+        });
 
         this.handlePay = this.handlePay.bind(this);
         this.setPayformState = this.setPayformState.bind(this);
@@ -45,18 +61,6 @@ export default class Modal extends React.Component {
                 this.setShowErrorPanel(true);
                 this.forceUpdate();
             });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            payform: true,
-            interact: false,
-            spinner: true,
-            checkmark: false
-        });
-        EventPoller.pollEvents(nextProps.capiEndpoint, nextProps.invoiceID, nextProps.invoiceAccessToken)
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
     }
 
     setShowErrorPanel(state) {
@@ -154,28 +158,21 @@ export default class Modal extends React.Component {
 
     renderPayform() {
         return (
-            <ReactCSSTransitionGroup
-                transitionName='checkout--body'
-                transitionAppear={true}
-                transitionAppearTimeout={700}
-                transitionEnter={false}
-                transitionLeave={false}
-            >
-                <Payform handlePay={this.handlePay}
-                         errorMessage={this.errorMessage}
-                         isPayButtonDisabled={this.isPayButtonDisabled}
-                         isShowErrorPanel={this.isShowErrorPanel}
-                         setShowErrorPanel={this.setShowErrorPanel}
-                         amount={this.props.amount}
-                         currency={this.props.currency}
-                         payformState={this.state.payformState}
-                         setPayformState={this.setPayformState}
-                         spinner={this.state.spinner}
-                         checkmark={this.state.checkmark}
-                         payButtonLabel={this.props.payButtonLabel}
-                         back={this.state.back}
-                />
-            </ReactCSSTransitionGroup>
+            <Payform handlePay={this.handlePay}
+                     defaultEmail={this.state.defaultEmail}
+                     errorMessage={this.errorMessage}
+                     isPayButtonDisabled={this.isPayButtonDisabled}
+                     isShowErrorPanel={this.isShowErrorPanel}
+                     setShowErrorPanel={this.setShowErrorPanel}
+                     amount={this.props.amount}
+                     currency={this.props.currency}
+                     payformState={this.state.payformState}
+                     setPayformState={this.setPayformState}
+                     spinner={this.state.spinner}
+                     checkmark={this.state.checkmark}
+                     payButtonLabel={this.props.payButtonLabel}
+                     back={this.state.back}
+            />
         );
     }
 
@@ -194,24 +191,29 @@ export default class Modal extends React.Component {
                 transitionEnter={false}
                 transitionLeave={false}
             >
-                <div className={cx(
-                    'checkout--container',
-                    {
-                        '_interact': this.state.interact
-                    }
-                )}>
+                <div className={cx('checkout--container', {'_interact': this.state.interact})}>
                     <div className="checkout--header">
-                        { !isMobile.any ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/> : false }
+                        {
+                            !isMobile.any
+                                ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/>
+                                : false
+                        }
                         <Logo logo={this.props.logo}/>
-                        <div className="checkout--company-name">
-                            {this.props.name}
-                        </div>
-                        {this.props.description ?
-                                <div className="checkout--company-description">
-                                    {this.props.description}
+                        <div className="checkout--company-name">{this.props.name}</div>
+                        {
+                            this.props.description
+                                ? <div className="checkout--company-description"> {this.props.description}</div>
+                                : false
+                        }
+                        {
+                            this.state.defaultEmail
+                                ? <div className="checkout--default-email--container">
+                                    <hr/>
+                                    <div className="checkout--default-email">
+                                        {this.state.defaultEmail}
+                                    </div>
                                 </div>
-                            :
-                                false
+                                : false
                         }
                     </div>
                     <div className="checkout--body">

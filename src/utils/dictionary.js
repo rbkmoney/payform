@@ -8,6 +8,9 @@ const integration = [
         isRequired: true
     },
     {
+        name: 'email'
+    },
+    {
         name: 'logo'
     },
     {

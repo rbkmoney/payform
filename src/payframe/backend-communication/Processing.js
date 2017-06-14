@@ -13,14 +13,6 @@ class Processing {
             });
         });
     }
-
-    static pollEvents(params) {
-        return new Promise((resolve, reject) => {
-            EventPoller.pollEvents(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken).then(result => {
-                resolve(result);
-            }).catch(error => reject(error));
-        })
-    }
 }
 
 export default Processing;
