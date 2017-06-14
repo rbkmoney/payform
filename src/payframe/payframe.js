@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
 import Modal from './components/Modal';
+import ErrorModal from './components/ErrorModal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
@@ -77,7 +78,16 @@ ready(function (origin) {
                                 modal
                             );
                         },
-                        error => console.error(error));
+                        (error) => {
+                            loading.parentNode.removeChild(loading);
+                            ReactDOM.render(
+                                <ErrorModal error={error}
+                                            popupMode={data.popupMode}
+                                            setClose={setClose}
+                                />,
+                                modal
+                            )
+                        });
                 });
             }, 300)
         }

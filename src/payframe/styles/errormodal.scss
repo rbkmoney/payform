@@ -1,0 +1,41 @@
+.error-modal {
+  background: $gray2;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 15px;
+
+  @include responsive(sm) {
+    width: 300px;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  &--text {
+    margin-top: 100px;
+
+    @include responsive(sm) {
+      margin: 0;
+    }
+  }
+
+  &-appear {
+        @include responsive(sm) {
+            opacity: 0;
+            transform: scale(.8) translate(-50%, -50%);
+        }
+
+        &.error-modal-appear-active {
+            @include responsive(sm) {
+                opacity: 1;
+                transform: scale(1) translate(-50%, -50%);
+                transition-timing-function: cubic-bezier(.15,1.45,.55,1);
+                transition-duration: .4s
+            }
+        }
+    }
+}

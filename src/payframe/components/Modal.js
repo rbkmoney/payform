@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import cx from 'classnames';
 import ModalClose from './ModalClose';
 import Logo from './Logo';
