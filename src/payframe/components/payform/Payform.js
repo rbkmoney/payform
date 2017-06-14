@@ -8,9 +8,9 @@ import PayButton from './elements/PayButton';
 import BackButton from './elements/BackButton';
 import Processing from '../../backend-communication/Processing';
 import settings from '../../../settings';
-import Form3ds from '../../interaction/Form3ds';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
+import Interaction from './elements/Interaction';
 
 class Payform extends React.Component {
 
@@ -22,6 +22,7 @@ class Payform extends React.Component {
             back: false,
             payment: '',
             errorMessage: '',
+            interactionData: {},
             fieldsState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
@@ -98,11 +99,10 @@ class Payform extends React.Component {
 
     handleInteract(event) {
         this.setState({
-            payment: 'interact'
+            payment: 'interact',
+            interactionData: event.data
         });
         this.props.onPayformInteract(true);
-        const form3ds = new Form3ds(event.data, this.props.payformHost, this.refs['3ds']);
-        form3ds.submit(settings.submitFormTimeout); // TODO fix it
     }
 
     pay(e) {
@@ -132,13 +132,6 @@ class Payform extends React.Component {
         } else {
             this.triggerError()
         }
-    }
-
-    renderInteract() {
-        // TODO fix it
-        return (
-            <div ref="3ds" className="payform--interact"/>
-        );
     }
 
     renderPayform() {
@@ -181,7 +174,9 @@ class Payform extends React.Component {
         return (
             <div className="payform">
                 { this.state.payment === 'interact'
-                    ? this.renderInteract()
+                    ? <Interaction
+                        interactionData={this.state.interactionData}
+                        host={this.props.payformHost}/>
                     : this.renderPayform()
                 }
             </div>
