@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
+import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
 import PayformValidation from './PayformValidation';
 import PayButton from './elements/PayButton';
 import BackButton from './elements/BackButton';
 import Processing from '../../backend-communication/Processing';
 import settings from '../../../settings';
-import isMobile from 'ismobilejs';
 import Form3ds from '../../interaction/Form3ds';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
@@ -19,11 +19,9 @@ class Payform extends React.Component {
 
         this.state = {
             error: false,
-            payform: true,
-            interact: false,
-            spinner: false,
-            checkmark: false,
             back: false,
+            payment: '',
+            errorMessage: '',
             fieldsState: {
                 cardHolder: {value: ''},
                 cardNumber: {value: ''},
@@ -36,10 +34,7 @@ class Payform extends React.Component {
         window.addEventListener('message', (e) => {
             if (e.data === 'finish-interaction') {
                 this.setState({
-                    payform: true,
-                    interact: false,
-                    spinner: true,
-                    checkmark: false
+                    payment: 'process'
                 });
                 this.props.onPayformInteract(false);
                 EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken)
@@ -80,44 +75,30 @@ class Payform extends React.Component {
 
     handleError(error) {
         this.setState({
-            payform: true,
-            interact: false,
-            spinner: false,
-            checkmark: false
+            payment: 'error'
         });
-        this.errorMessage = error.message;
-        this.isShowErrorPanel = true;
+        this.state.errorMessage = error.message;
         this.triggerError();
         this.forceUpdate();
     }
 
     handleSuccess() {
         this.setState({
-            payform: true,
-            interact: false,
-            spinner: false,
-            checkmark: true
+            payment: 'success'
         });
         this.props.onPaymentSuccess();
         if (isMobile.any && history.length > 1) {
             setTimeout(() => {
                 this.setState({
-                    payform: true,
-                    interact: false,
-                    spinner: false,
-                    checkmark: false,
                     back: true
-                })
+                });
             }, settings.closeFormTimeout + 100)
         }
     }
 
     handleInteract(event) {
         this.setState({
-            payform: false,
-            interact: true,
-            spinner: false,
-            checkmark: false
+            payment: 'interact'
         });
         this.props.onPayformInteract(true);
         const form3ds = new Form3ds(event.data, this.props.payformHost, this.refs['3ds']);
@@ -129,17 +110,13 @@ class Payform extends React.Component {
         if (this.props.back) {
             return;
         }
-        this.isShowErrorPanel = false;
         const fieldsState = this.state.fieldsState;
         const formValidation = new PayformValidation(fieldsState);
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (isValid) {
             this.setState({
-                payform: true,
-                interact: false,
-                spinner: true,
-                checkmark: false
+                payment: 'process'
             });
             Processing.process({
                 invoiceAccessToken: this.props.invoiceAccessToken,
@@ -183,14 +160,14 @@ class Payform extends React.Component {
                         onFieldsChange={this.handleFieldsChange}
                         fieldsState={this.state.fieldsState}/>
                     <ErrorPanel
-                        visible={this.isShowErrorPanel}
-                        message={this.errorMessage}/>
+                        visible={this.state.payment === 'error'}
+                        message={this.state.errorMessage}/>
                     {this.state.back
                         ? <BackButton/>
                         : <PayButton
                             form={form}
-                            checkmark={this.state.checkmark}
-                            spinner={this.state.spinner}
+                            checkmark={this.state.payment === 'success'}
+                            spinner={this.state.payment === 'process'}
                             label={this.props.payButtonLabel}
                             amount={this.props.amount}
                             currency={this.props.currency}
@@ -203,8 +180,10 @@ class Payform extends React.Component {
     render() {
         return (
             <div className="payform">
-                { this.state.payform ? this.renderPayform() : false }
-                { this.state.interact ? this.renderInteract() : false }
+                { this.state.payment === 'interact'
+                    ? this.renderInteract()
+                    : this.renderPayform()
+                }
             </div>
         );
     }
