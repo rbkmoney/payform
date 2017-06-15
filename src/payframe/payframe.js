@@ -5,13 +5,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
 import Modal from './components/Modal';
+import ErrorModal from './components/ErrorModal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
+import TokenizerScript from './elements/TokenizerScript';
 
-ready(function (origin) {
+ready(function(origin) {
     const overlay = document.querySelector('.checkout--overlay');
     const loading = document.querySelector('.loading');
     const modal = document.getElementById('modal');
@@ -20,10 +22,11 @@ ready(function (origin) {
     child.then((transport) => {
         let params;
 
-        StateResolver.resolve(transport).then((state) => {
-            params = state;
-            renderModal(state);
-        });
+        StateResolver.resolve(transport)
+            .then((state) => {
+                params = state;
+                renderModal(state);
+            });
 
         function setCheckoutDone() {
             setTimeout(() => {
@@ -51,35 +54,30 @@ ready(function (origin) {
             overlay.style.opacity = '0.6';
             setTimeout(() => {
                 ConfigLoader.load().then((config) => {
-                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken).then((response) => {
+                        const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
+                        return Promise.all([
+                            tokenizerScript.render(),
+                            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
+                        ]).then((response) => {
+                            const invoice = response[1];
                             Object.assign(data, {
-                                currency: response.currency,
-                                amount: String(Number(response.amount) / 100)
+                                currency: invoice.currency,
+                                amount: String(Number(invoice.amount) / 100)
                             });
                             loading.parentNode.removeChild(loading);
                             ReactDOM.render(
-                                <Modal invoiceAccessToken={data.invoiceAccessToken}
-                                       capiEndpoint={config.capiEndpoint}
-                                       tokenizerEndpoint={config.tokenizerEndpoint}
-                                       invoiceID={data.invoiceID}
-                                       defaultEmail={data.email}
-                                       logo={data.logo}
-                                       amount={data.amount}
-                                       currency={data.currency}
-                                       name={data.name}
-                                       description={data.description}
-                                       payformHost={payformHost}
-                                       setCheckoutDone={setCheckoutDone}
-                                       setClose={setClose}
-                                       popupMode={data.popupMode}
-                                       payButtonLabel={data.payButtonLabel}
-                                />,
+                                <Modal invoiceAccessToken={data.invoiceAccessToken} capiEndpoint={config.capiEndpoint} invoiceID={data.invoiceID} defaultEmail={data.email} logo={data.logo} amount={data.amount} currency={data.currency} name={data.name} description={data.description} payformHost={payformHost} setCheckoutDone={setCheckoutDone} setClose={setClose} popupMode={data.popupMode} payButtonLabel={data.payButtonLabel}/>,
                                 modal
                             );
-                        },
-                        error => console.error(error));
-                });
-            }, 300)
+                        });
+                    }).catch((error) => {
+                        loading.parentNode.removeChild(loading);
+                        ReactDOM.render(
+                            <ErrorModal error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
+                            modal
+                        );
+                    });
+            }, 300);
         }
     });
 });
