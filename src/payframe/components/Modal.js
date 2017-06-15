@@ -222,8 +222,8 @@ export default class Modal extends React.Component {
                             { this.state.interact ? this.renderInteract() : false }
                         </div>
                     </div>
-                    <SupportButton invoiceID={this.props.invoiceID} />
                 </div>
+                <SupportButton invoiceID={this.props.invoiceID} />
             </ReactCSSTransitionGroup>
         );
     }

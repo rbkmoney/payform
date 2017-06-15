@@ -12,20 +12,26 @@
     }
 
     &--container {
+        display: flex;
+        position: absolute;
         width: 100%;
         height: auto;
+        min-height: 100%;
         background-color: $gray2;
         font: 12px/16px Helvetica Neue, Helvetica, Arial, sans-serif;
         overflow: visible;
-        display: flex;
         flex-direction: column;
         transition: all .5s;
-        position: absolute;
-        min-height: 100%;
 
         @include responsive(sm) {
+            display: block;
             position: relative;
-            height: 100%;
+            width: auto;
+            max-width: 300px;
+            background: $white;
+            border-radius: 5px;
+            box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
+            margin: 100px auto;
         }
 
         &._interact {
@@ -74,27 +80,16 @@
                 }
             }
         }
-
-        @include responsive(sm) {
-            display: block;
-            height: auto;
-            width: auto;
-            background: $white;
-            max-width: 300px;
-            border-radius: 5px;
-            box-shadow: 0 12px 30px 0 rgba(0,0,0,0.5), inset 0 1px 0 0 hsla(0,0%,100%,0.65);
-            margin: 100px auto;
-        }
     }
 
     &--header {
         display: block;
         position: relative;
+        height: auto;
+        max-height: 185px;
         padding: 20px 35px 10px;
         background-color: $gray5;
-        height: auto;
         flex-grow: 1;
-        max-height: 185px;
 
         @include responsive(sm) {
             border-radius: 5px 5px 0 0;
@@ -103,12 +98,12 @@
     }
 
     &--body {
-        background-color: $gray2;
         position: relative;
-        border-top: 1px solid $gray6;
-        min-height: 100%;
-        height: auto;
         width: auto;
+        height: auto;
+        min-height: 100%;
+        background-color: $gray2;
+        border-top: 1px solid $gray6;
         flex-shrink: 1;
 
         @include responsive(sm) {
@@ -135,15 +130,14 @@
 
     &--support {
         position: absolute;
-        left: 0;
         top: 0;
+        left: 0;
         text-align: center;
 
         @include responsive(sm) {
             top: auto;
-            bottom: -35px;
-            left: 0;
-            right: 0;
+            bottom: 15px;
+            left: 15px;
         }
 
         a {
@@ -151,9 +145,15 @@
             padding: 9px;
             cursor: pointer;
 
+            @include responsive(sm) {
+                padding: 5px 20px;
+                border: 1px solid $gray7;
+                border-radius: 3px;
+            }
+
             span {
                 display: none;
-                font: 400 14px/14px sans-serif;
+                font: 400 12px/14px sans-serif;
                 color: $gray7;
 
                 @include responsive(sm) {
@@ -189,9 +189,9 @@
     }
 
     &--logo {
-        margin: auto;
         width: 70px;
         height: 70px;
+        margin: auto;
         border: 3px solid $gray9;
         border-radius: 100%;
         background: $gray9 center no-repeat;
