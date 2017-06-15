@@ -53,23 +53,38 @@ export default class CardUtils {
     }
 
     static validateCardCvv(cvc, type) {
+        if (!cvc || !type) {
+            return false;
+        }
         return validateCardCvv(cvc, type);
     }
 
     static validateCardExpiry(value) {
+        if (!value) {
+            return false;
+        }
         const formatVal = cardExpiryVal(value);
         return validateCardExpiry(formatVal);
     }
 
     static validateCardNumber(num) {
+        if (!num) {
+            return false;
+        }
         return validateCardNumber(num);
     }
 
     static validateCardHolder(value) {
+        if (!value) {
+            return false;
+        }
         return value.trim() !== ''
     }
 
     static validateEmail(value) {
+        if (!value) {
+            return false;
+        }
         const regExp = new RegExp('^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.' +
             '(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.' +
             '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$');
