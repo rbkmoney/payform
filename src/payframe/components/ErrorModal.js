@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
-import ModalClose from './ModalClose';
+import ModalClose from './header/ModalClose';
 
 export default class ErrorModal extends React.Component {
     render() {
@@ -13,9 +13,16 @@ export default class ErrorModal extends React.Component {
                 transitionLeave={false}
             >
                 <div className="error-modal">
-                    <ModalClose popoutMode={this.props.popoutMode} setClose={this.props.setClose} />
-                    <div className="error-modal--text">
-                        {this.props.error}
+                    <div className="error-modal--header">
+                        <div className="error-modal--header--text">
+                            Error
+                        </div>
+                        <ModalClose popoutMode={this.props.popoutMode} setClose={this.props.setClose} />
+                    </div>
+                    <div className="error-modal--body">
+                        <div className="error-modal--message">
+                            {this.props.error}
+                        </div>
                     </div>
                 </div>
             </ReactCSSTransitionGroup>

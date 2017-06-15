@@ -50,6 +50,17 @@ ready(function (origin) {
         }
 
         function renderModal(data) {
+            function renderErrorModal(error) {
+                loading.parentNode.removeChild(loading);
+                ReactDOM.render(
+                    <ErrorModal error={error}
+                                popupMode={data.popupMode}
+                                setClose={setClose}
+                    />,
+                    modal
+                )
+            }
+
             overlay.style.opacity = '0.6';
             setTimeout(() => {
                 ConfigLoader.load().then((config) => {
@@ -85,17 +96,12 @@ ready(function (origin) {
                             );
                         },
                         (error) => {
-                            loading.parentNode.removeChild(loading);
-                            ReactDOM.render(
-                                <ErrorModal error={error}
-                                            popupMode={data.popupMode}
-                                            setClose={setClose}
-                                />,
-                                modal
-                            )
+                            renderErrorModal(error);
                         });
+                }).catch((error) => {
+                    renderErrorModal(error);
                 });
-            }, 300)
+            }, 300);
         }
     });
 });
