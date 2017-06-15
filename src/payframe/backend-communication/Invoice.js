@@ -1,7 +1,5 @@
 import guid from '../../utils/guid';
 
-const errorMessage = 'An error when trying to request amount and currency.';
-
 export default class Invoice {
     static getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
         return new Promise((resolve, reject) => {
@@ -13,10 +11,12 @@ export default class Invoice {
                     'X-Request-ID': guid()
                 }
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve(response.json());
                 } else {
-                    reject(errorMessage);
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject({message: response.statusText}));
                 }
             });
         });
