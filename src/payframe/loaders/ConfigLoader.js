@@ -12,7 +12,7 @@ export default class ConfigLoader {
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response.json());
                 } else {
-                    reject(response.statusText);
+                    reject({message: response.statusText});
                 }
             });
         });

@@ -11,10 +11,12 @@ export default class Invoice {
                     'X-Request-ID': guid()
                 }
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve(response.json());
                 } else {
-                    reject(response.statusText);
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject({message: response.statusText}));
                 }
             });
         });
