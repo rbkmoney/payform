@@ -50,6 +50,14 @@ ready(function(origin) {
             }, 300);
         }
 
+        function renderErrorModal(error, data) {
+            loading.parentNode.removeChild(loading);
+            ReactDOM.render(
+                <ErrorModal error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
+                modal
+            );
+        }
+
         function renderModal(data) {
             overlay.style.opacity = '0.6';
             setTimeout(() => {
@@ -60,22 +68,34 @@ ready(function(origin) {
                             Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
                         ]).then((response) => {
                             const invoice = response[1];
-                            Object.assign(data, {
-                                currency: invoice.currency,
-                                amount: String(Number(invoice.amount) / 100)
-                            });
-                            loading.parentNode.removeChild(loading);
-                            ReactDOM.render(
-                                <Modal invoiceAccessToken={data.invoiceAccessToken} capiEndpoint={config.capiEndpoint} invoiceID={data.invoiceID} defaultEmail={data.email} logo={data.logo} amount={data.amount} currency={data.currency} name={data.name} description={data.description} payformHost={payformHost} setCheckoutDone={setCheckoutDone} setClose={setClose} popupMode={data.popupMode} payButtonLabel={data.payButtonLabel}/>,
-                                modal
-                            );
+                            switch (invoice.status) {
+                                case 'unpaid':
+                                    Object.assign(data, {
+                                        currency: invoice.currency,
+                                        amount: String(Number(invoice.amount) / 100)
+                                    });
+                                    loading.parentNode.removeChild(loading);
+                                    ReactDOM.render(
+                                        <Modal invoiceAccessToken={data.invoiceAccessToken} capiEndpoint={config.capiEndpoint} invoiceID={data.invoiceID} defaultEmail={data.email} logo={data.logo} amount={data.amount} currency={data.currency} name={data.name} description={data.description} payformHost={payformHost} setCheckoutDone={setCheckoutDone} setClose={setClose} popupMode={data.popupMode} payButtonLabel={data.payButtonLabel}/>,
+                                        modal
+                                    );
+                                    break;
+                                case 'cancelled':
+                                    renderErrorModal({message: `Invoice was cancelled. ${invoice.reason}`}, data);
+                                    break;
+                                case 'paid':
+                                    renderErrorModal({message: `Invoice was paid. ${invoice.reason}`}, data);
+                                    break;
+                                case 'fulfilled':
+                                    renderErrorModal({message: `Invoice was fulfilled. ${invoice.reason}`}, data);
+                                    break;
+                                case 'refunded':
+                                    renderErrorModal({message: `Invoice was cancelled and refunded. ${invoice.reason}`}, data);
+                                    break;
+                            }
                         });
                     }).catch((error) => {
-                        loading.parentNode.removeChild(loading);
-                        ReactDOM.render(
-                            <ErrorModal error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
-                            modal
-                        );
+                        renderErrorModal(error, data);
                     });
             }, 300);
         }
