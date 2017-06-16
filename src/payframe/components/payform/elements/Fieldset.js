@@ -57,7 +57,7 @@ class Fieldset extends React.Component {
         const cardCvv = this.state.cardCvv;
         const email = this.state.email;
         return (
-            <div>
+            <span>
                 <fieldset className="payform--fieldset">
                     <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid}/>
                     <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid}/>
@@ -72,7 +72,7 @@ class Fieldset extends React.Component {
                             <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
                         </fieldset>
                 }
-            </div>
+            </span>
         );
     }
 }
