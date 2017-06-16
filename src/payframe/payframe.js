@@ -81,7 +81,7 @@ ready(function(origin) {
                                     );
                                     break;
                                 case 'cancelled':
-                                    renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data, 'error');
+                                    renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data.popupMode, 'error');
                                     break;
                                 case 'paid':
                                     renderMessageModal({message: 'Invoice was paid.'}, data.popupMode);
@@ -89,7 +89,7 @@ ready(function(origin) {
                             }
                         });
                     }).catch((error) => {
-                        renderMessageModal('error', error, data);
+                        renderMessageModal(error, data.popupMode, 'error');
                     });
             }, 300);
         }
