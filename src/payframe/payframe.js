@@ -76,7 +76,22 @@ ready(function(origin) {
                                     });
                                     loading.parentNode.removeChild(loading);
                                     ReactDOM.render(
-                                        <Modal invoiceAccessToken={data.invoiceAccessToken} capiEndpoint={config.capiEndpoint} invoiceID={data.invoiceID} defaultEmail={data.email} logo={data.logo} amount={data.amount} currency={data.currency} name={data.name} description={data.description} payformHost={payformHost} setCheckoutDone={setCheckoutDone} setClose={setClose} popupMode={data.popupMode} payButtonLabel={data.payButtonLabel}/>,
+                                        <Modal
+                                            invoiceAccessToken={data.invoiceAccessToken}
+                                            capiEndpoint={config.capiEndpoint}
+                                            invoiceID={data.invoiceID}
+                                            defaultEmail={data.email}
+                                            logo={data.logo}
+                                            amount={data.amount}
+                                            currency={data.currency}
+                                            name={data.name}
+                                            description={data.description}
+                                            payformHost={payformHost}
+                                            setCheckoutDone={setCheckoutDone}
+                                            setClose={setClose}
+                                            popupMode={data.popupMode}
+                                            payButtonLabel={data.payButtonLabel}
+                                        />,
                                         modal
                                     );
                                     break;
