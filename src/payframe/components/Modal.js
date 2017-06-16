@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Payform from './payform/Payform';
 import CardUtils from '../../utils/card-utils/CardUtils';
 import Header from './header/Header';
+import SupportButton from './SupportButton';
 
 export default class Modal extends React.Component {
 
@@ -51,6 +52,7 @@ export default class Modal extends React.Component {
                             onPayformInteract={this.handlePayformInteract}/>
                     </div>
                 </div>
+                <SupportButton invoiceID={this.props.invoiceID} />
             </ReactCSSTransitionGroup>
         );
     }
