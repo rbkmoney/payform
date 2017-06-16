@@ -87,10 +87,10 @@ ready(function(origin) {
                                     renderMessageModal('success', {message: 'Invoice was paid.'}, data);
                                     break;
                                 case 'fulfilled':
-                                    renderMessageModal('error', {message: `Invoice was fulfilled.`}, data);
+                                    renderMessageModal('error', {message: 'Invoice was fulfilled.'}, data);
                                     break;
                                 case 'refunded':
-                                    renderMessageModal('success', {message: `Invoice was cancelled and refunded.`}, data);
+                                    renderMessageModal('success', {message: 'Invoice was cancelled and refunded.'}, data);
                                     break;
                             }
                         });
