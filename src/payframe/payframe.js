@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
 import Modal from './components/Modal';
-import ErrorModal from './components/ErrorModal';
+import MessageModal from './components/MessageModal';
 import ConfigLoader from './loaders/ConfigLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
@@ -50,10 +50,10 @@ ready(function(origin) {
             }, 300);
         }
 
-        function renderErrorModal(error, data) {
+        function renderMessageModal(type, error, data) {
             loading.parentNode.removeChild(loading);
             ReactDOM.render(
-                <ErrorModal error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
+                <MessageModal type={type} error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
                 modal
             );
         }
@@ -81,21 +81,21 @@ ready(function(origin) {
                                     );
                                     break;
                                 case 'cancelled':
-                                    renderErrorModal({message: `Invoice was cancelled. ${invoice.reason}`}, data);
+                                    renderMessageModal('error', {message: `Invoice was cancelled. ${invoice.reason}`}, data);
                                     break;
                                 case 'paid':
-                                    renderErrorModal({message: `Invoice was paid. ${invoice.reason}`}, data);
+                                    renderMessageModal('success', {message: 'Invoice was paid.'}, data);
                                     break;
                                 case 'fulfilled':
-                                    renderErrorModal({message: `Invoice was fulfilled. ${invoice.reason}`}, data);
+                                    renderMessageModal('error', {message: `Invoice was fulfilled.`}, data);
                                     break;
                                 case 'refunded':
-                                    renderErrorModal({message: `Invoice was cancelled and refunded. ${invoice.reason}`}, data);
+                                    renderMessageModal('success', {message: `Invoice was cancelled and refunded.`}, data);
                                     break;
                             }
                         });
                     }).catch((error) => {
-                        renderErrorModal(error, data);
+                        renderMessageModal('error', error, data);
                     });
             }, 300);
         }

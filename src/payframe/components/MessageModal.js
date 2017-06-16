@@ -3,6 +3,15 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import ModalClose from './header/ModalClose';
 
 export default class ErrorModal extends React.Component {
+    getType(type) {
+        switch (type) {
+            case 'error':
+                return 'Error';
+            case 'success':
+                return 'Success';
+        }
+    }
+
     render() {
         return (
             <ReactCSSTransitionGroup
@@ -15,7 +24,7 @@ export default class ErrorModal extends React.Component {
                 <div className="error-modal">
                     <div className="error-modal--header">
                         <div className="error-modal--header--text">
-                            Error
+                            {this.getType(this.props.type)}
                         </div>
                         <ModalClose popoutMode={this.props.popoutMode} setClose={this.props.setClose} />
                     </div>
