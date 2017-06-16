@@ -7,8 +7,6 @@ export default class ErrorModal extends React.Component {
         switch (type) {
             case 'error':
                 return 'Error';
-            case 'success':
-                return 'Success';
         }
     }
 

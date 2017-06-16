@@ -50,10 +50,10 @@ ready(function(origin) {
             }, 300);
         }
 
-        function renderMessageModal(type, error, data) {
+        function renderMessageModal(error, popupMode, type) {
             loading.parentNode.removeChild(loading);
             ReactDOM.render(
-                <MessageModal type={type} error={error.message} popupMode={data.popupMode} setClose={setClose}/>,
+                <MessageModal type={type} error={error.message} popupMode={popupMode} setClose={setClose}/>,
                 modal
             );
         }
@@ -81,16 +81,10 @@ ready(function(origin) {
                                     );
                                     break;
                                 case 'cancelled':
-                                    renderMessageModal('error', {message: `Invoice was cancelled. ${invoice.reason}`}, data);
+                                    renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data, 'error');
                                     break;
                                 case 'paid':
-                                    renderMessageModal('success', {message: 'Invoice was paid.'}, data);
-                                    break;
-                                case 'fulfilled':
-                                    renderMessageModal('error', {message: 'Invoice was fulfilled.'}, data);
-                                    break;
-                                case 'refunded':
-                                    renderMessageModal('success', {message: 'Invoice was cancelled and refunded.'}, data);
+                                    renderMessageModal({message: 'Invoice was paid.'}, data.popupMode);
                                     break;
                             }
                         });
