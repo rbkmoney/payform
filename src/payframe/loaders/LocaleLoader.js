@@ -3,7 +3,7 @@ import moment from 'moment';
 import settings from '../../settings';
 
 export default class LocaleLoader {
-    static getAvaibleLocales(locale) {
+    static getAvailableLocales(locale) {
         const locales = ['ru', 'en'];
 
         if (locale === 'auto') {
@@ -21,7 +21,7 @@ export default class LocaleLoader {
 
     static load(locale) {
         return new Promise((resolve, reject) => {
-            locale = this.getAvaibleLocales(locale);
+            locale = this.getAvailableLocales(locale);
 
             fetch(`../languages/${moment.locale(locale)}.json`, {
                 method: 'GET',
