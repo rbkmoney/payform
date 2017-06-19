@@ -3,33 +3,31 @@ import moment from 'moment';
 import settings from '../../settings';
 
 export default class LocaleLoader {
-    static getAvailableLocales(locale) {
+    static getAvailableLocale(locale) {
+        let availableLocale = locale;
+        let result;
         const locales = ['ru', 'en'];
-
         if (locale === 'auto') {
-            locale = moment.locale('auto');
+            availableLocale = moment.locale('auto');
         }
-
-        for (let i = 0; i < locales.length; i++) {
-            if (locales[i] === locale) {
-                return locale;
-            }
-        }
-
-        return settings.defaultLocale;
+        locales.find(item => {
+           if (item === availableLocale) {
+               result =  availableLocale;
+           }
+        });
+        return result || settings.defaultLocale;
     }
 
     static load(locale) {
         return new Promise((resolve, reject) => {
-            locale = this.getAvailableLocales(locale);
-
-            fetch(`../languages/${moment.locale(locale)}.json`, {
+            const avaibleLocale = this.getAvailableLocale(locale);
+            fetch(`../locale/${avaibleLocale}.json`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve(response.json());
                 } else {
                     reject({message: response.statusText});
