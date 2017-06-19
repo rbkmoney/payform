@@ -1,27 +1,22 @@
 import 'whatwg-fetch';
 import moment from 'moment';
-import settings from '../../settings';
+const locales = ['ru', 'en'];
+const defaultLocale = 'en';
 
 export default class LocaleLoader {
     static getAvailableLocale(locale) {
-        let availableLocale = locale;
         let result;
-        const locales = ['ru', 'en'];
         if (locale === 'auto') {
-            availableLocale = moment.locale('auto');
+            result = moment.locale('auto');
+        } else {
+            result = locales.find((item) => item === locale);
         }
-        locales.find(item => {
-           if (item === availableLocale) {
-               result =  availableLocale;
-           }
-        });
-        return result || settings.defaultLocale;
+        return result || defaultLocale;
     }
 
     static load(locale) {
         return new Promise((resolve, reject) => {
-            const avaibleLocale = this.getAvailableLocale(locale);
-            fetch(`../locale/${avaibleLocale}.json`, {
+            fetch(`../locale/${this.getAvailableLocale(locale)}.json`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
