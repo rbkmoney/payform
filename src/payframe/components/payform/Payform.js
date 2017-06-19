@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
@@ -69,16 +68,15 @@ class Payform extends React.Component {
         } else if (event.type === 'interact') {
             this.handleInteract(event);
         } else {
-            console.error(event);
-            throw new Error('Unsupported payment result error');
+            this.handleError({message: 'Unsupported payment result error'});
         }
     }
 
     handleError(error) {
         this.setState({
-            payment: 'error'
+            payment: 'error',
+            errorMessage: error.message
         });
-        this.state.errorMessage = error.message;
         this.triggerError();
         this.forceUpdate();
     }
@@ -137,37 +135,30 @@ class Payform extends React.Component {
     renderPayform() {
         const form = 'payform';
         return (
-            <ReactCSSTransitionGroup
-                transitionName='checkout--body'
-                transitionAppear={true}
-                transitionAppearTimeout={700}
-                transitionEnter={false}
-                transitionLeave={false}>
-                <form className={cx('payform--form', {_error: this.state.error})}
-                      id={form}
-                      role="form"
-                      onSubmit={this.pay}
-                      noValidate>
-                    <Fieldset
-                        defaultEmail={this.props.defaultEmail}
-                        onFieldsChange={this.handleFieldsChange}
-                        fieldsState={this.state.fieldsState}
-                        locale={this.props.locale}/>
-                    <ErrorPanel
-                        visible={this.state.payment === 'error'}
-                        message={this.state.errorMessage}/>
-                    {this.state.back
-                        ? <BackButton/>
-                        : <PayButton
-                            form={form}
-                            checkmark={this.state.payment === 'success'}
-                            spinner={this.state.payment === 'process'}
-                            label={this.props.payButtonLabel}
-                            amount={this.props.amount}
-                            currency={this.props.currency}
-                        />}
-                </form>
-            </ReactCSSTransitionGroup>
+            <form className={cx('payform--form', {_error: this.state.error})}
+                  id={form}
+                  role="form"
+                  onSubmit={this.pay}
+                  noValidate>
+                <Fieldset
+                    defaultEmail={this.props.defaultEmail}
+                    onFieldsChange={this.handleFieldsChange}
+                    fieldsState={this.state.fieldsState}
+                    locale={this.props.locale}/>
+                <ErrorPanel
+                    visible={this.state.payment === 'error'}
+                    message={this.state.errorMessage}/>
+                {this.state.back
+                    ? <BackButton/>
+                    : <PayButton
+                        form={form}
+                        checkmark={this.state.payment === 'success'}
+                        spinner={this.state.payment === 'process'}
+                        label={this.props.payButtonLabel}
+                        amount={this.props.amount}
+                        currency={this.props.currency}
+                    />}
+            </form>
         );
     }
 

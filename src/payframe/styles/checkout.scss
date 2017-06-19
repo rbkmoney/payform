@@ -112,21 +112,6 @@
             border-radius: 0 0 5px 5px;
             min-height: inherit;
         }
-
-        &-appear {
-            @include responsive(sm) {
-                transform: scale(.7);
-            }
-
-            &.checkout--body-appear-active {
-                @include responsive(sm) {
-                    transform: scale(1);
-                    transition-timing-function: cubic-bezier(.15,1.45,.55,1);
-                    transition-duration: .7s;
-                    -ms-animation: none;
-                }
-            }
-        }
     }
 
     &--support {
