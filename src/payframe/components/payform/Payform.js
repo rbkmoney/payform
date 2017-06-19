@@ -151,7 +151,8 @@ class Payform extends React.Component {
                     <Fieldset
                         defaultEmail={this.props.defaultEmail}
                         onFieldsChange={this.handleFieldsChange}
-                        fieldsState={this.state.fieldsState}/>
+                        fieldsState={this.state.fieldsState}
+                        locale={this.props.locale}/>
                     <ErrorPanel
                         visible={this.state.payment === 'error'}
                         message={this.state.errorMessage}/>

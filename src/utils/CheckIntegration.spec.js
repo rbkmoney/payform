@@ -16,7 +16,7 @@ describe('CheckIntegration', function () {
 
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
-            const dictionary = 'invoiceAccessToken invoiceID email logo name label description payButtonLabel popupMode opened closed finished';
+            const dictionary = 'invoiceAccessToken invoiceID email logo name label description payButtonLabel popupMode locale opened closed finished';
 
             CheckIntegration.makeDictionary().should.be.equal(dictionary);
         });
@@ -194,6 +194,31 @@ describe('CheckIntegration', function () {
             CheckIntegration.check(props);
 
            sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'popuppMode'. Did you mean 'popupMode'?`);
+           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       });
+
+       it('message should be warn and contain text about Unrecognized option locaale', function() {
+           const props = {
+                invoiceID: 'invoiceID',
+                invoiceAccessToken: 'token',
+                nama: 'Some company',
+                payButtonLabel: 'Pay',
+                popupMode: false,
+                locaale: 'auto',
+                opened: function() {
+                    console.log('Checkout on opened');
+                },
+                closed: function() {
+                    console.log('Checkout on closed');
+                },
+                finished: function() {
+                    location.reload();
+                }
+            };
+
+            CheckIntegration.check(props);
+
+           sinon.assert.calledWith(this.consoleStub, 'warn', `RbkmoneyCheckout.configure: Unrecognized option 'locaale'. Did you mean 'locale'?`);
            sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 

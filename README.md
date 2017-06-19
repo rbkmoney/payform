@@ -34,6 +34,7 @@
 | label                    | Текст для кнопки                                          |              | Pay with RBKmoney                     |
 | popup mode               | Открыть Checkout в новом окне                             |              | boolean                               |
 | email                    | Email по умолчанию                                        |              | test@test.com                         |
+| locale                   | Локаль для формы оплаты                                   |              | ru / en / auto                        |
 
 ### Пример js интеграции
 ```html
@@ -63,3 +64,4 @@
 | finished                 | callback на успешное завершение платежа                   |              | function                              |
 | popup mode               | Открыть Checkout в новом окне                             |              | boolean                               |
 | email                    | Email по умолчанию                                        |              | test@test.com                         |
+| locale                   | Локаль для формы оплаты                                   |              | ru / en / auto                        |

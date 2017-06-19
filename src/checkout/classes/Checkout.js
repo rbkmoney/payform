@@ -7,6 +7,7 @@ export default class Checkout {
 
     constructor(origin, config) {
         this.config = this.assignPopupMode(config);
+        this.config = this.assignLocale(config);
         this.payformHost = origin;
         this.opened = config.opened;
         this.closed = config.closed;
@@ -56,6 +57,12 @@ export default class Checkout {
     assignPopupMode(config) {
         return Object.assign(config, {
             popupMode: isMobile.any || (config.popupMode === 'true' || config.popupMode === true)
+        });
+    }
+
+    assignLocale(config) {
+        return Object.assign(config, {
+            locale: config.locale || 'auto'
         });
     }
 }

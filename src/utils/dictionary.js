@@ -29,6 +29,9 @@ const integration = [
         name: 'popupMode'
     },
     {
+        name: 'locale'
+    },
+    {
         name: 'opened'
     },
     {

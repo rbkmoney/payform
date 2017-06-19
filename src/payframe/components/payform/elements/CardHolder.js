@@ -34,7 +34,7 @@ class CardHolder extends React.Component {
                        value={this.props.value}
                        onChange={this.handleChange}
                        ref={(input) => { this.input = input; }}
-                       placeholder="Card holder" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
+                       placeholder={this.props.locale['input.payment.cardHolder.placeholder']} autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
                 />
                 <div className="payform--icon">
                     <svg fill="#2b2b2b" focusable="false">
