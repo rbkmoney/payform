@@ -13,7 +13,7 @@ import settings from '../settings';
 import StateResolver from './StateResolver';
 import TokenizerScript from './elements/TokenizerScript';
 
-ready(function(origin) {
+ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
     const loading = document.querySelector('.loading');
     const modal = document.getElementById('modal');
@@ -60,53 +60,51 @@ ready(function(origin) {
 
         function renderModal(data) {
             overlay.style.opacity = '0.6';
-            setTimeout(() => {
-                ConfigLoader.load().then((config) => {
-                        const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
-                        return Promise.all([
-                            tokenizerScript.render(),
-                            Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
-                        ]).then((response) => {
-                            const invoice = response[1];
-                            switch (invoice.status) {
-                                case 'unpaid':
-                                    Object.assign(data, {
-                                        currency: invoice.currency,
-                                        amount: String(Number(invoice.amount) / 100)
-                                    });
-                                    loading.parentNode.removeChild(loading);
-                                    ReactDOM.render(
-                                        <Modal
-                                            invoiceAccessToken={data.invoiceAccessToken}
-                                            capiEndpoint={config.capiEndpoint}
-                                            invoiceID={data.invoiceID}
-                                            defaultEmail={data.email}
-                                            logo={data.logo}
-                                            amount={data.amount}
-                                            currency={data.currency}
-                                            name={data.name}
-                                            description={data.description}
-                                            payformHost={payformHost}
-                                            setCheckoutDone={setCheckoutDone}
-                                            setClose={setClose}
-                                            popupMode={data.popupMode}
-                                            payButtonLabel={data.payButtonLabel}
-                                        />,
-                                        modal
-                                    );
-                                    break;
-                                case 'cancelled':
-                                    renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data.popupMode, 'error');
-                                    break;
-                                case 'paid':
-                                    renderMessageModal({message: 'Invoice was paid.'}, data.popupMode);
-                                    break;
-                            }
-                        });
-                    }).catch((error) => {
-                        renderMessageModal(error, data.popupMode, 'error');
-                    });
-            }, 300);
+            ConfigLoader.load().then((config) => {
+                const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
+                return Promise.all([
+                    tokenizerScript.render(),
+                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
+                ]).then((response) => {
+                    const invoice = response[1];
+                    switch (invoice.status) {
+                        case 'unpaid':
+                            Object.assign(data, {
+                                currency: invoice.currency,
+                                amount: String(Number(invoice.amount) / 100)
+                            });
+                            loading.parentNode.removeChild(loading);
+                            ReactDOM.render(
+                                <Modal
+                                    invoiceAccessToken={data.invoiceAccessToken}
+                                    capiEndpoint={config.capiEndpoint}
+                                    invoiceID={data.invoiceID}
+                                    defaultEmail={data.email}
+                                    logo={data.logo}
+                                    amount={data.amount}
+                                    currency={data.currency}
+                                    name={data.name}
+                                    description={data.description}
+                                    payformHost={payformHost}
+                                    setCheckoutDone={setCheckoutDone}
+                                    setClose={setClose}
+                                    popupMode={data.popupMode}
+                                    payButtonLabel={data.payButtonLabel}
+                                />,
+                                modal
+                            );
+                            break;
+                        case 'cancelled':
+                            renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data.popupMode, 'error');
+                            break;
+                        case 'paid':
+                            renderMessageModal({message: 'Invoice was paid.'}, data.popupMode);
+                            break;
+                    }
+                });
+            }).catch((error) => {
+                renderMessageModal(error, data.popupMode, 'error');
+            });
         }
     });
 });
