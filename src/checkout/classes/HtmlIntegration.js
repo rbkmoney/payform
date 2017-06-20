@@ -12,7 +12,7 @@ export default class HtmlIntegration {
     }
 
     isAvailable() {
-        return this.element && this.element.dataset;
+        return Boolean(this.element && this.element.dataset);
     }
 
     renderCheckoutButton() {

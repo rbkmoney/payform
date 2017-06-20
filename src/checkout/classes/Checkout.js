@@ -26,6 +26,9 @@ export default class Checkout {
             transport.on('payment-done', () => {
                 this.close();
                 this.finished ? this.finished() : false;
+                if (this.config.redirectUrl) {
+                    window.location.replace(this.config.redirectUrl);
+                }
             });
             transport.on('close', () => {
                 transport.destroy();
