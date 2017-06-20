@@ -1,5 +1,4 @@
 import 'whatwg-fetch';
-import moment from 'moment';
 const locales = ['ru', 'en'];
 const defaultLocale = 'en';
 
@@ -7,7 +6,7 @@ export default class LocaleLoader {
     static getAvailableLocale(locale) {
         let result;
         if (locale === 'auto') {
-            result = moment.locale('auto');
+            result = this.getAvailableLocale(navigator.language.split('-')[0]);
         } else {
             result = locales.find((item) => item === locale);
         }
