@@ -1,0 +1,8 @@
+{
+    "input.payment.cardNumber.placeholder": "Номер карты",
+    "input.payment.cardExpiry.placeholder": "ММ / ГГ",
+    "input.payment.cardCVV.placeholder": "CVV",
+    "input.payment.cardHolder.placeholder": "Имя на карте",
+    "input.payment.email.placeholder": "Email",
+    "button.help": "Помощь"
+}

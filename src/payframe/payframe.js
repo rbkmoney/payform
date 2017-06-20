@@ -7,6 +7,7 @@ import ready from '../utils/domReady';
 import Modal from './components/Modal';
 import MessageModal from './components/MessageModal';
 import ConfigLoader from './loaders/ConfigLoader';
+import LocaleLoader from './loaders/LocaleLoader';
 import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import settings from '../settings';
@@ -63,10 +64,12 @@ ready(function (origin) {
             ConfigLoader.load().then((config) => {
                 const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
                 return Promise.all([
+                    LocaleLoader.load(data.locale),
                     tokenizerScript.render(),
                     Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
                 ]).then((response) => {
-                    const invoice = response[1];
+                    const locale = response[0];
+                    const invoice = response[2];
                     switch (invoice.status) {
                         case 'unpaid':
                             Object.assign(data, {
@@ -90,6 +93,7 @@ ready(function (origin) {
                                     setClose={setClose}
                                     popupMode={data.popupMode}
                                     payButtonLabel={data.payButtonLabel}
+                                    locale={locale}
                                 />,
                                 modal
                             );

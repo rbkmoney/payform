@@ -1,0 +1,8 @@
+{
+    "input.payment.cardNumber.placeholder": "Card number",
+    "input.payment.cardExpiry.placeholder": "MM / YY",
+    "input.payment.cardCVV.placeholder": "CVV",
+    "input.payment.cardHolder.placeholder": "Card holder",
+    "input.payment.email.placeholder": "Email",
+    "button.help": "Support"
+}

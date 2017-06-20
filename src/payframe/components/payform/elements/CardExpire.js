@@ -38,7 +38,7 @@ class CardExpire extends React.Component {
                        onChange={this.handleChange}
                        onKeyUp={isIE ? this.handleChange : false}
                        ref={(input) => { this.input = input; }}
-                       placeholder="MM / YY" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
+                       placeholder={this.props.locale['input.payment.cardExpiry.placeholder']} autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no"
                 />
                 <div className="payform--icon">
                     <svg fill="#2b2b2b" focusable="false">

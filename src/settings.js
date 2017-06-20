@@ -4,5 +4,6 @@ export default {
     closeFormTimeout: 3000,
     submitFormTimeout: 1000,
     pollingRetries: 60,
-    maxHandshakeRequests: 20
+    maxHandshakeRequests: 20,
+    defaultLocale: 'en'
 };

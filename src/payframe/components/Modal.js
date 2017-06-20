@@ -49,10 +49,11 @@ export default class Modal extends React.Component {
                             payButtonLabel={this.props.payButtonLabel}
                             payformHost={this.props.payformHost}
                             onPaymentSuccess={this.props.setCheckoutDone}
-                            onPayformInteract={this.handlePayformInteract}/>
+                            onPayformInteract={this.handlePayformInteract}
+                            locale={this.props.locale}/>
                     </div>
                 </div>
-                <SupportButton invoiceID={this.props.invoiceID} />
+                <SupportButton invoiceID={this.props.invoiceID} locale={this.props.locale}/>
             </ReactCSSTransitionGroup>
         );
     }

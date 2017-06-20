@@ -37,7 +37,7 @@ class CardCvv extends React.Component {
                    onChange={this.handleChange}
                    onKeyUp={isIE ? this.handleChange : false}
                    ref={(input) => { this.input = input; }}
-                   placeholder="CVC" autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no" maxLength="4"
+                   placeholder={this.props.locale['input.payment.cardCVV.placeholder']} autoComplete="off" autoCorrect="no" autoCapitalize="no" spellCheck="no" maxLength="4"
             />
             <div className="payform--icon">
                 <svg fill="#2b2b2b" focusable="false">
