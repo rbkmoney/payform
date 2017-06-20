@@ -26,9 +26,7 @@ describe('LocaleLoader', function () {
             LocaleLoader.getAvailableLocale('ru').should.be.equal('ru');
         });
 
-        it('should return en locale', function() {
-            //Here this method should return default locale 'en' if you pass locale which do not have dictionary
-            //Now we have only 'ru' and 'en' locale
+        it('should return default locale when set unsupported locale', function() {
             LocaleLoader.getAvailableLocale('fr').should.be.equal('en');
         });
     });
@@ -58,12 +56,10 @@ describe('LocaleLoader', function () {
                 .should.become(ruLocale).notify(done);
         });
 
-        it('should return en locale', function (done) {
+        it('should return default locale when set unsupported locale', function (done) {
             const res = new Response(JSON.stringify(enLocale), {status: 200});
             fetch.returns(Promise.resolve(res));
 
-            //Here this method should return default locale 'en' if you pass locale which do not have dictionary
-            //Now we have only 'ru' and 'en' locale
             LocaleLoader.load('fr')
                 .should.become(enLocale).notify(done);
         });
