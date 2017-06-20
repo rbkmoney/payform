@@ -1,6 +1,13 @@
 import LocaleLoader from './LocaleLoader';
 
 describe('LocaleLoader', function () {
+    const enLocale = {
+        "input.payment.cardNumber.placeholder": "Card number",
+    };
+
+    const ruLocale = {
+        "input.payment.cardNumber.placeholder": "Номер карты",
+    };
 
     beforeEach(function () {
         this.fetchStub = sinon.stub(window, 'fetch');
@@ -36,56 +43,29 @@ describe('LocaleLoader', function () {
         });
 
         it('should return en locale', function (done) {
-            const enLocale = {
-                "input.payment.cardNumber.placeholder": "Card number",
-                "input.payment.cardExpiry.placeholder": "MM / YY",
-                "input.payment.cardCVV.placeholder": "CVV",
-                "input.payment.cardHolder.placeholder": "Card holder",
-                "input.payment.email.placeholder": "Email",
-                "button.help": "Support"
-            };
-
             const res = new Response(JSON.stringify(enLocale), {status: 200});
             fetch.returns(Promise.resolve(res));
 
             LocaleLoader.load('en')
-                .should.notify(done);
+                .should.become(enLocale).notify(done);
         });
 
         it('should return ru locale', function (done) {
-            const enLocale = {
-                "input.payment.cardNumber.placeholder": "Номер карты",
-                "input.payment.cardExpiry.placeholder": "ММ / ГГ",
-                "input.payment.cardCVV.placeholder": "CVV",
-                "input.payment.cardHolder.placeholder": "Имя на карте",
-                "input.payment.email.placeholder": "Email",
-                "button.help": "Помощь"
-            };
-
-            const res = new Response(JSON.stringify(enLocale), {status: 200});
+            const res = new Response(JSON.stringify(ruLocale), {status: 200});
             fetch.returns(Promise.resolve(res));
 
             LocaleLoader.load('ru')
-                .should.notify(done);
+                .should.become(ruLocale).notify(done);
         });
 
         it('should return en locale', function (done) {
-            const enLocale = {
-                "input.payment.cardNumber.placeholder": "Card number",
-                "input.payment.cardExpiry.placeholder": "MM / YY",
-                "input.payment.cardCVV.placeholder": "CVV",
-                "input.payment.cardHolder.placeholder": "Card holder",
-                "input.payment.email.placeholder": "Email",
-                "button.help": "Support"
-            };
-
             const res = new Response(JSON.stringify(enLocale), {status: 200});
             fetch.returns(Promise.resolve(res));
 
             //Here this method should return default locale 'en' if you pass locale which do not have dictionary
             //Now we have only 'ru' and 'en' locale
             LocaleLoader.load('fr')
-                .should.notify(done);
+                .should.become(enLocale).notify(done);
         });
     });
 });
