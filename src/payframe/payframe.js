@@ -34,7 +34,7 @@ ready(function(origin) {
                 transport.destroy();
                 if (params.popupMode) {
                     if (params.redirectUrl) {
-                        window.location.replace(params.redirectUrl);
+                        location.replace(params.redirectUrl);
                     } else {
                         window.close();
                     }
