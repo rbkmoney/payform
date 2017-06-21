@@ -3,7 +3,7 @@ import guid from '../../utils/guid';
 
 export default class EventPoller {
 
-    static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken) {
+    static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
@@ -19,13 +19,13 @@ export default class EventPoller {
                         } else {
                             pollCount++;
                             if (pollCount >= settings.pollingRetries) {
-                                reject({message: 'Events polling timeout error'});
+                                reject({message: locale['error.events.timeout']});
                             } else {
                                 poll(self);
                             }
                         }
                     }).catch(() => {
-                        reject({message: 'An error occurred while polling events'})
+                        reject({message: locale['error.events.failed']})
                     });
                 }, settings.pollingTimeout);
             })(this);

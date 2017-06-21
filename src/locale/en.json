@@ -4,5 +4,13 @@
     "input.payment.cardCVV.placeholder": "CVV",
     "input.payment.cardHolder.placeholder": "Card holder",
     "input.payment.email.placeholder": "Email",
-    "button.help": "Support"
+    "button.help": "Support",
+    "button.back": "Back",
+    "error.invoice.paid": "Invoice was paid",
+    "error.invoice.cancelled": "Invoice was cancelled.",
+    "error.payment.unsupport": "Unsupported payment result error",
+    "error.payment.create": "An error occurred while trying create payment",
+    "error.tokenizer.cart": "An error occurred while trying tokenize cart",
+    "error.events.timeout": "Events polling timeout error",
+    "error.events.failed": "An error occurred while polling events"
 }
