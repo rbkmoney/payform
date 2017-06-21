@@ -6,11 +6,11 @@
     "input.payment.email.placeholder": "Email",
     "button.help": "Помощь",
     "button.back": "Назад",
-    "error.invoice.paid": "Счет был оплачен",
-    "error.invoice.cancelled": "Счет был отменен.",
+    "error.invoice.paid": "Инвойс был оплачен",
+    "error.invoice.cancelled": "Инвойс был отменен.",
     "error.payment.unsupport": "Unsupported payment result error",
-    "error.payment.create": "Ошибка при создании платежа",
-    "error.tokenizer.cart": "Ошибка при попытке токенизации карты",
-    "error.events.timeout": "Таймаут при запросе событий",
-    "error.events.failed": "Ошибка при запросе событий"
+    "error.payment.create": "Ошибка в процессе создания платежа",
+    "error.tokenizer.cart": "Ошибка в процессе токенизации карты",
+    "error.events.timeout": "Превышено время ожидания проведения платежа",
+    "error.events.failed": "Ошибка в процессе получения событий инвойса"
 }
