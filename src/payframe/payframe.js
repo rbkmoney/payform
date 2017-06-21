@@ -99,10 +99,10 @@ ready(function (origin) {
                             );
                             break;
                         case 'cancelled':
-                            renderMessageModal({message: `Invoice was cancelled. ${invoice.reason}`}, data.popupMode, 'error');
+                            renderMessageModal({message: `${locale['error.invoice.cancelled']} ${invoice.reason}`}, data.popupMode, 'error');
                             break;
                         case 'paid':
-                            renderMessageModal({message: 'Invoice was paid.'}, data.popupMode);
+                            renderMessageModal({message: locale['error.invoice.paid']}, data.popupMode);
                             break;
                     }
                 });

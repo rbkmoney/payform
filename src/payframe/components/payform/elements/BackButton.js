@@ -14,7 +14,7 @@ class BackButton extends React.Component {
     render() {
         return (
             <button type="button" className="payform--pay-button _success" onClick={this.goBack}>
-                Назад
+                {this.props.locale['button.back']}
             </button>
         );
     }
