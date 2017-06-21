@@ -202,9 +202,13 @@
 
         &--label {
             max-width: 120px;
-            display: inline-flex;
+            display: inline-block;
             white-space: nowrap;
             overflow: hidden;
+        }
+
+        span {
+            vertical-align: top;
         }
     }
 
