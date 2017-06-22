@@ -6,10 +6,16 @@ export default class EventPoller {
     static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
+            if (!locale) {
+                reject();
+            }
             (function poll(self) {
                 setTimeout(() => {
                     self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
                         const event = self.getLastEvent(events);
+                        if (locale[events.code]) {
+                            reject({message: locale[events.code]});
+                        }
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
@@ -55,7 +61,7 @@ export default class EventPoller {
                     'X-Request-ID': guid()
                 }
             }).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve(response.json());
                 } else {
                     reject(response);

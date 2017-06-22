@@ -19,10 +19,14 @@ class PaymentCreator {
                     }
                 })
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve();
                 } else {
-                    reject({message: locale['error.payment.create']});
+                    if (locale[response.code]) {
+                        reject({message: locale[response.code]})
+                    } else {
+                        reject({message: locale['error.payment.create']});
+                    }
                 }
             }).catch(() => {
                 reject({message: locale['error.payment.create']});
