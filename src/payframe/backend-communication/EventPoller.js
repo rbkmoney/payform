@@ -16,7 +16,7 @@ export default class EventPoller {
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
-                            reject({message: locale[event.error.code]});
+                            reject({message: self.getErrorMessage(event.error, locale)});
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
@@ -87,5 +87,13 @@ export default class EventPoller {
 
     static getLastEvent(events) {
         return events && events.length > 0 ? events[events.length - 1] : null;
+    }
+
+    static getErrorMessage(error, locale) {
+        if (locale[error.code]) {
+            return locale[error.code]
+        } else {
+            return error.message;
+        }
     }
 }

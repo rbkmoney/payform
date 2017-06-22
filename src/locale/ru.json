@@ -14,8 +14,8 @@
     "error.events.timeout": "Превышено время ожидания проведения платежа",
     "error.events.failed": "Ошибка в процессе получения событий инвойса",
     "Insufficient Funds": "Недостаточно средств",
-    "Invalid Card": "Неправильная карта",
-    "CVV Match Fail": "Неправильный CVV код",
-    "Expired Card": "Истекший срок действия карты",
+    "Invalid Card": "Недопустимая карта",
+    "CVV Match Fail": "Ошибка проверки CVV кода",
+    "Expired Card": "Срок действия карты истек",
     "Unknown Failure": "Неизвестная ошибка"
 }

@@ -352,4 +352,28 @@ describe('EventPoller', function () {
             EventPoller.getLastEvent(events).should.to.equal(3);
         });
     });
+
+    describe('#getErrorMessage()', function() {
+        const locale = {
+            'Invalid Card': 'Недопустимая карта'
+        };
+
+        it('should return Недопустимая карта', function () {
+            const error = {
+                code: 'Invalid Card',
+                message: 'Invalid Card'
+            };
+
+            EventPoller.getErrorMessage(error, locale).should.to.equal('Недопустимая карта');
+        });
+
+        it('should return CVV Match Fail', function () {
+            const error = {
+                code: 'CVV Match Fail',
+                message: 'CVV Match Fail'
+            };
+
+            EventPoller.getErrorMessage(error, locale).should.to.equal('CVV Match Fail');
+        });
+    });
 });
