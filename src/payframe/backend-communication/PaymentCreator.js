@@ -19,7 +19,7 @@ class PaymentCreator {
                     }
                 })
             }).then(response => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     resolve();
                 } else {
                     if (locale[response.code]) {
