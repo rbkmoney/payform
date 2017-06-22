@@ -13,11 +13,9 @@
     "error.tokenizer.cart": "An error occurred while trying tokenize cart",
     "error.events.timeout": "Events polling timeout error",
     "error.events.failed": "An error occurred while polling events",
-    "invalidUser": "Request is not possible for this user",
-    "invalidRequest": "The request doesn't match the system parameters",
-    "invalidInvoiceStatus": "The request is not possible due to the invalid status of the invoice",
-    "invalidPartyStatus": "The request is not possible due to invalid user status",
-    "invalidPaymentStatus": "The request is not possible due to invalid payment status",
-    "invalidShopStatus": "The request is not possible due to invalid shop status",
-    "invalidContractStatus": "The request is not possible due to invalid contract status"
+    "Insufficient Funds": "Insufficient Funds",
+    "Invalid Card": "Invalid Card",
+    "CVV Match Fail": "CVV Match Fail",
+    "Expired Card": "Expired Card",
+    "Unknown Failure": "Unknown Failure"
 }

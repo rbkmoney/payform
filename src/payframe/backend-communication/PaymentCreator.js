@@ -22,11 +22,7 @@ class PaymentCreator {
                 if (response.status === 201) {
                     resolve();
                 } else {
-                    if (locale[response.code]) {
-                        reject({message: locale[response.code]})
-                    } else {
-                        reject({message: locale['error.payment.create']});
-                    }
+                    reject({message: locale['error.payment.create']});
                 }
             }).catch(() => {
                 reject({message: locale['error.payment.create']});

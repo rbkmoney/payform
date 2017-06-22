@@ -13,13 +13,10 @@ export default class EventPoller {
                 setTimeout(() => {
                     self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
                         const event = self.getLastEvent(events);
-                        if (locale[events.code]) {
-                            reject({message: locale[events.code]});
-                        }
                         if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
-                            reject({message: event.error.message});
+                            reject({message: locale[event.error.code]});
                         } else if (self.isInteract(event)) {
                             resolve(self.prepareResult('interact', event));
                         } else {
