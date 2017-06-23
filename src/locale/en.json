@@ -12,5 +12,10 @@
     "error.payment.create": "An error occurred while trying create payment",
     "error.tokenizer.cart": "An error occurred while trying tokenize cart",
     "error.events.timeout": "Events polling timeout error",
-    "error.events.failed": "An error occurred while polling events"
+    "error.events.failed": "An error occurred while polling events",
+    "Insufficient Funds": "Insufficient Funds",
+    "Invalid Card": "Invalid Card",
+    "CVV Match Fail": "CVV Match Fail",
+    "Expired Card": "Expired Card",
+    "Unknown Failure": "Unknown Failure"
 }
