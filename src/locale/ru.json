@@ -12,5 +12,10 @@
     "error.payment.create": "Ошибка в процессе создания платежа",
     "error.tokenizer.cart": "Ошибка в процессе токенизации карты",
     "error.events.timeout": "Превышено время ожидания проведения платежа",
-    "error.events.failed": "Ошибка в процессе получения событий инвойса"
+    "error.events.failed": "Ошибка в процессе получения событий инвойса",
+    "Insufficient Funds": "Недостаточно средств",
+    "Invalid Card": "Недопустимая карта",
+    "CVV Match Fail": "Ошибка проверки CVV кода",
+    "Expired Card": "Срок действия карты истек",
+    "Unknown Failure": "Неизвестная ошибка"
 }
