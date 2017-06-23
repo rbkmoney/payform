@@ -358,7 +358,7 @@ describe('EventPoller', function () {
             'Invalid Card': 'Недопустимая карта'
         };
 
-        it('should return Недопустимая карта', function () {
+        it('should return Недопустимая карта from locale', function () {
             const error = {
                 code: 'Invalid Card',
                 message: 'Invalid Card'
@@ -367,7 +367,7 @@ describe('EventPoller', function () {
             EventPoller.getErrorMessage(error, locale).should.to.equal('Недопустимая карта');
         });
 
-        it('should return CVV Match Fail', function () {
+        it('should return CVV Match Fail when didn\'t found translation in locale ', function () {
             const error = {
                 code: 'CVV Match Fail',
                 message: 'CVV Match Fail'
