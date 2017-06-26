@@ -33,7 +33,11 @@ ready(function (origin) {
                 transport.emit('payment-done');
                 transport.destroy();
                 if (params.popupMode) {
-                    window.close();
+                    if (params.redirectUrl) {
+                        location.replace(params.redirectUrl);
+                    } else {
+                        window.close();
+                    }
                 }
             }, settings.closeFormTimeout)
         }
