@@ -1,7 +1,8 @@
 export default class Tokenization {
 
-    constructor() {
+    constructor(locale) {
         this.Tokenizer = window.Tokenizer;
+        this.locale = locale;
     }
 
     setAccessToken(invoiceAccessToken) {
@@ -15,7 +16,7 @@ export default class Tokenization {
             tokenizer.card.createToken(
                 request,
                 paymentTools => resolve(paymentTools),
-                () => reject({message: 'An error occurred while trying tokenize cart'})
+                () => reject({message: this.locale['error.tokenizer.cart']})
             );
         });
     }

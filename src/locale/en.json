@@ -1,0 +1,23 @@
+{
+    "input.payment.cardNumber.placeholder": "Card number",
+    "input.payment.cardExpiry.placeholder": "MM / YY",
+    "input.payment.cardCVV.placeholder": "CVV",
+    "input.payment.cardHolder.placeholder": "Card holder",
+    "input.payment.email.placeholder": "Email",
+    "button.help": "Support",
+    "button.back": "Back",
+    "button.init": "Pay with RBKmoney",
+    "button.pay.label": "Pay",
+    "error.invoice.paid": "Invoice was paid",
+    "error.invoice.cancelled": "Invoice was cancelled.",
+    "error.payment.unsupport": "Unsupported payment result error",
+    "error.payment.create": "An error occurred while trying create payment",
+    "error.tokenizer.cart": "An error occurred while trying tokenize cart",
+    "error.events.timeout": "Events polling timeout error",
+    "error.events.failed": "An error occurred while polling events",
+    "Insufficient Funds": "Insufficient Funds",
+    "Invalid Card": "Invalid Card",
+    "CVV Match Fail": "CVV Match Fail",
+    "Expired Card": "Expired Card",
+    "Unknown Failure": "Unknown Failure"
+}

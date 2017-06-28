@@ -1,5 +1,6 @@
 import StyleLink from '../elements/StyleLink';
 import CheckoutButton from '../elements/CheckoutButton';
+import LocaleLoader from '../../payframe/loaders/LocaleLoader';
 import settings from '../../settings';
 
 export default class HtmlIntegration {
@@ -21,10 +22,14 @@ export default class HtmlIntegration {
         }
         const styles = new StyleLink(this.origin);
         styles.render();
-        const label = this.element.dataset.label || 'Pay with RBKmoney';
+        const label = this.element.dataset.label || this.getDefaultLabel(this.element.dataset.locale);
         const button = new CheckoutButton(label, settings.htmlIntegrationClassName);
         button.render();
         return button;
+    }
+
+    getDefaultLabel(locale) {
+        return LocaleLoader.getAvailableLocale(locale) === 'ru' ? 'Оплатить с помощью RBKmoney' : 'Pay with RBKmoney';
     }
 
     getConfig() {

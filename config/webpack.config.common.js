@@ -36,7 +36,8 @@ module.exports = {
                 {from: './src/payframe/payframe.html', to: '../dist/html/'},
                 {from: './src/payframe/finishInteraction.html', to: '../dist/html/'},
                 {from: './src/payframe/images', to: '../dist/images'},
-                {from: './src/appConfig.json', to: '../dist/'}
+                {from: './src/appConfig.json', to: '../dist/'},
+                {from: './src/locale', to: '../dist/locale'}
             ],
             {debug: 'warning'}
         ),

@@ -4,12 +4,12 @@ import EventPoller from './EventPoller';
 
 class Processing {
 
-    static process(params) {
-        const tokenization = new Tokenization();
+    static process(params, locale) {
+        const tokenization = new Tokenization(locale);
         tokenization.setAccessToken(params.invoiceAccessToken);
         return tokenization.createToken(params.cardHolder, params.cardNumber, params.cardExpire, params.cardCvv).then(paymentTools => {
-            return PaymentCreator.create(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken, paymentTools, params.email).then(() => {
-                return EventPoller.pollEvents(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken);
+            return PaymentCreator.create(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken, paymentTools, params.email, locale).then(() => {
+                return EventPoller.pollEvents(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken, locale);
             });
         });
     }

@@ -59,17 +59,17 @@ class Fieldset extends React.Component {
         return (
             <span>
                 <fieldset className="payform--fieldset">
-                    <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid}/>
-                    <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid}/>
-                    <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid}/>
+                    <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid} locale={this.props.locale}/>
+                    <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid} locale={this.props.locale}/>
+                    <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid} locale={this.props.locale}/>
                 </fieldset>
                 <fieldset className="payform--fieldset">
-                    <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid}/>
+                    <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid} locale={this.props.locale}/>
                 </fieldset>
                 {
                     this.props.defaultEmail ? false :
                         <fieldset className="payform--fieldset">
-                            <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid}/>
+                            <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid} locale={this.props.locale}/>
                         </fieldset>
                 }
             </span>

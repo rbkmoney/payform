@@ -1,10 +1,8 @@
 import guid from '../../utils/guid';
 
-const errorMassage = 'An error occurred while trying create payment';
-
 class PaymentCreator {
 
-    static create(capiEndpoint, invoiceID, invoiceAccessToken, tokenizerToken, email) {
+    static create(capiEndpoint, invoiceID, invoiceAccessToken, tokenizerToken, email, locale) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/payments`, {
                 method: 'POST',
@@ -21,13 +19,13 @@ class PaymentCreator {
                     }
                 })
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 201) {
                     resolve();
                 } else {
-                    reject({message: errorMassage});
+                    reject({message: locale['error.payment.create']});
                 }
             }).catch(() => {
-                reject({message: errorMassage});
+                reject({message: locale['error.payment.create']});
             })
         });
     }

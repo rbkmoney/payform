@@ -1,0 +1,23 @@
+{
+    "input.payment.cardNumber.placeholder": "Номер карты",
+    "input.payment.cardExpiry.placeholder": "ММ / ГГ",
+    "input.payment.cardCVV.placeholder": "CVV",
+    "input.payment.cardHolder.placeholder": "Имя держателя карты",
+    "input.payment.email.placeholder": "Email",
+    "button.help": "Помощь",
+    "button.back": "Назад",
+    "button.init": "Оплатить с помощью RBKmoney",
+    "button.pay.label": "Оплатить",
+    "error.invoice.paid": "Инвойс был оплачен",
+    "error.invoice.cancelled": "Инвойс был отменен.",
+    "error.payment.unsupport": "Unsupported payment result error",
+    "error.payment.create": "Ошибка в процессе создания платежа",
+    "error.tokenizer.cart": "Ошибка в процессе токенизации карты",
+    "error.events.timeout": "Превышено время ожидания проведения платежа",
+    "error.events.failed": "Ошибка в процессе получения событий инвойса",
+    "Insufficient Funds": "Недостаточно средств",
+    "Invalid Card": "Недопустимая карта",
+    "CVV Match Fail": "Ошибка проверки CVV кода",
+    "Expired Card": "Срок действия карты истек",
+    "Unknown Failure": "Неизвестная ошибка"
+}
