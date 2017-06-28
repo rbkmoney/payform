@@ -20,6 +20,7 @@ class PayButton extends React.Component {
                     amount={props.amount}
                     currency={props.currency}
                     label={props.label}
+                    locale={this.props.locale}
                 />
             </button>
         );

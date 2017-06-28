@@ -6,6 +6,8 @@
     "input.payment.email.placeholder": "Email",
     "button.help": "Support",
     "button.back": "Back",
+    "button.init": "Donate with RBKmoney",
+    "button.pay.label": "Pay",
     "error.invoice.paid": "Invoice was paid",
     "error.invoice.cancelled": "Invoice was cancelled.",
     "error.payment.unsupport": "Unsupported payment result error",

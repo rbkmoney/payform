@@ -157,6 +157,7 @@ class Payform extends React.Component {
                         label={this.props.payButtonLabel}
                         amount={this.props.amount}
                         currency={this.props.currency}
+                        locale={this.props.locale}
                     />}
             </form>
         );

@@ -6,6 +6,8 @@
     "input.payment.email.placeholder": "Email",
     "button.help": "Помощь",
     "button.back": "Назад",
+    "button.init": "Оплатить через RBKmoney",
+    "button.pay.label": "Оплатить",
     "error.invoice.paid": "Инвойс был оплачен",
     "error.invoice.cancelled": "Инвойс был отменен.",
     "error.payment.unsupport": "Unsupported payment result error",
