@@ -5,20 +5,12 @@ const defaultLocale = 'en';
 export default class LocaleLoader {
     static getAvailableLocale(locale) {
         let result;
-        if (locale === 'auto' || locale === undefined) {
+        if (!locale || locale === 'auto') {
             result = this.getAvailableLocale(navigator.language.split('-')[0]);
         } else {
-            result = this.getLocales().find((item) => item === locale);
+            result = locales.find((item) => item === locale);
         }
-        return result || this.getDefaultLocale();
-    }
-
-    static getDefaultLocale() {
-        return defaultLocale;
-    }
-
-    static getLocales() {
-        return locales;
+        return result || defaultLocale;
     }
 
     static load(locale) {

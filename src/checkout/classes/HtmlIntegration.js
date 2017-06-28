@@ -22,23 +22,14 @@ export default class HtmlIntegration {
         }
         const styles = new StyleLink(this.origin);
         styles.render();
-        let label = this.element.dataset.label;
-        if (!label) {
-            label = this.getLabel(LocaleLoader.getAvailableLocale(this.element.dataset.locale));
-        }
+        const label = this.element.dataset.label || this.getDefaultLabel(this.element.dataset.locale);
         const button = new CheckoutButton(label, settings.htmlIntegrationClassName);
         button.render();
         return button;
     }
 
-    getLabel(locale) {
-        switch (locale) {
-            case 'ru':
-                return 'Оплатить через RBKmoney';
-            case 'en':
-            default:
-                return 'Pay with RBKmoney';
-        }
+    getDefaultLabel(locale) {
+        return LocaleLoader.getAvailableLocale(locale) === 'ru' ? 'Оплатить с помощью RBKmoney' : 'Pay with RBKmoney';
     }
 
     getConfig() {
