@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import isIE from '../../utils/isIE';
 const locales = ['ru', 'en'];
 const defaultLocale = 'en';
 
@@ -6,7 +7,7 @@ export default class LocaleLoader {
     static getAvailableLocale(locale) {
         let result;
         if (!locale || locale === 'auto') {
-            result = this.getAvailableLocale(navigator.language.split('-')[0]);
+            result = this.getAvailableLocale(isIE ? navigator.userLanguage.split('-')[0] : navigator.language.split('-')[0]);
         } else {
             result = locales.find((item) => item === locale);
         }
