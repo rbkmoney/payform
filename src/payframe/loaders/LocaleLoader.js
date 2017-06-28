@@ -7,7 +7,8 @@ export default class LocaleLoader {
     static getAvailableLocale(locale) {
         let result;
         if (!locale || locale === 'auto') {
-            result = this.getAvailableLocale(isIE ? navigator.userLanguage.split('-')[0] : navigator.language.split('-')[0]);
+            const language = isIE ? navigator.userLanguage : navigator.language;
+            result = this.getAvailableLocale(language.split('-')[0]);
         } else {
             result = locales.find((item) => item === locale);
         }
