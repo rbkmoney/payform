@@ -47,6 +47,12 @@ class Payform extends React.Component {
         this.pay = this.pay.bind(this);
     }
 
+    componentDidMount() {
+        EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
+            .then((event) => this.handleEvent(event))
+            .catch(error => this.handleError(error));
+    }
+
     handleFieldsChange(fieldsState) {
         this.setState({fieldsState});
     }
