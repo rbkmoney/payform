@@ -48,10 +48,10 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
+        this.handleEvent(this.props.event);
     }
+
+
 
     handleFieldsChange(fieldsState) {
         this.setState({fieldsState});
@@ -73,6 +73,8 @@ class Payform extends React.Component {
             this.handleSuccess();
         } else if (event.type === 'interact') {
             this.handleInteract(event);
+        } else if (event.type === 'unpaid') {
+          return;
         } else {
             this.handleError({message: this.props.locale['error.payment.unsupport']});
         }
