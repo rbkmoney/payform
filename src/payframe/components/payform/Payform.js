@@ -51,8 +51,6 @@ class Payform extends React.Component {
         this.handleEvent(this.props.event);
     }
 
-
-
     handleFieldsChange(fieldsState) {
         this.setState({fieldsState});
     }
