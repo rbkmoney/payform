@@ -12,7 +12,6 @@
     "error.invoice.cancelled": "Инвойс был отменен.",
     "error.payment.unsupport": "Unsupported payment result error",
     "error.payment.create": "Ошибка в процессе создания платежа",
-    "error.tokenizer.cart": "Ошибка в процессе токенизации карты",
     "error.events.timeout": "Превышено время ожидания проведения платежа",
     "error.events.failed": "Ошибка в процессе получения событий инвойса",
     "Insufficient Funds": "Недостаточно средств",
