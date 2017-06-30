@@ -1,5 +1,6 @@
 import 'core-js/es6/promise';
 import 'core-js/es6/object';
+import 'core-js/es6/array';
 import CheckIntegration from '../utils/CheckIntegration';
 import ready from '../utils/domReady';
 import HtmlIntegration from './classes/HtmlIntegration';

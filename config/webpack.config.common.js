@@ -16,7 +16,7 @@ module.exports = {
     module: {
         rules: [
             {enforce: 'pre', test: /\.js$/, use: 'eslint-loader', exclude: /node_modules/},
-            {test: /\.(js|jsx)$/, use: 'babel-loader', exclude: /node_modules/},
+            {test: /\.(js|jsx)$/, use: 'babel-loader', exclude: /node_modules(?!\/tokenizer)/},
             {
                 test: /\.(css|scss)$/,
                 use: ExtractTextPlugin.extract({
