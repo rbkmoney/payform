@@ -23,10 +23,10 @@
     "react": "~15.5.4",
     "react-dom": "~15.5.4",
     "react-transition-group": "~1.1.3",
+    "tokenizer": "git+ssh://git@github.com/rbkmoney/tokenizer.js.git#d2fde66738779f2681e0d207d2f111d9bd92eec8",
     "urijs": "~1.18.2",
     "url-parse": "~1.1.8",
-    "whatwg-fetch": "~1.0.0",
-    "tokenizer.js": "git+ssh://git@github.com/rbkmoney/tokenizer.js.git#d2fde66738779f2681e0d207d2f111d9bd92eec8"
+    "whatwg-fetch": "~1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "~6.7.7",
