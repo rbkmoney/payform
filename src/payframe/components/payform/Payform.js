@@ -23,11 +23,11 @@ class Payform extends React.Component {
             errorMessage: '',
             interactionData: {},
             fieldsState: {
-                cardHolder: {value: ''},
-                cardNumber: {value: ''},
-                cardExpire: {value: ''},
-                cardCvv: {value: ''},
-                email: {value: this.props.defaultEmail ? this.props.defaultEmail : ''}
+                cardHolder: { value: '' },
+                cardNumber: { value: '' },
+                cardExpire: { value: '' },
+                cardCvv: { value: '' },
+                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '' }
             }
         };
 
@@ -37,9 +37,7 @@ class Payform extends React.Component {
                     payment: 'process'
                 });
                 this.props.onPayformInteract(false);
-                EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
-                    .then((event) => this.handleEvent(event))
-                    .catch(error => this.handleError(error));
+                this.getEvents();
             }
         });
         this.triggerError = this.triggerError.bind(this);
@@ -47,8 +45,18 @@ class Payform extends React.Component {
         this.pay = this.pay.bind(this);
     }
 
+    componentDidMount() {
+        this.getEvents();
+    }
+
+    getEvents() {
+        EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
+            .then((event) => this.handleEvent(event))
+            .catch(error => this.handleError(error));
+    }
+
     handleFieldsChange(fieldsState) {
-        this.setState({fieldsState});
+        this.setState({ fieldsState });
     }
 
     triggerError() {
@@ -63,12 +71,14 @@ class Payform extends React.Component {
     }
 
     handleEvent(event) {
-        if (event.type === 'success') {
-            this.handleSuccess();
+        if (event.type === 'unpaid') {
+            return;
         } else if (event.type === 'interact') {
             this.handleInteract(event);
+        } else if (event.type === 'success') {
+            this.handleSuccess();
         } else {
-            this.handleError({message: this.props.locale['error.payment.unsupport']});
+            this.handleError({ message: this.props.locale['error.payment.unsupport'] });
         }
     }
 
@@ -125,7 +135,8 @@ class Payform extends React.Component {
                 cardExpire: fieldsState.cardExpire.value,
                 email: fieldsState.email.value,
                 cardCvv: fieldsState.cardCvv.value
-            }, this.props.locale).then(event => this.handleEvent(event))
+            }, this.props.locale)
+                .then(event => this.handleEvent(event))
                 .catch(error => this.handleError(error));
         } else {
             this.triggerError()
@@ -135,22 +146,28 @@ class Payform extends React.Component {
     renderPayform() {
         const form = 'payform';
         return (
-            <form className={cx('payform--form', {_error: this.state.error})}
-                  id={form}
-                  role="form"
-                  onSubmit={this.pay}
-                  noValidate>
+            <form
+                className={cx('payform--form', { _error: this.state.error })}
+                id={form}
+                role="form"
+                onSubmit={this.pay}
+                noValidate
+            >
                 <Fieldset
                     defaultEmail={this.props.defaultEmail}
                     onFieldsChange={this.handleFieldsChange}
                     fieldsState={this.state.fieldsState}
-                    locale={this.props.locale}/>
+                    locale={this.props.locale}
+                />
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
-                    message={this.state.errorMessage}/>
-                {this.state.back
-                    ? <BackButton locale={this.props.locale}/>
-                    : <PayButton
+                    message={this.state.errorMessage}
+                />
+                {
+                    this.state.back ?
+                    <BackButton locale={this.props.locale}/>
+                :
+                    <PayButton
                         form={form}
                         checkmark={this.state.payment === 'success'}
                         spinner={this.state.payment === 'process'}
@@ -158,7 +175,8 @@ class Payform extends React.Component {
                         amount={this.props.amount}
                         currency={this.props.currency}
                         locale={this.props.locale}
-                    />}
+                    />
+                }
             </form>
         );
     }
@@ -167,9 +185,7 @@ class Payform extends React.Component {
         return (
             <div className="payform">
                 { this.state.payment === 'interact'
-                    ? <Interaction
-                        interactionData={this.state.interactionData}
-                        host={this.props.payformHost}/>
+                    ? <Interaction interactionData={this.state.interactionData} host={this.props.payformHost}/>
                     : this.renderPayform()
                 }
             </div>

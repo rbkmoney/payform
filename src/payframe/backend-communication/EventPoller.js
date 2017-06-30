@@ -13,7 +13,9 @@ export default class EventPoller {
                 setTimeout(() => {
                     self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
                         const event = self.getLastEvent(events);
-                        if (self.isSuccess(event)) {
+                        if (self.isUnpaid(event)) {
+                            resolve(self.prepareResult('unpaid', event));
+                        } else if (self.isSuccess(event)) {
                             resolve(self.prepareResult('success', event));
                         } else if (self.isError(event)) {
                             reject({message: self.getErrorMessage(event.error, locale)});
@@ -38,12 +40,14 @@ export default class EventPoller {
     static prepareResult(type, event) {
         let result;
         if (type === 'success') {
-            result = {type}
+            result = {type};
         } else if (type === 'interact') {
             result = {
                 type: type,
                 data: event.userInteraction.request
-            }
+            };
+        } else if (type === 'unpaid') {
+            result = { type };
         }
         return result;
     }
@@ -65,6 +69,10 @@ export default class EventPoller {
                 }
             });
         });
+    }
+
+    static isUnpaid(event) {
+        return (event && event.eventType === 'EventInvoiceCreated' && event.invoice.status === 'unpaid');
     }
 
     static isSuccess(event) {
