@@ -75,44 +75,41 @@ ready(function (origin) {
                 ]).then((response) => {
                     const locale = response[0];
                     const invoice = response[2];
-                    EventPoller.pollEvents(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken, locale).then((event) => {
-                        switch (invoice.status) {
-                            case 'unpaid':
-                                Object.assign(data, {
-                                    currency: invoice.currency,
-                                    amount: String(Number(invoice.amount) / 100)
-                                });
-                                loading.parentNode.removeChild(loading);
-                                ReactDOM.render(
-                                    <Modal
-                                        invoiceAccessToken={data.invoiceAccessToken}
-                                        capiEndpoint={config.capiEndpoint}
-                                        invoiceID={data.invoiceID}
-                                        defaultEmail={data.email}
-                                        logo={data.logo}
-                                        amount={data.amount}
-                                        currency={data.currency}
-                                        name={data.name}
-                                        description={data.description}
-                                        payformHost={payformHost}
-                                        setCheckoutDone={setCheckoutDone}
-                                        setClose={setClose}
-                                        popupMode={data.popupMode}
-                                        payButtonLabel={data.payButtonLabel}
-                                        locale={locale}
-                                        event={event}
-                                    />,
-                                    modal
-                                );
-                                break;
-                            case 'cancelled':
-                                renderMessageModal({message: `${locale['error.invoice.cancelled']} ${invoice.reason}`}, data.popupMode, 'error');
-                                break;
-                            case 'paid':
-                                renderMessageModal({message: locale['error.invoice.paid']}, data.popupMode);
-                                break;
-                        }
-                    });
+                    switch (invoice.status) {
+                        case 'unpaid':
+                            Object.assign(data, {
+                                currency: invoice.currency,
+                                amount: String(Number(invoice.amount) / 100)
+                            });
+                            loading.parentNode.removeChild(loading);
+                            ReactDOM.render(
+                                <Modal
+                                    invoiceAccessToken={data.invoiceAccessToken}
+                                    capiEndpoint={config.capiEndpoint}
+                                    invoiceID={data.invoiceID}
+                                    defaultEmail={data.email}
+                                    logo={data.logo}
+                                    amount={data.amount}
+                                    currency={data.currency}
+                                    name={data.name}
+                                    description={data.description}
+                                    payformHost={payformHost}
+                                    setCheckoutDone={setCheckoutDone}
+                                    setClose={setClose}
+                                    popupMode={data.popupMode}
+                                    payButtonLabel={data.payButtonLabel}
+                                    locale={locale}
+                                />,
+                                modal
+                            );
+                            break;
+                        case 'cancelled':
+                            renderMessageModal({message: `${locale['error.invoice.cancelled']} ${invoice.reason}`}, data.popupMode, 'error');
+                            break;
+                        case 'paid':
+                            renderMessageModal({message: locale['error.invoice.paid']}, data.popupMode);
+                            break;
+                    }
                 });
             }).catch((error) => {
                 renderMessageModal(error, data.popupMode, 'error');
