@@ -146,17 +146,37 @@ class Payform extends React.Component {
     renderPayform() {
         const form = 'payform';
         return (
-            <form className={cx('payform--form', { _error: this.state.error })}
-                  id={form}
-                  role="form"
-                  onSubmit={this.pay}
-                  noValidate
+            <form
+                className={cx('payform--form', { _error: this.state.error })}
+                id={form}
+                role="form"
+                onSubmit={this.pay}
+                noValidate
             >
-                <Fieldset defaultEmail={this.props.defaultEmail} onFieldsChange={this.handleFieldsChange} fieldsState={this.state.fieldsState} locale={this.props.locale}/>
-                <ErrorPanel visible={this.state.payment === 'error'} message={this.state.errorMessage}/> {this.state.back
-                ? <BackButton locale={this.props.locale}/>
+                <Fieldset
+                    defaultEmail={this.props.defaultEmail}
+                    onFieldsChange={this.handleFieldsChange}
+                    fieldsState={this.state.fieldsState}
+                    locale={this.props.locale}
+                />
+                <ErrorPanel
+                    visible={this.state.payment === 'error'}
+                    message={this.state.errorMessage}
+                />
+                {
+                    this.state.back ?
+                    <BackButton locale={this.props.locale}/>
                 :
-                <PayButton form={form} checkmark={this.state.payment === 'success'} spinner={this.state.payment === 'process'} label={this.props.payButtonLabel} amount={this.props.amount} currency={this.props.currency} locale={this.props.locale}/>}
+                    <PayButton
+                        form={form}
+                        checkmark={this.state.payment === 'success'}
+                        spinner={this.state.payment === 'process'}
+                        label={this.props.payButtonLabel}
+                        amount={this.props.amount}
+                        currency={this.props.currency}
+                        locale={this.props.locale}
+                    />
+                }
             </form>
         );
     }
