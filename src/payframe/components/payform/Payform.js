@@ -37,9 +37,7 @@ class Payform extends React.Component {
                     payment: 'process'
                 });
                 this.props.onPayformInteract(false);
-                EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
-                    .then((event) => this.handleEvent(event))
-                    .catch(error => this.handleError(error));
+                this.getEvents();
             }
         });
         this.triggerError = this.triggerError.bind(this);
@@ -48,9 +46,13 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
+        this.getEvents();
+    }
+
+    getEvents() {
         EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
-            .then((event) => { this.handleEvent(event) })
-            .catch((e) => { this.handleError(e) });
+            .then((event) => this.handleEvent(event))
+            .catch(error => this.handleError(error));
     }
 
     handleFieldsChange(fieldsState) {
@@ -144,7 +146,12 @@ class Payform extends React.Component {
     renderPayform() {
         const form = 'payform';
         return (
-            <form className={cx('payform--form', { _error: this.state.error })} id={form} role="form" onSubmit={this.pay} noValidate>
+            <form className={cx('payform--form', { _error: this.state.error })}
+                  id={form}
+                  role="form"
+                  onSubmit={this.pay}
+                  noValidate
+            >
                 <Fieldset defaultEmail={this.props.defaultEmail} onFieldsChange={this.handleFieldsChange} fieldsState={this.state.fieldsState} locale={this.props.locale}/>
                 <ErrorPanel visible={this.state.payment === 'error'} message={this.state.errorMessage}/> {this.state.back
                 ? <BackButton locale={this.props.locale}/>

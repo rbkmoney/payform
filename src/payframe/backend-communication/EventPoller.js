@@ -47,9 +47,7 @@ export default class EventPoller {
                 data: event.userInteraction.request
             };
         } else if (type === 'unpaid') {
-            result = {
-                type
-            };
+            result = { type };
         }
         return result;
     }

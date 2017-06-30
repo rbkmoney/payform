@@ -13,7 +13,6 @@ import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
-import TokenizerScript from './elements/TokenizerScript';
 
 ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
