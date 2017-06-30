@@ -12,7 +12,6 @@
     "error.invoice.cancelled": "Invoice was cancelled.",
     "error.payment.unsupport": "Unsupported payment result error",
     "error.payment.create": "An error occurred while trying create payment",
-    "error.tokenizer.cart": "An error occurred while trying tokenize cart",
     "error.events.timeout": "Events polling timeout error",
     "error.events.failed": "An error occurred while polling events",
     "Insufficient Funds": "Insufficient Funds",

@@ -1,6 +1,7 @@
 import './app.scss';
 import 'core-js/es6/promise';
 import 'core-js/es6/object';
+import 'core-js/es6/array';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
@@ -12,7 +13,6 @@ import Invoice from './backend-communication/Invoice';
 import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
-import TokenizerScript from './elements/TokenizerScript';
 
 ready(function (origin) {
     const overlay = document.querySelector('.checkout--overlay');
@@ -66,14 +66,12 @@ ready(function (origin) {
         function renderModal(data) {
             overlay.style.opacity = '0.6';
             ConfigLoader.load().then((config) => {
-                const tokenizerScript = new TokenizerScript(config.tokenizerEndpoint);
                 return Promise.all([
                     LocaleLoader.load(data.locale),
-                    tokenizerScript.render(),
                     Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
                 ]).then((response) => {
                     const locale = response[0];
-                    const invoice = response[2];
+                    const invoice = response[1];
                     switch (invoice.status) {
                         case 'unpaid':
                             Object.assign(data, {
