@@ -17,7 +17,7 @@ class Header extends React.Component {
                 <div className="checkout--company-name">{this.props.name}</div>
                 {
                     this.props.description
-                        ? <div className="checkout--company-description"> {this.props.description}</div>
+                        ? <div className="checkout--company-description">{this.props.description}</div>
                         : false
                 }
                 {
