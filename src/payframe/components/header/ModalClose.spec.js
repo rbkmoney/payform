@@ -4,10 +4,14 @@ import chaiEnzyme from 'chai-enzyme'
 import ModalClose from './ModalClose';
 chai.use(chaiEnzyme());
 
-describe('ModalClose', function () {
+describe('<ModalClose />', function () {
+    let modalClose;
+
+    before(() => {
+        modalClose = mount(<ModalClose/>);
+    });
 
     it('should have class checkout--close-button', function () {
-        const wrapper = mount(<ModalClose/>);
-        wrapper.find('div').should.to.have.className('checkout--close-button');
+        modalClose.find('div').should.to.have.className('checkout--close-button');
     });
 });

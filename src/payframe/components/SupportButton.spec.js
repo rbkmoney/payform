@@ -3,14 +3,14 @@ import React from 'react';
 import SupportButton from './SupportButton';
 import ruLocale from '../../locale/ru.json';
 
-let modal;
+describe('<SupportButton />', function () {
+    let modal;
 
-describe('Checkout support component', function () {
     before(() => {
         modal = mount(<SupportButton locale={ruLocale}/>);
     });
 
     it('check .checkout--support element', () => {
-        modal.find('div.checkout--support');
+        modal.find('div.checkout--support').should.to.have.length(1);
     });
 });

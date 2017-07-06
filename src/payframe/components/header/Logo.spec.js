@@ -2,15 +2,21 @@ import { mount } from 'enzyme';
 import React from 'react';
 import Logo from './Logo';
 
-describe('Logo component', function () {
-    it('check .checkout--logo exist', () => {
-        const logo = mount(<Logo/>);
-        logo.find('div.checkout--logo');
-    });
+describe('<Logo />', function () {
+    describe('<Logo /> clean', function() {
+        let logo;
 
-    it('check logo default url', () => {
-        const logo = mount(<Logo/>);
-        logo.find('.checkout--logo').html().should.be.equal('<div class="checkout--logo" style="background-image: url(&quot;/images/logo.png&quot;);"></div>');
+        before(() => {
+            logo = mount(<Logo />);
+        });
+
+        it('check .checkout--logo exist', () => {
+            logo.find('div.checkout--logo').should.to.have.length(1);
+        });
+
+        it('check logo default url', () => {
+            logo.find('.checkout--logo').html().should.be.equal('<div class="checkout--logo" style="background-image: url(&quot;/images/logo.png&quot;);"></div>');
+        });
     });
 
     it('check logo url', () => {
