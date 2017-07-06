@@ -2,7 +2,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import ModalClose from './header/ModalClose';
 
-export default class MessageModal extends React.Component {
+export default class ErrorModal extends React.Component {
     getType(type) {
         switch (type) {
             case 'error':
