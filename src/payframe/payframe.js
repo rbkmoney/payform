@@ -72,7 +72,6 @@ class Payframe extends React.Component {
     setClose() {
         ReactDOM.unmountComponentAtNode(this.modal);
         setTimeout(() => {
-            console.log(this);
             this.state.transport.emit('close');
             this.state.transport.destroy();
             if (this.state.data.popupMode) {
@@ -117,11 +116,12 @@ class Payframe extends React.Component {
         const locale = this.state.locale;
         const transport = this.state.transport;
         const error = this.state.error;
+        const isReady = payformHost && config && data && locale && transport;
 
         return (
             <div>
-                <Overlay />
-                { payformHost && config && data && locale && transport ? this.renderModal() : false }
+                <Overlay loader={isReady} />
+                { isReady ? this.renderModal() : false }
                 { error ? this.renderMessageModal(error) : false }
             </div>
         );

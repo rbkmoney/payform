@@ -12,7 +12,7 @@ export default class Overlay extends React.Component {
                 transitionLeave={false}
             >
                 <div className="checkout--overlay">
-                    {this.props.loader ?
+                    {!this.props.loader ?
                         <div className="loading">
                             <div className="rect1" />
                             <div className="rect2" />
