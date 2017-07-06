@@ -5,6 +5,7 @@ import 'core-js/es6/array';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ready from '../utils/domReady';
+import Overlay from './components/Overlay';
 import Modal from './components/Modal';
 import MessageModal from './components/MessageModal';
 import ConfigLoader from './loaders/ConfigLoader';
@@ -14,103 +15,125 @@ import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
 
-ready(function (origin) {
-    const overlay = document.querySelector('.checkout--overlay');
-    const loading = document.querySelector('.loading');
-    const modal = document.getElementById('modal');
-    const payformHost = origin;
-    const child = new Child();
-    child.then((transport) => {
-        let params;
+class Payframe extends React.Component {
+    constructor(props) {
+        super(props);
 
-        StateResolver.resolve(transport)
+        this.state = {
+            payformHost: this.props.payformHost,
+            transport: this.props.transport
+        };
+
+        this.modal = this.props.modal;
+
+        this.setClose = this.setClose.bind(this);
+        this.setCheckoutDone = this.setCheckoutDone.bind(this);
+    }
+
+    componentDidMount() {
+        StateResolver.resolve(this.state.transport)
             .then((state) => {
-                params = state;
-                renderModal(state);
+                this.setState({
+                    data: state
+                });
             });
 
-        function setCheckoutDone() {
-            setTimeout(() => {
-                transport.emit('payment-done');
-                transport.destroy();
-                if (params.popupMode) {
-                    if (params.redirectUrl) {
-                        location.replace(params.redirectUrl);
-                    } else {
-                        window.close();
-                    }
-                }
-            }, settings.closeFormTimeout)
-        }
+        ConfigLoader.load()
+            .then((config) => {
+                this.setState({ config: config });
 
-        function setClose() {
-            ReactDOM.unmountComponentAtNode(modal);
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                transport.emit('close');
-                transport.destroy();
-                if (params.popupMode) {
+                return Promise.all([
+                    LocaleLoader.load(this.state.data.locale),
+                    Invoice.getInvoice(this.state.config.capiEndpoint, this.state.data.invoiceID, this.state.data.invoiceAccessToken)
+                ]).then((response) => {
+                    this.setState({
+                        locale: response[0],
+                        invoice: response[1]
+                    });
+                });
+            })
+            .catch((error) => { this.setState({ error: error }) });
+    }
+
+    setCheckoutDone() {
+        setTimeout(() => {
+            this.state.transport.emit('payment-done');
+            this.state.transport.destroy();
+            if (this.state.data.popupMode) {
+                if (this.state.data.redirectUrl) {
+                    location.replace(this.state.data.redirectUrl);
+                } else {
                     window.close();
                 }
-            }, 300);
-        }
+            }
+        }, settings.closeFormTimeout)
+    }
 
-        function renderMessageModal(error, popupMode, type) {
-            loading.parentNode.removeChild(loading);
-            ReactDOM.render(
-                <MessageModal type={type} error={error.message} popupMode={popupMode} setClose={setClose}/>,
-                modal
-            );
-        }
+    setClose() {
+        ReactDOM.unmountComponentAtNode(this.modal);
+        setTimeout(() => {
+            console.log(this);
+            this.state.transport.emit('close');
+            this.state.transport.destroy();
+            if (this.state.data.popupMode) {
+                window.close();
+            }
+        }, 300);
+    }
 
-        function renderModal(data) {
-            overlay.style.opacity = '0.6';
-            ConfigLoader.load().then((config) => {
-                return Promise.all([
-                    LocaleLoader.load(data.locale),
-                    Invoice.getInvoice(config.capiEndpoint, data.invoiceID, data.invoiceAccessToken)
-                ]).then((response) => {
-                    const locale = response[0];
-                    const invoice = response[1];
-                    switch (invoice.status) {
-                        case 'unpaid':
-                            Object.assign(data, {
-                                currency: invoice.currency,
-                                amount: String(Number(invoice.amount) / 100)
-                            });
-                            loading.parentNode.removeChild(loading);
-                            ReactDOM.render(
-                                <Modal
-                                    invoiceAccessToken={data.invoiceAccessToken}
-                                    capiEndpoint={config.capiEndpoint}
-                                    invoiceID={data.invoiceID}
-                                    defaultEmail={data.email}
-                                    logo={data.logo}
-                                    amount={data.amount}
-                                    currency={data.currency}
-                                    name={data.name}
-                                    description={data.description}
-                                    payformHost={payformHost}
-                                    setCheckoutDone={setCheckoutDone}
-                                    setClose={setClose}
-                                    popupMode={data.popupMode}
-                                    payButtonLabel={data.payButtonLabel}
-                                    locale={locale}
-                                />,
-                                modal
-                            );
-                            break;
-                        case 'cancelled':
-                            renderMessageModal({message: `${locale['error.invoice.cancelled']} ${invoice.reason}`}, data.popupMode, 'error');
-                            break;
-                        case 'paid':
-                            renderMessageModal({message: locale['error.invoice.paid']}, data.popupMode);
-                            break;
-                    }
-                });
-            }).catch((error) => {
-                renderMessageModal(error, data.popupMode, 'error');
-            });
-        }
+    renderMessageModal(error) {
+        return (
+            <MessageModal type={error.type} error={error.message} popupMode={this.state.data.popupMode} setClose={this.state.data.setClose}/>
+        );
+    }
+
+    renderModal() {
+        const data = this.state.data;
+        return (
+            <Modal
+                invoiceAccessToken={data.invoiceAccessToken}
+                capiEndpoint={this.state.config.capiEndpoint}
+                invoiceID={data.invoiceID}
+                defaultEmail={data.email}
+                logo={data.logo}
+                amount={this.state.invoice.amount / 100}
+                currency={this.state.invoice.currency}
+                name={data.name}
+                description={data.description}
+                payformHost={this.state.payformHost}
+                setCheckoutDone={this.setCheckoutDone}
+                setClose={this.setClose}
+                popupMode={data.popupMode}
+                payButtonLabel={data.payButtonLabel}
+                locale={this.state.locale}
+            />
+        );
+    }
+
+    render() {
+        const payformHost = this.state.payformHost;
+        const config = this.state.config;
+        const data = this.state.data;
+        const locale = this.state.locale;
+        const transport = this.state.transport;
+        const error = this.state.error;
+
+        return (
+            <div>
+                <Overlay />
+                { payformHost && config && data && locale && transport ? this.renderModal() : false }
+                { error ? this.renderMessageModal(error) : false }
+            </div>
+        );
+    }
+}
+
+
+ready(function(origin) {
+    const modal = document.getElementById('modal');
+
+    const child = new Child();
+    child.then((transport) => {
+        ReactDOM.render(<Payframe payformHost={origin} transport={transport} modal={modal} />, modal);
     });
 });
