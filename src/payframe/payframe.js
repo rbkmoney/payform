@@ -13,18 +13,16 @@ import ConfigLoader from './loaders/ConfigLoader';
 
 ready(function(origin) {
     const modal = document.getElementById('modal');
-    let data;
-
     const child = new Child();
-    child.then((transport) => {
 
+    child.then((transport) => {
         function setCheckoutDone() {
             setTimeout(() => {
                 transport.emit('payment-done');
                 transport.destroy();
-                if (data.popupMode) {
-                    if (data.redirectUrl) {
-                        location.replace(data.redirectUrl);
+                if (this.popupMode) {
+                    if (this.redirectUrl) {
+                        location.replace(this.redirectUrl);
                     } else {
                         window.close();
                     }
@@ -37,7 +35,7 @@ ready(function(origin) {
             setTimeout(() => {
                 transport.emit('close');
                 transport.destroy();
-                if (data.popupMode) {
+                if (this.popupMode) {
                     window.close();
                 }
             }, 300);
@@ -48,12 +46,11 @@ ready(function(origin) {
             ConfigLoader.load()
         ])
             .then(response => {
-                data = response[0];
                 ReactDOM.render(
                     <Payframe
                         payformHost={origin}
-                        setCheckoutDone={setCheckoutDone}
-                        setClose={setClose}
+                        setCheckoutDone={setCheckoutDone.bind(response[0])}
+                        setClose={setClose.bind(response[0])}
                         data={response[0]}
                         config={response[1]}
                     />,

@@ -12,7 +12,8 @@ export default class Payframe extends React.Component {
         super(props);
 
         this.state = {
-            data: this.props.data
+            data: this.props.data,
+            status: 'process'
         };
     }
 
@@ -22,10 +23,33 @@ export default class Payframe extends React.Component {
             Invoice.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken)
         ])
             .then((response) => {
-                this.setState({
-                    locale: response[0],
-                    invoice: response[1]
-                });
+                const locale = response[0];
+                const invoice = response[1];
+
+                switch (invoice.status) {
+                    case 'unpaid':
+                        this.setState({
+                            locale,
+                            invoice
+                        });
+                        break;
+                    case 'cancelled':
+                        this.setState({
+                            locale,
+                            error: {
+                                message: `${locale['error.invoice.cancelled']} ${invoice.reason}`
+                            }
+                        });
+                        break;
+                    case 'paid':
+                        this.setState({
+                            locale,
+                            error: {
+                                message: locale['error.invoice.paid']
+                            }
+                        });
+                        break;
+                }
             })
             .catch((error) => this.setState({ error }) );
     }
@@ -54,7 +78,7 @@ export default class Payframe extends React.Component {
                 currency={this.state.invoice.currency}
                 name={data.name}
                 description={data.description}
-                payformHost={this.props.config.payformHost}
+                payformHost={this.props.payformHost}
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
                 popupMode={data.popupMode}
