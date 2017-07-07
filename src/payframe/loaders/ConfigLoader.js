@@ -9,7 +9,7 @@ export default class ConfigLoader {
                     'Content-Type': 'application/json'
                 },
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
+                if (response.status === 200) {
                     resolve(response.json());
                 } else {
                     reject({message: response.statusText});
