@@ -7,12 +7,12 @@ export default class Overlay extends React.Component {
             <ReactCSSTransitionGroup
                 transitionName='checkout--overlay'
                 transitionAppear={true}
-                transitionAppearTimeout={300}
+                transitionAppearTimeout={10}
                 transitionEnter={false}
                 transitionLeave={false}
             >
                 <div className="checkout--overlay">
-                    {!this.props.loader ?
+                    {this.props.loader ?
                         <div className="loading">
                             <div className="rect1" />
                             <div className="rect2" />
