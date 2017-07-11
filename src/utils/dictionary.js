@@ -8,6 +8,10 @@ const integration = [
         isRequired: true
     },
     {
+        name: 'invoiceTemplateID',
+        isRequired: true
+    },
+    {
         name: 'email'
     },
     {

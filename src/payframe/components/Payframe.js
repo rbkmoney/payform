@@ -5,6 +5,7 @@ import MessageModal from './MessageModal';
 
 import LocaleLoader from '../loaders/LocaleLoader';
 import Invoice from '../backend-communication/Invoice';
+import InvoiceTemplate from '../backend-communication/InvoiceTemplate';
 
 
 export default class Payframe extends React.Component {
@@ -19,25 +20,49 @@ export default class Payframe extends React.Component {
     }
 
     componentDidMount() {
-        return Promise.all([
-            LocaleLoader.load(this.props.data.locale),
-            Invoice.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken)
-        ])
-            .then((response) => {
-                const locale = response[0];
-                const invoice = response[1];
+        LocaleLoader.load(this.props.data.locale).then((locale) => {
+            this.setState({
+                locale
+            });
 
+            if (this.props.data.invoiceID && this.props.data.invoiceAccessToken) {
+                this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+            } else if (this.props.data.invoiceTemplateID) {
+                this.getInvoiceTemplate();
+            }
+        });
+    }
+
+    createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata) {
+        Invoice.createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata)
+            .then((invoice) => {
+                this.setState({
+                    invoice,
+                    template: undefined,
+                    status: 'ready'
+                });
+            })
+            .catch((error) => {
+                this.setState({
+                    error,
+                    status: 'error'
+                });
+            });
+    }
+
+    getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
+        const locale = this.state.locale;
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken)
+            .then((invoice) => {
                 switch (invoice.status) {
                     case 'unpaid':
                         this.setState({
-                            locale,
                             invoice,
                             status: 'ready'
                         });
                         break;
                     case 'cancelled':
                         this.setState({
-                            locale,
                             error: {
                                 message: `${locale['error.invoice.cancelled']} ${invoice.reason}`
                             },
@@ -46,7 +71,6 @@ export default class Payframe extends React.Component {
                         break;
                     case 'paid':
                         this.setState({
-                            locale,
                             error: {
                                 message: locale['error.invoice.paid']
                             },
@@ -55,7 +79,70 @@ export default class Payframe extends React.Component {
                         break;
                 }
             })
-            .catch((error) => this.setState({ error }) );
+            .catch((error) => this.setState({ error, status: 'error' }) );
+    }
+
+    getInvoiceTemplate() {
+        const locale = this.state.locale;
+        InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID)
+            .then((template) => {
+                template = {
+                    shopID: 0,
+                    product: 'Product',
+                    description: 'Description',
+                    lifetime: {
+                        days: 0,
+                        months: 0,
+                        years: 0
+                    },
+                    cost: {
+                        currency: 'RUB',
+                        invoiceTemplateCostType: 'InvoiceTemplateCostFixed',
+                        amount: 100000
+                    },
+                    metadata: {},
+                    id: 'string'
+                };
+
+                this.setState({
+                    invoiceTemplate: template,
+                    status: 'ready'
+                });
+            })
+            .catch((template) => {
+                template = {
+                    shopID: 0,
+                    product: 'Product',
+                    description: 'Description',
+                    lifetime: {
+                        days: 0,
+                        months: 0,
+                        years: 0
+                    },
+                    cost: {
+                        currency: 'RUB',
+                        invoiceTemplateCostType: 'InvoiceTemplateCostRange',
+                        amount: 100000
+                    },
+                    metadata: {},
+                    id: 'string'
+                };
+
+                if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed') {
+                    this.createInvoice(this.props.config.capiEndpoint, 'InvoiceParamsWithTemplate', template.id, template.cost.amount, template.cost.currency, template.metadata);
+                } else if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
+                    this.setState({
+                        template,
+                        status: 'ready'
+                    });
+                } else {
+                    this.setState({
+                        error: { message: locale['Unknown Failure'] },
+                        status: 'error'
+                    });
+                }
+            });
+            //.catch((error) => this.setState({ error, status: 'error' }) );
     }
 
     renderMessageModal() {
@@ -64,7 +151,8 @@ export default class Payframe extends React.Component {
                 type={this.state.error.type}
                 error={this.state.error.message}
                 popupMode={this.state.data.popupMode}
-                setClose={this.state.data.setClose}
+                setClose={this.props.setClose}
+                locale={this.state.locale}
             />
         );
     }
@@ -73,21 +161,27 @@ export default class Payframe extends React.Component {
         const data = this.state.data;
         return (
             <Modal
-                invoiceAccessToken={data.invoiceAccessToken}
                 capiEndpoint={this.props.config.capiEndpoint}
-                invoiceID={data.invoiceID}
+                payformHost={this.props.payformHost}
+
+                invoiceAccessToken={data.invoiceAccessToken || this.state.invoice ? this.state.invoice.token : undefined}
+                invoiceID={data.invoiceID || this.state.invoice ? this.state.invoice.id : undefined}
                 defaultEmail={data.email}
                 logo={data.logo}
-                amount={this.state.invoice.amount / 100}
-                currency={this.state.invoice.currency}
                 name={data.name}
                 description={data.description}
-                payformHost={this.props.payformHost}
-                setCheckoutDone={this.props.setCheckoutDone}
-                setClose={this.props.setClose}
                 popupMode={data.popupMode}
                 payButtonLabel={data.payButtonLabel}
+
+                amount={this.state.invoice ? this.state.invoice.amount / 100 : undefined}
+                currency={this.state.invoice ? this.state.invoice.currency : undefined}
+
                 locale={this.state.locale}
+
+                template={this.state.template}
+
+                setCheckoutDone={this.props.setCheckoutDone}
+                setClose={this.props.setClose}
             />
         );
     }

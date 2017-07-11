@@ -24,6 +24,7 @@ export default class Modal extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <ReactCSSTransitionGroup
                 transitionName='checkout'

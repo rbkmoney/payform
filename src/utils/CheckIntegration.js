@@ -12,10 +12,34 @@ export default class CheckIntegration {
         return new Matcher(CheckIntegration.makeDictionary()).ignoreCase();
     }
 
+    static getType(configFields) {
+        const haveTemplateID = !!configFields.find((field) => field === 'invoiceTemplateID');
+        const haveInvoiceID = !!configFields.find((field) => field === 'invoiceID');
+        const haveAccessToken = !!configFields.find((field) => field === 'invoiceAccessToken');
+
+        if ((haveInvoiceID || haveAccessToken) && !haveTemplateID) {
+            return 'invoice';
+        } else if (haveTemplateID && (!haveInvoiceID && !haveAccessToken)) {
+            return 'template';
+        } else {
+            return 'error';
+        }
+    }
+
     static check(config) {
         const configFields = Object.keys(config);
+        const integrationType = this.getType(configFields);
         const dictionaryFields = dictionary.map((item) => item.name);
-        const requiredDictionaryFields = dictionary.filter((item) => item.isRequired).map((item) => item.name);
+        const requiredDictionaryFields = dictionary.filter((item) => {
+            switch (integrationType) {
+                case 'invoice':
+                    return item.name !== 'invoiceTemplateID' && item.isRequired;
+                case 'template':
+                    return !(item.name === 'invoiceID' || item.name === 'invoiceAccessToken') && item.isRequired;
+                case 'error':
+                    return item.isRequired;
+            }
+        }).map((item) => item.name);
         const configDifference = difference(configFields, dictionaryFields);
         const missedRequiredFields = difference(requiredDictionaryFields, configFields);
         const warnings = configDifference.length > 0;

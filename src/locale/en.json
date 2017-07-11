@@ -18,5 +18,8 @@
     "Invalid Card": "Invalid Card",
     "CVV Match Fail": "CVV Match Fail",
     "Expired Card": "Expired Card",
-    "Unknown Failure": "Unknown Failure"
+    "Unknown Failure": "Unknown Failure",
+    "Failed to fetch": "Failed to fetch",
+    "Not Found": "Not Found",
+    "Unauthorized": "Unauthorized"
 }

@@ -21,4 +21,35 @@ export default class Invoice {
             });
         });
     }
+
+    static createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata) {
+        return new Promise((resolve, reject) => {
+           fetch(`${capiEndpoint}/v1/processing/invoices`, {
+               method: 'POST',
+               headers: {
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'X-Request-ID': guid()
+               },
+               body: {
+                   invoiceParamsType,
+                   templateID,
+                   amount,
+                   currency,
+                   metadata
+               }
+           })
+               .then(response => {
+                   if (response.status === 200) {
+                    resolve(response.json());
+                    } else {
+                        response.json()
+                            .then((error) => reject(error))
+                            .catch(() => reject({message: response.statusText}));
+                    }
+               })
+               .catch(error => {
+                   reject({message: error.message});
+               })
+        });
+    }
 }
