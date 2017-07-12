@@ -5,7 +5,6 @@ import EventPoller from './EventPoller';
 class Processing {
 
     static process(params, locale) {
-        console.log(params);
         const paymentTool = Processing.preparePaymentTool(params.cardHolder, params.cardNumber, params.cardExpire, params.cardCvv);
         return CardTokenizer.createToken(params.capiEndpoint, params.invoiceAccessToken, paymentTool).then((token) => {
             return PaymentCreator.create(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken, token, params.email, locale).then(() => {
