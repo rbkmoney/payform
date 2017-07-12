@@ -12,15 +12,16 @@ export default class EventPoller {
             (function poll(self) {
                 setTimeout(() => {
                     self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
-                        const event = self.getLastEvent(events);
-                        if (self.isUnpaid(event)) {
-                            resolve(self.prepareResult('unpaid', event));
-                        } else if (self.isSuccess(event)) {
-                            resolve(self.prepareResult('success', event));
-                        } else if (self.isError(event)) {
-                            reject({message: self.getErrorMessage(event.error, locale)});
-                        } else if (self.isInteract(event)) {
-                            resolve(self.prepareResult('interact', event));
+                        const event = self.getLastElement(events);
+                        const change = self.getLastElement(event.changes);
+                        if (self.isUnpaid(change)) {
+                            resolve(self.prepareResult('unpaid', change));
+                        } else if (self.isSuccess(change)) {
+                            resolve(self.prepareResult('success', change));
+                        } else if (self.isError(change)) {
+                            reject({message: self.getErrorMessage(change.error, locale)});
+                        } else if (self.isInteract(change)) {
+                            resolve(self.prepareResult('interact', change));
                         } else {
                             pollCount++;
                             if (pollCount >= settings.pollingRetries) {
@@ -37,14 +38,14 @@ export default class EventPoller {
         });
     }
 
-    static prepareResult(type, event) {
+    static prepareResult(type, change) {
         let result;
         if (type === 'success') {
             result = {type};
         } else if (type === 'interact') {
             result = {
                 type: type,
-                data: event.userInteraction.request
+                data: change.userInteraction.request
             };
         } else if (type === 'unpaid') {
             result = { type };
@@ -71,30 +72,30 @@ export default class EventPoller {
         });
     }
 
-    static isUnpaid(event) {
-        return (event && event.eventType === 'EventInvoiceCreated' && event.invoice.status === 'unpaid');
+    static isUnpaid(change) {
+        return (change && change.changeType === 'InvoiceCreated' && change.invoice.status === 'unpaid');
     }
 
-    static isSuccess(event) {
-        return (event && event.eventType === 'EventInvoiceStatusChanged' && event.status === 'paid');
+    static isSuccess(change) {
+        return (change && change.changeType === 'InvoiceStatusChanged' && change.status === 'paid');
     }
 
-    static isError(event) {
+    static isError(change) {
         let result = false;
-        if (event) {
-            const isPaymentFailed = (event.eventType === 'EventPaymentStatusChanged' && event.status === 'failed');
-            const isInvoiceFailed = (event.eventType === 'EventInvoiceStatusChanged' && event.status === 'cancelled');
+        if (change) {
+            const isPaymentFailed = (change.eventType === 'PaymentStatusChanged' && event.status === 'failed');
+            const isInvoiceFailed = (change.eventType === 'InvoiceStatusChanged' && event.status === 'cancelled');
             result = isPaymentFailed || isInvoiceFailed;
         }
         return result;
     }
 
-    static isInteract(event) {
-        return (event && event.eventType === 'EventInvoicePaymentInteractionRequested')
+    static isInteract(change) {
+        return (change && change.changeType === 'PaymentInteractionRequested')
     }
 
-    static getLastEvent(events) {
-        return events && events.length > 0 ? events[events.length - 1] : null;
+    static getLastElement(elements) {
+        return elements && elements.length > 0 ? elements[elements.length - 1] : null;
     }
 
     static getErrorMessage(error, locale) {
