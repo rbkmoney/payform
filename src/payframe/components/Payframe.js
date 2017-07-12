@@ -91,7 +91,6 @@ export default class Payframe extends React.Component {
     }
 
     getInvoiceTemplate() {
-        const locale = this.state.locale;
         InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID)
             .then((template) => {
                 if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed') {
@@ -103,7 +102,7 @@ export default class Payframe extends React.Component {
                     });
                 } else {
                     this.setState({
-                        error: { message: locale['Unknown Failure'] },
+                        error: { message: 'Unknown Failure' },
                         status: 'error'
                     });
                 }
