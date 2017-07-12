@@ -27,7 +27,7 @@ describe('<Payform />', function () {
         });
 
         it('pay button should have right value', () => {
-            payform.find('.payform--pay-button').text().should.to.equal('Оплатить 0.00');
+            payform.find('.payform--pay-button--label').text().should.to.equal('Оплатить');
         });
 
         it('pay button should have success class and checkmark', () => {
