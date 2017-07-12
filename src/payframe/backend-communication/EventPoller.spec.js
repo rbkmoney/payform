@@ -26,9 +26,13 @@ describe('EventPoller', function () {
         it('should return success result when changeType InvoiceStatusChanged with status paid', function (done) {
             const events = [{
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                changeType: 'InvoiceStatusChanged',
                 id: 8,
-                status: 'paid'
+                changes: [{
+                    createdAt: '2017-05-19T05:03:11.953923Z',
+                    changeType: 'InvoiceStatusChanged',
+                    id: 8,
+                    status: 'paid'
+                }]
             }];
 
             const res = new Response(JSON.stringify(events), {status: 200});
@@ -44,31 +48,35 @@ describe('EventPoller', function () {
 
         it('should return interact result when changeType PaymentInteractionRequested', function (done) {
             const events = [{
-                createdAt: '2017-05-19T16:16:54.038165Z',
-                changeType: 'PaymentInteractionRequested',
                 id: 6,
-                paymentID: '1',
-                userInteraction: {
-                    interactionType: 'Redirect',
-                    request: {
-                        form: [
-                            {
-                                key: 'TermUrl',
-                                template: 'http://wrapper.rbk.test:8080/mocketbank/term_url%7B%3Ftermination_uri%7D'
-                            },
-                            {
-                                key: 'PaReq',
-                                template: 'paReq'
-                            },
-                            {
-                                key: 'MD',
-                                template: 'MPI-qcVvPA757o1'
-                            }
-                        ],
-                        requestType: 'BrowserPostRequest',
-                        uriTemplate: 'http://3ds-mock.rbk.test:8080/mpi/acs'
+                createdAt: '2017-05-19T16:16:54.038165Z',
+                changes: [{
+                    createdAt: '2017-05-19T16:16:54.038165Z',
+                    changeType: 'PaymentInteractionRequested',
+                    id: 6,
+                    paymentID: '1',
+                    userInteraction: {
+                        interactionType: 'Redirect',
+                        request: {
+                            form: [
+                                {
+                                    key: 'TermUrl',
+                                    template: 'http://wrapper.rbk.test:8080/mocketbank/term_url%7B%3Ftermination_uri%7D'
+                                },
+                                {
+                                    key: 'PaReq',
+                                    template: 'paReq'
+                                },
+                                {
+                                    key: 'MD',
+                                    template: 'MPI-qcVvPA757o1'
+                                }
+                            ],
+                            requestType: 'BrowserPostRequest',
+                            uriTemplate: 'http://3ds-mock.rbk.test:8080/mpi/acs'
+                        }
                     }
-                }
+                }]
             }];
 
             const res = new Response(JSON.stringify(events), {status: 200});
@@ -196,23 +204,27 @@ describe('EventPoller', function () {
 
         it('should resolve events when response status 200', function (done) {
             const events = [{
+                id: 6,
                 createdAt: '2017-05-19T05:02:59.394901Z',
-                changeType: 'InvoiceCreated',
-                id: 1,
-                invoice: {
-                    amount: 305416,
-                    createdAt: '2017-05-19T05:02:59.101754Z',
-                    currency: 'RUB',
-                    description: 'Postman',
-                    dueDate: '2017-06-09T08:38:00Z',
-                    id: 'qbjo8EYJiy',
-                    metadata: {
-                        order_id: 'Postman order {{timestamp}}'
-                    },
-                    product: 'Rubber Duck',
-                    shopID: 1,
-                    status: 'unpaid'
-                }
+                changes: [{
+                    createdAt: '2017-05-19T05:02:59.394901Z',
+                    changeType: 'InvoiceCreated',
+                    id: 1,
+                    invoice: {
+                        amount: 305416,
+                        createdAt: '2017-05-19T05:02:59.101754Z',
+                        currency: 'RUB',
+                        description: 'Postman',
+                        dueDate: '2017-06-09T08:38:00Z',
+                        id: 'qbjo8EYJiy',
+                        metadata: {
+                            order_id: 'Postman order {{timestamp}}'
+                        },
+                        product: 'Rubber Duck',
+                        shopID: 1,
+                        status: 'unpaid'
+                    }
+                }]
             }];
 
             const res = new Response(JSON.stringify(events), {status: 200});
