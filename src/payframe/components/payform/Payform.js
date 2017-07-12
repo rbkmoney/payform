@@ -27,7 +27,8 @@ class Payform extends React.Component {
                 cardNumber: { value: '' },
                 cardExpire: { value: '' },
                 cardCvv: { value: '' },
-                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '' }
+                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '' },
+                amount: { value: '' }
             }
         };
 
@@ -46,7 +47,9 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        this.getEvents();
+        if (!this.props.template) {
+            this.getEvents();
+        }
     }
 
     getEvents() {
@@ -122,7 +125,29 @@ class Payform extends React.Component {
         const formValidation = new PayformValidation(fieldsState);
         const isValid = formValidation.validate();
         this.forceUpdate();
-        if (isValid) {
+        if (fieldsState.amount.value && isValid) {
+            this.props.createInvoice(this.props.capiEndpoint, 'InvoiceParamsWithTemplate', this.props.template.id, this.props.template.cost.amount, this.props.template.cost.currency, this.props.template.metadata).then(() => {
+                if (isValid) {
+                    this.setState({
+                        payment: 'process'
+                    });
+                    Processing.process({
+                        invoiceAccessToken: this.props.invoiceAccessToken,
+                        invoiceID: this.props.invoiceID,
+                        capiEndpoint: this.props.capiEndpoint,
+                        cardHolder: fieldsState.cardHolder.value,
+                        cardNumber: fieldsState.cardNumber.value,
+                        cardExpire: fieldsState.cardExpire.value,
+                        email: fieldsState.email.value,
+                        cardCvv: fieldsState.cardCvv.value
+                    }, this.props.locale)
+                        .then(event => this.handleEvent(event))
+                        .catch(error => this.handleError(error));
+                } else {
+                    this.triggerError()
+                }
+            });
+        } else if (isValid) {
             this.setState({
                 payment: 'process'
             });
@@ -158,6 +183,7 @@ class Payform extends React.Component {
                     onFieldsChange={this.handleFieldsChange}
                     fieldsState={this.state.fieldsState}
                     locale={this.props.locale}
+                    template={this.props.template}
                 />
                 <ErrorPanel
                     visible={this.state.payment === 'error'}

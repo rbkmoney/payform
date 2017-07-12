@@ -39,7 +39,7 @@ export default class Invoice {
                }
            })
                .then(response => {
-                   if (response.status === 200) {
+                   if (response.status === 201) {
                     resolve(response.json());
                     } else {
                         response.json()

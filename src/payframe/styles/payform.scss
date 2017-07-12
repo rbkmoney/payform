@@ -46,7 +46,8 @@
 
     &--card-number,
     &--card-holder,
-    &--email {
+    &--email,
+    &--amount {
         position: relative;
         display: block;
         width: 100%;
@@ -102,6 +103,31 @@
             &:-moz-placeholder {
                 text-transform: none;
             }
+        }
+    }
+
+    &--amount {
+        input {
+            text-align: right;
+
+            &::-webkit-input-placeholder {
+                text-align: left;
+            }
+            &::-moz-placeholder {
+                text-align: left;
+            }
+            &:-ms-input-placeholder {
+                text-align: left;
+            }
+            &:-moz-placeholder {
+                text-align: left;
+            }
+        }
+
+        .payform--icon {
+            height: 28px;
+            width: 14px;
+            left: 9px;
         }
     }
 

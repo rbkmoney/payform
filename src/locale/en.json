@@ -4,6 +4,7 @@
     "input.payment.cardCVV.placeholder": "CVV",
     "input.payment.cardHolder.placeholder": "Card holder",
     "input.payment.email.placeholder": "Email",
+    "input.payment.amount.placeholder": "Amount",
     "button.help": "Support",
     "button.back": "Back",
     "button.init": "Pay with RBKmoney",

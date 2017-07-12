@@ -24,7 +24,6 @@ export default class Modal extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <ReactCSSTransitionGroup
                 transitionName='checkout'
@@ -51,7 +50,10 @@ export default class Modal extends React.Component {
                             payformHost={this.props.payformHost}
                             onPaymentSuccess={this.props.setCheckoutDone}
                             onPayformInteract={this.handlePayformInteract}
-                            locale={this.props.locale}/>
+                            locale={this.props.locale}
+                            template={this.props.template}
+                            createInvoice={this.props.createInvoice}
+                        />
                     </div>
                 </div>
                 <SupportButton invoiceID={this.props.invoiceID} locale={this.props.locale}/>

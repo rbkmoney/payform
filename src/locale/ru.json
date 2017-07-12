@@ -4,6 +4,7 @@
     "input.payment.cardCVV.placeholder": "CVV",
     "input.payment.cardHolder.placeholder": "Имя держателя карты",
     "input.payment.email.placeholder": "Email",
+    "input.payment.amount.placeholder": "Сумма к оплате",
     "button.help": "Помощь",
     "button.back": "Назад",
     "button.init": "Оплатить с помощью RBKmoney",

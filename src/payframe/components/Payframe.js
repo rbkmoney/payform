@@ -17,6 +17,10 @@ export default class Payframe extends React.Component {
             error: {},
             status: 'process'
         };
+
+        this.createInvoice = this.createInvoice.bind(this);
+        this.getInvoice = this.getInvoice.bind(this);
+        this.getInvoiceTemplate = this.getInvoiceTemplate.bind(this);
     }
 
     componentDidMount() {
@@ -34,10 +38,14 @@ export default class Payframe extends React.Component {
     }
 
     createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata) {
-        Invoice.createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata)
-            .then((invoice) => {
+        return Invoice.createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata)
+            .then((response) => {
+                const data = Object.assign(this.state.data, {
+                    invoiceID: response.invoice.id,
+                    invoiceAccessToken: response.invoiceAccessToken.payload
+                });
                 this.setState({
-                    invoice,
+                    data,
                     template: undefined,
                     status: 'ready'
                 });
@@ -86,50 +94,8 @@ export default class Payframe extends React.Component {
         const locale = this.state.locale;
         InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID)
             .then((template) => {
-                template = {
-                    shopID: 0,
-                    product: 'Product',
-                    description: 'Description',
-                    lifetime: {
-                        days: 0,
-                        months: 0,
-                        years: 0
-                    },
-                    cost: {
-                        currency: 'RUB',
-                        invoiceTemplateCostType: 'InvoiceTemplateCostFixed',
-                        amount: 100000
-                    },
-                    metadata: {},
-                    id: 'string'
-                };
-
-                this.setState({
-                    invoiceTemplate: template,
-                    status: 'ready'
-                });
-            })
-            .catch((template) => {
-                template = {
-                    shopID: 0,
-                    product: 'Product',
-                    description: 'Description',
-                    lifetime: {
-                        days: 0,
-                        months: 0,
-                        years: 0
-                    },
-                    cost: {
-                        currency: 'RUB',
-                        invoiceTemplateCostType: 'InvoiceTemplateCostRange',
-                        amount: 100000
-                    },
-                    metadata: {},
-                    id: 'string'
-                };
-
                 if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed') {
-                    this.createInvoice(this.props.config.capiEndpoint, 'InvoiceParamsWithTemplate', template.id, template.cost.amount, template.cost.currency, template.metadata);
+                    return this.createInvoice(this.props.config.capiEndpoint, 'InvoiceParamsWithTemplate', template.id, template.cost.amount, template.cost.currency, template.metadata);
                 } else if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
                     this.setState({
                         template,
@@ -141,8 +107,8 @@ export default class Payframe extends React.Component {
                         status: 'error'
                     });
                 }
-            });
-            //.catch((error) => this.setState({ error, status: 'error' }) );
+            })
+            .catch((error) => this.setState({ error, status: 'error' }) );
     }
 
     renderMessageModal() {
@@ -164,8 +130,8 @@ export default class Payframe extends React.Component {
                 capiEndpoint={this.props.config.capiEndpoint}
                 payformHost={this.props.payformHost}
 
-                invoiceAccessToken={data.invoiceAccessToken || this.state.invoice ? this.state.invoice.token : undefined}
-                invoiceID={data.invoiceID || this.state.invoice ? this.state.invoice.id : undefined}
+                invoiceAccessToken={data.invoiceAccessToken}
+                invoiceID={data.invoiceID}
                 defaultEmail={data.email}
                 logo={data.logo}
                 name={data.name}
@@ -182,6 +148,7 @@ export default class Payframe extends React.Component {
 
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
+                createInvoice={this.createInvoice}
             />
         );
     }
