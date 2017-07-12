@@ -149,7 +149,7 @@ class Payform extends React.Component {
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (fieldsState.amount.value && isValid) {
-            this.props.createInvoice(this.props.capiEndpoint, 'InvoiceParamsWithTemplate', this.props.template.id, this.props.template.cost.amount, this.props.template.cost.currency, this.props.template.metadata).then(() => {
+            this.props.createInvoice(this.props.capiEndpoint, 'InvoiceParamsWithTemplate', this.props.template.id, fieldsState.amount.value * 100, this.props.template.cost.currency, this.props.template.metadata).then(() => {
                 this.handleProcess(isValid, fieldsState);
             });
         } else {
