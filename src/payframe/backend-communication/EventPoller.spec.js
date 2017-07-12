@@ -23,10 +23,10 @@ describe('EventPoller', function () {
             EventPoller.pollEvents().should.be.rejected.notify(done);
         });
 
-        it('should return success result when eventType EventInvoiceStatusChanged with status paid', function (done) {
+        it('should return success result when changeType InvoiceStatusChanged with status paid', function (done) {
             const events = [{
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'EventInvoiceStatusChanged',
+                changeType: 'InvoiceStatusChanged',
                 id: 8,
                 status: 'paid'
             }];
@@ -42,10 +42,10 @@ describe('EventPoller', function () {
                 .should.become(expected).notify(done);
         });
 
-        it('should return interact result when eventType EventInvoicePaymentInteractionRequested', function (done) {
+        it('should return interact result when changeType PaymentInteractionRequested', function (done) {
             const events = [{
                 createdAt: '2017-05-19T16:16:54.038165Z',
-                eventType: 'EventInvoicePaymentInteractionRequested',
+                changeType: 'PaymentInteractionRequested',
                 id: 6,
                 paymentID: '1',
                 userInteraction: {
@@ -104,9 +104,9 @@ describe('EventPoller', function () {
     describe('#prepareResult()', function () {
 
         it('should return success type', function () {
-            const event = {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'EventInvoiceStatusChanged',
+                changeType: 'InvoiceStatusChanged',
                 id: 8,
                 status: 'paid'
             };
@@ -115,13 +115,13 @@ describe('EventPoller', function () {
                 type: 'success'
             };
 
-            EventPoller.prepareResult('success', event).should.be.deep.equal(expected);
+            EventPoller.prepareResult('success', change).should.be.deep.equal(expected);
         });
 
         it('should return interact type', function () {
-            const event = {
+            const change = {
                 createdAt: '2017-05-19T16:16:54.038165Z',
-                eventType: 'EventInvoicePaymentInteractionRequested',
+                changeType: 'PaymentInteractionRequested',
                 id: 6,
                 paymentID: '1',
                 userInteraction: {
@@ -169,7 +169,7 @@ describe('EventPoller', function () {
                 }
             };
 
-            EventPoller.prepareResult('interact', event).should.be.deep.equal(expected);
+            EventPoller.prepareResult('interact', change).should.be.deep.equal(expected);
         });
     });
 
@@ -197,7 +197,7 @@ describe('EventPoller', function () {
         it('should resolve events when response status 200', function (done) {
             const events = [{
                 createdAt: '2017-05-19T05:02:59.394901Z',
-                eventType: 'EventInvoiceCreated',
+                changeType: 'InvoiceCreated',
                 id: 1,
                 invoice: {
                     amount: 305416,
@@ -237,119 +237,119 @@ describe('EventPoller', function () {
 
     describe('#isSuccess()', function () {
 
-        it('should return false when wrong eventType', function () {
-            const event = {
+        it('should return false when wrong changeType', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'WrongType',
+                changeType: 'WrongType',
                 id: 8,
                 status: 'paid'
             };
 
-            EventPoller.isSuccess(event).should.be.false;
+            EventPoller.isSuccess(change).should.be.false;
         });
 
         it('should return false when wrong status', function () {
-            const event = {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'EventInvoiceStatusChanged',
+                changeType: 'InvoiceStatusChanged',
                 id: 8,
                 status: 'unpaid'
             };
 
-            EventPoller.isSuccess(event).should.be.false;
+            EventPoller.isSuccess(change).should.be.false;
         });
 
-        it('should return true when eventType EventInvoiceStatusChanged with status paid', function () {
-            const event = {
+        it('should return true when changeType InvoiceStatusChanged with status paid', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'EventInvoiceStatusChanged',
+                changeType: 'InvoiceStatusChanged',
                 id: 8,
                 status: 'paid'
             };
 
-            EventPoller.isSuccess(event).should.be.true;
+            EventPoller.isSuccess(change).should.be.true;
         });
     });
 
     describe('#isError()', function () {
 
-        it('should return false when wrong eventType', function () {
-            const event = {
+        it('should return false when wrong changeType', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'WrongType',
+                changeType: 'WrongType',
                 id: 8,
                 status: 'failed'
             };
 
-            EventPoller.isError(event).should.be.false;
+            EventPoller.isError(change).should.be.false;
         });
 
         it('should return false when wrong status', function () {
-            const event = {
+            const change = {
                 createdAt: '2017-05-19T05:03:10.961359Z',
-                eventType: 'EventPaymentStatusChanged',
+                changeType: 'PaymentStatusChanged',
                 id: 5,
                 paymentID: '1',
                 status: 'processed'
             };
 
-            EventPoller.isError(event).should.be.false;
+            EventPoller.isError(change).should.be.false;
         });
 
-        it('should return true when eventType EventPaymentStatusChanged with status failed', function () {
-            const event = {
+        it('should return true when changeType PaymentStatusChanged with status failed', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:10.961359Z',
-                eventType: 'EventPaymentStatusChanged',
+                changeType: 'PaymentStatusChanged',
                 id: 5,
                 paymentID: '1',
                 status: 'failed'
             };
 
-            EventPoller.isError(event).should.be.true;
+            EventPoller.isError(change).should.be.true;
         });
 
-        it('should return true when eventType EventInvoiceStatusChanged with status cancelled', function () {
-            const event = {
+        it('should return true when changeType InvoiceStatusChanged with status cancelled', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:10.961359Z',
-                eventType: 'EventInvoiceStatusChanged',
+                changeType: 'InvoiceStatusChanged',
                 id: 5,
                 paymentID: '1',
                 status: 'cancelled'
             };
 
-            EventPoller.isError(event).should.be.true;
+            EventPoller.isError(change).should.be.true;
         });
     });
 
     describe('#isInteract()', function () {
 
-        it('should return false when wrong eventType', function () {
-            const event = {
+        it('should return false when wrong changeType', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'WrongType',
+                changeType: 'WrongType',
                 id: 8,
                 status: 'failed'
             };
 
-            EventPoller.isInteract(event).should.be.false;
+            EventPoller.isInteract(change).should.be.false;
         });
 
-        it('should return true when eventType EventInvoicePaymentInteractionRequested', function () {
-            const event = {
+        it('should return true when changeType PaymentInteractionRequested', function () {
+            const change = {
                 createdAt: '2017-05-19T05:03:11.953923Z',
-                eventType: 'EventInvoicePaymentInteractionRequested',
+                changeType: 'PaymentInteractionRequested',
                 id: 8
             };
 
-            EventPoller.isInteract(event).should.be.true;
+            EventPoller.isInteract(change).should.be.true;
         });
     });
 
-    describe('#getLastEvent()', function () {
+    describe('#getLastElement()', function () {
 
         it('should return last element', function () {
             const events = [1, 2, 3];
-            EventPoller.getLastEvent(events).should.to.equal(3);
+            EventPoller.getLastElement(events).should.to.equal(3);
         });
     });
 

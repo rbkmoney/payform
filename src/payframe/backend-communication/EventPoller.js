@@ -83,8 +83,8 @@ export default class EventPoller {
     static isError(change) {
         let result = false;
         if (change) {
-            const isPaymentFailed = (change.eventType === 'PaymentStatusChanged' && event.status === 'failed');
-            const isInvoiceFailed = (change.eventType === 'InvoiceStatusChanged' && event.status === 'cancelled');
+            const isPaymentFailed = (change.changeType === 'PaymentStatusChanged' && change.status === 'failed');
+            const isInvoiceFailed = (change.changeType === 'InvoiceStatusChanged' && change.status === 'cancelled');
             result = isPaymentFailed || isInvoiceFailed;
         }
         return result;
