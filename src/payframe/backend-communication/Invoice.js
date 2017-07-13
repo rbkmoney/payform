@@ -23,7 +23,7 @@ export default class Invoice {
         });
     }
 
-    static createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata) {
+    static createInvoice(capiEndpoint, template, locale) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices`, {
                 method: 'POST',
@@ -32,11 +32,11 @@ export default class Invoice {
                     'X-Request-ID': guid()
                 },
                 body: JSON.stringify({
-                    invoiceParamsType,
-                    templateID,
-                    amount,
-                    currency,
-                    metadata
+                    invoiceParamsType: 'InvoiceParamsWithTemplate',
+                    templateID: template.id,
+                    amount: template.cost.amount,
+                    currency: template.cost.currency,
+                    metadata: template.metadata
                 })
             })
                 .then(response => {
@@ -45,12 +45,10 @@ export default class Invoice {
                     } else {
                         response.json()
                             .then((error) => reject(error))
-                            .catch(() => reject({ message: response.statusText }));
+                            .catch(() => reject({ message: locale['error.invoice.notCreated'] }));
                     }
                 })
-                .catch(error => {
-                    reject({ message: error.message });
-                });
+                .catch(() => { reject({ message: locale['error.invoice.notCreated'] }) });
         });
     }
 }

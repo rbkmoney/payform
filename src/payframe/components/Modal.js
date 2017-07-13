@@ -12,7 +12,7 @@ export default class Modal extends React.Component {
         super(props);
         this.state = {
             largeContainer: false,
-            defaultEmail: CardUtils.validateEmail(props.defaultEmail) && props.defaultEmail
+            defaultEmail: CardUtils.validateEmail(props.data.defaultEmail) && props.data.defaultEmail
         };
         this.handlePayformInteract = this.handlePayformInteract.bind(this);
     }
@@ -34,29 +34,28 @@ export default class Modal extends React.Component {
                 <div className={cx('checkout--container', {'_large': this.state.largeContainer})}>
                     <Header
                         setClose={this.props.setClose}
-                        logo={this.props.logo}
-                        name={this.props.name}
-                        description={this.props.description}
+                        logo={this.props.data.logo}
+                        name={this.props.data.name}
+                        description={this.props.data.description}
                         defaultEmail={this.state.defaultEmail}/>
                     <div className="checkout--body">
                         <Payform
                             capiEndpoint={this.props.capiEndpoint}
-                            invoiceAccessToken={this.props.invoiceAccessToken}
-                            invoiceID={this.props.invoiceID}
+                            invoiceAccessToken={this.props.data.invoiceAccessToken}
+                            invoiceID={this.props.data.invoiceID}
                             defaultEmail={this.state.defaultEmail}
-                            amount={this.props.amount}
-                            currency={this.props.currency}
-                            payButtonLabel={this.props.payButtonLabel}
+                            amount={this.props.invoice.amount}
+                            currency={this.props.invoice.currency}
+                            payButtonLabel={this.props.data.payButtonLabel}
                             payformHost={this.props.payformHost}
                             onPaymentSuccess={this.props.setCheckoutDone}
                             onPayformInteract={this.handlePayformInteract}
                             locale={this.props.locale}
-                            template={this.props.template}
-                            createInvoice={this.props.createInvoice}
+                            getInvoice={this.props.getInvoice}
                         />
                     </div>
                 </div>
-                <SupportButton invoiceID={this.props.invoiceID} locale={this.props.locale}/>
+                <SupportButton invoiceID={this.props.data.invoiceID} locale={this.props.locale}/>
             </ReactCSSTransitionGroup>
         );
     }

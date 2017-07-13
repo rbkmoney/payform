@@ -12,7 +12,7 @@ class Label extends React.Component {
                 </span>&nbsp;
                 {props.amount && props.currency ?
                     <span>
-                        {formatCurrency(props.amount, props.currency)}
+                        {formatCurrency(props.amount / 100, props.currency)}
                     </span>
                 :
                     false

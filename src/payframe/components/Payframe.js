@@ -5,8 +5,6 @@ import MessageModal from './MessageModal';
 
 import LocaleLoader from '../loaders/LocaleLoader';
 import Invoice from '../backend-communication/Invoice';
-import InvoiceTemplate from '../backend-communication/InvoiceTemplate';
-
 
 export default class Payframe extends React.Component {
     constructor(props) {
@@ -18,9 +16,7 @@ export default class Payframe extends React.Component {
             status: 'process'
         };
 
-        this.createInvoice = this.createInvoice.bind(this);
         this.getInvoice = this.getInvoice.bind(this);
-        this.getInvoiceTemplate = this.getInvoiceTemplate.bind(this);
     }
 
     componentDidMount() {
@@ -31,31 +27,8 @@ export default class Payframe extends React.Component {
 
             if (this.props.data.invoiceID && this.props.data.invoiceAccessToken) {
                 this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
-            } else if (this.props.data.invoiceTemplateID) {
-                this.getInvoiceTemplate();
             }
         });
-    }
-
-    createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata) {
-        return Invoice.createInvoice(capiEndpoint, invoiceParamsType, templateID, amount, currency, metadata)
-            .then((response) => {
-                const data = Object.assign(this.state.data, {
-                    invoiceID: response.invoice.id,
-                    invoiceAccessToken: response.invoiceAccessToken.payload
-                });
-                this.setState({
-                    data,
-                    template: undefined,
-                    status: 'ready'
-                });
-            })
-            .catch((error) => {
-                this.setState({
-                    error,
-                    status: 'error'
-                });
-            });
     }
 
     getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
@@ -65,7 +38,10 @@ export default class Payframe extends React.Component {
                 switch (invoice.status) {
                     case 'unpaid':
                         this.setState({
-                            invoice,
+                            invoice: {
+                                currency: invoice.currency,
+                                amount: invoice.amount
+                            },
                             status: 'ready'
                         });
                         break;
@@ -90,26 +66,6 @@ export default class Payframe extends React.Component {
             .catch((error) => this.setState({ error, status: 'error' }) );
     }
 
-    getInvoiceTemplate() {
-        InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID)
-            .then((template) => {
-                if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed') {
-                    return this.createInvoice(this.props.config.capiEndpoint, 'InvoiceParamsWithTemplate', template.id, template.cost.amount, template.cost.currency, template.metadata);
-                } else if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
-                    this.setState({
-                        template,
-                        status: 'ready'
-                    });
-                } else {
-                    this.setState({
-                        error: { message: 'Unknown Failure' },
-                        status: 'error'
-                    });
-                }
-            })
-            .catch((error) => this.setState({ error, status: 'error' }) );
-    }
-
     renderMessageModal() {
         return (
             <MessageModal
@@ -123,36 +79,26 @@ export default class Payframe extends React.Component {
     }
 
     renderModal() {
-        const data = this.state.data;
         return (
             <Modal
                 capiEndpoint={this.props.config.capiEndpoint}
                 payformHost={this.props.payformHost}
 
-                invoiceAccessToken={data.invoiceAccessToken}
-                invoiceID={data.invoiceID}
-                defaultEmail={data.email}
-                logo={data.logo}
-                name={data.name}
-                description={data.description}
-                popupMode={data.popupMode}
-                payButtonLabel={data.payButtonLabel}
+                data={this.state.data}
 
-                amount={this.state.invoice ? this.state.invoice.amount / 100 : undefined}
-                currency={this.state.invoice ? this.state.invoice.currency : undefined}
+                invoice={this.state.invoice}
 
                 locale={this.state.locale}
 
-                template={this.state.template}
-
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
-                createInvoice={this.createInvoice}
+                getInvoice={this.getInvoice}
             />
         );
     }
 
     render() {
+        console.log(this.state);
         return (
             <div>
                 <Overlay loader={this.state.status === 'process'} />

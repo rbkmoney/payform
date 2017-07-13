@@ -1,7 +1,7 @@
 import guid from '../../utils/guid';
 
 export default class InvoiceTemplate {
-    static getInvoiceTemplate(capiEndpoint, invoiceTemplateID) {
+    static getInvoiceTemplate(capiEndpoint, invoiceTemplateID, locale) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoice-templates/${invoiceTemplateID}`, {
                 method: 'GET',
@@ -16,11 +16,11 @@ export default class InvoiceTemplate {
                     } else {
                         response.json()
                             .then((error) => reject(error))
-                            .catch(() => reject({message: response.statusText}));
+                            .catch(() => reject({message: locale['error.invoice.getTemplate']}));
                     }
                 })
-                .catch(e => {
-                    reject({message: e.message})
+                .catch(() => {
+                    reject({message: locale['error.invoice.getTemplate']})
                 });
         });
     }

@@ -10,6 +10,7 @@ import settings from '../../../settings';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
+import InvoiceTemplate from '../../backend-communication/InvoiceTemplate';
 
 class Payform extends React.Component {
 
@@ -48,7 +49,9 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.template) {
+        if (this.props.template) {
+            this.getInvoiceTemplate();
+        } else {
             this.getEvents();
         }
     }
@@ -57,6 +60,14 @@ class Payform extends React.Component {
         EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
+    }
+
+    getInvoiceTemplate() {
+        InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.state.locale)
+            .then((template) => {
+
+            })
+            .catch((error) => this.setState({ error, status: 'error' }) );
     }
 
     handleFieldsChange(fieldsState) {
@@ -149,7 +160,7 @@ class Payform extends React.Component {
         const isValid = formValidation.validate();
         this.forceUpdate();
         if (fieldsState.amount.value && isValid) {
-            this.props.createInvoice(this.props.capiEndpoint, 'InvoiceParamsWithTemplate', this.props.template.id, fieldsState.amount.value * 100, this.props.template.cost.currency, this.props.template.metadata).then(() => {
+            this.props.createInvoice(this.props.capiEndpoint, this.props.template).then(() => {
                 this.handleProcess(isValid, fieldsState);
             });
         } else {

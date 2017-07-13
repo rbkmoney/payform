@@ -1,6 +1,7 @@
 import CardTokenizer from 'tokenizer/src/tokenizers/CardTokenizer';
 import PaymentCreator from './PaymentCreator';
 import EventPoller from './EventPoller';
+import Invoice from './Invoice';
 
 class Processing {
 
@@ -11,6 +12,12 @@ class Processing {
                 return EventPoller.pollEvents(params.capiEndpoint, params.invoiceID, params.invoiceAccessToken, locale);
             });
         });
+    }
+
+    static createInvoice(params, locale) {
+        return Invoice.createInvoice(params.capiEndpoint, params.template, locale)
+            .then((response) => response )
+            .catch((error) => error );
     }
 
     static preparePaymentTool(cardHolder, cardNumber, expDate, cvv) {
