@@ -65,7 +65,7 @@ class Payform extends React.Component {
     getInvoiceTemplate() {
         InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.state.locale)
             .then((template) => {
-
+                console.log(template);
             })
             .catch((error) => this.setState({ error, status: 'error' }) );
     }

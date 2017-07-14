@@ -1,26 +1,28 @@
 import Matcher from 'did-you-mean';
 import difference from 'lodash.difference';
-import dictionary from './dictionary';
+import intersection from 'lodash.intersection';
+import { integration, integrationTypes } from './dictionary';
 
 export default class CheckIntegration {
 
     static makeDictionary() {
-        return dictionary.reduce((a, c, i) => a += (i > 0 ? ` ${c.name}` : `${c.name}`), '');
+        return integration.reduce((a, c, i) => a += (i > 0 ? ` ${c.name}` : `${c.name}`), '');
     }
 
     static getMatcher() {
         return new Matcher(CheckIntegration.makeDictionary()).ignoreCase();
     }
 
-    static getType(configFields) {
-        const haveTemplateID = !!configFields.find((field) => field === 'invoiceTemplateID');
-        const haveInvoiceID = !!configFields.find((field) => field === 'invoiceID');
-        const haveAccessToken = !!configFields.find((field) => field === 'invoiceAccessToken');
+    static getIntegrationType(configFields) {
+        const result = [];
+        integrationTypes.forEach((type) => {
+            if (difference(type.fields, intersection(type.fields, configFields)).length === 0) {
+                result.push(type.name);
+            }
+        });
 
-        if ((haveInvoiceID || haveAccessToken) && !haveTemplateID) {
-            return 'invoice';
-        } else if (haveTemplateID && (!haveInvoiceID && !haveAccessToken)) {
-            return 'template';
+        if (result.length === 1) {
+            return result[0];
         } else {
             return 'error';
         }
@@ -28,9 +30,10 @@ export default class CheckIntegration {
 
     static check(config) {
         const configFields = Object.keys(config);
-        const integrationType = this.getType(configFields);
-        const dictionaryFields = dictionary.map((item) => item.name);
-        const requiredDictionaryFields = dictionary.filter((item) => {
+        const integrationType = this.getIntegrationType(configFields);
+        console.log(integrationType);
+        const dictionaryFields = integration.map((item) => item.name);
+        const requiredDictionaryFields = integration.filter((item) => {
             switch (integrationType) {
                 case 'invoice':
                     return item.name !== 'invoiceTemplateID' && item.isRequired;

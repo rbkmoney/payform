@@ -46,4 +46,17 @@ const integration = [
     }
 ];
 
-export default integration;
+const integrationTypes = [
+    {
+        name: 'default',
+        fields: ['invoiceID', 'invoiceAccessToken']
+    }, {
+        name: 'template',
+        fields: ['invoiceTemplateID']
+    }
+];
+
+export {
+    integration,
+    integrationTypes
+};
