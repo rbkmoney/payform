@@ -81,9 +81,9 @@ class Fieldset extends React.Component {
                         </fieldset>
                 }
                 {
-                    this.props.template && this.props.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange' ?
+                    this.props.isAmount ?
                         <fieldset className="payform--fieldset">
-                            <Amount onChange={this.handleAmount} value={amount.value} isValid={amount.isValid} locale={this.props.locale} currency={this.props.template.cost.currency}/>
+                            <Amount onChange={this.handleAmount} value={amount.value} isValid={amount.isValid} locale={this.props.locale} currency={this.props.currency}/>
                         </fieldset>
                     :
                         false

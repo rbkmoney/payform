@@ -14,9 +14,9 @@ class Processing {
         });
     }
 
-    static pay(params, locale, template) {
+    static processWithTemplate(params, locale, template) {
         if (template) {
-            return Processing.createInvoice(params, template, locale).then((response) => {
+            return Invoice.createInvoice(params, template, locale).then((response) => {
                 return Processing.process(Object.assign(params, {
                     invoiceID: response.invoice.id,
                     invoiceAccessToken: response.invoiceAccessToken.payload
@@ -25,12 +25,6 @@ class Processing {
         } else {
             return Processing.process(params, locale);
         }
-    }
-
-    static createInvoice(params, template, locale) {
-        return Invoice.createInvoice(params, template, locale)
-            .then((response) => response )
-            .catch((error) => error );
     }
 
     static preparePaymentTool(cardHolder, cardNumber, expDate, cvv) {

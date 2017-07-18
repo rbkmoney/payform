@@ -24,26 +24,11 @@ class Payform extends React.Component {
             errorMessage: '',
             interactionData: {},
             fieldsState: {
-                cardHolder: {
-                    value: '',
-                    isRequired: true
-                },
-                cardNumber: {
-                    value: '',
-                    isRequired: true
-                },
-                cardExpire: {
-                    value: '',
-                    isRequired: true
-                },
-                cardCvv: {
-                    value: '',
-                    isRequired: true
-                },
-                email: {
-                    value: this.props.defaultEmail ? this.props.defaultEmail : '',
-                    isRequired: true
-                },
+                cardHolder: { value: '', },
+                cardNumber: { value: '', },
+                cardExpire: { value: '', },
+                cardCvv: { value: '', },
+                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '', },
                 amount: {
                     value: '',
                     isRequired: false
@@ -162,7 +147,7 @@ class Payform extends React.Component {
             this.setState({
                 payment: 'process'
             });
-            Processing.pay({
+            Processing.processWithTemplate({
                 invoiceAccessToken: this.props.invoiceAccessToken,
                 invoiceID: this.props.invoiceID,
                 capiEndpoint: this.props.capiEndpoint,
@@ -195,8 +180,24 @@ class Payform extends React.Component {
 
     renderPayform() {
         const form = 'payform';
-        const amount = this.props.invoice ? this.props.invoice.amount : this.state.fieldsState.amount.value * 100;
-        const currency = 'RUB';
+        const isAmount = this.state.template && this.state.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange';
+
+        let amount;
+        if (this.props.invoice) {
+            amount = this.props.invoice.amount;
+        } else if (this.state.template && isAmount) {
+            amount = this.state.fieldsState.amount.value * 100;
+        } else if (this.state.template) {
+            amount = this.state.template.cost.amount;
+        }
+
+        let currency;
+        if (this.props.invoice) {
+            currency = this.props.invoice.currency;
+        } else if (this.state.template) {
+            currency = this.state.template.cost.currency;
+        }
+
         return (
             <form
                 className={cx('payform--form', { _error: this.state.error })}
@@ -210,7 +211,8 @@ class Payform extends React.Component {
                     onFieldsChange={this.handleFieldsChange}
                     fieldsState={this.state.fieldsState}
                     locale={this.props.locale}
-                    template={this.state.template}
+                    isAmount={isAmount}
+                    currency={currency}
                 />
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
@@ -228,7 +230,6 @@ class Payform extends React.Component {
                         amount={amount}
                         currency={currency}
                         locale={this.props.locale}
-                        template={this.state.template}
                     />
                 }
             </form>

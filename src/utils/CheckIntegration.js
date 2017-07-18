@@ -1,7 +1,6 @@
 import Matcher from 'did-you-mean';
-import difference from 'lodash.difference';
-import intersection from 'lodash.intersection';
 import { integration, integrationTypes } from './dictionary';
+import { difference } from 'lodash';
 
 export default class CheckIntegration {
 
@@ -13,24 +12,9 @@ export default class CheckIntegration {
         return new Matcher(CheckIntegration.makeDictionary()).ignoreCase();
     }
 
-    static getIntegrationType(configFields) {
-        const result = [];
-        integrationTypes.forEach((type) => {
-            if (difference(type.fields, intersection(type.fields, configFields)).length === 0) {
-                result.push(type.name);
-            }
-        });
-
-        if (result.length === 1) {
-            return result[0];
-        } else {
-            return 'error';
-        }
-    }
-
     static check(config) {
         const configFields = Object.keys(config);
-        const integrationType = this.getIntegrationType(configFields);
+        const integrationType = config.integration;
         const dictionaryFields = integration.map((item) => item.name);
         const requiredDictionary = integrationTypes.find((item) => item.name === integrationType);
         const requiredDictionaryFields = requiredDictionary ? requiredDictionary.fields : undefined;

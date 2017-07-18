@@ -2,7 +2,6 @@ import React from 'react';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
-
 import LocaleLoader from '../loaders/LocaleLoader';
 import Invoice from '../backend-communication/Invoice';
 
@@ -25,12 +24,15 @@ export default class Payframe extends React.Component {
                 locale
             });
 
-            if (this.props.data.invoiceID && this.props.data.invoiceAccessToken) {
-                this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
-            } else {
-                this.setState({
-                    status: 'ready'
-                })
+            switch (this.props.integrationType) {
+                case 'default':
+                    this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+                    break;
+                default:
+                    this.setState({
+                        status: 'ready'
+                    });
+                    break;
             }
         });
     }
