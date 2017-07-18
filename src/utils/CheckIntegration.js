@@ -38,7 +38,6 @@ export default class CheckIntegration {
         const missedRequiredFields = difference(requiredDictionaryFields, configFields);
         const warnings = configDifference.length > 0;
         const errors = missedRequiredFields.length > 0 || integrationType === 'error';
-        console.log(intersection(configFields, requiredDictionaryFields));
         this.logWarnings(configDifference);
         this.logErrors(missedRequiredFields);
         if (errors) {
