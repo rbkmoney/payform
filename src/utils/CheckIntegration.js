@@ -38,6 +38,7 @@ export default class CheckIntegration {
         const missedRequiredFields = difference(requiredDictionaryFields, configFields);
         const warnings = configDifference.length > 0;
         const errors = missedRequiredFields.length > 0 || integrationType === 'error';
+        console.log(intersection(configFields, requiredDictionaryFields));
         this.logWarnings(configDifference);
         this.logErrors(missedRequiredFields);
         if (errors) {
@@ -62,7 +63,7 @@ export default class CheckIntegration {
     static logErrors(errors) {
         errors.forEach((item) => {
             this.log('error', `RbkmoneyCheckout.configure: '${item}' is a required option, but was not found.`)
-        })
+        });
     }
 
     static log(level, message) {

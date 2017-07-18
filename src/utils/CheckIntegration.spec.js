@@ -2,7 +2,7 @@ import CheckIntegration from './CheckIntegration';
 
 describe('CheckIntegration', function () {
     const checkDocs = `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`;
-    const criticalError = 'RbkmoneyCheckout.configure: Critical error! Check your console for more info.';
+    const criticalError = 'RbkmoneyCheckout.configure: Critical error! Invalid configuration options. Check your console for more info.';
 
     beforeEach(function () {
         this.consoleStub = sinon.stub(CheckIntegration, 'log');
@@ -23,7 +23,7 @@ describe('CheckIntegration', function () {
     });
 
     describe('#check()', function() {
-        it('should return true', function() {
+        it('should return default', function() {
             const props = {
                 invoiceID: 'invoiceID',
                 invoiceAccessToken: 'token',
@@ -41,15 +41,33 @@ describe('CheckIntegration', function () {
                 }
             };
 
-            CheckIntegration.check(props).should.be.equal(true);
+            CheckIntegration.check(props).should.be.equal('default');
         });
 
-        it('should return false', function() {
+        it('should return template', function() {
+            const props = {
+                invoiceTemplateID: 'invoiceTemplateID'
+            };
+
+            CheckIntegration.check(props).should.be.equal('template');
+        });
+
+        it('should return error', function() {
             const props = {
                 invoiceAccessToken: 'token'
             };
 
-            CheckIntegration.check(props).should.be.equal(false);
+            CheckIntegration.check(props).should.be.equal('error');
+        });
+
+        it('should return error', function() {
+            const props = {
+                invoiceAccessToken: 'token',
+                invoiceID: 'invoiceID',
+                invoiceTemplateID: 'invoiceTemplateID'
+            };
+
+            CheckIntegration.check(props).should.be.equal('error');
         });
     });
 
