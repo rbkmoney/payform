@@ -43,15 +43,16 @@ export default class Modal extends React.Component {
                             capiEndpoint={this.props.capiEndpoint}
                             invoiceAccessToken={this.props.data.invoiceAccessToken}
                             invoiceID={this.props.data.invoiceID}
+                            invoiceTemplateID={this.props.data.invoiceTemplateID}
                             defaultEmail={this.state.defaultEmail}
-                            amount={this.props.invoice.amount}
-                            currency={this.props.invoice.currency}
+                            invoice={this.props.invoice}
                             payButtonLabel={this.props.data.payButtonLabel}
                             payformHost={this.props.payformHost}
                             onPaymentSuccess={this.props.setCheckoutDone}
                             onPayformInteract={this.handlePayformInteract}
                             locale={this.props.locale}
                             getInvoice={this.props.getInvoice}
+                            integration={this.props.data.integration}
                         />
                     </div>
                 </div>

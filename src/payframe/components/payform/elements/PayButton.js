@@ -7,6 +7,7 @@ import Label from './Label';
 class PayButton extends React.Component {
 
     render() {
+        const amount = this.props.invoice ? this.props.invoice.amount : this.props.amount;
         const props = this.props;
         return (
             <button className={cx('payform--pay-button', {_success: props.checkmark})}
@@ -17,8 +18,8 @@ class PayButton extends React.Component {
                 <Checkmark visible={props.checkmark}/>
                 <Label
                     visible={!props.spinner && !props.checkmark}
-                    amount={props.amount}
-                    currency={props.currency}
+                    amount={amount}
+                    currency={this.props.currency}
                     label={props.label}
                     locale={this.props.locale}
                 />

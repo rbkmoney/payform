@@ -91,4 +91,12 @@ export default class CardUtils {
         return regExp.test(value.trim());
     }
 
+    static validateAmount(value) {
+        if (!value) {
+            return false;
+        }
+
+        return parseFloat(value) > 0;
+    }
+
 }

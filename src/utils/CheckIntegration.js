@@ -31,38 +31,31 @@ export default class CheckIntegration {
     static check(config) {
         const configFields = Object.keys(config);
         const integrationType = this.getIntegrationType(configFields);
-        console.log(integrationType);
         const dictionaryFields = integration.map((item) => item.name);
-        const requiredDictionaryFields = integration.filter((item) => {
-            switch (integrationType) {
-                case 'invoice':
-                    return item.name !== 'invoiceTemplateID' && item.isRequired;
-                case 'template':
-                    return !(item.name === 'invoiceID' || item.name === 'invoiceAccessToken') && item.isRequired;
-                case 'error':
-                    return item.isRequired;
-            }
-        }).map((item) => item.name);
+        const requiredDictionary = integrationTypes.find((item) => item.name === integrationType);
+        const requiredDictionaryFields = requiredDictionary ? requiredDictionary.fields : undefined;
         const configDifference = difference(configFields, dictionaryFields);
         const missedRequiredFields = difference(requiredDictionaryFields, configFields);
         const warnings = configDifference.length > 0;
-        const errors = missedRequiredFields.length > 0;
+        const errors = missedRequiredFields.length > 0 || integrationType === 'error';
         this.logWarnings(configDifference);
         this.logErrors(missedRequiredFields);
         if (errors) {
-            this.alert('RbkmoneyCheckout.configure: Critical error! Check your console for more info.');
+            this.alert('RbkmoneyCheckout.configure: Critical error! Invalid configuration options. Check your console for more info.');
         }
         if (warnings || errors) {
             this.log('warn', 'You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout');
         }
-        return !errors;
+        return integrationType;
     }
 
     static logWarnings(warnings) {
         const matcher = CheckIntegration.getMatcher();
         warnings.forEach((warning) => {
             const guess = matcher.get(warning);
-            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${warning}'. ${guess ? `Did you mean '${guess}'?` : ''}`);
+            this.log('warn', `RbkmoneyCheckout.configure: Unrecognized option '${warning}'. ${guess
+                ? `Did you mean '${guess}'?`
+                : ''}`);
         });
     }
 

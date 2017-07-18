@@ -5,9 +5,10 @@ import UriSerializer from '../../utils/UriSerializer';
 
 export default class Checkout {
 
-    constructor(origin, config) {
+    constructor(origin, config, integration) {
         this.config = this.assignPopupMode(config);
         this.config = this.assignLocale(config);
+        this.config = this.assignIntegration(config, integration);
         this.payformHost = origin;
         this.opened = config.opened;
         this.closed = config.closed;
@@ -63,6 +64,12 @@ export default class Checkout {
     assignLocale(config) {
         return Object.assign(config, {
             locale: config.locale || 'auto'
+        });
+    }
+
+    assignIntegration(config, integration) {
+        return Object.assign(config, {
+            integration: integration
         });
     }
 }

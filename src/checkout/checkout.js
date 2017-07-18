@@ -9,10 +9,11 @@ import Checkout from './classes/Checkout';
 ready(function (origin) {
     const RbkmoneyCheckout = {};
     RbkmoneyCheckout.configure = (config) => {
-        if (!CheckIntegration.check(config)) {
+        const integration = CheckIntegration.check(config);
+        if (integration === 'error') {
             return;
         }
-        return new Checkout(origin, config)
+        return new Checkout(origin, config, integration)
     };
 
     const htmlIntegration = new HtmlIntegration(origin);

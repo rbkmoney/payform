@@ -16,7 +16,7 @@ describe('CheckIntegration', function () {
 
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
-            const dictionary = 'invoiceAccessToken invoiceID invoiceTemplateID email logo name label description payButtonLabel popupMode locale opened closed finished';
+            const dictionary = 'invoiceAccessToken invoiceID invoiceTemplateID email logo name label description payButtonLabel popupMode redirectUrl locale opened closed finished';
 
             CheckIntegration.makeDictionary().should.be.equal(dictionary);
         });

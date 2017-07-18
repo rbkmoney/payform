@@ -33,6 +33,9 @@ const integration = [
         name: 'popupMode'
     },
     {
+        name: 'redirectUrl'
+    },
+    {
         name: 'locale'
     },
     {

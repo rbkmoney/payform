@@ -27,6 +27,10 @@ export default class Payframe extends React.Component {
 
             if (this.props.data.invoiceID && this.props.data.invoiceAccessToken) {
                 this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+            } else {
+                this.setState({
+                    status: 'ready'
+                })
             }
         });
     }
@@ -98,7 +102,6 @@ export default class Payframe extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <div>
                 <Overlay loader={this.state.status === 'process'} />
