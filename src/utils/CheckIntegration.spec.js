@@ -16,7 +16,7 @@ describe('CheckIntegration', function () {
 
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
-            const dictionary = 'invoiceAccessToken invoiceID invoiceTemplateID email logo name label description payButtonLabel popupMode redirectUrl locale opened closed finished';
+            const dictionary = 'invoiceAccessToken invoiceID invoiceTemplateID invoiceTemplateAccessToken email logo name label description payButtonLabel popupMode redirectUrl locale opened closed finished';
 
             CheckIntegration.makeDictionary().should.be.equal(dictionary);
         });
@@ -46,7 +46,8 @@ describe('CheckIntegration', function () {
 
         it('should return template', function() {
             const props = {
-                invoiceTemplateID: 'invoiceTemplateID'
+                invoiceTemplateID: 'invoiceTemplateID',
+                invoiceTemplateAccessToken: 'invoiceTemplateAccessToken'
             };
 
             CheckIntegration.check(props).should.be.equal('template');
@@ -62,7 +63,6 @@ describe('CheckIntegration', function () {
 
         it('should return error', function() {
             const props = {
-                invoiceAccessToken: 'token',
                 invoiceID: 'invoiceID',
                 invoiceTemplateID: 'invoiceTemplateID'
             };

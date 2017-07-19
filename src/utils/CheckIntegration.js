@@ -1,6 +1,7 @@
 import Matcher from 'did-you-mean';
 import { integration, integrationTypes } from './dictionary';
 import { difference } from 'lodash';
+import getIntegrationType from './getIntegrationType';
 
 export default class CheckIntegration {
 
@@ -14,7 +15,7 @@ export default class CheckIntegration {
 
     static check(config) {
         const configFields = Object.keys(config);
-        const integrationType = config.integration;
+        const integrationType = getIntegrationType(config);
         const dictionaryFields = integration.map((item) => item.name);
         const requiredDictionary = integrationTypes.find((item) => item.name === integrationType);
         const requiredDictionaryFields = requiredDictionary ? requiredDictionary.fields : undefined;
