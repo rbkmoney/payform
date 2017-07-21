@@ -69,13 +69,13 @@ class Payform extends React.Component {
     }
 
     getInvoiceTemplate() {
-        InvoiceTemplate.getInvoiceTemplate(this.props.capiEndpoint, this.props.invoiceTemplateID, this.state.locale)
+        InvoiceTemplate.getInvoiceTemplate(this.props.capiEndpoint, this.props.invoiceTemplateID, this.props.invoiceTemplateAccessToken, this.props.locale)
             .then((template) => {
                 this.setState({
                     template,
                     fieldsState: Object.assign(this.state.fieldsState, {
                         amount: {
-                            isRequired: template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange',
+                            isRequired: template.cost ? template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : true,
                             value: ''
                         }
                     })
@@ -157,7 +157,9 @@ class Payform extends React.Component {
                 email: fieldsState.email.value,
                 cardCvv: fieldsState.cardCvv.value,
                 template: this.state.template,
-                amount: this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100
+                invoiceTemplateAccessToken: this.props.invoiceTemplateAccessToken,
+                amount: this.state.template.cost && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
+                currency: this.getCurrency()
             }, this.props.locale, this.state.template)
                 .then(event => this.handleEvent(event))
                 .catch(error => this.handleError(error));
@@ -178,25 +180,27 @@ class Payform extends React.Component {
         this.handleProcess(isValid, fieldsState);
     }
 
+    getAmount() {
+        if (this.props.invoice) {
+            return this.props.invoice.amount;
+        } else if (this.state.template && this.state.template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed') {
+            return this.state.fieldsState.amount.value * 100;
+        } else if (this.state.template) {
+            return this.state.template.cost.amount;
+        }
+    }
+
+    getCurrency() {
+        if (this.props.invoice) {
+            return this.props.invoice.currency;
+        } else if (this.state.template) {
+            return this.state.template.cost.currency;
+        }
+    }
+
     renderPayform() {
         const form = 'payform';
-        const isAmount = this.state.template && this.state.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange';
-
-        let amount;
-        if (this.props.invoice) {
-            amount = this.props.invoice.amount;
-        } else if (this.state.template && isAmount) {
-            amount = this.state.fieldsState.amount.value * 100;
-        } else if (this.state.template) {
-            amount = this.state.template.cost.amount;
-        }
-
-        let currency;
-        if (this.props.invoice) {
-            currency = this.props.invoice.currency;
-        } else if (this.state.template) {
-            currency = this.state.template.cost.currency;
-        }
+        const isAmount = this.state.template ? this.state.template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : false;
 
         return (
             <form
@@ -212,7 +216,8 @@ class Payform extends React.Component {
                     fieldsState={this.state.fieldsState}
                     locale={this.props.locale}
                     isAmount={isAmount}
-                    currency={currency}
+                    currency={this.getCurrency()}
+                    template={this.state.template}
                 />
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
@@ -227,8 +232,8 @@ class Payform extends React.Component {
                         checkmark={this.state.payment === 'success'}
                         spinner={this.state.payment === 'process'}
                         label={this.props.payButtonLabel}
-                        amount={amount}
-                        currency={currency}
+                        amount={this.getAmount(isAmount)}
+                        currency={this.getCurrency()}
                         locale={this.props.locale}
                     />
                 }

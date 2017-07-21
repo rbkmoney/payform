@@ -12,7 +12,9 @@ class PaymentCreator {
                     'X-Request-ID': guid()
                 },
                 body: JSON.stringify({
-                    flow: { type: 'PaymentFlowInstant' },
+                    flow: {
+                        type: 'PaymentParamsFlowInstant'
+                    },
                     paymentToolToken: tokenizerToken.token,
                     paymentSession: tokenizerToken.session,
                     contactInfo: {

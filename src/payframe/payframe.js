@@ -48,9 +48,6 @@ ready(function(origin) {
         ])
             .then(response => {
                 const integrayionType = getIntegrationType(response[0]);
-
-                console.log(integrayionType);
-
                 ReactDOM.render(
                     <Payframe
                         payformHost={origin}

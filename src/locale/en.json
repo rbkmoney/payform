@@ -24,5 +24,7 @@
     "Unknown Failure": "Unknown Failure",
     "Failed to fetch": "Failed to fetch",
     "Not Found": "Not Found",
-    "Unauthorized": "Unauthorized"
+    "Unauthorized": "Unauthorized",
+    "from": "from",
+    "to": "to"
 }

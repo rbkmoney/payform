@@ -24,5 +24,7 @@
     "Unknown Failure": "Неизвестная ошибка",
     "Failed to fetch": "Не удалось выполнить запрос",
     "Not Found": "Не найдено",
-    "Unauthorized": "Не авторизовано"
+    "Unauthorized": "Не авторизовано",
+    "from": "от",
+    "to": "до"
 }

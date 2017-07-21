@@ -1,5 +1,6 @@
 import React from 'react';
 import {focusClass, errorClass} from './cssClasses';
+import formatCurrency from '../../../../utils/formatCurrency';
 import isIE from '../../../../utils/isIE';
 
 class Amount extends React.Component {
@@ -60,6 +61,13 @@ class Amount extends React.Component {
                     </g>
                 </svg>
             </div>
+            {this.props.template && this.props.template.cost.range ?
+                <div className="payform--group--hint">
+                    {this.props.locale['from']} {formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} {this.props.locale['to']} {formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}
+                </div>
+            :
+                false
+            }
         </div>
     }
 }

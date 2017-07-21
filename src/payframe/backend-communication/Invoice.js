@@ -25,18 +25,17 @@ export default class Invoice {
 
     static createInvoice(params, template, locale) {
         return new Promise((resolve, reject) => {
-            fetch(`${params.capiEndpoint}/v1/processing/invoices`, {
+            fetch(`${params.capiEndpoint}/v1/processing/invoice-templates/${template.id}/invoices`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': `Bearer ${params.invoiceTemplateAccessToken}`,
                     'X-Request-ID': guid()
                 },
                 body: JSON.stringify({
-                    invoiceParamsType: 'InvoiceParamsWithTemplate',
-                    templateID: template.id,
                     amount: params.amount,
-                    currency: template.cost.currency,
-                    metadata: template.metadata
+                    currency: params.currency,
+                    metadata: template.metadata || {}
                 })
             })
                 .then(response => {

@@ -146,6 +146,11 @@
                 color: rgba(0, 0, 0, .5);
             }
         }
+
+        &--hint {
+            font-size: 10px;
+            text-align: right;
+        }
     }
 
     &--field {

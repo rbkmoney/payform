@@ -44,6 +44,7 @@ export default class Modal extends React.Component {
                             invoiceAccessToken={this.props.data.invoiceAccessToken}
                             invoiceID={this.props.data.invoiceID}
                             invoiceTemplateID={this.props.data.invoiceTemplateID}
+                            invoiceTemplateAccessToken={this.props.data.invoiceTemplateAccessToken}
                             defaultEmail={this.state.defaultEmail}
                             invoice={this.props.invoice}
                             payButtonLabel={this.props.data.payButtonLabel}

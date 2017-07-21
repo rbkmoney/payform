@@ -5,5 +5,6 @@ export default {
     submitFormTimeout: 1000,
     pollingRetries: 60,
     maxHandshakeRequests: 20,
-    defaultLocale: 'en'
+    defaultLocale: 'en',
+    defaultCurrency: 'RUB'
 };
