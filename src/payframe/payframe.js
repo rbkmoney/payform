@@ -47,7 +47,7 @@ ready(function(origin) {
             ConfigLoader.load()
         ])
             .then(response => {
-                const integrayionType = getIntegrationType(response[0]);
+                const integrationType = getIntegrationType(response[0]);
                 ReactDOM.render(
                     <Payframe
                         payformHost={origin}
@@ -55,7 +55,7 @@ ready(function(origin) {
                         setClose={setClose.bind(response[0])}
                         data={response[0]}
                         config={response[1]}
-                        integrayionType={integrayionType}
+                        integrationType={integrationType}
                     />,
                     modal
                 );
