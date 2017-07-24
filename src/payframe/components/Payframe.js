@@ -98,7 +98,6 @@ export default class Payframe extends React.Component {
 
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
-                getInvoice={this.getInvoice}
             />
         );
     }
