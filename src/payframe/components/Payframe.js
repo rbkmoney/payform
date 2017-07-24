@@ -39,7 +39,7 @@ export default class Payframe extends React.Component {
 
     getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
         const locale = this.state.locale;
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken)
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale)
             .then((invoice) => {
                 switch (invoice.status) {
                     case 'unpaid':

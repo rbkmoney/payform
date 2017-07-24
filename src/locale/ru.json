@@ -12,6 +12,7 @@
     "error.invoice.paid": "Инвойс был оплачен",
     "error.invoice.cancelled": "Инвойс был отменен.",
     "error.invoice.notCreated": "Не удалось создать инвойс",
+    "error.invoice.getInvoice": "Не удалось получить инвойс",
     "error.invoice.getTemplate": "Не удалось получить шаблон инвойса",
     "error.payment.unsupport": "Unsupported payment result error",
     "error.payment.create": "Ошибка в процессе создания платежа",

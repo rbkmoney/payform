@@ -1,7 +1,7 @@
 import guid from '../../utils/guid';
 
 export default class Invoice {
-    static getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
+    static getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}`, {
                 method: 'GET',
@@ -17,7 +17,7 @@ export default class Invoice {
                     } else {
                         response.json()
                             .then((error) => reject(error))
-                            .catch(() => reject({ message: response.statusText }));
+                            .catch(() => reject({ message: locale['error.invoice.getInvoice'] }));
                     }
                 });
         });
