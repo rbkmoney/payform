@@ -23,9 +23,6 @@
     "CVV Match Fail": "Ошибка проверки CVV кода",
     "Expired Card": "Срок действия карты истек",
     "Unknown Failure": "Неизвестная ошибка",
-    "Failed to fetch": "Не удалось выполнить запрос",
-    "Not Found": "Не найдено",
-    "Unauthorized": "Не авторизовано",
     "from": "от",
     "to": "до"
 }
