@@ -107,23 +107,6 @@
     }
 
     &--amount {
-        input {
-            text-align: right;
-
-            &::-webkit-input-placeholder {
-                text-align: left;
-            }
-            &::-moz-placeholder {
-                text-align: left;
-            }
-            &:-ms-input-placeholder {
-                text-align: left;
-            }
-            &:-moz-placeholder {
-                text-align: left;
-            }
-        }
-
         .payform--icon {
             height: 28px;
             width: 14px;
@@ -145,11 +128,6 @@
             &:-moz-placeholder {
                 color: rgba(0, 0, 0, .5);
             }
-        }
-
-        &--hint {
-            font-size: 10px;
-            text-align: right;
         }
     }
 

@@ -35,7 +35,9 @@ export default class Invoice {
                 body: JSON.stringify({
                     amount: params.amount,
                     currency: params.currency,
-                    metadata: template.metadata || {}
+                    metadata: template.metadata || {},
+                    cost: template.cost,
+                    lifetime: template.lifetime
                 })
             })
                 .then(response => {

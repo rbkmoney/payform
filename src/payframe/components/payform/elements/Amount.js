@@ -30,13 +30,15 @@ class Amount extends React.Component {
     }
 
     render() {
+        const placeholder = this.props.template && this.props.template.cost.range ? `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}` : `${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`;
+
         return <div className="payform--group payform--amount">
             <input id="amount" type="number" name="amount"
                    value={this.props.value}
                    onChange={this.handleChange}
                    onKeyUp={isIE ? this.handleChange : false}
                    ref={(input) => { this.input = input; }}
-                   placeholder={`${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`}
+                   placeholder={placeholder}
                    autoComplete="off"
                    autoCorrect="no"
                    autoCapitalize="no"
@@ -61,13 +63,6 @@ class Amount extends React.Component {
                     </g>
                 </svg>
             </div>
-            {this.props.template && this.props.template.cost.range ?
-                <div className="payform--group--hint">
-                    {this.props.locale['from']} {formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} {this.props.locale['to']} {formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}
-                </div>
-            :
-                false
-            }
         </div>
     }
 }

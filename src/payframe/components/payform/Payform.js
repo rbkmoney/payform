@@ -183,8 +183,6 @@ class Payform extends React.Component {
     getAmount() {
         if (this.props.invoice) {
             return this.props.invoice.amount;
-        } else if (this.state.template && this.state.template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed') {
-            return this.state.fieldsState.amount.value * 100;
         } else if (this.state.template) {
             return this.state.template.cost.amount;
         }
