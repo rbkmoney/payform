@@ -52,7 +52,7 @@ export default class Modal extends React.Component {
                             onPaymentSuccess={this.props.setCheckoutDone}
                             onPayformInteract={this.handlePayformInteract}
                             locale={this.props.locale}
-                            integration={this.props.data.integration}
+                            integrationType={this.props.integrationType}
                         />
                     </div>
                 </div>

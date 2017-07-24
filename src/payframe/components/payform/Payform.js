@@ -52,7 +52,7 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        switch (this.props.integration) {
+        switch (this.props.integrationType) {
             case 'template':
                 this.getInvoiceTemplate();
                 break;
