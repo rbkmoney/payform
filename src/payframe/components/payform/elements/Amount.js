@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {focusClass, errorClass} from './cssClasses';
-//import formatCurrency from '../../../../utils/formatCurrency';
+import formatCurrency from '../../../../utils/formatCurrency';
 import isIE from '../../../../utils/isIE';
 import placeholderSize from '../../../../utils/placeholderSize';
 
