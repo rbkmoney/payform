@@ -6,5 +6,7 @@ export default {
     pollingRetries: 60,
     maxHandshakeRequests: 20,
     defaultLocale: 'en',
-    defaultCurrency: 'RUB'
+    defaultCurrency: 'RUB',
+    smallPlaceholder: 'small-placeholder',
+    defaultPlaceholder: 'default-placeholder'
 };

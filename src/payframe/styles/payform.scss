@@ -129,6 +129,40 @@
                 color: rgba(0, 0, 0, .5);
             }
         }
+
+        &.small-placeholder {
+            input {
+                &::-webkit-input-placeholder {
+                    font-size: 13px;
+                }
+                &::-moz-placeholder {
+                    font-size: 13px;
+                }
+                &:-ms-input-placeholder {
+                    font-size: 13px;
+                }
+                &:-moz-placeholder {
+                    font-size: 13px;
+                }
+            }
+        }
+
+        &.default-placeholder {
+            input {
+                &::-webkit-input-placeholder {
+                    font-size: 15px;
+                }
+                &::-moz-placeholder {
+                    font-size: 15px;
+                }
+                &:-ms-input-placeholder {
+                    font-size: 15px;
+                }
+                &:-moz-placeholder {
+                    font-size: 15px;
+                }
+            }
+        }
     }
 
     &--field {

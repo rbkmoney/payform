@@ -1,7 +1,9 @@
 import React from 'react';
+import cx from 'classnames';
 import {focusClass, errorClass} from './cssClasses';
-import formatCurrency from '../../../../utils/formatCurrency';
+//import formatCurrency from '../../../../utils/formatCurrency';
 import isIE from '../../../../utils/isIE';
+import placeholderSize from '../../../../utils/placeholderSize';
 
 class Amount extends React.Component {
     constructor(props) {
@@ -32,7 +34,7 @@ class Amount extends React.Component {
     render() {
         const placeholder = this.props.template && this.props.template.cost.range ? `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}` : `${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`;
 
-        return <div className="payform--group payform--amount">
+        return <div className={cx('payform--group payform--amount', placeholderSize(placeholder))}>
             <input id="amount" type="number" name="amount"
                    value={this.props.value}
                    onChange={this.handleChange}
