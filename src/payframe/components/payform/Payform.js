@@ -22,6 +22,8 @@ class Payform extends React.Component {
             back: false,
             payment: '',
             errorMessage: '',
+            invoiceID: props.invoiceID,
+            invoiceAccessToken: props.invoiceAccessToken,
             interactionData: {},
             fieldsState: {
                 cardHolder: { value: '', },
@@ -63,7 +65,7 @@ class Payform extends React.Component {
     }
 
     getEvents() {
-        EventPoller.pollEvents(this.props.capiEndpoint, this.props.invoiceID, this.props.invoiceAccessToken, this.props.locale)
+        EventPoller.pollEvents(this.props.capiEndpoint, this.state.invoiceID, this.state.invoiceAccessToken, this.props.locale)
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
@@ -137,7 +139,9 @@ class Payform extends React.Component {
     handleInteract(event) {
         this.setState({
             payment: 'interact',
-            interactionData: event.data
+            interactionData: event.data,
+            invoiceID: event.invoiceID,
+            invoiceAccessToken: event.invoiceAccessToken
         });
         this.props.onPayformInteract(true);
     }
