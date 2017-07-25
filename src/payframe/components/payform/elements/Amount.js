@@ -2,8 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import {focusClass, errorClass} from './cssClasses';
 import formatCurrency from '../../../../utils/formatCurrency';
+import currencyFormatter from 'currency-formatter';
 import isIE from '../../../../utils/isIE';
-import placeholderSize from '../../../../utils/placeholderSize';
+import getPlaceholderClass from './getPlaceholderClass';
 
 class Amount extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class Amount extends React.Component {
         if (this.props.template && this.props.template.cost.range) {
             return `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}`;
         } else {
-            return `${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`;
+            return `${this.props.locale['input.payment.amount.placeholder']} ${currencyFormatter.findCurrency(this.props.currency).symbol}`;
         }
     }
 

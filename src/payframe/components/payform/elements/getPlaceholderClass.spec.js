@@ -1,4 +1,4 @@
-import placeholderSize from './placeholderSize';
+import placeholderSize from './getPlaceholderClass';
 
 describe('placeholderSize()', function() {
     it('should return small-placeholder classname', () => {
