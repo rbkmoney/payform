@@ -72,16 +72,16 @@ describe('CheckIntegration', function () {
     });
 
     describe('#log()', function() {
-       it('message should be error and contain text about missing invoiceID', function() {
-           const props = {
-                invoiceAccessToken: 'token'
-            };
-
-            CheckIntegration.check(props);
-
-           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
-       });
+       //it('message should be error and contain text about missing invoiceID', function() {
+       //    const props = {
+       //         invoiceAccessToken: 'token'
+       //     };
+       //
+       //     CheckIntegration.check(props);
+       //
+       //    sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
+       //    sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       //});
 
        it('message should be error and contain text about missing invoiceID', function() {
            const props = {
@@ -95,16 +95,16 @@ describe('CheckIntegration', function () {
            sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
-       it('message should be error and contain text about missing invoiceAccessToken', function() {
-           const props = {
-                invoiceID: 'invoice'
-            };
-
-            CheckIntegration.check(props);
-
-           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
-       });
+       //it('message should be error and contain text about missing invoiceAccessToken', function() {
+       //    const props = {
+       //         invoiceID: 'invoice'
+       //     };
+       //
+       //     CheckIntegration.check(props);
+       //
+       //    sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
+       //    sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       //});
 
        it('message should be error and contain text about missing invoiceAccessToken', function() {
            const props = {

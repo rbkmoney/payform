@@ -230,7 +230,7 @@ class Payform extends React.Component {
                         checkmark={this.state.payment === 'success'}
                         spinner={this.state.payment === 'process'}
                         label={this.props.payButtonLabel}
-                        amount={this.getAmount(isAmount)}
+                        amount={this.getAmount()}
                         currency={this.getCurrency()}
                         locale={this.props.locale}
                     />

@@ -31,16 +31,22 @@ class Amount extends React.Component {
         this.props.onChange(event.target.value);
     }
 
-    render() {
-        const placeholder = this.props.template && this.props.template.cost.range ? `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}` : `${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`;
+    getPlaceholder() {
+        if (this.props.template && this.props.template.cost.range) {
+            return `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}`;
+        } else {
+            return `${this.props.locale['input.payment.amount.placeholder']} ${this.props.currency}`;
+        }
+    }
 
+    render() {
         return <div className={cx('payform--group payform--amount', placeholderSize(placeholder))}>
             <input id="amount" type="number" name="amount"
                    value={this.props.value}
                    onChange={this.handleChange}
                    onKeyUp={isIE ? this.handleChange : false}
                    ref={(input) => { this.input = input; }}
-                   placeholder={placeholder}
+                   placeholder={this.getPlaceholder()}
                    autoComplete="off"
                    autoCorrect="no"
                    autoCapitalize="no"
