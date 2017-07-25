@@ -10,9 +10,10 @@ export default class Modal extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             largeContainer: false,
-            defaultEmail: CardUtils.validateEmail(props.data.defaultEmail) && props.data.defaultEmail
+            defaultEmail: CardUtils.validateEmail(props.data.email) && props.data.email
         };
         this.handlePayformInteract = this.handlePayformInteract.bind(this);
     }

@@ -10,7 +10,7 @@ export default class Payframe extends React.Component {
         super(props);
 
         this.state = {
-            data: this.props.data,
+            data: props.data,
             error: {},
             status: 'process'
         };
