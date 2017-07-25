@@ -191,8 +191,10 @@ class Payform extends React.Component {
     getCurrency() {
         if (this.props.invoice) {
             return this.props.invoice.currency;
-        } else if (this.state.template) {
+        } else if (this.state.template && this.state.template.cost.currency) {
             return this.state.template.cost.currency;
+        } else {
+            return settings.defaultCurrency;
         }
     }
 

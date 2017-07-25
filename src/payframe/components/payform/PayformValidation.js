@@ -55,8 +55,17 @@ class PayformValidation {
         if (!this.state.amount.isRequired) {
             return true;
         }
-        const isValid = CardUtils.validateAmount(this.state.amount.value);
-        PayformValidation.assignValid(this.state.amount, isValid);
+
+        let isValid = false;
+
+        if (this.state.amount.range) {
+            isValid = CardUtils.validateAmountRange(this.state.amount.value, this.state.amount.range);
+            PayformValidation.assignValid(this.state.amount, isValid);
+        } else {
+            isValid = CardUtils.validateAmount(this.state.amount.value);
+            PayformValidation.assignValid(this.state.amount, isValid);
+        }
+
         return isValid;
     }
 

@@ -42,7 +42,18 @@ class Fieldset extends React.Component {
     }
 
     handleAmount(value) {
-        this.setPayformState(this.assignValue(this.state.amount, value), 'amount');
+        if (this.props.template && this.props.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
+            this.setPayformState(this.assignRange(this.state.amount, {
+                value,
+                range: this.props.template.cost.range
+            }), 'amount');
+        } else {
+            this.setPayformState(this.assignValue(this.state.amount, value), 'amount');
+        }
+    }
+
+    assignRange(prop, value) {
+        return Object.assign(prop, value);
     }
 
     assignValue(prop, value) {

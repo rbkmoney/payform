@@ -99,4 +99,11 @@ export default class CardUtils {
         return parseFloat(value) > 0;
     }
 
+    static validateAmountRange(value, range) {
+        if (!value || !range) {
+            return false
+        }
+
+        return parseFloat(value) * 100 >= range.lowerBound && parseFloat(value) * 100 <= range.upperBound;
+    }
 }

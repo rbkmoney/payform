@@ -170,8 +170,8 @@
             z-index: 10;
 
             input {
-                border: 1px solid $pink;
-                box-shadow: 0 0 2px 0 rgba(255,0,0,0.5);
+                border: 1px solid $pink !important;
+                box-shadow: 0 0 2px 0 rgba(255,0,0,0.5) !important;
             }
         }
 
