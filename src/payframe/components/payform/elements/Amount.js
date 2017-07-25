@@ -41,7 +41,7 @@ class Amount extends React.Component {
     }
 
     render() {
-        return <div className={cx('payform--group payform--amount', placeholderSize(this.getPlaceholder()))}>
+        return <div className={cx('payform--group payform--amount', getPlaceholderClass(this.getPlaceholder()))}>
             <input id="amount" type="number" name="amount"
                    value={this.props.value}
                    onChange={this.handleChange}

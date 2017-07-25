@@ -83,7 +83,7 @@ class Payform extends React.Component {
                     })
                 });
             })
-            .catch((error) => this.setState({ error, status: 'error' }) );
+            .catch((error) => this.handleError(error));
     }
 
     handleFieldsChange(fieldsState) {

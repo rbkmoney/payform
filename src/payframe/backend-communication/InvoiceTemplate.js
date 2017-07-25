@@ -16,7 +16,7 @@ export default class InvoiceTemplate {
                         resolve(response.json());
                     } else {
                         response.json()
-                            .then((error) => reject(error))
+                            .then(() => reject({message: locale['error.invoice.getTemplate']}))
                             .catch(() => reject({message: locale['error.invoice.getTemplate']}));
                     }
                 })
