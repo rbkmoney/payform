@@ -162,7 +162,7 @@ class Payform extends React.Component {
                 cardCvv: fieldsState.cardCvv.value,
                 template: this.state.template,
                 invoiceTemplateAccessToken: this.props.invoiceTemplateAccessToken,
-                amount: this.state.template.cost && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
+                amount: this.state.template && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
                 currency: this.getCurrency()
             }, this.props.locale, this.state.template)
                 .then(event => this.handleEvent(event))
