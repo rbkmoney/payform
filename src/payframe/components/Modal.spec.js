@@ -44,7 +44,7 @@ describe('<Modal />', function () {
         const data = {
             invoiceAccessToken: 'token',
             invoiceID: 'invoiceID',
-            defaultEmail: 'test@test.com',
+            email: 'test@test.com',
         };
         const invoice = {
             amount: 'amount',
