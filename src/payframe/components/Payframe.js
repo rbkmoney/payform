@@ -2,42 +2,57 @@ import React from 'react';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
-
 import LocaleLoader from '../loaders/LocaleLoader';
 import Invoice from '../backend-communication/Invoice';
-
 
 export default class Payframe extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: this.props.data,
+            data: props.data,
             error: {},
             status: 'process'
         };
+
+        this.getInvoice = this.getInvoice.bind(this);
     }
 
     componentDidMount() {
-        return Promise.all([
-            LocaleLoader.load(this.props.data.locale),
-            Invoice.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken)
-        ])
-            .then((response) => {
-                const locale = response[0];
-                const invoice = response[1];
+        LocaleLoader.load(this.props.data.locale).then((locale) => {
+            this.setState({
+                locale
+            });
 
+            switch (this.props.integrationType) {
+                case 'default':
+                    this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+                    break;
+                default:
+                    this.setState({
+                        status: 'ready'
+                    });
+                    break;
+            }
+        });
+    }
+
+    getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
+        const locale = this.state.locale;
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale)
+            .then((invoice) => {
                 switch (invoice.status) {
                     case 'unpaid':
                         this.setState({
-                            locale,
-                            invoice,
+                            invoice: {
+                                currency: invoice.currency,
+                                amount: invoice.amount
+                            },
                             status: 'ready'
                         });
                         break;
                     case 'cancelled':
                         this.setState({
-                            locale,
                             error: {
                                 message: `${locale['error.invoice.cancelled']} ${invoice.reason}`
                             },
@@ -46,7 +61,6 @@ export default class Payframe extends React.Component {
                         break;
                     case 'paid':
                         this.setState({
-                            locale,
                             error: {
                                 message: locale['error.invoice.paid']
                             },
@@ -55,7 +69,7 @@ export default class Payframe extends React.Component {
                         break;
                 }
             })
-            .catch((error) => this.setState({ error }) );
+            .catch((error) => this.setState({ error, status: 'error' }) );
     }
 
     renderMessageModal() {
@@ -64,30 +78,27 @@ export default class Payframe extends React.Component {
                 type={this.state.error.type}
                 error={this.state.error.message}
                 popupMode={this.state.data.popupMode}
-                setClose={this.state.data.setClose}
+                setClose={this.props.setClose}
+                locale={this.state.locale}
             />
         );
     }
 
     renderModal() {
-        const data = this.state.data;
         return (
             <Modal
-                invoiceAccessToken={data.invoiceAccessToken}
                 capiEndpoint={this.props.config.capiEndpoint}
-                invoiceID={data.invoiceID}
-                defaultEmail={data.email}
-                logo={data.logo}
-                amount={this.state.invoice.amount / 100}
-                currency={this.state.invoice.currency}
-                name={data.name}
-                description={data.description}
                 payformHost={this.props.payformHost}
+
+                data={this.state.data}
+
+                invoice={this.state.invoice}
+
+                locale={this.state.locale}
+
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
-                popupMode={data.popupMode}
-                payButtonLabel={data.payButtonLabel}
-                locale={this.state.locale}
+                integrationType={this.props.integrationType}
             />
         );
     }

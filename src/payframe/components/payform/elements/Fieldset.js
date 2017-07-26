@@ -4,6 +4,7 @@ import CardExpire from './CardExpire';
 import CardCvv from './CardCvv';
 import CardHolder from './CardHolder';
 import Email from './Email';
+import Amount from './Amount';
 
 class Fieldset extends React.Component {
 
@@ -15,6 +16,7 @@ class Fieldset extends React.Component {
         this.handleCardExpire = this.handleCardExpire.bind(this);
         this.handleCardCvv = this.handleCardCvv.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
+        this.handleAmount = this.handleAmount.bind(this);
     }
 
     handleCardHolder(value) {
@@ -39,6 +41,21 @@ class Fieldset extends React.Component {
         this.setPayformState(this.assignValue(this.state.email, email), 'email');
     }
 
+    handleAmount(value) {
+        if (this.props.template && this.props.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
+            this.setPayformState(this.assignRange(this.state.amount, {
+                value,
+                range: this.props.template.cost.range
+            }), 'amount');
+        } else {
+            this.setPayformState(this.assignValue(this.state.amount, value), 'amount');
+        }
+    }
+
+    assignRange(prop, value) {
+        return Object.assign(prop, value);
+    }
+
     assignValue(prop, value) {
         return Object.assign(prop, {value});
     }
@@ -56,6 +73,8 @@ class Fieldset extends React.Component {
         const cardExpire = this.state.cardExpire;
         const cardCvv = this.state.cardCvv;
         const email = this.state.email;
+        const amount = this.state.amount;
+
         return (
             <span>
                 <fieldset className="payform--fieldset">
@@ -71,6 +90,14 @@ class Fieldset extends React.Component {
                         <fieldset className="payform--fieldset">
                             <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid} locale={this.props.locale}/>
                         </fieldset>
+                }
+                {
+                    this.props.isAmount ?
+                        <fieldset className="payform--fieldset">
+                            <Amount onChange={this.handleAmount} value={amount.value} isValid={amount.isValid} locale={this.props.locale} currency={this.props.currency} template={this.props.template}/>
+                        </fieldset>
+                    :
+                        false
                 }
             </span>
         );

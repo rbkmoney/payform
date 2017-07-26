@@ -12,11 +12,13 @@ class PayformValidation {
         const isCardExpireValid = this.validateCardExpire();
         const isCardCvvValid = this.validateCardCvv();
         const isEmailValid = this.validateEmail();
+        const isAmountValid = this.validateAmount();
         return isCardHolderValid
             && isCardNumberValid
             && isCardExpireValid
             && isCardCvvValid
-            && isEmailValid;
+            && isEmailValid
+            && isAmountValid;
     }
 
     validateCardHolder() {
@@ -46,6 +48,24 @@ class PayformValidation {
     validateEmail() {
         const isValid = CardUtils.validateEmail(this.state.email.value);
         PayformValidation.assignValid(this.state.email, isValid);
+        return isValid;
+    }
+
+    validateAmount() {
+        if (!this.state.amount.isRequired) {
+            return true;
+        }
+
+        let isValid = false;
+
+        if (this.state.amount.range) {
+            isValid = CardUtils.validateAmountRange(this.state.amount.value, this.state.amount.range);
+            PayformValidation.assignValid(this.state.amount, isValid);
+        } else {
+            isValid = CardUtils.validateAmount(this.state.amount.value);
+            PayformValidation.assignValid(this.state.amount, isValid);
+        }
+
         return isValid;
     }
 

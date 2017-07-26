@@ -32,7 +32,7 @@ export default class ErrorModal extends React.Component {
                     </div>
                     <div className="error-modal--body">
                         <div className="error-modal--message">
-                            {this.props.error}
+                            {this.props.locale[this.props.error] ? this.props.locale[this.props.error] : this.props.error}
                         </div>
                     </div>
                 </div>

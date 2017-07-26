@@ -2,7 +2,7 @@ import CheckIntegration from './CheckIntegration';
 
 describe('CheckIntegration', function () {
     const checkDocs = `You can learn about the available configuration options in the Checkout docs: https://rbkmoney.github.io/docs/integrations/checkout`;
-    const criticalError = 'RbkmoneyCheckout.configure: Critical error! Check your console for more info.';
+    const criticalError = 'RbkmoneyCheckout.configure: Critical error! Invalid configuration options. Check your console for more info.';
 
     beforeEach(function () {
         this.consoleStub = sinon.stub(CheckIntegration, 'log');
@@ -16,14 +16,14 @@ describe('CheckIntegration', function () {
 
     describe('#makeDictionary()', function() {
         it('should return dictionary for matcher', function() {
-            const dictionary = 'invoiceAccessToken invoiceID email logo name label description payButtonLabel popupMode locale opened closed finished';
+            const dictionary = 'invoiceAccessToken invoiceID invoiceTemplateID invoiceTemplateAccessToken email logo name label description payButtonLabel popupMode redirectUrl locale opened closed finished';
 
             CheckIntegration.makeDictionary().should.be.equal(dictionary);
         });
     });
 
     describe('#check()', function() {
-        it('should return true', function() {
+        it('should return default', function() {
             const props = {
                 invoiceID: 'invoiceID',
                 invoiceAccessToken: 'token',
@@ -41,29 +41,47 @@ describe('CheckIntegration', function () {
                 }
             };
 
-            CheckIntegration.check(props).should.be.equal(true);
+            CheckIntegration.check(props).should.be.equal('default');
         });
 
-        it('should return false', function() {
+        it('should return template', function() {
+            const props = {
+                invoiceTemplateID: 'invoiceTemplateID',
+                invoiceTemplateAccessToken: 'invoiceTemplateAccessToken'
+            };
+
+            CheckIntegration.check(props).should.be.equal('template');
+        });
+
+        it('should return error', function() {
             const props = {
                 invoiceAccessToken: 'token'
             };
 
-            CheckIntegration.check(props).should.be.equal(false);
+            CheckIntegration.check(props).should.be.equal('error');
+        });
+
+        it('should return error', function() {
+            const props = {
+                invoiceID: 'invoiceID',
+                invoiceTemplateID: 'invoiceTemplateID'
+            };
+
+            CheckIntegration.check(props).should.be.equal('error');
         });
     });
 
     describe('#log()', function() {
-       it('message should be error and contain text about missing invoiceID', function() {
-           const props = {
-                invoiceAccessToken: 'token'
-            };
-
-            CheckIntegration.check(props);
-
-           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
-       });
+       //it('message should be error and contain text about missing invoiceID', function() {
+       //    const props = {
+       //         invoiceAccessToken: 'token'
+       //     };
+       //
+       //     CheckIntegration.check(props);
+       //
+       //    sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceID' is a required option, but was not found.`);
+       //    sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       //});
 
        it('message should be error and contain text about missing invoiceID', function() {
            const props = {
@@ -77,16 +95,16 @@ describe('CheckIntegration', function () {
            sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
        });
 
-       it('message should be error and contain text about missing invoiceAccessToken', function() {
-           const props = {
-                invoiceID: 'invoice'
-            };
-
-            CheckIntegration.check(props);
-
-           sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
-           sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
-       });
+       //it('message should be error and contain text about missing invoiceAccessToken', function() {
+       //    const props = {
+       //         invoiceID: 'invoice'
+       //     };
+       //
+       //     CheckIntegration.check(props);
+       //
+       //    sinon.assert.calledWith(this.consoleStub, 'error', `RbkmoneyCheckout.configure: 'invoiceAccessToken' is a required option, but was not found.`);
+       //    sinon.assert.calledWith(this.consoleStub, 'warn', checkDocs);
+       //});
 
        it('message should be error and contain text about missing invoiceAccessToken', function() {
            const props = {

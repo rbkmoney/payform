@@ -8,6 +8,14 @@ const integration = [
         isRequired: true
     },
     {
+        name: 'invoiceTemplateID',
+        isRequired: true
+    },
+    {
+        name: 'invoiceTemplateAccessToken',
+        isRequired: true
+    },
+    {
         name: 'email'
     },
     {
@@ -29,6 +37,9 @@ const integration = [
         name: 'popupMode'
     },
     {
+        name: 'redirectUrl'
+    },
+    {
         name: 'locale'
     },
     {
@@ -42,4 +53,17 @@ const integration = [
     }
 ];
 
-export default integration;
+const integrationTypes = [
+    {
+        name: 'default',
+        fields: ['invoiceID', 'invoiceAccessToken']
+    }, {
+        name: 'template',
+        fields: ['invoiceTemplateID', 'invoiceTemplateAccessToken']
+    }
+];
+
+export {
+    integration,
+    integrationTypes
+};

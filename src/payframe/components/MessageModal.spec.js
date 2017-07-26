@@ -1,6 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 import MessageModal from './MessageModal';
+import ruLocale from '../../locale/ru.json';
 
 describe('<MessageModal />', function () {
     let modal;
@@ -10,6 +11,7 @@ describe('<MessageModal />', function () {
             setClose={'setClose'}
             popupMode={true}
             error="error"
+            locale={ruLocale}
         />);
     });
 

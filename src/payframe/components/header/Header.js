@@ -10,7 +10,7 @@ class Header extends React.Component {
             <div className="checkout--header">
                 {
                     !isMobile.any
-                        ? <ModalClose setClose={this.props.setClose} popupMode={this.props.popupMode}/>
+                        ? <ModalClose setClose={this.props.setClose}/>
                         : false
                 }
                 <Logo logo={this.props.logo}/>

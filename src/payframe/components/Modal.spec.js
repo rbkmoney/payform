@@ -9,12 +9,18 @@ describe('<Modal />', function () {
        let modal;
 
         before(() => {
+            const data = {
+                invoiceAccessToken: 'token',
+                invoiceID: 'invoiceID'
+            };
+            const invoice = {
+                amount: 'amount',
+                currency: 'currency'
+            };
             modal = mount(<Modal
-                invoiceAccessToken={'token'}
                 capiEndpoint={'http://api.rbk.fake'}
-                invoiceID={'invoiceID'}
-                amount={'amount'}
-                currency={'currency'}
+                data={data}
+                invoice={invoice}
                 payformHost={'payformHost'}
                 locale={ruLocale}
             />);
@@ -35,13 +41,18 @@ describe('<Modal />', function () {
     });
 
     it('modal component should have state with defaultEmail', () => {
+        const data = {
+            invoiceAccessToken: 'token',
+            invoiceID: 'invoiceID',
+            email: 'test@test.com',
+        };
+        const invoice = {
+            amount: 'amount',
+            currency: 'currency'
+        };
         const modal = mount(<Modal
-            invoiceAccessToken={'token'}
-            capiEndpoint={'http://api.rbk.fake'}
-            invoiceID={'invoiceID'}
-            defaultEmail={'test@test.com'}
-            amount={'amount'}
-            currency={'currency'}
+            data={data}
+            invoice={invoice}
             payformHost={'payformHost'}
             locale={ruLocale}
         />);

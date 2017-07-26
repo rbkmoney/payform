@@ -46,7 +46,8 @@
 
     &--card-number,
     &--card-holder,
-    &--email {
+    &--email,
+    &--amount {
         position: relative;
         display: block;
         width: 100%;
@@ -105,6 +106,14 @@
         }
     }
 
+    &--amount {
+        .payform--icon {
+            height: 28px;
+            width: 14px;
+            left: 9px;
+        }
+    }
+
     &--group {
         input {
             &::-webkit-input-placeholder {
@@ -120,6 +129,40 @@
                 color: rgba(0, 0, 0, .5);
             }
         }
+
+        &.small-placeholder {
+            input {
+                &::-webkit-input-placeholder {
+                    font-size: 13px;
+                }
+                &::-moz-placeholder {
+                    font-size: 13px;
+                }
+                &:-ms-input-placeholder {
+                    font-size: 13px;
+                }
+                &:-moz-placeholder {
+                    font-size: 13px;
+                }
+            }
+        }
+
+        &.default-placeholder {
+            input {
+                &::-webkit-input-placeholder {
+                    font-size: 15px;
+                }
+                &::-moz-placeholder {
+                    font-size: 15px;
+                }
+                &:-ms-input-placeholder {
+                    font-size: 15px;
+                }
+                &:-moz-placeholder {
+                    font-size: 15px;
+                }
+            }
+        }
     }
 
     &--field {
@@ -127,8 +170,8 @@
             z-index: 10;
 
             input {
-                border: 1px solid $pink;
-                box-shadow: 0 0 2px 0 rgba(255,0,0,0.5);
+                border: 1px solid $pink !important;
+                box-shadow: 0 0 2px 0 rgba(255,0,0,0.5) !important;
             }
         }
 

@@ -21,7 +21,7 @@ export default class EventPoller {
                         } else if (self.isError(change)) {
                             reject({message: self.getErrorMessage(change.error, locale)});
                         } else if (self.isInteract(change)) {
-                            resolve(self.prepareResult('interact', change));
+                            resolve(self.prepareResult('interact', change, invoiceID, invoiceAccessToken));
                         } else {
                             pollCount++;
                             if (pollCount >= settings.pollingRetries) {
@@ -38,14 +38,16 @@ export default class EventPoller {
         });
     }
 
-    static prepareResult(type, change) {
+    static prepareResult(type, change, invoiceID, invoiceAccessToken) {
         let result;
         if (type === 'success') {
             result = {type};
         } else if (type === 'interact') {
             result = {
                 type: type,
-                data: change.userInteraction.request
+                data: change.userInteraction.request,
+                invoiceID,
+                invoiceAccessToken
             };
         } else if (type === 'unpaid') {
             result = { type };

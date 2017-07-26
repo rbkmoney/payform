@@ -8,11 +8,7 @@ class ModalClose extends React.Component {
     }
 
     close() {
-        if (this.props.popupMode) {
-            window.close();
-        } else {
-            this.props.setClose();
-        }
+        this.props.setClose();
     }
 
     render() {

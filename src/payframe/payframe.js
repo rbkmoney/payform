@@ -10,6 +10,7 @@ import Child from '../communication/Child';
 import settings from '../settings';
 import StateResolver from './StateResolver';
 import ConfigLoader from './loaders/ConfigLoader';
+import getIntegrationType from '../utils/getIntegrationType';
 
 ready(function(origin) {
     const modal = document.getElementById('modal');
@@ -46,6 +47,7 @@ ready(function(origin) {
             ConfigLoader.load()
         ])
             .then(response => {
+                const integrationType = getIntegrationType(response[0]);
                 ReactDOM.render(
                     <Payframe
                         payformHost={origin}
@@ -53,6 +55,7 @@ ready(function(origin) {
                         setClose={setClose.bind(response[0])}
                         data={response[0]}
                         config={response[1]}
+                        integrationType={integrationType}
                     />,
                     modal
                 );

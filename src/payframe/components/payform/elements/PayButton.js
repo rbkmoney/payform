@@ -17,8 +17,8 @@ class PayButton extends React.Component {
                 <Checkmark visible={props.checkmark}/>
                 <Label
                     visible={!props.spinner && !props.checkmark}
-                    amount={props.amount}
-                    currency={props.currency}
+                    amount={this.props.amount}
+                    currency={this.props.currency}
                     label={props.label}
                     locale={this.props.locale}
                 />
