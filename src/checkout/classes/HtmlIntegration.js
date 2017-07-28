@@ -38,7 +38,9 @@ export default class HtmlIntegration {
         }
         this.config = Object.assign({}, this.element.dataset);
         this.config.invoiceID = this.element.dataset.invoiceId;
+        this.config.invoiceTemplateID = this.element.dataset.invoiceTemplateId;
         delete this.config.invoiceId;
+        delete this.config.invoiceTemplateId;
         this.assignFinished(this.config);
         return this.config;
     }
