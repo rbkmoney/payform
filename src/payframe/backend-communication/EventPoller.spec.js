@@ -174,10 +174,12 @@ describe('EventPoller', function () {
                     ],
                     requestType: 'BrowserPostRequest',
                     uriTemplate: 'http://3ds-mock.rbk.test:8080/mpi/acs'
-                }
+                },
+                invoiceAccessToken: 'invoiceAccessToken',
+                invoiceID: 'invoiceID'
             };
 
-            EventPoller.prepareResult('interact', change).should.be.deep.equal(expected);
+            EventPoller.prepareResult('interact', change, 'invoiceID', 'invoiceAccessToken').should.be.deep.equal(expected);
         });
     });
 
