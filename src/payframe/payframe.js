@@ -4,6 +4,8 @@ import 'core-js/es6/object';
 import 'core-js/es6/array';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import configureStore from '../redux/configureStore';
+import { Provider } from 'react-redux';
 import ready from '../utils/domReady';
 import Payframe from './components/Payframe';
 import Child from '../communication/Child';
@@ -47,16 +49,23 @@ ready(function(origin) {
             ConfigLoader.load()
         ])
             .then(response => {
-                const integrationType = getIntegrationType(response[0]);
+                const config = Object.assign({
+                    integrationType: getIntegrationType(response[0]),
+                    payformHost: origin
+                }, response[1]);
+
+                const store = configureStore({
+                    config,
+                    data: response[0]
+                });
+
                 ReactDOM.render(
-                    <Payframe
-                        payformHost={origin}
-                        setCheckoutDone={setCheckoutDone.bind(response[0])}
-                        setClose={setClose.bind(response[0])}
-                        data={response[0]}
-                        config={response[1]}
-                        integrationType={integrationType}
-                    />,
+                    <Provider store={store}>
+                        <Payframe
+                            setCheckoutDone={setCheckoutDone.bind(response[0])}
+                            setClose={setClose.bind(response[0])}
+                        />
+                    </Provider>,
                     modal
                 );
             })

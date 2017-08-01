@@ -1,16 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as localeActions from '../../redux/actions/localeActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
-import LocaleLoader from '../loaders/LocaleLoader';
 import Invoice from '../backend-communication/Invoice';
 
-export default class Payframe extends React.Component {
+class Payframe extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: props.data,
             error: {},
             status: 'process'
         };
@@ -19,22 +20,17 @@ export default class Payframe extends React.Component {
     }
 
     componentDidMount() {
-        LocaleLoader.load(this.props.data.locale).then((locale) => {
-            this.setState({
-                locale
-            });
-
-            switch (this.props.integrationType) {
-                case 'default':
-                    this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
-                    break;
-                default:
-                    this.setState({
-                        status: 'ready'
-                    });
-                    break;
-            }
-        });
+        this.props.localeActions.getLocale(this.props.data.locale);
+        switch (this.props.config.integrationType) {
+            case 'default':
+                this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+                break;
+            default:
+                this.setState({
+                    status: 'ready'
+                });
+                break;
+        }
     }
 
     getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
@@ -77,7 +73,7 @@ export default class Payframe extends React.Component {
             <MessageModal
                 type={this.state.error.type}
                 error={this.state.error.message}
-                popupMode={this.state.data.popupMode}
+                popupMode={this.props.data.popupMode}
                 setClose={this.props.setClose}
                 locale={this.state.locale}
             />
@@ -90,11 +86,11 @@ export default class Payframe extends React.Component {
                 capiEndpoint={this.props.config.capiEndpoint}
                 payformHost={this.props.payformHost}
 
-                data={this.state.data}
+                data={this.props.data}
 
                 invoice={this.state.invoice}
 
-                locale={this.state.locale}
+                locale={this.props.locale}
 
                 setCheckoutDone={this.props.setCheckoutDone}
                 setClose={this.props.setClose}
@@ -113,3 +109,19 @@ export default class Payframe extends React.Component {
         );
     }
 }
+
+function mapStateToProps (state) {
+    return {
+        config: state.config,
+        data: state.data,
+        locale: state.locale
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        localeActions: bindActionCreators(localeActions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payframe)
