@@ -9,7 +9,7 @@ export function getLocale(locale) {
                 dispatch({
                     type: GET_LOCALE,
                     payload: response
-                })
+                });
             });
     }
 }

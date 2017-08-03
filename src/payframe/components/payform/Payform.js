@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as appearanceActions from '../../../redux/actions/appearanceActions';
 import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
@@ -43,7 +46,7 @@ class Payform extends React.Component {
                 this.setState({
                     payment: 'process'
                 });
-                this.props.onPayformInteract(false);
+                this.props.actions.appearanceActions.updateAppearance('largeContainer', false);
                 this.getEvents();
             }
         });
@@ -54,7 +57,7 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        switch (this.props.integrationType) {
+        switch (this.props.config.integrationType) {
             case 'template':
                 this.getInvoiceTemplate();
                 break;
@@ -65,13 +68,13 @@ class Payform extends React.Component {
     }
 
     getEvents() {
-        EventPoller.pollEvents(this.props.capiEndpoint, this.state.invoiceID, this.state.invoiceAccessToken, this.props.locale)
+        EventPoller.pollEvents(this.props.config.capiEndpoint, this.props.invoice.id, this.props.data.invoiceAccessToken, this.props.locale)
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
 
     getInvoiceTemplate() {
-        InvoiceTemplate.getInvoiceTemplate(this.props.capiEndpoint, this.props.invoiceTemplateID, this.props.invoiceTemplateAccessToken, this.props.locale)
+        InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale)
             .then((template) => {
                 this.setState({
                     template,
@@ -143,7 +146,7 @@ class Payform extends React.Component {
             invoiceID: event.invoiceID,
             invoiceAccessToken: event.invoiceAccessToken
         });
-        this.props.onPayformInteract(true);
+        this.props.actions.appearanceActions.updateAppearance('largeContainer', true);
     }
 
     handleProcess(isValid, fieldsState) {
@@ -152,16 +155,16 @@ class Payform extends React.Component {
                 payment: 'process'
             });
             Processing.processWithTemplate({
-                invoiceAccessToken: this.props.invoiceAccessToken,
-                invoiceID: this.props.invoiceID,
-                capiEndpoint: this.props.capiEndpoint,
+                invoiceAccessToken: this.props.data.invoiceAccessToken,
+                invoiceID: this.props.invoice.id,
+                capiEndpoint: this.props.config.capiEndpoint,
                 cardHolder: fieldsState.cardHolder.value,
                 cardNumber: fieldsState.cardNumber.value,
                 cardExpire: fieldsState.cardExpire.value,
                 email: fieldsState.email.value,
                 cardCvv: fieldsState.cardCvv.value,
                 template: this.state.template,
-                invoiceTemplateAccessToken: this.props.invoiceTemplateAccessToken,
+                invoiceTemplateAccessToken: this.props.data.invoiceTemplateAccessToken,
                 amount: this.state.template && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
                 currency: this.getCurrency()
             }, this.props.locale, this.state.template)
@@ -249,7 +252,7 @@ class Payform extends React.Component {
         return (
             <div className="payform">
                 { this.state.payment === 'interact'
-                    ? <Interaction interactionData={this.state.interactionData} host={this.props.payformHost}/>
+                    ? <Interaction interactionData={this.state.interactionData} host={this.props.config.payformHost}/>
                     : this.renderPayform()
                 }
             </div>
@@ -257,4 +260,22 @@ class Payform extends React.Component {
     }
 }
 
-export default Payform;
+function mapStateToProps (state) {
+    return {
+        config: state.config,
+        locale: state.locale,
+        invoice: state.invoice,
+        invoiceTemplate: state.template,
+        data: state.data
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            appearanceActions: bindActionCreators(appearanceActions, dispatch),
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Payform);
