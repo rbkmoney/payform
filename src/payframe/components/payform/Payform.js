@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as appearanceActions from '../../../redux/actions/appearanceActions';
+import * as invoiceActions from '../../../redux/actions/invoiceActions';
 import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
@@ -13,7 +14,7 @@ import settings from '../../../settings';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
-import InvoiceTemplate from '../../backend-communication/InvoiceTemplate';
+//import InvoiceTemplate from '../../backend-communication/InvoiceTemplate';
 
 class Payform extends React.Component {
 
@@ -58,36 +59,41 @@ class Payform extends React.Component {
 
     componentDidMount() {
         switch (this.props.config.integrationType) {
-            case 'template':
-                this.getInvoiceTemplate();
-                break;
+            //case 'template':
+                //this.getInvoiceTemplate();
+                //this.props.actions.invoiceTemplateActions.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale);
+                //break;
             case 'default':
                 this.getEvents();
                 break;
         }
     }
 
+    componentWillReceiveProps(props) {
+        console.log(props);
+    }
+
     getEvents() {
-        EventPoller.pollEvents(this.props.config.capiEndpoint, this.props.invoice.id, this.props.data.invoiceAccessToken, this.props.locale)
+        EventPoller.pollEvents(this.props.config.capiEndpoint, this.props.invoice.invoice.id, this.props.data.invoiceAccessToken, this.props.locale)
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
 
-    getInvoiceTemplate() {
-        InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale)
-            .then((template) => {
-                this.setState({
-                    template,
-                    fieldsState: Object.assign(this.state.fieldsState, {
-                        amount: {
-                            isRequired: template.cost ? template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : true,
-                            value: ''
-                        }
-                    })
-                });
-            })
-            .catch((error) => this.handleError(error));
-    }
+    //getInvoiceTemplate() {
+    //    InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale)
+    //        .then((template) => {
+    //            this.setState({
+    //                template,
+    //                fieldsState: Object.assign(this.state.fieldsState, {
+    //                    amount: {
+    //                        isRequired: template.cost ? template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : true,
+    //                        value: ''
+    //                    }
+    //                })
+    //            });
+    //        })
+    //        .catch((error) => this.handleError(error));
+    //}
 
     handleFieldsChange(fieldsState) {
         this.setState({ fieldsState });
@@ -156,7 +162,7 @@ class Payform extends React.Component {
             });
             Processing.processWithTemplate({
                 invoiceAccessToken: this.props.data.invoiceAccessToken,
-                invoiceID: this.props.invoice.id,
+                invoiceID: this.props.invoice.invoice.id,
                 capiEndpoint: this.props.config.capiEndpoint,
                 cardHolder: fieldsState.cardHolder.value,
                 cardNumber: fieldsState.cardNumber.value,
@@ -189,7 +195,7 @@ class Payform extends React.Component {
 
     getAmount() {
         if (this.props.invoice) {
-            return this.props.invoice.amount;
+            return this.props.invoice.invoice.amount;
         } else if (this.state.template) {
             return this.state.template.cost.amount;
         }
@@ -197,7 +203,7 @@ class Payform extends React.Component {
 
     getCurrency() {
         if (this.props.invoice) {
-            return this.props.invoice.currency;
+            return this.props.invoice.invoice.currency;
         } else if (this.state.template && this.state.template.cost.currency) {
             return this.state.template.cost.currency;
         } else {
@@ -274,6 +280,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             appearanceActions: bindActionCreators(appearanceActions, dispatch),
+            invoiceActions: bindActionCreators(invoiceActions, dispatch)
         }
     }
 }

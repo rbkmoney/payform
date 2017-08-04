@@ -5,6 +5,7 @@ import * as localeActions from '../../redux/actions/localeActions';
 import * as invoiceActions from '../../redux/actions/invoiceActions';
 import * as statusActions from '../../redux/actions/statusActions';
 import * as errorActions from '../../redux/actions/errorActions';
+import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
@@ -24,21 +25,21 @@ class Payframe extends React.Component {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
                 break;
-            //default:
-            //    this.props.actions.statusActions.setStatus('ready');
-            //    break;
+            case 'template':
+                this.props.actions.invoiceTemplateActions.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken);
+                break;
         }
     }
 
     componentWillReceiveProps(props) {
         const locale = this.props.locale;
-        if (props.invoice && props.status !== 'ready') {
-            switch (props.invoice.status) {
+        if (props.invoice && props.status !== 'ready' && props.locale) {
+            switch (props.invoice.invoice.status) {
                 case 'unpaid':
                     this.props.actions.statusActions.setStatus('ready');
                     break;
                 case 'cancelled':
-                    this.props.actions.errorActions.setError(`${locale['error.invoice.cancelled']} ${props.invoice.reason}`);
+                    this.props.actions.errorActions.setError(`${locale['error.invoice.cancelled']} ${props.invoice.invoice.reason}`);
                     this.props.actions.statusActions.setStatus('error');
                     break;
                 case 'paid':
@@ -47,7 +48,7 @@ class Payframe extends React.Component {
                     break;
             }
         }
-        if (props.locale) {
+        if (props.locale && props.config.integrationType === 'template') {
             this.props.actions.statusActions.setStatus('ready');
         }
     }
@@ -100,6 +101,7 @@ function mapDispatchToProps(dispatch) {
         actions: {
             localeActions: bindActionCreators(localeActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
+            invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
             statusActions: bindActionCreators(statusActions, dispatch),
             errorActions: bindActionCreators(errorActions, dispatch),
         }
