@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as localeActions from '../../redux/actions/localeActions';
 import * as invoiceActions from '../../redux/actions/invoiceActions';
-import * as statusActions from '../../redux/actions/statusActions';
 import * as errorActions from '../../redux/actions/errorActions';
 import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
 import Overlay from './Overlay';
@@ -11,101 +10,92 @@ import Modal from './Modal';
 import MessageModal from './MessageModal';
 
 class Payframe extends React.Component {
+
     constructor(props) {
         super(props);
-
         this.state = {
-            error: {}
+            status: 'process'
         };
     }
 
     componentDidMount() {
-        this.props.actions.localeActions.getLocale(this.props.data.locale);
-        switch (this.props.config.integrationType) {
+        this.props.actions.localeActions.getLocale(this.props.initParams.locale);
+        switch (this.props.integration.type) {
             case 'default':
-                this.props.actions.invoiceActions.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
+                this.props.actions.invoiceActions.getInvoice(
+                    this.props.appConfig.capiEndpoint,
+                    this.props.initParams.invoiceID,
+                    this.props.initParams.invoiceAccessToken
+                );
                 break;
             case 'template':
-                this.props.actions.invoiceTemplateActions.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken);
+                this.props.actions.invoiceTemplateActions.getInvoiceTemplate(
+                    this.props.appConfig.capiEndpoint,
+                    this.props.initParams.invoiceTemplateID,
+                    this.props.initParams.invoiceTemplateAccessToken
+                );
                 break;
         }
     }
 
     componentWillReceiveProps(props) {
-        const locale = this.props.locale;
-        if (props.invoice && props.status !== 'ready' && props.locale) {
-            switch (props.invoice.invoice.status) {
+        const invoice = props.integration.invoice;
+        if (props.integration.type === 'default' && invoice) {
+            switch (invoice.status) {
                 case 'unpaid':
-                    this.props.actions.statusActions.setStatus('ready');
+                    this.setState({status: 'ready'});
                     break;
                 case 'cancelled':
-                    this.props.actions.errorActions.setError(`${locale['error.invoice.cancelled']} ${props.invoice.invoice.reason}`);
-                    this.props.actions.statusActions.setStatus('error');
+                    this.setState({status: 'error'});
+                    this.props.actions.errorActions.setError({
+                        localePath: 'error.invoice.cancelled'
+                    });
                     break;
                 case 'paid':
-                    this.props.actions.errorActions.setError(locale['error.invoice.paid']);
-                    this.props.actions.statusActions.setStatus('error');
+                    this.setState({status: 'error'});
+                    this.props.actions.errorActions.setError({
+                        localePath: 'error.invoice.paid'
+                    });
                     break;
             }
+        } else if (props.integration.type === 'template') {
+            this.setState({status: 'ready'});
         }
-        if (props.locale && props.config.integrationType === 'template') {
-            this.props.actions.statusActions.setStatus('ready');
+
+        if (props.error) {
+            this.setState({status: 'error'});
         }
-    }
-
-    renderMessageModal() {
-        return (
-            <MessageModal
-                type={this.state.error.type}
-                error={this.state.error.message}
-                popupMode={this.props.data.popupMode}
-                setClose={this.props.setClose}
-                locale={this.state.locale}
-            />
-        );
-    }
-
-    renderModal() {
-        return (
-            <Modal
-                setCheckoutDone={this.props.setCheckoutDone}
-                setClose={this.props.setClose}
-            />
-        );
     }
 
     render() {
         return (
             <div>
-                <Overlay loader={this.props.status === 'process'} />
-                { this.props.status === 'ready' ? this.renderModal() : false }
-                { this.props.status === 'error' ? this.renderMessageModal() : false }
+                <Overlay loader={this.state.status === 'process'}/>
+                {this.state.status === 'ready' ? <Modal setCheckoutDone={this.props.setCheckoutDone}/> : false}
+                {this.state.status === 'error' ? <MessageModal/> : false}
             </div>
         );
     }
 }
 
-function mapStateToProps (state) {
+function mapState(state) {
     return {
-        config: state.config,
-        data: state.data,
-        locale: state.locale,
-        invoice: state.invoice,
-        status: state.status,
+        appConfig: state.appConfig,
+        initParams: state.initParams,
+        integration: state.integration,
         error: state.error
-    }
+    };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapActions(dispatch) {
     return {
         actions: {
             localeActions: bindActionCreators(localeActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
-            statusActions: bindActionCreators(statusActions, dispatch),
-            errorActions: bindActionCreators(errorActions, dispatch),
+            errorActions: bindActionCreators(errorActions, dispatch)
         }
-    }
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payframe);
+export default connect(mapState, mapActions)(Payframe);

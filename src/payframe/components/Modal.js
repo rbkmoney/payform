@@ -13,7 +13,7 @@ class Modal extends React.Component {
         super(props);
 
         this.state = {
-            defaultEmail: CardUtils.validateEmail(props.data.email) && props.data.email
+            defaultEmail: CardUtils.validateEmail(props.initParams.email) && props.initParams.email // TODO fix it
         };
     }
 
@@ -26,17 +26,11 @@ class Modal extends React.Component {
                 transitionEnter={false}
                 transitionLeave={false}>
                 <div className={cx('checkout--container', {'_large': this.props.appearance.largeContainer})}>
-                    <Header
-                        setClose={this.props.setClose}
-                        logo={this.props.data.logo}
-                        name={this.props.data.name}
-                        description={this.props.data.description}
-                        defaultEmail={this.state.defaultEmail}/>
+                    <Header defaultEmail={this.state.defaultEmail}/>
                     <div className="checkout--body">
                         <Payform
                             defaultEmail={this.state.defaultEmail}
                             onPaymentSuccess={this.props.setCheckoutDone}
-                            onPayformInteract={this.handlePayformInteract}
                         />
                     </div>
                 </div>
@@ -46,11 +40,11 @@ class Modal extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapState(state) {
     return {
         appearance: state.appearance,
-        data: state.data
+        initParams: state.initParams
     }
 }
 
-export default connect(mapStateToProps)(Modal);
+export default connect(mapState)(Modal);

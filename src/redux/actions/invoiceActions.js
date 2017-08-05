@@ -1,22 +1,30 @@
 import { GET_INVOICE, CREATE_INVOICE } from '../constants/invoice';
+import { SET_ERROR } from '../constants/error';
 
 import Invoice from '../../payframe/backend-communication/Invoice';
 
-export function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
+export function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
     return (dispatch) => {
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale)
-            .then((response) => {
-                dispatch({
-                    type: GET_INVOICE,
-                    payload: {
-                        invoice: response,
-                        invoiceAccessToken: {
-                            payload: invoiceAccessToken
-                        }
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken).then((invoice) => {
+            dispatch({
+                type: GET_INVOICE,
+                payload: {
+                    // TODO шта?
+                    invoice: invoice,
+                    invoiceAccessToken: {
+                        payload: invoiceAccessToken
                     }
-                });
+                }
             });
-    }
+        }).catch((error) => {
+            dispatch({
+                type: SET_ERROR,
+                payload: {
+                    localePath: error.localePath
+                }
+            });
+        });
+    };
 }
 
 export function createInvoice(template, params, locale) {
@@ -27,5 +35,5 @@ export function createInvoice(template, params, locale) {
                 payload: response
             });
         });
-    }
+    };
 }

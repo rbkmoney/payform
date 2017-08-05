@@ -1,8 +1,11 @@
 import { SET_ERROR } from '../constants/error';
 
-export function setError(message) {
+export function setError(error) {
     return {
         type: SET_ERROR,
-        payload: { message }
+        payload: {
+            localePath: error.localePath,
+            message: error.message
+        }
     };
 }
