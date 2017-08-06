@@ -46,15 +46,7 @@ ready(function (origin) {
             ConfigLoader.load()
         ]).then((response) => {
             const initParams = response[0];
-            const config = Object.assign({
-                integrationType: getIntegrationType(initParams),
-                payformHost: origin
-            }, response[1]);
-
             const store = configureStore({
-                config,
-                data: initParams,
-
                 appConfig: Object.assign({
                     host: origin
                 }, response[1]),
@@ -68,16 +60,15 @@ ready(function (origin) {
                 const state = store.getState();
                 if (state.result === 'close') {
                     setClose();
+                } else if (state.result === 'done') {
+                    setCheckoutDone.apply(initParams);
                 }
                 console.log('State', store.getState());
             });
 
             ReactDOM.render(
                 <Provider store={store}>
-                    <Payframe
-                        setCheckoutDone={setCheckoutDone.bind(initParams)}
-                        setClose={setClose.bind(initParams)}
-                    />
+                    <Payframe/>
                 </Provider>,
                 modal
             );

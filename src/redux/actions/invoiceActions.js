@@ -9,11 +9,7 @@ export function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
             dispatch({
                 type: GET_INVOICE,
                 payload: {
-                    // TODO шта?
-                    invoice: invoice,
-                    invoiceAccessToken: {
-                        payload: invoiceAccessToken
-                    }
+                    invoice: invoice
                 }
             });
         }).catch((error) => {

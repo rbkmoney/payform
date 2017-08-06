@@ -4,12 +4,11 @@ import LocaleLoader from '../../payframe/loaders/LocaleLoader';
 
 export function getLocale(locale) {
     return (dispatch) => {
-        LocaleLoader.load(locale)
-            .then((response) => {
-                dispatch({
-                    type: GET_LOCALE,
-                    payload: response
-                });
+        LocaleLoader.load(locale).then((response) => {
+            dispatch({
+                type: GET_LOCALE,
+                payload: response
             });
-    }
+        });
+    };
 }

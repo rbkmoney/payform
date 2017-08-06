@@ -21,11 +21,11 @@ class Header extends React.Component {
                         : false
                 }
                 {
-                    this.props.defaultEmail ?
+                    this.props.viewData.defaultEmail ?
                         <div className="checkout--default-email--container">
                             <hr/>
                             <div className="checkout--default-email">
-                                {this.props.defaultEmail}
+                                {this.props.viewData.defaultEmail}
                             </div>
                         </div> : false
                 }
@@ -36,8 +36,9 @@ class Header extends React.Component {
 
 function mapState(state) {
     return {
-        initParams: state.initParams
-    }
+        initParams: state.initParams,
+        viewData: state.viewData
+    };
 }
 
 export default connect(mapState)(Header);

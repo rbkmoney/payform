@@ -5,6 +5,7 @@ import * as localeActions from '../../redux/actions/localeActions';
 import * as invoiceActions from '../../redux/actions/invoiceActions';
 import * as errorActions from '../../redux/actions/errorActions';
 import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
+import * as viewDataActions from '../../redux/actions/viewDataActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
@@ -20,6 +21,7 @@ class Payframe extends React.Component {
 
     componentDidMount() {
         this.props.actions.localeActions.getLocale(this.props.initParams.locale);
+        this.props.actions.viewDataActions.setDefaultEmail(this.props.initParams.email);
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice(
@@ -45,33 +47,32 @@ class Payframe extends React.Component {
                 case 'unpaid':
                     this.setState({status: 'ready'});
                     break;
-                case 'cancelled':
-                    this.setState({status: 'error'});
-                    this.props.actions.errorActions.setError({
-                        localePath: 'error.invoice.cancelled'
-                    });
-                    break;
-                case 'paid':
-                    this.setState({status: 'error'});
-                    this.props.actions.errorActions.setError({
-                        localePath: 'error.invoice.paid'
-                    });
-                    break;
+                // case 'cancelled':
+                //     this.setState({status: 'error'});
+                //     this.props.actions.errorActions.setError({
+                //         localePath: 'error.invoice.cancelled'
+                //     });
+                //     break;
+                // case 'paid':
+                //     this.setState({status: 'error'});
+                //     this.props.actions.errorActions.setError({
+                //         localePath: 'error.invoice.paid'
+                //     });
+                //     break;
             }
         } else if (props.integration.type === 'template') {
             this.setState({status: 'ready'});
         }
-
-        if (props.error) {
-            this.setState({status: 'error'});
-        }
+        // if (props.error) {
+        //     this.setState({status: 'error'});
+        // }
     }
 
     render() {
         return (
             <div>
                 <Overlay loader={this.state.status === 'process'}/>
-                {this.state.status === 'ready' ? <Modal setCheckoutDone={this.props.setCheckoutDone}/> : false}
+                {this.state.status === 'ready' ? <Modal/> : false}
                 {this.state.status === 'error' ? <MessageModal/> : false}
             </div>
         );
@@ -93,7 +94,8 @@ function mapActions(dispatch) {
             localeActions: bindActionCreators(localeActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
-            errorActions: bindActionCreators(errorActions, dispatch)
+            errorActions: bindActionCreators(errorActions, dispatch),
+            viewDataActions: bindActionCreators(viewDataActions, dispatch)
         }
     };
 }

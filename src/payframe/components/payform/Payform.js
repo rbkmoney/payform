@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as appearanceActions from '../../../redux/actions/appearanceActions';
+import * as viewDataActions from '../../../redux/actions/viewDataActions';
 import * as invoiceActions from '../../../redux/actions/invoiceActions';
+import * as resultActions from '../../../redux/actions/resultActions';
 import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
-import PayformValidation from './PayformValidation';
 import PayButton from './elements/PayButton';
 import BackButton from './elements/BackButton';
 import Processing from '../../backend-communication/Processing';
@@ -26,20 +26,7 @@ class Payform extends React.Component {
             back: false,
             payment: '',
             errorMessage: '',
-            invoiceID: props.invoiceID,
-            invoiceAccessToken: props.invoiceAccessToken,
-            interactionData: {},
-            fieldsState: {
-                cardHolder: { value: '', },
-                cardNumber: { value: '', },
-                cardExpire: { value: '', },
-                cardCvv: { value: '', },
-                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '', },
-                amount: {
-                    value: '',
-                    isRequired: false
-                }
-            }
+            interactionData: {}
         };
 
         window.addEventListener('message', (e) => {
@@ -47,18 +34,17 @@ class Payform extends React.Component {
                 this.setState({
                     payment: 'process'
                 });
-                this.props.actions.appearanceActions.updateAppearance('largeContainer', false);
+                this.props.actions.viewDataActions.updateContainerSize('default');
                 this.getEvents();
             }
         });
         this.triggerError = this.triggerError.bind(this);
-        this.handleFieldsChange = this.handleFieldsChange.bind(this);
         this.pay = this.pay.bind(this);
         this.handleProcess = this.handleProcess.bind(this);
     }
 
     componentDidMount() {
-        switch (this.props.config.integrationType) {
+        switch (this.props.integration.type) {
             //case 'template':
                 //this.getInvoiceTemplate();
                 //this.props.actions.invoiceTemplateActions.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale);
@@ -69,13 +55,15 @@ class Payform extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
-        console.log(props);
-    }
+    componentWill
 
     getEvents() {
-        EventPoller.pollEvents(this.props.config.capiEndpoint, this.props.invoice.invoice.id, this.props.data.invoiceAccessToken, this.props.locale)
-            .then((event) => this.handleEvent(event))
+        EventPoller.pollEvents(
+            this.props.appConfig.capiEndpoint,
+            this.props.integration.invoice.id,
+            this.props.initParams.invoiceAccessToken,
+            this.props.locale
+        ).then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
 
@@ -94,10 +82,6 @@ class Payform extends React.Component {
     //        })
     //        .catch((error) => this.handleError(error));
     //}
-
-    handleFieldsChange(fieldsState) {
-        this.setState({ fieldsState });
-    }
 
     triggerError() {
         this.setState({
@@ -135,7 +119,7 @@ class Payform extends React.Component {
         this.setState({
             payment: 'success'
         });
-        this.props.onPaymentSuccess();
+        this.props.actions.resultActions.setDone();
         if (isMobile.any && history.length > 1) {
             setTimeout(() => {
                 this.setState({
@@ -152,7 +136,7 @@ class Payform extends React.Component {
             invoiceID: event.invoiceID,
             invoiceAccessToken: event.invoiceAccessToken
         });
-        this.props.actions.appearanceActions.updateAppearance('largeContainer', true);
+        this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
     handleProcess(isValid, fieldsState) {
@@ -161,16 +145,16 @@ class Payform extends React.Component {
                 payment: 'process'
             });
             Processing.processWithTemplate({
-                invoiceAccessToken: this.props.data.invoiceAccessToken,
-                invoiceID: this.props.invoice.invoice.id,
-                capiEndpoint: this.props.config.capiEndpoint,
+                invoiceAccessToken: this.props.initParams.invoiceAccessToken,
+                invoiceID: this.props.integration.invoice.id,
+                capiEndpoint: this.props.appConfig.capiEndpoint,
                 cardHolder: fieldsState.cardHolder.value,
                 cardNumber: fieldsState.cardNumber.value,
                 cardExpire: fieldsState.cardExpire.value,
                 email: fieldsState.email.value,
                 cardCvv: fieldsState.cardCvv.value,
                 template: this.state.template,
-                invoiceTemplateAccessToken: this.props.data.invoiceTemplateAccessToken,
+                invoiceTemplateAccessToken: this.props.initParams.invoiceTemplateAccessToken,
                 amount: this.state.template && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
                 currency: this.getCurrency()
             }, this.props.locale, this.state.template)
@@ -186,24 +170,22 @@ class Payform extends React.Component {
         if (this.props.back) {
             return;
         }
-        const fieldsState = this.state.fieldsState;
-        const formValidation = new PayformValidation(fieldsState);
-        const isValid = formValidation.validate();
-        this.forceUpdate();
-        this.handleProcess(isValid, fieldsState);
+        const fieldsState = this.props.viewData.cardForm;
+        this.props.actions.viewDataActions.validateForm(this.props.viewData.cardForm);
+        this.handleProcess(this.props.viewData.cardForm.valid, fieldsState);
     }
 
     getAmount() {
-        if (this.props.invoice) {
-            return this.props.invoice.invoice.amount;
+        if (this.props.integration.type === 'default') {
+            return this.props.integration.invoice.amount;
         } else if (this.state.template) {
             return this.state.template.cost.amount;
         }
     }
 
     getCurrency() {
-        if (this.props.invoice) {
-            return this.props.invoice.invoice.currency;
+        if (this.props.integration.type === 'default') {
+            return this.props.integration.invoice.currency;
         } else if (this.state.template && this.state.template.cost.currency) {
             return this.state.template.cost.currency;
         } else {
@@ -221,21 +203,14 @@ class Payform extends React.Component {
                 id={form}
                 role="form"
                 onSubmit={this.pay}
-                noValidate
-            >
+                noValidate>
                 <Fieldset
-                    defaultEmail={this.props.defaultEmail}
-                    onFieldsChange={this.handleFieldsChange}
-                    fieldsState={this.state.fieldsState}
-                    locale={this.props.locale}
                     isAmount={isAmount}
                     currency={this.getCurrency()}
-                    template={this.state.template}
-                />
+                    template={this.state.template}/>
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
-                    message={this.state.errorMessage}
-                />
+                    message={this.state.errorMessage}/>
                 {
                     this.state.back ?
                     <BackButton locale={this.props.locale}/>
@@ -247,8 +222,7 @@ class Payform extends React.Component {
                         label={this.props.payButtonLabel}
                         amount={this.getAmount()}
                         currency={this.getCurrency()}
-                        locale={this.props.locale}
-                    />
+                        locale={this.props.locale}/>
                 }
             </form>
         );
@@ -258,7 +232,9 @@ class Payform extends React.Component {
         return (
             <div className="payform">
                 { this.state.payment === 'interact'
-                    ? <Interaction interactionData={this.state.interactionData} host={this.props.config.payformHost}/>
+                    ? <Interaction
+                        interactionData={this.state.interactionData}
+                        host={this.props.appConfig.host}/>
                     : this.renderPayform()
                 }
             </div>
@@ -266,23 +242,24 @@ class Payform extends React.Component {
     }
 }
 
-function mapStateToProps (state) {
+function mapState (state) {
     return {
-        config: state.config,
+        appConfig: state.appConfig,
+        initParams: state.initParams,
+        integration: state.integration,
         locale: state.locale,
-        invoice: state.invoice,
-        invoiceTemplate: state.template,
-        data: state.data
+        viewData: state.viewData
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapActions(dispatch) {
     return {
         actions: {
-            appearanceActions: bindActionCreators(appearanceActions, dispatch),
-            invoiceActions: bindActionCreators(invoiceActions, dispatch)
+            viewDataActions: bindActionCreators(viewDataActions, dispatch),
+            invoiceActions: bindActionCreators(invoiceActions, dispatch),
+            resultActions: bindActionCreators(resultActions, dispatch)
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Payform);
+export default connect(mapState, mapActions)(Payform);
