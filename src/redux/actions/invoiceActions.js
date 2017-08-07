@@ -1,29 +1,41 @@
-import { GET_INVOICE, CREATE_INVOICE } from '../constants/invoice';
+import { SET_INVOICE, CREATE_INVOICE } from '../constants/invoice';
 import { SET_ERROR } from '../constants/error';
 
 import Invoice from '../../payframe/backend-communication/Invoice';
 
-export function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
-    return (dispatch) => {
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken).then((invoice) => {
-            dispatch({
-                type: GET_INVOICE,
-                payload: {
-                    invoice: invoice
-                }
-            });
-        }).catch((error) => {
-            dispatch({
-                type: SET_ERROR,
-                payload: {
-                    localePath: error.localePath
-                }
-            });
-        });
+function setError(localePath) {
+    return {
+        type: SET_ERROR,
+        payload: {
+            localePath
+        }
     };
 }
 
-export function createInvoice(template, params, locale) {
+function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
+    return (dispatch) => {
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken).then((invoice) => {
+            switch (invoice.status) {
+                case 'unpaid':
+                    dispatch({
+                        type: SET_INVOICE,
+                        payload: {
+                            invoice: invoice
+                        }
+                    });
+                    break;
+                case 'cancelled':
+                    dispatch(setError('error.invoice.cancelled'));
+                    break;
+                case 'paid':
+                    dispatch(setError('error.invoice.paid'));
+                    break;
+            }
+        }).catch(() => dispatch(setError('error.invoice.getInvoice')));
+    };
+}
+
+function createInvoice(template, params, locale) {
     return (dispatch) => {
         Invoice.createInvoice(params, template, locale).then((response) => {
             dispatch({
@@ -33,3 +45,5 @@ export function createInvoice(template, params, locale) {
         });
     };
 }
+
+export { getInvoice, createInvoice };

@@ -10,15 +10,15 @@ export default class Invoice {
                     'Authorization': `Bearer ${invoiceAccessToken}`,
                     'X-Request-ID': guid()
                 }
-            }).then(response => {
+            }).then((response) => {
                 if (response.status === 200) {
                     resolve(response.json());
                 } else {
                     response.json()
-                        .then((error) => reject(error)) // TODO fix it
-                        .catch(() => reject({localePath: 'error.invoice.getInvoice'}));
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
                 }
-            }).catch(() => reject({localePath: 'error.invoice.getInvoice'}));
+            }).catch((error) => reject(error));
         });
     }
 

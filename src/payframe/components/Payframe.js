@@ -40,32 +40,17 @@ class Payframe extends React.Component {
         }
     }
 
-    componentWillReceiveProps(props) {
-        const invoice = props.integration.invoice;
-        if (props.integration.type === 'default' && invoice) {
-            switch (invoice.status) {
-                case 'unpaid':
-                    this.setState({status: 'ready'});
-                    break;
-                // case 'cancelled':
-                //     this.setState({status: 'error'});
-                //     this.props.actions.errorActions.setError({
-                //         localePath: 'error.invoice.cancelled'
-                //     });
-                //     break;
-                // case 'paid':
-                //     this.setState({status: 'error'});
-                //     this.props.actions.errorActions.setError({
-                //         localePath: 'error.invoice.paid'
-                //     });
-                //     break;
-            }
-        } else if (props.integration.type === 'template') {
+    componentWillReceiveProps(nextProps) {
+        const hasInvoiceReceived = nextProps.integration.invoice;
+        const integrationType = nextProps.integration.type;
+        if (integrationType === 'default' && hasInvoiceReceived) {
+            this.setState({status: 'ready'});
+        } else if (integrationType === 'template') {
             this.setState({status: 'ready'});
         }
-        // if (props.error) {
-        //     this.setState({status: 'error'});
-        // }
+        if (nextProps.error) {
+            this.setState({status: 'error'});
+        }
     }
 
     render() {

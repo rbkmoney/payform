@@ -9,19 +9,24 @@ class ErrorModal extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            message: ''
+        };
         this.prepareMessage = this.prepareMessage.bind(this);
     }
 
-    prepareMessage() { // TODO fix it
-        let result = this.props.locale['Unknown Failure'];
-        const localePath = this.props.error.localePath;
-        if (localePath) {
-            const localized = this.props.locale[localePath];
-            if (localized) {
-                result = localized;
-            }
+    componentDidMount() {
+        if (this.props.error) {
+            this.setState({
+                message: this.prepareMessage(this.props.error.localePath)
+            });
         }
-        return result;
+    }
+
+    prepareMessage(localePath) {
+        return localePath
+            ? this.props.locale[localePath]
+            : this.props.locale['Unknown Failure'];
     }
 
     render() {
@@ -31,8 +36,7 @@ class ErrorModal extends React.Component {
                 transitionAppear={true}
                 transitionAppearTimeout={400}
                 transitionEnter={false}
-                transitionLeave={false}
-            >
+                transitionLeave={false}>
                 <div className="error-modal">
                     <div className="error-modal--header">
                         <div className="error-modal--header--text">Error</div>
@@ -40,7 +44,7 @@ class ErrorModal extends React.Component {
                     </div>
                     <div className="error-modal--body">
                         <div className="error-modal--message">
-                            {this.prepareMessage()}
+                            {this.state.message}
                         </div>
                     </div>
                 </div>

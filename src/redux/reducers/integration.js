@@ -1,8 +1,8 @@
-import { GET_INVOICE } from '../constants/invoice';
+import { SET_INVOICE } from '../constants/invoice';
 
 export default function (state = null, action) {
     switch (action.type) {
-        case GET_INVOICE:
+        case SET_INVOICE:
             return {
                 ...state,
                 invoice: action.payload.invoice

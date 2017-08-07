@@ -5,8 +5,7 @@ export default function (state = null, action) {
         case SET_ERROR:
             return {
                 ...state,
-                localePath: action.payload.localePath,
-                message: action.payload.message
+                localePath: action.payload.localePath
             };
     }
     return state;
