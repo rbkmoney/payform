@@ -7,6 +7,7 @@ import locale from './locale';
 import status from './status';
 import error from './error';
 import appearance from './appearance';
+import process from './process';
 
 export default combineReducers({
     invoice,
@@ -16,5 +17,6 @@ export default combineReducers({
     locale,
     status,
     error,
-    appearance
+    appearance,
+    process
 })
