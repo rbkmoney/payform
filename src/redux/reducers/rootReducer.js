@@ -6,6 +6,7 @@ import locale from './locale';
 import error from './error';
 import result from './result';
 import viewData from './viewData';
+import payment from './payment';
 
 export default combineReducers({
     initParams,
@@ -14,5 +15,6 @@ export default combineReducers({
     locale,
     error,
     result,
-    viewData
+    viewData,
+    payment
 })

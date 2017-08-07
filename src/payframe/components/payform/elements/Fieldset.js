@@ -43,6 +43,7 @@ class Fieldset extends React.Component {
 
     render() {
         // const amount = this.state.amount;
+        const email = this.props.viewData.cardForm.email;
         return (
             <span>
                 <fieldset className="payform--fieldset">
@@ -53,9 +54,12 @@ class Fieldset extends React.Component {
                 <fieldset className="payform--fieldset">
                     <CardHolder/>
                 </fieldset>
-                <fieldset className="payform--fieldset">
-                    <Email/>
-                </fieldset>
+                {
+                    email.visible ?
+                        <fieldset className="payform--fieldset">
+                            <Email/>
+                        </fieldset> : false
+                }
                 {
                     this.props.isAmount ?
                         <fieldset className="payform--fieldset">

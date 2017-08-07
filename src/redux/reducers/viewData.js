@@ -32,10 +32,19 @@ export default function (state = defaultState, action) {
                 containerSize: action.payload.containerSize
             };
         case SET_DEFAULT_EMAIL:
-            return {
+            const email = action.payload.defaultEmail;
+            return email ? {
                 ...state,
-                defaultEmail: action.payload.defaultEmail
-            };
+                defaultEmail: email,
+                cardForm: {
+                    ...state.cardForm,
+                    email: {
+                        ...state.cardForm.email,
+                        value: email,
+                        visible: false
+                    }
+                }
+            } : state;
         case SET_CARD_NUMBER_VALUE:
             return {
                 ...state,
