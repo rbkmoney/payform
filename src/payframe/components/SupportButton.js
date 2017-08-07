@@ -1,9 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class SupportButton extends React.Component {
+    getID() {
+        if (this.props.invoice) {
+            return `invoiceID: ${this.props.invoice.id}`
+        } else if (this.props.invoiceTemplate) {
+            return `invoiceTemplateID: ${this.props.invoiceTemplate.id}`
+        }
+    }
 
     render() {
-        const body = `\n-------------------\nService information:\ninvoiceID: ${this.props.invoiceID}`;
+        const body = `\n-------------------\nService information:\n${this.getID()}`;
         return (
             <div className="checkout--support">
                 <a className="checkout--support--button" href={`mailto:support@rbkmoney.com?body=${encodeURI(body)}`}>
@@ -15,4 +23,12 @@ class SupportButton extends React.Component {
     }
 }
 
-export default SupportButton;
+function mapStateToProps(state) {
+    return {
+        locale: state.locale,
+        invoice: state.invoice,
+        invoiceTemplate: state.invoiceTemplate
+    }
+}
+
+export default connect(mapStateToProps)(SupportButton);
