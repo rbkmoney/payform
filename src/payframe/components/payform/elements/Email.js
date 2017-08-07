@@ -36,7 +36,7 @@ class Email extends React.Component {
         return <div className="payform--group payform--email">
             <input
                 id="email" type="email" name="email"
-                value={this.props.value}
+                value={this.props.value} // TODO fix it
                 onChange={this.handleChange}
                 onBlur={this.handleChange}
                 ref={(input) => {

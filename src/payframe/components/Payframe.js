@@ -64,7 +64,7 @@ class Payframe extends React.Component {
     }
 }
 
-function mapState(state) {
+function mapStateToProps(state) {
     return {
         appConfig: state.appConfig,
         initParams: state.initParams,
@@ -73,7 +73,7 @@ function mapState(state) {
     };
 }
 
-function mapActions(dispatch) {
+function mapActionsToProps(dispatch) {
     return {
         actions: {
             localeActions: bindActionCreators(localeActions, dispatch),
@@ -85,4 +85,4 @@ function mapActions(dispatch) {
     };
 }
 
-export default connect(mapState, mapActions)(Payframe);
+export default connect(mapStateToProps, mapActionsToProps)(Payframe);

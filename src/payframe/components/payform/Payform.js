@@ -16,8 +16,6 @@ import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
 
-//import InvoiceTemplate from '../../backend-communication/InvoiceTemplate';
-
 class Payform extends React.Component {
 
     constructor(props) {
@@ -43,15 +41,10 @@ class Payform extends React.Component {
         });
         this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
-        // this.handleProcess = this.handleProcess.bind(this);
     }
 
     componentDidMount() {
         switch (this.props.integration.type) {
-            //case 'template':
-            //this.getInvoiceTemplate();
-            //this.props.actions.invoiceTemplateActions.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale);
-            //break;
             case 'default':
                 this.getEvents();
                 break;
@@ -96,22 +89,6 @@ class Payform extends React.Component {
         ).then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
-
-    //getInvoiceTemplate() {
-    //    InvoiceTemplate.getInvoiceTemplate(this.props.config.capiEndpoint, this.props.data.invoiceTemplateID, this.props.data.invoiceTemplateAccessToken, this.props.locale)
-    //        .then((template) => {
-    //            this.setState({
-    //                template,
-    //                fieldsState: Object.assign(this.state.fieldsState, {
-    //                    amount: {
-    //                        isRequired: template.cost ? template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : true,
-    //                        value: ''
-    //                    }
-    //                })
-    //            });
-    //        })
-    //        .catch((error) => this.handleError(error));
-    //}
 
     triggerError() {
         this.setState({
@@ -170,32 +147,6 @@ class Payform extends React.Component {
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
-    // handleProcess(isValid, fieldsState) {
-    //     if (isValid) {
-    //         this.setState({
-    //             payment: 'process'
-    //         });
-    //         Processing.processWithTemplate({
-    //             invoiceAccessToken: this.props.initParams.invoiceAccessToken,
-    //             invoiceID: this.props.integration.invoice.id,
-    //             capiEndpoint: this.props.appConfig.capiEndpoint,
-    //             cardHolder: fieldsState.cardHolder.value,
-    //             cardNumber: fieldsState.cardNumber.value,
-    //             cardExpire: fieldsState.cardExpire.value,
-    //             email: fieldsState.email.value,
-    //             cardCvv: fieldsState.cardCvv.value,
-    //             template: this.state.template,
-    //             invoiceTemplateAccessToken: this.props.initParams.invoiceTemplateAccessToken,
-    //             amount: this.state.template && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
-    //             currency: this.getCurrency()
-    //         }, this.props.locale, this.state.template)
-    //             .then(event => this.handleEvent(event))
-    //             .catch(error => this.handleError(error));
-    //     } else {
-    //         this.triggerError();
-    //     }
-    // }
-
     pay(e) {
         e.preventDefault();
         if (this.props.back) {
@@ -226,8 +177,6 @@ class Payform extends React.Component {
 
     renderPayform() {
         const form = 'payform';
-        const isAmount = this.state.template ? this.state.template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : false;
-
         return (
             <form
                 className={cx('payform--form', {_error: this.state.error})}
@@ -235,10 +184,7 @@ class Payform extends React.Component {
                 role="form"
                 onSubmit={this.pay}
                 noValidate>
-                <Fieldset
-                    isAmount={isAmount}
-                    currency={this.getCurrency()}
-                    template={this.state.template}/>
+                <Fieldset/>
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
                     message={this.state.errorMessage}/>

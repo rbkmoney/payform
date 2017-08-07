@@ -13,37 +13,34 @@ class Fieldset extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleAmount = this.handleAmount.bind(this);
+        this.handleTemplate = this.handleTemplate.bind(this);
     }
 
-    handleAmount(value) {
-        if (this.props.template && this.props.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
-            this.setPayformState(this.assignRange(this.state.amount, {
-                value,
-                range: this.props.template.cost.range
-            }), 'amount');
-        } else {
-            this.setPayformState(this.assignValue(this.state.amount, value), 'amount');
+    componentDidMount() {
+        switch (this.props.integration.type) {
+            case 'template':
+                this.handleTemplate();
+                break;
         }
     }
 
-    assignRange(prop, value) {
-        return Object.assign(prop, value);
-    }
-
-    assignValue(prop, value) {
-        return Object.assign(prop, {value});
-    }
-
-    setPayformState(data, name) {
-        this.setState({
-            [name]: data
-        });
+    handleTemplate() {
+        const cost = this.props.integration.invoiceTemplate.cost;
+        if (cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
+            this.props.actions.viewDataActions.setFieldsVisibility({
+                amountVisible: true
+            });
+            this.props.actions.viewDataActions.setAmountType({
+                name: 'range',
+                lowerBound: cost.range.lowerBound,
+                upperBound: cost.range.upperBound
+            });
+        }
     }
 
     render() {
-        // const amount = this.state.amount;
         const email = this.props.viewData.cardForm.email;
+        const amount = this.props.viewData.cardForm.amount;
         return (
             <span>
                 <fieldset className="payform--fieldset">
@@ -61,18 +58,10 @@ class Fieldset extends React.Component {
                         </fieldset> : false
                 }
                 {
-                    this.props.isAmount ?
+                    amount.visible ?
                         <fieldset className="payform--fieldset">
-                            <Amount
-                                onChange={this.handleAmount}
-                                value={amount.value}
-                                isValid={amount.isValid}
-                                locale={this.props.locale}
-                                currency={this.props.currency}
-                                template={this.props.template}
-                            />
-                        </fieldset>
-                        : false
+                            <Amount/>
+                        </fieldset> : false
                 }
             </span>
         );
@@ -82,7 +71,8 @@ class Fieldset extends React.Component {
 function mapState(state) {
     return {
         locale: state.locale,
-        viewData: state.viewData
+        viewData: state.viewData,
+        integration: state.integration
     };
 }
 
