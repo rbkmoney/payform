@@ -1,4 +1,4 @@
-import { SET_INVOICE, CREATE_INVOICE } from '../constants/invoice';
+import { SET_INVOICE } from '../constants/invoice';
 import { SET_ERROR } from '../constants/error';
 
 import Invoice from '../../payframe/backend-communication/Invoice';
@@ -12,37 +12,47 @@ function setError(localePath) {
     };
 }
 
+function dispatchInvoice(dispatch, invoice, invoiceAccessToken) {
+    switch (invoice.status) {
+        case 'unpaid':
+            dispatch({
+                type: SET_INVOICE,
+                payload: {
+                    invoice: invoice,
+                    invoiceAccessToken: invoiceAccessToken
+                }
+            });
+            break;
+        case 'cancelled':
+            dispatch(setError('error.invoice.cancelled'));
+            break;
+        case 'paid':
+            dispatch(setError('error.invoice.paid'));
+            break;
+    }
+}
+
+function dispatchError(error, localePath, dispatch) {
+    console.error(error);
+    dispatch(setError(localePath));
+}
+
 function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
     return (dispatch) => {
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken).then((invoice) => {
-            switch (invoice.status) {
-                case 'unpaid':
-                    dispatch({
-                        type: SET_INVOICE,
-                        payload: {
-                            invoice: invoice
-                        }
-                    });
-                    break;
-                case 'cancelled':
-                    dispatch(setError('error.invoice.cancelled'));
-                    break;
-                case 'paid':
-                    dispatch(setError('error.invoice.paid'));
-                    break;
-            }
-        }).catch(() => dispatch(setError('error.invoice.getInvoice')));
+        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken)
+            .then((invoice) => dispatchInvoice(dispatch, invoice))
+            .catch((error) => dispatchError(error, 'error.invoice.getInvoice', dispatch));
     };
 }
 
-function createInvoice(template, params, locale) {
+function createInvoice(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, invoiceParams) {
     return (dispatch) => {
-        Invoice.createInvoice(params, template, locale).then((response) => {
-            dispatch({
-                type: CREATE_INVOICE,
-                payload: response
-            });
-        });
+        Invoice.createInvoice(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, invoiceParams)
+            .then((invoiceAndToken) => dispatchInvoice(
+                dispatch,
+                invoiceAndToken.invoice,
+                invoiceAndToken.invoiceAccessToken
+            )).catch((error) => dispatchError(error, 'error.invoice.notCreated', dispatch));
     };
 }
 

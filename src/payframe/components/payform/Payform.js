@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { toNumber } from 'lodash';
 import * as viewDataActions from '../../../redux/actions/viewDataActions';
 import * as invoiceActions from '../../../redux/actions/invoiceActions';
 import * as resultActions from '../../../redux/actions/resultActions';
@@ -52,39 +53,81 @@ class Payform extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const paymentState = nextProps.payment;
-        if (paymentState.status === 'start') {
-            if (nextProps.viewData.cardForm.valid) {
-                this.props.actions.paymentActions.setStatus('process');
-                const form = nextProps.viewData.cardForm;
-                Processing.process({
-                    invoiceAccessToken: this.props.initParams.invoiceAccessToken,
-                    invoiceID: this.props.integration.invoice.id,
-                    capiEndpoint: this.props.appConfig.capiEndpoint,
-                    cardHolder: form.cardHolder.value,
-                    cardNumber: form.cardNumber.value,
-                    cardExpire: form.cardExpire.value,
-                    email: form.email.value,
-                    cardCvv: form.cardCvv.value
-                }, this.props.locale)
-                    .then(event => this.handleEvent(event))
-                    .catch(error => this.handleError(error));
-            } else {
-                this.props.actions.paymentActions.setStatus('');
-                this.triggerError();
-            }
-        } else if (paymentState.status === 'process') {
-            this.setState({
-                payment: 'process'
-            });
+        switch (nextProps.payment.status) {
+            case 'start':
+                if (nextProps.viewData.cardForm.valid) {
+                    if (nextProps.integration.type === 'default') {
+                        nextProps.actions.paymentActions.setStatus('process');
+                        this.processPayment(nextProps, nextProps.initParams.invoiceAccessToken);
+                    } else if (nextProps.integration.type === 'template') {
+                        this.setState({
+                            payment: 'process'
+                        });
+                        nextProps.actions.paymentActions.setStatus('process-template');
+                        this.processTemplate(nextProps);
+                    }
+                } else {
+                    nextProps.actions.paymentActions.setStatus('');
+                    this.triggerError();
+                }
+                break;
+            case 'process-template':
+                if (nextProps.integration.invoiceAccessToken) {
+                    nextProps.actions.paymentActions.setStatus('process');
+                    this.processPayment(nextProps, nextProps.integration.invoiceAccessToken.payload);
+                }
+                break;
+            case 'process':
+                this.setState({
+                    payment: 'process'
+                });
+                break;
         }
     }
 
+    processTemplate(props) {
+        const form = props.viewData.cardForm;
+        const template = props.integration.invoiceTemplate;
+        const initParams = props.initParams;
+        props.actions.invoiceActions.createInvoice(
+            props.appConfig.capiEndpoint,
+            initParams.invoiceTemplateID,
+            initParams.invoiceTemplateAccessToken,
+            {
+                amount: toNumber(form.amount.value) * 100,
+                currency: 'RUB', // TODO fix it
+                metadata: template.metadata
+            }
+        );
+    }
+
+    processPayment(props, token) {
+        const form = props.viewData.cardForm;
+        Processing.process({
+            invoiceAccessToken: token,
+            invoiceID: props.integration.invoice.id,
+            capiEndpoint: props.appConfig.capiEndpoint,
+            cardHolder: form.cardHolder.value,
+            cardNumber: form.cardNumber.value,
+            cardExpire: form.cardExpire.value,
+            email: form.email.value,
+            cardCvv: form.cardCvv.value
+        }, props.locale)
+            .then(event => this.handleEvent(event))
+            .catch(error => this.handleError(error));
+    }
+
     getEvents() {
+        let token;
+        if (this.props.integration.type === 'default') {
+            token = this.props.initParams.invoiceAccessToken;
+        } else if (this.props.integration.type === 'template') {
+            token = this.props.integration.invoiceAccessToken.payload;
+        }
         EventPoller.pollEvents(
             this.props.appConfig.capiEndpoint,
             this.props.integration.invoice.id,
-            this.props.initParams.invoiceAccessToken,
+            token,
             this.props.locale
         ).then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
@@ -157,24 +200,6 @@ class Payform extends React.Component {
         this.props.actions.paymentActions.setStatus('start');
     }
 
-    getAmount() {
-        if (this.props.integration.type === 'default') {
-            return this.props.integration.invoice.amount;
-        } else if (this.state.template) {
-            return this.state.template.cost.amount;
-        }
-    }
-
-    getCurrency() {
-        if (this.props.integration.type === 'default') {
-            return this.props.integration.invoice.currency;
-        } else if (this.state.template && this.state.template.cost.currency) {
-            return this.state.template.cost.currency;
-        } else {
-            return settings.defaultCurrency;
-        }
-    }
-
     renderPayform() {
         const form = 'payform';
         return (
@@ -189,17 +214,12 @@ class Payform extends React.Component {
                     visible={this.state.payment === 'error'}
                     message={this.state.errorMessage}/>
                 {
-                    this.state.back ?
-                        <BackButton locale={this.props.locale}/>
-                        :
-                        <PayButton
+                    this.state.back
+                        ? <BackButton locale={this.props.locale}/>
+                        : <PayButton
                             form={form}
                             checkmark={this.state.payment === 'success'}
-                            spinner={this.state.payment === 'process'}
-                            label={this.props.payButtonLabel}
-                            amount={this.getAmount()}
-                            currency={this.getCurrency()}
-                            locale={this.props.locale}/>
+                            spinner={this.state.payment === 'process'}/>
                 }
             </form>
         );

@@ -1,4 +1,3 @@
-import { isNull } from 'lodash';
 import {
     UPDATE_CONTAINER_SIZE,
     SET_DEFAULT_EMAIL,
@@ -9,7 +8,8 @@ import {
     SET_EMAIL_VALUE, VALIDATE_FORM,
     SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
-    SET_AMOUNT_TYPE
+    SET_AMOUNT_TYPE,
+    SET_FIELDS_REQUIRED
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -102,19 +102,27 @@ function validateForm(form) {
     const isEmailValid = CardUtils.validateEmail(form.email.value);
 
     let isAmountValid = null;
-    if (form.amount.visible && form.amount.type.name === 'range') {
-        isAmountValid = CardUtils.validateAmountRange(
-            form.amount.value,
-            form.amount.type.lowerBound,
-            form.amount.type.upperBound
-        );
+    if (form.amount.required) {
+        if (form.amount.type.name === 'range') {
+            isAmountValid = CardUtils.validateAmountRange(
+                form.amount.value,
+                form.amount.type.lowerBound,
+                form.amount.type.upperBound
+            );
+        } else if (form.amount.type.name === 'unlim') {
+            isAmountValid = CardUtils.validateAmount(form.amount.value);
+        } else if (form.amount.type.name === 'fixed') {
+            isAmountValid = true;
+        }
+    } else {
+        isAmountValid = true;
     }
     const valid = isCardHolderValid
         && isCardNumberValid
         && isCardExpiryValid
         && isCardCvvValid
         && isEmailValid
-        && !isNull(isAmountValid) && isAmountValid;
+        && isAmountValid;
 
     return {
         type: VALIDATE_FORM,
@@ -139,6 +147,15 @@ function setFieldsVisibility(config) {
     };
 }
 
+function setFieldsRequired(config) {
+    return {
+        type: SET_FIELDS_REQUIRED,
+        payload: {
+            amountRequired: config.amountRequired
+        }
+    };
+}
+
 export {
     updateContainerSize,
     setDefaultEmail,
@@ -150,5 +167,6 @@ export {
     setAmountVal,
     setAmountType,
     validateForm,
-    setFieldsVisibility
+    setFieldsVisibility,
+    setFieldsRequired
 };

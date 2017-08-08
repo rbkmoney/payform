@@ -6,7 +6,8 @@ export default function (state = null, action) {
         case SET_INVOICE:
             return {
                 ...state,
-                invoice: action.payload.invoice
+                invoice: action.payload.invoice,
+                invoiceAccessToken: action.payload.invoiceAccessToken
             };
         case SET_INVOICE_TEMPLATE:
             return {

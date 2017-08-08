@@ -9,7 +9,8 @@ import {
     VALIDATE_FORM,
     SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
-    SET_AMOUNT_TYPE
+    SET_AMOUNT_TYPE,
+    SET_FIELDS_REQUIRED
 } from '../constants/viewData';
 
 const defaultState = {
@@ -34,7 +35,8 @@ const defaultState = {
         amount: {
             value: '',
             visible: false,
-            type: ''
+            type: '',
+            required: false
         }
     }
 };
@@ -46,7 +48,7 @@ export default function (state = defaultState, action) {
                 ...state,
                 containerSize: action.payload.containerSize
             };
-        case SET_DEFAULT_EMAIL:
+        case SET_DEFAULT_EMAIL: {
             const email = action.payload.defaultEmail;
             return email ? {
                 ...state,
@@ -60,6 +62,7 @@ export default function (state = defaultState, action) {
                     }
                 }
             } : state;
+        }
         case SET_CARD_NUMBER_VALUE:
             return {
                 ...state,
@@ -174,28 +177,20 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    // cardNumber: {
-                    //     ...state.cardForm.cardNumber,
-                    //     visible: action.payload.isCardNumberValid
-                    // },
-                    // cardExpire: {
-                    //     ...state.cardForm.cardExpire,
-                    //     visible: action.payload.isCardExpiryValid
-                    // },
-                    // cardCvv: {
-                    //     ...state.cardForm.cardCvv,
-                    //     visible: action.payload.isCardCvvValid
-                    // },
-                    // cardHolder: {
-                    //     ...state.cardForm.cardHolder,
-                    //     visible: action.payload.isCardHolderValid
-                    // },
-                    // email: {
-                    //     ...state.cardForm.email,
-                    //     visible: action.payload.isEmailValid
-                    // },
                     amount: {
+                        ...state.cardForm.amount,
                         visible: action.payload.amountVisible
+                    }
+                }
+            };
+        case SET_FIELDS_REQUIRED:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    amount: {
+                        ...state.cardForm.amount,
+                        required: action.payload.amountRequired
                     }
                 }
             };

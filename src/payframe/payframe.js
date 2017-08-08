@@ -63,7 +63,6 @@ ready(function (origin) {
                 } else if (state.result === 'done') {
                     setCheckoutDone.apply(initParams);
                 }
-                console.log('State', store.getState());
             });
 
             ReactDOM.render(

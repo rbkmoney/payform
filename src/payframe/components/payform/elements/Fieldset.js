@@ -25,17 +25,37 @@ class Fieldset extends React.Component {
     }
 
     handleTemplate() {
+        const viewDataActions = this.props.actions.viewDataActions;
         const cost = this.props.integration.invoiceTemplate.cost;
-        if (cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
-            this.props.actions.viewDataActions.setFieldsVisibility({
-                amountVisible: true
-            });
-            this.props.actions.viewDataActions.setAmountType({
-                name: 'range',
-                lowerBound: cost.range.lowerBound,
-                upperBound: cost.range.upperBound
-            });
+        let visible = false;
+        switch (cost.invoiceTemplateCostType) {
+            case 'InvoiceTemplateCostRange':
+                viewDataActions.setAmountType({
+                    name: 'range',
+                    lowerBound: cost.range.lowerBound,
+                    upperBound: cost.range.upperBound
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostUnlim':
+                viewDataActions.setAmountType({
+                    name: 'unlim'
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostFixed':
+                viewDataActions.setAmountType({
+                    name: 'fixed'
+                });
+                viewDataActions.setAmountVal(cost.amount / 100);
+                break;
         }
+        viewDataActions.setFieldsVisibility({
+            amountVisible: visible
+        });
+        viewDataActions.setFieldsRequired({
+            amountRequired: true
+        });
     }
 
     render() {
