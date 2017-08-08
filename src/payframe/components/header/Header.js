@@ -1,7 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Logo from './Logo';
 import ModalClose from './ModalClose';
-import isMobile from 'ismobilejs';
 
 class Header extends React.Component {
 
@@ -9,23 +9,23 @@ class Header extends React.Component {
         return (
             <div className="checkout--header">
                 {
-                    !isMobile.any
-                        ? <ModalClose setClose={this.props.setClose}/>
+                    this.props.initParams.popupMode
+                        ? false
+                        : <ModalClose/>
+                }
+                <Logo logo={this.props.initParams.logo}/>
+                <div className="checkout--company-name">{this.props.initParams.name}</div>
+                {
+                    this.props.initParams.description
+                        ? <div className="checkout--company-description">{this.props.initParams.description}</div>
                         : false
                 }
-                <Logo logo={this.props.logo}/>
-                <div className="checkout--company-name">{this.props.name}</div>
                 {
-                    this.props.description
-                        ? <div className="checkout--company-description">{this.props.description}</div>
-                        : false
-                }
-                {
-                    this.props.defaultEmail ?
+                    this.props.viewData.defaultEmail ?
                         <div className="checkout--default-email--container">
                             <hr/>
                             <div className="checkout--default-email">
-                                {this.props.defaultEmail}
+                                {this.props.viewData.defaultEmail}
                             </div>
                         </div> : false
                 }
@@ -34,4 +34,11 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+function mapState(state) {
+    return {
+        initParams: state.initParams,
+        viewData: state.viewData
+    };
+}
+
+export default connect(mapState)(Header);

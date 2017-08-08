@@ -1,115 +1,88 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as localeActions from '../../redux/actions/localeActions';
+import * as invoiceActions from '../../redux/actions/invoiceActions';
+import * as errorActions from '../../redux/actions/errorActions';
+import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
+import * as viewDataActions from '../../redux/actions/viewDataActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
-import LocaleLoader from '../loaders/LocaleLoader';
-import Invoice from '../backend-communication/Invoice';
 
-export default class Payframe extends React.Component {
+class Payframe extends React.Component {
+
     constructor(props) {
         super(props);
-
         this.state = {
-            data: props.data,
-            error: {},
             status: 'process'
         };
-
-        this.getInvoice = this.getInvoice.bind(this);
     }
 
     componentDidMount() {
-        LocaleLoader.load(this.props.data.locale).then((locale) => {
-            this.setState({
-                locale
-            });
-
-            switch (this.props.integrationType) {
-                case 'default':
-                    this.getInvoice(this.props.config.capiEndpoint, this.props.data.invoiceID, this.props.data.invoiceAccessToken);
-                    break;
-                default:
-                    this.setState({
-                        status: 'ready'
-                    });
-                    break;
-            }
-        });
+        this.props.actions.localeActions.getLocale(this.props.initParams.locale);
+        this.props.actions.viewDataActions.setDefaultEmail(this.props.initParams.email);
+        switch (this.props.integration.type) {
+            case 'default':
+                this.props.actions.invoiceActions.getInvoice(
+                    this.props.appConfig.capiEndpoint,
+                    this.props.initParams.invoiceID,
+                    this.props.initParams.invoiceAccessToken
+                );
+                break;
+            case 'template':
+                this.props.actions.invoiceTemplateActions.getInvoiceTemplate(
+                    this.props.appConfig.capiEndpoint,
+                    this.props.initParams.invoiceTemplateID,
+                    this.props.initParams.invoiceTemplateAccessToken
+                );
+                break;
+        }
     }
 
-    getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
-        const locale = this.state.locale;
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale)
-            .then((invoice) => {
-                switch (invoice.status) {
-                    case 'unpaid':
-                        this.setState({
-                            invoice: {
-                                currency: invoice.currency,
-                                amount: invoice.amount
-                            },
-                            status: 'ready'
-                        });
-                        break;
-                    case 'cancelled':
-                        this.setState({
-                            error: {
-                                message: `${locale['error.invoice.cancelled']} ${invoice.reason}`
-                            },
-                            status: 'error'
-                        });
-                        break;
-                    case 'paid':
-                        this.setState({
-                            error: {
-                                message: locale['error.invoice.paid']
-                            },
-                            status: 'error'
-                        });
-                        break;
-                }
-            })
-            .catch((error) => this.setState({ error, status: 'error' }) );
-    }
-
-    renderMessageModal() {
-        return (
-            <MessageModal
-                type={this.state.error.type}
-                error={this.state.error.message}
-                popupMode={this.state.data.popupMode}
-                setClose={this.props.setClose}
-                locale={this.state.locale}
-            />
-        );
-    }
-
-    renderModal() {
-        return (
-            <Modal
-                capiEndpoint={this.props.config.capiEndpoint}
-                payformHost={this.props.payformHost}
-
-                data={this.state.data}
-
-                invoice={this.state.invoice}
-
-                locale={this.state.locale}
-
-                setCheckoutDone={this.props.setCheckoutDone}
-                setClose={this.props.setClose}
-                integrationType={this.props.integrationType}
-            />
-        );
+    componentWillReceiveProps(nextProps) {
+        const hasInvoiceReceived = nextProps.integration.invoice;
+        const integrationType = nextProps.integration.type;
+        if (integrationType === 'default' && hasInvoiceReceived) {
+            this.setState({status: 'ready'});
+        } else if (integrationType === 'template') {
+            this.setState({status: 'ready'});
+        }
+        if (nextProps.error) {
+            this.setState({status: 'error'});
+        }
     }
 
     render() {
         return (
             <div>
-                <Overlay loader={this.state.status === 'process'} />
-                { this.state.status === 'ready' ? this.renderModal() : false }
-                { this.state.status === 'error' ? this.renderMessageModal() : false }
+                <Overlay loader={this.state.status === 'process'}/>
+                {this.state.status === 'ready' ? <Modal/> : false}
+                {this.state.status === 'error' ? <MessageModal/> : false}
             </div>
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        appConfig: state.appConfig,
+        initParams: state.initParams,
+        integration: state.integration,
+        error: state.error
+    };
+}
+
+function mapActionsToProps(dispatch) {
+    return {
+        actions: {
+            localeActions: bindActionCreators(localeActions, dispatch),
+            invoiceActions: bindActionCreators(invoiceActions, dispatch),
+            invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
+            errorActions: bindActionCreators(errorActions, dispatch),
+            viewDataActions: bindActionCreators(viewDataActions, dispatch)
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Payframe);

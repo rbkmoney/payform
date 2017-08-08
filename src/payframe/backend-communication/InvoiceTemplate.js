@@ -1,7 +1,7 @@
 import guid from '../../utils/guid';
 
 export default class InvoiceTemplate {
-    static getInvoiceTemplate(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, locale) {
+    static getInvoiceTemplate(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoice-templates/${invoiceTemplateID}`, {
                 method: 'GET',
@@ -10,19 +10,15 @@ export default class InvoiceTemplate {
                     'X-Request-ID': guid(),
                     'Authorization': `Bearer ${invoiceTemplateAccessToken}`
                 }
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        resolve(response.json());
-                    } else {
-                        response.json()
-                            .then(() => reject({message: locale['error.invoice.getTemplate']}))
-                            .catch(() => reject({message: locale['error.invoice.getTemplate']}));
-                    }
-                })
-                .catch(() => {
-                    reject({message: locale['error.invoice.getTemplate']})
-                });
+            }).then((response) => {
+                if (response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
+                }
+            }).catch((error) => reject(error));
         });
     }
 }

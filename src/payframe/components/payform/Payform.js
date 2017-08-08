@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { toNumber } from 'lodash';
+import * as viewDataActions from '../../../redux/actions/viewDataActions';
+import * as invoiceActions from '../../../redux/actions/invoiceActions';
+import * as resultActions from '../../../redux/actions/resultActions';
+import * as paymentActions from '../../../redux/actions/paymentActions';
 import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
-import PayformValidation from './PayformValidation';
 import PayButton from './elements/PayButton';
 import BackButton from './elements/BackButton';
 import Processing from '../../backend-communication/Processing';
@@ -10,7 +16,6 @@ import settings from '../../../settings';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
-import InvoiceTemplate from '../../backend-communication/InvoiceTemplate';
 
 class Payform extends React.Component {
 
@@ -22,20 +27,7 @@ class Payform extends React.Component {
             back: false,
             payment: '',
             errorMessage: '',
-            invoiceID: props.invoiceID,
-            invoiceAccessToken: props.invoiceAccessToken,
-            interactionData: {},
-            fieldsState: {
-                cardHolder: { value: '', },
-                cardNumber: { value: '', },
-                cardExpire: { value: '', },
-                cardCvv: { value: '', },
-                email: { value: this.props.defaultEmail ? this.props.defaultEmail : '', },
-                amount: {
-                    value: '',
-                    isRequired: false
-                }
-            }
+            interactionData: {}
         };
 
         window.addEventListener('message', (e) => {
@@ -43,51 +35,102 @@ class Payform extends React.Component {
                 this.setState({
                     payment: 'process'
                 });
-                this.props.onPayformInteract(false);
+                this.props.actions.paymentActions.setStatus('process');
+                this.props.actions.viewDataActions.updateContainerSize('default');
                 this.getEvents();
             }
         });
         this.triggerError = this.triggerError.bind(this);
-        this.handleFieldsChange = this.handleFieldsChange.bind(this);
         this.pay = this.pay.bind(this);
-        this.handleProcess = this.handleProcess.bind(this);
     }
 
     componentDidMount() {
-        switch (this.props.integrationType) {
-            case 'template':
-                this.getInvoiceTemplate();
-                break;
+        switch (this.props.integration.type) {
             case 'default':
                 this.getEvents();
                 break;
         }
     }
 
-    getEvents() {
-        EventPoller.pollEvents(this.props.capiEndpoint, this.state.invoiceID, this.state.invoiceAccessToken, this.props.locale)
-            .then((event) => this.handleEvent(event))
+    componentWillReceiveProps(nextProps) {
+        switch (nextProps.payment.status) {
+            case 'start':
+                if (nextProps.viewData.cardForm.valid) {
+                    if (nextProps.integration.type === 'default') {
+                        nextProps.actions.paymentActions.setStatus('process');
+                        this.processPayment(nextProps, nextProps.initParams.invoiceAccessToken);
+                    } else if (nextProps.integration.type === 'template') {
+                        this.setState({
+                            payment: 'process'
+                        });
+                        nextProps.actions.paymentActions.setStatus('process-template');
+                        this.processTemplate(nextProps);
+                    }
+                } else {
+                    nextProps.actions.paymentActions.setStatus('');
+                    this.triggerError();
+                }
+                break;
+            case 'process-template':
+                if (nextProps.integration.invoiceAccessToken) {
+                    nextProps.actions.paymentActions.setStatus('process');
+                    this.processPayment(nextProps, nextProps.integration.invoiceAccessToken.payload);
+                }
+                break;
+            case 'process':
+                this.setState({
+                    payment: 'process'
+                });
+                break;
+        }
+    }
+
+    processTemplate(props) {
+        const form = props.viewData.cardForm;
+        const template = props.integration.invoiceTemplate;
+        const initParams = props.initParams;
+        props.actions.invoiceActions.createInvoice(
+            props.appConfig.capiEndpoint,
+            initParams.invoiceTemplateID,
+            initParams.invoiceTemplateAccessToken,
+            {
+                amount: toNumber(form.amount.value) * 100,
+                currency: 'RUB', // TODO fix it
+                metadata: template.metadata
+            }
+        );
+    }
+
+    processPayment(props, token) {
+        const form = props.viewData.cardForm;
+        Processing.process({
+            invoiceAccessToken: token,
+            invoiceID: props.integration.invoice.id,
+            capiEndpoint: props.appConfig.capiEndpoint,
+            cardHolder: form.cardHolder.value,
+            cardNumber: form.cardNumber.value,
+            cardExpire: form.cardExpire.value,
+            email: form.email.value,
+            cardCvv: form.cardCvv.value
+        }, props.locale)
+            .then(event => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
 
-    getInvoiceTemplate() {
-        InvoiceTemplate.getInvoiceTemplate(this.props.capiEndpoint, this.props.invoiceTemplateID, this.props.invoiceTemplateAccessToken, this.props.locale)
-            .then((template) => {
-                this.setState({
-                    template,
-                    fieldsState: Object.assign(this.state.fieldsState, {
-                        amount: {
-                            isRequired: template.cost ? template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : true,
-                            value: ''
-                        }
-                    })
-                });
-            })
-            .catch((error) => this.handleError(error));
-    }
-
-    handleFieldsChange(fieldsState) {
-        this.setState({ fieldsState });
+    getEvents() {
+        let token;
+        if (this.props.integration.type === 'default') {
+            token = this.props.initParams.invoiceAccessToken;
+        } else if (this.props.integration.type === 'template') {
+            token = this.props.integration.invoiceAccessToken.payload;
+        }
+        EventPoller.pollEvents(
+            this.props.appConfig.capiEndpoint,
+            this.props.integration.invoice.id,
+            token,
+            this.props.locale
+        ).then((event) => this.handleEvent(event))
+            .catch(error => this.handleError(error));
     }
 
     triggerError() {
@@ -98,7 +141,7 @@ class Payform extends React.Component {
             this.setState({
                 error: false
             });
-        }, 500)
+        }, 500);
     }
 
     handleEvent(event) {
@@ -109,7 +152,7 @@ class Payform extends React.Component {
         } else if (event.type === 'success') {
             this.handleSuccess();
         } else {
-            this.handleError({ message: this.props.locale['error.payment.unsupport'] });
+            this.handleError({message: this.props.locale['error.payment.unsupport']});
         }
     }
 
@@ -126,13 +169,13 @@ class Payform extends React.Component {
         this.setState({
             payment: 'success'
         });
-        this.props.onPaymentSuccess();
+        this.props.actions.resultActions.setDone();
         if (isMobile.any && history.length > 1) {
             setTimeout(() => {
                 this.setState({
                     back: true
                 });
-            }, settings.closeFormTimeout + 100)
+            }, settings.closeFormTimeout + 100);
         }
     }
 
@@ -143,33 +186,8 @@ class Payform extends React.Component {
             invoiceID: event.invoiceID,
             invoiceAccessToken: event.invoiceAccessToken
         });
-        this.props.onPayformInteract(true);
-    }
-
-    handleProcess(isValid, fieldsState) {
-        if (isValid) {
-            this.setState({
-                payment: 'process'
-            });
-            Processing.processWithTemplate({
-                invoiceAccessToken: this.props.invoiceAccessToken,
-                invoiceID: this.props.invoiceID,
-                capiEndpoint: this.props.capiEndpoint,
-                cardHolder: fieldsState.cardHolder.value,
-                cardNumber: fieldsState.cardNumber.value,
-                cardExpire: fieldsState.cardExpire.value,
-                email: fieldsState.email.value,
-                cardCvv: fieldsState.cardCvv.value,
-                template: this.state.template,
-                invoiceTemplateAccessToken: this.props.invoiceTemplateAccessToken,
-                amount: this.state.template && this.state.template.cost.amount ? this.state.template.cost.amount : fieldsState.amount.value * 100,
-                currency: this.getCurrency()
-            }, this.props.locale, this.state.template)
-                .then(event => this.handleEvent(event))
-                .catch(error => this.handleError(error));
-        } else {
-            this.triggerError()
-        }
+        this.props.actions.paymentActions.setStatus('interact');
+        this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
     pay(e) {
@@ -177,69 +195,31 @@ class Payform extends React.Component {
         if (this.props.back) {
             return;
         }
-        const fieldsState = this.state.fieldsState;
-        const formValidation = new PayformValidation(fieldsState);
-        const isValid = formValidation.validate();
-        this.forceUpdate();
-        this.handleProcess(isValid, fieldsState);
-    }
-
-    getAmount() {
-        if (this.props.invoice) {
-            return this.props.invoice.amount;
-        } else if (this.state.template) {
-            return this.state.template.cost.amount;
-        }
-    }
-
-    getCurrency() {
-        if (this.props.invoice) {
-            return this.props.invoice.currency;
-        } else if (this.state.template && this.state.template.cost.currency) {
-            return this.state.template.cost.currency;
-        } else {
-            return settings.defaultCurrency;
-        }
+        const form = this.props.viewData.cardForm;
+        this.props.actions.viewDataActions.validateForm(form);
+        this.props.actions.paymentActions.setStatus('start');
     }
 
     renderPayform() {
         const form = 'payform';
-        const isAmount = this.state.template ? this.state.template.cost.invoiceTemplateCostType !== 'InvoiceTemplateCostFixed' : false;
-
         return (
             <form
-                className={cx('payform--form', { _error: this.state.error })}
+                className={cx('payform--form', {_error: this.state.error})}
                 id={form}
                 role="form"
                 onSubmit={this.pay}
-                noValidate
-            >
-                <Fieldset
-                    defaultEmail={this.props.defaultEmail}
-                    onFieldsChange={this.handleFieldsChange}
-                    fieldsState={this.state.fieldsState}
-                    locale={this.props.locale}
-                    isAmount={isAmount}
-                    currency={this.getCurrency()}
-                    template={this.state.template}
-                />
+                noValidate>
+                <Fieldset/>
                 <ErrorPanel
                     visible={this.state.payment === 'error'}
-                    message={this.state.errorMessage}
-                />
+                    message={this.state.errorMessage}/>
                 {
-                    this.state.back ?
-                    <BackButton locale={this.props.locale}/>
-                :
-                    <PayButton
-                        form={form}
-                        checkmark={this.state.payment === 'success'}
-                        spinner={this.state.payment === 'process'}
-                        label={this.props.payButtonLabel}
-                        amount={this.getAmount()}
-                        currency={this.getCurrency()}
-                        locale={this.props.locale}
-                    />
+                    this.state.back
+                        ? <BackButton locale={this.props.locale}/>
+                        : <PayButton
+                            form={form}
+                            checkmark={this.state.payment === 'success'}
+                            spinner={this.state.payment === 'process'}/>
                 }
             </form>
         );
@@ -248,8 +228,10 @@ class Payform extends React.Component {
     render() {
         return (
             <div className="payform">
-                { this.state.payment === 'interact'
-                    ? <Interaction interactionData={this.state.interactionData} host={this.props.payformHost}/>
+                {this.state.payment === 'interact'
+                    ? <Interaction
+                        interactionData={this.state.interactionData}
+                        host={this.props.appConfig.host}/>
                     : this.renderPayform()
                 }
             </div>
@@ -257,4 +239,26 @@ class Payform extends React.Component {
     }
 }
 
-export default Payform;
+function mapStateToProps(state) {
+    return {
+        appConfig: state.appConfig,
+        initParams: state.initParams,
+        integration: state.integration,
+        locale: state.locale,
+        viewData: state.viewData,
+        payment: state.payment
+    };
+}
+
+function mapActionsToProps(dispatch) {
+    return {
+        actions: {
+            viewDataActions: bindActionCreators(viewDataActions, dispatch),
+            invoiceActions: bindActionCreators(invoiceActions, dispatch),
+            resultActions: bindActionCreators(resultActions, dispatch),
+            paymentActions: bindActionCreators(paymentActions, dispatch)
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Payform);

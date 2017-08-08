@@ -4,6 +4,8 @@ import 'core-js/es6/object';
 import 'core-js/es6/array';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import configureStore from '../redux/configureStore';
+import { Provider } from 'react-redux';
 import ready from '../utils/domReady';
 import Payframe from './components/Payframe';
 import Child from '../communication/Child';
@@ -12,7 +14,7 @@ import StateResolver from './StateResolver';
 import ConfigLoader from './loaders/ConfigLoader';
 import getIntegrationType from '../utils/getIntegrationType';
 
-ready(function(origin) {
+ready(function (origin) {
     const modal = document.getElementById('modal');
     const child = new Child();
 
@@ -28,7 +30,7 @@ ready(function(origin) {
                         window.close();
                     }
                 }
-            }, settings.closeFormTimeout)
+            }, settings.closeFormTimeout);
         }
 
         function setClose() {
@@ -36,29 +38,39 @@ ready(function(origin) {
             setTimeout(() => {
                 transport.emit('close');
                 transport.destroy();
-                if (this.popupMode) {
-                    window.close();
-                }
             }, 300);
         }
 
         return Promise.all([
             StateResolver.resolve(transport),
             ConfigLoader.load()
-        ])
-            .then(response => {
-                const integrationType = getIntegrationType(response[0]);
-                ReactDOM.render(
-                    <Payframe
-                        payformHost={origin}
-                        setCheckoutDone={setCheckoutDone.bind(response[0])}
-                        setClose={setClose.bind(response[0])}
-                        data={response[0]}
-                        config={response[1]}
-                        integrationType={integrationType}
-                    />,
-                    modal
-                );
-            })
+        ]).then((response) => {
+            const initParams = response[0];
+            const store = configureStore({
+                appConfig: Object.assign({
+                    host: origin
+                }, response[1]),
+                initParams,
+                integration: {
+                    type: getIntegrationType(initParams)
+                }
+            });
+
+            store.subscribe(() => {
+                const state = store.getState();
+                if (state.result === 'close') {
+                    setClose();
+                } else if (state.result === 'done') {
+                    setCheckoutDone.apply(initParams);
+                }
+            });
+
+            ReactDOM.render(
+                <Provider store={store}>
+                    <Payframe/>
+                </Provider>,
+                modal
+            );
+        });
     });
 });

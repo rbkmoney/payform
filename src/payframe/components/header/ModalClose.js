@@ -1,14 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as resultActions from '../../../redux/actions/resultActions';
 
 class ModalClose extends React.Component {
+
     constructor(props) {
         super(props);
-
         this.close = this.close.bind(this);
     }
 
     close() {
-        this.props.setClose();
+        this.props.actions.resultActions.setClose();
     }
 
     render() {
@@ -22,4 +25,12 @@ class ModalClose extends React.Component {
     }
 }
 
-export default ModalClose;
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            resultActions: bindActionCreators(resultActions, dispatch),
+        }
+    };
+}
+
+export default connect(null, mapDispatchToProps)(ModalClose);
