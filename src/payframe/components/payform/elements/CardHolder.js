@@ -63,7 +63,7 @@ class CardHolder extends React.Component {
 function mapStateToProps(state) {
     return {
         locale: state.locale,
-        cardHolder: state.viewData.cardForm.cardHolder
+        cardHolder: state.viewData.cardForm.cardSet.cardHolder
     };
 }
 

@@ -2,7 +2,8 @@ import guid from '../../utils/guid';
 
 class PaymentCreator {
 
-    static create(capiEndpoint, invoiceID, invoiceAccessToken, tokenizerToken, email, locale) {
+    // error.payment.create
+    static create(capiEndpoint, invoiceID, invoiceAccessToken, tokenizerToken, email) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/payments`, {
                 method: 'POST',
@@ -19,15 +20,15 @@ class PaymentCreator {
                         email: email
                     }
                 })
-            }).then(response => {
+            }).then((response) => {
                 if (response.status === 201) {
                     resolve();
                 } else {
-                    reject({message: locale['error.payment.create']});
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
                 }
-            }).catch(() => {
-                reject({message: locale['error.payment.create']});
-            })
+            }).catch((error) => reject(error));
         });
     }
 }

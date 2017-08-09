@@ -1,14 +1,15 @@
-import settings from '../../settings';
 import guid from '../../utils/guid';
+
+const pollingRetries = 60;
+const pollingTimeout = 300;
+const eventLimit = 100;
 
 export default class EventPoller {
 
-    static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
+    // error.events.failed; error.events.timeout
+    static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
-            if (!locale) {
-                reject();
-            }
             (function poll(self) {
                 setTimeout(() => {
                     self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
@@ -19,45 +20,41 @@ export default class EventPoller {
                         } else if (self.isSuccess(change)) {
                             resolve(self.prepareResult('success', change));
                         } else if (self.isError(change)) {
-                            reject({message: self.getErrorMessage(change.error, locale)});
+                            reject(change.error);
                         } else if (self.isInteract(change)) {
-                            resolve(self.prepareResult('interact', change, invoiceID, invoiceAccessToken));
+                            resolve(self.prepareResult('interact', change));
                         } else {
                             pollCount++;
-                            if (pollCount >= settings.pollingRetries) {
-                                reject({message: locale['error.events.timeout']});
+                            if (pollCount >= pollingRetries) {
+                                reject({code: 'error.events.timeout'});
                             } else {
                                 poll(self);
                             }
                         }
-                    }).catch(() => {
-                        reject({message: locale['error.events.failed']})
-                    });
-                }, settings.pollingTimeout);
+                    }).catch((error) => reject(error));
+                }, pollingTimeout);
             })(this);
         });
     }
 
-    static prepareResult(type, change, invoiceID, invoiceAccessToken) {
+    static prepareResult(type, change) {
         let result;
         if (type === 'success') {
             result = {type};
         } else if (type === 'interact') {
             result = {
                 type: type,
-                data: change.userInteraction.request,
-                invoiceID,
-                invoiceAccessToken
+                data: change.userInteraction.request
             };
         } else if (type === 'unpaid') {
-            result = { type };
+            result = {type};
         }
         return result;
     }
 
     static requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken) {
         return new Promise((resolve, reject) => {
-            fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=100`, { // TODO fix limit count
+            fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=${eventLimit}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
@@ -68,9 +65,11 @@ export default class EventPoller {
                 if (response.status === 200) {
                     resolve(response.json());
                 } else {
-                    reject(response);
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
                 }
-            });
+            }).catch((error) => reject(error));
         });
     }
 
@@ -93,18 +92,18 @@ export default class EventPoller {
     }
 
     static isInteract(change) {
-        return (change && change.changeType === 'PaymentInteractionRequested')
+        return (change && change.changeType === 'PaymentInteractionRequested');
     }
 
     static getLastElement(elements) {
         return elements && elements.length > 0 ? elements[elements.length - 1] : null;
     }
 
-    static getErrorMessage(error, locale) {
-        if (locale[error.code]) {
-            return locale[error.code]
-        } else {
-            return error.message;
-        }
-    }
+    // static getErrorMessage(error, locale) {
+    //     if (locale[error.code]) {
+    //         return locale[error.code];
+    //     } else {
+    //         return error.message;
+    //     }
+    // }
 }

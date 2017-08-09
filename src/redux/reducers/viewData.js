@@ -7,36 +7,45 @@ import {
     SET_CARD_HOLDER_VALUE,
     SET_EMAIL_VALUE,
     VALIDATE_FORM,
-    SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
     SET_AMOUNT_TYPE,
-    SET_FIELDS_REQUIRED
+    SET_EMAIL_VISIBILITY,
+    SET_AMOUNT_VISIBILITY,
+    SET_CARD_SET_VISIBILITY,
+    SET_AMOUNT_REQUIRED,
+    SET_EMAIL_REQUIRED,
+    SET_CARD_SET_REQUIRED
 } from '../constants/viewData';
 
 const defaultState = {
     containerSize: 'default',
     cardForm: {
-        cardHolder: {
-            value: ''
-        },
-        cardNumber: {
-            value: ''
-        },
-        cardExpire: {
-            value: ''
-        },
-        cardCvv: {
-            value: ''
+        cardSet: {
+            cardHolder: {
+                value: ''
+            },
+            cardNumber: {
+                value: ''
+            },
+            cardExpire: {
+                value: ''
+            },
+            cardCvv: {
+                value: ''
+            },
+            visible: true,
+            required: true
         },
         email: {
             value: '',
-            visible: true
+            visible: true,
+            required: true
         },
         amount: {
             value: '',
             visible: false,
-            type: '',
-            required: false
+            required: false,
+            type: ''
         }
     }
 };
@@ -68,9 +77,12 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    cardNumber: {
-                        ...state.cardForm.cardNumber,
-                        value: action.payload.value
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardNumber: {
+                            ...state.cardForm.cardSet.cardNumber,
+                            value: action.payload.value
+                        }
                     }
                 }
             };
@@ -79,9 +91,12 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    cardExpire: {
-                        ...state.cardForm.cardExpire,
-                        value: action.payload.value
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardExpire: {
+                            ...state.cardForm.cardSet.cardExpire,
+                            value: action.payload.value
+                        }
                     }
                 }
             };
@@ -90,9 +105,12 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    cardCvv: {
-                        ...state.cardForm.cardCvv,
-                        value: action.payload.value
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardCvv: {
+                            ...state.cardForm.cardSet.cardCvv,
+                            value: action.payload.value
+                        }
                     }
                 }
             };
@@ -101,9 +119,12 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    cardHolder: {
-                        ...state.cardForm.cardHolder,
-                        value: action.payload.value
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardHolder: {
+                            ...state.cardForm.cardSet.cardHolder,
+                            value: action.payload.value
+                        }
                     }
                 }
             };
@@ -145,21 +166,25 @@ export default function (state = defaultState, action) {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    cardNumber: {
-                        ...state.cardForm.cardNumber,
-                        valid: action.payload.isCardNumberValid
-                    },
-                    cardExpire: {
-                        ...state.cardForm.cardExpire,
-                        valid: action.payload.isCardExpiryValid
-                    },
-                    cardCvv: {
-                        ...state.cardForm.cardCvv,
-                        valid: action.payload.isCardCvvValid
-                    },
-                    cardHolder: {
-                        ...state.cardForm.cardHolder,
-                        valid: action.payload.isCardHolderValid
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardNumber: {
+                            ...state.cardForm.cardSet.cardNumber,
+                            valid: action.payload.cardSet.isCardNumberValid
+                        },
+                        cardExpire: {
+                            ...state.cardForm.cardSet.cardExpire,
+                            valid: action.payload.cardSet.isCardExpiryValid
+                        },
+                        cardCvv: {
+                            ...state.cardForm.cardSet.cardCvv,
+                            valid: action.payload.cardSet.isCardCvvValid
+                        },
+                        cardHolder: {
+                            ...state.cardForm.cardSet.cardHolder,
+                            valid: action.payload.cardSet.isCardHolderValid
+                        },
+                        valid: action.payload.cardSet.valid
                     },
                     email: {
                         ...state.cardForm.email,
@@ -172,25 +197,69 @@ export default function (state = defaultState, action) {
                     valid: action.payload.valid
                 }
             };
-        case SET_FIELDS_VISIBILITY:
+        case SET_EMAIL_VISIBILITY:
             return {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
-                    amount: {
-                        ...state.cardForm.amount,
-                        visible: action.payload.amountVisible
+                    email: {
+                        ...state.cardForm.email,
+                        visible: action.payload
                     }
                 }
             };
-        case SET_FIELDS_REQUIRED:
+        case SET_AMOUNT_VISIBILITY:
             return {
                 ...state,
                 cardForm: {
                     ...state.cardForm,
                     amount: {
                         ...state.cardForm.amount,
-                        required: action.payload.amountRequired
+                        visible: action.payload
+                    }
+                }
+            };
+        case SET_CARD_SET_VISIBILITY:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        visible: action.payload
+                    }
+                }
+            };
+        case SET_EMAIL_REQUIRED:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    email: {
+                        ...state.cardForm.email,
+                        required: action.payload
+                    }
+                }
+            };
+        case SET_AMOUNT_REQUIRED:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    amount: {
+                        ...state.cardForm.amount,
+                        required: action.payload
+                    }
+                }
+            };
+        case SET_CARD_SET_REQUIRED:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        required: action.payload
                     }
                 }
             };

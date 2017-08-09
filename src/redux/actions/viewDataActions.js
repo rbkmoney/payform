@@ -6,10 +6,11 @@ import {
     SET_CARD_CVV_VALUE,
     SET_CARD_HOLDER_VALUE,
     SET_EMAIL_VALUE, VALIDATE_FORM,
-    SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
     SET_AMOUNT_TYPE,
-    SET_FIELDS_REQUIRED
+    SET_EMAIL_VISIBILITY,
+    SET_AMOUNT_VISIBILITY,
+    SET_CARD_SET_VISIBILITY, SET_AMOUNT_REQUIRED, SET_EMAIL_REQUIRED, SET_CARD_SET_REQUIRED
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -95,13 +96,29 @@ function setAmountType(type) {
 }
 
 function validateForm(form) {
-    const isCardHolderValid = CardUtils.validateCardHolder(form.cardHolder.value);
-    const isCardNumberValid = CardUtils.validateCardNumber(form.cardNumber.value);
-    const isCardExpiryValid = CardUtils.validateCardExpiry(form.cardExpire.value);
-    const isCardCvvValid = CardUtils.validateCardCvv(form.cardCvv.value, CardUtils.cardType(form.cardNumber.value));
-    const isEmailValid = CardUtils.validateEmail(form.email.value);
+    const cardSet = form.cardSet;
+    let isCardHolderValid;
+    let isCardNumberValid;
+    let isCardExpiryValid;
+    let isCardCvvValid;
+    let isCardSetValid;
+    if (cardSet.required) {
+        isCardHolderValid = CardUtils.validateCardHolder(cardSet.cardHolder.value);
+        isCardNumberValid = CardUtils.validateCardNumber(cardSet.cardNumber.value);
+        isCardExpiryValid = CardUtils.validateCardExpiry(cardSet.cardExpire.value);
+        isCardCvvValid = CardUtils.validateCardCvv(cardSet.cardCvv.value, CardUtils.cardType(cardSet.cardNumber.value));
+        isCardSetValid = isCardHolderValid && isCardNumberValid && isCardExpiryValid && isCardCvvValid;
+    } else {
+        isCardHolderValid = true;
+        isCardNumberValid = true;
+        isCardExpiryValid = true;
+        isCardCvvValid = true;
+        isCardSetValid = true;
+    }
 
-    let isAmountValid = null;
+    const isEmailValid = form.email.required ? CardUtils.validateEmail(form.email.value) : true;
+
+    let isAmountValid;
     if (form.amount.required) {
         if (form.amount.type.name === 'range') {
             isAmountValid = CardUtils.validateAmountRange(
@@ -117,20 +134,19 @@ function validateForm(form) {
     } else {
         isAmountValid = true;
     }
-    const valid = isCardHolderValid
-        && isCardNumberValid
-        && isCardExpiryValid
-        && isCardCvvValid
+    const valid = isCardSetValid
         && isEmailValid
         && isAmountValid;
-
     return {
         type: VALIDATE_FORM,
         payload: {
-            isCardHolderValid,
-            isCardNumberValid,
-            isCardExpiryValid,
-            isCardCvvValid,
+            cardSet: {
+                isCardHolderValid,
+                isCardNumberValid,
+                isCardExpiryValid,
+                isCardCvvValid,
+                valid: isCardSetValid
+            },
             isEmailValid,
             isAmountValid,
             valid
@@ -138,21 +154,45 @@ function validateForm(form) {
     };
 }
 
-function setFieldsVisibility(config) {
+function setEmailVisibility(visible) {
     return {
-        type: SET_FIELDS_VISIBILITY,
-        payload: {
-            amountVisible: config.amountVisible
-        }
+        type: SET_EMAIL_VISIBILITY,
+        payload: visible
     };
 }
 
-function setFieldsRequired(config) {
+function setAmountVisibility(visible) {
     return {
-        type: SET_FIELDS_REQUIRED,
-        payload: {
-            amountRequired: config.amountRequired
-        }
+        type: SET_AMOUNT_VISIBILITY,
+        payload: visible
+    };
+}
+
+function setCardSetVisibility(visible) {
+    return {
+        type: SET_CARD_SET_VISIBILITY,
+        payload: visible
+    };
+}
+
+function setAmountRequired(required) {
+    return {
+        type: SET_AMOUNT_REQUIRED,
+        payload: required
+    };
+}
+
+function setEmailRequired(required) {
+    return {
+        type: SET_EMAIL_REQUIRED,
+        payload: required
+    };
+}
+
+function setCardSetRequired(required) {
+    return {
+        type: SET_CARD_SET_REQUIRED,
+        payload: required
     };
 }
 
@@ -167,6 +207,10 @@ export {
     setAmountVal,
     setAmountType,
     validateForm,
-    setFieldsVisibility,
-    setFieldsRequired
+    setEmailVisibility,
+    setAmountVisibility,
+    setCardSetVisibility,
+    setAmountRequired,
+    setEmailRequired,
+    setCardSetRequired
 };

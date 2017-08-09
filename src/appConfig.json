@@ -1,3 +1,4 @@
 {
-  "capiEndpoint": "http://api.rbk.test:8080"
+  "capiEndpoint": "http://api.rbk.test:8080",
+  "applePayMerchantID": "merchant.money.rbk.checkout"
 }
