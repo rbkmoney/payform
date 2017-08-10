@@ -305,4 +305,27 @@
             }
         }
     }
+
+    &--switcher {
+        text-align: center;
+
+        &--button {
+            display: block;
+            margin-top: 5px;
+            background: none;
+            text-decoration: underline;
+            color: $gray3;
+            font-size: 13px;
+
+            &:hover {
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+
+        &--text {
+            color: $gray7;
+            font-size: 12px;
+        }
+    }
 }
