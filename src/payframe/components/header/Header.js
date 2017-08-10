@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Logo from './Logo';
 import ModalClose from './ModalClose';
+import ModalBack from './ModalBack';
 
 class Header extends React.Component {
 
@@ -11,9 +12,14 @@ class Header extends React.Component {
                 {
                     this.props.initParams.popupMode
                         ? false
-                        : <ModalClose/>
+                        : <ModalClose />
                 }
-                <Logo logo={this.props.initParams.logo}/>
+                {
+                    this.props.viewData.paymentMethod !== 'apple'
+                    ? <ModalBack />
+                    : false
+                }
+                <Logo logo={this.props.initParams.logo} />
                 <div className="checkout--company-name">{this.props.initParams.name}</div>
                 {
                     this.props.initParams.description

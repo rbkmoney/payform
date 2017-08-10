@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toNumber } from 'lodash';
@@ -10,6 +11,7 @@ import cx from 'classnames';
 import isMobile from 'ismobilejs';
 import ErrorPanel from './elements/ErrorPanel';
 import PayButton from './elements/PayButton';
+import PayMethodSwitcher from './elements/PayMethodSwitcher';
 import BackButton from './elements/BackButton';
 import Processing from '../../backend-communication/Processing';
 import settings from '../../../settings';
@@ -18,7 +20,6 @@ import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
 
 class Payform extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -203,25 +204,54 @@ class Payform extends React.Component {
     renderPayform() {
         const form = 'payform';
         return (
-            <form
-                className={cx('payform--form', {_error: this.state.error})}
-                id={form}
-                role="form"
-                onSubmit={this.pay}
-                noValidate>
-                <Fieldset/>
-                <ErrorPanel
-                    visible={this.state.payment === 'error'}
-                    message={this.state.errorMessage}/>
-                {
-                    this.state.back
-                        ? <BackButton locale={this.props.locale}/>
-                        : <PayButton
-                            form={form}
-                            checkmark={this.state.payment === 'success'}
-                            spinner={this.state.payment === 'process'}/>
-                }
-            </form>
+                <form
+                    className={cx('payform--form', {_error: this.state.error})}
+                    id={form}
+                    role="form"
+                    onSubmit={this.pay}
+                    noValidate
+                >
+                    <Fieldset />
+                    <ErrorPanel
+                        visible={this.state.payment === 'error'}
+                        message={this.state.errorMessage}
+                    />
+                    <ReactCSSTransitionGroup
+                        transitionName="appearRight"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={300}
+                        component="div"
+                    >
+                        {
+                            this.props.viewData.paymentMethod === 'card'
+                            ?   this.state.back
+                                ? <BackButton locale={this.props.locale} />
+                                : <PayButton
+                                    form={form}
+                                    checkmark={this.state.payment === 'success'}
+                                    spinner={this.state.payment === 'process'} />
+                            : false
+                        }
+                    </ReactCSSTransitionGroup>
+                    <ReactCSSTransitionGroup
+                        transitionName="appearLeft"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={300}
+                        component="div"
+                    >
+                        {
+                            this.props.viewData.paymentMethod === 'apple'
+                            ? <div>Insert Apple pay btn here...</div>
+                            : false
+                        }
+
+                    </ReactCSSTransitionGroup>
+                    {
+                        this.props.viewData.paymentMethod !== 'card'
+                        ? <PayMethodSwitcher />
+                        : false
+                    }
+                </form>
         );
     }
 
@@ -231,7 +261,7 @@ class Payform extends React.Component {
                 {this.state.payment === 'interact'
                     ? <Interaction
                         interactionData={this.state.interactionData}
-                        host={this.props.appConfig.host}/>
+                        host={this.props.appConfig.host} />
                     : this.renderPayform()
                 }
             </div>

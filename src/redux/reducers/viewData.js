@@ -10,11 +10,13 @@ import {
     SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
     SET_AMOUNT_TYPE,
-    SET_FIELDS_REQUIRED
+    SET_FIELDS_REQUIRED,
+    SET_PAYMENT_METHOD
 } from '../constants/viewData';
 
 const defaultState = {
     containerSize: 'default',
+    paymentMethod: 'apple',
     cardForm: {
         cardHolder: {
             value: ''
@@ -194,6 +196,12 @@ export default function (state = defaultState, action) {
                     }
                 }
             };
+
+        case SET_PAYMENT_METHOD:
+            return {
+                ...state,
+                paymentMethod: action.payload.paymentMethod
+            }
     }
     return state;
 }

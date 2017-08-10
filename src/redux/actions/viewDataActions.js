@@ -9,7 +9,8 @@ import {
     SET_FIELDS_VISIBILITY,
     SET_AMOUNT_VALUE,
     SET_AMOUNT_TYPE,
-    SET_FIELDS_REQUIRED
+    SET_FIELDS_REQUIRED,
+    SET_PAYMENT_METHOD
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -156,6 +157,15 @@ function setFieldsRequired(config) {
     };
 }
 
+function setPaymentMethod(method) {
+    return {
+        type: SET_PAYMENT_METHOD,
+        payload: {
+            paymentMethod: method
+        }
+    }
+}
+
 export {
     updateContainerSize,
     setDefaultEmail,
@@ -168,5 +178,6 @@ export {
     setAmountType,
     validateForm,
     setFieldsVisibility,
-    setFieldsRequired
+    setFieldsRequired,
+    setPaymentMethod
 };
