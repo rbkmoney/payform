@@ -51,7 +51,7 @@ class Payframe extends React.Component {
         } else if (integrationType === 'template' && hasInvoiceTemplateReceived) {
             this.setState({status: 'ready'});
         }
-        if (nextProps.error) {
+        if (nextProps.error && nextProps.locale) {
             this.setState({status: 'error'});
         }
     }

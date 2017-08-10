@@ -15,14 +15,14 @@ import settings from '../../../settings';
 import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
-import { ApplePayWrapper } from '../../apple-pay';
+import { getInstanceFromInvoice, getInstanceFromInvoiceTemplate } from '../../apple-pay/instanceCreators';
 
 class Payform extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            error: false,
+            shakeValidation: false,
             back: false
         };
         window.addEventListener('message', (e) => {
@@ -37,23 +37,34 @@ class Payform extends React.Component {
     }
 
     componentDidMount() {
-        // TODO fix it
-        // switch (this.props.integration.type) {
-        //     case 'default':
-        //         this.props.actions.paymentActions.setToken(this.props.initParams.invoiceAccessToken);
-        //         this.getEvents();
-        //         break;
-        // }
+        if (this.props.integration.type === 'default') {
+            this.getEvents(this.props.initParams.invoiceAccessToken);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         const paymentActions = nextProps.actions.paymentActions;
+        const applePayCapability = nextProps.paymentCapabilities.applePay;
+        const integration = nextProps.integration;
         switch (nextProps.payment.status) {
             case 'started':
                 if (nextProps.viewData.cardForm.valid) {
-                    if (nextProps.integration.type === 'default') {
+                    if (integration.type === 'default') {
+                        if (applePayCapability === 'capable') {
+                            this.applePayWrapper = getInstanceFromInvoice(
+                                this.props.appConfig.applePayMerchantValidationEndpoint,
+                                integration.invoice
+                            );
+                        }
                         paymentActions.processPayment(nextProps.initParams.invoiceAccessToken);
-                    } else if (nextProps.integration.type === 'template') {
+                    } else if (integration.type === 'template') {
+                        if (applePayCapability === 'capable') {
+                            this.applePayWrapper = getInstanceFromInvoiceTemplate(
+                                this.props.appConfig.applePayMerchantValidationEndpoint,
+                                integration.invoiceTemplate,
+                                nextProps.viewData.cardForm.amount.value
+                            );
+                        }
                         paymentActions.processInvoiceTemplate();
                     }
                 } else {
@@ -62,22 +73,20 @@ class Payform extends React.Component {
                 }
                 break;
             case 'processInvoiceTemplate':
-                if (nextProps.integration.invoiceAccessToken) {
-                    paymentActions.processPayment(nextProps.integration.invoiceAccessToken.payload);
-                } else {
-                    this.createInvoice(nextProps);
-                }
+                const token = integration.invoiceAccessToken;
+                token
+                    ? paymentActions.processPayment(token.payload)
+                    : this.createInvoice(nextProps);
                 break;
             case 'processPayment':
                 if (nextProps.paymentCapabilities.applePay === 'capable') {
-                    this.applePayWrapper = new ApplePayWrapper(1000, 'Test product');
-                    this.applePayWrapper.begin();
+                    this.processApplePayPayment(nextProps);
                 } else {
                     this.processCardPayment(nextProps);
                 }
                 break;
             case 'pollEvents':
-                this.getEvents();
+                this.getEvents(nextProps.payment.accessToken);
         }
     }
 
@@ -97,6 +106,25 @@ class Payform extends React.Component {
         );
     }
 
+    processApplePayPayment(props) {
+        this.applePayWrapper.begin().then((result) => {
+            console.log('Apple pay token', result);
+            // TODO test payment.
+            Processing.process({
+                invoiceAccessToken: props.payment.accessToken,
+                invoiceID: props.integration.invoice.id,
+                capiEndpoint: props.appConfig.capiEndpoint,
+                cardHolder: 'APPLE PAY PAYER',
+                cardNumber: '4242424242424242',
+                cardExpire: '12/20',
+                cardCvv: '123',
+                email: props.viewData.cardForm.email.value
+            })
+                .then((event) => this.handleEventApplePay(event))
+                .catch((error) => console.error(error));
+        });
+    }
+
     processCardPayment(props) {
         const cardSet = props.viewData.cardForm.cardSet;
         Processing.process({
@@ -110,22 +138,33 @@ class Payform extends React.Component {
             email: props.viewData.cardForm.email.value
         })
             .then(event => this.handleEvent(event))
-            .catch(error => this.handleError(error));
+            .catch((error) => this.handleError(error));
     }
 
-    getEvents() {
+    getEvents(token) {
         EventPoller.pollEvents(
             this.props.appConfig.capiEndpoint,
             this.props.integration.invoice.id,
-            this.props.payment.accessToken
+            token
         )
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }
 
     triggerError() {
-        this.setState({error: true});
-        setTimeout(() => this.setState({error: false}), 500);
+        this.setState({shakeValidation: true});
+        setTimeout(() => this.setState({shakeValidation: false}), 500);
+    }
+
+    handleEventApplePay(event) {
+        if (event.type === 'unpaid') {
+            return;
+        } else if (event.type === 'success') {
+            this.applePayWrapper.complete();
+            this.props.actions.paymentActions.finish();
+            this.props.actions.resultActions.setDone();
+            this.setState({back: true});
+        }
     }
 
     handleEvent(event) {
@@ -159,11 +198,7 @@ class Payform extends React.Component {
     }
 
     pay(e) {
-        // TODO fix it
         e.preventDefault();
-        if (this.props.back) {
-            return;
-        }
         const form = this.props.viewData.cardForm;
         this.props.actions.viewDataActions.validateForm(form);
         this.props.actions.paymentActions.start();
@@ -175,7 +210,7 @@ class Payform extends React.Component {
         const status = this.props.payment.status;
         return (
             <form
-                className={cx('payform--form', {_error: this.state.error})}
+                className={cx('payform--form', {_error: this.state.shakeValidation})}
                 id={form}
                 role="form"
                 onSubmit={this.pay}
@@ -187,22 +222,26 @@ class Payform extends React.Component {
                     status === 'error' ? <ErrorPanel/> : false
                 }
                 {
-                    applePayCapability === 'capable'
-                        ? <button className="apple-pay-button visible" form={form}/>
+                    applePayCapability === 'capable' && !this.state.back
+                        ? <button className="payform--apple-pay-button" form={form}/>
                         : false
                 }
                 {
-                    applePayCapability === 'unavailable'
-                        ? (this.state.back
-                        ? <BackButton locale={this.props.locale}/>
-                        : <PayButton
+                    applePayCapability === 'unavailable' && !this.state.back
+                        ? <PayButton
                             form={form}
                             checkmark={status === 'finished'}
                             spinner={
                                 status === 'processInvoiceTemplate'
                                 || status === 'processPayment'
                                 || status === 'pollEvents'
-                            }/>) : false
+                            }/>
+                        : false
+                }
+                {
+                    this.state.back
+                        ? <BackButton locale={this.props.locale}/>
+                        : false
                 }
             </form>
         );
