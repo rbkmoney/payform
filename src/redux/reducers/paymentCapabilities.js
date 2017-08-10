@@ -4,7 +4,7 @@ import { SET_APPLE_PAY_CAPABILITY } from '../constants/paymentCapabilities';
  * @field applePay {'unknown','capable','unavailable'}
  */
 const defaultState = {
-    applePay: 'unknown'
+    applePay: 'unavaible'
 };
 
 export default function (state = defaultState, action) {

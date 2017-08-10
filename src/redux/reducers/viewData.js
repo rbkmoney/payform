@@ -14,7 +14,8 @@ import {
     SET_CARD_SET_VISIBILITY,
     SET_AMOUNT_REQUIRED,
     SET_EMAIL_REQUIRED,
-    SET_CARD_SET_REQUIRED
+    SET_CARD_SET_REQUIRED,
+    SET_PAYMENT_METHOD
 } from '../constants/viewData';
 
 const defaultState = {
@@ -263,6 +264,12 @@ export default function (state = defaultState, action) {
                     }
                 }
             };
+
+        case SET_PAYMENT_METHOD:
+             return {
+                 ...state,
+                 paymentMethod: action.payload.paymentMethod
+             };
     }
     return state;
 }

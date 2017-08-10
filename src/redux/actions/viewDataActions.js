@@ -10,7 +10,8 @@ import {
     SET_AMOUNT_TYPE,
     SET_EMAIL_VISIBILITY,
     SET_AMOUNT_VISIBILITY,
-    SET_CARD_SET_VISIBILITY, SET_AMOUNT_REQUIRED, SET_EMAIL_REQUIRED, SET_CARD_SET_REQUIRED
+    SET_CARD_SET_VISIBILITY, SET_AMOUNT_REQUIRED, SET_EMAIL_REQUIRED, SET_CARD_SET_REQUIRED,
+    SET_PAYMENT_METHOD
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -196,6 +197,15 @@ function setCardSetRequired(required) {
     };
 }
 
+function setPaymentMethod(method) {
+     return {
+         type: SET_PAYMENT_METHOD,
+         payload: {
+             paymentMethod: method
+         }
+     }
+ }
+
 export {
     updateContainerSize,
     setDefaultEmail,
@@ -212,5 +222,6 @@ export {
     setCardSetVisibility,
     setAmountRequired,
     setEmailRequired,
-    setCardSetRequired
+    setCardSetRequired,
+    setPaymentMethod
 };
