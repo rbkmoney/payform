@@ -27,7 +27,7 @@ class Payform extends React.Component {
         };
         window.addEventListener('message', (e) => {
             if (e.data === 'finish-interaction') {
-                this.props.actions.paymentActions.setStatus('processPayment');
+                this.props.actions.paymentActions.resumePayment();
                 this.props.actions.viewDataActions.updateContainerSize('default');
                 this.getEvents();
             }
@@ -52,20 +52,18 @@ class Payform extends React.Component {
             case 'started':
                 if (nextProps.viewData.cardForm.valid) {
                     if (nextProps.integration.type === 'default') {
-                        paymentActions.setStatus('processPayment');
-                        paymentActions.setToken(nextProps.initParams.invoiceAccessToken);
+                        paymentActions.processPayment(nextProps.initParams.invoiceAccessToken);
                     } else if (nextProps.integration.type === 'template') {
-                        paymentActions.setStatus('processTemplate');
+                        paymentActions.processInvoiceTemplate();
                     }
                 } else {
-                    paymentActions.setStatus('pristine');
+                    paymentActions.reset();
                     this.triggerError();
                 }
                 break;
-            case 'processTemplate':
+            case 'processInvoiceTemplate':
                 if (nextProps.integration.invoiceAccessToken) {
-                    paymentActions.setStatus('processPayment');
-                    paymentActions.setToken(nextProps.integration.invoiceAccessToken.payload);
+                    paymentActions.processPayment(nextProps.integration.invoiceAccessToken.payload);
                 } else {
                     this.createInvoice(nextProps);
                 }
@@ -77,6 +75,9 @@ class Payform extends React.Component {
                 } else {
                     this.processCardPayment(nextProps);
                 }
+                break;
+            case 'pollEvents':
+                this.getEvents();
         }
     }
 
@@ -97,28 +98,26 @@ class Payform extends React.Component {
     }
 
     processCardPayment(props) {
-        if (props.paymentCapabilities.applePay === 'unavailable') {
-            const cardSet = props.viewData.cardForm.cardSet;
-            Processing.process({
-                invoiceAccessToken: props.payment.token,
-                invoiceID: props.integration.invoice.id,
-                capiEndpoint: props.appConfig.capiEndpoint,
-                cardHolder: cardSet.cardHolder.value,
-                cardNumber: cardSet.cardNumber.value,
-                cardExpire: cardSet.cardExpire.value,
-                cardCvv: cardSet.cardCvv.value,
-                email: props.viewData.cardForm.email.value
-            })
-                .then(event => this.handleEvent(event))
-                .catch(error => this.handleError(error));
-        }
+        const cardSet = props.viewData.cardForm.cardSet;
+        Processing.process({
+            invoiceAccessToken: props.payment.accessToken,
+            invoiceID: props.integration.invoice.id,
+            capiEndpoint: props.appConfig.capiEndpoint,
+            cardHolder: cardSet.cardHolder.value,
+            cardNumber: cardSet.cardNumber.value,
+            cardExpire: cardSet.cardExpire.value,
+            cardCvv: cardSet.cardCvv.value,
+            email: props.viewData.cardForm.email.value
+        })
+            .then(event => this.handleEvent(event))
+            .catch(error => this.handleError(error));
     }
 
     getEvents() {
         EventPoller.pollEvents(
             this.props.appConfig.capiEndpoint,
             this.props.integration.invoice.id,
-            this.props.payment.token
+            this.props.payment.accessToken
         )
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
@@ -142,13 +141,12 @@ class Payform extends React.Component {
     }
 
     handleError(error) {
-        this.props.actions.paymentActions.setStatus('error');
         this.props.actions.paymentActions.setPaymentError(error);
         this.triggerError();
     }
 
     handleSuccess() {
-        this.props.actions.paymentActions.setStatus('finished');
+        this.props.actions.paymentActions.finish();
         this.props.actions.resultActions.setDone();
         if (this.props.initParams.popupMode && history.length > 1) {
             setTimeout(() => this.setState({back: true}), settings.closeFormTimeout + 100);
@@ -156,8 +154,7 @@ class Payform extends React.Component {
     }
 
     handleInteract(event) {
-        this.props.actions.paymentActions.setInteractionData(event.data);
-        this.props.actions.paymentActions.setStatus('interacted');
+        this.props.actions.paymentActions.interactPayment(event.data);
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
@@ -169,7 +166,7 @@ class Payform extends React.Component {
         }
         const form = this.props.viewData.cardForm;
         this.props.actions.viewDataActions.validateForm(form);
-        this.props.actions.paymentActions.setStatus('started');
+        this.props.actions.paymentActions.start();
     }
 
     renderPayform() {
@@ -201,7 +198,7 @@ class Payform extends React.Component {
                         : <PayButton
                             form={form}
                             checkmark={status === 'finished'}
-                            spinner={status === 'processTemplate' || status === 'processPayment'}/>) : false
+                            spinner={status === 'processInvoiceTemplate' || status === 'processPayment'}/>) : false
                 }
             </form>
         );

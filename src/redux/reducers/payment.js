@@ -1,48 +1,63 @@
 import {
-    SET_INTERACTION_DATA,
+    FINISH,
+    INTERACT_PAYMENT,
+    PROCESS_INVOICE_TEMPLATE,
+    PROCESS_PAYMENT,
+    RESET,
+    RESUME_PAYMENT,
     SET_PAYMENT_ERROR,
-    SET_STATUS,
-    SET_TOKEN
+    START
 } from '../constants/payment';
 
-/**
- * @field status {
- *     'pristine',
- *     'started',
- *     'interacted',
- *     'processTemplate',
- *     'processApplePay',
- *     'processPayment',
- *     'finished',
- *     'error'
- * }
- */
 const initialState = {
     status: 'pristine'
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case SET_STATUS:
+        case START:
             return {
                 ...state,
-                status: action.payload
+                status: 'started'
             };
-        case SET_TOKEN:
+        case PROCESS_PAYMENT:
             return {
                 ...state,
-                token: action.payload
+                status: 'processPayment',
+                accessToken: action.payload
             };
-        case SET_INTERACTION_DATA:
+        case INTERACT_PAYMENT:
             return {
                 ...state,
+                status: 'interacted',
                 interactionData: action.payload
+            };
+        case RESUME_PAYMENT:
+            return {
+                ...state,
+                status: 'pollEvents'
             };
         case SET_PAYMENT_ERROR:
             return {
                 ...state,
+                status: 'error',
                 paymentError: action.payload
-            }
+            };
+        case RESET:
+            return {
+                ...state,
+                status: 'pristine'
+            };
+        case FINISH:
+            return {
+                ...state,
+                status: 'finished'
+            };
+        case PROCESS_INVOICE_TEMPLATE:
+            return {
+                ...state,
+                status: 'processInvoiceTemplate'
+            };
     }
     return state;
 }

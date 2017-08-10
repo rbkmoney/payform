@@ -1,28 +1,43 @@
 import {
-    SET_INTERACTION_DATA,
+    START,
+    FINISH,
+    INTERACT_PAYMENT,
+    PROCESS_INVOICE_TEMPLATE,
+    PROCESS_PAYMENT,
+    RESET,
     SET_PAYMENT_ERROR,
-    SET_STATUS,
-    SET_TOKEN
+    RESUME_PAYMENT
 } from '../constants/payment';
 
-function setStatus(status) {
+function start() {
     return {
-        type: SET_STATUS,
-        payload: status
+        type: START
     };
 }
 
-function setToken(token) {
+function processPayment(accessToken) {
     return {
-        type: SET_TOKEN,
-        payload: token
+        type: PROCESS_PAYMENT,
+        payload: accessToken
     };
 }
 
-function setInteractionData(data) {
+function interactPayment(interactionData) {
     return {
-        type: SET_INTERACTION_DATA,
-        payload: data
+        type: INTERACT_PAYMENT,
+        payload: interactionData
+    };
+}
+
+function resumePayment() {
+    return {
+        type: RESUME_PAYMENT
+    };
+}
+
+function processInvoiceTemplate() {
+    return {
+        type: PROCESS_INVOICE_TEMPLATE
     };
 }
 
@@ -30,7 +45,28 @@ function setPaymentError(error) {
     return {
         type: SET_PAYMENT_ERROR,
         payload: error
-    }
+    };
 }
 
-export { setStatus, setToken, setInteractionData, setPaymentError};
+function reset() {
+    return {
+        type: RESET
+    };
+}
+
+function finish() {
+    return {
+        type: FINISH
+    };
+}
+
+export {
+    start,
+    processPayment,
+    processInvoiceTemplate,
+    interactPayment,
+    resumePayment,
+    setPaymentError,
+    reset,
+    finish
+};
