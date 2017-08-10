@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toNumber } from 'lodash';
@@ -16,6 +17,7 @@ import EventPoller from '../../backend-communication/EventPoller';
 import Fieldset from './elements/Fieldset';
 import Interaction from './elements/Interaction';
 import { ApplePayWrapper } from '../../apple-pay';
+import PayMethodSwitcher from './elements/PayMethodSwitcher';
 
 class Payform extends React.Component {
 
@@ -44,6 +46,14 @@ class Payform extends React.Component {
         //         this.getEvents();
         //         break;
         // }
+
+        const applePayCapability = this.props.paymentCapabilities.applePay;
+
+        if (applePayCapability === 'capable') {
+            this.props.actions.viewDataActions.setPaymentMethod('apple');
+        } else {
+            this.props.actions.viewDataActions.setPaymentMethod('card');
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -173,6 +183,7 @@ class Payform extends React.Component {
         const form = 'payform';
         const applePayCapability = this.props.paymentCapabilities.applePay;
         const status = this.props.payment.status;
+
         return (
             <form
                 className={cx('payform--form', {_error: this.state.error})}
@@ -180,30 +191,64 @@ class Payform extends React.Component {
                 role="form"
                 onSubmit={this.pay}
                 noValidate>
+                <ReactCSSTransitionGroup
+                     transitionName="appearRight"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div"
+                >
+                    {
+                        applePayCapability !== 'unknown' ? <Fieldset/> : false
+                    }
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                     transitionName="appear3D"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div"
+                >
+                    {
+                        status === 'error' ? <ErrorPanel/> : false
+                    }
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                     transitionName="appearLeft"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div"
+                >
+                    {
+                        applePayCapability === 'capable' && this.props.viewData.paymentMethod === 'apple'
+                            ? <button className="apple-pay-button visible" form={form} />
+                            : false
+                    }
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                     transitionName="appearRight"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div"
+                >
+                    {
+                        applePayCapability === 'unavailable' || (this.props.viewData.paymentMethod === 'card' && (applePayCapability === 'capable' || applePayCapability === 'unavaible'))
+                            ? (this.state.back
+                            ? <BackButton locale={this.props.locale}/>
+                            : <PayButton
+                                form={form}
+                                checkmark={status === 'finished'}
+                                spinner={
+                                    status === 'processInvoiceTemplate'
+                                    || status === 'processPayment'
+                                    || status === 'pollEvents'
+                                }/>) : false
+                    }
+                </ReactCSSTransitionGroup>
                 {
-                    applePayCapability !== 'unknown' ? <Fieldset/> : false
+                    this.props.viewData.paymentMethod === 'apple'
+                    ? <PayMethodSwitcher />
+                    : false
                 }
-                {
-                    status === 'error' ? <ErrorPanel/> : false
-                }
-                {
-                    applePayCapability === 'capable'
-                        ? <button className="apple-pay-button visible" form={form}/>
-                        : false
-                }
-                {
-                    applePayCapability === 'unavailable'
-                        ? (this.state.back
-                        ? <BackButton locale={this.props.locale}/>
-                        : <PayButton
-                            form={form}
-                            checkmark={status === 'finished'}
-                            spinner={
-                                status === 'processInvoiceTemplate'
-                                || status === 'processPayment'
-                                || status === 'pollEvents'
-                            }/>) : false
-                }
+
             </form>
         );
     }

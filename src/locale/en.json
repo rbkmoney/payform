@@ -22,5 +22,7 @@
     "Invalid Card": "Invalid Card",
     "CVV Match Fail": "CVV Match Fail",
     "Expired Card": "Expired Card",
-    "Unknown Failure": "Unknown Failure"
+    "Unknown Failure": "Unknown Failure",
+    "or": "or",
+    "Pay with Card": "Pay with Card"
 }

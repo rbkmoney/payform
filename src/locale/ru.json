@@ -22,5 +22,7 @@
     "Invalid Card": "Недопустимая карта",
     "CVV Match Fail": "Ошибка проверки CVV кода",
     "Expired Card": "Срок действия карты истек",
-    "Unknown Failure": "Неизвестная ошибка"
+    "Unknown Failure": "Неизвестная ошибка",
+    "or": "или",
+    "Pay with Card": "Оплатить картой"
 }

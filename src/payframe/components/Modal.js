@@ -11,7 +11,7 @@ class Modal extends React.Component {
     render() {
         return (
             <ReactCSSTransitionGroup
-                transitionName="checkout"
+                transitionName="appear3D"
                 transitionAppear={true}
                 transitionAppearTimeout={400}
                 transitionEnter={false}

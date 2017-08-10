@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as viewDataActions from '../../../../redux/actions/viewDataActions';
@@ -56,13 +57,14 @@ class Fieldset extends React.Component {
         actions.setAmountRequired(true);
     }
 
-    render() {
+    renderCardFieldset() {
         const cardForm = this.props.viewData.cardForm;
         const cardSet = cardForm.cardSet;
         const email = cardForm.email;
         const amount = cardForm.amount;
+
         return (
-            <span>
+            <div>
                 {
                     cardSet.visible ?
                         <fieldset className="payform--fieldset">
@@ -89,7 +91,52 @@ class Fieldset extends React.Component {
                             <Amount/>
                         </fieldset> : false
                 }
-            </span>
+            </div>
+        );
+    }
+
+    renderAppleFieldset() {
+        const cardForm = this.props.viewData.cardForm;
+        const email = cardForm.email;
+
+        return (
+            <div>
+                {
+                    email.visible ?
+                        <fieldset className="payform--fieldset">
+                            <Email/>
+                        </fieldset> : false
+                }
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                <ReactCSSTransitionGroup
+                 transitionName="appearLeft"
+                 transitionEnterTimeout={500}
+                 transitionLeaveTimeout={300}
+                 component="div">
+                    {
+                        this.props.viewData.paymentMethod === 'apple'
+                        ? this.renderAppleFieldset()
+                        : false
+                    }
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                     transitionName="appearRight"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div">
+                    {
+                        this.props.viewData.paymentMethod === 'card'
+                        ? this.renderCardFieldset()
+                        : false
+                    }
+                </ReactCSSTransitionGroup>
+            </div>
         );
     }
 }
