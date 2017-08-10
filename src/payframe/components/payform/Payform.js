@@ -198,7 +198,11 @@ class Payform extends React.Component {
                         : <PayButton
                             form={form}
                             checkmark={status === 'finished'}
-                            spinner={status === 'processInvoiceTemplate' || status === 'processPayment'}/>) : false
+                            spinner={
+                                status === 'processInvoiceTemplate'
+                                || status === 'processPayment'
+                                || status === 'pollEvents'
+                            }/>) : false
                 }
             </form>
         );
