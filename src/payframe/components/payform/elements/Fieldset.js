@@ -3,13 +3,8 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as viewDataActions from '../../../../redux/actions/viewDataActions';
-import CardNumber from './CardNumber';
-import CardExpire from './CardExpire';
-import CardCvv from './CardCvv';
-import CardHolder from './CardHolder';
-import Email from './Email';
-import Amount from './Amount';
-
+import CardFieldset from './CardFieldset';
+import AppleFieldset from './AppleFieldset';
 class Fieldset extends React.Component {
 
     constructor(props) {
@@ -59,58 +54,6 @@ class Fieldset extends React.Component {
         });
     }
 
-    renderCardFieldset() {
-        const email = this.props.viewData.cardForm.email;
-        const amount = this.props.viewData.cardForm.amount;
-
-        return (
-            <div>
-                <fieldset className="payform--fieldset">
-                    <CardNumber/>
-                    <CardExpire/>
-                    <CardCvv/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <CardHolder/>
-                </fieldset>
-                {
-                    email.visible ?
-                        <fieldset className="payform--fieldset">
-                            <Email/>
-                        </fieldset> : false
-                }
-                {
-                    amount.visible ?
-                        <fieldset className="payform--fieldset">
-                            <Amount/>
-                        </fieldset> : false
-                }
-            </div>
-        );
-    }
-
-    renderAppleFieldset() {
-        const email = this.props.viewData.cardForm.email;
-        const amount = this.props.viewData.cardForm.amount;
-
-        return (
-            <div>
-                {
-                    email.visible ?
-                        <fieldset className="payform--fieldset">
-                            <Email/>
-                        </fieldset> : false
-                }
-                {
-                    amount.visible ?
-                        <fieldset className="payform--fieldset">
-                            <Amount/>
-                        </fieldset> : false
-                }
-            </div>
-        );
-    }
-
     render() {
         return (
             <div>
@@ -122,7 +65,7 @@ class Fieldset extends React.Component {
                 >
                     {
                         this.props.viewData.paymentMethod === 'apple'
-                        ? this.renderAppleFieldset()
+                        ? <AppleFieldset />
                         : false
                     }
                 </ReactCSSTransitionGroup>
@@ -134,7 +77,7 @@ class Fieldset extends React.Component {
                 >
                     {
                         this.props.viewData.paymentMethod === 'card'
-                        ? this.renderCardFieldset()
+                        ? <CardFieldset />
                         : false
                     }
                 </ReactCSSTransitionGroup>
