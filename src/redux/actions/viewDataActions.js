@@ -10,7 +10,11 @@ import {
     SET_AMOUNT_TYPE,
     SET_EMAIL_VISIBILITY,
     SET_AMOUNT_VISIBILITY,
-    SET_CARD_SET_VISIBILITY, SET_AMOUNT_REQUIRED, SET_EMAIL_REQUIRED, SET_CARD_SET_REQUIRED
+    SET_CARD_SET_VISIBILITY,
+    SET_AMOUNT_REQUIRED,
+    SET_EMAIL_REQUIRED,
+    SET_CARD_SET_REQUIRED,
+    SET_ACTIVE_FORM, SET_PREVIOUS_FORM
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -21,6 +25,20 @@ function updateContainerSize(size) {
             containerSize: size
         }
     };
+}
+
+function setActiveForm(formName) {
+    return {
+        type: SET_ACTIVE_FORM,
+        payload: formName
+    }
+}
+
+function setPreviousForm(formName) {
+    return {
+        type: SET_PREVIOUS_FORM,
+        payload: formName
+    }
 }
 
 function setDefaultEmail(email) {
@@ -212,5 +230,7 @@ export {
     setCardSetVisibility,
     setAmountRequired,
     setEmailRequired,
-    setCardSetRequired
+    setCardSetRequired,
+    setActiveForm,
+    setPreviousForm
 };

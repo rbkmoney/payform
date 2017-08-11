@@ -14,11 +14,14 @@ import {
     SET_CARD_SET_VISIBILITY,
     SET_AMOUNT_REQUIRED,
     SET_EMAIL_REQUIRED,
-    SET_CARD_SET_REQUIRED
+    SET_CARD_SET_REQUIRED,
+    SET_ACTIVE_FORM,
+    SET_PREVIOUS_FORM
 } from '../constants/viewData';
 
 const defaultState = {
     containerSize: 'default',
+    activeForm: 'cardForm', // cardForm, applePayForm,
     cardForm: {
         cardSet: {
             cardHolder: {
@@ -52,6 +55,16 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
     switch (action.type) {
+        case SET_ACTIVE_FORM:
+            return {
+                ...state,
+                activeForm: action.payload
+            };
+        case SET_PREVIOUS_FORM:
+            return {
+                ...state,
+                previousForm: action.payload
+            };
         case UPDATE_CONTAINER_SIZE:
             return {
                 ...state,

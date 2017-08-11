@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import cx from 'classnames';
-import Payform from './payform/Payform';
 import Header from './header/Header';
 import SupportButton from './SupportButton';
+import CardPayment from './payform/CardPayment';
 
 class Modal extends React.Component {
 
@@ -21,7 +21,8 @@ class Modal extends React.Component {
                 })}>
                     <Header/>
                     <div className="checkout--body">
-                        <Payform/>
+                        {/*<Payform/>*/}
+                        <CardPayment/>
                     </div>
                 </div>
                 <SupportButton/>

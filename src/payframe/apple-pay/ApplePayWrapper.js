@@ -1,3 +1,5 @@
+import validateMerchant from './validateMerchant';
+
 class ApplePayWrapper {
 
     constructor(validationEndpoint, amount, product) {

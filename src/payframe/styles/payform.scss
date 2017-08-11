@@ -324,4 +324,28 @@
             }
         }
     }
+
+    &--go-to-card {
+      margin-top: 5px;
+      text-align: center;
+
+        &--text {
+            color: $gray4;
+            font-size: 12px;
+        }
+
+      &--link {
+        display: block;
+        margin-top: 15px;
+        background: none;
+        text-decoration: underline;
+        color: $gray4;
+        font-size: 13px;
+        font-weight: 500;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
 }

@@ -43,13 +43,21 @@ class Payframe extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const hasInvoiceReceived = nextProps.integration.invoice;
-        const hasInvoiceTemplateReceived = nextProps.integration.invoiceTemplate;
-        const integrationType = nextProps.integration.type;
-        if (integrationType === 'default' && hasInvoiceReceived) {
+        const localeReady = nextProps.locale;
+        let integrationReady;
+        switch (nextProps.integration.type) {
+            case 'default':
+                integrationReady = nextProps.integration.invoice;
+                break;
+            case 'template':
+                integrationReady = nextProps.integration.invoiceTemplate;
+                break;
+        }
+        const applePayCapabilityChecked = nextProps.paymentCapabilities.applePay !== 'unknown';
+        if (localeReady && integrationReady && applePayCapabilityChecked) {
             this.setState({status: 'ready'});
-        } else if (integrationType === 'template' && hasInvoiceTemplateReceived) {
-            this.setState({status: 'ready'});
+        } else {
+            console.log(localeReady, integrationReady, applePayCapabilityChecked);
         }
         if (nextProps.error && nextProps.locale) {
             this.setState({status: 'error'});
@@ -72,11 +80,13 @@ function mapStateToProps(state) {
         appConfig: state.appConfig,
         initParams: state.initParams,
         integration: state.integration,
+        paymentCapabilities: state.paymentCapabilities,
+        locale: state.locale,
         error: state.error
     };
 }
 
-function mapActionsToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         actions: {
             localeActions: bindActionCreators(localeActions, dispatch),
@@ -89,4 +99,4 @@ function mapActionsToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Payframe);
+export default connect(mapStateToProps, mapDispatchToProps)(Payframe);
