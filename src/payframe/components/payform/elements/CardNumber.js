@@ -67,7 +67,7 @@ class CardNumber extends React.Component {
 function mapStateToProps(state) {
     return {
         locale: state.locale,
-        cardNumber: state.viewData.cardForm.cardNumber
+        cardNumber: state.viewData.cardForm.cardSet.cardNumber
     };
 }
 

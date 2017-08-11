@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as viewDataActions from '../../../../redux/actions/viewDataActions';
@@ -17,20 +18,22 @@ class Fieldset extends React.Component {
     }
 
     componentDidMount() {
-        switch (this.props.integration.type) {
-            case 'template':
-                this.handleTemplate();
-                break;
+        if (this.props.integration.type === 'template') {
+            this.handleTemplate();
+            if (this.props.paymentCapabilities.applePay === 'capable') {
+                this.props.actions.viewDataActions.setCardSetVisibility(false);
+                this.props.actions.viewDataActions.setCardSetRequired(false);
+            }
         }
     }
 
     handleTemplate() {
-        const viewDataActions = this.props.actions.viewDataActions;
+        const actions = this.props.actions.viewDataActions;
         const cost = this.props.integration.invoiceTemplate.cost;
         let visible = false;
         switch (cost.invoiceTemplateCostType) {
             case 'InvoiceTemplateCostRange':
-                viewDataActions.setAmountType({
+                actions.setAmountType({
                     name: 'range',
                     lowerBound: cost.range.lowerBound,
                     upperBound: cost.range.upperBound
@@ -38,39 +41,44 @@ class Fieldset extends React.Component {
                 visible = true;
                 break;
             case 'InvoiceTemplateCostUnlim':
-                viewDataActions.setAmountType({
+                actions.setAmountType({
                     name: 'unlim'
                 });
                 visible = true;
                 break;
             case 'InvoiceTemplateCostFixed':
-                viewDataActions.setAmountType({
+                actions.setAmountType({
                     name: 'fixed'
                 });
-                viewDataActions.setAmountVal(cost.amount / 100);
+                actions.setAmountVal(cost.amount / 100);
                 break;
         }
-        viewDataActions.setFieldsVisibility({
-            amountVisible: visible
-        });
-        viewDataActions.setFieldsRequired({
-            amountRequired: true
-        });
+        actions.setAmountVisibility(visible);
+        actions.setAmountRequired(true);
     }
 
-    render() {
-        const email = this.props.viewData.cardForm.email;
-        const amount = this.props.viewData.cardForm.amount;
+    renderCardFieldset() {
+        const cardForm = this.props.viewData.cardForm;
+        const cardSet = cardForm.cardSet;
+        const email = cardForm.email;
+        const amount = cardForm.amount;
+
         return (
-            <span>
-                <fieldset className="payform--fieldset">
-                    <CardNumber/>
-                    <CardExpire/>
-                    <CardCvv/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <CardHolder/>
-                </fieldset>
+            <div>
+                {
+                    cardSet.visible ?
+                        <fieldset className="payform--fieldset">
+                            <CardNumber/>
+                            <CardExpire/>
+                            <CardCvv/>
+                        </fieldset> : false
+                }
+                {
+                    cardSet.visible ?
+                        <fieldset className="payform--fieldset">
+                            <CardHolder/>
+                        </fieldset> : false
+                }
                 {
                     email.visible ?
                         <fieldset className="payform--fieldset">
@@ -83,20 +91,66 @@ class Fieldset extends React.Component {
                             <Amount/>
                         </fieldset> : false
                 }
-            </span>
+            </div>
+        );
+    }
+
+    renderAppleFieldset() {
+        const cardForm = this.props.viewData.cardForm;
+        const email = cardForm.email;
+
+        return (
+            <div>
+                {
+                    email.visible ?
+                        <fieldset className="payform--fieldset">
+                            <Email/>
+                        </fieldset> : false
+                }
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                <ReactCSSTransitionGroup
+                 transitionName="appearLeft"
+                 transitionEnterTimeout={500}
+                 transitionLeaveTimeout={300}
+                 component="div">
+                    {
+                        this.props.viewData.paymentMethod === 'apple'
+                        ? this.renderAppleFieldset()
+                        : false
+                    }
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                     transitionName="appearRight"
+                     transitionEnterTimeout={500}
+                     transitionLeaveTimeout={300}
+                     component="div">
+                    {
+                        this.props.viewData.paymentMethod === 'card'
+                        ? this.renderCardFieldset()
+                        : false
+                    }
+                </ReactCSSTransitionGroup>
+            </div>
         );
     }
 }
 
-function mapState(state) {
+function mapStateToProps(state) {
     return {
         locale: state.locale,
         viewData: state.viewData,
-        integration: state.integration
+        integration: state.integration,
+        paymentCapabilities: state.paymentCapabilities
     };
 }
 
-function mapActions(dispatch) {
+function mapActionsToProps(dispatch) {
     return {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch)
@@ -104,4 +158,4 @@ function mapActions(dispatch) {
     };
 }
 
-export default connect(mapState, mapActions)(Fieldset);
+export default connect(mapStateToProps, mapActionsToProps)(Fieldset);

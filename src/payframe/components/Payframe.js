@@ -6,6 +6,7 @@ import * as invoiceActions from '../../redux/actions/invoiceActions';
 import * as errorActions from '../../redux/actions/errorActions';
 import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
 import * as viewDataActions from '../../redux/actions/viewDataActions';
+import * as paymentCapabilitiesActions from '../../redux/actions/paymentCapabilitiesActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
@@ -22,6 +23,7 @@ class Payframe extends React.Component {
     componentDidMount() {
         this.props.actions.localeActions.getLocale(this.props.initParams.locale);
         this.props.actions.viewDataActions.setDefaultEmail(this.props.initParams.email);
+        this.props.actions.paymentCapabilitiesActions.setApplePayCapability(this.props.appConfig.applePayMerchantID);
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice(
@@ -42,10 +44,11 @@ class Payframe extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         const hasInvoiceReceived = nextProps.integration.invoice;
+        const hasInvoiceTemplateReceived = nextProps.integration.invoiceTemplate;
         const integrationType = nextProps.integration.type;
         if (integrationType === 'default' && hasInvoiceReceived) {
             this.setState({status: 'ready'});
-        } else if (integrationType === 'template') {
+        } else if (integrationType === 'template' && hasInvoiceTemplateReceived) {
             this.setState({status: 'ready'});
         }
         if (nextProps.error) {
@@ -80,7 +83,8 @@ function mapActionsToProps(dispatch) {
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
             errorActions: bindActionCreators(errorActions, dispatch),
-            viewDataActions: bindActionCreators(viewDataActions, dispatch)
+            viewDataActions: bindActionCreators(viewDataActions, dispatch),
+            paymentCapabilitiesActions: bindActionCreators(paymentCapabilitiesActions, dispatch)
         }
     };
 }

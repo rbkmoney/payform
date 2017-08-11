@@ -174,9 +174,7 @@ describe('EventPoller', function () {
                     ],
                     requestType: 'BrowserPostRequest',
                     uriTemplate: 'http://3ds-mock.rbk.test:8080/mpi/acs'
-                },
-                invoiceAccessToken: 'invoiceAccessToken',
-                invoiceID: 'invoiceID'
+                }
             };
 
             EventPoller.prepareResult('interact', change, 'invoiceID', 'invoiceAccessToken').should.be.deep.equal(expected);
@@ -367,27 +365,27 @@ describe('EventPoller', function () {
         });
     });
 
-    describe('#getErrorMessage()', function() {
-        const locale = {
-            'Invalid Card': 'Недопустимая карта'
-        };
-
-        it('should return Недопустимая карта from locale', function () {
-            const error = {
-                code: 'Invalid Card',
-                message: 'Invalid Card'
-            };
-
-            EventPoller.getErrorMessage(error, locale).should.to.equal('Недопустимая карта');
-        });
-
-        it('should return CVV Match Fail when didn\'t found translation in locale ', function () {
-            const error = {
-                code: 'CVV Match Fail',
-                message: 'CVV Match Fail'
-            };
-
-            EventPoller.getErrorMessage(error, locale).should.to.equal('CVV Match Fail');
-        });
-    });
+    //describe('#getErrorMessage()', function() {
+    //    const locale = {
+    //        'Invalid Card': 'Недопустимая карта'
+    //    };
+    //
+    //    it('should return Недопустимая карта from locale', function () {
+    //        const error = {
+    //            code: 'Invalid Card',
+    //            message: 'Invalid Card'
+    //        };
+    //
+    //        EventPoller.getErrorMessage(error, locale).should.to.equal('Недопустимая карта');
+    //    });
+    //
+    //    it('should return CVV Match Fail when didn\'t found translation in locale ', function () {
+    //        const error = {
+    //            code: 'CVV Match Fail',
+    //            message: 'CVV Match Fail'
+    //        };
+    //
+    //        EventPoller.getErrorMessage(error, locale).should.to.equal('CVV Match Fail');
+    //    });
+    //});
 });

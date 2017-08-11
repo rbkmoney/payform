@@ -7,6 +7,7 @@ import error from './error';
 import result from './result';
 import viewData from './viewData';
 import payment from './payment';
+import paymentCapabilities from './paymentCapabilities.js';
 
 export default combineReducers({
     initParams,
@@ -16,5 +17,6 @@ export default combineReducers({
     error,
     result,
     viewData,
-    payment
+    payment,
+    paymentCapabilities
 })

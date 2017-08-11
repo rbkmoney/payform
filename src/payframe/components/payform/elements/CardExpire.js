@@ -68,7 +68,7 @@ class CardExpire extends React.Component {
 function mapStateToProps(state) {
     return {
         locale: state.locale,
-        cardExpire: state.viewData.cardForm.cardExpire
+        cardExpire: state.viewData.cardForm.cardSet.cardExpire
     };
 }
 

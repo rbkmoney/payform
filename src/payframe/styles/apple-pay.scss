@@ -1,0 +1,21 @@
+.apple-pay-button {
+  display: inline-block;
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  border-radius: 4px;
+  padding: 11px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 36px;
+  background-image: -webkit-named-image(apple-pay-logo-white);
+  background-color: black;
+  visibility: hidden;
+  @include responsive(sm) {
+    padding: 8px;
+  }
+}
+
+.apple-pay-button.visible {
+  visibility: visible;
+}
