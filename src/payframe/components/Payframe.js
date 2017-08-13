@@ -23,7 +23,10 @@ class Payframe extends React.Component {
     componentDidMount() {
         this.props.actions.localeActions.getLocale(this.props.initParams.locale);
         this.props.actions.viewDataActions.setDefaultEmail(this.props.initParams.email);
-        this.props.actions.paymentCapabilitiesActions.setApplePayCapability(this.props.appConfig.applePayMerchantID);
+        this.props.actions.paymentCapabilitiesActions.setApplePayCapability(
+            this.props.appConfig.applePayMerchantID,
+            this.props.initParams.applePayTest
+        );
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice(
