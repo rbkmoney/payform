@@ -16,12 +16,12 @@ import {
     SET_EMAIL_REQUIRED,
     SET_CARD_SET_REQUIRED,
     SET_ACTIVE_FORM,
-    SET_PREVIOUS_FORM
+    SET_PREVIOUS_FORM,
+    RESET_VALIDATION
 } from '../constants/viewData';
 
 const defaultState = {
     containerSize: 'default',
-    activeForm: 'cardForm', // cardForm, applePayForm,
     cardForm: {
         cardSet: {
             cardHolder: {
@@ -208,6 +208,42 @@ export default function (state = defaultState, action) {
                         valid: action.payload.isAmountValid
                     },
                     valid: action.payload.valid
+                }
+            };
+        case RESET_VALIDATION:
+            return {
+                ...state,
+                cardForm: {
+                    ...state.cardForm,
+                    cardSet: {
+                        ...state.cardForm.cardSet,
+                        cardNumber: {
+                            ...state.cardForm.cardSet.cardNumber,
+                            valid: undefined
+                        },
+                        cardExpire: {
+                            ...state.cardForm.cardSet.cardExpire,
+                            valid: undefined
+                        },
+                        cardCvv: {
+                            ...state.cardForm.cardSet.cardCvv,
+                            valid: undefined
+                        },
+                        cardHolder: {
+                            ...state.cardForm.cardSet.cardHolder,
+                            valid: undefined
+                        },
+                        valid: undefined
+                    },
+                    email: {
+                        ...state.cardForm.email,
+                        valid: undefined
+                    },
+                    amount: {
+                        ...state.cardForm.amount,
+                        valid: undefined
+                    },
+                    valid: undefined
                 }
             };
         case SET_EMAIL_VISIBILITY:

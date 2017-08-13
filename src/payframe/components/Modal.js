@@ -21,7 +21,6 @@ class Modal extends React.Component {
                 })}>
                     <Header/>
                     <div className="checkout--body">
-                        {/*<Payform/>*/}
                         <CardPayment/>
                     </div>
                 </div>

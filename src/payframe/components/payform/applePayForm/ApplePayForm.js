@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toNumber } from 'lodash';
 import cx from 'classnames';
 import * as viewDataActions from '../../../../redux/actions/viewDataActions';
 import * as invoiceActions from '../../../../redux/actions/invoiceActions';
@@ -13,7 +12,8 @@ import Email from '../elements/Email';
 import Amount from '../elements/Amount';
 import GoToCard from './GoToCard';
 import Processing from '../../../backend-communication/Processing';
-import { getInstanceFromInvoice, getInstanceFromInvoiceTemplate } from '../../../apple-pay/instanceCreators';
+import getWrapperFromInvoice from './getWrapperFromInvoice';
+import getWrapperFromInvoiceTemplate from './getWrapperFromInvoiceTemplate';
 
 class ApplePayForm extends React.Component {
 
@@ -29,59 +29,42 @@ class ApplePayForm extends React.Component {
 
     componentDidMount() {
         this.props.actions.viewDataActions.setCardSetRequired(false);
+        this.props.actions.viewDataActions.resetValidation();
+        this.props.actions.paymentActions.reset();
     }
 
     componentWillReceiveProps(nextProps) {
-        const paymentActions = nextProps.actions.paymentActions;
-        const integration = nextProps.integration;
         switch (nextProps.payment.status) {
             case 'started':
                 if (nextProps.viewData.cardForm.valid) {
-                    if (integration.type === 'default') {
-                        this.applePayWrapper = getInstanceFromInvoice(
-                            this.props.appConfig.applePayMerchantValidationEndpoint,
-                            integration.invoice
-                        );
-                        paymentActions.processPayment(nextProps.initParams.invoiceAccessToken);
-                    } else if (integration.type === 'template') {
-                        this.applePayWrapper = getInstanceFromInvoiceTemplate(
-                            this.props.appConfig.applePayMerchantValidationEndpoint,
-                            integration.invoiceTemplate,
-                            nextProps.viewData.cardForm.amount.value
-                        );
-                        paymentActions.processInvoiceTemplate();
+                    const wrapperParam = {
+                        validationEndpoint: nextProps.appConfig.applePayMerchantValidationEndpoint,
+                        host: nextProps.appConfig.host,
+                        merchantID: nextProps.appConfig.applePayMerchantID
+                    };
+                    switch (nextProps.integration.type) {
+                        case 'default':
+                            this.applePayWrapper = getWrapperFromInvoice(Object.assign({
+                                invoice: nextProps.integration.invoice
+                            }, wrapperParam));
+                            break;
+                        case 'template':
+                            this.applePayWrapper = getWrapperFromInvoiceTemplate(Object.assign({
+                                invoiceTemplate: nextProps.integration.invoiceTemplate,
+                                formAmount: nextProps.viewData.cardForm.amount.value
+                            }, wrapperParam));
+                            nextProps.actions.paymentActions.processInvoiceTemplate();
+                            break;
                     }
                 } else {
-                    paymentActions.reset();
+                    nextProps.actions.paymentActions.reset();
                     this.triggerError();
                 }
-                break;
-            case 'processInvoiceTemplate':
-                const token = integration.invoiceAccessToken;
-                token
-                    ? paymentActions.processPayment(token.payload)
-                    : this.createInvoice(nextProps);
                 break;
             case 'processPayment':
                 this.processApplePayPayment(nextProps);
                 break;
         }
-    }
-
-    createInvoice(props) {
-        const form = props.viewData.cardForm;
-        const template = props.integration.invoiceTemplate;
-        const initParams = props.initParams;
-        props.actions.invoiceActions.createInvoice(
-            props.appConfig.capiEndpoint,
-            initParams.invoiceTemplateID,
-            initParams.invoiceTemplateAccessToken,
-            {
-                amount: toNumber(form.amount.value) * 100,
-                currency: 'RUB',
-                metadata: template.metadata
-            }
-        );
     }
 
     processApplePayPayment(props) {
@@ -98,11 +81,22 @@ class ApplePayForm extends React.Component {
                 cardCvv: '123',
                 email: props.viewData.cardForm.email.value
             })
-                .then((event) => this.handleEventApplePay(event))
+                .then((event) => this.handleEvent(event))
                 .catch((error) => this.handleError(error));
         }).catch((error) => {
             this.props.actions.paymentActions.setPaymentError(error);
         });
+    }
+
+    handleEvent(event) {
+        if (event.type === 'success') {
+            this.applePayWrapper.complete();
+            this.props.actions.paymentActions.finish();
+            this.props.actions.resultActions.setDone();
+            this.setState({back: true});
+        } else {
+            this.handleError({code: 'error.payment.unsupport'});
+        }
     }
 
     handleError(error) {
@@ -111,15 +105,9 @@ class ApplePayForm extends React.Component {
         this.triggerError();
     }
 
-    handleEventApplePay(event) {
-        if (event.type === 'unpaid') {
-            return;
-        } else if (event.type === 'success') {
-            this.applePayWrapper.complete();
-            this.props.actions.paymentActions.finish();
-            this.props.actions.resultActions.setDone();
-            this.setState({back: true});
-        }
+    triggerError() {
+        this.setState({shakeValidation: true});
+        setTimeout(() => this.setState({shakeValidation: false}), 500);
     }
 
     pay(e) {
@@ -127,11 +115,6 @@ class ApplePayForm extends React.Component {
         const form = this.props.viewData.cardForm;
         this.props.actions.viewDataActions.validateForm(form);
         this.props.actions.paymentActions.start();
-    }
-
-    triggerError() {
-        this.setState({shakeValidation: true});
-        setTimeout(() => this.setState({shakeValidation: false}), 500);
     }
 
     render() {

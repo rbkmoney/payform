@@ -14,7 +14,8 @@ import {
     SET_AMOUNT_REQUIRED,
     SET_EMAIL_REQUIRED,
     SET_CARD_SET_REQUIRED,
-    SET_ACTIVE_FORM, SET_PREVIOUS_FORM
+    SET_ACTIVE_FORM, SET_PREVIOUS_FORM,
+    RESET_VALIDATION
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
 
@@ -172,6 +173,12 @@ function validateForm(form) {
     };
 }
 
+function resetValidation() {
+    return {
+        type: RESET_VALIDATION
+    }
+}
+
 function setEmailVisibility(visible) {
     return {
         type: SET_EMAIL_VISIBILITY,
@@ -224,7 +231,6 @@ export {
     setEmailVal,
     setAmountVal,
     setAmountType,
-    validateForm,
     setEmailVisibility,
     setAmountVisibility,
     setCardSetVisibility,
@@ -232,5 +238,7 @@ export {
     setEmailRequired,
     setCardSetRequired,
     setActiveForm,
-    setPreviousForm
+    setPreviousForm,
+    validateForm,
+    resetValidation
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toNumber } from 'lodash';
 import cx from 'classnames';
 import * as viewDataActions from '../../../../redux/actions/viewDataActions';
 import * as invoiceActions from '../../../../redux/actions/invoiceActions';
@@ -41,12 +40,9 @@ class CardForm extends React.Component {
     }
 
     componentDidMount() {
-        switch (this.props.integration.type) {
-            case 'default':
-                this.getEvents(this.props.initParams.invoiceAccessToken);
-                break;
-        }
         this.props.actions.viewDataActions.setCardSetRequired(true);
+        this.props.actions.viewDataActions.resetValidation();
+        this.props.actions.paymentActions.reset();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -65,34 +61,12 @@ class CardForm extends React.Component {
                     this.triggerError();
                 }
                 break;
-            case 'processInvoiceTemplate':
-                const token = integration.invoiceAccessToken;
-                token
-                    ? paymentActions.processPayment(token.payload)
-                    : this.createInvoice(nextProps);
-                break;
             case 'processPayment':
                 this.processCardPayment(nextProps);
                 break;
             case 'pollEvents':
                 this.getEvents(nextProps.payment.accessToken);
         }
-    }
-
-    createInvoice(props) {
-        const form = props.viewData.cardForm;
-        const template = props.integration.invoiceTemplate;
-        const initParams = props.initParams;
-        props.actions.invoiceActions.createInvoice(
-            props.appConfig.capiEndpoint,
-            initParams.invoiceTemplateID,
-            initParams.invoiceTemplateAccessToken,
-            {
-                amount: toNumber(form.amount.value) * 100,
-                currency: 'RUB',
-                metadata: template.metadata
-            }
-        );
     }
 
     processCardPayment(props) {
@@ -122,9 +96,7 @@ class CardForm extends React.Component {
     }
 
     handleEvent(event) {
-        if (event.type === 'unpaid') {
-            return;
-        } else if (event.type === 'interact') {
+        if (event.type === 'interact') {
             this.handleInteract(event);
         } else if (event.type === 'success') {
             this.handleSuccess();
@@ -151,16 +123,16 @@ class CardForm extends React.Component {
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
+    triggerError() {
+        this.setState({shakeValidation: true});
+        setTimeout(() => this.setState({shakeValidation: false}), 500);
+    }
+
     pay(e) {
         e.preventDefault();
         const form = this.props.viewData.cardForm;
         this.props.actions.viewDataActions.validateForm(form);
         this.props.actions.paymentActions.start();
-    }
-
-    triggerError() {
-        this.setState({shakeValidation: true});
-        setTimeout(() => this.setState({shakeValidation: false}), 500);
     }
 
     renderPayform() {

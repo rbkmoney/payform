@@ -56,8 +56,6 @@ class Payframe extends React.Component {
         const applePayCapabilityChecked = nextProps.paymentCapabilities.applePay !== 'unknown';
         if (localeReady && integrationReady && applePayCapabilityChecked) {
             this.setState({status: 'ready'});
-        } else {
-            console.log(localeReady, integrationReady, applePayCapabilityChecked);
         }
         if (nextProps.error && nextProps.locale) {
             this.setState({status: 'error'});

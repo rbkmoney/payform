@@ -10,7 +10,7 @@ class Header extends React.Component {
         const viewData = this.props.viewData;
         const isBackAvailable = viewData.previousForm
             && viewData.previousForm !== viewData.activeForm
-            && this.props.payment.status !== 'finished';
+            && this.props.payment.status === 'pristine';
         return (
             <div className="checkout--header">
                 {
