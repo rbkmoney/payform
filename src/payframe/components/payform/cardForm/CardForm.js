@@ -42,13 +42,11 @@ class CardForm extends React.Component {
 
     componentDidMount() {
         switch (this.props.integration.type) {
-            case 'template':
-                this.handleTemplate();
-                break;
             case 'default':
                 this.getEvents(this.props.initParams.invoiceAccessToken);
                 break;
         }
+        this.props.actions.viewDataActions.setCardSetRequired(true);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -163,36 +161,6 @@ class CardForm extends React.Component {
     triggerError() {
         this.setState({shakeValidation: true});
         setTimeout(() => this.setState({shakeValidation: false}), 500);
-    }
-
-    handleTemplate() {
-        const actions = this.props.actions.viewDataActions;
-        const cost = this.props.integration.invoiceTemplate.cost;
-        let visible = false;
-        switch (cost.invoiceTemplateCostType) {
-            case 'InvoiceTemplateCostRange':
-                actions.setAmountType({
-                    name: 'range',
-                    lowerBound: cost.range.lowerBound,
-                    upperBound: cost.range.upperBound
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostUnlim':
-                actions.setAmountType({
-                    name: 'unlim'
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostFixed':
-                actions.setAmountType({
-                    name: 'fixed'
-                });
-                actions.setAmountVal(cost.amount / 100);
-                break;
-        }
-        actions.setAmountVisibility(visible);
-        actions.setAmountRequired(true);
     }
 
     renderPayform() {

@@ -11,7 +11,7 @@ import BackButton from '../elements/BackButton';
 import ErrorPanel from '../elements/ErrorPanel';
 import Email from '../elements/Email';
 import Amount from '../elements/Amount';
-import EventPoller from '../../../backend-communication/EventPoller';
+import GoToCard from './GoToCard';
 import Processing from '../../../backend-communication/Processing';
 import { getInstanceFromInvoice, getInstanceFromInvoiceTemplate } from '../../../apple-pay/instanceCreators';
 
@@ -25,13 +25,9 @@ class ApplePayForm extends React.Component {
         };
         this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
-        this.goToCard = this.goToCard.bind(this);
     }
 
     componentDidMount() {
-        if (this.props.integration.type === 'template') {
-            this.handleTemplate();
-        }
         this.props.actions.viewDataActions.setCardSetRequired(false);
     }
 
@@ -69,39 +65,7 @@ class ApplePayForm extends React.Component {
             case 'processPayment':
                 this.processApplePayPayment(nextProps);
                 break;
-            case 'pollEvents':
-                this.getEvents(nextProps.payment.accessToken);
         }
-    }
-
-    handleTemplate() {
-        const actions = this.props.actions.viewDataActions;
-        const cost = this.props.integration.invoiceTemplate.cost;
-        let visible = false;
-        switch (cost.invoiceTemplateCostType) {
-            case 'InvoiceTemplateCostRange':
-                actions.setAmountType({
-                    name: 'range',
-                    lowerBound: cost.range.lowerBound,
-                    upperBound: cost.range.upperBound
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostUnlim':
-                actions.setAmountType({
-                    name: 'unlim'
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostFixed':
-                actions.setAmountType({
-                    name: 'fixed'
-                });
-                actions.setAmountVal(cost.amount / 100);
-                break;
-        }
-        actions.setAmountVisibility(visible);
-        actions.setAmountRequired(true);
     }
 
     createInvoice(props) {
@@ -135,8 +99,16 @@ class ApplePayForm extends React.Component {
                 email: props.viewData.cardForm.email.value
             })
                 .then((event) => this.handleEventApplePay(event))
-                .catch((error) => console.error(error));
+                .catch((error) => this.handleError(error));
+        }).catch((error) => {
+            this.props.actions.paymentActions.setPaymentError(error);
         });
+    }
+
+    handleError(error) {
+        this.applePayWrapper.failure();
+        this.props.actions.paymentActions.setPaymentError(error);
+        this.triggerError();
     }
 
     handleEventApplePay(event) {
@@ -150,16 +122,6 @@ class ApplePayForm extends React.Component {
         }
     }
 
-    getEvents(token) {
-        EventPoller.pollEvents(
-            this.props.appConfig.capiEndpoint,
-            this.props.integration.invoice.id,
-            token
-        )
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
-    }
-
     pay(e) {
         e.preventDefault();
         const form = this.props.viewData.cardForm;
@@ -170,11 +132,6 @@ class ApplePayForm extends React.Component {
     triggerError() {
         this.setState({shakeValidation: true});
         setTimeout(() => this.setState({shakeValidation: false}), 500);
-    }
-
-    goToCard() {
-        this.props.actions.viewDataActions.setActiveForm('cardForm');
-        this.props.actions.viewDataActions.setPreviousForm('applePayForm');
     }
 
     render() {
@@ -211,11 +168,7 @@ class ApplePayForm extends React.Component {
                             : <button className="payform--apple-pay-button" form={form}/>
                     }
                     {
-                        this.props.payment.status !== 'finished'
-                            ? <div className="payform--go-to-card">
-                                <div className="payform--go-to-card--text">or</div>
-                                <a className="payform--go-to-card--link" onClick={this.goToCard}>Pay with Card</a>
-                            </div> : false
+                        this.props.payment.status !== 'finished' ? <GoToCard/> : false
                     }
 
                 </form>

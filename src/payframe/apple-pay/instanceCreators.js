@@ -10,8 +10,8 @@ function getInstanceFromInvoiceTemplate(validationEndpoint, invoiceTemplate, for
     return new ApplePayWrapper(
         validationEndpoint,
         cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed'
-            ? cost.amount / 100
-            : toNumber(formAmount),
+            ? cost.amount
+            : toNumber(formAmount) * 100,
         invoiceTemplate.product
     );
 }

@@ -11,6 +11,39 @@ class CardPayment extends React.Component {
         if (this.props.paymentCapabilities.applePay === 'capable') {
             this.props.actions.viewDataActions.setActiveForm('applePayForm');
         }
+        if (this.props.integration.type === 'template') {
+            this.handleTemplate();
+        }
+    }
+
+    handleTemplate() {
+        const actions = this.props.actions.viewDataActions;
+        const cost = this.props.integration.invoiceTemplate.cost;
+        let visible = false;
+        switch (cost.invoiceTemplateCostType) {
+            case 'InvoiceTemplateCostRange':
+                actions.setAmountType({
+                    name: 'range',
+                    lowerBound: cost.range.lowerBound,
+                    upperBound: cost.range.upperBound
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostUnlim':
+                actions.setAmountType({
+                    name: 'unlim'
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostFixed':
+                actions.setAmountType({
+                    name: 'fixed'
+                });
+                actions.setAmountVal(cost.amount / 100);
+                break;
+        }
+        actions.setAmountVisibility(visible);
+        actions.setAmountRequired(true);
     }
 
     render() {
@@ -18,10 +51,10 @@ class CardPayment extends React.Component {
         return (
             <div>
                 {
-                    activeForm === 'cardForm' ? <CardForm/> : false
+                    activeForm === 'applePayForm' ? <ApplePayForm/> : false
                 }
                 {
-                    activeForm === 'applePayForm' ? <ApplePayForm/> : false
+                    activeForm === 'cardForm' ? <CardForm/> : false
                 }
             </div>
         );
@@ -31,7 +64,8 @@ class CardPayment extends React.Component {
 function mapStateToProps(state) {
     return {
         paymentCapabilities: state.paymentCapabilities,
-        viewData: state.viewData
+        viewData: state.viewData,
+        integration: state.integration
     };
 }
 
