@@ -25,6 +25,7 @@ class ApplePayForm extends React.Component {
         };
         this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
+        this.preventSubmit = this.preventSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -47,6 +48,7 @@ class ApplePayForm extends React.Component {
                             this.applePayWrapper = getWrapperFromInvoice(Object.assign({
                                 invoice: nextProps.integration.invoice
                             }, wrapperParam));
+                            nextProps.actions.paymentActions.processPayment(nextProps.initParams.invoiceAccessToken);
                             break;
                         case 'template':
                             this.applePayWrapper = getWrapperFromInvoiceTemplate(Object.assign({
@@ -116,8 +118,11 @@ class ApplePayForm extends React.Component {
         this.props.actions.paymentActions.start();
     }
 
+    preventSubmit(e) {
+        e.preventDefault();
+    }
+
     render() {
-        const form = 'apple-pay-form';
         const cardForm = this.props.viewData.cardForm;
         const email = cardForm.email;
         const amount = cardForm.amount;
@@ -125,9 +130,9 @@ class ApplePayForm extends React.Component {
             <div className="payform">
                 <form
                     className={cx('payform--form', {_error: this.state.shakeValidation})}
-                    id={form}
+                    id="apple-pay-form"
                     role="form"
-                    onSubmit={this.pay}
+                    onSubmit={this.preventSubmit}
                     noValidate>
                     {
                         email.visible ?
@@ -147,7 +152,7 @@ class ApplePayForm extends React.Component {
                     {
                         this.state.back
                             ? <BackButton locale={this.props.locale}/>
-                            : <button className="payform--apple-pay-button" form={form}/>
+                            : <button type="button" className="payform--apple-pay-button" onClick={this.pay}/>
                     }
                     {
                         this.props.payment.status !== 'finished' ? <GoToCard/> : false
