@@ -6,6 +6,7 @@ import * as invoiceActions from '../../redux/actions/invoiceActions';
 import * as errorActions from '../../redux/actions/errorActions';
 import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
 import * as viewDataActions from '../../redux/actions/viewDataActions';
+import * as paymentCapabilitiesActions from '../../redux/actions/paymentCapabilitiesActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
@@ -22,6 +23,10 @@ class Payframe extends React.Component {
     componentDidMount() {
         this.props.actions.localeActions.getLocale(this.props.initParams.locale);
         this.props.actions.viewDataActions.setDefaultEmail(this.props.initParams.email);
+        this.props.actions.paymentCapabilitiesActions.setApplePayCapability(
+            this.props.appConfig.applePayMerchantID,
+            this.props.initParams.applePayTest
+        );
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice(
@@ -41,14 +46,21 @@ class Payframe extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const hasInvoiceReceived = nextProps.integration.invoice;
-        const integrationType = nextProps.integration.type;
-        if (integrationType === 'default' && hasInvoiceReceived) {
-            this.setState({status: 'ready'});
-        } else if (integrationType === 'template') {
+        const localeReady = nextProps.locale;
+        let integrationReady;
+        switch (nextProps.integration.type) {
+            case 'default':
+                integrationReady = nextProps.integration.invoice;
+                break;
+            case 'template':
+                integrationReady = nextProps.integration.invoiceTemplate;
+                break;
+        }
+        const applePayCapabilityChecked = nextProps.paymentCapabilities.applePay !== 'unknown';
+        if (localeReady && integrationReady && applePayCapabilityChecked) {
             this.setState({status: 'ready'});
         }
-        if (nextProps.error) {
+        if (nextProps.error && nextProps.locale) {
             this.setState({status: 'error'});
         }
     }
@@ -69,20 +81,23 @@ function mapStateToProps(state) {
         appConfig: state.appConfig,
         initParams: state.initParams,
         integration: state.integration,
+        paymentCapabilities: state.paymentCapabilities,
+        locale: state.locale,
         error: state.error
     };
 }
 
-function mapActionsToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         actions: {
             localeActions: bindActionCreators(localeActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
             errorActions: bindActionCreators(errorActions, dispatch),
-            viewDataActions: bindActionCreators(viewDataActions, dispatch)
+            viewDataActions: bindActionCreators(viewDataActions, dispatch),
+            paymentCapabilitiesActions: bindActionCreators(paymentCapabilitiesActions, dispatch)
         }
     };
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Payframe);
+export default connect(mapStateToProps, mapDispatchToProps)(Payframe);

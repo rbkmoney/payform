@@ -52,7 +52,7 @@ class Amount extends React.Component {
     }
 
     render() {
-        return <div className={cx('payform--group payform--amount', getPlaceholderClass(this.getPlaceholder()))}> // TODO fix it
+        return <div className={cx('payform--group payform--amount', getPlaceholderClass(this.getPlaceholder()))}>
             <input
                 id="amount"
                 type="number"

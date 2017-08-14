@@ -66,7 +66,7 @@ class CardCvv extends React.Component {
 function mapStateToProps(state) {
     return {
         locale: state.locale,
-        cardCvv: state.viewData.cardForm.cardCvv
+        cardCvv: state.viewData.cardForm.cardSet.cardCvv
     };
 }
 

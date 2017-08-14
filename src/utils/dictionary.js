@@ -50,6 +50,9 @@ const integration = [
     },
     {
         name: 'finished'
+    },
+    {
+        name: 'applePayTest'
     }
 ];
 

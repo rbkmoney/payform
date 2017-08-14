@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "webpack --colors --progress --config config/webpack.config.prod.js",
-    "start": "webpack-dev-server --colors --progress --config config/webpack.config.dev.js --port 7050",
+    "start": "webpack-dev-server --colors --progress --config config/webpack.config.dev.js --port 7050 --host ::",
     "test": "karma start config/karma.conf.js"
   },
   "repository": {

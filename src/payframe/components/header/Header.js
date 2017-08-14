@@ -2,16 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Logo from './Logo';
 import ModalClose from './ModalClose';
+import BackChevron from './BackChevron';
 
 class Header extends React.Component {
 
     render() {
+        const viewData = this.props.viewData;
+        const isBackAvailable = viewData.previousForm
+            && viewData.previousForm !== viewData.activeForm
+            && this.props.payment.status === 'pristine';
         return (
             <div className="checkout--header">
                 {
                     this.props.initParams.popupMode
                         ? false
                         : <ModalClose/>
+                }
+                {
+                    isBackAvailable ? <BackChevron/> : false
                 }
                 <Logo logo={this.props.initParams.logo}/>
                 <div className="checkout--company-name">{this.props.initParams.name}</div>
@@ -21,11 +29,11 @@ class Header extends React.Component {
                         : false
                 }
                 {
-                    this.props.viewData.defaultEmail ?
+                    viewData.defaultEmail ?
                         <div className="checkout--default-email--container">
                             <hr/>
                             <div className="checkout--default-email">
-                                {this.props.viewData.defaultEmail}
+                                {viewData.defaultEmail}
                             </div>
                         </div> : false
                 }
@@ -37,7 +45,8 @@ class Header extends React.Component {
 function mapState(state) {
     return {
         initParams: state.initParams,
-        viewData: state.viewData
+        viewData: state.viewData,
+        payment: state.payment
     };
 }
 

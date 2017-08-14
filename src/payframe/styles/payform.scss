@@ -255,6 +255,25 @@
         }
     }
 
+    &--apple-pay-button {
+        display: inline-block;
+        background-size: 100% 60%;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        border-radius: 4px;
+        padding: 11px;
+        margin: 15px auto;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 38px;
+        background-image: -webkit-named-image(apple-pay-logo-white);
+        background-color: black;
+        visibility: visible;
+        @include responsive(sm) {
+            padding: 8px;
+        }
+    }
+
     &--interact {
         height: 100%;
         width: 100%;
@@ -304,5 +323,29 @@
                 transform: translate3d(4px, 0, 0);
             }
         }
+    }
+
+    &--go-to-card {
+      margin-top: 5px;
+      text-align: center;
+
+        &--text {
+            color: $gray4;
+            font-size: 12px;
+        }
+
+      &--link {
+        display: block;
+        margin-top: 15px;
+        background: none;
+        text-decoration: underline;
+        color: $gray4;
+        font-size: 13px;
+        font-weight: 500;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
 }
