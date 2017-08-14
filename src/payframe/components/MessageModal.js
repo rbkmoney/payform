@@ -1,38 +1,50 @@
 import React from 'react';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as resultActions from '../../redux/actions/resultActions';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import ModalClose from './header/ModalClose';
 
-export default class ErrorModal extends React.Component {
-    getType(type) {
-        switch (type) {
-            case 'error':
-                return 'Error';
+class ErrorModal extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: ''
+        };
+        this.prepareMessage = this.prepareMessage.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.error) {
+            this.setState({
+                message: this.prepareMessage(this.props.error.localePath)
+            });
         }
+    }
+
+    prepareMessage(localePath) {
+        return localePath
+            ? this.props.locale[localePath]
+            : this.props.locale['Unknown Failure'];
     }
 
     render() {
         return (
             <ReactCSSTransitionGroup
-                transitionName='error-modal'
+                transitionName="error-modal"
                 transitionAppear={true}
                 transitionAppearTimeout={400}
                 transitionEnter={false}
-                transitionLeave={false}
-            >
+                transitionLeave={false}>
                 <div className="error-modal">
                     <div className="error-modal--header">
-                        {this.props.type ?
-                            <div className="error-modal--header--text">
-                                {this.getType(this.props.type)}
-                            </div>
-                        :
-                            false
-                        }
-                        <ModalClose popoutMode={this.props.popoutMode} setClose={this.props.setClose} />
+                        <div className="error-modal--header--text">Error</div>
+                        {this.props.initParams.popupMode ? false : <ModalClose/>}
                     </div>
                     <div className="error-modal--body">
                         <div className="error-modal--message">
-                            {this.props.locale[this.props.error] ? this.props.locale[this.props.error] : this.props.error}
+                            {this.state.message}
                         </div>
                     </div>
                 </div>
@@ -40,3 +52,21 @@ export default class ErrorModal extends React.Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        initParams: state.initParams,
+        locale: state.locale,
+        error: state.error
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            resultActions: bindActionCreators(resultActions, dispatch)
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorModal);

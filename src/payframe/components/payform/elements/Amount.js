@@ -1,15 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setAmountVal } from '../../../../redux/actions/viewDataActions';
 import cx from 'classnames';
-import {focusClass, errorClass} from './cssClasses';
+import { focusClass, errorClass } from './cssClasses';
 import formatCurrency from '../../../../utils/formatCurrency';
 import currencyFormatter from 'currency-formatter';
 import isIE from '../../../../utils/isIE';
 import getPlaceholderClass from './getPlaceholderClass';
 
 class Amount extends React.Component {
+
     constructor(props) {
         super(props);
-
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -17,11 +20,12 @@ class Amount extends React.Component {
         const classList = this.input.parentNode.classList;
         this.input.onfocus = () => classList.add(focusClass);
         this.input.onblur = () => classList.remove(focusClass);
+        this.input.value = this.props.amount.value;
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(nextProps) {
         const classList = this.input.parentNode.classList;
-        if (props.isValid === false) {
+        if (nextProps.amount.valid === false) {
             classList.add(errorClass);
         } else {
             classList.remove(errorClass);
@@ -29,29 +33,40 @@ class Amount extends React.Component {
     }
 
     handleChange(event) {
-        this.props.onChange(event.target.value);
+        this.props.actions.setAmountVal(event.target.value);
     }
 
     getPlaceholder() {
-        if (this.props.template && this.props.template.cost.range) {
-            return `${formatCurrency(this.props.template.cost.range.lowerBound / 100, this.props.currency)} - ${formatCurrency(this.props.template.cost.range.upperBound / 100, this.props.currency)}`;
+        const template = this.props.template;
+        let result;
+        if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
+            const lower = template.cost.range.lowerBound / 100;
+            const upper = template.cost.range.upperBound / 100;
+            result = `${formatCurrency(lower, 'RUB')} - ${formatCurrency(upper, 'RUB')}`;
         } else {
-            return `${this.props.locale['input.payment.amount.placeholder']} ${currencyFormatter.findCurrency(this.props.currency).symbol}`;
+            const label = this.props.locale['input.payment.amount.placeholder'];
+            const symbol = currencyFormatter.findCurrency('RUB').symbol;
+            result = `${label} ${symbol}`
         }
+        return result;
     }
 
     render() {
         return <div className={cx('payform--group payform--amount', getPlaceholderClass(this.getPlaceholder()))}>
-            <input id="amount" type="number" name="amount"
-                   value={this.props.value}
-                   onChange={this.handleChange}
-                   onKeyUp={isIE ? this.handleChange : false}
-                   ref={(input) => { this.input = input; }}
-                   placeholder={this.getPlaceholder()}
-                   autoComplete="off"
-                   autoCorrect="no"
-                   autoCapitalize="no"
-                   spellCheck="no"/>
+            <input
+                id="amount"
+                type="number"
+                name="amount"
+                onChange={this.handleChange}
+                onKeyUp={isIE ? this.handleChange : false}
+                ref={(input) => {
+                    this.input = input;
+                }}
+                placeholder={this.getPlaceholder()}
+                autoComplete="off"
+                autoCorrect="no"
+                autoCapitalize="no"
+                spellCheck="no"/>
             <div className="payform--icon">
                 <svg x="0px" y="0px" viewBox="0 0 512 512">
                     <g>
@@ -72,8 +87,24 @@ class Amount extends React.Component {
                     </g>
                 </svg>
             </div>
-        </div>
+        </div>;
     }
 }
 
-export default Amount;
+function mapStateToProps(state) {
+    return {
+        locale: state.locale,
+        amount: state.viewData.cardForm.amount,
+        template: state.integration.invoiceTemplate
+    };
+}
+
+function mapActionsToProps(dispatch) {
+    return {
+        actions: {
+            setAmountVal: bindActionCreators(setAmountVal, dispatch)
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Amount);

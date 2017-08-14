@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as viewDataActions from '../../../../redux/actions/viewDataActions';
 import CardNumber from './CardNumber';
 import CardExpire from './CardExpire';
 import CardCvv from './CardCvv';
@@ -10,98 +13,102 @@ class Fieldset extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = props.fieldsState;
-        this.handleCardHolder = this.handleCardHolder.bind(this);
-        this.handleCardNumber = this.handleCardNumber.bind(this);
-        this.handleCardExpire = this.handleCardExpire.bind(this);
-        this.handleCardCvv = this.handleCardCvv.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handleAmount = this.handleAmount.bind(this);
+        this.handleTemplate = this.handleTemplate.bind(this);
     }
 
-    handleCardHolder(value) {
-        const name = value.toUpperCase();
-        this.setPayformState(this.assignValue(this.state.cardHolder, name), 'cardHolder');
-    }
-
-    handleCardNumber(value) {
-        this.setPayformState(this.assignValue(this.state.cardNumber, value), 'cardNumber');
-    }
-
-    handleCardExpire(value) {
-        this.setPayformState(this.assignValue(this.state.cardExpire, value), 'cardExpire');
-    }
-
-    handleCardCvv(value) {
-        this.setPayformState(this.assignValue(this.state.cardCvv, value), 'cardCvv');
-    }
-
-    handleEmail(value) {
-        const email = value.toLowerCase();
-        this.setPayformState(this.assignValue(this.state.email, email), 'email');
-    }
-
-    handleAmount(value) {
-        if (this.props.template && this.props.template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
-            this.setPayformState(this.assignRange(this.state.amount, {
-                value,
-                range: this.props.template.cost.range
-            }), 'amount');
-        } else {
-            this.setPayformState(this.assignValue(this.state.amount, value), 'amount');
+    componentDidMount() {
+        if (this.props.integration.type === 'template') {
+            this.handleTemplate();
+            if (this.props.paymentCapabilities.applePay === 'capable') {
+                this.props.actions.viewDataActions.setCardSetVisibility(false);
+                this.props.actions.viewDataActions.setCardSetRequired(false);
+            }
         }
     }
 
-    assignRange(prop, value) {
-        return Object.assign(prop, value);
-    }
-
-    assignValue(prop, value) {
-        return Object.assign(prop, {value});
-    }
-
-    setPayformState(data, name) {
-        this.setState({
-            [name]: data
-        });
-        this.props.onFieldsChange(this.state);
+    handleTemplate() {
+        const actions = this.props.actions.viewDataActions;
+        const cost = this.props.integration.invoiceTemplate.cost;
+        let visible = false;
+        switch (cost.invoiceTemplateCostType) {
+            case 'InvoiceTemplateCostRange':
+                actions.setAmountType({
+                    name: 'range',
+                    lowerBound: cost.range.lowerBound,
+                    upperBound: cost.range.upperBound
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostUnlim':
+                actions.setAmountType({
+                    name: 'unlim'
+                });
+                visible = true;
+                break;
+            case 'InvoiceTemplateCostFixed':
+                actions.setAmountType({
+                    name: 'fixed'
+                });
+                actions.setAmountVal(cost.amount / 100);
+                break;
+        }
+        actions.setAmountVisibility(visible);
+        actions.setAmountRequired(true);
     }
 
     render() {
-        const cardHolder = this.state.cardHolder;
-        const cardNumber = this.state.cardNumber;
-        const cardExpire = this.state.cardExpire;
-        const cardCvv = this.state.cardCvv;
-        const email = this.state.email;
-        const amount = this.state.amount;
-
+        const cardForm = this.props.viewData.cardForm;
+        const cardSet = cardForm.cardSet;
+        const email = cardForm.email;
+        const amount = cardForm.amount;
         return (
             <span>
-                <fieldset className="payform--fieldset">
-                    <CardNumber onChange={this.handleCardNumber} value={cardNumber.value} isValid={cardNumber.isValid} locale={this.props.locale}/>
-                    <CardExpire onChange={this.handleCardExpire} value={cardExpire.value} isValid={cardExpire.isValid} locale={this.props.locale}/>
-                    <CardCvv onChange={this.handleCardCvv} value={cardCvv.value} isValid={cardCvv.isValid} locale={this.props.locale}/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <CardHolder onChange={this.handleCardHolder} value={cardHolder.value} isValid={cardHolder.isValid} locale={this.props.locale}/>
-                </fieldset>
                 {
-                    this.props.defaultEmail ? false :
+                    cardSet.visible ?
                         <fieldset className="payform--fieldset">
-                            <Email onChange={this.handleEmail} value={email.value} isValid={email.isValid} locale={this.props.locale}/>
-                        </fieldset>
+                            <CardNumber/>
+                            <CardExpire/>
+                            <CardCvv/>
+                        </fieldset> : false
                 }
                 {
-                    this.props.isAmount ?
+                    cardSet.visible ?
                         <fieldset className="payform--fieldset">
-                            <Amount onChange={this.handleAmount} value={amount.value} isValid={amount.isValid} locale={this.props.locale} currency={this.props.currency} template={this.props.template}/>
-                        </fieldset>
-                    :
-                        false
+                            <CardHolder/>
+                        </fieldset> : false
+                }
+                {
+                    email.visible ?
+                        <fieldset className="payform--fieldset">
+                            <Email/>
+                        </fieldset> : false
+                }
+                {
+                    amount.visible ?
+                        <fieldset className="payform--fieldset">
+                            <Amount/>
+                        </fieldset> : false
                 }
             </span>
         );
     }
 }
 
-export default Fieldset;
+function mapStateToProps(state) {
+    return {
+        locale: state.locale,
+        viewData: state.viewData,
+        integration: state.integration,
+        paymentCapabilities: state.paymentCapabilities
+    };
+}
+
+function mapActionsToProps(dispatch) {
+    return {
+        actions: {
+            viewDataActions: bindActionCreators(viewDataActions, dispatch)
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Fieldset);

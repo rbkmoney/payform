@@ -78,7 +78,7 @@ export default class CardUtils {
         if (!value) {
             return false;
         }
-        return value.trim() !== ''
+        return value.trim() !== '';
     }
 
     static validateEmail(value) {
@@ -95,15 +95,13 @@ export default class CardUtils {
         if (!value) {
             return false;
         }
-
         return parseFloat(value) > 0;
     }
 
-    static validateAmountRange(value, range) {
-        if (!value || !range) {
-            return false
+    static validateAmountRange(value, lowerBound, upperBound) {
+        if (!value || !lowerBound || !upperBound) {
+            return false;
         }
-
-        return parseFloat(value) * 100 >= range.lowerBound && parseFloat(value) * 100 <= range.upperBound;
+        return parseFloat(value) * 100 >= lowerBound && parseFloat(value) * 100 <= upperBound;
     }
 }

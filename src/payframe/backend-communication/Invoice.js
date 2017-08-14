@@ -1,7 +1,8 @@
 import guid from '../../utils/guid';
 
 export default class Invoice {
-    static getInvoice(capiEndpoint, invoiceID, invoiceAccessToken, locale) {
+
+    static getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
         return new Promise((resolve, reject) => {
             fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}`, {
                 method: 'GET',
@@ -10,44 +11,41 @@ export default class Invoice {
                     'Authorization': `Bearer ${invoiceAccessToken}`,
                     'X-Request-ID': guid()
                 }
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        resolve(response.json());
-                    } else {
-                        response.json()
-                            .then((error) => reject(error))
-                            .catch(() => reject({ message: locale['error.invoice.getInvoice'] }));
-                    }
-                });
+            }).then((response) => {
+                if (response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
+                }
+            }).catch((error) => reject(error));
         });
     }
 
-    static createInvoice(params, template, locale) {
+    static createInvoice(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, invoiceParams) {
         return new Promise((resolve, reject) => {
-            fetch(`${params.capiEndpoint}/v1/processing/invoice-templates/${template.id}/invoices`, {
+            fetch(`${capiEndpoint}/v1/processing/invoice-templates/${invoiceTemplateID}/invoices`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${params.invoiceTemplateAccessToken}`,
+                    'Authorization': `Bearer ${invoiceTemplateAccessToken}`,
                     'X-Request-ID': guid()
                 },
                 body: JSON.stringify({
-                    amount: params.amount,
-                    currency: params.currency,
-                    metadata: template.metadata || {},
+                    amount: invoiceParams.amount,
+                    currency: invoiceParams.currency,
+                    metadata: invoiceParams.metadata
                 })
-            })
-                .then(response => {
-                    if (response.status === 201) {
-                        resolve(response.json());
-                    } else {
-                        response.json()
-                            .then((error) => reject(error))
-                            .catch(() => reject({ message: locale['error.invoice.notCreated'] }));
-                    }
-                })
-                .catch(() => { reject({ message: locale['error.invoice.notCreated'] }) });
+            }).then(response => {
+                if (response.status === 201) {
+                    resolve(response.json());
+                } else {
+                    response.json()
+                        .then((error) => reject(error))
+                        .catch(() => reject(response));
+                }
+            }).catch((error) => reject(error));
         });
     }
 }
