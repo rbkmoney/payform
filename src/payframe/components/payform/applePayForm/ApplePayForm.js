@@ -68,8 +68,7 @@ class ApplePayForm extends React.Component {
     }
 
     processApplePayPayment(props) {
-        this.applePayWrapper.begin().then((result) => {
-            console.log('Apple pay token', result);
+        this.applePayWrapper.begin().then(() => {
             // TODO fix after real apple pay payments api capability
             Processing.process({
                 invoiceAccessToken: props.payment.accessToken,

@@ -8,6 +8,5 @@ export default function (state = null, action) {
                 localePath: action.payload.localePath
             };
     }
-    console.log(action);
     return state;
 }
