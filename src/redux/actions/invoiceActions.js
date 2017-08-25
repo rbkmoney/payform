@@ -1,7 +1,7 @@
 import { SET_INVOICE } from '../constants/invoice';
 import { SET_ERROR } from '../constants/error';
-
-import Invoice from '../../payframe/backend-communication/Invoice';
+import getInvoiceFromCapi from '../../payframe/backend-communication/getInvoice';
+import createInvoiceWithTemplateFromCapi from '../../payframe/backend-communication/createInvoiceWithTemplate';
 
 function setError(localePath) {
     return {
@@ -37,23 +37,43 @@ function dispatchError(error, localePath, dispatch) {
     dispatch(setError(localePath));
 }
 
-function getInvoice(capiEndpoint, invoiceID, invoiceAccessToken) {
+/**
+ * @param {Object} param
+ * @param {string} param.capiEndpoint
+ * @param {string} param.invoiceID
+ * @param {string} param.accessToken
+ */
+function getInvoice(param) {
     return (dispatch) => {
-        Invoice.getInvoice(capiEndpoint, invoiceID, invoiceAccessToken)
-            .then((invoice) => dispatchInvoice(dispatch, invoice))
+        getInvoiceFromCapi({
+            capiEndpoint: param.capiEndpoint,
+            accessToken: param.accessToken,
+            invoiceID: param.invoiceID
+        }).then((invoice) => dispatchInvoice(dispatch, invoice))
             .catch((error) => dispatchError(error, 'error.invoice.getInvoice', dispatch));
     };
 }
 
-function createInvoice(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, invoiceParams) {
+/**
+ * @param {Object} param
+ * @param {string} param.capiEndpoint
+ * @param {string} param.accessToken
+ * @param {string} param.invoiceTemplateID
+ * @param {InvoiceParamsWithTemplate} param.invoiceParamsWithTemplate
+ */
+function createInvoiceWithTemplate(param) {
     return (dispatch) => {
-        Invoice.createInvoice(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken, invoiceParams)
-            .then((invoiceAndToken) => dispatchInvoice(
-                dispatch,
-                invoiceAndToken.invoice,
-                invoiceAndToken.invoiceAccessToken
-            )).catch((error) => dispatchError(error, 'error.invoice.notCreated', dispatch));
+        createInvoiceWithTemplateFromCapi({
+            capiEndpoint: param.capiEndpoint,
+            accessToken: param.accessToken,
+            invoiceTemplateID: param.invoiceTemplateID,
+            invoiceParamsWithTemplate: param.invoiceParamsWithTemplate
+        }).then((invoiceAndToken) => dispatchInvoice(
+            dispatch,
+            invoiceAndToken.invoice,
+            invoiceAndToken.invoiceAccessToken
+        )).catch((error) => dispatchError(error, 'error.invoice.notCreated', dispatch));
     };
 }
 
-export { getInvoice, createInvoice };
+export { getInvoice, createInvoiceWithTemplate };

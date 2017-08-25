@@ -1,4 +1,4 @@
-import guid from '../../utils/guid';
+import fetchCapi from '../../utils/fetchCapi';
 
 /**
  * @param {Object} param
@@ -9,24 +9,11 @@ import guid from '../../utils/guid';
  * @return {Promise<Payment>} payment
  */
 function createPayment(param) {
-    return new Promise((resolve, reject) => {
-        fetch(`${param.capiEndpoint}/v1/processing/invoices/${param.invoiceID}/payments`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Authorization': `Bearer ${param.accessToken}`,
-                'X-Request-ID': guid()
-            },
-            body: JSON.stringify(param.paymentParams)
-        }).then((response) => {
-            if (response.status === 201) {
-                resolve();
-            } else {
-                response.json()
-                    .then((error) => reject(error))
-                    .catch(() => reject(response));
-            }
-        }).catch((error) => reject(error));
+    return fetchCapi({
+        endpoint: `${param.capiEndpoint}/v1/processing/invoices/${param.invoiceID}/payments`,
+        accessToken: param.accessToken,
+        method: 'POST',
+        body: param.paymentParams
     });
 }
 

@@ -1,10 +1,10 @@
-import guid from '../../utils/guid';
+import fetchCapi from '../../utils/fetchCapi';
 
 const pollingRetries = 60;
 const pollingTimeout = 300;
 const eventLimit = 100;
 
-export default class EventPoller {
+class EventPoller {
 
     static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken) {
         let pollCount = 0;
@@ -55,24 +55,10 @@ export default class EventPoller {
         return result;
     }
 
-    static requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken) {
-        return new Promise((resolve, reject) => {
-            fetch(`${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=${eventLimit}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                    'Authorization': `Bearer ${invoiceAccessToken}`,
-                    'X-Request-ID': guid()
-                }
-            }).then((response) => {
-                if (response.status === 200) {
-                    resolve(response.json());
-                } else {
-                    response.json()
-                        .then((error) => reject(error))
-                        .catch(() => reject(response));
-                }
-            }).catch((error) => reject(error));
+    static requestToEndpoint(capiEndpoint, invoiceID, accessToken) {
+        return fetchCapi({
+            endpoint: `${capiEndpoint}/v1/processing/invoices/${invoiceID}/events?limit=${eventLimit}`,
+            accessToken
         });
     }
 
@@ -108,3 +94,5 @@ export default class EventPoller {
         return elements && elements.length > 0 ? elements[elements.length - 1] : null;
     }
 }
+
+export default EventPoller;

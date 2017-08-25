@@ -33,26 +33,26 @@ class CardPayment extends React.Component {
                 const token = nextProps.integration.invoiceAccessToken;
                 token
                     ? nextProps.actions.paymentActions.processPayment(token.payload)
-                    : this.createInvoice(nextProps);
+                    : this.createInvoiceWithTemplate(nextProps);
                 break;
             }
         }
     }
 
-    createInvoice(props) {
+    createInvoiceWithTemplate(props) {
         const form = props.viewData.cardForm;
         const template = props.integration.invoiceTemplate;
         const initParams = props.initParams;
-        props.actions.invoiceActions.createInvoice(
-            props.appConfig.capiEndpoint,
-            initParams.invoiceTemplateID,
-            initParams.invoiceTemplateAccessToken,
-            {
+        props.actions.invoiceActions.createInvoiceWithTemplate({
+            capiEndpoint: props.appConfig.capiEndpoint,
+            accessToken: initParams.invoiceTemplateAccessToken,
+            invoiceTemplateID: initParams.invoiceTemplateID,
+            invoiceParamsWithTemplate: {
                 amount: toNumber(form.amount.value) * 100,
                 currency: 'RUB',
                 metadata: template.metadata
             }
-        );
+        });
     }
 
     handleTemplate(props) {

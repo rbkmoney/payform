@@ -1,7 +1,6 @@
 import { SET_INVOICE_TEMPLATE } from '../constants/invoiceTemplate';
-
-import InvoiceTemplate from '../../payframe/backend-communication/InvoiceTemplate';
 import { SET_ERROR } from '../constants/error';
+import getInvoiceTemplateFromCapi from '../../payframe/backend-communication/getInvoiceTemplate';
 
 function setError(localePath) {
     return {
@@ -12,9 +11,19 @@ function setError(localePath) {
     };
 }
 
-function getInvoiceTemplate(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken) {
+/**
+ * @param {Object} param
+ * @param {string} param.capiEndpoint
+ * @param {string} param.invoiceTemplateID
+ * @param {string} param.accessToken
+ */
+function getInvoiceTemplate(param) {
     return (dispatch) => {
-        InvoiceTemplate.getInvoiceTemplate(capiEndpoint, invoiceTemplateID, invoiceTemplateAccessToken).then((response) => {
+        getInvoiceTemplateFromCapi({
+            capiEndpoint: param.capiEndpoint,
+            invoiceTemplateID: param.invoiceTemplateID,
+            accessToken: param.accessToken
+        }).then((response) => {
             dispatch({
                 type: SET_INVOICE_TEMPLATE,
                 payload: {
