@@ -11,9 +11,9 @@ import ErrorPanel from '../elements/ErrorPanel';
 import Email from '../elements/Email';
 import Amount from '../elements/Amount';
 import GoToCard from './GoToCard';
-import Processing from '../../../backend-communication/Processing';
 import getWrapperFromInvoice from './getWrapperFromInvoice';
 import getWrapperFromInvoiceTemplate from './getWrapperFromInvoiceTemplate';
+import processCardPayment from '../cardForm/processCardPayment';
 
 class ApplePayForm extends React.Component {
 
@@ -64,33 +64,16 @@ class ApplePayForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                this.processApplePayPayment(nextProps);
+                // TODO fix after real apple pay payments api capability
+                processCardPayment(nextProps)
+                    .then((event) => this.handleEvent(event))
+                    .catch((error) => this.handleError(error));
                 break;
         }
     }
 
-    processApplePayPayment(props) {
-        this.applePayWrapper.begin().then(() => {
-            // TODO fix after real apple pay payments api capability
-            Processing.process({
-                invoiceAccessToken: props.payment.accessToken,
-                invoiceID: props.integration.invoice.id,
-                capiEndpoint: props.appConfig.capiEndpoint,
-                cardHolder: 'APPLE PAY PAYER',
-                cardNumber: '4242424242424242',
-                cardExpire: '12/20',
-                cardCvv: '123',
-                email: props.viewData.cardForm.email.value
-            })
-                .then((event) => this.handleEvent(event))
-                .catch((error) => this.handleError(error));
-        }).catch((error) => {
-            this.props.actions.paymentActions.setPaymentError(error);
-        });
-    }
-
     handleEvent(event) {
-        if (event.type === 'success') {
+        if (event.type === 'paid' || event.type === 'processed') {
             this.applePayWrapper.complete();
             this.props.actions.paymentActions.finish();
             this.props.actions.resultActions.setDone();

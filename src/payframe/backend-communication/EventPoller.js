@@ -6,23 +6,28 @@ const eventLimit = 100;
 
 export default class EventPoller {
 
-    // error.events.failed; error.events.timeout
     static pollEvents(capiEndpoint, invoiceID, invoiceAccessToken) {
         let pollCount = 0;
         return new Promise((resolve, reject) => {
             (function poll(self) {
                 setTimeout(() => {
-                    self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then(events => {
+                    self.requestToEndpoint(capiEndpoint, invoiceID, invoiceAccessToken).then((events) => {
                         const event = self.getLastElement(events);
                         const change = self.getLastElement(event.changes);
-                        if (self.isUnpaid(change)) {
+                        if (self.isInvoiceUnpaid(change)) {
                             resolve(self.prepareResult('unpaid', change));
-                        } else if (self.isSuccess(change)) {
-                            resolve(self.prepareResult('success', change));
-                        } else if (self.isError(change)) {
+                        } else if (self.isInvoicePaid(change)) {
+                            resolve(self.prepareResult('paid', change));
+                        } else if (self.isPaymentFailed(change)) {
                             reject(change.error);
-                        } else if (self.isInteract(change)) {
+                        } else if (self.isPaymentInteractionRequested(change)) {
                             resolve(self.prepareResult('interact', change));
+                        } else if (self.isPaymentCancelled(change)) {
+                            reject({code: 'error.payment.cancelled'});
+                        } else if (self.isInvoiceCancelled(change)) {
+                            reject({code: 'error.invoice.cancelled'});
+                        } else if (self.isPaymentProcessed(change)) {
+                            resolve(self.prepareResult('processed'));
                         } else {
                             pollCount++;
                             if (pollCount >= pollingRetries) {
@@ -39,15 +44,13 @@ export default class EventPoller {
 
     static prepareResult(type, change) {
         let result;
-        if (type === 'success') {
+        if (type === 'paid' || type === 'unpaid' || type === 'processed') {
             result = {type};
         } else if (type === 'interact') {
             result = {
-                type: type,
+                type,
                 data: change.userInteraction.request
             };
-        } else if (type === 'unpaid') {
-            result = {type};
         }
         return result;
     }
@@ -73,37 +76,35 @@ export default class EventPoller {
         });
     }
 
-    static isUnpaid(change) {
+    static isInvoiceUnpaid(change) {
         return (change && change.changeType === 'InvoiceCreated' && change.invoice.status === 'unpaid');
     }
 
-    static isSuccess(change) {
+    static isInvoicePaid(change) {
         return (change && change.changeType === 'InvoiceStatusChanged' && change.status === 'paid');
     }
 
-    static isError(change) {
-        let result = false;
-        if (change) {
-            const isPaymentFailed = (change.changeType === 'PaymentStatusChanged' && change.status === 'failed');
-            const isInvoiceFailed = (change.changeType === 'InvoiceStatusChanged' && change.status === 'cancelled');
-            result = isPaymentFailed || isInvoiceFailed;
-        }
-        return result;
+    static isPaymentCancelled(change) {
+        return (change.changeType === 'PaymentStatusChanged' && change.status === 'cancelled');
     }
 
-    static isInteract(change) {
+    static isInvoiceCancelled(change) {
+        return (change.changeType === 'InvoiceStatusChanged' && change.status === 'cancelled');
+    }
+
+    static isPaymentFailed(change) {
+        return (change.changeType === 'PaymentStatusChanged' && change.status === 'failed');
+    }
+
+    static isPaymentProcessed(change) {
+        return (change.changeType === 'PaymentStatusChanged' && change.status === 'processed');
+    }
+
+    static isPaymentInteractionRequested(change) {
         return (change && change.changeType === 'PaymentInteractionRequested');
     }
 
     static getLastElement(elements) {
         return elements && elements.length > 0 ? elements[elements.length - 1] : null;
     }
-
-    // static getErrorMessage(error, locale) {
-    //     if (locale[error.code]) {
-    //         return locale[error.code];
-    //     } else {
-    //         return error.message;
-    //     }
-    // }
 }

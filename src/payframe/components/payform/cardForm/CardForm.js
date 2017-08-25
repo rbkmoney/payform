@@ -16,9 +16,9 @@ import CardCvv from '../elements/CardCvv';
 import CardHolder from '../elements/CardHolder';
 import Email from '../elements/Email';
 import Amount from '../elements/Amount';
-import Processing from '../../../backend-communication/Processing';
 import EventPoller from '../../../backend-communication/EventPoller';
 import settings from '../../../../settings';
+import processCardPayment from './processCardPayment';
 
 class CardForm extends React.Component {
 
@@ -62,27 +62,13 @@ class CardForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                this.processCardPayment(nextProps);
+                processCardPayment(nextProps)
+                    .then((event) => this.handleEvent(event))
+                    .catch((error) => this.handleError(error));
                 break;
             case 'pollEvents':
                 this.getEvents(nextProps.payment.accessToken);
         }
-    }
-
-    processCardPayment(props) {
-        const cardSet = props.viewData.cardForm.cardSet;
-        Processing.process({
-            invoiceAccessToken: props.payment.accessToken,
-            invoiceID: props.integration.invoice.id,
-            capiEndpoint: props.appConfig.capiEndpoint,
-            cardHolder: cardSet.cardHolder.value,
-            cardNumber: cardSet.cardNumber.value,
-            cardExpire: cardSet.cardExpire.value,
-            cardCvv: cardSet.cardCvv.value,
-            email: props.viewData.cardForm.email.value
-        })
-            .then(event => this.handleEvent(event))
-            .catch((error) => this.handleError(error));
     }
 
     getEvents(token) {
@@ -98,7 +84,7 @@ class CardForm extends React.Component {
     handleEvent(event) {
         if (event.type === 'interact') {
             this.handleInteract(event);
-        } else if (event.type === 'success') {
+        } else if (event.type === 'paid' || event.type === 'processed') {
             this.handleSuccess();
         } else {
             this.handleError({code: 'error.payment.unsupport'});

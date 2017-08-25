@@ -259,7 +259,7 @@ describe('EventPoller', function () {
                 status: 'paid'
             };
 
-            EventPoller.isSuccess(change).should.be.false;
+            EventPoller.isInvoicePaid(change).should.be.false;
         });
 
         it('should return false when wrong status', function () {
@@ -270,7 +270,7 @@ describe('EventPoller', function () {
                 status: 'unpaid'
             };
 
-            EventPoller.isSuccess(change).should.be.false;
+            EventPoller.isInvoicePaid(change).should.be.false;
         });
 
         it('should return true when changeType InvoiceStatusChanged with status paid', function () {
@@ -281,7 +281,7 @@ describe('EventPoller', function () {
                 status: 'paid'
             };
 
-            EventPoller.isSuccess(change).should.be.true;
+            EventPoller.isInvoicePaid(change).should.be.true;
         });
     });
 
@@ -295,7 +295,7 @@ describe('EventPoller', function () {
                 status: 'failed'
             };
 
-            EventPoller.isError(change).should.be.false;
+            EventPoller.isPaymentFailed(change).should.be.false;
         });
 
         it('should return false when wrong status', function () {
@@ -307,7 +307,7 @@ describe('EventPoller', function () {
                 status: 'processed'
             };
 
-            EventPoller.isError(change).should.be.false;
+            EventPoller.isPaymentFailed(change).should.be.false;
         });
 
         it('should return true when changeType PaymentStatusChanged with status failed', function () {
@@ -319,7 +319,7 @@ describe('EventPoller', function () {
                 status: 'failed'
             };
 
-            EventPoller.isError(change).should.be.true;
+            EventPoller.isPaymentFailed(change).should.be.true;
         });
 
         it('should return true when changeType InvoiceStatusChanged with status cancelled', function () {
@@ -331,7 +331,7 @@ describe('EventPoller', function () {
                 status: 'cancelled'
             };
 
-            EventPoller.isError(change).should.be.true;
+            EventPoller.isPaymentFailed(change).should.be.true;
         });
     });
 
@@ -345,7 +345,7 @@ describe('EventPoller', function () {
                 status: 'failed'
             };
 
-            EventPoller.isInteract(change).should.be.false;
+            EventPoller.isPaymentInteractionRequested(change).should.be.false;
         });
 
         it('should return true when changeType PaymentInteractionRequested', function () {
@@ -355,7 +355,7 @@ describe('EventPoller', function () {
                 id: 8
             };
 
-            EventPoller.isInteract(change).should.be.true;
+            EventPoller.isPaymentInteractionRequested(change).should.be.true;
         });
     });
 
