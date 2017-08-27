@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as viewDataActions from '../../../../redux/actions/viewDataActions';
+import * as viewDataActions from '../../../actions/viewDataActions';
 import CardNumber from './CardNumber';
 import CardExpire from './CardExpire';
 import CardCvv from './CardCvv';

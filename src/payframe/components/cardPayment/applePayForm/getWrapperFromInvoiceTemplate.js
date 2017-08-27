@@ -1,5 +1,5 @@
 import { toNumber } from 'lodash';
-import { ApplePayWrapper } from '../../../apple-pay';
+import { ApplePayWrapper } from '../../../applePay';
 
 /**
  * @param {Object} param

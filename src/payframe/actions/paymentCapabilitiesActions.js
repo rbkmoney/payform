@@ -1,5 +1,5 @@
 import { SET_APPLE_PAY_CAPABILITY } from '../constants/paymentCapabilities';
-import checkCapability from '../../payframe/apple-pay/checkCapability';
+import checkCapability from '../applePay/checkCapability';
 
 function setApplePayCapability(applePayMerchantID, testFlag) {
     return (dispatch) => {

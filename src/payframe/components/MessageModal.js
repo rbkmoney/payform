@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as resultActions from '../../redux/actions/resultActions';
+import * as resultActions from '../actions/resultActions';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import ModalClose from './header/ModalClose';
 

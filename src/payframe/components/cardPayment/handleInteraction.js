@@ -1,4 +1,4 @@
-import pollEvents from '../../backend-communication/eventPoller/pollEvents';
+import pollEvents from '../../backendCommunication/eventPoller/pollEvents';
 
 /**
  * @param {Object} props - CardPayment component props

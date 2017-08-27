@@ -1,19 +1,6 @@
-import createPaymentToolToken from '../../../backend-communication/createPaymentToolToken';
-import createPayment from '../../../backend-communication/createPayment';
-import pollEvents from '../../../backend-communication/eventPoller/pollEvents';
-
-/**
- * @return {CardData} cardData
- */
-function propsToCardData(props) {
-    const cardSet = props.viewData.cardForm.cardSet;
-    return {
-        cardHolder: cardSet.cardHolder.value,
-        cardNumber: cardSet.cardNumber.value,
-        cardExpire: cardSet.cardExpire.value,
-        cardCvv: cardSet.cardCvv.value
-    };
-}
+import createPaymentToolToken from '../../../backendCommunication/createPaymentToolToken';
+import createPayment from '../../../backendCommunication/createPayment';
+import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
 
 /**
  * @return {PaymentParamsFlow} paymentParamsFlow
@@ -48,17 +35,23 @@ function propsToPaymentParams(props, payload) {
 }
 
 /**
- * @param {Object} props - CardForm component props
+ * @param {Object} props - ApplePayForm component props
  * @return {Promise<EventPollingResult>} eventPollingResult
  */
-function processCardPayment(props) {
+function processApplePayPayment(props) {
     const capiEndpoint = props.appConfig.capiEndpoint;
     const accessToken = props.integration.invoiceAccessToken;
     const invoiceID = props.integration.invoice.id;
+    // TODO fix after real apple pay payments api capability
     return createPaymentToolToken({
         capiEndpoint,
         accessToken,
-        cardData: propsToCardData(props)
+        cardData: {
+            cardHolder: 'APPLE PAY PAYER',
+            cardNumber: '4242424242424242',
+            cardExpire: '12/20',
+            cardCvv: '123'
+        }
     }).then((payload) => createPayment({
         capiEndpoint,
         accessToken,
@@ -71,4 +64,4 @@ function processCardPayment(props) {
     })));
 }
 
-export default processCardPayment;
+export default processApplePayPayment;

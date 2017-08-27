@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setAmountVal } from '../../../../redux/actions/viewDataActions';
+import { setAmountVal } from '../../../actions/viewDataActions';
 import cx from 'classnames';
 import { focusClass, errorClass } from './cssClasses';
 import formatCurrency from '../../../../utils/formatCurrency';

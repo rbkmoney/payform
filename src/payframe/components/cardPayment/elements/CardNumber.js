@@ -1,29 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setCardExpireVal } from '../../../../redux/actions/viewDataActions';
+import { setCardNumberVal } from '../../../actions/viewDataActions';
 import CardUtils from '../../../../utils/card-utils/CardUtils';
 import { focusClass, errorClass } from './cssClasses';
 import isIE from '../../../../utils/isIE';
 
-class CardExpire extends React.Component {
+class CardNumber extends React.Component {
+
     constructor(props) {
         super(props);
-
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
-        CardUtils.formatCardExpiry(this.input);
+        CardUtils.formatCardNumber(this.input);
         const classList = this.input.parentNode.classList;
         this.input.onfocus = () => classList.add(focusClass);
         this.input.onblur = () => classList.remove(focusClass);
-        this.input.value = this.props.cardExpire.value;
+        this.input.value = this.props.cardNumber.value;
     }
 
     componentWillReceiveProps(nextProps) {
         const classList = this.input.parentNode.classList;
-        if (nextProps.cardExpire.valid === false) {
+        if (nextProps.cardNumber.valid === false) {
             classList.add(errorClass);
         } else {
             classList.remove(errorClass);
@@ -31,22 +31,23 @@ class CardExpire extends React.Component {
     }
 
     handleChange(event) {
-        this.props.actions.setCardExpireVal(event.target.value);
+        this.props.actions.setCardNumberVal(event.target.value);
     }
 
     render() {
         return (
-            <div className="payform--group payform--card-expire">
+            <div className="payform--group payform--card-number">
                 <input
-                    id="exp-date"
+                    id="card-number"
                     type="tel"
-                    name="exp-date"
+                    name="card-number"
                     onChange={this.handleChange}
                     onKeyUp={isIE ? this.handleChange : false}
                     ref={(input) => {
                         this.input = input;
                     }}
-                    placeholder={this.props.locale['input.payment.cardExpiry.placeholder']} autoComplete="off"
+                    placeholder={this.props.locale['input.payment.cardNumber.placeholder']}
+                    autoComplete="off"
                     autoCorrect="no"
                     autoCapitalize="no"
                     spellCheck="no"/>
@@ -54,29 +55,28 @@ class CardExpire extends React.Component {
                     <svg fill="#2b2b2b" focusable="false">
                         <path
                             fillRule="evenodd"
-                            transform="translate(8, 9)"
-                            d="M2.0085302,1 C0.899249601,1 0,1.90017617 0,2.99201702 L0,10.007983 C0,11.1081436 0.901950359,12 2.0085302,12 L9.9914698,12 C11.1007504,12 12,11.0998238 12,10.007983 L12,2.99201702 C12,1.8918564 11.0980496,1 9.9914698,1 L2.0085302,1 Z M1.99539757,4 C1.44565467,4 1,4.43788135 1,5.00292933 L1,9.99707067 C1,10.5509732 1.4556644,11 1.99539757,11 L10.0046024,11 C10.5543453,11 11,10.5621186 11,9.99707067 L11,5.00292933 C11,4.44902676 10.5443356,4 10.0046024,4 L1.99539757,4 Z M3,1 L3,2 L4,2 L4,1 L3,1 Z M8,1 L8,2 L9,2 L9,1 L8,1 Z M3,0 L3,1 L4,1 L4,0 L3,0 Z M8,0 L8,1 L9,1 L9,0 L8,0 Z M8,0"/>
+                            transform="translate(8, 10)"
+                            d="M2.00585866,0 C0.898053512,0 0,0.900176167 0,1.99201702 L0,9.00798298 C0,10.1081436 0.897060126,11 2.00585866,11 L11.9941413,11 C13.1019465,11 14,10.0998238 14,9.00798298 L14,1.99201702 C14,0.891856397 13.1029399,0 11.9941413,0 L2.00585866,0 Z M2.00247329,1 C1.44882258,1 1,1.4463114 1,1.99754465 L1,9.00245535 C1,9.55338405 1.45576096,10 2.00247329,10 L11.9975267,10 C12.5511774,10 13,9.5536886 13,9.00245535 L13,1.99754465 C13,1.44661595 12.544239,1 11.9975267,1 L2.00247329,1 Z M1,3 L1,5 L13,5 L13,3 L1,3 Z M11,8 L11,9 L12,9 L12,8 L11,8 Z M9,8 L9,9 L10,9 L10,8 L9,8 Z M9,8"/>
                     </svg>
                 </div>
             </div>
         );
-
     }
 }
 
 function mapStateToProps(state) {
     return {
         locale: state.locale,
-        cardExpire: state.viewData.cardForm.cardSet.cardExpire
+        cardNumber: state.viewData.cardForm.cardSet.cardNumber
     };
 }
 
 function mapActionsToProps(dispatch) {
     return {
         actions: {
-            setCardExpireVal: bindActionCreators(setCardExpireVal, dispatch)
+            setCardNumberVal: bindActionCreators(setCardNumberVal, dispatch)
         }
     };
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CardExpire);
+export default connect(mapStateToProps, mapActionsToProps)(CardNumber);

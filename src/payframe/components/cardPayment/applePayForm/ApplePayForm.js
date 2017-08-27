@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cx from 'classnames';
-import * as viewDataActions from '../../../../redux/actions/viewDataActions';
-import * as invoiceActions from '../../../../redux/actions/invoiceActions';
-import * as resultActions from '../../../../redux/actions/resultActions';
-import * as paymentActions from '../../../../redux/actions/paymentActions';
+import * as viewDataActions from '../../../actions/viewDataActions';
+import * as invoiceActions from '../../../actions/invoiceActions';
+import * as resultActions from '../../../actions/resultActions';
+import * as paymentActions from '../../../actions/paymentActions';
 import BackButton from '../elements/BackButton';
 import ErrorPanel from '../elements/ErrorPanel';
 import Email from '../elements/Email';
@@ -13,7 +13,7 @@ import Amount from '../elements/Amount';
 import GoToCard from './GoToCard';
 import getWrapperFromInvoice from './getWrapperFromInvoice';
 import getWrapperFromInvoiceTemplate from './getWrapperFromInvoiceTemplate';
-import processCardPayment from '../cardForm/processCardPayment';
+import processApplePayPayment from './processApplePayPayment';
 
 class ApplePayForm extends React.Component {
 
@@ -64,8 +64,7 @@ class ApplePayForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                // TODO fix after real apple pay payments api capability
-                processCardPayment(nextProps)
+                processApplePayPayment(nextProps)
                     .then((event) => this.handleEvent(event))
                     .catch((error) => this.handleError(error));
                 break;

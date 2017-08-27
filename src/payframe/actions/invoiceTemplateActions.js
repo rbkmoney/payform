@@ -1,6 +1,6 @@
 import { SET_INVOICE_TEMPLATE } from '../constants/invoiceTemplate';
 import { SET_ERROR } from '../constants/error';
-import getInvoiceTemplateFromCapi from '../../payframe/backend-communication/getInvoiceTemplate';
+import getInvoiceTemplateFromCapi from '../backendCommunication/getInvoiceTemplate';
 
 function setError(localePath) {
     return {

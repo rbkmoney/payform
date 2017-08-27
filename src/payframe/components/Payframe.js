@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as localeActions from '../../redux/actions/localeActions';
-import * as invoiceActions from '../../redux/actions/invoiceActions';
-import * as errorActions from '../../redux/actions/errorActions';
-import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
-import * as viewDataActions from '../../redux/actions/viewDataActions';
-import * as paymentCapabilitiesActions from '../../redux/actions/paymentCapabilitiesActions';
+import * as localeActions from '../actions/localeActions';
+import * as invoiceActions from '../actions/invoiceActions';
+import * as errorActions from '../actions/errorActions';
+import * as invoiceTemplateActions from '../actions/invoiceTemplateActions';
+import * as viewDataActions from '../actions/viewDataActions';
+import * as paymentCapabilitiesActions from '../actions/paymentCapabilitiesActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';

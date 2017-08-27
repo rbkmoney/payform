@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cx from 'classnames';
-import * as viewDataActions from '../../../../redux/actions/viewDataActions';
-import * as invoiceActions from '../../../../redux/actions/invoiceActions';
-import * as resultActions from '../../../../redux/actions/resultActions';
-import * as paymentActions from '../../../../redux/actions/paymentActions';
+import * as viewDataActions from '../../../actions/viewDataActions';
+import * as invoiceActions from '../../../actions/invoiceActions';
+import * as resultActions from '../../../actions/resultActions';
+import * as paymentActions from '../../../actions/paymentActions';
 import Interaction from '../elements/Interaction';
 import BackButton from '../elements/BackButton';
 import ErrorPanel from '../elements/ErrorPanel';
@@ -18,7 +18,7 @@ import Email from '../elements/Email';
 import Amount from '../elements/Amount';
 import settings from '../../../../settings';
 import processCardPayment from './processCardPayment';
-import pollEvents from '../../../backend-communication/eventPoller/pollEvents';
+import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
 
 class CardForm extends React.Component {
 

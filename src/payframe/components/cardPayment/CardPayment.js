@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as viewDataActions from '../../../redux/actions/viewDataActions';
-import * as paymentActions from '../../../redux/actions/paymentActions';
-import * as invoiceActions from '../../../redux/actions/invoiceActions';
+import * as viewDataActions from '../../actions/viewDataActions';
+import * as paymentActions from '../../actions/paymentActions';
+import * as invoiceActions from '../../actions/invoiceActions';
 import CardForm from './cardForm/CardForm';
 import ApplePayForm from './applePayForm/ApplePayForm';
 import createInvoiceWithTemplate from './createInvoiceWithTemplate';

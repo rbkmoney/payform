@@ -4,7 +4,7 @@ import 'core-js/es6/object';
 import 'core-js/es6/array';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import configureStore from '../redux/configureStore';
+import configureStore from './configureStore';
 import { Provider } from 'react-redux';
 import ready from '../utils/domReady';
 import Payframe from './components/Payframe';
