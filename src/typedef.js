@@ -34,19 +34,23 @@
 
 /**
  * @typedef {Object} Payment
- * */
+ */
 
 /**
  * @typedef {Object} Invoice
- * */
+ */
 
 /**
  * @typedef {Object} InvoiceTemplate
- * */
+ */
+
+/**
+ * @typedef {Object} Event
+ */
 
 /**
  * @typedef {Object} InvoiceParamsWithTemplate
  * @property {number} amount
  * @property {string} currency
  * @property {Object} metadata
- * */
+ */

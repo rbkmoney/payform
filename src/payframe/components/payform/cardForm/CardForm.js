@@ -16,9 +16,9 @@ import CardCvv from '../elements/CardCvv';
 import CardHolder from '../elements/CardHolder';
 import Email from '../elements/Email';
 import Amount from '../elements/Amount';
-import EventPoller from '../../../backend-communication/EventPoller';
 import settings from '../../../../settings';
 import processCardPayment from './processCardPayment';
+import pollEvents from '../../../backend-communication/eventPoller/pollEvents';
 
 class CardForm extends React.Component {
 
@@ -32,7 +32,7 @@ class CardForm extends React.Component {
             if (e.data === 'finish-interaction') {
                 this.props.actions.paymentActions.resumePayment();
                 this.props.actions.viewDataActions.updateContainerSize('default');
-                this.getEvents(this.props.payment.accessToken);
+                this.getEvents(this.props.integration.invoiceAccessToken);
             }
         });
         this.triggerError = this.triggerError.bind(this);
@@ -52,7 +52,7 @@ class CardForm extends React.Component {
             case 'started':
                 if (nextProps.viewData.cardForm.valid) {
                     if (integration.type === 'default') {
-                        paymentActions.processPayment(nextProps.initParams.invoiceAccessToken);
+                        paymentActions.processPayment();
                     } else if (integration.type === 'template') {
                         paymentActions.processInvoiceTemplate();
                     }
@@ -67,16 +67,16 @@ class CardForm extends React.Component {
                     .catch((error) => this.handleError(error));
                 break;
             case 'pollEvents':
-                this.getEvents(nextProps.payment.accessToken);
+                this.getEvents(nextProps.integration.invoiceAccessToken);
         }
     }
 
     getEvents(token) {
-        EventPoller.pollEvents(
-            this.props.appConfig.capiEndpoint,
-            this.props.integration.invoice.id,
-            token
-        )
+        pollEvents({
+            capiEndpoint: this.props.appConfig.capiEndpoint,
+            accessToken: token,
+            invoiceID: this.props.integration.invoice.id
+        })
             .then((event) => this.handleEvent(event))
             .catch(error => this.handleError(error));
     }

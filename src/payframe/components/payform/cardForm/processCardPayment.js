@@ -1,9 +1,9 @@
 import createPaymentToolToken from '../../../backend-communication/createPaymentToolToken';
 import createPayment from '../../../backend-communication/createPayment';
-import EventPoller from '../../../backend-communication/EventPoller';
+import pollEvents from '../../../backend-communication/eventPoller/pollEvents';
 
 /**
- * @return {CardData}
+ * @return {CardData} cardData
  */
 function propsToCardData(props) {
     const cardSet = props.viewData.cardForm.cardSet;
@@ -16,7 +16,7 @@ function propsToCardData(props) {
 }
 
 /**
- * @return {PaymentParamsFlow}
+ * @return {PaymentParamsFlow} paymentParamsFlow
  */
 function getPaymentFlow(initParams) {
     let result = {
@@ -34,7 +34,7 @@ function getPaymentFlow(initParams) {
 }
 
 /**
- * @return {PaymentParams}
+ * @return {PaymentParams} paymentParams
  */
 function propsToPaymentParams(props, payload) {
     return {
@@ -49,11 +49,11 @@ function propsToPaymentParams(props, payload) {
 
 /**
  * @param {Object} props - CardForm component props
- * @return {Object}
+ * @return {Promise<EventPollingResult>} eventPollingResult
  */
 function processCardPayment(props) {
     const capiEndpoint = props.appConfig.capiEndpoint;
-    const accessToken = props.payment.accessToken;
+    const accessToken = props.integration.invoiceAccessToken;
     const invoiceID = props.integration.invoice.id;
     return createPaymentToolToken({
         capiEndpoint,
@@ -61,10 +61,14 @@ function processCardPayment(props) {
         cardData: propsToCardData(props)
     }).then((payload) => createPayment({
         capiEndpoint,
-        invoiceID,
         accessToken,
+        invoiceID,
         paymentParams: propsToPaymentParams(props, payload)
-    }).then(() => EventPoller.pollEvents(capiEndpoint, invoiceID, accessToken)));
+    }).then(() => pollEvents({
+        capiEndpoint,
+        accessToken,
+        invoiceID
+    })));
 }
 
 export default processCardPayment;

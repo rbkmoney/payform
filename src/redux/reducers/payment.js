@@ -23,8 +23,7 @@ export default function (state = initialState, action) {
         case PROCESS_PAYMENT:
             return {
                 ...state,
-                status: 'processPayment',
-                accessToken: action.payload
+                status: 'processPayment'
             };
         case INTERACT_PAYMENT:
             return {

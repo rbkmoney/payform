@@ -49,7 +49,7 @@ function getInvoice(param) {
             capiEndpoint: param.capiEndpoint,
             accessToken: param.accessToken,
             invoiceID: param.invoiceID
-        }).then((invoice) => dispatchInvoice(dispatch, invoice))
+        }).then((invoice) => dispatchInvoice(dispatch, invoice, param.accessToken))
             .catch((error) => dispatchError(error, 'error.invoice.getInvoice', dispatch));
     };
 }
@@ -71,7 +71,7 @@ function createInvoiceWithTemplate(param) {
         }).then((invoiceAndToken) => dispatchInvoice(
             dispatch,
             invoiceAndToken.invoice,
-            invoiceAndToken.invoiceAccessToken
+            invoiceAndToken.invoiceAccessToken.payload
         )).catch((error) => dispatchError(error, 'error.invoice.notCreated', dispatch));
     };
 }

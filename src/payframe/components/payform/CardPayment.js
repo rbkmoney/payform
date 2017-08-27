@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toNumber } from 'lodash';
 import * as viewDataActions from '../../../redux/actions/viewDataActions';
 import * as paymentActions from '../../../redux/actions/paymentActions';
 import * as invoiceActions from '../../../redux/actions/invoiceActions';
 import CardForm from './cardForm/CardForm';
 import ApplePayForm from './applePayForm/ApplePayForm';
-import EventPoller from '../../backend-communication/EventPoller';
+import createInvoiceWithTemplate from './createInvoiceWithTemplate';
+import handleInvoiceTemplate from './handleInvoiceTemplate';
+import handleInteraction from './handleInteraction';
 
 class CardPayment extends React.Component {
 
@@ -19,10 +20,10 @@ class CardPayment extends React.Component {
         }
         switch (this.props.integration.type) {
             case 'default':
-                this.checkInteract(this.props);
+                handleInteraction(this.props);
                 break;
             case 'template':
-                this.handleTemplate(this.props);
+                handleInvoiceTemplate(this.props);
                 break;
         }
     }
@@ -30,72 +31,13 @@ class CardPayment extends React.Component {
     componentWillReceiveProps(nextProps) {
         switch (nextProps.payment.status) {
             case 'processInvoiceTemplate': {
-                const token = nextProps.integration.invoiceAccessToken;
-                token
-                    ? nextProps.actions.paymentActions.processPayment(token.payload)
-                    : this.createInvoiceWithTemplate(nextProps);
+                const isInvoiceWithTemplateCreated = nextProps.integration.invoiceAccessToken;
+                isInvoiceWithTemplateCreated
+                    ? nextProps.actions.paymentActions.processPayment()
+                    : createInvoiceWithTemplate(nextProps);
                 break;
             }
         }
-    }
-
-    createInvoiceWithTemplate(props) {
-        const form = props.viewData.cardForm;
-        const template = props.integration.invoiceTemplate;
-        const initParams = props.initParams;
-        props.actions.invoiceActions.createInvoiceWithTemplate({
-            capiEndpoint: props.appConfig.capiEndpoint,
-            accessToken: initParams.invoiceTemplateAccessToken,
-            invoiceTemplateID: initParams.invoiceTemplateID,
-            invoiceParamsWithTemplate: {
-                amount: toNumber(form.amount.value) * 100,
-                currency: 'RUB',
-                metadata: template.metadata
-            }
-        });
-    }
-
-    handleTemplate(props) {
-        const actions = props.actions.viewDataActions;
-        const cost = props.integration.invoiceTemplate.cost;
-        let visible = false;
-        switch (cost.invoiceTemplateCostType) {
-            case 'InvoiceTemplateCostRange':
-                actions.setAmountType({
-                    name: 'range',
-                    lowerBound: cost.range.lowerBound,
-                    upperBound: cost.range.upperBound
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostUnlim':
-                actions.setAmountType({
-                    name: 'unlim'
-                });
-                visible = true;
-                break;
-            case 'InvoiceTemplateCostFixed':
-                actions.setAmountType({
-                    name: 'fixed'
-                });
-                actions.setAmountVal(cost.amount / 100);
-                break;
-        }
-        actions.setAmountVisibility(visible);
-        actions.setAmountRequired(true);
-    }
-
-    checkInteract(props) {
-        EventPoller.pollEvents(
-            props.appConfig.capiEndpoint,
-            props.integration.invoice.id,
-            props.initParams.invoiceAccessToken
-        ).then((event) => {
-            if (event.type === 'interact') {
-                props.actions.paymentActions.interactPayment(event.data);
-                props.actions.viewDataActions.updateContainerSize('large');
-            }
-        });
     }
 
     render() {

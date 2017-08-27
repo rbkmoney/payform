@@ -15,10 +15,9 @@ function start() {
     };
 }
 
-function processPayment(accessToken) {
+function processPayment() {
     return {
-        type: PROCESS_PAYMENT,
-        payload: accessToken
+        type: PROCESS_PAYMENT
     };
 }
 

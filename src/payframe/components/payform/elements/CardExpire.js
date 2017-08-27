@@ -41,7 +41,6 @@ class CardExpire extends React.Component {
                     id="exp-date"
                     type="tel"
                     name="exp-date"
-                    value={this.props.value}
                     onChange={this.handleChange}
                     onKeyUp={isIE ? this.handleChange : false}
                     ref={(input) => {
