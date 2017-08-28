@@ -18,7 +18,7 @@
     "error.invoice.getTemplate": "Не удалось получить шаблон инвойса",
     "error.payment.unsupport": "Unsupported payment result error",
     "error.payment.create": "Ошибка в процессе создания платежа",
-    "error.payment.cancelled": "Платеж отменет",
+    "error.payment.cancelled": "Платеж отменен",
     "error.events.timeout": "Превышено время ожидания проведения платежа",
     "error.events.failed": "Ошибка в процессе получения событий инвойса",
     "error.apple.pay.merchant.validation": "Ошибка проверки мерчанта Apple Pay",
