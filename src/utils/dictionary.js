@@ -53,6 +53,12 @@ const integration = [
     },
     {
         name: 'applePayTest'
+    },
+    {
+        name: 'paymentFlowHold',
+    },
+    {
+        name: 'holdExpiration'
     }
 ];
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as localeActions from '../../redux/actions/localeActions';
-import * as invoiceActions from '../../redux/actions/invoiceActions';
-import * as errorActions from '../../redux/actions/errorActions';
-import * as invoiceTemplateActions from '../../redux/actions/invoiceTemplates';
-import * as viewDataActions from '../../redux/actions/viewDataActions';
-import * as paymentCapabilitiesActions from '../../redux/actions/paymentCapabilitiesActions';
+import * as localeActions from '../actions/localeActions';
+import * as invoiceActions from '../actions/invoiceActions';
+import * as errorActions from '../actions/errorActions';
+import * as invoiceTemplateActions from '../actions/invoiceTemplateActions';
+import * as viewDataActions from '../actions/viewDataActions';
+import * as paymentCapabilitiesActions from '../actions/paymentCapabilitiesActions';
 import Overlay from './Overlay';
 import Modal from './Modal';
 import MessageModal from './MessageModal';
@@ -29,18 +29,18 @@ class Payframe extends React.Component {
         );
         switch (this.props.integration.type) {
             case 'default':
-                this.props.actions.invoiceActions.getInvoice(
-                    this.props.appConfig.capiEndpoint,
-                    this.props.initParams.invoiceID,
-                    this.props.initParams.invoiceAccessToken
-                );
+                this.props.actions.invoiceActions.getInvoice({
+                    capiEndpoint: this.props.appConfig.capiEndpoint,
+                    invoiceID: this.props.initParams.invoiceID,
+                    accessToken: this.props.initParams.invoiceAccessToken
+                });
                 break;
             case 'template':
-                this.props.actions.invoiceTemplateActions.getInvoiceTemplate(
-                    this.props.appConfig.capiEndpoint,
-                    this.props.initParams.invoiceTemplateID,
-                    this.props.initParams.invoiceTemplateAccessToken
-                );
+                this.props.actions.invoiceTemplateActions.getInvoiceTemplate({
+                    capiEndpoint: this.props.appConfig.capiEndpoint,
+                    invoiceTemplateID: this.props.initParams.invoiceTemplateID,
+                    accessToken: this.props.initParams.invoiceTemplateAccessToken
+                });
                 break;
         }
     }

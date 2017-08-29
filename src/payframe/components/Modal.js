@@ -4,7 +4,7 @@ import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import cx from 'classnames';
 import Header from './header/Header';
 import SupportButton from './SupportButton';
-import CardPayment from './payform/CardPayment';
+import CardPayment from './cardPayment/CardPayment';
 
 class Modal extends React.Component {
 

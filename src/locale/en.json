@@ -18,6 +18,7 @@
     "error.invoice.getTemplate": "Can't get invoice template",
     "error.payment.unsupport": "Unsupported payment result error",
     "error.payment.create": "An error occurred while trying create payment",
+    "error.payment.cancelled": "Payment was cancelled",
     "error.events.timeout": "Events polling timeout error",
     "error.events.failed": "An error occurred while polling events",
     "error.apple.pay.merchant.validation": "Apple Pay merchant validation error",

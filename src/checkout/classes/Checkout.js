@@ -1,3 +1,4 @@
+import { mapValues } from 'lodash';
 import isMobile from 'ismobilejs';
 import Iframe from '../elements/Iframe';
 import Parent from '../../communication/Parent';
@@ -6,8 +7,9 @@ import UriSerializer from '../../utils/UriSerializer';
 export default class Checkout {
 
     constructor(origin, config) {
-        this.config = this.assignPopupMode(config);
-        this.config = this.assignLocale(config);
+        this.config = this.mapBoolean(config);
+        this.config = this.assignPopupMode(this.config);
+        this.config = this.assignLocale(this.config);
         this.payformHost = origin;
         this.opened = config.opened;
         this.closed = config.closed;
@@ -54,9 +56,21 @@ export default class Checkout {
         return target;
     }
 
+    mapBoolean(config) {
+        return mapValues(config, (value) => {
+            let result = value;
+            if (value === 'true') {
+                result = true;
+            } else if (value === 'false') {
+                result = false;
+            }
+            return result;
+        });
+    }
+
     assignPopupMode(config) {
         return Object.assign(config, {
-            popupMode: isMobile.any || (config.popupMode === 'true' || config.popupMode === true)
+            popupMode: isMobile.any || config.popupMode === true
         });
     }
 
