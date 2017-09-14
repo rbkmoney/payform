@@ -64,9 +64,13 @@ class ApplePayForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                processApplePayPayment(nextProps)
-                    .then((event) => this.handleEvent(event))
-                    .catch((error) => this.handleError(error));
+                this.applePayWrapper.begin().then(() => {
+                    processApplePayPayment(nextProps)
+                        .then((event) => this.handleEvent(event))
+                        .catch((error) => this.handleError(error));
+                }).catch((error) => {
+                    this.props.actions.paymentActions.setPaymentError(error);
+                });
                 break;
         }
     }

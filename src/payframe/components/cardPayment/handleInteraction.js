@@ -13,6 +13,11 @@ function handleInteraction(props) {
             props.actions.paymentActions.interactPayment(event.data);
             props.actions.viewDataActions.updateContainerSize('large');
         }
+        if (event.type === 'processed') {
+            props.actions.errorActions.setError({
+                localePath: 'error.payment.processed'
+            });
+        }
     });
 }
 

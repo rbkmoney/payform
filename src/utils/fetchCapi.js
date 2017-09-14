@@ -19,7 +19,7 @@ function fetchCapi(param) {
             },
             body: param.body ? JSON.stringify(param.body) : undefined
         }).then((response) => {
-            if (response.status >= 200 || response.status <= 300) {
+            if (response.status >= 200 && response.status <= 300) {
                 resolve(response.json());
             } else {
                 response.json()

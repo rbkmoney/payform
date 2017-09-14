@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as viewDataActions from '../../actions/viewDataActions';
 import * as paymentActions from '../../actions/paymentActions';
 import * as invoiceActions from '../../actions/invoiceActions';
+import * as errorActions from '../../actions/errorActions';
 import CardForm from './cardForm/CardForm';
 import ApplePayForm from './applePayForm/ApplePayForm';
 import createInvoiceWithTemplate from './createInvoiceWithTemplate';
@@ -71,7 +72,8 @@ function mapDispatchToProps(dispatch) {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
-            paymentActions: bindActionCreators(paymentActions, dispatch)
+            paymentActions: bindActionCreators(paymentActions, dispatch),
+            errorActions: bindActionCreators(errorActions, dispatch)
         }
     };
 }
