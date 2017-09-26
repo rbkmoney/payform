@@ -1,0 +1,30 @@
+.payment-method-changer {
+    background: linear-gradient(to bottom, $gray5 0%,$gray2 100%);
+    display: flex;
+    width: 100%;
+    list-style: none;
+
+    &__item {
+        flex-basis: 100%;
+        text-align: center;
+        background-color: $gray5;
+        font-size: 14px;
+        color: $gray4;
+        padding: 8px 0;
+        cursor: pointer;
+        transition: all .3s;
+
+        &._active {
+            background-color: $gray2;
+            border-radius: 5px;
+        }
+
+        &._prev {
+            border-radius: 0 0 5px 0;
+        }
+
+        &._next {
+            border-radius: 0 0 0 5px;
+        }
+    }
+}

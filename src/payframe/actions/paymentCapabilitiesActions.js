@@ -1,5 +1,6 @@
-import { SET_APPLE_PAY_CAPABILITY } from '../constants/paymentCapabilities';
+import { SET_APPLE_PAY_CAPABILITY, SET_PAYMENT_CAPABILITIES } from '../constants/paymentCapabilities';
 import checkCapability from '../applePay/checkCapability';
+import getInvoicePaymentMethods from '../backendCommunication/getInvoicePaymentMethods';
 
 function setApplePayCapability(applePayMerchantID, testFlag) {
     return (dispatch) => {
@@ -12,4 +13,15 @@ function setApplePayCapability(applePayMerchantID, testFlag) {
     };
 }
 
-export { setApplePayCapability };
+function setPaymentCapabilities(params) {
+    return (dispatch) => {
+        getInvoicePaymentMethods(params).then((capabilities) => {
+            dispatch({
+                type: SET_PAYMENT_CAPABILITIES,
+                payload: capabilities
+            });
+        });
+    }
+}
+
+export { setApplePayCapability, setPaymentCapabilities };

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setCardCvvVal } from '../../../actions/viewDataActions';
-import CardUtils from '../../../../utils/card-utils/CardUtils';
+import { setCardCvvVal } from '../../actions/viewDataActions';
+import CardUtils from '../../../utils/card-utils/CardUtils';
 import { focusClass, errorClass } from './cssClasses';
-import isIE from '../../../../utils/isIE';
+import isIE from '../../../utils/isIE';
 
 class CardCvv extends React.Component {
 

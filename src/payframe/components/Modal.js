@@ -5,6 +5,8 @@ import cx from 'classnames';
 import Header from './header/Header';
 import SupportButton from './SupportButton';
 import CardPayment from './cardPayment/CardPayment';
+import TerminalPayment from './terminalPayment/TerminalPayment';
+import PaymentMethodChanger from './PaymentMethodChanger';
 
 class Modal extends React.Component {
 
@@ -20,8 +22,10 @@ class Modal extends React.Component {
                     '_large': this.props.viewData.containerSize === 'large'
                 })}>
                     <Header/>
+                    <PaymentMethodChanger />
                     <div className="checkout--body">
                         <CardPayment/>
+                        <TerminalPayment/>
                     </div>
                 </div>
                 <SupportButton/>
@@ -33,7 +37,8 @@ class Modal extends React.Component {
 function mapState(state) {
     return {
         viewData: state.viewData,
-        initParams: state.initParams
+        initParams: state.initParams,
+        paymentCapabilities: state.paymentCapabilities
     };
 }
 

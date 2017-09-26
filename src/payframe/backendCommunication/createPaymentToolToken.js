@@ -1,13 +1,23 @@
 import CardTokenizer from 'tokenizer/src/tokenizers/CardTokenizer';
 
-function preparePaymentTool(cardData) {
-    return {
-        paymentToolType: 'CardData',
-        cardHolder: cardData.cardHolder,
-        cardNumber: replaceSpaces(cardData.cardNumber),
-        expDate: replaceSpaces(cardData.cardExpire),
-        cvv: cardData.cardCvv
-    };
+function preparePaymentTool(paymentTool) {
+    switch (paymentTool.type) {
+        case 'CardData':
+            return {
+                paymentToolType: paymentTool.type,
+                cardHolder: paymentTool.cardHolder,
+                cardNumber: replaceSpaces(paymentTool.cardNumber),
+                expDate: replaceSpaces(paymentTool.cardExpire),
+                cvv: paymentTool.cardCvv
+            };
+        case 'PaymentTerminalData':
+            return {
+                paymentToolType: paymentTool.type,
+                provider: paymentTool.provider
+            };
+        default:
+            break;
+    }
 }
 
 function replaceSpaces(str) {
@@ -22,7 +32,7 @@ function replaceSpaces(str) {
  * @return {Promise<Payload>}
  */
 function createPaymentToolToken(param) {
-    return CardTokenizer.createToken(param.capiEndpoint, param.accessToken, preparePaymentTool(param.cardData));
+    return CardTokenizer.createToken(param.capiEndpoint, param.accessToken, preparePaymentTool(param.paymentTool));
 }
 
 export default createPaymentToolToken;

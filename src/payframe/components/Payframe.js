@@ -34,6 +34,11 @@ class Payframe extends React.Component {
                     invoiceID: this.props.initParams.invoiceID,
                     accessToken: this.props.initParams.invoiceAccessToken
                 });
+                this.props.actions.paymentCapabilitiesActions.setPaymentCapabilities({
+                    capiEndpoint: this.props.appConfig.capiEndpoint,
+                    invoiceID: this.props.initParams.invoiceID,
+                    accessToken: this.props.initParams.invoiceAccessToken
+                });
                 break;
             case 'template':
                 this.props.actions.invoiceTemplateActions.getInvoiceTemplate({

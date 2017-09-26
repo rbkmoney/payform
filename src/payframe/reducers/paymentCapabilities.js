@@ -1,10 +1,12 @@
-import { SET_APPLE_PAY_CAPABILITY } from '../constants/paymentCapabilities';
+import { SET_APPLE_PAY_CAPABILITY, SET_PAYMENT_CAPABILITIES } from '../constants/paymentCapabilities';
 
 /**
  * @field applePay {'unknown','capable','unavailable'}
+ * @filed capabilities
  */
 const defaultState = {
-    applePay: 'unknown'
+    applePay: 'unknown',
+    capabilities: []
 };
 
 export default function (state = defaultState, action) {
@@ -13,6 +15,11 @@ export default function (state = defaultState, action) {
             return {
                 ...state,
                 applePay: action.payload
+            };
+        case SET_PAYMENT_CAPABILITIES:
+            return {
+                ...state,
+                capabilities: action.payload
             };
     }
     return state;

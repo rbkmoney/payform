@@ -56,6 +56,7 @@ function pollEvents(param) {
                 }).then((events) => {
                     const event = getLastElement(events);
                     const change = getLastElement(event.changes);
+                    console.log(change);
                     if (isInvoiceUnpaid(change)) {
                         resolve(prepareResult('unpaid', change));
                     } else if (isInvoicePaid(change)) {

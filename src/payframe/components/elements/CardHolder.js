@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setCardHolderVal } from '../../../actions/viewDataActions';
+import { setCardHolderVal } from '../../actions/viewDataActions';
 import { focusClass, errorClass } from './cssClasses';
 
 class CardHolder extends React.Component {

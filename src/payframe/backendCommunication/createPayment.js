@@ -9,6 +9,7 @@ import fetchCapi from '../../utils/fetchCapi';
  * @return {Promise<Payment>} payment
  */
 function createPayment(param) {
+    console.log(param);
     return fetchCapi({
         endpoint: `${param.capiEndpoint}/v1/processing/invoices/${param.invoiceID}/payments`,
         accessToken: param.accessToken,
