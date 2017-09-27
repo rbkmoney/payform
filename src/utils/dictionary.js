@@ -61,7 +61,7 @@ const integration = [
         name: 'holdExpiration'
     },
     {
-        name: 'euroset'
+        name: 'terminals'
     }
 ];
 
