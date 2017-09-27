@@ -1,7 +1,7 @@
 import pollEvents from '../backendCommunication/eventPoller/pollEvents';
 
 /**
- * @param {Object} props - CardPayment component props
+ * @param {Object} props - Modal component props
  */
 function handleInteraction(props) {
     pollEvents({
