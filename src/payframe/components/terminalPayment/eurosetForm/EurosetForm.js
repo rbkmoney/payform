@@ -11,7 +11,7 @@ import Amount from '../../elements/Amount';
 import BackButton from '../../elements/BackButton';
 import ErrorPanel from '../../elements/ErrorPanel';
 import PayButton from '../../elements/PayButton';
-import Interaction from '../../elements/Interaction';
+import TerminalInteraction from '../../elements/TerminalInteraction';
 
 class EurosetForm extends Component {
     constructor(props) {
@@ -45,7 +45,6 @@ class EurosetForm extends Component {
                 }
                 break;
             case 'processPayment':
-                console.log('EurosetForm', nextProps);
                 processTerminalPayment(nextProps)
                     .then((event) => this.handleEvent(event))
                     .catch((error) => this.handleError(error));
@@ -61,7 +60,6 @@ class EurosetForm extends Component {
     }
 
     handleError(error) {
-        console.log(error);
         this.props.actions.paymentActions.setPaymentError(error);
         this.triggerError();
     }
@@ -76,9 +74,8 @@ class EurosetForm extends Component {
         }
     }
 
-    handleInteract() {
-        //this.props.actions.paymentActions.interactPayment(event.data);
-        this.props.actions.viewDataActions.updateContainerSize('large');
+    handleInteract(event) {
+        this.props.actions.paymentActions.interactTerminalPayment(event.data);
     }
 
     pay(e) {
@@ -91,6 +88,7 @@ class EurosetForm extends Component {
     renderPayform() {
         const form = 'card-form';
         const cardForm = this.props.viewData.cardForm;
+        const status = this.props.payment.status;
         const email = cardForm.email;
         const amount = cardForm.amount;
 
@@ -136,9 +134,7 @@ class EurosetForm extends Component {
             <div className="payform">
                 {
                     this.props.payment.status === 'interacted'
-                        ? <Interaction
-                            interactionData={this.props.payment.interactionData}
-                            host={this.props.appConfig.host}/>
+                        ? <TerminalInteraction interactionData={this.props.payment.interactionData}/>
                         : this.renderPayform()
                 }
             </div>
@@ -151,7 +147,6 @@ function mapStateToProps(state) {
         appConfig: state.appConfig,
         initParams: state.initParams,
         integration: state.integration,
-        //locale: state.locale,
         viewData: state.viewData,
         payment: state.payment
     };
@@ -161,8 +156,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
-            //invoiceActions: bindActionCreators(invoiceActions, dispatch),
-            //resultActions: bindActionCreators(resultActions, dispatch),
             paymentActions: bindActionCreators(paymentActions, dispatch)
         }
     };

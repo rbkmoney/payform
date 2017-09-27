@@ -1,0 +1,70 @@
+.pseudo {
+  position: relative;
+}
+
+.panel-dark {
+  background-color: #f7f7f7;
+  border-color: #f7f7f7;
+  box-shadow: 0 5px 15px #ccc;
+  padding: 15px;
+}
+
+.pseudo:after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 10px;
+  bottom: -10px;
+  left: 0;
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0) 33.333%, #f7f7f7 33.333%, #f7f7f7 66.667%, rgba(0, 0, 0, 0) 66.667%), linear-gradient(-45deg, rgba(0, 0, 0, 0) 33.333%, #f7f7f7 33.333%, #f7f7f7 66.667%, rgba(0, 0, 0, 0) 66.667%);
+  background-size: 20px 40px;
+  background-position: 50% -30px;
+  background-repeat: repeat-x;
+  z-index: 1;
+}
+
+.container-print {
+  padding: 0;
+}
+
+@-webkit-keyframes print {
+  0% {
+    height: 0;
+  }
+  10% {
+    height: 10px;
+  }
+  20% {
+    height: 20px;
+  }
+  30% {
+    height: 35px;
+  }
+  40% {
+    height: 50px;
+  }
+  50% {
+    height: 70px;
+  }
+  60% {
+    height: 75px;
+  }
+  70% {
+    height: 95px;
+  }
+  80% {
+    height: 105px;
+  }
+  90% {
+    height: 125px;
+  }
+  100% {
+    height: 126px;
+  }
+}
+
+.container-print .panel-body {
+  animation: print 1s;
+  overflow: hidden;
+}

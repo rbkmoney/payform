@@ -30,7 +30,7 @@ function prepareResult(type, change) {
     } else if (type === 'interact') {
         result = {
             type,
-            data: change.userInteraction.request
+            data: change.userInteraction
         };
     }
     return result;
@@ -56,7 +56,6 @@ function pollEvents(param) {
                 }).then((events) => {
                     const event = getLastElement(events);
                     const change = getLastElement(event.changes);
-                    console.log(change);
                     if (isInvoiceUnpaid(change)) {
                         resolve(prepareResult('unpaid', change));
                     } else if (isInvoicePaid(change)) {

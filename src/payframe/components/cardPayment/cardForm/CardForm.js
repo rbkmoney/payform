@@ -62,7 +62,6 @@ class CardForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                console.log('CardForm', nextProps);
                 processCardPayment(nextProps)
                     .then((event) => this.handleEvent(event))
                     .catch((error) => this.handleError(error));
@@ -106,7 +105,7 @@ class CardForm extends React.Component {
     }
 
     handleInteract(event) {
-        this.props.actions.paymentActions.interactPayment(event.data);
+        this.props.actions.paymentActions.interactPayment(event.data.request);
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
