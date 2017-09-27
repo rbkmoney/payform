@@ -17,12 +17,23 @@ class PaymentMethodChanger extends Component {
          this.makeActive = this.makeActive.bind(this);
      }
 
+     componentDidMount() {
+         // Set init form state
+         this.props.actions.viewDataActions.setActiveForm({
+             paymentMethod: 'BankCard',
+             activeForm: 'cardForm'
+         });
+     }
+
      makeActive(method) {
          this.setState({
-             active: method
+             active: method.form
          });
 
-         this.props.actions.viewDataActions.setActiveForm(method);
+         this.props.actions.viewDataActions.setActiveForm({
+             paymentMethod: method.method,
+             activeForm: method.form
+         });
      }
 
      //TODO: Решить вопрос по логике с провайдерами. Если в случае карты мне достаточно смотреть на метод,
@@ -33,28 +44,30 @@ class PaymentMethodChanger extends Component {
              case 'BankCard':
                  return {
                      name: 'Card',
-                     type: 'cardForm'
+                     form: 'cardForm',
+                     method: 'BankCard'
                  };
              case 'PaymentTerminal':
                  return {
                      name: 'Euroset',
-                     type: 'eurosetForm'
+                     form: 'eurosetForm',
+                     method: 'PaymentTerminal'
                  }
          }
      }
 
     renderMethods(method, index, arr) {
-        const activeIndex = arr.findIndex((item) => item.type === this.state.active);
-        const isActive = method.type === this.state.active;
-        const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1].type === method.type : false;
-        const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1].type === method.type : false;
+        const activeIndex = arr.findIndex((item) => item.form === this.state.active);
+        const isActive = method.form === this.state.active;
+        const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1].form === method.form : false;
+        const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1].form === method.form : false;
 
         return(
-            <li key={method.type} className={cx('payment-method-changer__item', {
+            <li key={method.form} className={cx('payment-method-changer__item', {
                 '_active': isActive,
                 '_prev': isPrev,
                 '_next': isNext
-            })} onClick={this.makeActive.bind(this, method.type)}>
+            })} onClick={this.makeActive.bind(this, method)}>
                 {method.name}
             </li>
         );

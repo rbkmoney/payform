@@ -24,4 +24,16 @@ function setPaymentCapabilities(params) {
     }
 }
 
-export { setApplePayCapability, setPaymentCapabilities };
+function setTemplatePaymentCapabilities() {
+    return (dispatch) => {
+        dispatch({
+            type: SET_PAYMENT_CAPABILITIES,
+            payload: [
+                {method: 'BankCard', paymentSystems: 'visa'},
+                {method: 'PaymentTerminal', providers: ['euroset']}
+            ]
+        });
+    }
+}
+
+export { setApplePayCapability, setPaymentCapabilities, setTemplatePaymentCapabilities };

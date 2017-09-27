@@ -58,7 +58,8 @@ export default function (state = defaultState, action) {
         case SET_ACTIVE_FORM:
             return {
                 ...state,
-                activeForm: action.payload
+                activeForm: action.payload.activeForm,
+                paymentMethod: action.payload.paymentMethod
             };
         case SET_PREVIOUS_FORM:
             return {

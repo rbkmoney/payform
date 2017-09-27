@@ -27,6 +27,7 @@ class Payframe extends React.Component {
             this.props.appConfig.applePayMerchantID,
             this.props.initParams.applePayTest
         );
+        console.log(this.props);
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice({
@@ -45,6 +46,11 @@ class Payframe extends React.Component {
                     capiEndpoint: this.props.appConfig.capiEndpoint,
                     invoiceTemplateID: this.props.initParams.invoiceTemplateID,
                     accessToken: this.props.initParams.invoiceTemplateAccessToken
+                });
+                this.props.actions.paymentCapabilitiesActions.setTemplatePaymentCapabilities({
+                    capiEndpoint: this.props.appConfig.capiEndpoint,
+                    invoiceID: this.props.initParams.invoiceID,
+                    accessToken: this.props.initParams.invoiceAccessToken
                 });
                 break;
         }

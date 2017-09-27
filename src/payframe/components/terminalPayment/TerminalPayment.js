@@ -3,9 +3,24 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as viewDataActions from '../../actions/viewDataActions';
+import * as invoiceActions from '../../actions/invoiceActions';
+import * as paymentActions from '../../actions/paymentActions';
 import EurosetForm from './eurosetForm/EurosetForm';
+import createInvoiceWithTemplate from './createInvoiceWithTemplate';
 
 class TerminalPayment extends Component {
+    componentWillReceiveProps(nextProps) {
+        switch (nextProps.payment.status) {
+            case 'processInvoiceTemplate': {
+                const isInvoiceWithTemplateCreated = nextProps.integration.invoiceAccessToken;
+                isInvoiceWithTemplateCreated
+                    ? nextProps.actions.paymentActions.processPayment()
+                    : createInvoiceWithTemplate(nextProps);
+                break;
+            }
+        }
+    }
+
     render() {
         const activeForm = this.props.viewData.activeForm;
 
@@ -21,11 +36,11 @@ class TerminalPayment extends Component {
 
 function mapStateToProps(state) {
     return {
-        //appConfig: state.appConfig,
-        //initParams: state.initParams,
-        //integration: state.integration,
+        appConfig: state.appConfig,
+        initParams: state.initParams,
+        integration: state.integration,
         viewData: state.viewData,
-        //payment: state.payment,
+        payment: state.payment,
         //paymentCapabilities: state.paymentCapabilities
     };
 }
@@ -34,8 +49,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
-            //invoiceActions: bindActionCreators(invoiceActions, dispatch),
-            //paymentActions: bindActionCreators(paymentActions, dispatch),
+            invoiceActions: bindActionCreators(invoiceActions, dispatch),
+            paymentActions: bindActionCreators(paymentActions, dispatch),
             //errorActions: bindActionCreators(errorActions, dispatch)
         }
     };

@@ -8,24 +8,14 @@ import * as errorActions from '../../actions/errorActions';
 import CardForm from './cardForm/CardForm';
 import ApplePayForm from './applePayForm/ApplePayForm';
 import createInvoiceWithTemplate from './createInvoiceWithTemplate';
-import handleInvoiceTemplate from './handleInvoiceTemplate';
-import handleInteraction from './handleInteraction';
 
 class CardPayment extends React.Component {
 
     componentDidMount() {
         if (this.props.paymentCapabilities.applePay === 'capable') {
-            this.props.actions.viewDataActions.setActiveForm('applePayForm');
+            this.props.actions.viewDataActions.setActiveForm({activeForm: 'applePayForm', paymentMethod: 'BankCard'});
         } else {
-            this.props.actions.viewDataActions.setActiveForm('cardForm');
-        }
-        switch (this.props.integration.type) {
-            case 'default':
-                handleInteraction(this.props);
-                break;
-            case 'template':
-                handleInvoiceTemplate(this.props);
-                break;
+            this.props.actions.viewDataActions.setActiveForm({activeForm: 'cardForm', paymentMethod: 'BankCard'});
         }
     }
 
