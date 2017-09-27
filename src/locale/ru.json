@@ -16,7 +16,7 @@
     "receipt.dueDate": "Действует до",
     "receipt.pay.in.store": "Оплату необходимо произвести в салонах связи",
     "Euroset": "Евросеть",
-    "Card": "Банковская карта",
+    "BankCard": "Банковская карта",
     "error.invoice.paid": "Инвойс был оплачен",
     "error.invoice.cancelled": "Инвойс был отменен.",
     "error.invoice.notCreated": "Не удалось создать инвойс",

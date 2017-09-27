@@ -15,7 +15,7 @@
     "receipt.amount": "Amount",
     "receipt.dueDate": "Valid until",
     "Euroset": "Euroset",
-    "Card": "Card",
+    "BankCard": "Card",
     "receipt.pay.in.store": "Payment must be made in mobile phone stores",
     "error.invoice.paid": "Invoice was paid",
     "error.invoice.cancelled": "Invoice was cancelled.",
