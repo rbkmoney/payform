@@ -9,27 +9,11 @@ class PaymentMethodChanger extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            active: 'cardForm'
-        };
-
         this.renderMethods = this.renderMethods.bind(this);
         this.makeActive = this.makeActive.bind(this);
     }
 
-    componentDidMount() {
-        // Set init form state
-        this.props.actions.viewDataActions.setActiveForm({
-            paymentMethod: 'BankCard',
-            activeForm: 'cardForm'
-        });
-    }
-
     makeActive(method) {
-        this.setState({
-            active: method.form
-        });
-
         this.props.actions.viewDataActions.setActiveForm({
             paymentMethod: method.method,
             activeForm: method.form
@@ -58,8 +42,8 @@ class PaymentMethodChanger extends Component {
 
     renderMethods(method, index, arr) {
         const locale = this.props.locale;
-        const activeIndex = arr.findIndex((item) => item.form === this.state.active);
-        const isActive = method.form === this.state.active;
+        const activeIndex = arr.findIndex((item) => item.form === this.props.viewData.activeForm);
+        const isActive = method.form === this.props.viewData.activeForm;
         const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1].form === method.form : false;
         const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1].form === method.form : false;
 

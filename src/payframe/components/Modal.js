@@ -16,6 +16,11 @@ import handleInvoiceTemplate from './handleInvoiceTemplate';
 
 class Modal extends React.Component {
     componentDidMount() {
+        this.props.actions.viewDataActions.setActiveForm({
+            paymentMethod: 'BankCard',
+            activeForm: 'cardForm'
+        });
+
         switch (this.props.integration.type) {
             case 'default':
                 handleInteraction(this.props);
@@ -67,9 +72,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
-            //invoiceActions: bindActionCreators(invoiceActions, dispatch),
             paymentActions: bindActionCreators(paymentActions, dispatch),
-            //errorActions: bindActionCreators(errorActions, dispatch)
         }
     };
 }
