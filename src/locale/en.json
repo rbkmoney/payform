@@ -16,7 +16,7 @@
     "receipt.dueDate": "Valid until",
     "Euroset": "Euroset",
     "Card": "Card",
-    "receipt.pay.in.store": "Payment must be made in mobile phone stores",
+    "receipt.pay.in.euroset": "You can pay for the receipt at Euroset offices",
     "error.invoice.paid": "Invoice was paid",
     "error.invoice.cancelled": "Invoice was cancelled.",
     "error.invoice.notCreated": "Can't create invoice",

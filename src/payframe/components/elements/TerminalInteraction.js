@@ -25,7 +25,7 @@ class TerminalInteraction extends React.Component {
                     <div className="panel-body">
                         <dl>
                             <dt>
-                                {locale['receipt.pay.in.store']} "{locale['Euroset']}"
+                                {locale['receipt.pay.in.euroset']}
                             </dt>
                         </dl>
                         <dl>
