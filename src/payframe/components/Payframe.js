@@ -27,7 +27,6 @@ class Payframe extends React.Component {
             this.props.appConfig.applePayMerchantID,
             this.props.initParams.applePayTest
         );
-        console.log(this.props);
         switch (this.props.integration.type) {
             case 'default':
                 this.props.actions.invoiceActions.getInvoice({

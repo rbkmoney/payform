@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import format from 'date-fns/format';
-import ruLocale from 'date-fns/locale/ru';
 
 import formatCurrency from '../../../utils/formatCurrency';
 
@@ -18,26 +17,28 @@ class TerminalInteraction extends React.Component {
     }
 
     render() {
+        const locale = this.props.locale;
+
         return (
             <div className="print-receipt__container">
                 <div className="print-receipt__panel pseudo">
                     <div className="panel-body">
                         <dl>
                             <dt>
-                                Оплату необходимо произвесте в салонах связи "Евросеть"
+                                {locale['receipt.pay.in.store']} "{locale['Euroset']}"
                             </dt>
                         </dl>
                         <dl>
-                            <dt>Номер счета для оплаты:</dt>
+                            <dt>{locale['receipt.number']}:</dt>
                             <dd>{this.formatPaymentID(this.props.interactionData.shortPaymentID)}</dd>
                         </dl>
                         <dl>
-                            <dt>Сумма к оплате:</dt>
+                            <dt>{locale['receipt.amount']}:</dt>
                             <dd>{formatCurrency(this.props.integration.invoice.amount / 100, this.props.integration.invoice.currency)}</dd>
                         </dl>
                         <dl>
-                            <dt>Действует до:</dt>
-                            <dd>{format(this.props.interactionData.dueDate, 'D.MM.YYYY HH:mm', {locale: ruLocale})}</dd>
+                            <dt>{locale['receipt.dueDate']}:</dt>
+                            <dd>{format(this.props.interactionData.dueDate, 'D.MM.YYYY HH:mm')}</dd>
                         </dl>
                     </div>
                 </div>
@@ -48,7 +49,8 @@ class TerminalInteraction extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        integration: state.integration
+        integration: state.integration,
+        locale: state.locale
     };
 }
 
