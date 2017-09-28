@@ -17,7 +17,7 @@ export default function (state = defaultState, action) {
     switch (action.type) {
         case SET_APPLE_PAY_CAPABILITY: {
             const capabilities = state.capabilities;
-            if (action.payload === 'unavailable') {
+            if (action.payload === 'available') {
                 capabilities[capabilities.findIndex((item) => item.name === 'card')].methods.push('applePay');
             }
             return {
