@@ -1,48 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cx from 'classnames';
+
 import * as viewDataActions from '../../../actions/viewDataActions';
-import * as invoiceActions from '../../../actions/invoiceActions';
-import * as resultActions from '../../../actions/resultActions';
 import * as paymentActions from '../../../actions/paymentActions';
-import Interaction from '../../elements/Interaction';
+import processTerminalPayment from '../processTerminalPayment';
+import Email from '../../elements/Email';
+import Amount from '../../elements/Amount';
 import BackButton from '../../elements/BackButton';
 import ErrorPanel from '../../elements/ErrorPanel';
 import PayButton from '../../elements/PayButton';
-import CardNumber from '../../elements/CardNumber';
-import CardExpire from '../../elements/CardExpire';
-import CardCvv from '../../elements/CardCvv';
-import CardHolder from '../../elements/CardHolder';
-import Email from '../../elements/Email';
-import Amount from '../../elements/Amount';
-import settings from '../../../../settings';
-import processCardPayment from './processCardPayment';
-import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
+import TerminalInteraction from '../../elements/TerminalInteraction';
 
-class CardForm extends React.Component {
-
+class EurosetForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             shakeValidation: false,
             back: false
         };
-        window.addEventListener('message', (e) => {
-            if (e.data === 'finish-interaction') {
-                this.props.actions.paymentActions.resumePayment();
-                this.props.actions.viewDataActions.updateContainerSize('default');
-                this.getEvents(this.props.integration.invoiceAccessToken);
-            }
-        });
         this.triggerError = this.triggerError.bind(this);
         this.pay = this.pay.bind(this);
     }
 
     componentDidMount() {
-        this.props.actions.viewDataActions.setCardSetRequired(true);
-        this.props.actions.viewDataActions.resetValidation();
-        this.props.actions.paymentActions.reset();
+        this.props.actions.viewDataActions.setCardSetRequired(false);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -62,7 +45,7 @@ class CardForm extends React.Component {
                 }
                 break;
             case 'processPayment':
-                processCardPayment(nextProps)
+                processTerminalPayment(nextProps)
                     .then((event) => this.handleEvent(event))
                     .catch((error) => this.handleError(error));
                 break;
@@ -71,14 +54,14 @@ class CardForm extends React.Component {
         }
     }
 
-    getEvents(token) {
-        pollEvents({
-            capiEndpoint: this.props.appConfig.capiEndpoint,
-            accessToken: token,
-            invoiceID: this.props.integration.invoice.id
-        })
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
+    triggerError() {
+        this.setState({shakeValidation: true});
+        setTimeout(() => this.setState({shakeValidation: false}), 500);
+    }
+
+    handleError(error) {
+        this.props.actions.paymentActions.setPaymentError(error);
+        this.triggerError();
     }
 
     handleEvent(event) {
@@ -91,27 +74,8 @@ class CardForm extends React.Component {
         }
     }
 
-    handleError(error) {
-        this.props.actions.paymentActions.setPaymentError(error);
-        this.triggerError();
-    }
-
-    handleSuccess() {
-        this.props.actions.paymentActions.finish();
-        this.props.actions.resultActions.setDone();
-        if (this.props.initParams.popupMode && history.length > 1) {
-            setTimeout(() => this.setState({back: true}), settings.closeFormTimeout + 100);
-        }
-    }
-
     handleInteract(event) {
-        this.props.actions.paymentActions.interactPayment(event.data.request);
-        this.props.actions.viewDataActions.updateContainerSize('large');
-    }
-
-    triggerError() {
-        this.setState({shakeValidation: true});
-        setTimeout(() => this.setState({shakeValidation: false}), 500);
+        this.props.actions.paymentActions.interactTerminalPayment(event.data);
     }
 
     pay(e) {
@@ -123,25 +87,17 @@ class CardForm extends React.Component {
 
     renderPayform() {
         const form = 'card-form';
-        const status = this.props.payment.status;
         const cardForm = this.props.viewData.cardForm;
+        const status = this.props.payment.status;
         const email = cardForm.email;
         const amount = cardForm.amount;
-        return (
-            <form
-                className={cx('payform--form', {_error: this.state.shakeValidation})}
+
+        return(
+            <form className={cx('payform--form', {_error: this.state.shakeValidation})}
                 id={form}
                 role="form"
                 onSubmit={this.pay}
                 noValidate>
-                <fieldset className="payform--fieldset">
-                    <CardNumber/>
-                    <CardExpire/>
-                    <CardCvv/>
-                </fieldset>
-                <fieldset className="payform--fieldset">
-                    <CardHolder/>
-                </fieldset>
                 {
                     email.visible ?
                         <fieldset className="payform--fieldset">
@@ -178,9 +134,7 @@ class CardForm extends React.Component {
             <div className="payform">
                 {
                     this.props.payment.status === 'interacted'
-                        ? <Interaction
-                            interactionData={this.props.payment.interactionData}
-                            host={this.props.appConfig.host}/>
+                        ? <TerminalInteraction interactionData={this.props.payment.interactionData}/>
                         : this.renderPayform()
                 }
             </div>
@@ -193,7 +147,6 @@ function mapStateToProps(state) {
         appConfig: state.appConfig,
         initParams: state.initParams,
         integration: state.integration,
-        locale: state.locale,
         viewData: state.viewData,
         payment: state.payment
     };
@@ -203,11 +156,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
-            invoiceActions: bindActionCreators(invoiceActions, dispatch),
-            resultActions: bindActionCreators(resultActions, dispatch),
             paymentActions: bindActionCreators(paymentActions, dispatch)
         }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardForm);
+export default connect(mapStateToProps, mapDispatchToProps)(EurosetForm);

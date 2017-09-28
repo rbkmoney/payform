@@ -28,10 +28,10 @@ function updateContainerSize(size) {
     };
 }
 
-function setActiveForm(formName) {
+function setActiveForm(form) {
     return {
         type: SET_ACTIVE_FORM,
-        payload: formName
+        payload: form
     }
 }
 

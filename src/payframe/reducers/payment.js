@@ -1,6 +1,7 @@
 import {
     FINISH,
     INTERACT_PAYMENT,
+    INTERACT_TERMINAL_PAYMENT,
     PROCESS_INVOICE_TEMPLATE,
     PROCESS_PAYMENT,
     RESET,
@@ -26,6 +27,12 @@ export default function (state = initialState, action) {
                 status: 'processPayment'
             };
         case INTERACT_PAYMENT:
+            return {
+                ...state,
+                status: 'interacted',
+                interactionData: action.payload
+            };
+        case INTERACT_TERMINAL_PAYMENT:
             return {
                 ...state,
                 status: 'interacted',
