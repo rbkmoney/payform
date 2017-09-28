@@ -20,26 +20,6 @@ class PaymentMethodChanger extends Component {
         });
     }
 
-    //TODO: Решить вопрос по логике с провайдерами. Если в случае карты мне достаточно смотреть на метод,
-    //то в случае с терминалами нужно смотреть именно провайдеров.
-
-    getMethod(method) {
-        switch (method.method) {
-            case 'BankCard':
-                return {
-                    name: 'Card',
-                    form: 'cardForm',
-                    method: 'BankCard'
-                };
-            case 'PaymentTerminal':
-                return {
-                    name: 'Euroset',
-                    form: 'eurosetForm',
-                    method: 'PaymentTerminal'
-                }
-        }
-    }
-
     renderMethods(method, index, arr) {
         const locale = this.props.locale;
         const activeIndex = arr.findIndex((item) => item.form === this.props.viewData.activeForm);
@@ -59,11 +39,11 @@ class PaymentMethodChanger extends Component {
     }
 
     render() {
+        console.log(this.props);
         if (this.props.paymentCapabilities.capabilities.length > 1) {
             return (
                 <ul className="payment-method-changer">
-                    {this.props.paymentCapabilities.capabilities.map(this.getMethod)
-                    .map(this.renderMethods)}
+                    {this.props.paymentCapabilities.capabilities.map(this.renderMethods)}
                 </ul>
             );
         } else {
