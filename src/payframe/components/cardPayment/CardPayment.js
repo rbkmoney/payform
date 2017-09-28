@@ -12,10 +12,17 @@ import createInvoiceWithTemplate from './createInvoiceWithTemplate';
 class CardPayment extends React.Component {
 
     componentDidMount() {
-        if (this.props.paymentCapabilities.capabilities.find((item) => item.name === 'card').methods.find((item) => item === 'applePay')) {
-            this.props.actions.viewDataActions.setActiveForm({activeForm: 'applePayForm', paymentMethod: 'BankCard'});
+        const card = this.props.paymentCapabilities.capabilities.find((capability) => capability.name === 'card');
+        if (card.methods.find((method) => method === 'applePay')) {
+            this.props.actions.viewDataActions.setActiveForm({
+                activeForm: 'applePayForm',
+                paymentMethod: 'BankCard'
+            });
         } else {
-            this.props.actions.viewDataActions.setActiveForm({activeForm: 'cardForm', paymentMethod: 'BankCard'});
+            this.props.actions.viewDataActions.setActiveForm({
+                activeForm: 'cardForm',
+                paymentMethod: 'BankCard'
+            });
         }
     }
 

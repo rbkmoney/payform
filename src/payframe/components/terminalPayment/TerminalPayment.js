@@ -41,7 +41,6 @@ function mapStateToProps(state) {
         integration: state.integration,
         viewData: state.viewData,
         payment: state.payment,
-        //paymentCapabilities: state.paymentCapabilities
     };
 }
 
@@ -51,7 +50,6 @@ function mapDispatchToProps(dispatch) {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             paymentActions: bindActionCreators(paymentActions, dispatch),
-            //errorActions: bindActionCreators(errorActions, dispatch)
         }
     };
 }

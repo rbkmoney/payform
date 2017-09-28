@@ -28,13 +28,13 @@ class PaymentMethodChanger extends Component {
         switch (method) {
             case 'bankCard':
                 return {
-                    name: 'Card',
+                    dictionaryKey: 'method.changer.card',
                     activeForm: 'cardForm',
                     paymentMethod: 'BankCard'
                 };
             case 'euroset':
                 return {
-                    name: 'Euroset',
+                    dictionaryKey: 'method.changer.euroset',
                     activeForm: 'eurosetForm',
                     paymentMethod: 'PaymentTerminal'
                 };
@@ -62,7 +62,7 @@ class PaymentMethodChanger extends Component {
                 '_prev': isPrev,
                 '_next': isNext
             })} onClick={this.makeActive.bind(this, createdMethod)}>
-                {locale[createdMethod.name]}
+                {locale[createdMethod.dictionaryKey]}
             </li>
         );
     }
