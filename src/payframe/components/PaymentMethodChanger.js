@@ -11,6 +11,7 @@ class PaymentMethodChanger extends Component {
 
         this.renderMethods = this.renderMethods.bind(this);
         this.makeActive = this.makeActive.bind(this);
+        this.createMethod = this.createMethod.bind(this);
     }
 
     makeActive(method) {
@@ -30,13 +31,15 @@ class PaymentMethodChanger extends Component {
                 return {
                     dictionaryKey: 'method.changer.card',
                     activeForm: 'cardForm',
-                    paymentMethod: 'BankCard'
+                    paymentMethod: 'BankCard',
+                    visible: true
                 };
             case 'euroset':
                 return {
                     dictionaryKey: 'method.changer.euroset',
                     activeForm: 'eurosetForm',
-                    paymentMethod: 'PaymentTerminal'
+                    paymentMethod: 'PaymentTerminal',
+                    visible: this.props.initParams.terminals
                 };
             default:
                 return false;
@@ -45,11 +48,12 @@ class PaymentMethodChanger extends Component {
 
     renderMethods(method, index, arr) {
         const createdMethod = this.createMethod(method);
-
         if (!createdMethod) {
             return false;
         }
-
+        if (!createdMethod.visible) {
+            return false;
+        }
         const locale = this.props.locale;
         const activeIndex = arr.findIndex((item) => item.activeForm === this.props.viewData.activeForm);
         const isActive = createdMethod.activeForm === this.props.viewData.activeForm;
@@ -68,7 +72,9 @@ class PaymentMethodChanger extends Component {
     }
 
     render() {
-        if (this.props.paymentCapabilities.capabilities.length > 1) {
+        const methods = this.props.paymentCapabilities.capabilities.reduce(this.getMethods, []).map(this.createMethod);
+        const visibleMethods = methods.filter((method) => method.visible);
+        if (visibleMethods.length > 1) {
             return (
                 <ul className="payment-method-changer">
                     {this.props.paymentCapabilities.capabilities.reduce(this.getMethods, []).map(this.renderMethods)}
@@ -84,7 +90,8 @@ function mapStateToProps(state) {
     return {
         viewData: state.viewData,
         paymentCapabilities: state.paymentCapabilities,
-        locale: state.locale
+        locale: state.locale,
+        initParams: state.initParams
     };
 }
 
