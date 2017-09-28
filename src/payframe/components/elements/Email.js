@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setEmailVal } from '../../../actions/viewDataActions';
+import { setEmailVal } from '../../actions/viewDataActions';
 import { focusClass, errorClass } from './cssClasses';
 
 class Email extends React.Component {

@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setAmountVal } from '../../../actions/viewDataActions';
+import { setAmountVal } from '../../actions/viewDataActions';
 import cx from 'classnames';
 import { focusClass, errorClass } from './cssClasses';
-import formatCurrency from '../../../../utils/formatCurrency';
+import formatCurrency from '../../../utils/formatCurrency';
 import currencyFormatter from 'currency-formatter';
-import isIE from '../../../../utils/isIE';
+import isIE from '../../../utils/isIE';
 import getPlaceholderClass from './getPlaceholderClass';
 
 class Amount extends React.Component {

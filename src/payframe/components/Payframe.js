@@ -34,6 +34,8 @@ class Payframe extends React.Component {
                     invoiceID: this.props.initParams.invoiceID,
                     accessToken: this.props.initParams.invoiceAccessToken
                 });
+                this.props.actions.paymentCapabilitiesActions.setPaymentCapabilities(this.props);
+
                 break;
             case 'template':
                 this.props.actions.invoiceTemplateActions.getInvoiceTemplate({
@@ -41,6 +43,7 @@ class Payframe extends React.Component {
                     invoiceTemplateID: this.props.initParams.invoiceTemplateID,
                     accessToken: this.props.initParams.invoiceTemplateAccessToken
                 });
+                this.props.actions.paymentCapabilitiesActions.setTemplatePaymentCapabilities(this.props);
                 break;
         }
     }

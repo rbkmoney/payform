@@ -2,6 +2,7 @@ import {
     START,
     FINISH,
     INTERACT_PAYMENT,
+    INTERACT_TERMINAL_PAYMENT,
     PROCESS_INVOICE_TEMPLATE,
     PROCESS_PAYMENT,
     RESET,
@@ -26,6 +27,13 @@ function interactPayment(interactionData) {
         type: INTERACT_PAYMENT,
         payload: interactionData
     };
+}
+
+function interactTerminalPayment(interactionData) {
+    return {
+        type: INTERACT_TERMINAL_PAYMENT,
+        payload: interactionData
+    }
 }
 
 function resumePayment() {
@@ -64,6 +72,7 @@ export {
     processPayment,
     processInvoiceTemplate,
     interactPayment,
+    interactTerminalPayment,
     resumePayment,
     setPaymentError,
     reset,

@@ -111,7 +111,6 @@
         height: auto;
         min-height: 100%;
         background-color: $gray2;
-        border-top: 1px solid $gray6;
         flex-shrink: 1;
 
         @include responsive(sm) {

@@ -11,8 +11,8 @@ class GoToCard extends React.Component {
     }
 
     goToCard() {
-        this.props.actions.viewDataActions.setActiveForm('cardForm');
-        this.props.actions.viewDataActions.setPreviousForm('applePayForm');
+        this.props.actions.viewDataActions.setActiveForm({activeForm: 'cardForm', paymentMethod: 'BankCard'});
+        this.props.actions.viewDataActions.setPreviousForm({activeForm: 'applePayForm', paymentMethod: 'BankCard'});
     }
 
     render() {

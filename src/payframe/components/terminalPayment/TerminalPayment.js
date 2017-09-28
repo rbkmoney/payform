@@ -1,31 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import * as viewDataActions from '../../actions/viewDataActions';
-import * as paymentActions from '../../actions/paymentActions';
 import * as invoiceActions from '../../actions/invoiceActions';
-import * as errorActions from '../../actions/errorActions';
-import CardForm from './cardForm/CardForm';
-import ApplePayForm from './applePayForm/ApplePayForm';
+import * as paymentActions from '../../actions/paymentActions';
+import EurosetForm from './eurosetForm/EurosetForm';
 import createInvoiceWithTemplate from './createInvoiceWithTemplate';
 
-class CardPayment extends React.Component {
-
-    componentDidMount() {
-        const card = this.props.paymentCapabilities.capabilities.find((capability) => capability.name === 'card');
-        if (card.methods.find((method) => method === 'applePay')) {
-            this.props.actions.viewDataActions.setActiveForm({
-                activeForm: 'applePayForm',
-                paymentMethod: 'BankCard'
-            });
-        } else {
-            this.props.actions.viewDataActions.setActiveForm({
-                activeForm: 'cardForm',
-                paymentMethod: 'BankCard'
-            });
-        }
-    }
-
+class TerminalPayment extends Component {
     componentWillReceiveProps(nextProps) {
         switch (nextProps.payment.status) {
             case 'processInvoiceTemplate': {
@@ -40,13 +23,11 @@ class CardPayment extends React.Component {
 
     render() {
         const activeForm = this.props.viewData.activeForm;
-        return (
+
+        return(
             <div>
                 {
-                    activeForm === 'applePayForm' ? <ApplePayForm/> : false
-                }
-                {
-                    activeForm === 'cardForm' ? <CardForm/> : false
+                    activeForm === 'eurosetForm' ? <EurosetForm/> : false
                 }
             </div>
         );
@@ -60,7 +41,6 @@ function mapStateToProps(state) {
         integration: state.integration,
         viewData: state.viewData,
         payment: state.payment,
-        paymentCapabilities: state.paymentCapabilities
     };
 }
 
@@ -70,9 +50,8 @@ function mapDispatchToProps(dispatch) {
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             paymentActions: bindActionCreators(paymentActions, dispatch),
-            errorActions: bindActionCreators(errorActions, dispatch)
         }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardPayment);
+export default connect(mapStateToProps, mapDispatchToProps)(TerminalPayment);

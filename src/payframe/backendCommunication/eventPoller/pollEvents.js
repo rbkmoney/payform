@@ -30,7 +30,7 @@ function prepareResult(type, change) {
     } else if (type === 'interact') {
         result = {
             type,
-            data: change.userInteraction.request
+            data: change.userInteraction
         };
     }
     return result;

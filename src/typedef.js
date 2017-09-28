@@ -41,6 +41,10 @@
  */
 
 /**
+ * @typedef {Object} InvoicePaymentMethods
+ */
+
+/**
  * @typedef {Object} InvoiceTemplate
  */
 

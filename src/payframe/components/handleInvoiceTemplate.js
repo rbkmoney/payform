@@ -1,5 +1,5 @@
 /**
- * @param {Object} props - CardPayment component props
+ * @param {Object} props - Modal component props
  */
 function handleInvoiceTemplate(props) {
     const actions = props.actions.viewDataActions;
