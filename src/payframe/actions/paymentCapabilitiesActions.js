@@ -13,9 +13,13 @@ function setApplePayCapability(applePayMerchantID, testFlag) {
     };
 }
 
-function setPaymentCapabilities(params) {
+function setPaymentCapabilities(props) {
     return (dispatch) => {
-        getInvoicePaymentMethods(params).then((capabilities) => {
+        getInvoicePaymentMethods({
+            capiEndpoint: props.appConfig.capiEndpoint,
+            invoiceID: props.initParams.invoiceID,
+            accessToken: props.initParams.invoiceAccessToken
+        }).then((capabilities) => {
             dispatch({
                 type: SET_PAYMENT_CAPABILITIES,
                 payload: convert(capabilities)
@@ -25,34 +29,25 @@ function setPaymentCapabilities(params) {
 }
 
 
-function toBankCard() {
-    return [{
-        name: 'Card',
-        form: 'cardForm',
-        method: 'BankCard'
-    }];
-}
+//function toBankCard() {
+//    return [{
+//        name: 'card',
+//        methods: ['bankCard']
+//    }];
+//}
 
 function toTerminals(method) {
-    return method.providers.map((provider) => {
-        switch (provider) {
-            case 'euroset':
-                return {
-                    name: 'Euroset',
-                    form: 'eurosetForm',
-                    method: 'PaymentTerminal'
-                };
-            default:
-                break;
-        }
-    });
+    return [{
+        name: 'terminal',
+        methods: method.providers
+    }];
 }
 
 function convert(capabilities) {
      return capabilities.reduce((acc, current) => {
         switch (current.method) {
             case 'BankCard':
-                return acc.concat(toBankCard(current));
+                return acc;
             case 'PaymentTerminal':
                 return acc.concat(toTerminals(current));
             default:
