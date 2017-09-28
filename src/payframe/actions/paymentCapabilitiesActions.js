@@ -18,20 +18,57 @@ function setPaymentCapabilities(params) {
         getInvoicePaymentMethods(params).then((capabilities) => {
             dispatch({
                 type: SET_PAYMENT_CAPABILITIES,
-                payload: capabilities
+                payload: convert(capabilities)
             });
         });
     }
+}
+
+
+function toBankCard() {
+    return [{
+        name: 'Card',
+        form: 'cardForm',
+        method: 'BankCard'
+    }];
+}
+
+function toTerminals(method) {
+    return method.providers.map((provider) => {
+        switch (provider) {
+            case 'euroset':
+                return {
+                    name: 'Euroset',
+                    form: 'eurosetForm',
+                    method: 'PaymentTerminal'
+                };
+            default:
+                break;
+        }
+    });
+}
+
+function convert(capabilities) {
+     return capabilities.reduce((acc, current) => {
+        switch (current.method) {
+            case 'BankCard':
+                return acc.concat(toBankCard(current));
+            case 'PaymentTerminal':
+                return acc.concat(toTerminals(current));
+            default:
+                break;
+        }
+    }, []);
 }
 
 function setTemplatePaymentCapabilities() {
     return (dispatch) => {
         dispatch({
             type: SET_PAYMENT_CAPABILITIES,
-            payload: [
-                {method: 'BankCard', paymentSystems: 'visa'},
+            payload: convert([
+                {method: 'BankCard', paymentSystems: ['visa']},
                 {method: 'PaymentTerminal', providers: ['euroset']}
-            ]
+            ])
         });
     }
 }
