@@ -28,14 +28,6 @@ function setPaymentCapabilities(props) {
     }
 }
 
-
-//function toBankCard() {
-//    return [{
-//        name: 'card',
-//        methods: ['bankCard']
-//    }];
-//}
-
 function toTerminals(method) {
     return [{
         name: 'terminal',
