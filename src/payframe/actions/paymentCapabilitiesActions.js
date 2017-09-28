@@ -61,8 +61,7 @@ function setTemplatePaymentCapabilities() {
         dispatch({
             type: SET_PAYMENT_CAPABILITIES,
             payload: convert([
-                {method: 'BankCard', paymentSystems: ['visa']},
-                {method: 'PaymentTerminal', providers: ['euroset']}
+                {method: 'BankCard', paymentSystems: ['visa']}
             ])
         });
     }
