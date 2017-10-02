@@ -9,6 +9,10 @@ class PaymentMethodChanger extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            activeMethodName: 'bankCard'
+        };
+
         this.renderMethods = this.renderMethods.bind(this);
         this.makeActive = this.makeActive.bind(this);
         this.createMethod = this.createMethod.bind(this);
@@ -18,6 +22,10 @@ class PaymentMethodChanger extends Component {
         this.props.actions.viewDataActions.setActiveForm({
             paymentMethod: method.paymentMethod,
             activeForm: method.activeForm
+        });
+
+        this.setState({
+            activeMethodName: method.methodName
         });
     }
 
@@ -29,6 +37,7 @@ class PaymentMethodChanger extends Component {
         switch (method) {
             case 'bankCard':
                 return {
+                    methodName: method,
                     dictionaryKey: 'method.changer.card',
                     activeForm: 'cardForm',
                     paymentMethod: 'BankCard',
@@ -36,6 +45,7 @@ class PaymentMethodChanger extends Component {
                 };
             case 'euroset':
                 return {
+                    methodName: method,
                     dictionaryKey: 'method.changer.euroset',
                     activeForm: 'eurosetForm',
                     paymentMethod: 'PaymentTerminal',
@@ -55,13 +65,13 @@ class PaymentMethodChanger extends Component {
             return false;
         }
         const locale = this.props.locale;
-        const activeIndex = arr.findIndex((item) => item.activeForm === this.props.viewData.activeForm);
         const isActive = createdMethod.activeForm === this.props.viewData.activeForm;
-        const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1].activeForm === createdMethod.activeForm : false;
-        const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1].activeForm === createdMethod.activeForm : false;
+        const activeIndex = arr.findIndex((item) => item === this.state.activeMethodName);
+        const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1] === createdMethod.methodName : false;
+        const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1] === createdMethod.methodName : false;
 
         return (
-            <li key={createdMethod.activeForm} className={cx('payment-method-changer__item', {
+            <li key={createdMethod.activeForm} id={createdMethod.paymentMethod} className={cx('payment-method-changer__item', {
                 '_active': isActive,
                 '_prev': isPrev,
                 '_next': isNext
