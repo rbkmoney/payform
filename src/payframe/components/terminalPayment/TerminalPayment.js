@@ -11,10 +11,7 @@ import createInvoiceWithTemplate from './createInvoiceWithTemplate';
 class TerminalPayment extends Component {
 
     componentDidMount() {
-        this.props.actions.viewDataActions.setActiveForm({
-            activeForm: 'eurosetForm',
-            paymentMethod: 'PaymentTerminal'
-        });
+        this.props.actions.viewDataActions.setActiveForm('eurosetForm');
     }
 
     componentWillReceiveProps(nextProps) {

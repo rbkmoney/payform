@@ -13,6 +13,10 @@ class PaymentMethodChanger extends Component {
         this.setActive = this.setActive.bind(this);
     }
 
+    componentDidMount() {
+        this.props.actions.viewDataActions.setPaymentMethod('BankCard');
+    }
+
     toMethodChangerItems() {
         return this.props.paymentCapabilities.capabilities.map((capability) => {
             switch (capability.name) {
@@ -38,7 +42,7 @@ class PaymentMethodChanger extends Component {
     renderTab(changerItem, index, items) {
         const setPaymentMethod = this.props.actions.viewDataActions.setPaymentMethod;
         return (
-            <li key={changerItem.name} id={changerItem.name}
+            <li key={changerItem.name}
                 className={cx('payment-method-changer__item', {
                     '_active': changerItem.active,
                     '_prev': items[index + 1] ? items[index + 1].active : false,

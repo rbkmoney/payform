@@ -56,11 +56,10 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
     switch (action.type) {
-        case SET_ACTIVE_FORM: // TODO fix it
+        case SET_ACTIVE_FORM:
             return {
                 ...state,
-                activeForm: action.payload.activeForm,
-                paymentMethod: action.payload.paymentMethod
+                activeForm: action.payload
             };
         case SET_PAYMENT_METHOD:
             return {
