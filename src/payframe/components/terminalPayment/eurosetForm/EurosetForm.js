@@ -26,6 +26,8 @@ class EurosetForm extends Component {
 
     componentDidMount() {
         this.props.actions.viewDataActions.setCardSetRequired(false);
+        this.props.actions.viewDataActions.resetValidation();
+        this.props.actions.paymentActions.reset();
     }
 
     componentWillReceiveProps(nextProps) {

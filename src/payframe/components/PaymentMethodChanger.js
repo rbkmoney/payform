@@ -6,88 +6,60 @@ import cx from 'classnames';
 import * as viewDataActions from '../actions/viewDataActions';
 
 class PaymentMethodChanger extends Component {
+
     constructor(props) {
         super(props);
-
-        this.state = {
-            activeMethodName: 'bankCard'
-        };
-
-        this.renderMethods = this.renderMethods.bind(this);
-        this.makeActive = this.makeActive.bind(this);
-        this.createMethod = this.createMethod.bind(this);
+        this.renderTab = this.renderTab.bind(this);
+        this.setActive = this.setActive.bind(this);
     }
 
-    makeActive(method) {
-        this.props.actions.viewDataActions.setActiveForm({
-            paymentMethod: method.paymentMethod,
-            activeForm: method.activeForm
+    toMethodChangerItems() {
+        return this.props.paymentCapabilities.capabilities.map((capability) => {
+            switch (capability.name) {
+                case 'card':
+                    return {
+                        name: 'BankCard',
+                        dictionaryKey: 'method.changer.card',
+                        visible: true,
+                        active: false
+                    };
+                case 'terminal': {
+                    return {
+                        name: 'PaymentTerminal',
+                        dictionaryKey: 'method.changer.euroset',
+                        visible: this.props.initParams.terminals,
+                        active: false
+                    };
+                }
+            }
         });
-
-        this.setState({
-            activeMethodName: method.methodName
-        });
     }
 
-    getMethods(acc, current) {
-        return acc.concat(current.methods);
-    }
-
-    createMethod(method) {
-        switch (method) {
-            case 'bankCard':
-                return {
-                    methodName: method,
-                    dictionaryKey: 'method.changer.card',
-                    activeForm: 'cardForm',
-                    paymentMethod: 'BankCard',
-                    visible: true
-                };
-            case 'euroset':
-                return {
-                    methodName: method,
-                    dictionaryKey: 'method.changer.euroset',
-                    activeForm: 'eurosetForm',
-                    paymentMethod: 'PaymentTerminal',
-                    visible: this.props.initParams.terminals
-                };
-            default:
-                return false;
-        }
-    }
-
-    renderMethods(method, index, arr) {
-        const createdMethod = this.createMethod(method);
-        if (!createdMethod) {
-            return false;
-        }
-        if (!createdMethod.visible) {
-            return false;
-        }
-        const locale = this.props.locale;
-        const isActive = createdMethod.activeForm === this.props.viewData.activeForm;
-        const activeIndex = arr.findIndex((item) => item === this.state.activeMethodName);
-        const isPrev = arr[activeIndex - 1] ? arr[activeIndex - 1] === createdMethod.methodName : false;
-        const isNext = arr[activeIndex + 1] ? arr[activeIndex + 1] === createdMethod.methodName : false;
-
+    renderTab(changerItem, index, items) {
+        const setPaymentMethod = this.props.actions.viewDataActions.setPaymentMethod;
         return (
-            <li key={createdMethod.activeForm} id={createdMethod.paymentMethod} className={cx('payment-method-changer__item', {
-                '_active': isActive,
-                '_prev': isPrev,
-                '_next': isNext
-            })} onClick={this.makeActive.bind(this, createdMethod)}>
-                {locale[createdMethod.dictionaryKey]}
+            <li key={changerItem.name} id={changerItem.name}
+                className={cx('payment-method-changer__item', {
+                    '_active': changerItem.active,
+                    '_prev': (index !== items.length - 1) ? items[index + 1].active : false,
+                    '_next': (index !== 0) ? items[index - 1].active : false
+                })} onClick={setPaymentMethod.bind(this, changerItem.name)}>
+                {this.props.locale[changerItem.dictionaryKey]}
             </li>
         );
     }
 
+    setActive(changerItem) {
+        changerItem.active = changerItem.name === this.props.viewData.paymentMethod;
+        return changerItem;
+    }
+
     render() {
-        const methods = this.props.paymentCapabilities.capabilities.reduce(this.getMethods, []).map(this.createMethod);
-        const visibleMethods = methods.filter((method) => method.visible);
-        if (visibleMethods.length > 1) {
+        const visibleItems = this.toMethodChangerItems().filter((method) => method.visible);
+        if (visibleItems.length > 1) {
             return (
                 <ul className="payment-method-changer">
-                    {this.props.paymentCapabilities.capabilities.reduce(this.getMethods, []).map(this.renderMethods)}
+                    {visibleItems.map(this.setActive).map(this.renderTab)}
                 </ul>
             );
         } else {
