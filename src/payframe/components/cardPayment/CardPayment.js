@@ -14,15 +14,9 @@ class CardPayment extends React.Component {
     componentDidMount() {
         const card = this.props.paymentCapabilities.capabilities.find((capability) => capability.name === 'card');
         if (card.methods.find((method) => method === 'applePay')) {
-            this.props.actions.viewDataActions.setActiveForm({
-                activeForm: 'applePayForm',
-                paymentMethod: 'BankCard'
-            });
+            this.props.actions.viewDataActions.setActiveForm('applePayForm');
         } else {
-            this.props.actions.viewDataActions.setActiveForm({
-                activeForm: 'cardForm',
-                paymentMethod: 'BankCard'
-            });
+            this.props.actions.viewDataActions.setActiveForm('cardForm');
         }
     }
 

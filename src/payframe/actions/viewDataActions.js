@@ -14,7 +14,9 @@ import {
     SET_AMOUNT_REQUIRED,
     SET_EMAIL_REQUIRED,
     SET_CARD_SET_REQUIRED,
-    SET_ACTIVE_FORM, SET_PREVIOUS_FORM,
+    SET_ACTIVE_FORM,
+    SET_PAYMENT_METHOD,
+    SET_PREVIOUS_FORM,
     RESET_VALIDATION
 } from '../constants/viewData';
 import CardUtils from '../../utils/card-utils/CardUtils';
@@ -28,10 +30,17 @@ function updateContainerSize(size) {
     };
 }
 
-function setActiveForm(form) {
+function setActiveForm(formName) {
     return {
         type: SET_ACTIVE_FORM,
-        payload: form
+        payload: formName
+    }
+}
+
+function setPaymentMethod(methodName) {
+    return {
+        type: SET_PAYMENT_METHOD,
+        payload: methodName
     }
 }
 
@@ -238,6 +247,7 @@ export {
     setEmailRequired,
     setCardSetRequired,
     setActiveForm,
+    setPaymentMethod,
     setPreviousForm,
     validateForm,
     resetValidation
