@@ -41,8 +41,8 @@ class PaymentMethodChanger extends Component {
             <li key={changerItem.name} id={changerItem.name}
                 className={cx('payment-method-changer__item', {
                     '_active': changerItem.active,
-                    '_prev': (index !== items.length - 1) ? items[index + 1].active : false,
-                    '_next': (index !== 0) ? items[index - 1].active : false
+                    '_prev': items[index + 1] ? items[index + 1].active : false,
+                    '_next': items[index - 1] ? items[index - 1].active : false
                 })} onClick={setPaymentMethod.bind(this, changerItem.name)}>
                 {this.props.locale[changerItem.dictionaryKey]}
             </li>
