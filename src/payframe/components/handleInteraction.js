@@ -12,17 +12,11 @@ function handleInteraction(props) {
         if (event.type === 'interact') {
             switch (event.data.interactionType) {
                 case 'PaymentTerminalReceipt':
-                    props.actions.viewDataActions.setActiveForm({
-                        activeForm: 'eurosetForm',
-                        paymentMethod: 'PaymentTerminal'
-                    });
+                    props.actions.viewDataActions.setActiveForm('eurosetForm');
                     props.actions.paymentActions.interactTerminalPayment(event.data);
                     break;
                 case 'Redirect':
-                    props.actions.viewDataActions.setActiveForm({
-                        activeForm: 'cardForm',
-                        paymentMethod: 'BankCard'
-                    });
+                    props.actions.viewDataActions.setActiveForm('cardForm');
                     props.actions.paymentActions.interactPayment(event.data);
                     props.actions.viewDataActions.updateContainerSize('large');
                     break;

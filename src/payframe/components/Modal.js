@@ -16,10 +16,7 @@ import handleInvoiceTemplate from './handleInvoiceTemplate';
 
 class Modal extends React.Component {
     componentDidMount() {
-        this.props.actions.viewDataActions.setActiveForm({
-            paymentMethod: 'BankCard',
-            activeForm: 'cardForm'
-        });
+        this.props.actions.viewDataActions.setActiveForm('cardForm');
 
         switch (this.props.integration.type) {
             case 'default':

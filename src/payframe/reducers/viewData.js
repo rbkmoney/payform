@@ -17,7 +17,8 @@ import {
     SET_CARD_SET_REQUIRED,
     SET_ACTIVE_FORM,
     SET_PREVIOUS_FORM,
-    RESET_VALIDATION
+    RESET_VALIDATION,
+    SET_PAYMENT_METHOD
 } from '../constants/viewData';
 
 const defaultState = {
@@ -58,8 +59,12 @@ export default function (state = defaultState, action) {
         case SET_ACTIVE_FORM:
             return {
                 ...state,
-                activeForm: action.payload.activeForm,
-                paymentMethod: action.payload.paymentMethod
+                activeForm: action.payload
+            };
+        case SET_PAYMENT_METHOD:
+            return {
+                ...state,
+                paymentMethod: action.payload
             };
         case SET_PREVIOUS_FORM:
             return {
