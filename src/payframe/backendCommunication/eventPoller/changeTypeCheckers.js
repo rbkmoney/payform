@@ -26,6 +26,26 @@ function isPaymentInteractionRequested(change) {
     return change.changeType === 'PaymentInteractionRequested';
 }
 
+function isCustomerBindingStarted(change) {
+    return change.changeType === 'CustomerBindingStarted';
+}
+
+function isCustomerBindingCreated(change) {
+    return change.changeType === 'CustomerBindingStatusChanged' && change.status === 'created';
+}
+
+function isCustomerBindingSucceed(change) {
+    return change.changeType === 'CustomerBindingStatusChanged' && change.status === 'succeeded';
+}
+
+function isCustomerBindingFailed(change) {
+    return change.changeType === 'CustomerBindingStatusChanged' && change.status === 'failed';
+}
+
+function isCustomerBindingInteractionRequested(change) {
+    return change.changeType === 'CustomerBindingInteractionRequested';
+}
+
 export {
     isInvoiceUnpaid,
     isInvoicePaid,
@@ -33,5 +53,10 @@ export {
     isInvoiceCancelled,
     isPaymentFailed,
     isPaymentProcessed,
-    isPaymentInteractionRequested
+    isPaymentInteractionRequested,
+    isCustomerBindingStarted,
+    isCustomerBindingCreated,
+    isCustomerBindingSucceed,
+    isCustomerBindingFailed,
+    isCustomerBindingInteractionRequested
 };

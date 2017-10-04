@@ -9,6 +9,7 @@
     "button.back": "Back",
     "button.init": "Pay with RBKmoney",
     "button.pay.label": "Pay",
+    "button.subscribe.label": "Subscribe",
     "form.apple.pay.go.to.card.separator": "or",
     "form.apple.pay.go.to.card.link": "Pay with Card",
     "receipt.number": "Receipt number for pay",

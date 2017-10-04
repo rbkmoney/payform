@@ -9,6 +9,7 @@
     "button.back": "Назад",
     "button.init": "Оплатить с помощью RBKmoney",
     "button.pay.label": "Оплатить",
+    "button.subscribe.label": "Подписаться",
     "form.apple.pay.go.to.card.separator": "или",
     "form.apple.pay.go.to.card.link": "Оплатить картой",
     "receipt.number": "Номер счета для оплаты",

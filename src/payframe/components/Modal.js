@@ -13,6 +13,7 @@ import TerminalPayment from './terminalPayment/TerminalPayment';
 import PaymentMethodChanger from './PaymentMethodChanger';
 import handleInteraction from './handleInteraction';
 import handleInvoiceTemplate from './handleInvoiceTemplate';
+import handleCustomerInteraction from './handleCustomerInteraction';
 
 class Modal extends React.Component {
     componentDidMount() {
@@ -24,6 +25,9 @@ class Modal extends React.Component {
                 break;
             case 'template':
                 handleInvoiceTemplate(this.props);
+                break;
+            case 'customer':
+                handleCustomerInteraction(this.props);
                 break;
         }
     }
