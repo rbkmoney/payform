@@ -1,6 +1,7 @@
 import { SET_APPLE_PAY_CAPABILITY, SET_PAYMENT_CAPABILITIES } from '../constants/paymentCapabilities';
 import checkCapability from '../applePay/checkCapability';
 import getInvoicePaymentMethods from '../backendCommunication/getInvoicePaymentMethods';
+import getInvoiceTemplatePaymentMethods from '../backendCommunication/getInvoiceTemplatePaymentMethods';
 
 function setApplePayCapability(applePayMerchantID, testFlag) {
     return (dispatch) => {
@@ -48,13 +49,17 @@ function convert(capabilities) {
     }, []);
 }
 
-function setTemplatePaymentCapabilities() {
+function setTemplatePaymentCapabilities(props) {
     return (dispatch) => {
-        dispatch({
-            type: SET_PAYMENT_CAPABILITIES,
-            payload: convert([
-                {method: 'BankCard', paymentSystems: ['visa']}
-            ])
+        getInvoiceTemplatePaymentMethods({
+            capiEndpoint: props.appConfig.capiEndpoint,
+            invoiceTemplateID: props.initParams.invoiceTemplateID,
+            accessToken: props.initParams.invoiceTemplateAccessToken
+        }).then((capabilities) => {
+            dispatch({
+                type: SET_PAYMENT_CAPABILITIES,
+                payload: convert(capabilities)
+            });
         });
     }
 }
