@@ -42,11 +42,14 @@ function getPaymentFlow(initParams) {
 function propsToPaymentParams(props, payload) {
     return {
         flow: getPaymentFlow(props.initParams),
-        contactInfo: {
-            email: props.viewData.cardForm.email.value
-        },
-        paymentToolToken: payload.token,
-        paymentSession: payload.session
+        payer: {
+            payerType: 'PaymentResourcePayer',
+            paymentToolToken: payload.paymentToolToken,
+            paymentSession: payload.paymentSession,
+            contactInfo: {
+                email: props.viewData.cardForm.email.value
+            },
+        }
     };
 }
 
@@ -63,16 +66,16 @@ function processCardPayment(props) {
             const invoiceID = props.integration.invoice.id;
             return createPaymentToolToken({
                 capiEndpoint,
-                invoiceAccessToken,
+                accessToken: invoiceAccessToken,
                 paymentTool: propsToCardData(props)
             }).then((payload) => createPayment({
                 capiEndpoint,
-                invoiceAccessToken,
+                accessToken: invoiceAccessToken,
                 invoiceID,
                 paymentParams: propsToPaymentParams(props, payload)
             }).then(() => pollEvents({
                 capiEndpoint,
-                invoiceAccessToken,
+                accessToken: invoiceAccessToken,
                 invoiceID
             })));
         }
@@ -81,18 +84,19 @@ function processCardPayment(props) {
             const customerID = props.integration.customer.id;
             return createPaymentToolToken({
                 capiEndpoint,
-                customerAccessToken,
+                accessToken: customerAccessToken,
                 paymentTool: propsToCardData(props)
             }).then((payload) => createBinding({
                 capiEndpoint,
-                customerAccessToken,
+                customerID,
+                accessToken: customerAccessToken,
                 paymentResource: {
-                    paymentToolToken: payload.token,
-                    paymentSession: payload.session
+                    paymentToolToken: payload.paymentToolToken,
+                    paymentSession: payload.paymentSession
                 }
             }).then(() => pollCustomerEvents({
                 capiEndpoint,
-                customerAccessToken,
+                accessToken: customerAccessToken,
                 customerID
             })));
         }

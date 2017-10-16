@@ -28,11 +28,14 @@ function getPaymentFlow(initParams) {
 function propsToPaymentParams(props, payload) {
     return {
         flow: getPaymentFlow(props.initParams),
-        contactInfo: {
-            email: props.viewData.cardForm.email.value
-        },
-        paymentToolToken: payload.token,
-        paymentSession: payload.session
+        payer: {
+            payerType: 'PaymentResourcePayer',
+            paymentToolToken: payload.paymentToolToken,
+            paymentSession: payload.paymentSession,
+            contactInfo: {
+                email: props.viewData.cardForm.email.value
+            },
+        }
     };
 }
 
@@ -59,7 +62,7 @@ function processApplePayPayment(props) {
                 }
             }).then((payload) => createPayment({
                 capiEndpoint,
-                invoiceAccessToken,
+                accessToken: invoiceAccessToken,
                 invoiceID,
                 paymentParams: propsToPaymentParams(props, payload)
             }).then(() => pollEvents({
@@ -82,14 +85,14 @@ function processApplePayPayment(props) {
                 }
             }).then((payload) => createBinding({
                 capiEndpoint,
-                customerAccessToken,
+                accessToken: customerAccessToken,
                 paymentResource: {
-                    paymentToolToken: payload.token,
-                    paymentSession: payload.session
+                    paymentToolToken: payload.paymentToolToken,
+                    paymentSession: payload.paymentSession
                 }
             }).then(() => pollCustomerEvents({
                 capiEndpoint,
-                customerAccessToken,
+                accessToken: customerAccessToken,
                 customerID
             })));
         }

@@ -12,8 +12,8 @@ function setError(localePath) {
 }
 
 function dispatchCustomer(dispatch, customer, customerAccessToken) {
-    switch (customer.status.status) {
-        case 'ready':
+    switch (customer.status) {
+        case 'unready':
             dispatch({
                 type: SET_CUSTOMER,
                 payload: {
@@ -22,14 +22,13 @@ function dispatchCustomer(dispatch, customer, customerAccessToken) {
                 }
             });
             break;
-        case 'unready':
+        case 'ready':
             dispatch(setError('error.customer.unready'));
             break;
     }
 }
 
 function dispatchError(error, localePath, dispatch) {
-    console.error(error);
     dispatch(setError(localePath));
 }
 
@@ -44,7 +43,7 @@ function getCustomer(param) {
         getCustomerFromCapi({
             capiEndpoint: param.capiEndpoint,
             accessToken: param.accessToken,
-            customerID: param.invoiceID
+            customerID: param.customerID
         }).then((customer) => dispatchCustomer(dispatch, customer, param.accessToken))
             .catch((error) => dispatchError(error, 'error.invoice.getCustomer', dispatch));
     };

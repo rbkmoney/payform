@@ -27,11 +27,14 @@ function getPaymentFlow(initParams) {
 function propsToPaymentParams(props, payload) {
     return {
         flow: getPaymentFlow(props.initParams),
-        contactInfo: {
-            email: props.viewData.cardForm.email.value
-        },
-        paymentToolToken: payload.token,
-        paymentSession: payload.session
+        payer: {
+            payerType: 'PaymentResourcePayer',
+            paymentToolToken: payload.paymentToolToken,
+            paymentSession: payload.paymentSession,
+            contactInfo: {
+                email: props.viewData.cardForm.email.value
+            },
+        }
     };
 }
 

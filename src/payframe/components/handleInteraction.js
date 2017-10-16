@@ -17,7 +17,7 @@ function handleInteraction(props) {
                     break;
                 case 'Redirect':
                     props.actions.viewDataActions.setActiveForm('cardForm');
-                    props.actions.paymentActions.interactPayment(event.data);
+                    props.actions.paymentActions.interactPayment(event.data.request);
                     props.actions.viewDataActions.updateContainerSize('large');
                     break;
                 default:

@@ -8,7 +8,7 @@ import fetchCapi from '../../utils/fetchCapi';
  * @param {PaymentResource} param.paymentResource
  * @return {Promise<CustomerBinding>} customerBinding
  */
-function createPayment(param) {
+function createBinding(param) {
     return fetchCapi({
         endpoint: `${param.capiEndpoint}/v1/processing/customers/${param.customerID}/bindings`,
         accessToken: param.accessToken,
@@ -17,4 +17,4 @@ function createPayment(param) {
     });
 }
 
-export default createPayment;
+export default createBinding;

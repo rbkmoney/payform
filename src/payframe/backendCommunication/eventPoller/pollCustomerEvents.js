@@ -1,6 +1,5 @@
 import getCustomerEvents from './getCustomerEvents';
 import {
-    isCustomerBindingStarted,
     isCustomerBindingCreated,
     isCustomerBindingSucceed,
     isCustomerBindingFailed,
@@ -21,14 +20,15 @@ function getLastElement(elements) {
     return elements && elements.length > 0 ? elements[elements.length - 1] : null;
 }
 
-function prepareResult(type, change) {
+function prepareResult(type, change, eventID) {
     let result;
     if (type === 'started' || type === 'created' || type === 'succeed') {
         result = {type};
     } else if (type === 'interact') {
         result = {
             type,
-            data: change.userInteraction
+            data: change.userInteraction,
+            eventID
         };
     }
     return result;
@@ -41,7 +41,7 @@ function prepareResult(type, change) {
  * @param {string} param.accessToken
  * @return {Promise<EventPollingResult>} eventPollingResult
  */
-function pollEvents(param) {
+function pollCustomerEvents(param) {
     let pollCount = 0;
     return new Promise((resolve, reject) => {
         (function poll(self) {
@@ -50,26 +50,27 @@ function pollEvents(param) {
                     capiEndpoint: param.capiEndpoint,
                     accessToken: param.accessToken,
                     customerID: param.customerID,
+                    eventID: param.eventID,
                     eventLimit
                 }).then((events) => {
                     const event = getLastElement(events);
-                    const change = getLastElement(event.changes);
-                    if (isCustomerBindingStarted(change)) {
-                        resolve(prepareResult('started', change));
-                    } else if (isCustomerBindingCreated(change)) {
-                        resolve(prepareResult('created', change));
-                    } else if (isCustomerBindingSucceed(change)) {
-                        resolve(prepareResult('succeed', change));
-                    } else if (isCustomerBindingFailed(change)) {
-                        reject(change.error);
-                    } else if (isCustomerBindingInteractionRequested(change)) {
-                        resolve(prepareResult('interact', change));
-                    } else {
-                        pollCount++;
-                        if (pollCount >= pollingRetries) {
-                            reject({code: 'error.events.timeout'});
+                    if (event) {
+                        const change = getLastElement(event.changes);
+                        if (isCustomerBindingCreated(change)) {
+                            resolve(prepareResult('created', change));
+                        } else if (isCustomerBindingSucceed(change)) {
+                            resolve(prepareResult('succeed', change));
+                        } else if (isCustomerBindingFailed(change)) {
+                            reject(change.error);
+                        } else if (isCustomerBindingInteractionRequested(change)) {
+                            resolve(prepareResult('interact', change, event.id));
                         } else {
-                            poll(self);
+                            pollCount++;
+                            if (pollCount >= pollingRetries) {
+                                reject({code: 'error.events.timeout'});
+                            } else {
+                                poll(self);
+                            }
                         }
                     }
                 }).catch((error) => reject(error));
@@ -78,4 +79,4 @@ function pollEvents(param) {
     });
 }
 
-export default pollEvents;
+export default pollCustomerEvents;
