@@ -23,7 +23,7 @@ function dispatchCustomer(dispatch, customer, customerAccessToken) {
             });
             break;
         case 'ready':
-            dispatch(setError('error.customer.unready'));
+            dispatch(setError('error.customer.ready'));
             break;
     }
 }

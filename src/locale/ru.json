@@ -30,6 +30,7 @@
     "error.events.timeout": "Превышено время ожидания проведения платежа",
     "error.events.failed": "Ошибка в процессе получения событий инвойса",
     "error.apple.pay.merchant.validation": "Ошибка проверки мерчанта Apple Pay",
+    "error.customer.ready": "Подписка уже оформлена",
     "Insufficient Funds": "Недостаточно средств",
     "Invalid Card": "Недопустимая карта",
     "CVV Match Fail": "Ошибка проверки CVV кода",
