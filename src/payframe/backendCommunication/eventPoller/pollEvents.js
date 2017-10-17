@@ -81,6 +81,9 @@ function pollEvents(param) {
                                 poll(self);
                             }
                         }
+                    } else if (!event && param.eventID) {
+                        pollCount++;
+                        poll(self);
                     }
                 }).catch((error) => reject(error));
             }, pollingTimeout);
