@@ -45,14 +45,6 @@ function pollCustomerEvents(param) {
     let pollCount = 0;
     return new Promise((resolve, reject) => {
         (function poll(self) {
-            function next(self, pollCount) {
-                if (pollCount >= pollingRetries) {
-                    reject({code: 'error.events.timeout'});
-                } else {
-                    poll(self);
-                }
-            }
-
             setTimeout(() => {
                 getCustomerEvents({
                     capiEndpoint: param.capiEndpoint,
