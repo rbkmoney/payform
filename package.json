@@ -27,7 +27,8 @@
     "react-transition-group": "~1.1.3",
     "redux": "~3.7.2",
     "redux-thunk": "~2.2.0",
-    "tokenizer": "git+ssh://git@github.com/rbkmoney/tokenizer.js.git#d2fde66738779f2681e0d207d2f111d9bd92eec8",
+    "tokenizer": "git+ssh://git@github.com/rbkmoney/tokenizer.js.git#892793a1cdb035db16de6a067e43bbca2a5215e1",
+    "urijs": "~1.18.2",
     "uri-template": "~1.0.1",
     "url-parse": "~1.1.8",
     "whatwg-fetch": "~1.0.0"

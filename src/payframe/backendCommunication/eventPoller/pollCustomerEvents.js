@@ -1,17 +1,14 @@
-import getInvoiceEvents from './getInvoiceEvents';
+import getCustomerEvents from './getCustomerEvents';
 import {
-    isInvoiceCancelled,
-    isInvoicePaid,
-    isInvoiceUnpaid,
-    isPaymentCancelled,
-    isPaymentFailed,
-    isPaymentInteractionRequested,
-    isPaymentProcessed
+    isCustomerBindingCreated,
+    isCustomerBindingSucceed,
+    isCustomerBindingFailed,
+    isCustomerBindingInteractionRequested
 } from './changeTypeCheckers';
 
 /**
  * @typedef {Object} EventPollingResult
- * @property {string} type=paid,unpaid,processed,interact
+ * @property {string} type=started,created,succeed,interact
  * @property {Object} [data] - Data for provide user interaction
  */
 
@@ -25,7 +22,7 @@ function getLastElement(elements) {
 
 function prepareResult(type, change, eventID) {
     let result;
-    if (type === 'paid' || type === 'unpaid' || type === 'processed') {
+    if (type === 'started' || type === 'created' || type === 'succeed') {
         result = {type};
     } else if (type === 'interact') {
         result = {
@@ -40,39 +37,33 @@ function prepareResult(type, change, eventID) {
 /**
  * @param {Object} param
  * @param {string} param.capiEndpoint
- * @param {string} param.invoiceID
+ * @param {string} param.customerID
  * @param {string} param.accessToken
  * @return {Promise<EventPollingResult>} eventPollingResult
  */
-function pollEvents(param) {
+function pollCustomerEvents(param) {
     let pollCount = 0;
     return new Promise((resolve, reject) => {
         (function poll(self) {
             setTimeout(() => {
-                getInvoiceEvents({
+                getCustomerEvents({
                     capiEndpoint: param.capiEndpoint,
                     accessToken: param.accessToken,
-                    invoiceID: param.invoiceID,
+                    customerID: param.customerID,
                     eventID: param.eventID,
                     eventLimit
                 }).then((events) => {
                     const event = getLastElement(events);
                     if (event) {
                         const change = getLastElement(event.changes);
-                        if (isInvoiceUnpaid(change)) {
-                            resolve(prepareResult('unpaid', change));
-                        } else if (isInvoicePaid(change)) {
-                            resolve(prepareResult('paid', change));
-                        } else if (isPaymentFailed(change)) {
+                        if (isCustomerBindingCreated(change)) {
+                            resolve(prepareResult('created', change));
+                        } else if (isCustomerBindingSucceed(change)) {
+                            resolve(prepareResult('succeed', change));
+                        } else if (isCustomerBindingFailed(change)) {
                             reject(change.error);
-                        } else if (isPaymentInteractionRequested(change)) {
+                        } else if (isCustomerBindingInteractionRequested(change)) {
                             resolve(prepareResult('interact', change, event.id));
-                        } else if (isPaymentCancelled(change)) {
-                            reject({code: 'error.payment.cancelled'});
-                        } else if (isInvoiceCancelled(change)) {
-                            reject({code: 'error.invoice.cancelled'});
-                        } else if (isPaymentProcessed(change)) {
-                            resolve(prepareResult('processed'));
                         } else {
                             pollCount++;
                             if (pollCount >= pollingRetries) {
@@ -91,4 +82,4 @@ function pollEvents(param) {
     });
 }
 
-export default pollEvents;
+export default pollCustomerEvents;

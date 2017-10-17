@@ -42,6 +42,7 @@ class PayButton extends React.Component {
                     currency={currency}
                     label={props.initParams.payButtonLabel}
                     locale={props.locale}
+                    integration={props.integration}
                 />
             </button>
         );
