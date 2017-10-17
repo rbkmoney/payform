@@ -48,14 +48,6 @@ function pollEvents(param) {
     let pollCount = 0;
     return new Promise((resolve, reject) => {
         (function poll(self) {
-            function next(self, pollCount) {
-                if (pollCount >= pollingRetries) {
-                    reject({code: 'error.events.timeout'});
-                } else {
-                    poll(self);
-                }
-            }
-
             setTimeout(() => {
                 getInvoiceEvents({
                     capiEndpoint: param.capiEndpoint,
@@ -83,11 +75,12 @@ function pollEvents(param) {
                             resolve(prepareResult('processed'));
                         } else {
                             pollCount++;
-                            next(self, pollCount);
+                            if (pollCount >= pollingRetries) {
+                                reject({code: 'error.events.timeout'});
+                            } else {
+                                poll(self);
+                            }
                         }
-                    } else {
-                        pollCount++;
-                        next(self, pollCount);
                     }
                 }).catch((error) => reject(error));
             }, pollingTimeout);
