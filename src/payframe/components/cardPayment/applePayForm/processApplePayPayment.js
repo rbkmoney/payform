@@ -26,11 +26,14 @@ function getPaymentFlow(initParams) {
 function propsToPaymentParams(props, payload) {
     return {
         flow: getPaymentFlow(props.initParams),
-        contactInfo: {
-            email: props.viewData.cardForm.email.value
-        },
-        paymentToolToken: payload.token,
-        paymentSession: payload.session
+        payer: {
+            payerType: 'PaymentResourcePayer',
+            paymentToolToken: payload.paymentToolToken,
+            paymentSession: payload.paymentSession,
+            contactInfo: {
+                email: props.viewData.cardForm.email.value
+            },
+        }
     };
 }
 
@@ -40,28 +43,33 @@ function propsToPaymentParams(props, payload) {
  */
 function processApplePayPayment(props) {
     const capiEndpoint = props.appConfig.capiEndpoint;
-    const accessToken = props.integration.invoiceAccessToken;
-    const invoiceID = props.integration.invoice.id;
     // TODO fix after real apple pay payments api capability
-    return createPaymentToolToken({
-        capiEndpoint,
-        accessToken,
-        cardData: {
-            cardHolder: 'APPLE PAY PAYER',
-            cardNumber: '4242424242424242',
-            cardExpire: '12/20',
-            cardCvv: '123'
+    switch (props.integration.type) {
+        case 'default':
+        case 'template': {
+            const invoiceAccessToken = props.integration.invoiceAccessToken;
+            const invoiceID = props.integration.invoice.id;
+            return createPaymentToolToken({
+                capiEndpoint,
+                invoiceAccessToken,
+                cardData: {
+                    cardHolder: 'APPLE PAY PAYER',
+                    cardNumber: '4242424242424242',
+                    cardExpire: '12/20',
+                    cardCvv: '123'
+                }
+            }).then((payload) => createPayment({
+                capiEndpoint,
+                accessToken: invoiceAccessToken,
+                invoiceID,
+                paymentParams: propsToPaymentParams(props, payload)
+            }).then(() => pollEvents({
+                capiEndpoint,
+                invoiceAccessToken,
+                invoiceID
+            })));
         }
-    }).then((payload) => createPayment({
-        capiEndpoint,
-        accessToken,
-        invoiceID,
-        paymentParams: propsToPaymentParams(props, payload)
-    }).then(() => pollEvents({
-        capiEndpoint,
-        accessToken,
-        invoiceID
-    })));
+    }
 }
 
 export default processApplePayPayment;

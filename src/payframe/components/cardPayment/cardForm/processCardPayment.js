@@ -1,6 +1,8 @@
 import createPaymentToolToken from '../../../backendCommunication/createPaymentToolToken';
 import createPayment from '../../../backendCommunication/createPayment';
 import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
+import createBinding from '../../../backendCommunication/createBinding';
+import pollCustomerEvents from '../../../backendCommunication/eventPoller/pollCustomerEvents';
 
 /**
  * @return {CardData} cardData
@@ -40,11 +42,14 @@ function getPaymentFlow(initParams) {
 function propsToPaymentParams(props, payload) {
     return {
         flow: getPaymentFlow(props.initParams),
-        contactInfo: {
-            email: props.viewData.cardForm.email.value
-        },
-        paymentToolToken: payload.token,
-        paymentSession: payload.session
+        payer: {
+            payerType: 'PaymentResourcePayer',
+            paymentToolToken: payload.paymentToolToken,
+            paymentSession: payload.paymentSession,
+            contactInfo: {
+                email: props.viewData.cardForm.email.value
+            },
+        }
     };
 }
 
@@ -54,22 +59,49 @@ function propsToPaymentParams(props, payload) {
  */
 function processCardPayment(props) {
     const capiEndpoint = props.appConfig.capiEndpoint;
-    const accessToken = props.integration.invoiceAccessToken;
-    const invoiceID = props.integration.invoice.id;
-    return createPaymentToolToken({
-        capiEndpoint,
-        accessToken,
-        paymentTool: propsToCardData(props)
-    }).then((payload) => createPayment({
-        capiEndpoint,
-        accessToken,
-        invoiceID,
-        paymentParams: propsToPaymentParams(props, payload)
-    }).then(() => pollEvents({
-        capiEndpoint,
-        accessToken,
-        invoiceID
-    })));
+    switch (props.integration.type) {
+        case 'default':
+        case 'template': {
+            const invoiceAccessToken = props.integration.invoiceAccessToken;
+            const invoiceID = props.integration.invoice.id;
+            return createPaymentToolToken({
+                capiEndpoint,
+                accessToken: invoiceAccessToken,
+                paymentTool: propsToCardData(props)
+            }).then((payload) => createPayment({
+                capiEndpoint,
+                accessToken: invoiceAccessToken,
+                invoiceID,
+                paymentParams: propsToPaymentParams(props, payload)
+            }).then(() => pollEvents({
+                capiEndpoint,
+                accessToken: invoiceAccessToken,
+                invoiceID
+            })));
+        }
+        case 'customer': {
+            const customerAccessToken = props.integration.customerAccessToken;
+            const customerID = props.integration.customer.id;
+            return createPaymentToolToken({
+                capiEndpoint,
+                accessToken: customerAccessToken,
+                paymentTool: propsToCardData(props)
+            }).then((payload) => createBinding({
+                capiEndpoint,
+                customerID,
+                accessToken: customerAccessToken,
+                paymentResource: {
+                    paymentToolToken: payload.paymentToolToken,
+                    paymentSession: payload.paymentSession
+                }
+            }).then(() => pollCustomerEvents({
+                capiEndpoint,
+                accessToken: customerAccessToken,
+                customerID
+            })));
+        }
+
+    }
 }
 
 export default processCardPayment;

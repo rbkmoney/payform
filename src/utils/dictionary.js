@@ -16,6 +16,14 @@ const integration = [
         isRequired: true
     },
     {
+        name: 'customerID',
+        isRequired: true
+    },
+    {
+        name: 'customerAccessToken',
+        isRequired: true
+    },
+    {
         name: 'email'
     },
     {
@@ -72,6 +80,9 @@ const integrationTypes = [
     }, {
         name: 'template',
         fields: ['invoiceTemplateID', 'invoiceTemplateAccessToken']
+    }, {
+        name: 'customer',
+        fields: ['customerID', 'customerAccessToken']
     }
 ];
 

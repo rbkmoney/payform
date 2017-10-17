@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as localeActions from '../actions/localeActions';
 import * as invoiceActions from '../actions/invoiceActions';
+import * as customerActions from '../actions/customerActions';
 import * as errorActions from '../actions/errorActions';
 import * as invoiceTemplateActions from '../actions/invoiceTemplateActions';
 import * as viewDataActions from '../actions/viewDataActions';
@@ -45,6 +46,13 @@ class Payframe extends React.Component {
                 });
                 this.props.actions.paymentCapabilitiesActions.setTemplatePaymentCapabilities(this.props);
                 break;
+            case 'customer':
+                this.props.actions.customerActions.getCustomer({
+                    capiEndpoint: this.props.appConfig.capiEndpoint,
+                    customerID: this.props.initParams.customerID,
+                    accessToken: this.props.initParams.customerAccessToken
+                });
+                break;
         }
     }
 
@@ -57,6 +65,9 @@ class Payframe extends React.Component {
                 break;
             case 'template':
                 integrationReady = nextProps.integration.invoiceTemplate;
+                break;
+            case 'customer':
+                integrationReady = nextProps.integration.customer;
                 break;
         }
         const applePayCapabilityChecked = nextProps.paymentCapabilities.applePay !== 'unknown';
@@ -96,6 +107,7 @@ function mapDispatchToProps(dispatch) {
             localeActions: bindActionCreators(localeActions, dispatch),
             invoiceActions: bindActionCreators(invoiceActions, dispatch),
             invoiceTemplateActions: bindActionCreators(invoiceTemplateActions, dispatch),
+            customerActions: bindActionCreators(customerActions, dispatch),
             errorActions: bindActionCreators(errorActions, dispatch),
             viewDataActions: bindActionCreators(viewDataActions, dispatch),
             paymentCapabilitiesActions: bindActionCreators(paymentCapabilitiesActions, dispatch)

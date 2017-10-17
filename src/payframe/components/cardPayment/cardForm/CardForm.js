@@ -19,6 +19,7 @@ import Amount from '../../elements/Amount';
 import settings from '../../../../settings';
 import processCardPayment from './processCardPayment';
 import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
+import pollCustomerEvents from '../../../backendCommunication/eventPoller/pollCustomerEvents';
 
 class CardForm extends React.Component {
 
@@ -32,7 +33,7 @@ class CardForm extends React.Component {
             if (e.data === 'finish-interaction') {
                 this.props.actions.paymentActions.resumePayment();
                 this.props.actions.viewDataActions.updateContainerSize('default');
-                this.getEvents(this.props.integration.invoiceAccessToken);
+                this.getEvents();
             }
         });
         this.triggerError = this.triggerError.bind(this);
@@ -51,7 +52,7 @@ class CardForm extends React.Component {
         switch (nextProps.payment.status) {
             case 'started':
                 if (nextProps.viewData.cardForm.valid) {
-                    if (integration.type === 'default') {
+                    if (integration.type === 'default' || integration.type === 'customer') {
                         paymentActions.processPayment();
                     } else if (integration.type === 'template') {
                         paymentActions.processInvoiceTemplate();
@@ -67,24 +68,37 @@ class CardForm extends React.Component {
                     .catch((error) => this.handleError(error));
                 break;
             case 'pollEvents':
-                this.getEvents(nextProps.integration.invoiceAccessToken);
+                this.getEvents();
         }
     }
 
-    getEvents(token) {
-        pollEvents({
-            capiEndpoint: this.props.appConfig.capiEndpoint,
-            accessToken: token,
-            invoiceID: this.props.integration.invoice.id
-        })
-            .then((event) => this.handleEvent(event))
-            .catch(error => this.handleError(error));
+    getEvents() {
+        const integration = this.props.integration;
+        if (integration.type === 'default' || integration.type === 'template') {
+            pollEvents({
+                capiEndpoint: this.props.appConfig.capiEndpoint,
+                accessToken: integration.invoiceAccessToken,
+                invoiceID: integration.invoice.id,
+                eventID: this.props.payment.interactionData.eventID
+            })
+                .then((event) => this.handleEvent(event))
+                .catch(error => this.handleError(error));
+        } else if (integration.type === 'customer') {
+            pollCustomerEvents({
+                capiEndpoint: this.props.appConfig.capiEndpoint,
+                accessToken: integration.customerAccessToken,
+                customerID: integration.customer.id,
+                eventID: this.props.payment.interactionData.eventID
+            })
+                .then((event) => this.handleEvent(event))
+                .catch(error => this.handleError(error));
+        }
     }
 
     handleEvent(event) {
         if (event.type === 'interact') {
             this.handleInteract(event);
-        } else if (event.type === 'paid' || event.type === 'processed') {
+        } else if (event.type === 'paid' || event.type === 'processed' || event.type === 'succeed') {
             this.handleSuccess();
         } else {
             this.handleError({code: 'error.payment.unsupport'});
@@ -105,7 +119,7 @@ class CardForm extends React.Component {
     }
 
     handleInteract(event) {
-        this.props.actions.paymentActions.interactPayment(event.data.request);
+        this.props.actions.paymentActions.interactPayment(event);
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
@@ -179,7 +193,7 @@ class CardForm extends React.Component {
                 {
                     this.props.payment.status === 'interacted'
                         ? <Interaction
-                            interactionData={this.props.payment.interactionData}
+                            interactionData={this.props.payment.interactionData.data.request}
                             host={this.props.appConfig.host}/>
                         : this.renderPayform()
                 }

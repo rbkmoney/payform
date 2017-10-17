@@ -41,6 +41,10 @@
  */
 
 /**
+ * @typedef {Object} Customer
+ */
+
+/**
  * @typedef {Object} InvoicePaymentMethods
  */
 
