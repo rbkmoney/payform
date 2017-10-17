@@ -1,8 +1,6 @@
 import createPaymentToolToken from '../../../backendCommunication/createPaymentToolToken';
 import createPayment from '../../../backendCommunication/createPayment';
 import pollEvents from '../../../backendCommunication/eventPoller/pollEvents';
-import createBinding from '../../../backendCommunication/createBinding';
-import pollCustomerEvents from '../../../backendCommunication/eventPoller/pollCustomerEvents';
 
 /**
  * @return {PaymentParamsFlow} paymentParamsFlow
@@ -69,31 +67,6 @@ function processApplePayPayment(props) {
                 capiEndpoint,
                 invoiceAccessToken,
                 invoiceID
-            })));
-        }
-        case 'customer': {
-            const customerAccessToken = props.integration.customerAccessToken;
-            const customerID = props.integration.customer.id;
-            return createPaymentToolToken({
-                capiEndpoint,
-                customerAccessToken,
-                cardData: {
-                    cardHolder: 'APPLE PAY PAYER',
-                    cardNumber: '4242424242424242',
-                    cardExpire: '12/20',
-                    cardCvv: '123'
-                }
-            }).then((payload) => createBinding({
-                capiEndpoint,
-                accessToken: customerAccessToken,
-                paymentResource: {
-                    paymentToolToken: payload.paymentToolToken,
-                    paymentSession: payload.paymentSession
-                }
-            }).then(() => pollCustomerEvents({
-                capiEndpoint,
-                accessToken: customerAccessToken,
-                customerID
             })));
         }
     }

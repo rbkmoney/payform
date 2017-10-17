@@ -11,7 +11,7 @@ function handleCustomerInteraction(props) {
     }).then((event) => {
         if (event.type === 'interact') {
             props.actions.viewDataActions.setActiveForm('cardForm');
-            props.actions.paymentActions.interactPayment(event.data.request);
+            props.actions.paymentActions.interactPayment(event);
             props.actions.viewDataActions.updateContainerSize('large');
         }
         if (event.type === 'processed') {

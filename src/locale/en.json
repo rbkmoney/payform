@@ -30,7 +30,7 @@
     "error.events.timeout": "Events polling timeout error",
     "error.events.failed": "An error occurred while polling events",
     "error.apple.pay.merchant.validation": "Apple Pay merchant validation error",
-    "error.customer.ready": "Subscribed already",
+    "error.customer.ready": "Customer is already subscribed",
     "Insufficient Funds": "Insufficient Funds",
     "Invalid Card": "Invalid Card",
     "CVV Match Fail": "CVV Match Fail",

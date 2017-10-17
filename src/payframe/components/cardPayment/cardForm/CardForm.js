@@ -27,8 +27,7 @@ class CardForm extends React.Component {
         super(props);
         this.state = {
             shakeValidation: false,
-            back: false,
-            eventID: undefined
+            back: false
         };
         window.addEventListener('message', (e) => {
             if (e.data === 'finish-interaction') {
@@ -79,7 +78,8 @@ class CardForm extends React.Component {
             pollEvents({
                 capiEndpoint: this.props.appConfig.capiEndpoint,
                 accessToken: integration.invoiceAccessToken,
-                invoiceID: integration.invoice.id
+                invoiceID: integration.invoice.id,
+                eventID: this.props.payment.interactionData.eventID
             })
                 .then((event) => this.handleEvent(event))
                 .catch(error => this.handleError(error));
@@ -88,8 +88,7 @@ class CardForm extends React.Component {
                 capiEndpoint: this.props.appConfig.capiEndpoint,
                 accessToken: integration.customerAccessToken,
                 customerID: integration.customer.id,
-                eventID: this.state.eventID
-
+                eventID: this.props.payment.interactionData.eventID
             })
                 .then((event) => this.handleEvent(event))
                 .catch(error => this.handleError(error));
@@ -98,9 +97,6 @@ class CardForm extends React.Component {
 
     handleEvent(event) {
         if (event.type === 'interact') {
-            this.setState({
-                eventID: event.eventID
-            });
             this.handleInteract(event);
         } else if (event.type === 'paid' || event.type === 'processed' || event.type === 'succeed') {
             this.handleSuccess();
@@ -123,7 +119,7 @@ class CardForm extends React.Component {
     }
 
     handleInteract(event) {
-        this.props.actions.paymentActions.interactPayment(event.data.request);
+        this.props.actions.paymentActions.interactPayment(event);
         this.props.actions.viewDataActions.updateContainerSize('large');
     }
 
@@ -197,7 +193,7 @@ class CardForm extends React.Component {
                 {
                     this.props.payment.status === 'interacted'
                         ? <Interaction
-                            interactionData={this.props.payment.interactionData}
+                            interactionData={this.props.payment.interactionData.data.request}
                             host={this.props.appConfig.host}/>
                         : this.renderPayform()
                 }
