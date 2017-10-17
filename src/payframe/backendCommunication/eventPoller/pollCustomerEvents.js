@@ -72,7 +72,7 @@ function pollCustomerEvents(param) {
                                 poll(self);
                             }
                         }
-                    } else if (!event && param.eventID) {
+                    } else if (param.eventID) {
                         pollCount++;
                         poll(self);
                     }
