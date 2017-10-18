@@ -1,6 +1,6 @@
 import Matcher from 'did-you-mean';
 import { integration, integrationTypes } from './dictionary';
-import { difference } from 'lodash';
+import difference from 'lodash/difference';
 import getIntegrationType from './getIntegrationType';
 
 export default class CheckIntegration {

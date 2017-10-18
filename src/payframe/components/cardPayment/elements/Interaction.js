@@ -1,5 +1,5 @@
 import React from 'react';
-import URITemplate from 'urijs/src/URITemplate';
+import parser from 'uri-template';
 
 class Interaction extends React.Component {
 
@@ -20,7 +20,7 @@ class Interaction extends React.Component {
             formParam.name = item.key;
             if (item.key === 'TermUrl') {
                 const decoded = decodeURIComponent(item.template);
-                const template = new URITemplate(decoded);
+                const template = parser.parse(decoded);
                 const redirectUrl = `${host}/html/finishInteraction.html`;
                 formParam.value = template.expand({'termination_uri': redirectUrl});
             } else {

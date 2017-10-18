@@ -1,0 +1,10 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "quotemark": [true, "single"],
+    "member-access": [true, "no-public"],
+    "trailing-comma": false,
+    "ordered-imports": false,
+    "no-console": [true, "log"]
+  }
+}
