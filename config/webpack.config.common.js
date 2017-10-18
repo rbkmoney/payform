@@ -2,21 +2,26 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     name: 'js',
     entry: {
         '../dist/checkout': path.join(__dirname, '../src/checkout/checkout.js'),
-        '../dist/payframe': path.join(__dirname, '../src/payframe/payframe.js')
+        '../dist/payframe': path.join(__dirname, '../src/payframe/payframe.js'),
+        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx')
     },
     output: {
         filename: '[name].js',
-        path: path.join(__dirname),
+        path: path.join(__dirname)
+    },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
-            {enforce: 'pre', test: /\.js$/, use: 'eslint-loader', exclude: /node_modules/},
-            {test: /\.(js|jsx)$/, use: 'babel-loader', exclude: /node_modules(?!\/tokenizer)/},
+            {test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules(?!\/tokenizer)/},
+            {test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader']},
             {
                 test: /\.(css|scss)$/,
                 use: ExtractTextPlugin.extract({
@@ -41,5 +46,14 @@ module.exports = {
             ],
             {debug: 'warning'}
         ),
+        new HtmlWebpackPlugin({
+            inject: false,
+            template: 'src/app/index.html',
+            filename: '../dist/v1/checkout.html',
+            files: {
+                app: './app.js',
+                styles: './app.css'
+            }
+        })
     ]
 };

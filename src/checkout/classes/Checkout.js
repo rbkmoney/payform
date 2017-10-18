@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import mapValues from 'lodash/mapValues';
 import isMobile from 'ismobilejs';
 import Iframe from '../elements/Iframe';
 import Parent from '../../communication/Parent';

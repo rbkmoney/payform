@@ -18,7 +18,7 @@ export default class Child {
             } else if (!this.inIframe() && !window.opener) {
                 return resolve(new TransportStub());
             } else {
-                const shake = (e) => {
+                const shake = (e) => { // TODO fix it
                     if (e.data === 'rbkmoney-checkout-handshake') {
                         const target = e.source;
                         target.postMessage('rbkmoney-payframe-handshake', e.origin);

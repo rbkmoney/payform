@@ -1,5 +1,6 @@
 import { integrationTypes } from './dictionary';
-import { difference, intersection } from 'lodash';
+import difference from 'lodash/difference';
+import intersection from 'lodash/intersection';
 
 export default function(config) {
     const configFields = Object.keys(config);

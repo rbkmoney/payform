@@ -1,4 +1,4 @@
-import { toNumber } from 'lodash';
+import toNumber from 'lodash/toNumber';
 
 /**
  * @param {Object} props - CardPayment component props
