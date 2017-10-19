@@ -20,14 +20,36 @@ module.exports = {
     },
     module: {
         rules: [
-            {test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules(?!\/tokenizer)/},
-            {test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader']},
+            { test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules(?!\/tokenizer)/ },
+            { test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader'] },
+            {
+                test: /\.scss$/,
+                exclude: [
+                    path.join(__dirname, '../src/checkout'),
+                    path.join(__dirname, '../src/payframe')
+                ],
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'typings-for-css-modules-loader',
+                            options: {
+                                modules: true,
+                                namedExport: true,
+                                localIdentName: '[local]___[hash:base64:5]'
+                            }
+                        },
+                        'sass-loader'
+                    ]
+                }),
+            },
             {
                 test: /\.(css|scss)$/,
+                exclude: path.join(__dirname, '../src/app'),
                 use: ExtractTextPlugin.extract({
                     use: [
-                        {loader: 'css-loader', options: {minimize: true}},
-                        {loader: 'sass-loader'}
+                        { loader: 'css-loader', options: { minimize: true } },
+                        { loader: 'sass-loader' }
                     ],
                     fallback: 'style-loader'
                 })
@@ -35,16 +57,16 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({filename: '[name].css'}),
+        new ExtractTextPlugin({ filename: '[name].css' }),
         new CopyWebpackPlugin(
             [
-                {from: './src/payframe/payframe.html', to: '../dist/html/'},
-                {from: './src/payframe/finishInteraction.html', to: '../dist/html/'},
-                {from: './src/payframe/images', to: '../dist/images'},
-                {from: './src/appConfig.json', to: '../dist/'},
-                {from: './src/locale', to: '../dist/locale'}
+                { from: './src/payframe/payframe.html', to: '../dist/html/' },
+                { from: './src/payframe/finishInteraction.html', to: '../dist/html/' },
+                { from: './src/payframe/images', to: '../dist/images' },
+                { from: './src/appConfig.json', to: '../dist/' },
+                { from: './src/locale', to: '../dist/locale' }
             ],
-            {debug: 'warning'}
+            { debug: 'warning' }
         ),
         new HtmlWebpackPlugin({
             inject: false,
