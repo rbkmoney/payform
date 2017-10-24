@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './styles.scss';
+import * as styles from './info.scss';
 import * as cx from 'classnames';
 
 interface InfoState {

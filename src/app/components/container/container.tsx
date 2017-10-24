@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from './styles.scss';
+import * as styles from './container.scss';
 
 import { Header, Info, Footer } from '../index';
 
