@@ -1,4 +1,4 @@
 export * from './container';
-export * from './header';
-export * from './footer';
-export * from './info';
+export * from './container/header';
+export * from './container/footer';
+export * from './container/info';
