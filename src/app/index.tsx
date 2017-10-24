@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Sample } from './components';
+import { Container } from './components';
+import './styles/main.scss';
 
 ReactDOM.render(
-    <Sample/>,
-    document.getElementById('example')
+    <Container/>,
+    document.getElementById('app')
 );

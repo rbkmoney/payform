@@ -33,6 +33,7 @@
     "whatwg-fetch": "~1.0.0"
   },
   "devDependencies": {
+    "@types/classnames": "~2.2.3",
     "@types/react": "~16.0.1",
     "@types/react-dom": "~16.0.1",
     "autoprefixer": "~6.7.7",

@@ -1,0 +1,14 @@
+:global {
+    body,
+    html,
+    #app {
+        margin: 0;
+        position: relative;
+        min-height: 100%;
+        height: auto;
+        width: 100%;
+        min-width: 320px;
+    }
+
+    @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic,cyrillic-ext,latin-ext');
+}
