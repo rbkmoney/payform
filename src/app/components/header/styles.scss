@@ -23,16 +23,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    &:after {
-        position: absolute;
-        content: '';
-        height: 100%;
-        width: 15px;
-        right: -2px;
-        top: 0;
-        background: linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, $white 100%);
-    }
-
     &._center {
         text-align: center;
     }
