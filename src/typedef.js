@@ -62,3 +62,11 @@
  * @property {string} currency
  * @property {Object} metadata
  */
+
+/**
+ * @typedef {Object} InvoiceTemplateLineCost
+ * */
+
+/**
+ * @typedef {Object} InvoiceLine
+ * */
