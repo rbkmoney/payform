@@ -37,11 +37,11 @@ class Amount extends React.Component {
     }
 
     getPlaceholder() {
-        const template = this.props.template;
+        const price = this.props.template.details.price;
         let result;
-        if (template.cost.invoiceTemplateCostType === 'InvoiceTemplateCostRange') {
-            const lower = template.cost.range.lowerBound / 100;
-            const upper = template.cost.range.upperBound / 100;
+        if (price.costType === 'InvoiceTemplateLineCostRange') {
+            const lower = price.range.lowerBound / 100;
+            const upper = price.range.upperBound / 100;
             result = `${formatCurrency(lower, 'RUB')} - ${formatCurrency(upper, 'RUB')}`;
         } else {
             const label = this.props.locale['input.payment.amount.placeholder'];

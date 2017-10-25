@@ -18,9 +18,16 @@ class PayButton extends React.Component {
         if (integration.type === 'default') {
             result = integration.invoice.amount;
         } else if (integration.type === 'template') {
-            const cost = integration.invoiceTemplate.cost;
-            if (cost.invoiceTemplateCostType === 'InvoiceTemplateCostFixed') {
-                result = cost.amount;
+            const details = integration.invoiceTemplate.details;
+            switch (details.templateType) {
+                case 'InvoiceTemplateMultiLine':
+                    result = this.props.viewData.cardForm.amount.value;
+                    break;
+                case 'InvoiceTemplateSingleLine':
+                    if (details.price.costType === 'InvoiceTemplateLineCostFixed') {
+                        result = this.props.viewData.cardForm.amount.value;
+                    }
+                    break;
             }
         }
         return result;
@@ -53,7 +60,8 @@ function mapStateToProps(state) {
     return {
         initParams: state.initParams,
         locale: state.locale,
-        integration: state.integration
+        integration: state.integration,
+        viewData: state.viewData
     };
 }
 
