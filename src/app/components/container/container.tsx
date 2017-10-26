@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './container.scss';
 
-import { Header, Info, Footer } from '../index';
+import { Header, Info, Footer, Form } from '../index';
 
 export class Container extends React.Component {
 
@@ -10,6 +10,7 @@ export class Container extends React.Component {
             <div className={styles.container}>
                 <Header />
                 <Info />
+                <Form />
                 <Footer />
             </div>
         );
