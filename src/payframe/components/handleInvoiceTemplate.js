@@ -13,7 +13,7 @@ function handleMultiLine(cart, actions) {
     actions.setAmountType({
         name: 'fixed'
     });
-    actions.setAmountVal(calcCartAmount(cart));
+    actions.setAmountVal(calcCartAmount(cart) / 100);
     actions.setAmountVisibility(false);
     actions.setAmountRequired(true);
 }
