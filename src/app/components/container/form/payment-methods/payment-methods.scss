@@ -39,7 +39,7 @@
 
 .title {
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: 900;
     text-transform: uppercase;
     font-size: 11px;
     color: $light-blue;
@@ -55,7 +55,6 @@
         opacity: 0.37;
         padding: 0;
         margin: 0 0 3px;
-        width: calc(100% - 7px);
     }
 }
 
@@ -63,6 +62,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 13px;
+    font-style: italic;
     color: $black;
     letter-spacing: 0.1px;
     line-height: 17px;
