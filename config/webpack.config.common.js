@@ -64,7 +64,8 @@ module.exports = {
                 { from: './src/payframe/finishInteraction.html', to: '../dist/html/' },
                 { from: './src/payframe/images', to: '../dist/images' },
                 { from: './src/appConfig.json', to: '../dist/' },
-                { from: './src/locale', to: '../dist/locale' }
+                { from: './src/locale', to: '../dist/locale' },
+                { from: './src/app/assets', to: '../dist/v1/assets' }
             ],
             { debug: 'warning' }
         ),
