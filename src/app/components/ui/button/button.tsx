@@ -5,10 +5,11 @@ import * as cx from 'classnames';
 interface IProps {
     type: string;
     className?: string;
+    children: React.ReactNode;
 }
 
 export class Button extends React.Component<IProps, {}> {
-    getTypeClass(type: string): string {
+    static getTypeClass(type: string): string {
         switch (type) {
             case 'primary':
                 return styles._primary;
@@ -20,7 +21,7 @@ export class Button extends React.Component<IProps, {}> {
 
     render() {
         return (
-            <button className={cx(styles.button, this.getTypeClass(this.props.type), this.props.className)}>
+            <button className={cx(styles.button, Button.getTypeClass(this.props.type), this.props.className)}>
                 {this.props.children}
             </button>
         );
