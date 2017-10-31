@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './input.scss';
 import * as cx from 'classnames';
-import { Icon } from '../../../index';
+import { Icon } from '../../index';
 
 interface IProps {
     icon?: string;

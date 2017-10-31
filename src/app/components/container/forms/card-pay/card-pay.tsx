@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Input, PayButton } from '../../../index';
+import * as styles from './card-pay.scss';
+import { Input, Button } from '../../../index';
 
 export class CardPay extends React.Component {
     render() {
@@ -18,7 +19,7 @@ export class CardPay extends React.Component {
                 <div className='form-group'>
                     <Input icon='letter' placeholder='Email для чека' />
                 </div>
-                <PayButton />
+                <Button className={styles.pay_button} type='primary'>Оплатить 3 144 599, 77 ₽</Button>
             </form>
         );
     }

@@ -6,9 +6,7 @@ export class PaymentMethods extends React.Component {
     render() {
         return (
             <ul className={styles.list}>
-                <li className={cx(styles.method, {
-                    [styles._active]: false
-                })}>
+                <li className={styles.method}>
                     <div className={styles.icon}>
                         <svg width='40px' height='40px' viewBox='0 0 40 40'>
                             <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
@@ -35,9 +33,7 @@ export class PaymentMethods extends React.Component {
                     </div>
                 </li>
 
-                <li className={cx(styles.method, {
-                    [styles._active]: true
-                })}>
+                <li className={styles.method}>
                     <div className={styles.icon}>
 
                         <svg width='40px' height='40px' viewBox='0 0 40 40'>

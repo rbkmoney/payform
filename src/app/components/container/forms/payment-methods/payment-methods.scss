@@ -15,13 +15,15 @@
     flex-wrap: nowrap;
     align-items: center;
     margin-bottom: 10px;
+    transition: all .3s;
 
     &:last-child {
         margin-bottom: 0;
     }
 
-    &._active {
-        border: 2px solid $light-blue;
+    &:hover {
+        border: 1px solid $light-blue;
+        cursor: pointer;
     }
 }
 

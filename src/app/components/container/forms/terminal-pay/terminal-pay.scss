@@ -1,0 +1,11 @@
+@import '../../../../styles/variables';
+
+.text {
+    margin: 0 0 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: $deep-gray;
+    letter-spacing: 0;
+    line-height: 20px;
+}
