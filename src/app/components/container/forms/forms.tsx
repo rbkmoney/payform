@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as styles from './forms.scss';
-import {PaymentMethods, CardPay} from '../../index';
+import {PaymentMethods, CardPay, Final} from '../../index';
 
 export class Form extends React.Component {
     getView(): string {
         switch (window.location.search) {
             case '?view=card_pay':
                 return 'card_pay';
+            case '?view=final':
+                return 'final';
             case '?view=methods':
             default:
                 return 'methods';
@@ -19,6 +21,7 @@ export class Form extends React.Component {
                 <div className={styles.form}>
                     {this.getView() === 'methods' ? <PaymentMethods/> : false}
                     {this.getView() === 'card_pay' ? <CardPay/> : false}
+                    {this.getView() === 'final' ? <Final/> : false}
                 </div>
             </div>
         );
