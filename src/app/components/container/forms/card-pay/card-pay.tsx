@@ -6,7 +6,7 @@ import {Input, Button} from '../../../index';
 export class CardPay extends React.Component {
     render() {
         return (
-            <form className={''}>
+            <form>
                 <div className={formStyles.title}>
                     Оплата банковской картой
                 </div>

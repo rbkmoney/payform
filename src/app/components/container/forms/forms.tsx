@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './forms.scss';
-import {PaymentMethods, CardPay, Final} from '../../index';
+import {PaymentMethods, CardPay, Final, Help} from '../../index';
 
 export class Form extends React.Component {
     getView(): string {
@@ -9,6 +9,8 @@ export class Form extends React.Component {
                 return 'card_pay';
             case '?view=final':
                 return 'final';
+                case '?view=help':
+                return 'help';
             case '?view=methods':
             default:
                 return 'methods';
@@ -22,6 +24,7 @@ export class Form extends React.Component {
                     {this.getView() === 'methods' ? <PaymentMethods/> : false}
                     {this.getView() === 'card_pay' ? <CardPay/> : false}
                     {this.getView() === 'final' ? <Final/> : false}
+                    {this.getView() === 'help' ? <Help/> : false}
                 </div>
             </div>
         );
