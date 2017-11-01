@@ -27,7 +27,7 @@ export class Info extends React.Component<{}, InfoState> {
         return (
             <div className={styles.info}>
                 <h1 className={styles.amount}>
-                    3 144 599, 77 ₽
+                    3 144 599, 77 <span>₽</span>
                 </h1>
                 <div className={styles.order}>
                     ваш заказ

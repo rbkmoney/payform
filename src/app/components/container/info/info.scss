@@ -12,13 +12,18 @@
     letter-spacing: 0;
     line-height: 35px;
     margin: 0 0 20px;
+
+    span {
+        font-weight: 400;
+    }
 }
 
 .order {
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $lightest-purple;
+    color: $white;
+    opacity: .4;
     letter-spacing: 2px;
     line-height: 15px;
     margin-bottom: 5px;
@@ -49,7 +54,8 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $lightest-purple;
+    color: $white;
+    opacity: .4;
     letter-spacing: 2px;
     line-height: 15px;
     text-transform: uppercase;
@@ -72,6 +78,7 @@
 
 .help {
     font-family: 'Roboto', sans-serif;
+    font-style: italic;
     font-weight: 400;
     font-size: 13px;
     color: $white;
