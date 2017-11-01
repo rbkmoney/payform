@@ -10,4 +10,5 @@ export * from './container/forms/final';
 export * from './container/forms/help';
 export * from './ui/input';
 export * from './ui/button';
+export * from './ui/loader';
 export * from './ui';
