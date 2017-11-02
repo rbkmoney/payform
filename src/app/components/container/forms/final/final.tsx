@@ -11,13 +11,13 @@ export class Final extends React.Component {
                 *тут рисуночек*
                 <p className={styles.text}>Не хватает денег на карте Сбербанк *4576</p>
                 <div className={cx(styles.link_container, styles.help)}>
-                    <a href="" className={styles.link}>Как решить проблему?</a>
+                    <a href='' className={styles.link}>Как решить проблему?</a>
                     <hr/>
                 </div>
                 <Button type='primary'>Попробовать ещё раз</Button>
                 <Button type='default' className={styles.pay_with_other}>Оплатить другой картой</Button>
                 <div className={styles.link_container}>
-                    <a href="" className={styles.link}>Другие способы оплаты</a>
+                    <a href='' className={styles.link}>Другие способы оплаты</a>
                     <hr/>
                 </div>
             </form>
