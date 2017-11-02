@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './forms.scss';
-import {PaymentMethods, CardPay, Final, Help, Loader} from '../../index';
+import {PaymentMethods, CardPay, Final, Help, FormLoader} from '../../index';
 
 export class Form extends React.Component {
     getView(): string {
@@ -27,7 +27,7 @@ export class Form extends React.Component {
                     {this.getView() === 'card_pay' || this.getView() === 'loading' ? <CardPay/> : false}
                     {this.getView() === 'final' ? <Final/> : false}
                     {this.getView() === 'help' ? <Help/> : false}
-                    {this.getView() === 'loading' ? <div className={styles.loader}><Loader /></div> : false}
+                    {this.getView() === 'loading' ? <FormLoader /> : false}
                 </div>
             </div>
         );
