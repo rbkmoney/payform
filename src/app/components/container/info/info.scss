@@ -89,6 +89,10 @@
     margin-bottom: 5px;
     cursor: pointer;
 
+    @include responsive(sm) {
+        cursor: auto;
+    }
+
     svg {
         margin-left: 5px;
         position: relative;
