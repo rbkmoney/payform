@@ -1,4 +1,5 @@
 export const info: string;
+export const site_name: string;
 export const amount: string;
 export const order: string;
 export const description: string;

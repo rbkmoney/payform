@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './container.scss';
 
-import { Header, Info, Footer, Form, ThreeDSContainer } from '../index';
+import {Header, Info, Footer, Form, ThreeDSContainer} from '../index';
 
 export class Container extends React.Component {
     static getView(): string {
@@ -17,12 +17,16 @@ export class Container extends React.Component {
     render() {
         return (
             <div className={styles.container}>
-                {Container.getView() === 'default' ? <Header/> : false}
-                {Container.getView() === 'default' ? <Info/> : false}
-                {Container.getView() === 'default' ? <Form/> : false}
-                {Container.getView() === 'default' ? <Footer/> : false}
-                {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
+                <div className={styles.form_container}>
+                    {Container.getView() === 'default' ? <Header/> : false}
+                    {Container.getView() === 'default' ? <Info/> : false}
+                    {Container.getView() === 'default' ? <Form/> : false}
+                    {Container.getView() === 'default' ? <Footer/> : false}
+                    {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
+                </div>
+                <Footer/>
             </div>
+
         );
     }
 }

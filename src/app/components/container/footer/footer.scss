@@ -1,7 +1,26 @@
 @import '../../../styles/variables';
+@import '../../../styles/responsive';
 
 .footer {
     padding: 30px 25px;
+
+    @include responsive(sm) {
+        width: 680px;
+        padding: 15px 0;
+        opacity: .7;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+.safe_payment_container {
+    @include responsive(sm) {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 .safe_payment {
@@ -10,6 +29,10 @@
     flex-wrap: nowrap;
     flex-direction: row;
     margin: 0 0 15px;
+
+    @include responsive(sm) {
+        width: auto;
+    }
 
     .text {
         font-family: 'Roboto', sans-serif;
@@ -20,12 +43,32 @@
         line-height: 15px;
         text-transform: uppercase;
         margin: 0;
+
+        @include responsive(sm) {
+            color: $white;
+        }
     }
 
     svg {
         margin-right: 8px;
         position: relative;
         top: -2px;
+
+        path {
+            stroke: $lightest-purple2;
+        }
+        rect {
+            fill: $lightest-purple2;
+        }
+
+        @include responsive(sm) {
+            path {
+                stroke: $white;
+            }
+            rect {
+                fill: $white;
+            }
+        }
     }
 }
 
@@ -35,6 +78,10 @@
     flex-wrap: nowrap;
     flex-direction: row;
     margin-bottom: 25px;
+
+    @include responsive(sm) {
+        width: auto;
+    }
 
     svg {
         margin-right: 25px;
@@ -50,6 +97,10 @@
     letter-spacing: 0;
     line-height: 18px;
     margin: 0 0 20px;
+
+    @include responsive(sm) {
+        color: $white;
+    }
 }
 
 .offer {
@@ -63,4 +114,8 @@
     text-decoration: underline;
     text-transform: uppercase;
     cursor: pointer;
+
+    @include responsive(sm) {
+        color: $white;
+    }
 }

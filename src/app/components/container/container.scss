@@ -1,9 +1,53 @@
 @import '../../styles/variables';
+@import '../../styles/responsive';
 
 .container {
     position: relative;
     height: 100%;
     min-height: 100%;
     width: 100%;
+    footer {
+        display: none;
+    }
+
+    @include responsive(sm) {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, .7);
+
+        footer {
+            display: block;
+        }
+    }
+}
+
+.form_container {
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
     background-image: linear-gradient(40deg, $light-purple 0%, $deep-blue 29%, $blue 59%, $lightest-blue 100%);
+
+    footer {
+        display: block;
+    }
+
+    @include responsive(sm) {
+        height: auto;
+        min-height: auto;
+        width: 680px;
+        border-radius: 6px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        padding: 30px;
+        box-sizing: border-box;
+
+        footer {
+            display: none;
+        }
+    }
 }

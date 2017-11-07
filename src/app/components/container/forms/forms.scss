@@ -1,7 +1,12 @@
 @import '../../../styles/variables';
+@import '../../../styles/responsive';
 
 .container {
     padding: 0 5px;
+
+    @include responsive(sm) {
+        width: 360px;
+    }
 }
 
 .form {
@@ -20,4 +25,8 @@
     letter-spacing: 0;
     line-height: 20px;
     margin-bottom: 20px;
+
+    @include responsive(sm) {
+        text-align: center;
+    }
 }
