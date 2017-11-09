@@ -1,5 +1,15 @@
+@import "../../../styles/variables";
+@import "../../../styles/responsive";
+
 .container {
     position: fixed;
     height: 100%;
     width: 100%;
+    background: $white;
+
+    @include responsive(sm) {
+        height: 690px;
+        width: 680px;
+        position: relative;
+    }
 }
