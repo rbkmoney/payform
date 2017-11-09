@@ -91,6 +91,7 @@
 
     @include responsive(sm) {
         cursor: auto;
+        margin-top: 60px;
     }
 
     svg {
