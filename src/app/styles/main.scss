@@ -6,10 +6,14 @@
     #app {
         margin: 0;
         position: relative;
-        min-height: 100%;
         height: auto;
+        min-height: 100%;
         width: 100%;
         min-width: 320px;
+
+        &._loading {
+            height: 100%;
+        }
 
         @include responsive(sm) {
             height: 100%;
