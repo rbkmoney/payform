@@ -1,6 +1,7 @@
 export * from './container';
 export * from './container/header';
 export * from './container/footer';
+export * from './container/close';
 export * from './container/info';
 export * from './container/3ds';
 export * from './container/container-loader';

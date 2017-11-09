@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './container.scss';
 
-import {Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader} from '../index';
+import {Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close} from '../index';
 
 export class Container extends React.Component {
     static getView(): string {
@@ -21,6 +21,7 @@ export class Container extends React.Component {
             <div className={styles.container}>
                 {Container.getView() !== 'loading' ?
                     <div className={styles.form_container}>
+                        <Close />
                         {Container.getView() === 'default' ? <Header/> : false} {Container.getView() === 'default' ?
                         <Info/> : false} {Container.getView() === 'default' ?
                         <Form/> : false} {Container.getView() === 'default' ?

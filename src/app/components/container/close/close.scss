@@ -1,0 +1,21 @@
+@import '../../../styles/variables';
+@import '../../../styles/responsive';
+
+.close {
+    display: none;
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: -25px;
+    top: -22px;
+    cursor: pointer;
+
+    @include responsive(sm) {
+        display: block;
+    }
+
+    svg {
+        height: 22px;
+        width: 22px;
+    }
+}
