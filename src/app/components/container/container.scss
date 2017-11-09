@@ -6,6 +6,7 @@
     height: 100%;
     min-height: 100%;
     width: 100%;
+
     footer {
         display: none;
     }
@@ -19,6 +20,7 @@
         background: rgba(0, 0, 0, .7);
         height: auto;
         padding: 30px 0;
+        box-sizing: border-box;
 
         footer {
             display: block;
