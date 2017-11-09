@@ -1,14 +1,19 @@
 import * as React from 'react';
 import * as styles from './payment-methods.scss';
 import * as formStyles from '../forms.scss';
-import * as cx from 'classnames';
+import {Icon} from '../../../index';
 
 export class PaymentMethods extends React.Component {
     render() {
         return (
             <form>
-                <div className={formStyles.title}>
-                    Выберите способ оплаты
+                <div className={formStyles.header}>
+                    <div className={formStyles.back_btn}>
+                        <Icon icon='chevron-left'/>
+                    </div>
+                    <div className={formStyles.title}>
+                        Выберите способ оплаты
+                    </div>
                 </div>
                 <ul className={styles.list}>
                     <li className={styles.method}>

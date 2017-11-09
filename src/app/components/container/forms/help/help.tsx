@@ -1,13 +1,19 @@
 import * as React from 'react';
 import * as styles from './help.scss';
 import * as formStyles from '../forms.scss';
+import {Icon} from '../../../index';
 
 export class Help extends React.Component {
     render() {
         return (
             <form>
-                <div className={formStyles.title}>
-                    Как решить проблему?
+                <div className={formStyles.header}>
+                    <div className={formStyles.back_btn}>
+                        <Icon icon='chevron-left'/>
+                    </div>
+                    <div className={formStyles.title}>
+                        Как решить проблему?
+                    </div>
                 </div>
                 <ul className={styles.list}>
                     <li className={styles.list_item}>
