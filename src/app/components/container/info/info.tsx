@@ -7,8 +7,8 @@ interface InfoState {
 }
 
 export class Info extends React.Component<{}, InfoState> {
-    constructor() {
-        super({});
+    constructor(props: {}) {
+        super(props);
 
         this.state = {
             help: false
