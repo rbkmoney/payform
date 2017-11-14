@@ -30,7 +30,7 @@ export class Info extends React.Component<{}, InfoState> {
                     <h4 className={styles.site_name}>bangbangeducation.ru</h4>
                     <h1 className={styles.amount}>
                         3 144 599, 77
-                        <span>₽</span>
+                        <span>&nbsp;₽</span>
                     </h1>
                     <div className={styles.order}>
                         ваш заказ
@@ -60,11 +60,12 @@ export class Info extends React.Component<{}, InfoState> {
                             </g>
                         </svg>
                     </div>
-                    <div className={cx(styles.help, {
+                    <p className={cx(styles.help, {
                         [styles._hide]: !this.state.help
                     })}>
-                        Деньги списываются 17 числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на email.
-                    </div>
+                        Деньги списываются 17 числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на
+                        email.
+                    </p>
                 </div>
             </div>
         );

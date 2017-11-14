@@ -18,6 +18,7 @@ export class PaymentMethods extends React.Component {
                 <ul className={styles.list}>
                     <li className={styles.method}>
                         <div className={styles.icon}>
+                            {/* tslint:disable:max-line-length */}
                             <svg width='40px' height='40px' viewBox='0 0 40 40'>
                                 <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
                                     <g transform='translate(-45.000000, -366.000000)'>
@@ -36,6 +37,7 @@ export class PaymentMethods extends React.Component {
                                     </g>
                                 </g>
                             </svg>
+                            {/* tslint:enable:max-line-length */}
                         </div>
                         <div className={styles.title}>
                             Банковская карта
@@ -45,7 +47,7 @@ export class PaymentMethods extends React.Component {
 
                     <li className={styles.method}>
                         <div className={styles.icon}>
-
+                            {/* tslint:disable:max-line-length */}
                             <svg width='40px' height='40px' viewBox='0 0 40 40'>
                                 <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
                                     <g transform='translate(-45.000000, -456.000000)'>
@@ -65,6 +67,7 @@ export class PaymentMethods extends React.Component {
                                     </g>
                                 </g>
                             </svg>
+                            {/* tslint:enable:max-line-length */}
                         </div>
                         <div className={styles.text}>
                             <h5 className={styles.title}>

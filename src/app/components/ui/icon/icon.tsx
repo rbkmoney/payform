@@ -8,7 +8,9 @@ interface IProps {
 export class Icon extends React.Component<IProps, {}> {
     render() {
         return (
-            <svg {...this.props} dangerouslySetInnerHTML={{__html: `<use xlink:href="assets/icons/${this.props.icon}.svg#icon" />`}}/>
+            <svg {...this.props}
+                dangerouslySetInnerHTML={{__html: `<use xlink:href="assets/icons/${this.props.icon}.svg#icon" />`}}
+            />
         );
     }
 }

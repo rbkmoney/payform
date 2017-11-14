@@ -6,6 +6,7 @@
 
     @include responsive(sm) {
         width: 360px;
+        padding: 0;
     }
 }
 
