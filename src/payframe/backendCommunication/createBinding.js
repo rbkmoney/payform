@@ -10,7 +10,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function createBinding(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/customers/${param.customerID}/bindings`,
+        endpoint: `${param.capiEndpoint}/v2/processing/customers/${param.customerID}/bindings`,
         accessToken: param.accessToken,
         method: 'POST',
         body: { paymentResource: param.paymentResource }

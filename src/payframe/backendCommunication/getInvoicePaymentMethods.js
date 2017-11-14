@@ -9,7 +9,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function getInvoicePaymentMethods(params) {
     return fetchCapi({
-        endpoint: `${params.capiEndpoint}/v1/processing/invoices/${params.invoiceID}/payment-methods`,
+        endpoint: `${params.capiEndpoint}/v2/processing/invoices/${params.invoiceID}/payment-methods`,
         accessToken: params.accessToken
     });
 }

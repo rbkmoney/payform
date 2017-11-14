@@ -9,7 +9,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function getInvoiceTemplate(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/invoice-templates/${param.invoiceTemplateID}`,
+        endpoint: `${param.capiEndpoint}/v2/processing/invoice-templates/${param.invoiceTemplateID}`,
         accessToken: param.accessToken
     });
 }
