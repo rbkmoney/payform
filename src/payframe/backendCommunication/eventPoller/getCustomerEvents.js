@@ -11,7 +11,7 @@ import fetchCapi from '../../../utils/fetchCapi';
  */
 function getCustomerEvents(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/customers/${param.customerID}/events?limit=${param.eventLimit}${param.eventID ? '&eventID=' + param.eventID : ''}`,
+        endpoint: `${param.capiEndpoint}/v2/processing/customers/${param.customerID}/events?limit=${param.eventLimit}${param.eventID ? '&eventID=' + param.eventID : ''}`,
         accessToken: param.accessToken
     });
 }

@@ -10,7 +10,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function createInvoiceWithTemplate(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/invoice-templates/${param.invoiceTemplateID}/invoices`,
+        endpoint: `${param.capiEndpoint}/v2/processing/invoice-templates/${param.invoiceTemplateID}/invoices`,
         accessToken: param.accessToken,
         method: 'POST',
         body: param.invoiceParamsWithTemplate

@@ -10,7 +10,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function createPayment(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/invoices/${param.invoiceID}/payments`,
+        endpoint: `${param.capiEndpoint}/v2/processing/invoices/${param.invoiceID}/payments`,
         accessToken: param.accessToken,
         method: 'POST',
         body: param.paymentParams

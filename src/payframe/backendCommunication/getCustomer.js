@@ -9,7 +9,7 @@ import fetchCapi from '../../utils/fetchCapi';
  */
 function getCustomer(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/customers/${param.customerID}`,
+        endpoint: `${param.capiEndpoint}/v2/processing/customers/${param.customerID}`,
         accessToken: param.accessToken
     });
 }

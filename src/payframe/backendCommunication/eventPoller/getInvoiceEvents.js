@@ -10,7 +10,7 @@ import fetchCapi from '../../../utils/fetchCapi';
  */
 function getInvoiceEvents(param) {
     return fetchCapi({
-        endpoint: `${param.capiEndpoint}/v1/processing/invoices/${param.invoiceID}/events?limit=${param.eventLimit}${param.eventID ? '&eventID=' + param.eventID : ''}`,
+        endpoint: `${param.capiEndpoint}/v2/processing/invoices/${param.invoiceID}/events?limit=${param.eventLimit}${param.eventID ? '&eventID=' + param.eventID : ''}`,
         accessToken: param.accessToken
     });
 }
