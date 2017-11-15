@@ -8,8 +8,8 @@ export class Final extends React.Component {
         return (
             <form className={styles.form}>
                 <h2 className={styles.title}>Не оплачено</h2>
-                *тут рисуночек*
-                <p className={styles.text}>Не хватает денег на карте Сбербанк *4576</p>
+                <img className={styles.image} src='https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'/>
+                <p className={styles.text}>Не хватает денег на карте<br /> Сбербанк *4576</p>
                 <div className={cx(styles.link_container, styles.help)}>
                     <a href='' className={styles.link}>Как решить проблему?</a>
                     <hr/>
