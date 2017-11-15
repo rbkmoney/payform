@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import toNumber from 'lodash/toNumber';
 import * as viewDataActions from '../../actions/viewDataActions';
 import * as paymentActions from '../../actions/paymentActions';
 import * as invoiceActions from '../../actions/invoiceActions';
@@ -24,9 +25,17 @@ class CardPayment extends React.Component {
         switch (nextProps.payment.status) {
             case 'processInvoiceTemplate': {
                 const isInvoiceWithTemplateCreated = nextProps.integration.invoiceAccessToken;
-                isInvoiceWithTemplateCreated
-                    ? nextProps.actions.paymentActions.processPayment()
-                    : createInvoiceWithTemplate(nextProps);
+                if (isInvoiceWithTemplateCreated) {
+                    const formAmount = toNumber(nextProps.viewData.cardForm.amount.value) * 100;
+                    const invoiceAmount = nextProps.integration.invoice.amount;
+                    if (formAmount && formAmount === invoiceAmount) {
+                        nextProps.actions.paymentActions.processPayment()
+                    } else {
+                        createInvoiceWithTemplate(nextProps);
+                    }
+                } else {
+                    createInvoiceWithTemplate(nextProps);
+                }
                 break;
             }
         }
