@@ -78,7 +78,8 @@ export default class CardUtils {
         if (!value) {
             return false;
         }
-        return value.trim() !== '';
+        const reg = /^[a-zA-Z]+$/;
+        return reg.test(value.trim());
     }
 
     static validateEmail(value) {
