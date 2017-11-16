@@ -9,7 +9,7 @@ function isInvoicePaymentAvailable(props) {
             case 'InvoiceTemplateLineCostUnlim': {
                 const formAmount = toNumber(props.viewData.cardForm.amount.value) * 100;
                 const invoiceAmount = props.integration.invoice.amount;
-                return !!(formAmount && formAmount === invoiceAmount);
+                return (formAmount === invoiceAmount);
             }
             case 'InvoiceTemplateLineCostFixed':
                 return true;
