@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import * as viewDataActions from '../../actions/viewDataActions';
 import * as invoiceActions from '../../actions/invoiceActions';
 import * as paymentActions from '../../actions/paymentActions';
 import EurosetForm from './eurosetForm/EurosetForm';
-import createInvoiceWithTemplate from './createInvoiceWithTemplate';
+import createInvoiceWithTemplate from '../createInvoiceWithTemplate';
+import isInvoicePaymentAvailable from '../isInvoicePaymentAvailable';
 
 class TerminalPayment extends Component {
 
@@ -17,10 +17,9 @@ class TerminalPayment extends Component {
     componentWillReceiveProps(nextProps) {
         switch (nextProps.payment.status) {
             case 'processInvoiceTemplate': {
-                const isInvoiceWithTemplateCreated = nextProps.integration.invoiceAccessToken;
-                isInvoiceWithTemplateCreated
-                    ? nextProps.actions.paymentActions.processPayment()
-                    : createInvoiceWithTemplate(nextProps);
+                isInvoicePaymentAvailable(nextProps) ?
+                  nextProps.actions.paymentActions.processPayment()
+                : createInvoiceWithTemplate(nextProps);
                 break;
             }
         }

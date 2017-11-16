@@ -8,6 +8,7 @@ import * as errorActions from '../../actions/errorActions';
 import CardForm from './cardForm/CardForm';
 import ApplePayForm from './applePayForm/ApplePayForm';
 import createInvoiceWithTemplate from './createInvoiceWithTemplate';
+import isInvoicePaymentAvailable from '../isInvoicePaymentAvailable';
 
 class CardPayment extends React.Component {
 
@@ -23,10 +24,9 @@ class CardPayment extends React.Component {
     componentWillReceiveProps(nextProps) {
         switch (nextProps.payment.status) {
             case 'processInvoiceTemplate': {
-                const isInvoiceWithTemplateCreated = nextProps.integration.invoiceAccessToken;
-                isInvoiceWithTemplateCreated
-                    ? nextProps.actions.paymentActions.processPayment()
-                    : createInvoiceWithTemplate(nextProps);
+                isInvoicePaymentAvailable(nextProps) ?
+                  nextProps.actions.paymentActions.processPayment()
+                : createInvoiceWithTemplate(nextProps);
                 break;
             }
         }
