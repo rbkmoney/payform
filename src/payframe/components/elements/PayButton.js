@@ -16,7 +16,7 @@ class PayButton extends React.Component {
         let result;
         const integration = this.props.integration;
         if (integration.type === 'default') {
-            result = integration.invoice.amount;
+            result = integration.invoice.amount / 100;
         } else if (integration.type === 'template') {
             const details = integration.invoiceTemplate.details;
             switch (details.templateType) {
