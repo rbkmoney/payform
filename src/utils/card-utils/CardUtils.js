@@ -78,7 +78,7 @@ export default class CardUtils {
         if (!value) {
             return false;
         }
-        const reg = /^[a-zA-Z]+$/;
+        const reg = /^[a-zA-Z ]+$/;
         return reg.test(value.trim());
     }
 
