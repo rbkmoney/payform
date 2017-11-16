@@ -1,6 +1,6 @@
 import toNumber from 'lodash/toNumber';
 
-export default function(props) {
+function isInvoicePaymentAvailable(props) {
     const isInvoiceWithTemplateCreated = props.integration.invoiceAccessToken;
     if (isInvoiceWithTemplateCreated) {
         const templateType = props.integration.invoiceTemplate.details.price.costType;
@@ -9,12 +9,14 @@ export default function(props) {
             case 'InvoiceTemplateLineCostUnlim': {
                 const formAmount = toNumber(props.viewData.cardForm.amount.value) * 100;
                 const invoiceAmount = props.integration.invoice.amount;
-                return isInvoiceWithTemplateCreated ? !!(formAmount && formAmount === invoiceAmount) : false;
+                return !!(formAmount && formAmount === invoiceAmount);
             }
             case 'InvoiceTemplateLineCostFixed':
-                return !!isInvoiceWithTemplateCreated;
+                return true;
         }
     } else {
         return false;
     }
 }
+
+export default isInvoicePaymentAvailable;
