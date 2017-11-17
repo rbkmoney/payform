@@ -19,21 +19,24 @@ export class Container extends React.Component {
     render() {
         return (
             <div className={styles.main_container}>
-                {Container.getView() !== 'loading' ?
-                    <div className={styles.container}>
-                        <Close />
-                        {Container.getView() === 'default' ?
-                            <div className={styles.form_container}>
-                                <Header/>
-                                <Info/>
-                                <Form/>
-                                <Footer/>
-                            </div>
-                            : false}
-                        {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
-                    </div>
-                    : <ContainerLoader/> }
+                <div className={styles.popup}>
+                    {Container.getView() !== 'loading' ?
+                        <div className={styles.container}>
+                            <Close />
+                            {Container.getView() === 'default' ?
+                                <div className={styles.form_container}>
+                                    <Header/>
+                                    <Info/>
+                                    <Form/>
+                                    <Footer/>
+                                </div>
+                                : false}
+                            {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
+                        </div>
+                        : <ContainerLoader/>
+                    }
                     {Container.getView() !== 'loading' && Container.getView() !== '3ds' ? <Footer/> : false}
+                </div>
             </div>
 
         );
