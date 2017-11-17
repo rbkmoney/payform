@@ -3,10 +3,11 @@ import toNumber from 'lodash/toNumber';
 function isInvoicePaymentAvailable(props) {
     const isInvoiceWithTemplateCreated = props.integration.invoiceAccessToken;
     if (isInvoiceWithTemplateCreated) {
-        const templateType = props.integration.invoiceTemplate.details.templateType;
+        const invoiceTemplateDetails = props.integration.invoiceTemplate.details;
+        const templateType = invoiceTemplateDetails.templateType;
         switch (templateType) {
             case 'InvoiceTemplateSingleLine': {
-                const costType = props.integration.invoiceTemplate.details.price.costType;
+                const costType = invoiceTemplateDetails.price.costType;
                 if (costType !== 'InvoiceTemplateLineCostFixed') {
                     const formAmount = toNumber(props.viewData.cardForm.amount.value) * 100;
                     const invoiceAmount = props.integration.invoice.amount;
