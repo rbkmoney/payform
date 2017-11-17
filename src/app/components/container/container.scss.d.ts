@@ -4,3 +4,4 @@ export const container: string;
 export const form_container: string;
 export const popup: string;
 export const growth: string;
+export const shake: string;
