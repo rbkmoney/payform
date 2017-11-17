@@ -1,5 +1,6 @@
 @import '../../styles/variables';
 @import '../../styles/responsive';
+@import '../../styles/animations';
 
 .main_container {
     position: relative;
@@ -21,6 +22,7 @@
         height: auto;
         padding: 45px 0;
         box-sizing: border-box;
+        animation: fadein .5s;
 
         footer {
             display: block;
@@ -58,5 +60,11 @@
         footer {
             display: none;
         }
+    }
+}
+
+.popup {
+    @include responsive(sm) {
+        animation: popup .75s;
     }
 }
