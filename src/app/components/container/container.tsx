@@ -19,6 +19,7 @@ export class Container extends React.Component {
     render() {
         return (
             <div className={styles.main_container}>
+                {Container.getView() === 'loading' ? <ContainerLoader/> : false}
                 <div className={styles.popup}>
                     {Container.getView() !== 'loading' ?
                         <div className={styles.container}>
@@ -33,7 +34,7 @@ export class Container extends React.Component {
                                 : false}
                             {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
                         </div>
-                        : <ContainerLoader/>
+                        : false
                     }
                     {Container.getView() !== 'loading' && Container.getView() !== '3ds' ? <Footer/> : false}
                 </div>
