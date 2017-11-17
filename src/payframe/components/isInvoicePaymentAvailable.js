@@ -3,15 +3,15 @@ import toNumber from 'lodash/toNumber';
 function isInvoicePaymentAvailable(props) {
     const isInvoiceWithTemplateCreated = props.integration.invoiceAccessToken;
     if (isInvoiceWithTemplateCreated) {
-        const templateType = props.integration.invoiceTemplate.details.price.costType;
+        console.log(props.integration.invoiceTemplate);
+        const templateType = props.integration.invoiceTemplate.details.templateType;
         switch (templateType) {
-            case 'InvoiceTemplateLineCostRange':
-            case 'InvoiceTemplateLineCostUnlim': {
+            case 'InvoiceTemplateSingleLine': {
                 const formAmount = toNumber(props.viewData.cardForm.amount.value) * 100;
                 const invoiceAmount = props.integration.invoice.amount;
                 return (formAmount === invoiceAmount);
             }
-            case 'InvoiceTemplateLineCostFixed':
+            case 'InvoiceTemplateMultiLine':
                 return true;
         }
     } else {
