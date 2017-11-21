@@ -5,6 +5,12 @@
         to {  opacity: 1;  }
     }
 
+    /* FADE OUT ANIMATION */
+    @keyframes fadeout {
+        from {  opacity: 1;  }
+        to {  opacity: 0;  }
+    }
+
     /* GROWTH ANIMATION */
     @keyframes growth {
         from {  transform: scale(0);  }
@@ -15,6 +21,15 @@
     @keyframes popup {
         from {  transform: perspective(1000px) rotate3d(0, 1, 0, 75deg) translateY(300px); opacity: 0;  }
         to {  transform: perspective(0) rotate3d(0, 1, 0, 0) translateY(0); opacity: 1;  }
+    }
+
+    /* POPOUT ANIMATION */
+    @keyframes popout {
+        0% {  transform: translateY(0);  }
+        25% {  transform: translateY(-30px); }
+        100% {  transform: translateY(500px); }
+        //from {  transform: translateY(0); opacity: 1;  }
+        //to {  transform: translateY(300); opacity: 0;  }
     }
 
     /* ROTATE IN ANIMATION */

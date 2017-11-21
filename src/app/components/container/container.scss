@@ -22,7 +22,7 @@
         height: auto;
         padding: 45px 0;
         box-sizing: border-box;
-        animation: fadein .5s;
+        //animation: fadein .5s;
 
         footer {
             display: block;
@@ -63,24 +63,35 @@
     }
 }
 
-.popup {
+.appearContainer {
     @include responsive(sm) {
-        animation: popup .75s;
+        //animation: popup .75s;
+        animation: popout 1s;
     }
 }
 
-.enter {
+.enterContainer {
     background: green;
 }
 
-.leave {
+.leaveContainer {
     @include responsive(sm) {
-        animation: rotateout 0s;
+        animation: rotatein 0s;
     }
 }
 
-.appear {
+.appearFormContainer {
     @include responsive(sm) {
         animation: rotatein 0s;
+    }
+}
+
+.enterFormContainer {
+    background: green;
+}
+
+.leaveFormContainer {
+    @include responsive(sm) {
+        animation: rotateout 0s;
     }
 }

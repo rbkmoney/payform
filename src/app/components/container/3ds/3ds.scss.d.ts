@@ -5,5 +5,8 @@ export const rotateout: string;
 export const appear: string;
 export const rotatein: string;
 export const fadein: string;
+export const fadeout: string;
 export const growth: string;
 export const popup: string;
+export const popout: string;
+export const shake: string;

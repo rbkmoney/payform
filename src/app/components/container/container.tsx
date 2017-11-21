@@ -22,7 +22,20 @@ export class Container extends React.Component {
         return (
             <div className={styles.main_container}>
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
-                <div className={styles.popup}>
+                <CSSTransitionGroup
+                    component='div'
+                    transitionName={{
+                        appear: styles.appearContainer,
+                        enter: styles.enterContainer,
+                        leave: styles.leaveContainer
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
                     {Container.getView() !== 'loading' ?
                         <div className={styles.container}>
                             <Close />
@@ -30,9 +43,9 @@ export class Container extends React.Component {
                                 <CSSTransitionGroup
                                     component='div'
                                     transitionName={{
-                                        appear: styles.appear,
-                                        enter: styles.enter,
-                                        leave: styles.leave
+                                        appear: styles.appearFormContainer,
+                                        enter: styles.enterFormContainer,
+                                        leave: styles.leaveFormContainer
                                     }}
                                     transitionEnterTimeout={1000}
                                     transitionLeaveTimeout={1000}
@@ -54,7 +67,7 @@ export class Container extends React.Component {
                         : false
                     }
                     {Container.getView() !== 'loading' && Container.getView() !== '3ds' ? <Footer/> : false}
-                </div>
+                </CSSTransitionGroup>
             </div>
 
         );
