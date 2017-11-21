@@ -7,4 +7,3 @@ export const rotatein: string;
 export const fadein: string;
 export const growth: string;
 export const popup: string;
-export const shake: string;

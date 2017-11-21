@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as TransitionGroup from 'react-transition-group';
 import * as styles from './container.scss';
 
 import {Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close} from '../index';
@@ -17,6 +18,7 @@ export class Container extends React.Component {
     }
 
     render() {
+        const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
             <div className={styles.main_container}>
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
@@ -25,12 +27,27 @@ export class Container extends React.Component {
                         <div className={styles.container}>
                             <Close />
                             {Container.getView() === 'default' ?
-                                <div className={styles.form_container}>
-                                    <Header/>
-                                    <Info/>
-                                    <Form/>
-                                    <Footer/>
-                                </div>
+                                <CSSTransitionGroup
+                                    component='div'
+                                    transitionName={{
+                                        appear: styles.appear,
+                                        enter: styles.enter,
+                                        leave: styles.leave
+                                    }}
+                                    transitionEnterTimeout={1000}
+                                    transitionLeaveTimeout={1000}
+                                    transitionAppearTimeout={1000}
+                                    transitionAppear={true}
+                                    transitionEnter={true}
+                                    transitionLeave={true}
+                                >
+                                    <div className={styles.form_container}>
+                                        <Header/>
+                                        <Info/>
+                                        <Form/>
+                                        <Footer/>
+                                    </div>
+                                </CSSTransitionGroup>
                                 : false}
                             {Container.getView() === '3ds' ? <ThreeDSContainer/> : false}
                         </div>

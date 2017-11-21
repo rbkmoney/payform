@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as cx from 'classnames';
 import * as styles from './forms.scss';
 import {PaymentMethods, CardPay, Final, Help, FormLoader} from '../../index';
 
@@ -22,7 +23,9 @@ export class Form extends React.Component {
     render() {
         return (
             <div className={styles.container}>
-                <div className={styles.form}>
+                <div className={cx(styles.form, {
+                    [styles._error]: true
+                })}>
                     {this.getView() === 'methods' ? <PaymentMethods/> : false}
                     {this.getView() === 'card_pay' || this.getView() === 'loading' ? <CardPay/> : false}
                     {this.getView() === 'final' ? <Final/> : false}
