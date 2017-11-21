@@ -1,5 +1,6 @@
 @import "../../../styles/variables";
 @import "../../../styles/responsive";
+@import "../../../styles/animations";
 
 .container {
     position: fixed;
@@ -11,5 +12,21 @@
         height: 690px;
         width: 680px;
         position: relative;
+    }
+}
+
+.enter {
+    background: green;
+}
+
+.leave {
+    @include responsive(sm) {
+        animation: rotateout 1s;
+    }
+}
+
+.appear {
+    @include responsive(sm) {
+        animation: rotatein 1s;
     }
 }

@@ -68,3 +68,19 @@
         animation: popup .75s;
     }
 }
+
+.enter {
+    background: green;
+}
+
+.leave {
+    @include responsive(sm) {
+        animation: rotateout 0s;
+    }
+}
+
+.appear {
+    @include responsive(sm) {
+        animation: rotatein 0s;
+    }
+}

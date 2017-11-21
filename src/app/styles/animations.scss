@@ -17,14 +17,23 @@
         to {  transform: perspective(0) rotate3d(0, 1, 0, 0) translateY(0); opacity: 1;  }
     }
 
+    /* ROTATE IN ANIMATION */
+    @keyframes rotatein {
+        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 90deg);  }
+        to {  transform: perspective(0) rotate3d(0, 1, 0, 0);  }
+    }
+
+    /* ROTATE OUT ANIMATION */
+    @keyframes rotateout {
+        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 0);  }
+        to {  transform: perspective(0) rotate3d(0, 1, 0, 90deg);  }
+    }
+
     /* SHAKE ANIMATION */
     @keyframes shake {
         10%, 90% {  transform: translate3d(-1px, 0, 0);  }
-
         20%, 80% {  transform: translate3d(2px, 0, 0);  }
-
         30%, 50%, 70% {  transform: translate3d(-4px, 0, 0);  }
-
         40%, 60% {  transform: translate3d(4px, 0, 0);  }
     }
 }
