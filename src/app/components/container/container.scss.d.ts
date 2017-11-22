@@ -1,4 +1,5 @@
-export const main_container: string;
+export const mainContainer: string;
+export const overlay: string;
 export const fadein: string;
 export const container: string;
 export const form_container: string;
@@ -8,5 +9,7 @@ export const leave: string;
 export const rotateout: string;
 export const appear: string;
 export const rotatein: string;
+export const slidedown: string;
+export const slideup: string;
 export const growth: string;
 export const shake: string;
