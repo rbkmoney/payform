@@ -2,7 +2,7 @@
 @import '../../styles/responsive';
 @import '../../styles/animations';
 
-.main_container {
+.mainContainer {
     position: relative;
     height: 100%;
     min-height: 100%;
@@ -18,15 +18,26 @@
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
-        background: rgba(0, 0, 0, .7);
         height: auto;
         padding: 45px 0;
         box-sizing: border-box;
-        animation: fadein .5s;
 
         footer {
             display: block;
         }
+    }
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+
+    @include responsive(sm) {
+        background: rgba(0, 0, 0, .7);
+        transform: translateZ(-1000px);
+        animation: fadein .5s;
     }
 }
 
