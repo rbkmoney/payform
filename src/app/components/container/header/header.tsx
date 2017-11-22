@@ -22,7 +22,7 @@ export class Header extends React.Component {
                 <div className={cx(styles.text, {
                     [styles._center]: true
                 })}>
-                    bangbangeducation.rubangbangeducation.rubangbangeducation.rubangbangeducation.ru
+                    bangbangeducation.ru
                 </div>
             </header>
         );
