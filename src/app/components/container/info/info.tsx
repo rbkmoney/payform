@@ -44,7 +44,7 @@ export class Info extends React.Component<{}, InfoState> {
                 </div>
                 <div>
                     <div className={styles.subscription} onClick={this.toggleHelp}>
-                        Ежемесячный платёж
+                        <span>Ежемесячный платёж</span>
                         <svg width='15px' height='15px' viewBox='0 0 15 15'>
                             <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
                                 <g transform='translate(-201.000000, -205.000000)'>

@@ -39,7 +39,8 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    opacity: .75;
+    //opacity: .75;
+    opacity: 1;
 }
 
 .input {
@@ -50,7 +51,7 @@
     border: 1px solid $gray;
     box-shadow: 0 0 4px 0 $white;
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     color: $deep-gray;
     letter-spacing: 0;

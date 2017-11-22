@@ -82,16 +82,19 @@
     font-weight: 900;
     font-size: 11px;
     color: $white;
-    opacity: .4;
     letter-spacing: 2px;
     line-height: 15px;
     text-transform: uppercase;
-    margin-bottom: 5px;
     cursor: pointer;
 
     @include responsive(sm) {
         cursor: auto;
         margin-top: 60px;
+        margin-bottom: 5px;
+    }
+
+    span {
+        opacity: .4;
     }
 
     svg {
@@ -120,13 +123,14 @@
     color: $white;
     letter-spacing: 0;
     line-height: 18px;
-    margin: 0;
+    margin: 5px 0 0;
 
     &._hide {
         display: none;
     }
 
     @include responsive(sm) {
+        margin: 0;
         display: block !important;
     }
 }
