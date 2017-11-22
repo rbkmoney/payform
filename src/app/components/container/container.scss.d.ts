@@ -1,4 +1,5 @@
-export const main_container: string;
+export const mainContainer: string;
+export const overlay: string;
 export const fadein: string;
 export const container: string;
 export const form_container: string;
