@@ -24,7 +24,7 @@ export class Form extends React.Component {
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
-                    [styles._error]: true
+                    [styles._error]: false
                 })}>
                     {this.getView() === 'methods' ? <PaymentMethods/> : false}
                     {this.getView() === 'card_pay' || this.getView() === 'loading' ? <CardPay/> : false}
