@@ -6,6 +6,8 @@ export const header: string;
 export const back_btn: string;
 export const title: string;
 export const fadein: string;
+export const slidedown: string;
+export const slideup: string;
 export const growth: string;
 export const popup: string;
 export const rotatein: string;

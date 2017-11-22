@@ -20,6 +20,8 @@
 
     @include responsive(sm) {
         padding: 30px;
+        min-height: auto;
+        transition: min-height .75s;
     }
 
     &._error {
