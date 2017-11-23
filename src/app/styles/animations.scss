@@ -11,6 +11,18 @@
         to {  opacity: 0;  }
     }
 
+    /* SLIDE DOWN FADE IN */
+    @keyframes slidedown {
+        from {  transform: translateY(-15px); opacity: 0;  }
+        to {  transform: translateY(0); opacity: 1;  }
+    }
+
+    /* SLIDE UP FADE OUT */
+    @keyframes slideup {
+        from {  transform: translateY(0); opacity: 1;  }
+        to {  transform: translateY(-15px); opacity: 0;  }
+    }
+
     /* GROWTH ANIMATION */
     @keyframes growth {
         from {  transform: scale(0);  }

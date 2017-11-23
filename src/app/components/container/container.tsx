@@ -20,7 +20,8 @@ export class Container extends React.Component {
     render() {
         const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
-            <div className={styles.main_container}>
+            <div className={styles.mainContainer}>
+                <div className={styles.overlay} />
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
                 <CSSTransitionGroup
                     component='div'
@@ -69,7 +70,6 @@ export class Container extends React.Component {
                     {Container.getView() !== 'loading' && Container.getView() !== '3ds' ? <Footer/> : false}
                 </CSSTransitionGroup>
             </div>
-
         );
     }
 }

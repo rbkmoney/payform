@@ -1,10 +1,12 @@
 import * as React from 'react';
+import * as TransitionGroup from 'react-transition-group';
 import * as styles from './payment-methods.scss';
 import * as formStyles from '../forms.scss';
 import {Icon} from '../../../index';
 
 export class PaymentMethods extends React.Component {
     render() {
+        const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
             <form>
                 <div className={formStyles.header}>
@@ -15,8 +17,22 @@ export class PaymentMethods extends React.Component {
                         Выберите способ оплаты
                     </div>
                 </div>
-                <ul className={styles.list}>
-                    <li className={styles.method}>
+                <CSSTransitionGroup
+                    className={styles.list}
+                    component='ul'
+                    transitionName={{
+                        appear: styles.appearItem,
+                        enter: styles.enterItem,
+                        leave: styles.leaveItem
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
+                    <li className={styles.method} key='1'>
                         <div className={styles.icon}>
                             {/* tslint:disable:max-line-length */}
                             <svg width='40px' height='40px' viewBox='0 0 40 40'>
@@ -45,7 +61,7 @@ export class PaymentMethods extends React.Component {
                         </div>
                     </li>
 
-                    <li className={styles.method}>
+                    <li className={styles.method} key='2'>
                         <div className={styles.icon}>
                             {/* tslint:disable:max-line-length */}
                             <svg width='40px' height='40px' viewBox='0 0 40 40'>
@@ -78,7 +94,7 @@ export class PaymentMethods extends React.Component {
                                 Оплата через терминал, банкомат или салон связи </p>
                         </div>
                     </li>
-                </ul>
+                </CSSTransitionGroup>
             </form>
         );
     }

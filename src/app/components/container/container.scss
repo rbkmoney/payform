@@ -2,7 +2,7 @@
 @import '../../styles/responsive';
 @import '../../styles/animations';
 
-.main_container {
+.mainContainer {
     position: relative;
     height: 100%;
     min-height: 100%;
@@ -18,15 +18,26 @@
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
-        background: rgba(0, 0, 0, .7);
         height: auto;
         padding: 45px 0;
         box-sizing: border-box;
-        //animation: fadein .5s;
 
         footer {
             display: block;
         }
+    }
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+
+    @include responsive(sm) {
+        background: rgba(0, 0, 0, .7);
+        transform: translateZ(-1000px);
+        animation: fadein .5s;
     }
 }
 
@@ -39,7 +50,7 @@
     height: 100%;
     min-height: 100%;
     width: 100%;
-    background-image: linear-gradient(40deg, $light-purple 0%, $deep-blue 29%, $blue 59%, $lightest-blue 100%);
+    background-image: linear-gradient(70deg, $light-purple 0%, $deep-blue 29%, $blue 59%, $lightest-blue 100%);
 
     footer {
         display: block;
@@ -55,7 +66,7 @@
         flex-direction: row;
         padding: 30px;
         box-sizing: border-box;
-        background-image: linear-gradient(90deg, $light-purple 0%, $deep-blue 9%, $blue 39%, $lightest-blue 100%);
+        background-image: linear-gradient(90deg, $deep-blue 0%, $blue 39%, $lightest-blue 100%);
 
         footer {
             display: none;
