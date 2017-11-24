@@ -106,7 +106,11 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             font-size: 10px;
-            color: $white;
+            fill: $white;
+        }
+
+        circle {
+            stroke: $white;
         }
 
         @include responsive(sm) {
