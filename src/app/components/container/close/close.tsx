@@ -14,24 +14,11 @@ const mapDispatchToProps = (dispatch: Dispatch<ResultAction>) => ({
     close: bindActionCreators(close, dispatch)
 });
 
-export class CloseDef extends React.Component<CloseProps> {
-
-    constructor(props: CloseProps) {
-        super(props);
-        this.close = this.close.bind(this);
-    }
-
-    close() {
-        this.props.close();
-    }
-
-    render() {
-        return (
-            <div className={styles.close} onClick={this.close}>
-                <Icon icon='cross'/>
-            </div>
-        );
-    }
-}
+const CloseDef: React.SFC<CloseProps> = (props) =>
+    (
+        <div className={styles.close} onClick={props.close}>
+            <Icon icon='cross'/>
+        </div>
+    );
 
 export const Close = connect(null, mapDispatchToProps)(CloseDef);
