@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as TransitionGroup from 'react-transition-group';
 import * as styles from './container.scss';
 
-import {Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close} from '../index';
+import { Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close } from '../index';
 
 export class Container extends React.Component {
     static getView(): string {
@@ -21,7 +21,7 @@ export class Container extends React.Component {
         const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
             <div className={styles.mainContainer}>
-                <div className={styles.overlay} />
+                <div className={styles.overlay}/>
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
                 <CSSTransitionGroup
                     component='div'
@@ -39,7 +39,7 @@ export class Container extends React.Component {
                 >
                     {Container.getView() !== 'loading' ?
                         <div className={styles.container}>
-                            <Close />
+                            <Close/>
                             {Container.getView() === 'default' ?
                                 <CSSTransitionGroup
                                     component='div'

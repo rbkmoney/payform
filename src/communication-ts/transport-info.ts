@@ -1,4 +1,5 @@
 export enum TransportInfo {
     transportName = 'rbkmoney-checkout',
-    handshakeName = 'rbkmoney-checkout-handshake'
+    parentHandshakeMessageName = 'rbkmoney-checkout-handshake',
+    childHandshakeMessageName = 'rbkmoney-payframe-handshake'
 }

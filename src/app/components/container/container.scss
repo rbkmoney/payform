@@ -76,8 +76,7 @@
 
 .appearContainer {
     @include responsive(sm) {
-        //animation: popup .75s;
-        animation: popout 1s;
+        animation: popup .75s;
     }
 }
 
@@ -87,7 +86,7 @@
 
 .leaveContainer {
     @include responsive(sm) {
-        animation: rotatein 0s;
+        animation: popout 1s;
     }
 }
 

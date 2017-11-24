@@ -18,9 +18,9 @@ export class Child {
                 return resolve(new StubTransport());
             } else {
                 const shake = (e: MessageEvent) => {
-                    if (e && e.data === TransportInfo.handshakeName) {
+                    if (e && e.data === TransportInfo.parentHandshakeMessageName) {
                         const target = e.source;
-                        target.postMessage(TransportInfo.handshakeName, e.origin);
+                        target.postMessage(TransportInfo.childHandshakeMessageName, e.origin);
                         ContextResolver.set({
                             parentOrigin: e.origin
                         });
