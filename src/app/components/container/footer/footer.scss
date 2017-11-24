@@ -7,7 +7,6 @@
     @include responsive(sm) {
         width: 680px;
         padding: 15px 0;
-        opacity: .6;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -45,7 +44,8 @@
         margin: 0;
 
         @include responsive(sm) {
-            color: $white;
+            color: rgba(255, 255, 255, .6);
+            transform: translateZ(0); //transparency chrome fix
         }
     }
 
@@ -63,10 +63,11 @@
 
         @include responsive(sm) {
             path {
-                stroke: $white;
+                stroke: rgba(255, 255, 255, .6);
+
             }
             rect {
-                fill: $white;
+                fill: rgba(255, 255, 255, .6);
             }
         }
     }
@@ -90,6 +91,7 @@
     .visa_icon {
         height: 32px;
         width: 59px;
+        transform: translateZ(0); //transparency chrome fix
     }
 
     .mc_icon {
@@ -97,6 +99,7 @@
         width: 63px;
         position: relative;
         top: 4px;
+        transform: translateZ(0); //transparency chrome fix
     }
 
     .pci_icon {
@@ -104,6 +107,7 @@
         width: 63px;
         position: relative;
         top: 4px;
+        transform: translateZ(0); //transparency chrome fix
     }
 }
 
@@ -118,7 +122,8 @@
     margin: 0 0 20px;
 
     @include responsive(sm) {
-        color: $white;
+        color: rgba(255, 255, 255, .6);
+        transform: translateZ(0); //transparency chrome fix
     }
 }
 
@@ -143,10 +148,13 @@
     }
 
     @include responsive(sm) {
-        color: $white;
+        color: rgba(255, 255, 255, .6);
+        transform: translateZ(0); //transparency chrome fix
 
         hr {
-            border-color: $white;
+            border-color: rgba(255, 255, 255, .6);
+            transform: translateZ(0); //transparency chrome fix
+
         }
     }
 }
@@ -155,6 +163,6 @@
     fill: $lightest-purple2;
 
     @include responsive(sm) {
-        fill: $white;
+        fill: rgba(255, 255, 255, .6);
     }
 }
