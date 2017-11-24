@@ -50,8 +50,8 @@ export class Info extends React.Component<{}, InfoState> {
                                 <g transform='translate(-201.000000, -205.000000)'>
                                     <g transform='translate(25.000000, 30.000000)'>
                                         <g transform='translate(177.000000, 176.000000)'>
-                                            <circle stroke='#FFFFFF' strokeWidth='2' cx='6.5' cy='6.5' r='6.5'/>
-                                            <text fill='#FFFFFF'>
+                                            <circle strokeWidth='2' cx='6.5' cy='6.5' r='6.5'/>
+                                            <text>
                                                 <tspan x='4' y='10'>?</tspan>
                                             </text>
                                         </g>
