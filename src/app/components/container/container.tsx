@@ -21,7 +21,23 @@ export class Container extends React.Component {
         const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
             <div className={styles.mainContainer}>
-                <div className={styles.overlay}/>
+                <CSSTransitionGroup
+                    component='div'
+                    className={styles.overlayContainer}
+                    transitionName={{
+                        appear: styles.appearOverlay,
+                        enter: styles.enterOverlay,
+                        leave: styles.leaveOverlay
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
+                    <div className={styles.overlay}/>
+                </CSSTransitionGroup>
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
                 <CSSTransitionGroup
                     component='div'
