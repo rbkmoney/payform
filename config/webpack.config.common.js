@@ -23,25 +23,25 @@ module.exports = {
             { test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules(?!\/tokenizer)/ },
             { test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader'] },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 exclude: [
                     path.join(__dirname, '../src/checkout'),
                     path.join(__dirname, '../src/payframe')
                 ],
                 use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
                     use: [
-                        {
-                            loader: 'typings-for-css-modules-loader',
+                        { loader: 'css-loader',
                             options: {
+                                minimize: true,
                                 modules: true,
                                 namedExport: true,
                                 localIdentName: '[local]___[hash:base64:5]'
                             }
                         },
-                        'sass-loader'
-                    ]
-                }),
+                        { loader: 'sass-loader' }
+                    ],
+                    fallback: 'style-loader'
+                })
             },
             {
                 test: /\.(css|scss)$/,
