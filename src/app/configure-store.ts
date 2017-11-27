@@ -1,10 +1,11 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import { resultReducer } from './reducers/result-reducer';
+import { resultReducer, configReducer } from './reducers';
 
-export function configureStore(initialState: any): Store<any> {
+export function configureStore(): Store<any> {
     return createStore(combineReducers({
-        result: resultReducer
-    }), initialState, composeWithDevTools(applyMiddleware(thunk)));
+        result: resultReducer,
+        config: configReducer
+    }), composeWithDevTools(applyMiddleware(thunk)));
 }

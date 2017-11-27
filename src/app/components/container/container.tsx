@@ -38,7 +38,9 @@ export class Container extends React.Component {
                 >
                     <div className={styles.overlay}/>
                 </CSSTransitionGroup>
+
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
+
                 <CSSTransitionGroup
                     component='div'
                     transitionName={{

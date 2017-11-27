@@ -1,0 +1,170 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/responsive';
+
+$localWhite: rgba(255, 255, 255, .6);
+
+.footer {
+    padding: 30px 25px;
+
+    @include responsive(sm) {
+        width: 680px;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+.safe_payment_container {
+    @include responsive(sm) {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.safe_payment {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin: 0 0 15px;
+
+    @include responsive(sm) {
+        width: auto;
+    }
+
+    .text {
+        font-family: 'Roboto', sans-serif;
+        font-size: 11px;
+        font-weight: 900;
+        color: $lightest-purple;
+        letter-spacing: 2px;
+        line-height: 15px;
+        text-transform: uppercase;
+        margin: 0;
+
+        @include responsive(sm) {
+            color: $localWhite;
+            transform: translateZ(0); //transparency chrome fix
+        }
+    }
+
+    svg {
+        margin-right: 8px;
+        position: relative;
+        top: -2px;
+
+        path {
+            stroke: $lightest-purple2;
+        }
+        rect {
+            fill: $lightest-purple2;
+        }
+
+        @include responsive(sm) {
+            path {
+                stroke: $localWhite;
+
+            }
+            rect {
+                fill: $localWhite;
+            }
+        }
+    }
+}
+
+.safe_logos {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin-bottom: 25px;
+
+    @include responsive(sm) {
+        width: auto;
+    }
+
+    svg {
+        margin-right: 25px;
+    }
+
+    .visa_icon {
+        height: 32px;
+        width: 59px;
+        transform: translateZ(0); //transparency chrome fix
+    }
+
+    .mc_icon {
+        height: 22px;
+        width: 63px;
+        position: relative;
+        top: 4px;
+        transform: translateZ(0); //transparency chrome fix
+    }
+
+    .pci_icon {
+        height: 24px;
+        width: 63px;
+        position: relative;
+        top: 4px;
+        transform: translateZ(0); //transparency chrome fix
+    }
+}
+
+.copyright {
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    color: $lightest-purple2;
+    letter-spacing: 0;
+    line-height: 18px;
+    margin: 0 0 20px;
+
+    @include responsive(sm) {
+        color: $localWhite;
+        transform: translateZ(0); //transparency chrome fix
+    }
+}
+
+.offer {
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 11px;
+    color: $lightest-purple2;
+    letter-spacing: 2px;
+    line-height: 15px;
+    padding: 0;
+    margin: 0;
+
+    hr {
+        border-color: $lightest-purple2;
+        border-bottom: 0;
+        padding: 0;
+        margin: 0 0 3px;
+    }
+
+    @include responsive(sm) {
+        color: $localWhite;
+        transform: translateZ(0); //transparency chrome fix
+
+        hr {
+            border-color: $localWhite;
+            transform: translateZ(0); //transparency chrome fix
+
+        }
+    }
+}
+
+.fill_icons {
+    fill: $lightest-purple2;
+
+    @include responsive(sm) {
+        fill: $localWhite;
+    }
+}

@@ -10,13 +10,13 @@ export class ConfigResolver {
         return Promise.all([
             this.resolveInitConfig(transport),
             this.loadAppConfig()
-        ]).then((configs) => {
-            return {
+        ]).then((configs) => (
+            {
                 origin: this.getOrigin(),
                 initConfig: configs[0],
                 appConfig: configs[1]
-            };
-        });
+            }
+        ));
     }
 
     private static loadAppConfig(): Promise<AppConfig> {

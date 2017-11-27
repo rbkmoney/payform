@@ -1,6 +1,6 @@
 import * as ReactDOM from 'react-dom';
 import { Transport, PossibleEvents } from '../communication-ts';
-import { Result } from './state';
+import { ResultState } from './state';
 
 class AppFinalizer {
 
@@ -28,14 +28,14 @@ class AppFinalizer {
     }
 }
 
-export function finalize(result: Result, transport: Transport, checkoutEl: HTMLElement, redirectUrl?: string, popupMode?: boolean) {
+export function finalize(result: ResultState, transport: Transport, checkoutEl: HTMLElement, redirectUrl?: string, popupMode?: boolean) {
     const finalizer = new AppFinalizer(transport, checkoutEl);
     switch (result) {
-        case Result.close:
+        case ResultState.close:
             finalizer.close();
             break;
-        case Result.done:
-            finalizer.done();
+        case ResultState.done:
+            finalizer.done(redirectUrl, popupMode);
             break;
     }
 }

@@ -1,13 +1,11 @@
-import { State } from '../state/state';
-import { TypeKeys } from '../actions/type-keys';
-import { ResultAction } from '../actions/result-action/result-action';
+import { TypeKeys, ResultAction } from '../actions';
+import { ResultState } from '../state/result-state';
 
-export function resultReducer(s: State = null, action: ResultAction) {
+export function resultReducer(s: ResultState = null, action: ResultAction): ResultState {
     switch (action.type) {
         case TypeKeys.SET_RESULT: {
             return action.payload;
         }
-        default:
-            return s;
     }
+    return s;
 }
