@@ -28,16 +28,20 @@
     }
 }
 
-.overlay {
+.overlayContainer {
     position: absolute;
     height: 100%;
     min-height: 100%;
+    width: 100%;
+}
+
+.overlay {
+    height: 100%;
     width: 100%;
 
     @include responsive(sm) {
         background: rgba(0, 0, 0, .7);
         transform: translateZ(-1000px);
-        animation: fadein .5s;
     }
 }
 
@@ -74,24 +78,50 @@
     }
 }
 
-.popup {
+.appearOverlay {
+    @include responsive(sm) {
+        animation: fadein .5s;
+    }
+}
+
+.enterOverlay {
+    background: green;
+}
+
+.leaveOverlay {
+    @include responsive(sm) {
+        animation: fadeout .5s;
+    }
+}
+
+.appearContainer {
     @include responsive(sm) {
         animation: popup .75s;
     }
 }
 
-.enter {
+.enterContainer {
     background: green;
 }
 
-.leave {
+.leaveContainer {
     @include responsive(sm) {
-        animation: rotateout 0s;
+        animation: popout 1s;
     }
 }
 
-.appear {
+.appearFormContainer {
     @include responsive(sm) {
         animation: rotatein 0s;
+    }
+}
+
+.enterFormContainer {
+    background: green;
+}
+
+.leaveFormContainer {
+    @include responsive(sm) {
+        animation: rotateout 0s;
     }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as TransitionGroup from 'react-transition-group';
 import * as styles from './container.scss';
 
-import {Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close} from '../index';
+import { Header, Info, Footer, Form, ThreeDSContainer, ContainerLoader, Close } from '../index';
 
 export class Container extends React.Component {
     static getView(): string {
@@ -21,19 +21,48 @@ export class Container extends React.Component {
         const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
             <div className={styles.mainContainer}>
-                <div className={styles.overlay} />
+                <CSSTransitionGroup
+                    component='div'
+                    className={styles.overlayContainer}
+                    transitionName={{
+                        appear: styles.appearOverlay,
+                        enter: styles.enterOverlay,
+                        leave: styles.leaveOverlay
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
+                    <div className={styles.overlay}/>
+                </CSSTransitionGroup>
                 {Container.getView() === 'loading' ? <ContainerLoader/> : false}
-                <div className={styles.popup}>
+                <CSSTransitionGroup
+                    component='div'
+                    transitionName={{
+                        appear: styles.appearContainer,
+                        enter: styles.enterContainer,
+                        leave: styles.leaveContainer
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
                     {Container.getView() !== 'loading' ?
                         <div className={styles.container}>
-                            <Close />
+                            <Close/>
                             {Container.getView() === 'default' ?
                                 <CSSTransitionGroup
                                     component='div'
                                     transitionName={{
-                                        appear: styles.appear,
-                                        enter: styles.enter,
-                                        leave: styles.leave
+                                        appear: styles.appearFormContainer,
+                                        enter: styles.enterFormContainer,
+                                        leave: styles.leaveFormContainer
                                     }}
                                     transitionEnterTimeout={1000}
                                     transitionLeaveTimeout={1000}
@@ -55,7 +84,7 @@ export class Container extends React.Component {
                         : false
                     }
                     {Container.getView() !== 'loading' && Container.getView() !== '3ds' ? <Footer/> : false}
-                </div>
+                </CSSTransitionGroup>
             </div>
         );
     }

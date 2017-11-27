@@ -37,4 +37,29 @@
 .back_btn {
     position: relative;
     margin-right: 20px;
+    background: none;
+    border: none;
+    outline: none;
+
+    svg {
+        path {
+            stroke: $purple;
+        }
+    }
+
+    &:hover {
+        svg {
+            path {
+                stroke: $deep-purple;
+            }
+        }
+    }
+
+    &:focus {
+        svg {
+            path {
+                stroke: $deepest-purple;
+            }
+        }
+    }
 }

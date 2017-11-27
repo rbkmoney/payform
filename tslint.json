@@ -5,6 +5,9 @@
     "member-access": [true, "no-public"],
     "trailing-comma": false,
     "ordered-imports": false,
-    "no-console": [true, "log"]
+    "no-console": [true, "log"],
+    "max-line-length": false,
+    "object-literal-sort-keys": false,
+    "interface-name": false
   }
 }
