@@ -5,7 +5,7 @@ import {Input} from '../../../input';
 import {Icon} from '../../../../../../../ui/icon';
 
 interface IState {
-    cardNumber: string
+    cardNumber: string;
 }
 
 export class CardNumber extends React.Component<{}, IState> {
@@ -14,7 +14,7 @@ export class CardNumber extends React.Component<{}, IState> {
 
         this.state = {
             cardNumber: '5555555555554444'
-        }
+        };
     }
 
     getCardType(cardNumber: string): string {
@@ -25,7 +25,8 @@ export class CardNumber extends React.Component<{}, IState> {
         return (
             <div className={styles.inputContainer}>
                 <Input className={styles.cardNumberInput} icon='card' placeholder='Номер на карте'/>
-                <Icon className={styles.cardTypeIcon} icon={this.getCardType(this.state.cardNumber)} />
+                {this.state.cardNumber.length > 4 ? <Icon className={styles.cardTypeIcon} icon={this.getCardType(this.state.cardNumber)} />
+                    : false}
             </div>
         );
     }
