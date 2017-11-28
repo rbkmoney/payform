@@ -1,18 +1,19 @@
 import * as React from 'react';
 import * as styles from './input.scss';
 import * as cx from 'classnames';
-import { Icon } from '../../index';
+import { Icon } from '../../../../../index';
 
 interface IProps {
     icon?: string;
     placeholder?: string;
     mark?: boolean;
+    className?: string;
 }
 
 export class Input extends React.Component<IProps, {}> {
     render() {
         return (
-            <div className={cx(styles.container, {
+            <div className={cx(styles.container, this.props.className, {
                 [styles._correct]: true
             })}>
                 {this.props.icon ? <Icon className={styles.icon} icon={this.props.icon} /> : false}

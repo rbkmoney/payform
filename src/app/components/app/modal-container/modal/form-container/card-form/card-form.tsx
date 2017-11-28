@@ -1,9 +1,10 @@
 import * as React from 'react';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
-import { Button } from '../../../../../ui/button/button';
-import { Input } from '../../../../../ui/input/input';
+import { Button } from '../button';
+import { Input } from '../input';
 import { Icon } from '../../../../../ui/icon/icon';
+import { CardNumber } from './fields/card-number';
 
 const CardFormDef: React.SFC = () => (
     <form>
@@ -16,7 +17,7 @@ const CardFormDef: React.SFC = () => (
             </div>
         </div>
         <div className='form-group'>
-            <Input icon='card' placeholder='Номер на карте'/>
+            <CardNumber />
         </div>
         <div className='form-group'>
             <Input icon='calendar' placeholder='ММ/ГГ'/> <Input icon='lock' placeholder='CVV/CVC'/>
