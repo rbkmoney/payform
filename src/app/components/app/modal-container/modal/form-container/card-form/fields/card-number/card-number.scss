@@ -1,3 +1,5 @@
+@import '../../../../../../../../styles/animations';
+
 .inputContainer {
     width: 100%;
     position: relative;
@@ -15,4 +17,5 @@
     right: 15px;
     width: 31px;
     height: 19px;
+    animation: growth .5s;
 }
