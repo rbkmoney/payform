@@ -4,7 +4,7 @@ import { Icon } from '../../../../../../../ui/icon';
 import * as creditCardType from 'credit-card-type';
 
 interface CardTypeIconProps {
-    cardNumber: string
+    cardNumber: string;
 }
 
 function getCardType(cardNumber: string): creditCardType.CardBrand | null {
