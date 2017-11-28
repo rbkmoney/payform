@@ -1,5 +1,6 @@
-import { Result } from '.';
+import { ResultState, ConfigState } from '.';
 
 export type State = {
-    readonly result: Result;
+    readonly result: ResultState;
+    readonly config: ConfigState;
 }

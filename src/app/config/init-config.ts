@@ -7,6 +7,8 @@ export class InitConfig {
     paymentFlowHold: boolean = false;
     holdExpiration: HoldExpiration = HoldExpiration.cancel;
     locale: string = 'auto';
+    popupMode: boolean = false;
+    redirectUrl?: string;
     name?: string;
     description?: string;
     email?: string;

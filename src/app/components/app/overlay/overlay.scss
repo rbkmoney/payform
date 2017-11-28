@@ -1,0 +1,35 @@
+@import '../../../styles/responsive';
+@import '../../../styles/animations';
+
+.overlayContainer {
+    position: absolute;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+}
+
+.overlay {
+    height: 100%;
+    width: 100%;
+
+    @include responsive(sm) {
+        background: rgba(0, 0, 0, .7);
+        transform: translateZ(-1000px);
+    }
+}
+
+.appearOverlay {
+    @include responsive(sm) {
+        animation: fadein .5s;
+    }
+}
+
+.enterOverlay {
+    background: green;
+}
+
+.leaveOverlay {
+    @include responsive(sm) {
+        animation: fadeout .5s;
+    }
+}
