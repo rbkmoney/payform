@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@types/classnames": "~2.2.3",
+    "@types/credit-card-type": "~5.0.1",
     "@types/react": "~16.0.1",
     "@types/react-dom": "~16.0.1",
     "@types/react-redux": "~5.0.13",
