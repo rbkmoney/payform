@@ -5,10 +5,8 @@ import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { ConfigAction, setConfig } from '../../actions';
-import { State, ConfigState } from '../../state';
-import { Transport, Child } from '../../../communication-ts';
-import { ResultState } from '../../state/result-state';
-import { PossibleEvents } from '../../../communication-ts/possible-events';
+import { State, ConfigState, ResultState } from '../../state';
+import { Transport, Child, PossibleEvents } from '../../../communication-ts';
 
 interface AppProps {
     setConfig: (transport: Transport) => Dispatch<ConfigAction>;
@@ -16,7 +14,7 @@ interface AppProps {
     result: ResultState;
 }
 
-function finalize(transport: Transport, result: ResultState) {
+const emitResult = (transport: Transport, result: ResultState) => {
     switch (result) {
         case ResultState.close:
             transport.emit(PossibleEvents.close);
@@ -26,7 +24,16 @@ function finalize(transport: Transport, result: ResultState) {
             break;
     }
     transport.destroy();
-}
+};
+
+const mapStateToProps = (state: State) => ({
+    config: state.config,
+    result: state.result
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setConfig: bindActionCreators(setConfig, dispatch)
+});
 
 class AppDef extends React.Component<AppProps> {
 
@@ -45,7 +52,7 @@ class AppDef extends React.Component<AppProps> {
 
     componentWillReceiveProps(props: AppProps) {
         if (props.result) {
-            finalize(this.transport, props.result);
+            emitResult(this.transport, props.result);
         }
     }
 
@@ -59,14 +66,5 @@ class AppDef extends React.Component<AppProps> {
         );
     }
 }
-
-const mapStateToProps = (state: State) => ({
-    config: state.config,
-    result: state.result
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setConfig: bindActionCreators(setConfig, dispatch)
-});
 
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppDef);

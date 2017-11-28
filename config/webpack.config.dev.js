@@ -13,6 +13,9 @@ module.exports = merge(commonConfig, {
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
         compress: true,
-        disableHostCheck: true
+        disableHostCheck: true,
+        stats: {
+            children: false
+        }
     }
 });
