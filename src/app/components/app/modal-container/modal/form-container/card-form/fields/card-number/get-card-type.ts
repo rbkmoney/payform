@@ -1,16 +1,19 @@
-const cardType = require('credit-card-type');
+import * as creditCardType from 'credit-card-type';
 
-interface CardInfo {
-    code: {
-        name: string,
-        cvv: number
-    };
-    gaps: number[];
-    lengths: number[];
-    niceType: string;
-    type: string;
-}
+type CardBrand = 'american-express' | 'diners-club' | 'discover' | 'jcb' | 'maestro' | 'master-card' | 'unionpay' | 'visa';
+interface CreditCardTypeInfo {
+        niceType?: string;
+        type?: CardBrand;
+        prefixPattern?: RegExp;
+        exactPattern?: RegExp;
+        gaps?: number[];
+        lengths?: number[];
+        code?: {
+            name?: string;
+            size?: number;
+        };
+    }
 
-export function getCardType(cardNumber: string): CardInfo {
-    return cardType(cardNumber)[0];
+export function getCardType(cardNumber: string): CreditCardTypeInfo {
+    return creditCardType(cardNumber)[0];
 }
