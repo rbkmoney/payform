@@ -1,32 +1,26 @@
 import * as React from 'react';
-import {getCardType} from './get-card-type';
 import * as styles from './card-number.scss';
-import {Input} from '../../../input';
-import {Icon} from '../../../../../../../ui/icon';
+import { Input } from '../../../input';
+import { CardTypeIcon } from './card-type-icon';
 
-interface IState {
+interface CardNumberState {
     cardNumber: string;
 }
 
-export class CardNumber extends React.Component<{}, IState> {
+export class CardNumber extends React.Component<{}, CardNumberState> {
     constructor(props: {}) {
         super(props);
 
         this.state = {
-            cardNumber: '5555555555554444'
+            cardNumber: '4242 4242 4242 4242'
         };
-    }
-
-    getCardType(cardNumber: string): string {
-        return getCardType(cardNumber.replace(/\s/g, '')).type;
     }
 
     render() {
         return (
             <div className={styles.inputContainer}>
                 <Input className={styles.cardNumberInput} icon='card' placeholder='Номер на карте'/>
-                {this.state.cardNumber.length > 4 ? <Icon className={styles.cardTypeIcon} icon={this.getCardType(this.state.cardNumber)} />
-                    : false}
+                <CardTypeIcon cardNumber={this.state.cardNumber}/>
             </div>
         );
     }
