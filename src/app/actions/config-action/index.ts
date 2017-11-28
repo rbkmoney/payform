@@ -1,2 +1,2 @@
-export * from './config-action';
-export * from './set-config';
+export * from './get-app-config-action';
+export * from './get-app-config';

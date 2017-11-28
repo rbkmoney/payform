@@ -1,29 +1,17 @@
 import * as URL from 'url-parse';
 import { Transport, PossibleEvents } from '../../communication-ts';
 import { UriSerializer } from '../../utils/uri-serializer';
-import { AppConfig, Config, InitConfig } from '.';
+import { Config, InitConfig } from '.';
 import { IntegrationType } from './integration-type';
 
 export class ConfigResolver {
 
     static resolve(transport: Transport): Promise<Config> {
-        return Promise.all([
-            this.resolveInitConfig(transport),
-            this.loadAppConfig()
-        ]).then((configs) => ({
-            origin: this.getOrigin(),
-            initConfig: configs[0],
-            appConfig: configs[1]
-        }));
-    }
-
-    private static loadAppConfig(): Promise<AppConfig> {
-        return fetch('../appConfig.json', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'GET'
-        }).then((response) => response.json());
+        return this.resolveInitConfig(transport)
+            .then((initConfig) => ({
+                origin: this.getOrigin(),
+                initConfig
+            }));
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
