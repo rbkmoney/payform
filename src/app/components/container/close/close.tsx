@@ -5,7 +5,7 @@ import * as styles from './close.scss';
 import { Icon } from '../../index';
 import { close } from '../../../actions/result-action';
 import { ResultAction } from '../../../actions/result-action/result-action';
-import {IconType} from '../../ui/icon/icon-type';
+import { IconType } from '../../ui/icon/icon-type';
 
 interface CloseProps {
     close: () => Dispatch<ResultAction>;

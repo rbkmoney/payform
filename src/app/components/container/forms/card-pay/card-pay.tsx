@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as styles from './card-pay.scss';
 import * as formStyles from '../forms.scss';
 import {Input, Button, Icon} from '../../../index';
-import {IconType} from "../../../ui/icon/icon-type";
+import { IconType } from '../../../ui/icon/icon-type';
 
 export class CardPay extends React.Component {
     render() {
@@ -10,7 +10,7 @@ export class CardPay extends React.Component {
             <form>
                 <div className={formStyles.header}>
                     <div className={formStyles.back_btn}>
-                        <Icon icon={IconType.chevronLeft}/>
+                        <Icon icon={IconType['chevron-left']}/>
                     </div>
                     <div className={formStyles.title}>
                         Оплата банковской картой

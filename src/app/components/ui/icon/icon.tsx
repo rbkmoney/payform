@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {IconType} from './icon-type';
+import { IconType } from './icon-type';
 
 interface IconProps {
     icon: IconType;

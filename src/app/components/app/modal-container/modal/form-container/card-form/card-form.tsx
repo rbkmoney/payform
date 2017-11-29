@@ -5,13 +5,13 @@ import { Button } from '../button';
 import { Input } from '../input';
 import { Icon } from '../../../../../ui/icon';
 import { CardNumber } from './fields/card-number';
-import {IconType} from '../../../../../ui/icon/icon-type';
+import { IconType } from '../../../../../ui/icon/icon-type';
 
 const CardFormDef: React.SFC = () => (
     <form>
         <div className={formStyles.header}>
             <div className={formStyles.back_btn}>
-                <Icon icon={IconType.chevronLeft}/>
+                <Icon icon={IconType['chevron-left']}/>
             </div>
             <div className={formStyles.title}>
                 Оплата банковской картой

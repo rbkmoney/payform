@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as styles from './card-number.scss';
 import { Input } from '../../../input';
 import { CardTypeIcon } from './card-type-icon';
-import {IconType} from '../../../../../../../ui/icon/icon-type';
+import { IconType } from '../../../../../../../ui/icon/icon-type';
 
 interface CardNumberState {
     cardNumber: string;
