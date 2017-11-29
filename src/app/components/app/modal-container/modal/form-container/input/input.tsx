@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from './input.scss';
 import * as cx from 'classnames';
-import {IconType, Icon} from '../../../../../ui/icon';
+import { IconType, Icon } from '../../../../../ui/icon';
 
 interface InputProps {
     icon?: IconType;
