@@ -1,27 +1,25 @@
 import * as React from 'react';
 import * as styles from './input.scss';
 import * as cx from 'classnames';
-import { Icon } from '../../../../../index';
+import {IconType, Icon} from '../../../../../ui/icon';
 
-interface IProps {
-    icon?: string;
+interface InputProps {
+    icon?: IconType;
     placeholder?: string;
     mark?: boolean;
     className?: string;
 }
 
-export class Input extends React.Component<IProps, {}> {
-    render() {
-        return (
-            <div className={cx(styles.container, this.props.className, {
-                [styles._correct]: true
-            })}>
-                {this.props.icon ? <Icon className={styles.icon} icon={this.props.icon} /> : false}
-                <input className={cx(styles.input, {
-                    [styles.mark]: this.props.mark
-                })} placeholder={this.props.placeholder}/>
-                {this.props.mark ? <Icon className={styles.checkmark} icon='checkmark' /> : false}
-            </div>
-        );
-    }
-}
+export const Input: React.SFC<InputProps> = (props) => {
+    return (
+        <div className={cx(styles.container, props.className, {
+            [styles._correct]: true
+        })}>
+            {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
+            <input className={cx(styles.input, {
+                [styles.mark]: props.mark
+            })} placeholder={props.placeholder}/> {props.mark ?
+            <Icon className={styles.checkmark} icon={IconType.cross}/> : false}
+        </div>
+    );
+};

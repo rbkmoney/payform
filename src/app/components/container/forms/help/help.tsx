@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as styles from './help.scss';
 import * as formStyles from '../forms.scss';
 import {Icon} from '../../../index';
+import {IconType} from "../../../ui/icon/icon-type";
 
 export class Help extends React.Component {
     render() {
@@ -9,7 +10,7 @@ export class Help extends React.Component {
             <form>
                 <div className={formStyles.header}>
                     <div className={formStyles.back_btn}>
-                        <Icon icon='chevron-left'/>
+                        <Icon icon={IconType.chevronLeft}/>
                     </div>
                     <div className={formStyles.title}>
                         Как решить проблему?
