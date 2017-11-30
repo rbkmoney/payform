@@ -1,13 +1,10 @@
 import * as React from 'react';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
+import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { Button } from '../button';
 import { Icon, IconType } from 'checkout/components/ui';
-import { CardNumber } from './fields/card-number';
-import { ExpireDate } from './fields/expire-date';
-import { SecureCode } from './fields/secure-code';
-import { CardHolder } from './fields/card-holder';
-import { Email } from './fields/email';
+import { CardNumber, ExpireDate, SecureCode, CardHolder, Email } from './fields';
 
 const CardFormDef: React.SFC = () => (
     <form>
@@ -19,17 +16,18 @@ const CardFormDef: React.SFC = () => (
                 Оплата банковской картой
             </div>
         </div>
-        <div className='form-group'>
-            <CardNumber />
+        <div className={commonFormStyles.formGroup}>
+            <CardNumber/>
         </div>
-        <div className='form-group'>
-            <ExpireDate /> <SecureCode />
+        <div className={commonFormStyles.formGroup}>
+            <ExpireDate/>
+            <SecureCode/>
         </div>
-        <div className='form-group'>
-            <CardHolder />
+        <div className={commonFormStyles.formGroup}>
+            <CardHolder/>
         </div>
-        <div className='form-group'>
-            <Email />
+        <div className={commonFormStyles.formGroup}>
+            <Email/>
         </div>
         <Button className={styles.pay_button} type='primary'>Оплатить 3 144 599, 77 ₽</Button>
     </form>

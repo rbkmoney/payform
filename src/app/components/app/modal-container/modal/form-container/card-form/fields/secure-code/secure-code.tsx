@@ -5,5 +5,5 @@ import { Formatter } from '../format';
 
 export const SecureCode: React.SFC = (props) =>
     (
-        <Input formatter={Formatter.formatSecureCode} icon={IconType.lock} placeholder='CVV/CVC'/>
+        <Input formatter={Formatter.formatSecureCode} icon={IconType.lock} placeholder='CVV/CVC' type='password'/>
     );

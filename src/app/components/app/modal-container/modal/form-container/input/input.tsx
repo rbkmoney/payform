@@ -9,6 +9,7 @@ interface InputProps {
     mark?: boolean;
     className?: string;
     formatter?: (element: Element) => void;
+    type?: string;
 }
 
 export const Input: React.SFC<InputProps> = (props) => (
@@ -18,6 +19,7 @@ export const Input: React.SFC<InputProps> = (props) => (
             className={cx(styles.input, {[styles.mark]: props.mark})}
             placeholder={props.placeholder}
             ref={(input) => props.formatter ? props.formatter(input) : false}
+            type={props.type}
         />
         {props.mark ? <Icon className={styles.checkmark} icon={IconType.cross}/> : false}
     </div>
