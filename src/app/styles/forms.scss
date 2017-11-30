@@ -1,8 +1,6 @@
-:global {
-    .form-group {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        margin-bottom: 10px;
-    }
+.formGroup {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    margin-bottom: 10px;
 }

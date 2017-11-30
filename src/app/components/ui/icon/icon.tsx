@@ -1,16 +1,13 @@
 import * as React from 'react';
+import { IconType } from './icon-type';
 
-interface IProps {
-    icon: string;
+interface IconProps {
+    icon: IconType;
     className?: string;
 }
 
-export class Icon extends React.Component<IProps, {}> {
-    render() {
-        return (
-            <svg {...this.props}
-                dangerouslySetInnerHTML={{__html: `<use xlink:href="assets/icons/${this.props.icon}.svg#icon" />`}}
-            />
-        );
-    }
-}
+export const Icon: React.SFC<IconProps> = (props) => {
+    return (
+        <svg {...props} dangerouslySetInnerHTML={{__html: `<use xlink:href='assets/icons/${props.icon}.svg#icon' />`}}/>
+    );
+};

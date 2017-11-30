@@ -1,0 +1,17 @@
+export enum IconType {
+    'bank-card' = 'bank-card',
+    'calendar' = 'calendar',
+    'checkmark' = 'checkmark',
+    'chevron-left' = 'chevron-left',
+    'cross' = 'cross',
+    'card' = 'card',
+    'letter' = 'letter',
+    'lock' = 'lock',
+    'master-card' = 'master-card',
+    'mc-secure' = 'mc-secure',
+    'pci-dss' = 'pci-dss',
+    'phone' = 'phone',
+    'user' = 'user',
+    'ver-by-visa' = 'ver-by-visa',
+    'visa' = 'visa',
+}
