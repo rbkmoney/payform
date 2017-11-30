@@ -2,7 +2,7 @@ import { restrictNumeric } from '../common/restrict-numeric';
 import { restrictCVC } from './restrict-code';
 import { reFormatCVC } from './re-format-code';
 
-export function addSecureCodeFormatter(element: Element) {
+export function secureCodeFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);
     element.addEventListener('keypress', restrictCVC);
     element.addEventListener('paste', reFormatCVC);

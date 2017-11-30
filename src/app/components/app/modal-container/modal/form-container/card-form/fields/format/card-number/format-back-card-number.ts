@@ -1,4 +1,4 @@
-export const formatBackCardNumber = (e: KeyboardEvent): Object => {
+export const formatBackCardNumber = (e: KeyboardEvent): number => {
     const target = e.currentTarget as HTMLInputElement;
     const value = target.value;
     if (e.which !== 8) {

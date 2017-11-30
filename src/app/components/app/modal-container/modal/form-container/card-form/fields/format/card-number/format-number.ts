@@ -1,6 +1,6 @@
 import cardFromNumber from './card-from-number';
 
-export const formatNumber = (e: KeyboardEvent): Object => {
+export const formatNumber = (e: KeyboardEvent): number => {
     const digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {
         return;

@@ -6,7 +6,7 @@ import { formatForwardExpiry } from './format-forward-expiry';
 import { formatBackExpiry } from './format-back-expiry';
 import { reFormatExpiry } from './re-format-expiry';
 
-export function addExpireDateFormatter(element: Element) {
+export function expireDateFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);
     element.addEventListener('keypress', restrictExpiry);
     element.addEventListener('keypress', formatExpiry);

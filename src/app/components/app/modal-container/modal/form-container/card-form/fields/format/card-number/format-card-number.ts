@@ -4,7 +4,7 @@ import {formatNumber} from './format-number';
 import {formatBackCardNumber} from './format-back-card-number';
 import {reFormatCardNumber} from './re-format-card-number';
 
-export function addCardFormatter(element: Element) {
+export function cardNumberFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);
     element.addEventListener('keypress', restrictCardNumber);
     element.addEventListener('keypress', formatNumber);
