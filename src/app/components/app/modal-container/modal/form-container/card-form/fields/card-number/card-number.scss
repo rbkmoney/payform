@@ -1,0 +1,21 @@
+@import '../../../../../../../../styles/animations';
+
+.inputContainer {
+    width: 100%;
+    position: relative;
+}
+
+.cardNumberInput {
+    input {
+        padding: 14px 45px 12px 40px;
+    }
+}
+
+.cardTypeIcon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 31px;
+    height: 19px;
+    animation: growth .5s;
+}
