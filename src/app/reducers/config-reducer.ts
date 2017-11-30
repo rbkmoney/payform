@@ -1,7 +1,9 @@
-import { TypeKeys, GetAppConfigAction } from '../actions';
-import { ConfigState } from '../state/config-state';
+import { TypeKeys, GetAppConfigAction } from 'checkout/actions';
+import { ConfigState } from 'checkout/state';
 
-export function configReducer(s: ConfigState = null, action: GetAppConfigAction): ConfigState {
+type ConfigReducerAction = GetAppConfigAction;
+
+export function configReducer(s: ConfigState = null, action: ConfigReducerAction): ConfigState {
     switch (action.type) {
         case TypeKeys.GET_APP_CONFIG:
             return {

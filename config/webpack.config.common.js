@@ -16,7 +16,10 @@ module.exports = {
         path: path.join(__dirname)
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
+        alias: {
+            checkout: __dirname + '/../src/app'
+        }
     },
     module: {
         rules: [

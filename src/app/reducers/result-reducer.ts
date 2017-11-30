@@ -1,7 +1,9 @@
 import { TypeKeys, ResultAction } from '../actions';
-import { ResultState } from '../state/result-state';
+import { ResultState } from 'checkout/state';
 
-export function resultReducer(s: ResultState = null, action: ResultAction): ResultState {
+type ResultReducerAction = ResultAction;
+
+export function resultReducer(s: ResultState = null, action: ResultReducerAction): ResultState {
     switch (action.type) {
         case TypeKeys.SET_RESULT: {
             return action.payload;
