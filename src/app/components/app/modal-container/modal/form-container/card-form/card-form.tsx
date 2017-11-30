@@ -2,10 +2,12 @@ import * as React from 'react';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import { Button } from '../button';
-import { Input } from '../input';
-import { Icon } from '../../../../../ui/icon';
+import { Icon, IconType } from 'checkout/components/ui';
 import { CardNumber } from './fields/card-number';
-import { IconType } from '../../../../../ui/icon/icon-type';
+import { ExpireDate } from './fields/expire-date';
+import { SecureCode } from './fields/secure-code';
+import { CardHolder } from './fields/card-holder';
+import { Email } from './fields/email';
 
 const CardFormDef: React.SFC = () => (
     <form>
@@ -21,13 +23,13 @@ const CardFormDef: React.SFC = () => (
             <CardNumber />
         </div>
         <div className='form-group'>
-            <Input icon={IconType.calendar} placeholder='ММ/ГГ'/> <Input icon={IconType.lock} placeholder='CVV/CVC'/>
+            <ExpireDate /> <SecureCode />
         </div>
         <div className='form-group'>
-            <Input icon={IconType.user} placeholder='Имя на карте'/>
+            <CardHolder />
         </div>
         <div className='form-group'>
-            <Input icon={IconType.letter} placeholder='Email для чека'/>
+            <Email />
         </div>
         <Button className={styles.pay_button} type='primary'>Оплатить 3 144 599, 77 ₽</Button>
     </form>
