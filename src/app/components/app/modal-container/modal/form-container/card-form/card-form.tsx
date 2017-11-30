@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import { Button } from '../button';
-import { IconType } from 'checkout/components/ui';
+import { Icon, IconType } from 'checkout/components/ui';
 import { CardNumber } from './fields/card-number';
 import { ExpireDate } from './fields/expire-date';
 import { SecureCode } from './fields/secure-code';
