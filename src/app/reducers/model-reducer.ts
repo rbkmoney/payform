@@ -1,6 +1,5 @@
 import { ModelState } from 'checkout/state';
-import { GetInvoiceTemplateAction } from 'checkout/actions/get-invoice-template.action';
-import { TypeKeys } from 'checkout/actions';
+import { TypeKeys, GetInvoiceTemplateAction } from 'checkout/actions';
 
 type ModelReducerAction = GetInvoiceTemplateAction;
 

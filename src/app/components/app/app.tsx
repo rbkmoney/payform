@@ -4,14 +4,20 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
-import { State, ConfigState, ResultState, ModelState } from 'checkout/state';
+import { InvoiceTemplateInitConfig } from 'checkout/config';
+import {
+    State,
+    ConfigState,
+    ResultState,
+    ModelState,
+    InitializationStage
+} from 'checkout/state';
 import {
     getAppConfigAction,
     GetAppConfigDispatch,
     getInvoiceTemplateAction,
     GetInvoiceTemplateDispatch
 } from 'checkout/actions';
-import { InvoiceTemplateInitConfig } from 'checkout/config';
 
 interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
@@ -19,12 +25,14 @@ interface AppProps {
     config: ConfigState;
     result: ResultState;
     model: ModelState;
+    initialization: InitializationStage;
 }
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
     result: state.result,
-    model: state.model
+    model: state.model,
+    initialization: state.lifecycle.initialization
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -43,13 +51,16 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentWillReceiveProps(props: AppProps) {
-        if (props.config.appConfig && !props.model) {
+        if (props.initialization.appConfigReceived && !props.initialization.modelReceived) {
             const config = props.config.initConfig as InvoiceTemplateInitConfig;
             props.getInvoiceTemplate(
                 props.config.appConfig.capiEndpoint,
                 config.invoiceTemplateAccessToken,
                 config.invoiceTemplateID
             );
+        }
+        if (props.initialization.modelReceived) {
+
         }
     }
 
