@@ -4,11 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
+import { LayoutLoader } from './layout-loder';
 import { InvoiceTemplateInitConfig } from 'checkout/config';
 import {
     State,
     ConfigState,
-    ResultState,
     ModelState,
     InitializationStage
 } from 'checkout/state';
@@ -16,29 +16,45 @@ import {
     getAppConfigAction,
     GetAppConfigDispatch,
     getInvoiceTemplateAction,
-    GetInvoiceTemplateDispatch
+    GetInvoiceTemplateDispatch,
+    InitStageDoneAction,
+    setInitStageDone
 } from 'checkout/actions';
 
 interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
     getInvoiceTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoiceTemplateDispatch;
+    setInitStageDone: () => InitStageDoneAction;
     config: ConfigState;
-    result: ResultState;
     model: ModelState;
     initialization: InitializationStage;
 }
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
-    result: state.result,
     model: state.model,
     initialization: state.lifecycle.initialization
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getAppConfig: bindActionCreators(getAppConfigAction, dispatch),
-    getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch)
+    getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch),
+    setInitStageDone: bindActionCreators(setInitStageDone, dispatch)
 });
+
+const manageInitStage = (props: AppProps) => {
+    const initStage = props.initialization;
+    if (initStage.appConfigReceived && !initStage.modelReceived) {
+        const config = props.config.initConfig as InvoiceTemplateInitConfig;
+        props.getInvoiceTemplate(
+            props.config.appConfig.capiEndpoint,
+            config.invoiceTemplateAccessToken,
+            config.invoiceTemplateID
+        );
+    } else if (initStage.modelReceived && !initStage.stageDone) {
+        props.setInitStageDone();
+    }
+};
 
 class AppDef extends React.Component<AppProps> {
 
@@ -51,25 +67,15 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentWillReceiveProps(props: AppProps) {
-        if (props.initialization.appConfigReceived && !props.initialization.modelReceived) {
-            const config = props.config.initConfig as InvoiceTemplateInitConfig;
-            props.getInvoiceTemplate(
-                props.config.appConfig.capiEndpoint,
-                config.invoiceTemplateAccessToken,
-                config.invoiceTemplateID
-            );
-        }
-        if (props.initialization.modelReceived) {
-
-        }
+        manageInitStage(props);
     }
 
     render() {
+        const initStageDone = this.props.initialization.stageDone;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {/*<LayoutLoader/>*/}
-                <ModalContainer/>
+                {initStageDone ? <ModalContainer/> : <LayoutLoader/>}
             </div>
         );
     }
