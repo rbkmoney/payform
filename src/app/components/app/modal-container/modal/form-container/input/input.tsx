@@ -9,7 +9,7 @@ interface InputProps {
     mark?: boolean;
     className?: string;
     formatter?: (element: Element) => void;
-    type?: string;
+    type?: 'password';
 }
 
 export const Input: React.SFC<InputProps> = (props) => (

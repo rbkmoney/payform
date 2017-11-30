@@ -1,4 +1,4 @@
-export default function(value: string, target: HTMLInputElement) {
+export default function(value: string, target: HTMLInputElement): number {
     let currPair;
     let cursor;
     let digit;

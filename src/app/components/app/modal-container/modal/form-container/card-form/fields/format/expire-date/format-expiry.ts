@@ -1,4 +1,4 @@
-export function formatExpiry(e: KeyboardEvent) {
+export function formatExpiry(e: KeyboardEvent): number {
     const digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {
         return;

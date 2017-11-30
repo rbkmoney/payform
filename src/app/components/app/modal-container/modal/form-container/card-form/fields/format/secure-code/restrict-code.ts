@@ -1,6 +1,6 @@
-import hasTextSelected from '../common/hasTextSelected';
+import hasTextSelected from '../common/has-text-selected';
 
-export function restrictCVC(e: KeyboardEvent) {
+export function restrictCVC(e: KeyboardEvent): boolean {
     const target = e.currentTarget as HTMLInputElement;
     const digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {

@@ -1,7 +1,7 @@
-import replaceFullWidthChars from '../common/replaceFullWidthChars';
-import safeVal from '../common/safeVal';
+import replaceFullWidthChars from '../common/replace-full-width-chars';
+import safeVal from '../common/safe-val';
 
-function format(expiry: string) {
+function format(expiry: string): string {
     const parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/);
     if (!parts) {
         return '';
@@ -23,7 +23,7 @@ function format(expiry: string) {
     return mon + sep + year;
 }
 
-export function reFormatExpiry(e: KeyboardEvent) {
+export function reFormatExpiry(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;
     let value = target.value;
     value = replaceFullWidthChars(value);

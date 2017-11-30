@@ -1,6 +1,6 @@
-import { restrictNumeric } from '../common/restrictNumeric';
-import { restrictCVC } from './restrictCVC';
-import { reFormatCVC } from './reFormatCVC';
+import { restrictNumeric } from '../common/restrict-numeric';
+import { restrictCVC } from './restrict-code';
+import { reFormatCVC } from './re-format-code';
 
 export function addSecureCodeFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);

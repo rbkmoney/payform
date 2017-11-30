@@ -1,8 +1,8 @@
-import {restrictNumeric, } from '../common/restrictNumeric';
-import {restrictCardNumber} from './restrictCardNumber';
-import {formatNumber} from './formatNumber';
-import {formatBackCardNumber} from './formatBackCardNumber';
-import {reFormatCardNumber} from './reFormatCardNumber';
+import {restrictNumeric, } from '../common/restrict-numeric';
+import {restrictCardNumber} from './restrict-card-number';
+import {formatNumber} from './format-number';
+import {formatBackCardNumber} from './format-back-card-number';
+import {reFormatCardNumber} from './re-format-card-number';
 
 export function addCardFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);

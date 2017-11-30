@@ -1,10 +1,10 @@
-import { restrictNumeric } from '../common/restrictNumeric';
-import { restrictExpiry } from './restrictExpiry';
-import { formatExpiry } from './formatExpiry';
-import { formatForwardSlashAndSpace } from './formatForwardSlashAndSpace';
-import { formatForwardExpiry } from './formatForwardExpiry';
-import { formatBackExpiry } from './formatBackExpiry';
-import { reFormatExpiry } from './reFormatExpiry';
+import { restrictNumeric } from '../common/restrict-numeric';
+import { restrictExpiry } from './restrict-expiry';
+import { formatExpiry } from './format-expiry';
+import { formatForwardSlashAndSpace } from './format-forward-slash-and-space';
+import { formatForwardExpiry } from './format-forward-expiry';
+import { formatBackExpiry } from './format-back-expiry';
+import { reFormatExpiry } from './re-format-expiry';
 
 export function addExpireDateFormatter(element: Element) {
     element.addEventListener('keypress', restrictNumeric);

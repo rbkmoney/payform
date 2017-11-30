@@ -1,4 +1,4 @@
-export function formatForwardSlashAndSpace(e: KeyboardEvent) {
+export function formatForwardSlashAndSpace(e: KeyboardEvent): string {
     const which = String.fromCharCode(e.which);
     if (!(which === '/' || which === ' ')) {
         return;

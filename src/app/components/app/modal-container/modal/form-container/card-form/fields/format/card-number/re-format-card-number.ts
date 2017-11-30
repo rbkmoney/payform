@@ -1,8 +1,8 @@
-import replaceFullWidthChars from '../common/replaceFullWidthChars';
-import safeVal from '../common/safeVal';
-import cardFromNumber from './cardFromNumber';
+import replaceFullWidthChars from '../common/replace-full-width-chars';
+import safeVal from '../common/safe-val';
+import cardFromNumber from './card-from-number';
 
-function format(num: string) {
+function format(num: string): string {
     num = num.replace(/\D/g, '');
     const card = cardFromNumber(num);
     if (!card) {
@@ -24,7 +24,7 @@ function format(num: string) {
     }
 }
 
-export function reFormatCardNumber(e: KeyboardEvent) {
+export function reFormatCardNumber(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;
     let value = target.value;
     value = replaceFullWidthChars(value);

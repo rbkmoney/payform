@@ -1,6 +1,15 @@
 import cards from './cards';
 
-export default function(num: string) {
+interface Card {
+    type: string;
+    patterns: number[];
+    format: RegExp;
+    length: number[];
+    cvcLength: number[];
+    luhn: boolean;
+}
+
+export default function(num: string): Card {
     num = (num + '').replace(/\D/g, '');
     for (let i = 0, len1 = cards.length; i < len1; i++) {
         const card = cards[i];

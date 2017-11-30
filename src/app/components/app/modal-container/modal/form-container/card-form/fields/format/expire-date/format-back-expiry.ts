@@ -1,4 +1,4 @@
-export function formatBackExpiry(e: KeyboardEvent) {
+export function formatBackExpiry(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;
     const value = target.value;
     if (e.which !== 8) {

@@ -1,7 +1,7 @@
-import hasTextSelected from '../common/hasTextSelected';
-import cardFromNumber from './cardFromNumber';
+import hasTextSelected from '../common/has-text-selected';
+import cardFromNumber from './card-from-number';
 
-export function restrictCardNumber(e: KeyboardEvent) {
+export function restrictCardNumber(e: KeyboardEvent): boolean {
     const target = e.currentTarget as HTMLInputElement;
     const digit = String.fromCharCode(e.which);
     if (!/^\d+$/.test(digit)) {

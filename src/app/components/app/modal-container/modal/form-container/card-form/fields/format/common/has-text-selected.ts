@@ -1,4 +1,4 @@
-export default function(target: HTMLInputElement) {
+export default function(target: HTMLInputElement): boolean {
     let ref;
     const doc: any = document;
     if ((target.selectionStart != null) && target.selectionStart !== target.selectionEnd) {
