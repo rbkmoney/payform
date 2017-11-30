@@ -1,13 +1,5 @@
 import cards from './cards';
-
-interface Card {
-    type: string;
-    patterns: number[];
-    format: RegExp;
-    length: number[];
-    cvcLength: number[];
-    luhn: boolean;
-}
+import { Card } from './cards-type';
 
 export default function(num: string): Card {
     num = (num + '').replace(/\D/g, '');

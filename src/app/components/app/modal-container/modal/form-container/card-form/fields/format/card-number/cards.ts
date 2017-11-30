@@ -1,3 +1,5 @@
+import { Card } from './cards-type';
+
 const defaultFormat = /(\d{1,4})/g;
 
 export default [
@@ -79,4 +81,4 @@ export default [
         cvcLength: [3],
         luhn: true
     }
-];
+] as Card[];
