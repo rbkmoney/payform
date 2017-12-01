@@ -6,7 +6,7 @@ import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loder';
 import { manageInitStage } from './manage-init-stage';
-import { State, ConfigState, ModelState, InitializationStage } from 'checkout/state';
+import { State, ConfigState, ModelState, InitializationStage, ErrorState } from 'checkout/state';
 import { GetAppConfigDispatch, getAppConfigAction } from 'checkout/actions';
 import { GetInvoiceTemplateDispatch, getInvoiceTemplateAction } from 'checkout/actions';
 import { GetInvoiceDispatch, getInvoiceAction } from 'checkout/actions';
@@ -21,12 +21,14 @@ export interface AppProps {
     setInitStageDone: () => InitStageDoneAction;
     config: ConfigState;
     model: ModelState;
+    error: ErrorState;
     initialization: InitializationStage;
 }
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
+    error: state.error,
     initialization: state.lifecycle.initialization
 });
 
@@ -54,10 +56,13 @@ class AppDef extends React.Component<AppProps> {
 
     render() {
         const initStageDone = this.props.initialization.stageDone;
+        const error = this.props.error;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {initStageDone ? <ModalContainer/> : <LayoutLoader/>}
+                {error ? <div>{error.message}</div> : false}
+                {initStageDone ? <ModalContainer/> : false}
+                {!initStageDone && !error ? <LayoutLoader/> : false}
             </div>
         );
     }

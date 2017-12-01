@@ -14,13 +14,21 @@ export class FetchCapiParams {
 }
 
 export function fetchCapi<T>(param: FetchCapiParams): Promise<T> {
-    return fetch(param.endpoint, {
-        method: param.method || 'GET',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': `Bearer ${param.accessToken}`,
-            'X-Request-ID': guid()
-        },
-        body: param.body ? JSON.stringify(param.body) : undefined
-    }).then((response) => response.json());
+    return new Promise((resolve, reject) => {
+        fetch(param.endpoint, {
+            method: param.method || 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': `Bearer ${param.accessToken}`,
+                'X-Request-ID': guid()
+            },
+            body: param.body ? JSON.stringify(param.body) : undefined
+        }).then((res) =>
+            res.status >= 200 && res.status <= 300
+                ? resolve(res.json())
+                : res.json()
+                    .then((ex) => reject(ex))
+                    .catch(() => reject(res))
+        );
+    });
 }

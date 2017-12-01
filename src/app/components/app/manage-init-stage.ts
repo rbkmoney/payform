@@ -31,6 +31,9 @@ const manageModel = (p: AppProps) => {
 };
 
 export const manageInitStage = (p: AppProps) => {
+    if (p.error) {
+        return;
+    }
     const initStage = p.initialization;
     if (!initStage.appConfigReceived) {
         p.getAppConfig();

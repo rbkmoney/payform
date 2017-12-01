@@ -4,3 +4,4 @@ export * from './model-actions';
 export * from './lifecycle-actions';
 export * from './type-keys';
 export * from './abstract-action';
+export * from './set-error-action';

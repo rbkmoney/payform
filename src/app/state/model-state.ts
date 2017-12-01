@@ -1,6 +1,6 @@
 import { InvoiceTemplate, Invoice } from 'checkout/backend/model';
 
 export type ModelState = {
-    invoiceTemplate?: InvoiceTemplate;
-    invoice?: Invoice;
+    readonly invoiceTemplate?: InvoiceTemplate;
+    readonly invoice?: Invoice;
 }

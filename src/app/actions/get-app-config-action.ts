@@ -1,22 +1,26 @@
 import { Dispatch } from 'redux';
 import { TypeKeys } from './type-keys';
-import { AbstractAction } from './abstract-action';
 import { AppConfig, getAppConfig } from 'checkout/backend';
+import { SetErrorAction, AbstractAction } from '.';
 
 export interface GetAppConfigAction extends AbstractAction<AppConfig> {
     type: TypeKeys.GET_APP_CONFIG;
     payload: AppConfig;
 }
 
-export type GetAppConfigDispatch = (dispatch: Dispatch<GetAppConfigAction>) => void;
+export type GetAppConfigDispatch = (dispatch: Dispatch<GetAppConfigAction | SetErrorAction>) => void;
 
 export function getAppConfigAction(): GetAppConfigDispatch {
-    return (dispatch) => {
-        getAppConfig().then((appConfig) => {
-            dispatch({
-                type: TypeKeys.GET_APP_CONFIG,
-                payload: appConfig
-            });
-        });
-    };
+    return (dispatch) => getAppConfig()
+        .then((appConfig) => dispatch({
+            type: TypeKeys.GET_APP_CONFIG,
+            payload: appConfig
+        }))
+        .catch((error) => dispatch({
+            type: TypeKeys.SET_ERROR,
+            payload: {
+                message: 'Failed to load app config'
+            }
+        }));
+
 }
