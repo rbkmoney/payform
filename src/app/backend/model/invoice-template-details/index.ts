@@ -1,5 +1,4 @@
-export * from './invoice-template';
-export * from './invoice-template-and-token';
+export * from '../invoice-template-and-token';
 export * from './invoice-template-details';
 export * from './invoice-template-line-cost';
 export * from './invoice-template-line-cost-fixed';

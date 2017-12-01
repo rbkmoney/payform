@@ -2,10 +2,10 @@ import { InvoiceLineTaxMode } from './invoice-line-tax-mode';
 
 export class InvoiceLine {
 
-    public product: string;
-    public quantity: number;
-    public price: number;
-    public taxMode?: InvoiceLineTaxMode;
+    product: string;
+    quantity: number;
+    price: number;
+    taxMode?: InvoiceLineTaxMode;
 
     constructor(product: string, quantity: number, price: number) {
         this.product = product;

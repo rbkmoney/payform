@@ -1,3 +1,3 @@
 export class AccessToken {
-    public payload: string;
+    payload: string;
 }

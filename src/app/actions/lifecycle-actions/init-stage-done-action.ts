@@ -1,5 +1,4 @@
-import { TypeKeys } from './type-keys';
-import { AbstractAction } from './abstract-action';
+import { AbstractAction, TypeKeys } from '..';
 
 export interface InitStageDoneAction extends AbstractAction<boolean> {
     type: TypeKeys.INIT_STAGE_DONE;

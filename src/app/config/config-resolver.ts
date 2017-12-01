@@ -2,7 +2,7 @@ import * as URL from 'url-parse';
 import { Transport, PossibleEvents } from '../../communication-ts';
 import { UriSerializer } from '../../utils/uri-serializer';
 import { Config, InitConfig } from '.';
-import { IntegrationType } from './integration-type';
+import { getIntegrationType } from './get-integration-type';
 
 export class ConfigResolver {
 
@@ -20,13 +20,9 @@ export class ConfigResolver {
                 ? resolve(UriSerializer.deserialize(location.search))
                 : transport.on(PossibleEvents.init, (config) => resolve(config));
         }).then((config: InitConfig) => {
-            config.integrationType = this.calcIntegrationType();
+            config.integrationType = getIntegrationType(config);
             return config;
         });
-    }
-
-    private static calcIntegrationType(): IntegrationType {
-        return IntegrationType.invoice; // TODO implement here
     }
 
     private static isUriContext(): boolean {

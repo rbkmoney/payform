@@ -1,5 +1,4 @@
-import { fetchCapi } from './fetch-capi';
-import { InvoiceTemplate } from './model';
+import { InvoiceTemplate, fetchCapi } from '.';
 
 export function getInvoiceTemplateByID(capiEndpoint: string, accessToken: string, invoiceTemplateID: string): Promise<InvoiceTemplate> {
     return fetchCapi({

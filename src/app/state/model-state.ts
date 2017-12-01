@@ -1,5 +1,6 @@
-import { InvoiceTemplate } from 'checkout/backend/model';
+import { InvoiceTemplate, Invoice } from 'checkout/backend/model';
 
 export type ModelState = {
     invoiceTemplate?: InvoiceTemplate;
+    invoice?: Invoice;
 }

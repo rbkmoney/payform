@@ -1,3 +1,3 @@
 export abstract class InvoiceLineTaxMode {
-    public type: string;
+    type: string;
 }

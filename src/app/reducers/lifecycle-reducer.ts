@@ -1,8 +1,19 @@
 import { LifecycleState } from 'checkout/state';
-import { GetAppConfigAction, GetInvoiceTemplateAction, TypeKeys } from 'checkout/actions';
-import { InitStageDoneAction } from 'checkout/actions/lifecycle-actions';
+import {
+    GetAppConfigAction,
+    GetInvoiceAction,
+    GetInvoiceTemplateAction,
+    InitStageStartAction,
+    TypeKeys,
+    InitStageDoneAction
+} from 'checkout/actions';
 
-type LifecycleReducerAction = GetInvoiceTemplateAction | GetAppConfigAction | InitStageDoneAction;
+type LifecycleReducerAction =
+    GetInvoiceTemplateAction |
+    GetAppConfigAction |
+    InitStageStartAction |
+    InitStageDoneAction |
+    GetInvoiceAction;
 
 const initState = {
     initialization: {
@@ -26,6 +37,22 @@ export function lifecycleReducer(s: LifecycleState = initState, action: Lifecycl
                 initialization: {
                     ...s.initialization,
                     modelReceived: true
+                }
+            };
+        case TypeKeys.GET_INVOICE:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    modelReceived: true
+                }
+            };
+        case TypeKeys.INIT_STAGE_START:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    stageStart: true
                 }
             };
         case TypeKeys.INIT_STAGE_DONE:

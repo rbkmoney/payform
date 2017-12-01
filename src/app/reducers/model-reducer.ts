@@ -1,7 +1,7 @@
 import { ModelState } from 'checkout/state';
-import { TypeKeys, GetInvoiceTemplateAction } from 'checkout/actions';
+import { TypeKeys, GetInvoiceTemplateAction, GetInvoiceAction } from 'checkout/actions';
 
-type ModelReducerAction = GetInvoiceTemplateAction;
+type ModelReducerAction = GetInvoiceTemplateAction | GetInvoiceAction;
 
 export function modelReducer(s: ModelState = null, action: ModelReducerAction): ModelState {
     switch (action.type) {
@@ -9,6 +9,11 @@ export function modelReducer(s: ModelState = null, action: ModelReducerAction): 
             return {
                 ...s,
                 invoiceTemplate: action.payload
+            };
+        case TypeKeys.GET_INVOICE:
+            return {
+                ...s,
+                invoice: action.payload
             };
     }
     return s;

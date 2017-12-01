@@ -3,8 +3,8 @@ import { CostAmountRange } from './cost-amount-range';
 
 export class InvoiceTemplateLineCostRange extends InvoiceTemplateLineCost {
 
-    public range: CostAmountRange;
-    public currency: string;
+    range: CostAmountRange;
+    currency: string;
 
     constructor(range: CostAmountRange, currency: string) {
         super();

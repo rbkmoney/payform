@@ -2,7 +2,7 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './close.scss';
-import { close, ResultAction } from 'checkout/actions/result.action';
+import { close, ResultAction } from 'checkout/actions/result-action';
 import { Icon, IconType } from 'checkout/components/ui';
 
 interface CloseProps {

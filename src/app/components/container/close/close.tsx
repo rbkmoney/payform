@@ -3,8 +3,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './close.scss';
 import { Icon } from '../../index';
-import { close } from '../../../actions/result.action';
-import { ResultAction } from '../../../actions/result.action';
+import { close } from '../../../actions/result-action';
+import { ResultAction } from '../../../actions/result-action';
 import { IconType } from '../../ui/icon/icon-type';
 
 interface CloseProps {

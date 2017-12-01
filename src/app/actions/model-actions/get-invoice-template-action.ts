@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { TypeKeys, AbstractAction } from '.';
+import { TypeKeys, AbstractAction } from '../';
 import { InvoiceTemplate } from 'checkout/backend/model';
 import { getInvoiceTemplateByID } from 'checkout/backend/get-invoice-template';
 

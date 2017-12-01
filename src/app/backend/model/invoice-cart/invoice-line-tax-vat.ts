@@ -2,7 +2,7 @@ import { InvoiceLineTaxMode } from './invoice-line-tax-mode';
 
 export class InvoiceLineTaxVAT extends InvoiceLineTaxMode {
 
-    public rate: string;
+    rate: string;
 
     constructor(rate: string) {
         super();

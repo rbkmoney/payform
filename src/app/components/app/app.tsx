@@ -5,25 +5,19 @@ import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loder';
-import { InvoiceTemplateInitConfig } from 'checkout/config';
-import {
-    State,
-    ConfigState,
-    ModelState,
-    InitializationStage
-} from 'checkout/state';
-import {
-    getAppConfigAction,
-    GetAppConfigDispatch,
-    getInvoiceTemplateAction,
-    GetInvoiceTemplateDispatch,
-    InitStageDoneAction,
-    setInitStageDone
-} from 'checkout/actions';
+import { manageInitStage } from './manage-init-stage';
+import { State, ConfigState, ModelState, InitializationStage } from 'checkout/state';
+import { GetAppConfigDispatch, getAppConfigAction } from 'checkout/actions';
+import { GetInvoiceTemplateDispatch, getInvoiceTemplateAction } from 'checkout/actions';
+import { GetInvoiceDispatch, getInvoiceAction } from 'checkout/actions';
+import { InitStageDoneAction, setInitStageDone } from 'checkout/actions';
+import { InitStageStartAction, setInitStageStart } from 'checkout/actions';
 
-interface AppProps {
+export interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
     getInvoiceTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoiceTemplateDispatch;
+    getInvoice: (capiEndpoint: string, accessToken: string, invoiceID: string) => GetInvoiceDispatch;
+    setInitStageStart: () => InitStageStartAction;
     setInitStageDone: () => InitStageDoneAction;
     config: ConfigState;
     model: ModelState;
@@ -39,22 +33,10 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getAppConfig: bindActionCreators(getAppConfigAction, dispatch),
     getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch),
+    getInvoice: bindActionCreators(getInvoiceAction, dispatch),
+    setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
     setInitStageDone: bindActionCreators(setInitStageDone, dispatch)
 });
-
-const manageInitStage = (props: AppProps) => {
-    const initStage = props.initialization;
-    if (initStage.appConfigReceived && !initStage.modelReceived) {
-        const config = props.config.initConfig as InvoiceTemplateInitConfig;
-        props.getInvoiceTemplate(
-            props.config.appConfig.capiEndpoint,
-            config.invoiceTemplateAccessToken,
-            config.invoiceTemplateID
-        );
-    } else if (initStage.modelReceived && !initStage.stageDone) {
-        props.setInitStageDone();
-    }
-};
 
 class AppDef extends React.Component<AppProps> {
 
@@ -63,7 +45,7 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentDidMount() {
-        this.props.getAppConfig();
+        this.props.setInitStageStart();
     }
 
     componentWillReceiveProps(props: AppProps) {
