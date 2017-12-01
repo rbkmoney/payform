@@ -25,11 +25,10 @@ const ModalContainerDef: React.SFC<ModalContainerProps> = (props) => (
         transitionEnter={true}
         transitionLeave={true}
     >
-        {props.result !== ResultState.close ?
-            <div className={styles.container}>
-                <Modal/>
-                <Footer/>{/*For desktop*/}
-            </div> : false}
+        <div className={styles.container}>
+            <Modal/>
+            <Footer/>{/*For desktop*/}
+        </div>
     </CSSTransitionGroup>
 );
 

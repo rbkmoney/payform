@@ -2,10 +2,8 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './close.scss';
-import { close } from '../../../../../actions/result-action';
-import { ResultAction } from '../../../../../actions/result-action/result-action';
-import { Icon } from '../../../../ui/icon';
-import { IconType } from '../../../../ui/icon/icon-type';
+import { close, ResultAction } from 'checkout/actions/result-action';
+import { Icon, IconType } from 'checkout/components/ui';
 
 interface CloseProps {
     close: () => Dispatch<ResultAction>;
