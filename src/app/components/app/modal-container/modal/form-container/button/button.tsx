@@ -3,7 +3,8 @@ import * as styles from './button.scss';
 import * as cx from 'classnames';
 
 interface IProps {
-    type: string;
+    type?: 'submit';
+    style: 'default' | 'primary';
     className?: string;
     children: React.ReactNode;
 }
@@ -21,7 +22,7 @@ export class Button extends React.Component<IProps, {}> {
 
     render() {
         return (
-            <button className={cx(styles.button, Button.getTypeClass(this.props.type), this.props.className)}>
+            <button type={this.props.type} className={cx(styles.button, Button.getTypeClass(this.props.style), this.props.className)}>
                 {this.props.children}
             </button>
         );
