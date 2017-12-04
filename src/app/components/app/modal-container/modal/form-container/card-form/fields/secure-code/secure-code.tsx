@@ -18,4 +18,3 @@ export const SecureCode: React.SFC = (props) =>
             }}
         />
     );
-

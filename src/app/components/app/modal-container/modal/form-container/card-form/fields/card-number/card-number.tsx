@@ -7,7 +7,7 @@ import { IconType } from 'checkout/components';
 import { cardNumberFormatter } from '../format';
 
 export const CardNumber: React.SFC = () => {
-    return (<div className={styles.inputContainer}>
+    return <div className={styles.inputContainer}>
             <Field
                     name='cardNumber'
                     component={(data: any) => {
@@ -17,8 +17,9 @@ export const CardNumber: React.SFC = () => {
                                       className={styles.cardNumberInput}
                                       icon={IconType.card}
                                       placeholder='Номер на карте'
-                        />}}
+                        />;
+                    }}
                 />
         <CardTypeIcon cardNumber={'visa'}/>
-    </div>
-)};
+    </div>;
+};

@@ -18,8 +18,3 @@ export const ExpireDate: React.SFC = (props) =>
             }}
         />
     );
-
-
-
-
-
