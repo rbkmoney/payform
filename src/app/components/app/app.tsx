@@ -4,64 +4,62 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
-import { ConfigAction, setConfig } from '../../actions';
-import { State, ConfigState, ResultState } from '../../state';
-import { Transport, Child, PossibleEvents } from '../../../communication-ts';
-
-interface AppProps {
-    setConfig: (transport: Transport) => Dispatch<ConfigAction>;
-    config: ConfigState;
-    result: ResultState;
-}
-
-const emitResult = (transport: Transport, result: ResultState) => {
-    switch (result) {
-        case ResultState.close:
-            transport.emit(PossibleEvents.close);
-            break;
-        case ResultState.done:
-            transport.emit(PossibleEvents.done);
-            break;
-    }
-    transport.destroy();
-};
+import { LayoutLoader } from './layout-loder';
+import { manageInitStage } from './manage-init-stage';
+import { State } from 'checkout/state';
+import { AppProps } from './app-props';
+import {
+    getAppConfigAction,
+    getInvoiceTemplateAction,
+    getInvoiceAction,
+    setInitStageDone,
+    setInitStageStart,
+    getInvoicePaymentMethodsAction,
+    getInvoicePaymentMethodsByTemplateIdAction,
+    getLocaleAction
+} from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
-    result: state.result
+    model: state.model,
+    error: state.error,
+    initialization: state.lifecycle.initialization
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setConfig: bindActionCreators(setConfig, dispatch)
+    getAppConfig: bindActionCreators(getAppConfigAction, dispatch),
+    getLocaleConfig: bindActionCreators(getLocaleAction, dispatch),
+    getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch),
+    getInvoice: bindActionCreators(getInvoiceAction, dispatch),
+    getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
+    getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
+    setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
+    setInitStageDone: bindActionCreators(setInitStageDone, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
-
-    private transport: Transport;
 
     constructor(props: AppProps) {
         super(props);
     }
 
     componentDidMount() {
-        Child.resolve().then((transport) => {
-            this.transport = transport;
-            this.props.setConfig(transport);
-        });
+        this.props.setInitStageStart();
     }
 
     componentWillReceiveProps(props: AppProps) {
-        if (props.result) {
-            emitResult(this.transport, props.result);
-        }
+        manageInitStage(props);
     }
 
     render() {
+        const initStageDone = this.props.initialization.stageDone;
+        const error = this.props.error;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {/*<LayoutLoader/>*/}
-                <ModalContainer/>
+                {error ? <div>{error.message}</div> : false}
+                {initStageDone ? <ModalContainer/> : false}
+                {!initStageDone && !error ? <LayoutLoader/> : false}
             </div>
         );
     }
