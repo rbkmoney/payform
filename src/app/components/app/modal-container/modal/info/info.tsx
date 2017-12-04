@@ -1,48 +1,79 @@
 import * as React from 'react';
 import * as styles from './info.scss';
 import * as cx from 'classnames';
+import { InitConfig } from 'checkout/config';
+import { ModelState, State } from 'checkout/state';
+import { connect } from 'react-redux';
+import { Amount, formatAmount, getAmount } from '../amount-resolver';
 
 interface InfoState {
+    amount: Amount;
     help?: boolean;
 }
 
-export class Info extends React.Component<{}, InfoState> {
-    constructor(props: {}) {
+export interface InfoProps {
+    initConfig: InitConfig;
+    model: ModelState;
+}
+
+const mapStateToProps = (state: State) => ({
+    initConfig: state.config.initConfig,
+    model: state.model
+});
+
+class InfoDef extends React.Component<InfoProps, InfoState> {
+
+    constructor(props: InfoProps) {
         super(props);
-
         this.state = {
-            help: false
+            amount: null,
+            help: true
         };
-
         this.toggleHelp = this.toggleHelp.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            amount: getAmount(this.props.initConfig.integrationType, this.props.model)
+        });
+    }
+
+    componentWillReceiveProps(props: InfoProps) {
+        this.setState({
+            amount: getAmount(props.initConfig.integrationType, props.model)
+        });
     }
 
     toggleHelp() {
         this.setState({
             help: !this.state.help
-        } as InfoState);
+        });
     }
 
     render() {
+        const name = this.props.initConfig.name;
+        const description = this.props.initConfig.description;
+        const dueDate = false;
+        const recurrent = false;
+        const formattedAmount = formatAmount(this.state.amount);
         return (
             <div className={styles.info}>
                 <div>
-                    <h4 className={styles.site_name}>bangbangeducation.ru</h4>
-                    <h1 className={styles.amount}>
-                        3 144 599, 77
-                        <span>&nbsp;₽</span>
-                    </h1>
-                    <div className={styles.order}>
-                        ваш заказ
-                    </div>
-                    <div className={styles.description}>
-                        Практический онлайн-курс скетчинга для дизайнеров
-                    </div>
-                    <div className={styles.dueDate}>
-                        Оплатите в течение 23:56
-                    </div>
+                    {name ? <h4 className={styles.site_name}>{name}</h4> : false}
+                    {formattedAmount ?
+                        <h1 className={styles.amount}>
+                            {formattedAmount.value}
+                            <span>&nbsp;{formattedAmount.symbol}</span>
+                        </h1> : false}
+                    {description ?
+                        <div>
+                            <div className={styles.order}>ваш заказ</div>
+                            <div className={styles.description}>{description}</div>
+                        </div>
+                        : false}
+                    {dueDate ? <div className={styles.dueDate}>Оплатите в течение 23:56</div> : false}
                 </div>
-                <div>
+                {recurrent ? <div>
                     <div className={styles.subscription} onClick={this.toggleHelp}>
                         <span>Ежемесячный платёж</span>
                         <svg width='15px' height='15px' viewBox='0 0 15 15'>
@@ -66,8 +97,10 @@ export class Info extends React.Component<{}, InfoState> {
                         Деньги списываются 17 числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на
                         email.
                     </p>
-                </div>
+                </div> : false}
             </div>
         );
     }
 }
+
+export const Info = connect(mapStateToProps)(InfoDef);

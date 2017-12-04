@@ -1,7 +1,7 @@
-import { TypeKeys, GetAppConfigAction } from 'checkout/actions';
+import { TypeKeys, GetAppConfigAction, GetLocaleAction } from 'checkout/actions';
 import { ConfigState } from 'checkout/state';
 
-type ConfigReducerAction = GetAppConfigAction;
+type ConfigReducerAction = GetAppConfigAction | GetLocaleAction;
 
 export function configReducer(s: ConfigState = null, action: ConfigReducerAction): ConfigState {
     switch (action.type) {
@@ -9,6 +9,11 @@ export function configReducer(s: ConfigState = null, action: ConfigReducerAction
             return {
                 ...s,
                 appConfig: action.payload
+            };
+        case TypeKeys.GET_LOCALE:
+            return {
+                ...s,
+                locale: action.payload
             };
 
     }

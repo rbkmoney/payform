@@ -6,24 +6,18 @@ import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loder';
 import { manageInitStage } from './manage-init-stage';
-import { State, ConfigState, ModelState, InitializationStage, ErrorState } from 'checkout/state';
-import { GetAppConfigDispatch, getAppConfigAction } from 'checkout/actions';
-import { GetInvoiceTemplateDispatch, getInvoiceTemplateAction } from 'checkout/actions';
-import { GetInvoiceDispatch, getInvoiceAction } from 'checkout/actions';
-import { InitStageDoneAction, setInitStageDone } from 'checkout/actions';
-import { InitStageStartAction, setInitStageStart } from 'checkout/actions';
-
-export interface AppProps {
-    getAppConfig: () => GetAppConfigDispatch;
-    getInvoiceTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoiceTemplateDispatch;
-    getInvoice: (capiEndpoint: string, accessToken: string, invoiceID: string) => GetInvoiceDispatch;
-    setInitStageStart: () => InitStageStartAction;
-    setInitStageDone: () => InitStageDoneAction;
-    config: ConfigState;
-    model: ModelState;
-    error: ErrorState;
-    initialization: InitializationStage;
-}
+import { State } from 'checkout/state';
+import { AppProps } from './app-props';
+import {
+    getAppConfigAction,
+    getInvoiceTemplateAction,
+    getInvoiceAction,
+    setInitStageDone,
+    setInitStageStart,
+    getInvoicePaymentMethodsAction,
+    getInvoicePaymentMethodsByTemplateIdAction,
+    getLocaleAction
+} from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -34,8 +28,11 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getAppConfig: bindActionCreators(getAppConfigAction, dispatch),
+    getLocaleConfig: bindActionCreators(getLocaleAction, dispatch),
     getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch),
     getInvoice: bindActionCreators(getInvoiceAction, dispatch),
+    getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
+    getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
     setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
     setInitStageDone: bindActionCreators(setInitStageDone, dispatch)
 });

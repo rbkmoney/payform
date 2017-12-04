@@ -18,6 +18,6 @@ export function getInvoiceAction(capiEndpoint: string, accessToken: string, invo
             }))
             .catch((error) => dispatch({
                 type: TypeKeys.SET_ERROR,
-                payload: error // TODO check 500 errors
+                payload: error
             }));
 }

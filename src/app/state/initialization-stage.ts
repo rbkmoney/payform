@@ -1,6 +1,8 @@
 export class InitializationStage {
     stageStart: boolean;
     appConfigReceived: boolean;
-    modelReceived: boolean;
+    localeReceived: boolean;
+    modelReceived: boolean; // TODO integration data
+    paymentMethodsReceived: boolean;
     stageDone: boolean;
 }

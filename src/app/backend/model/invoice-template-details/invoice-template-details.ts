@@ -1,3 +1,3 @@
 export abstract class InvoiceTemplateDetails {
-    templateType: string;
+    templateType: string; // TODO enum
 }

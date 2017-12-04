@@ -1,8 +1,19 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
+import { InitConfig } from 'checkout/config';
+import { State } from 'checkout/state';
 
-const MobileHeaderDef: React.SFC = () => (
+export interface MobileHeaderProps {
+    initConfig: InitConfig;
+}
+
+const mapStateToProps = (state: State) => ({
+    initConfig: state.config.initConfig,
+});
+
+const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
     <header className={styles.header}>
         <button className={styles.back_btn}>
             <svg width='9px' height='60px' viewBox='0 0 9 60'>
@@ -19,9 +30,9 @@ const MobileHeaderDef: React.SFC = () => (
         <div className={cx(styles.text, {
             [styles._center]: true
         })}>
-            bangbangeducation.ru
+            {props.initConfig.name}
         </div>
     </header>
 );
 
-export const MobileHeader = MobileHeaderDef;
+export const MobileHeader = connect(mapStateToProps)(MobileHeaderDef);

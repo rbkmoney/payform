@@ -19,6 +19,6 @@ export function getInvoiceTemplateAction(capiEndpoint: string, accessToken: stri
             }))
             .catch((error) => dispatch({
                 type: TypeKeys.SET_ERROR,
-                payload: error // TODO check 500 errors
+                payload: error
             }));
 }

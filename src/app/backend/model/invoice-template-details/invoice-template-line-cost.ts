@@ -1,3 +1,3 @@
 export abstract class InvoiceTemplateLineCost {
-    costType: string;
+    costType: string; // TODO enum
 }
