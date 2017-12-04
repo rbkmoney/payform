@@ -5,15 +5,21 @@ import {
     GetInvoiceTemplateAction,
     InitStageStartAction,
     TypeKeys,
-    InitStageDoneAction
+    InitStageDoneAction,
+    GetInvoicePaymentMethodsAction,
+    GetInvoicePaymentMethodsByTemplateIdAction,
+    GetLocaleAction
 } from 'checkout/actions';
 
 type LifecycleReducerAction =
     GetInvoiceTemplateAction |
     GetAppConfigAction |
+    GetLocaleAction |
     InitStageStartAction |
     InitStageDoneAction |
-    GetInvoiceAction;
+    GetInvoiceAction |
+    GetInvoicePaymentMethodsAction |
+    GetInvoicePaymentMethodsByTemplateIdAction;
 
 const initState = {
     initialization: {
@@ -31,6 +37,14 @@ export function lifecycleReducer(s: LifecycleState = initState, action: Lifecycl
                     appConfigReceived: true
                 }
             };
+        case TypeKeys.GET_LOCALE:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    localeReceived: true
+                }
+            };
         case TypeKeys.GET_INVOICE_TEMPLATE:
             return {
                 ...s,
@@ -45,6 +59,22 @@ export function lifecycleReducer(s: LifecycleState = initState, action: Lifecycl
                 initialization: {
                     ...s.initialization,
                     modelReceived: true
+                }
+            };
+        case TypeKeys.GET_INVOICE_PAYMENT_METHODS:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    paymentMethodsReceived: true
+                }
+            };
+        case TypeKeys.GET_INVOICE_PAYMENT_METHODS_BY_TEMPLATE_ID:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    paymentMethodsReceived: true
                 }
             };
         case TypeKeys.INIT_STAGE_START:

@@ -10,8 +10,8 @@ export interface GetAppConfigAction extends AbstractAction<AppConfig> {
 
 export type GetAppConfigDispatch = (dispatch: Dispatch<GetAppConfigAction | SetErrorAction>) => void;
 
-export function getAppConfigAction(): GetAppConfigDispatch {
-    return (dispatch) => getAppConfig()
+export const getAppConfigAction = (): GetAppConfigDispatch =>
+    (dispatch) => getAppConfig()
         .then((appConfig) => dispatch({
             type: TypeKeys.GET_APP_CONFIG,
             payload: appConfig
@@ -22,5 +22,3 @@ export function getAppConfigAction(): GetAppConfigDispatch {
                 message: 'Failed to load app config'
             }
         }));
-
-}

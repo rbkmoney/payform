@@ -5,6 +5,7 @@ export class InvoiceLine {
     product: string;
     quantity: number;
     price: number;
+    cost: number;
     taxMode?: InvoiceLineTaxMode;
 
     constructor(product: string, quantity: number, price: number) {

@@ -5,4 +5,5 @@ export class Config {
     origin: string;
     initConfig: InitConfig;
     appConfig?: AppConfig;
+    locale?: object;
 }

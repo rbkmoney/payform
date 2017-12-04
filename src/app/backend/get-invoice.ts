@@ -1,8 +1,8 @@
 import { Invoice, fetchCapi } from '.';
+import v from './capi-version';
 
-export function getInvoiceByID(capiEndpoint: string, accessToken: string, invoiceID: string): Promise<Invoice> {
-    return fetchCapi({
-        endpoint: `${capiEndpoint}/v2/processing/invoices/${invoiceID}`,
+export const getInvoiceByID = (capiEndpoint: string, accessToken: string, invoiceID: string): Promise<Invoice> =>
+    fetchCapi({
+        endpoint: `${capiEndpoint}/${v}/processing/invoices/${invoiceID}`,
         accessToken
     });
-}
