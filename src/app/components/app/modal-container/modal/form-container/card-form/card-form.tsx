@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
@@ -20,15 +20,7 @@ const CardFormDef: React.SFC<any> = (props) => {
                 </div>
             </div>
             <div className={commonFormStyles.formGroup}>
-                <Field
-                    name='cardNumber'
-                    component={(data: any) => {
-                        return <CardNumber onChange={(param: any) => {
-                                                data.input.onChange(param.target.value)
-                                            }}
-                                           currentValue={{val: data.value}}/>
-                    }}
-                />
+                <CardNumber />
             </div>
             <div className={commonFormStyles.formGroup}>
                 <ExpireDate/>
