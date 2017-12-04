@@ -20,7 +20,7 @@ const CardFormDef: React.SFC<any> = (props) => {
                 </div>
             </div>
             <div className={commonFormStyles.formGroup}>
-                <CardNumber />
+                <CardNumber/>
             </div>
             <div className={commonFormStyles.formGroup}>
                 <ExpireDate/>
@@ -38,5 +38,5 @@ const CardFormDef: React.SFC<any> = (props) => {
 };
 
 export const CardForm = reduxForm({
-  form: 'cardForm'
+    form: 'cardForm'
 })(CardFormDef);
