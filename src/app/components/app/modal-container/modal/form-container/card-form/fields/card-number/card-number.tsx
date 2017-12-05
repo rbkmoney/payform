@@ -27,11 +27,12 @@ interface CardNumberDefProps {
 }
 
 const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => {
+    const cardForm = props.forms.cardForm;
     return <div className={styles.inputContainer}>
         <Field name='cardNumber'
                component={renderInput}
         />
-        <CardTypeIcon cardNumber={props.forms.cardForm && props.forms.cardForm.values && props.forms.cardForm.values.cardNumber ? props.forms.cardForm.values.cardNumber : null}/>
+        <CardTypeIcon cardNumber={cardForm && cardForm.values && cardForm.values.cardNumber ? cardForm.values.cardNumber : null}/>
     </div>;
 };
 
