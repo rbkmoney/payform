@@ -8,7 +8,8 @@ import {
     InitStageDoneAction,
     GetInvoicePaymentMethodsAction,
     GetInvoicePaymentMethodsByTemplateIdAction,
-    GetLocaleAction
+    GetLocaleAction,
+    InitFormsFlowDoneAction
 } from 'checkout/actions';
 
 type LifecycleReducerAction =
@@ -19,7 +20,8 @@ type LifecycleReducerAction =
     InitStageDoneAction |
     GetInvoiceAction |
     GetInvoicePaymentMethodsAction |
-    GetInvoicePaymentMethodsByTemplateIdAction;
+    GetInvoicePaymentMethodsByTemplateIdAction |
+    InitFormsFlowDoneAction;
 
 const initState = {
     initialization: {
@@ -91,6 +93,14 @@ export function lifecycleReducer(s: LifecycleState = initState, action: Lifecycl
                 initialization: {
                     ...s.initialization,
                     stageDone: true
+                }
+            };
+        case TypeKeys.FORMS_FLOW_INIT_DONE:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    formsFlowInit: true
                 }
             };
     }

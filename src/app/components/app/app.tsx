@@ -16,13 +16,16 @@ import {
     setInitStageStart,
     getInvoicePaymentMethodsAction,
     getInvoicePaymentMethodsByTemplateIdAction,
-    getLocaleAction
+    getLocaleAction,
+    initFormsFlowDone,
+    setFormFlowAction
 } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     error: state.error,
+    formsFlow: state.formsFlow,
     initialization: state.lifecycle.initialization
 });
 
@@ -34,7 +37,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
     setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
-    setInitStageDone: bindActionCreators(setInitStageDone, dispatch)
+    setInitStageDone: bindActionCreators(setInitStageDone, dispatch),
+    initFormsFlowDone: bindActionCreators(initFormsFlowDone, dispatch),
+    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {

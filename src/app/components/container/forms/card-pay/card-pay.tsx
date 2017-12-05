@@ -10,7 +10,7 @@ export class CardPay extends React.Component {
             <form>
                 <div className={formStyles.header}>
                     <div className={formStyles.back_btn}>
-                        <Icon icon={IconType['chevron-left']}/>
+                        <Icon icon={IconType.chevronLeft}/>
                     </div>
                     <div className={formStyles.title}>
                         Оплата банковской картой

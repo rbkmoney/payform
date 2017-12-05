@@ -2,12 +2,12 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as formStyles from '../form-container.scss';
-import * as commonFormStyles from 'checkout/styles/forms.scss';
+import * as styles from './amount-form.scss';
 import { FormFlowItem, State } from 'checkout/state';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { Button } from 'checkout/components';
 import { Amount } from './amount/amount';
-import { next } from '../form-flow-manager';
+import { next } from 'checkout/components/app/form-flow-manager';
 
 export interface AmountFormProps {
     formsFlow: FormFlowItem[];
@@ -39,10 +39,10 @@ class AmountFormDef extends React.Component<AmountFormProps> {
             <form>
                 <div className={formStyles.header}>
                     <div className={formStyles.title}>
-                        Введите сумму оплаты
+                        Укажите сумму оплаты
                     </div>
                 </div>
-                <div className={commonFormStyles.formGroup}>
+                <div className={styles.formGroup}>
                     <Amount/>
                 </div>
                 <Button type='primary' onClick={this.next}>Далее</Button>
