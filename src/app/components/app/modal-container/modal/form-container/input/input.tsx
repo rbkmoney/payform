@@ -22,7 +22,7 @@ export const Input: React.SFC<InputProps> = (props) => (
             onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e)}
             className={cx(styles.input, {[styles.mark]: props.mark})}
             placeholder={props.placeholder}
-            ref={(input) => props.formatter ? props.formatter(input) : false}
+            ref={(input) => input && props.formatter ? props.formatter(input) : false}
             type={props.type}
             value={props.currentValue}
         />

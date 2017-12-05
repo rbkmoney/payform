@@ -1,4 +1,4 @@
-import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState } from '.';
+import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState, FormsState } from '.';
 
 export type State = {
     readonly result: ResultState;
@@ -6,4 +6,5 @@ export type State = {
     readonly model: ModelState;
     readonly lifecycle: LifecycleState;
     readonly error: ErrorState;
+    readonly forms: FormsState;
 }
