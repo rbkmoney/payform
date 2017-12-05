@@ -22,7 +22,7 @@ const renderInput: React.SFC = (data: any) => {
     );
 };
 
-type CardNumberDefProps = {
+interface CardNumberDefProps {
     forms: FormsState;
 }
 
@@ -31,14 +31,14 @@ const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => {
         <Field name='cardNumber'
                component={renderInput}
         />
-        <CardTypeIcon cardNumber={props.forms.cardForm && props.forms.cardForm.values && props.forms.cardForm.values.cardNumber ? props.forms.cardForm.values.cardNumber: null}/>
+        <CardTypeIcon cardNumber={props.forms.cardForm && props.forms.cardForm.values && props.forms.cardForm.values.cardNumber ? props.forms.cardForm.values.cardNumber : null}/>
     </div>;
 };
 
 function mapStateToProps(state: State) {
     return {
         forms: state.forms
-    }
+    };
 }
 
 export const CardNumber = connect(mapStateToProps)(CardNumberDef);
