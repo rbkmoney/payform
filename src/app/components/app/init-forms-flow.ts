@@ -16,7 +16,7 @@ const hasOpenAmount = (invoiceTemplate: InvoiceTemplate): boolean => {
     return false;
 };
 
-const isRequiredAmountForm = (initConfig: InitConfig, model: ModelState): boolean => {
+const isRequiredAmount = (initConfig: InitConfig, model: ModelState): boolean => {
     const integrationType = initConfig.integrationType;
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:
@@ -25,16 +25,13 @@ const isRequiredAmountForm = (initConfig: InitConfig, model: ModelState): boolea
     return false;
 };
 
-const isRequiredPaymentMethods = (initConfig: InitConfig, model: ModelState) => {
+const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
     return initConfig.terminals && model.paymentMethods.length > 1;
 };
 
 export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
-    if (isRequiredAmountForm(initConfig, model)) {
-        result = add(result, FormName.paymentAmountForm);
-    }
-    if (isRequiredPaymentMethods(initConfig, model)) {
+    if (isMultiMethods(initConfig, model)) {
         result = add(result, FormName.paymentMethods);
     } else {
         result = add(result, FormName.cardForm);
