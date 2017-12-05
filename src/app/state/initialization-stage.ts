@@ -4,5 +4,6 @@ export class InitializationStage {
     localeReceived: boolean;
     modelReceived: boolean; // TODO integration data
     paymentMethodsReceived: boolean;
+    formsFlowInit: boolean;
     stageDone: boolean;
 }

@@ -43,11 +43,10 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-
+    cursor: pointer;
     @include responsive(sm) {
         display: flex;
     }
-
     svg {
         height: 15px;
         width: 9px;

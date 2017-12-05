@@ -3,15 +3,13 @@ import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { Button } from '../button';
-import { Icon, IconType } from 'checkout/components/ui';
 import { CardNumber, ExpireDate, SecureCode, CardHolder, Email } from './fields';
+import { ChevronBack } from '../chevron-back';
 
 const CardFormDef: React.SFC = () => (
     <form>
         <div className={formStyles.header}>
-            <div className={formStyles.back_btn}>
-                <Icon icon={IconType['chevron-left']}/>
-            </div>
+            <ChevronBack/>
             <div className={formStyles.title}>
                 Оплата банковской картой
             </div>
