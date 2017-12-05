@@ -43,7 +43,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-
+    cursor: pointer;
     @include responsive(sm) {
         display: flex;
     }

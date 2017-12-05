@@ -6,6 +6,7 @@ interface IProps {
     type: string;
     className?: string;
     children: React.ReactNode;
+    onClick?: (event: any) => void; // TODO fix any
 }
 
 export class Button extends React.Component<IProps, {}> {
@@ -21,7 +22,8 @@ export class Button extends React.Component<IProps, {}> {
 
     render() {
         return (
-            <button className={cx(styles.button, Button.getTypeClass(this.props.type), this.props.className)}>
+            <button onClick={this.props.onClick}
+                    className={cx(styles.button, Button.getTypeClass(this.props.type), this.props.className)}>
                 {this.props.children}
             </button>
         );

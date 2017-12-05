@@ -12,15 +12,16 @@ interface InputProps {
     type?: 'password';
 }
 
-export const Input: React.SFC<InputProps> = (props) => (
-    <div className={cx(styles.container, props.className, {[styles._correct]: true})}>
-        {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
-        <input
-            className={cx(styles.input, {[styles.mark]: props.mark})}
-            placeholder={props.placeholder}
-            ref={(input) => props.formatter ? props.formatter(input) : false}
-            type={props.type}
-        />
-        {props.mark ? <Icon className={styles.checkmark} icon={IconType.cross}/> : false}
-    </div>
-);
+export const Input: React.SFC<InputProps> = (props) => {
+    return (
+        <div className={cx(styles.container, props.className, {[styles._correct]: true})}>
+            {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
+            <input
+                className={cx(styles.input, {[styles.mark]: props.mark})}
+                placeholder={props.placeholder}
+                ref={(input) => input && props.formatter ? props.formatter(input) : false}
+                type={props.type}
+            />
+            {props.mark ? <Icon className={styles.checkmark} icon={IconType.cross}/> : false}
+        </div>);
+};
