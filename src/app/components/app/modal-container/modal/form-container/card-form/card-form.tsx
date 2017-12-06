@@ -16,7 +16,7 @@ const CardFormDef: React.SFC = () => (
             </div>
         </div>
         <div className={commonFormStyles.formGroup}>
-            <CardNumber />
+            <CardNumber/>
         </div>
         <div className={commonFormStyles.formGroup}>
             <ExpireDate/>

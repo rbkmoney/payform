@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
-import { Field } from 'redux-form';
+import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import * as styles from './card-number.scss';
 import { Input } from '../../../input';
 import { CardTypeIcon } from './card-type-icon';
@@ -10,7 +10,7 @@ import { cardNumberFormatter } from '../format';
 import { State } from 'checkout/state';
 import { get } from 'lodash';
 
-const CustomInput: React.SFC = (data: any) => (
+const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (data: any) => (
     <Input
         onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target.value))}
         currentValue={data.value}
@@ -26,16 +26,14 @@ export interface CardNumberDefProps {
 }
 
 const mapStateToProps = (state: State) => ({
-    cardNumber: get(state, 'forms.cardForm.values.cardNumber', null)
+    cardNumber: get(state, 'forms.cardForm.values.cardNumber')
 });
 
-const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => {
-    return (
-        <div className={styles.inputContainer}>
-            <Field name='cardNumber' component={CustomInput}/>
-            <CardTypeIcon cardNumber={props.cardNumber}/>
-        </div>
-    );
-};
+const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => (
+    <div className={styles.inputContainer}>
+        <Field name='cardNumber' component={CustomInput}/>
+        <CardTypeIcon cardNumber={props.cardNumber}/>
+    </div>
+);
 
 export const CardNumber = connect(mapStateToProps)(CardNumberDef);
