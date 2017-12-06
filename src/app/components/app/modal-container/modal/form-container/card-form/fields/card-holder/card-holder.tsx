@@ -5,7 +5,7 @@ import { Input } from '../../../input';
 import { IconType } from 'checkout/components/ui';
 import { cardHolderFormatter } from '../format';
 
-const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (data: any) => (
+const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (data) => (
     <Input onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target.value))}
            currentValue={data.value}
            formatter={cardHolderFormatter}
