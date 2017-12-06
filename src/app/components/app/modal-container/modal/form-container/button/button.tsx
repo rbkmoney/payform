@@ -6,7 +6,8 @@ import * as cx from 'classnames';
 type ButtonType = 'primary' | 'default';
 
 export interface ButtonProps {
-    type: ButtonType;
+    style: ButtonType;
+    type?: 'submit';
     children: React.ReactNode;
     className?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -15,7 +16,7 @@ export interface ButtonProps {
 const getClass = (type: ButtonType) => type === 'primary' ? styles._primary : styles._default;
 
 export const Button: React.SFC<ButtonProps> = (props) => (
-    <button onClick={props.onClick} className={cx(styles.button, getClass(props.type), props.className)}>
+    <button type={props.type} onClick={props.onClick} className={cx(styles.button, getClass(props.style), props.className)}>
         {props.children}
     </button>
 );

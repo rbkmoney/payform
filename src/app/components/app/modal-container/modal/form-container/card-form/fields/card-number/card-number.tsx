@@ -30,7 +30,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => {
-    console.log(props);
     return (
         <div className={styles.inputContainer}>
             <Field name='cardNumber' component={CustomInput}/>
