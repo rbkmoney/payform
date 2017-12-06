@@ -12,7 +12,7 @@ interface InputProps {
     formatter?: (e: Element) => void;
     type?: 'password';
     currentValue?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => {};
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input: React.SFC<InputProps> = (props) => (
