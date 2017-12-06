@@ -9,9 +9,9 @@ interface InputProps {
     placeholder?: string;
     mark?: boolean;
     className?: string;
-    formatter?: (element: Element) => void;
+    formatter?: (e: Element) => void;
     type?: 'password';
-    currentValue?: any;
+    currentValue?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => {};
 }
 

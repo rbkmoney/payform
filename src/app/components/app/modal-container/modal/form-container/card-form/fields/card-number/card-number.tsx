@@ -7,42 +7,36 @@ import { Input } from '../../../input';
 import { CardTypeIcon } from './card-type-icon';
 import { IconType } from 'checkout/components';
 import { cardNumberFormatter } from '../format';
-import { FormsState, State } from 'checkout/state';
+import { State } from 'checkout/state';
+import { get } from 'lodash';
 
-const renderInput: React.SFC = (data: any) => {
-    return (
-        <Input
-            onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target as HTMLInputElement).value)}
-            currentValue={data.value}
-            formatter={cardNumberFormatter}
-            className={styles.cardNumberInput}
-            icon={IconType.card}
-            placeholder='Номер на карте'
-        />
-    );
-};
+const CustomInput: React.SFC = (data: any) => (
+    <Input
+        onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target.value))}
+        currentValue={data.value}
+        formatter={cardNumberFormatter}
+        className={styles.cardNumberInput}
+        icon={IconType.card}
+        placeholder='Номер на карте'
+    />
+);
 
-interface CardNumberDefProps {
-    forms: FormsState;
+export interface CardNumberDefProps {
+    cardNumber: string;
 }
+
+const mapStateToProps = (state: State) => ({
+    cardNumber: get(state, 'forms.cardForm.values.cardNumber', null)
+});
 
 const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => {
-    const cardForm = props.forms.cardForm;
-    const cardNumber = cardForm
-        && cardForm.values
-        && cardForm.values.cardNumber ? cardForm.values.cardNumber : null;
-    return <div className={styles.inputContainer}>
-        <Field name='cardNumber'
-               component={renderInput}
-        />
-        <CardTypeIcon cardNumber={cardNumber}/>
-    </div>;
+    console.log(props);
+    return (
+        <div className={styles.inputContainer}>
+            <Field name='cardNumber' component={CustomInput}/>
+            <CardTypeIcon cardNumber={props.cardNumber}/>
+        </div>
+    );
 };
-
-function mapStateToProps(state: State) {
-    return {
-        forms: state.forms
-    };
-}
 
 export const CardNumber = connect(mapStateToProps)(CardNumberDef);
