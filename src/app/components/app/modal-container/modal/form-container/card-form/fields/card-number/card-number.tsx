@@ -10,10 +10,10 @@ import { cardNumberFormatter } from '../format';
 import { State } from 'checkout/state';
 import { get } from 'lodash';
 
-const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (data) => (
+const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
-        onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target.value))}
-        currentValue={data.value}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
+        currentValue={props.value}
         formatter={cardNumberFormatter}
         className={styles.cardNumberInput}
         icon={IconType.card}

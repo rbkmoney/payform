@@ -5,9 +5,9 @@ import { Input } from '../../../input';
 import { IconType } from 'checkout/components';
 import { expireDateFormatter } from '../format';
 
-const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (data) => (
-    <Input onChange={(e: ChangeEvent<HTMLInputElement>) => data.input.onChange((e.target.value))}
-           currentValue={data.value}
+const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
+    <Input onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
+           currentValue={props.value}
            formatter={expireDateFormatter}
            icon={IconType.calendar}
            placeholder='ММ/ГГ'
