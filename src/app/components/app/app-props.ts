@@ -6,9 +6,11 @@ import {
     InitStageDoneAction,
     InitStageStartAction,
     GetInvoicePaymentMethodsByTemplateIdDispatch,
-    GetLocaleDispatch
+    GetLocaleDispatch,
+    InitFormsFlowDoneAction,
+    SetFormsFlowAction
 } from 'checkout/actions';
-import { ConfigState, ModelState, InitializationStage, ErrorState } from 'checkout/state';
+import { ConfigState, ModelState, InitializationStage, ErrorState, FormFlowItem } from 'checkout/state';
 
 export interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
@@ -19,8 +21,11 @@ export interface AppProps {
     getInvoicePaymentMethodsByTemplateId: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoicePaymentMethodsByTemplateIdDispatch
     setInitStageStart: () => InitStageStartAction;
     setInitStageDone: () => InitStageDoneAction;
+    initFormsFlowDone: () => InitFormsFlowDoneAction;
+    setFormFlowAction: (formFlow: FormFlowItem[]) => SetFormsFlowAction
     config: ConfigState;
     model: ModelState;
     error: ErrorState;
     initialization: InitializationStage;
+    formsFlow: FormFlowItem[];
 }

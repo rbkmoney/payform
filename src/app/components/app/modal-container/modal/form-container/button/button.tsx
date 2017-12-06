@@ -1,30 +1,21 @@
 import * as React from 'react';
+import { MouseEventHandler } from 'react';
 import * as styles from './button.scss';
 import * as cx from 'classnames';
 
-interface IProps {
-    type?: 'submit';
-    style: 'default' | 'primary';
-    className?: string;
+type ButtonType = 'primary' | 'default';
+
+export interface ButtonProps {
+    type: ButtonType;
     children: React.ReactNode;
+    className?: string;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export class Button extends React.Component<IProps, {}> {
-    static getTypeClass(type: string): string {
-        switch (type) {
-            case 'primary':
-                return styles._primary;
-            case 'default':
-            default:
-                return styles._default;
-        }
-    }
+const getClass = (type: ButtonType) => type === 'primary' ? styles._primary : styles._default;
 
-    render() {
-        return (
-            <button type={this.props.type} className={cx(styles.button, Button.getTypeClass(this.props.style), this.props.className)}>
-                {this.props.children}
-            </button>
-        );
-    }
-}
+export const Button: React.SFC<ButtonProps> = (props) => (
+    <button onClick={props.onClick} className={cx(styles.button, getClass(props.type), props.className)}>
+        {props.children}
+    </button>
+);

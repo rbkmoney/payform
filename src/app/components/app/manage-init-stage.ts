@@ -1,5 +1,6 @@
 import { AppProps } from './app-props';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
+import { initFormsFlow } from './init-forms-flow';
 
 const manageInvoiceTemplate = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -72,6 +73,9 @@ export const manageInitStage = (p: AppProps) => {
         manageModel(p);
     } else if (!initStage.paymentMethodsReceived) {
         managePaymentMethods(p);
+    } else if (!initStage.formsFlowInit) {
+        p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
+        p.initFormsFlowDone();
     } else if (!initStage.stageDone) {
         p.setInitStageDone();
     }

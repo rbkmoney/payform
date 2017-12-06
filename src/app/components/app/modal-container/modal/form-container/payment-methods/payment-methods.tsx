@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as TransitionGroup from 'react-transition-group';
+import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
-import * as formStyles from '../forms.scss';
-import {Icon} from '../../../index';
-import { IconType } from '../../../ui/icon/icon-type';
+import { ChevronBack } from '../chevron-back';
 
 export class PaymentMethods extends React.Component {
     render() {
@@ -11,9 +10,7 @@ export class PaymentMethods extends React.Component {
         return (
             <form>
                 <div className={formStyles.header}>
-                    <div className={formStyles.back_btn}>
-                        <Icon icon={IconType.chevronLeft}/>
-                    </div>
+                    <ChevronBack/>
                     <div className={formStyles.title}>
                         Выберите способ оплаты
                     </div>

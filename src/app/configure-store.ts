@@ -8,7 +8,8 @@ import {
     configReducer,
     modelReducer,
     lifecycleReducer,
-    errorReducer
+    errorReducer,
+    formsFlowReducer
 } from './reducers';
 
 export function configureStore(initState: any): Store<State> {
@@ -18,6 +19,7 @@ export function configureStore(initState: any): Store<State> {
         model: modelReducer,
         lifecycle: lifecycleReducer,
         error: errorReducer,
-        forms: formReducer
+        forms: formReducer,
+        formsFlow: formsFlowReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk)));
 }
