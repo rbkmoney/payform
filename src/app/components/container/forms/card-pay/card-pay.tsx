@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as styles from './card-pay.scss';
 import * as formStyles from '../forms.scss';
 import {Input, Button, Icon} from '../../../index';
-import { IconType } from '../../../ui/icon/icon-type';
+import { IconType } from '../../../ui/icon';
 
 export class CardPay extends React.Component {
     render() {
@@ -28,7 +28,7 @@ export class CardPay extends React.Component {
                 <div className='form-group'>
                     <Input icon={IconType.letter} placeholder='Email для чека'/>
                 </div>
-                <Button className={styles.pay_button} type='primary'>Оплатить 3 144 599, 77 ₽</Button>
+                <Button className={styles.pay_button} style='primary'>Оплатить 3 144 599, 77 ₽</Button>
             </form>
         );
     }

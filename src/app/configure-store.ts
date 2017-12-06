@@ -1,5 +1,6 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 import { State } from './state';
 import {
@@ -18,6 +19,7 @@ export function configureStore(initState: any): Store<State> {
         model: modelReducer,
         lifecycle: lifecycleReducer,
         error: errorReducer,
+        forms: formReducer,
         formsFlow: formsFlowReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk)));
 }

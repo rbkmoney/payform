@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as styles from './card-number.scss';
-import { Icon } from '../../../../../../../ui/icon';
+import { Icon, IconType } from 'checkout/components/ui/icon';
 import * as creditCardType from 'credit-card-type';
-import { IconType } from '../../../../../../../ui/icon/icon-type';
 
 interface CardTypeIconProps {
     cardNumber: string;

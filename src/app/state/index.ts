@@ -4,6 +4,7 @@ export * from './model-state';
 export * from './lifecycle-state';
 export * from './initialization-stage';
 export * from './error-state';
+export * from './forms-state';
 export * from './state';
 export * from './flow-state/flow-item';
 export * from './form-name';

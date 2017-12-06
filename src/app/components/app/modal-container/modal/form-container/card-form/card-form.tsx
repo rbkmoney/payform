@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { reduxForm } from 'redux-form';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
@@ -27,8 +28,10 @@ const CardFormDef: React.SFC = () => (
         <div className={commonFormStyles.formGroup}>
             <Email/>
         </div>
-        <Button className={styles.pay_button} type='primary'>Оплатить 3 144 599, 77 ₽</Button>
+        <Button className={styles.pay_button} type='submit' style='primary'>Оплатить 3 144 599, 77 ₽</Button>
     </form>
 );
 
-export const CardForm = CardFormDef;
+export const CardForm = reduxForm({
+    form: 'cardForm'
+})(CardFormDef);

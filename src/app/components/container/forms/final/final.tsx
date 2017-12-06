@@ -14,8 +14,8 @@ export class Final extends React.Component {
                     <a href='' className={styles.link}>Как решить проблему?</a>
                     <hr/>
                 </div>
-                <Button type='primary'>Попробовать ещё раз</Button>
-                <Button type='default' className={styles.pay_with_other}>Оплатить другой картой</Button>
+                <Button style='primary'>Попробовать ещё раз</Button>
+                <Button style='default' className={styles.pay_with_other}>Оплатить другой картой</Button>
                 <div className={styles.link_container}>
                     <a href='' className={styles.link}>Другие способы оплаты</a>
                     <hr/>
