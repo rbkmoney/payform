@@ -1,4 +1,4 @@
-import hasTextSelected from '../common/has-text-selected';
+import { hasTextSelected } from '../common';
 
 export function restrictExpiry(e: KeyboardEvent): boolean {
     const target = e.currentTarget as HTMLInputElement;

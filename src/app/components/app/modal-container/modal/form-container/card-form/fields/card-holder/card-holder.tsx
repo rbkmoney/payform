@@ -6,11 +6,13 @@ import { IconType } from 'checkout/components/ui';
 import { cardHolderFormatter } from '../format';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
-    <Input onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
-           currentValue={props.value}
-           formatter={cardHolderFormatter}
-           icon={IconType.user}
-           placeholder='Имя на карте'
+    <Input
+        error={props.meta.error}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
+        currentValue={props.value}
+        formatter={cardHolderFormatter}
+        icon={IconType.user}
+        placeholder='Имя на карте'
     />
 );
 

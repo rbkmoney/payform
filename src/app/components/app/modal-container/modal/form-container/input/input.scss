@@ -26,6 +26,12 @@
             display: flex;
         }
     }
+
+    &._hasError {
+        input {
+            border-color: red;
+        }
+    }
 }
 
 .icon {

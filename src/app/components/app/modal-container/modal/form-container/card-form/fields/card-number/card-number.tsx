@@ -12,6 +12,7 @@ import { get } from 'lodash';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
+        error={props.meta.error}
         onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
         currentValue={props.value}
         formatter={cardNumberFormatter}
@@ -26,7 +27,7 @@ export interface CardNumberDefProps {
 }
 
 const mapStateToProps = (state: State) => ({
-    cardNumber: get(state, 'forms.cardForm.values.cardNumber')
+    cardNumber: get(state, 'form.cardForm.values.cardNumber')
 });
 
 const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => (

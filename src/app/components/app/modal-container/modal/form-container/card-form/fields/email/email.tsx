@@ -5,10 +5,12 @@ import { Input } from '../../../input';
 import { IconType } from 'checkout/components/ui';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
-    <Input onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
-           currentValue={props.value}
-           icon={IconType.letter}
-           placeholder='Email для чека'
+    <Input
+        error={props.meta.error}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
+        currentValue={props.value}
+        icon={IconType.letter}
+        placeholder='Email для чека'
     />
 );
 

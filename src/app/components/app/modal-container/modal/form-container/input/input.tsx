@@ -13,13 +13,17 @@ interface InputProps {
     type?: 'password';
     currentValue?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    error?: boolean;
 }
 
 export const Input: React.SFC<InputProps> = (props) => (
-    <div className={cx(styles.container, props.className, {[styles._correct]: true})}>
+    <div className={cx(styles.container, props.className, {
+        [styles._correct]: true,
+        [styles._hasError]: props.error
+    })}>
         {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
         <input
-            onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e)}
+            onChange={props.onChange}
             className={cx(styles.input, {[styles.mark]: props.mark})}
             placeholder={props.placeholder}
             ref={(input) => input && props.formatter ? props.formatter(input) : false}

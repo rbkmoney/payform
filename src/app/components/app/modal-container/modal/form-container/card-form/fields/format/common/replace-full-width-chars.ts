@@ -1,4 +1,4 @@
-export default function(str: string): string {
+export function replaceFullWidthChars(str: string): string {
     if (str == null) {
         str = '';
     }

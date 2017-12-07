@@ -1,27 +1,30 @@
 import * as React from 'react';
 import * as styles from './card-number.scss';
 import { Icon, IconType } from 'checkout/components/ui/icon';
-import * as creditCardType from 'credit-card-type';
+import { cardFromNumber } from 'checkout/components/app/modal-container/modal/form-container/card-form/fields/common-card-tools/card-from-number';
+import {
+    Card,
+    CardTypes
+} from 'checkout/components/app/modal-container/modal/form-container/card-form/fields/common-card-tools';
 
 interface CardTypeIconProps {
     cardNumber: string;
 }
 
-type CardBrand = creditCardType.CardBrand;
-
-function getCardType(cardNumber: string): CardBrand | null {
+function getCardType(cardNumber: string): Card | null {
     if (!cardNumber) {
         return null;
     }
-    const typeInfo = creditCardType(cardNumber.replace(/\s/g, ''));
-    return typeInfo.length > 0 ? typeInfo[0].type : null;
+    const typeInfo = cardFromNumber(cardNumber.replace(/\s/g, ''));
+    return typeInfo ? typeInfo : null;
 }
 
-function toIconType(brand: CardBrand): IconType {
-    return brand as IconType;
+function findIcon(brand: CardTypes): IconType {
+    return Object.keys(IconType).find((key) => key === brand) as IconType;
 }
 
 export const CardTypeIcon: React.SFC<CardTypeIconProps> = (props) => {
     const cardType = getCardType(props.cardNumber);
-    return (cardType ? <Icon className={styles.cardTypeIcon} icon={toIconType(cardType)}/> : null);
+    const icon = cardType ? findIcon(cardType.type) : null;
+    return (icon ? <Icon className={styles.cardTypeIcon} icon={icon}/> : null);
 };
