@@ -8,17 +8,17 @@ import { LayoutLoader } from './layout-loder';
 import { manageInitStage } from './manage-init-stage';
 import { State } from 'checkout/state';
 import { AppProps } from './app-props';
+import { initFormsFlow } from './init-forms-flow';
 import {
     getAppConfigAction,
     getInvoiceTemplateAction,
     getInvoiceAction,
-    setInitStageDone,
-    setInitStageStart,
     getInvoicePaymentMethodsAction,
     getInvoicePaymentMethodsByTemplateIdAction,
     getLocaleAction,
-    initFormsFlowDone,
-    setFormFlowAction
+    setFormFlowAction,
+    changeStepStatus,
+    changeStageStatus
 } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
@@ -36,10 +36,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getInvoice: bindActionCreators(getInvoiceAction, dispatch),
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
-    setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
-    setInitStageDone: bindActionCreators(setInitStageDone, dispatch),
-    initFormsFlowDone: bindActionCreators(initFormsFlowDone, dispatch),
-    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch)
+    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),
+    changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
+    changeStageStatus: bindActionCreators(changeStageStatus, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
@@ -49,22 +48,28 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentDidMount() {
-        this.props.setInitStageStart();
+        this.props.changeStageStatus('started');
     }
 
-    componentWillReceiveProps(props: AppProps) {
-        manageInitStage(props);
+    componentWillReceiveProps(p: AppProps) {
+        if (p.initialization.stageStatus === 'started') {
+            manageInitStage(p);
+        }
+        if (p.initialization.stageStatus === 'ready') {
+            p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
+            p.changeStageStatus('processed');
+        }
     }
 
     render() {
-        const initStageDone = this.props.initialization.stageDone;
+        const status = this.props.initialization.stageStatus;
         const error = this.props.error;
         return (
             <div className={styles.layout}>
                 <Overlay/>
                 {error ? <div>{error.message}</div> : false}
-                {initStageDone ? <ModalContainer/> : false}
-                {!initStageDone && !error ? <LayoutLoader/> : false}
+                {status === 'processed' ? <ModalContainer/> : false}
+                {status === 'started' && !error ? <LayoutLoader/> : false}
             </div>
         );
     }

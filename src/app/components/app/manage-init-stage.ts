@@ -1,6 +1,7 @@
 import { AppProps } from './app-props';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
-import { initFormsFlow } from './init-forms-flow';
+import { InitializationStage, StepStatus } from 'checkout/state';
+import { ChangeStepStatus, StepName } from 'checkout/actions';
 
 const manageInvoiceTemplate = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -60,23 +61,83 @@ const managePaymentMethods = (p: AppProps) => {
     }
 };
 
+const resolveAsyncStage = (stage: InitializationStage,
+                           statusChanger: (name: StepName, status: StepStatus) => ChangeStepStatus,
+                           stepName: StepName,
+                           action: () => any,
+                           doneCondition: boolean,
+                           startCondition: boolean = true) => {
+    if (startCondition && !stage[stepName]) {
+        action();
+        statusChanger(stepName, 'started');
+    }
+    if (stage[stepName] === 'started' && doneCondition) {
+        statusChanger(stepName, 'done');
+    }
+};
+
+type Shortened = (stepName: StepName, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
+
+const receiveAppConfig = (fn: Shortened, p: AppProps) => {
+    const done = !!p.config.appConfig;
+    fn('receiveAppConfig', p.getAppConfig, done);
+};
+
+const receiveLocale = (fn: Shortened, p: AppProps) => {
+    const done = !!p.config.locale;
+    fn('receiveLocale', p.getLocaleConfig, done);
+};
+
+const receiveInvoiceSubject = (fn: Shortened, p: AppProps) => {
+    const done = !!(p.model.invoice); // TODO need invoice events
+    const start = p.initialization.receiveAppConfig === 'done';
+    fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+};
+
+const receiveInvoiceTemplateSubject = (fn: Shortened, p: AppProps) => {
+    const done = !!p.model.invoiceTemplate;
+    const start = p.initialization.receiveAppConfig === 'done';
+    fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+};
+
+const receivePaymentSubject = (fn: Shortened, p: AppProps) => {
+    switch (p.config.initConfig.integrationType) {
+        case IntegrationType.invoice:
+            receiveInvoiceSubject(fn, p);
+            break;
+        case IntegrationType.invoiceTemplate:
+            receiveInvoiceTemplateSubject(fn, p);
+            break;
+        case IntegrationType.customer:
+            throw new Error('Unhandled customer integration');
+    }
+};
+
+const receivePaymentMethods = (fn: Shortened, p: AppProps) => {
+    const done = !!p.model.paymentMethods;
+    const start = p.initialization.receiveAppConfig === 'done';
+    fn('receivePaymentMethods', managePaymentMethods.bind(null, p), done, start);
+};
+
+const resolveDone = (p: AppProps) => {
+    const stage = p.initialization;
+    const done =
+        stage.receiveLocale === 'done' &&
+        stage.receivePaymentSubject === 'done' &&
+        stage.receivePaymentMethods === 'done';
+    if (done) {
+        p.changeStageStatus('ready');
+    }
+};
+
 export const manageInitStage = (p: AppProps) => {
     if (p.error) {
         return;
     }
-    const initStage = p.initialization;
-    if (!initStage.appConfigReceived) {
-        p.getAppConfig();
-    } else if (!initStage.localeReceived) {
-        p.getLocaleConfig();
-    } else if (!initStage.modelReceived) {
-        manageModel(p);
-    } else if (!initStage.paymentMethodsReceived) {
-        managePaymentMethods(p);
-    } else if (!initStage.formsFlowInit) {
-        p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
-        p.initFormsFlowDone();
-    } else if (!initStage.stageDone) {
-        p.setInitStageDone();
-    }
+    const shortened = resolveAsyncStage.bind(null, p.initialization, p.changeStepStatus);
+    receiveAppConfig(shortened, p);
+    receiveLocale(shortened, p);
+    receivePaymentSubject(shortened, p);
+    receivePaymentMethods(shortened, p);
+    resolveDone(p);
 };

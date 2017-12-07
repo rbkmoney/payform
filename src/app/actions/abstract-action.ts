@@ -1,5 +1,6 @@
 import { Action } from 'redux';
 
-export interface AbstractAction<T> extends Action {
-    payload?: T;
+export interface AbstractAction<P, M = null> extends Action {
+    payload?: P;
+    meta?: M;
 }

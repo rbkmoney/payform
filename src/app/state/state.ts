@@ -7,5 +7,5 @@ export type State = {
     readonly lifecycle: LifecycleState;
     readonly formsFlow: FormFlowItem[];
     readonly error: ErrorState;
-    readonly forms: FormsState;
+    readonly form: FormsState;
 }
