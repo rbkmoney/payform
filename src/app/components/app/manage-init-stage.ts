@@ -88,10 +88,29 @@ const receiveLocale = (fn: Shortened, p: AppProps) => {
     fn('receiveLocale', p.getLocaleConfig, done);
 };
 
-const receivePaymentSubject = (fn: Shortened, p: AppProps) => {
-    const done = !!(p.model.invoice || p.model.invoiceTemplate);
+const receiveInvoiceSubject = (fn: Shortened, p: AppProps) => {
+    const done = !!(p.model.invoice); // TODO need invoice events
     const start = p.initialization.receiveAppConfig === 'done';
     fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+};
+
+const receiveInvoiceTemplateSubject = (fn: Shortened, p: AppProps) => {
+    const done = !!p.model.invoiceTemplate;
+    const start = p.initialization.receiveAppConfig === 'done';
+    fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+};
+
+const receivePaymentSubject = (fn: Shortened, p: AppProps) => {
+    switch (p.config.initConfig.integrationType) {
+        case IntegrationType.invoice:
+            receiveInvoiceSubject(fn, p);
+            break;
+        case IntegrationType.invoiceTemplate:
+            receiveInvoiceTemplateSubject(fn, p);
+            break;
+        case IntegrationType.customer:
+            throw new Error('Unhandled customer integration');
+    }
 };
 
 const receivePaymentMethods = (fn: Shortened, p: AppProps) => {
