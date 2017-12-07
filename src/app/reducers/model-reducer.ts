@@ -13,7 +13,13 @@ type ModelReducerAction =
     GetInvoicePaymentMethodsAction |
     GetInvoicePaymentMethodsByTemplateIdAction;
 
-export function modelReducer(s: ModelState = null, action: ModelReducerAction): ModelState {
+const initialState = {
+    invoiceTemplate: null,
+    invoice: null,
+    paymentMethods: null
+} as ModelState;
+
+export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
     switch (action.type) {
         case TypeKeys.GET_INVOICE_TEMPLATE:
             return {

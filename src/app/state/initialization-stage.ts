@@ -1,9 +1,12 @@
+export type StepStatus = 'started' | 'done';
+
 export class InitializationStage {
     stageStart: boolean;
-    appConfigReceived: boolean;
-    localeReceived: boolean;
-    modelReceived: boolean; // TODO integration data
-    paymentMethodsReceived: boolean;
-    formsFlowInit: boolean;
+    receiveAppConfig: StepStatus;
+    receiveLocale: StepStatus;
+    receivePaymentSubject: StepStatus;
+    checkPaymentSubject: StepStatus;
+    receivePaymentMethods: StepStatus;
+    initFormsFlow: boolean;
     stageDone: boolean;
 }

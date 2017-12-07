@@ -1,27 +1,10 @@
 import { LifecycleState } from 'checkout/state';
 import {
-    GetAppConfigAction,
-    GetInvoiceAction,
-    GetInvoiceTemplateAction,
-    InitStageStartAction,
     TypeKeys,
-    InitStageDoneAction,
-    GetInvoicePaymentMethodsAction,
-    GetInvoicePaymentMethodsByTemplateIdAction,
-    GetLocaleAction,
-    InitFormsFlowDoneAction
+    InitStageChange
 } from 'checkout/actions';
 
-type LifecycleReducerAction =
-    GetInvoiceTemplateAction |
-    GetAppConfigAction |
-    GetLocaleAction |
-    InitStageStartAction |
-    InitStageDoneAction |
-    GetInvoiceAction |
-    GetInvoicePaymentMethodsAction |
-    GetInvoicePaymentMethodsByTemplateIdAction |
-    InitFormsFlowDoneAction;
+type LifecycleReducerAction = InitStageChange;
 
 const initState = {
     initialization: {
@@ -31,76 +14,12 @@ const initState = {
 
 export function lifecycleReducer(s: LifecycleState = initState, action: LifecycleReducerAction): LifecycleState {
     switch (action.type) {
-        case TypeKeys.GET_APP_CONFIG:
+        case TypeKeys.INIT_STAGE_CHANGE:
             return {
                 ...s,
                 initialization: {
                     ...s.initialization,
-                    appConfigReceived: true
-                }
-            };
-        case TypeKeys.GET_LOCALE:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    localeReceived: true
-                }
-            };
-        case TypeKeys.GET_INVOICE_TEMPLATE:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    modelReceived: true
-                }
-            };
-        case TypeKeys.GET_INVOICE:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    modelReceived: true
-                }
-            };
-        case TypeKeys.GET_INVOICE_PAYMENT_METHODS:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    paymentMethodsReceived: true
-                }
-            };
-        case TypeKeys.GET_INVOICE_PAYMENT_METHODS_BY_TEMPLATE_ID:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    paymentMethodsReceived: true
-                }
-            };
-        case TypeKeys.INIT_STAGE_START:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    stageStart: true
-                }
-            };
-        case TypeKeys.INIT_STAGE_DONE:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    stageDone: true
-                }
-            };
-        case TypeKeys.FORMS_FLOW_INIT_DONE:
-            return {
-                ...s,
-                initialization: {
-                    ...s.initialization,
-                    formsFlowInit: true
+                    [action.meta.stepName]: action.payload
                 }
             };
     }

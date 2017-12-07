@@ -12,13 +12,11 @@ import {
     getAppConfigAction,
     getInvoiceTemplateAction,
     getInvoiceAction,
-    setInitStageDone,
-    setInitStageStart,
     getInvoicePaymentMethodsAction,
     getInvoicePaymentMethodsByTemplateIdAction,
     getLocaleAction,
-    initFormsFlowDone,
-    setFormFlowAction
+    setFormFlowAction,
+    changeStepStatus
 } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
@@ -36,10 +34,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getInvoice: bindActionCreators(getInvoiceAction, dispatch),
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
-    setInitStageStart: bindActionCreators(setInitStageStart, dispatch),
-    setInitStageDone: bindActionCreators(setInitStageDone, dispatch),
-    initFormsFlowDone: bindActionCreators(initFormsFlowDone, dispatch),
-    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch)
+    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),
+    changeStepStatus: bindActionCreators(changeStepStatus, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
@@ -49,11 +45,13 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentDidMount() {
-        this.props.setInitStageStart();
+        this.props.changeStepStatus('stageStart', true);
     }
 
     componentWillReceiveProps(props: AppProps) {
-        manageInitStage(props);
+        if (!this.props.initialization.stageDone) {
+            manageInitStage(props);
+        }
     }
 
     render() {
