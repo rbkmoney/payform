@@ -8,6 +8,7 @@ import { LayoutLoader } from './layout-loder';
 import { manageInitStage } from './manage-init-stage';
 import { State } from 'checkout/state';
 import { AppProps } from './app-props';
+import { initFormsFlow } from './init-forms-flow';
 import {
     getAppConfigAction,
     getInvoiceTemplateAction,
@@ -16,7 +17,8 @@ import {
     getInvoicePaymentMethodsByTemplateIdAction,
     getLocaleAction,
     setFormFlowAction,
-    changeStepStatus
+    changeStepStatus,
+    changeStageStatus
 } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
@@ -35,7 +37,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
     setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),
-    changeStepStatus: bindActionCreators(changeStepStatus, dispatch)
+    changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
+    changeStageStatus: bindActionCreators(changeStageStatus, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
@@ -45,24 +48,28 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentDidMount() {
-        this.props.changeStepStatus('stageStart', true);
+        this.props.changeStageStatus('started');
     }
 
-    componentWillReceiveProps(props: AppProps) {
-        if (!this.props.initialization.stageDone) {
-            manageInitStage(props);
+    componentWillReceiveProps(p: AppProps) {
+        if (p.initialization.stageStatus === 'started') {
+            manageInitStage(p);
+        }
+        if (p.initialization.stageStatus === 'ready') {
+            p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
+            p.changeStageStatus('processed');
         }
     }
 
     render() {
-        const initStageDone = this.props.initialization.stageDone;
+        const status = this.props.initialization.stageStatus;
         const error = this.props.error;
         return (
             <div className={styles.layout}>
                 <Overlay/>
                 {error ? <div>{error.message}</div> : false}
-                {initStageDone ? <ModalContainer/> : false}
-                {!initStageDone && !error ? <LayoutLoader/> : false}
+                {status === 'processed' ? <ModalContainer/> : false}
+                {status === 'started' && !error ? <LayoutLoader/> : false}
             </div>
         );
     }

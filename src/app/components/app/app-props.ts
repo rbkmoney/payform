@@ -6,10 +6,18 @@ import {
     GetInvoicePaymentMethodsByTemplateIdDispatch,
     GetLocaleDispatch,
     SetFormsFlowAction,
-    InitStageChange,
-    StepName
+    ChangeStepStatus,
+    StepName, ChangeStageStatus
 } from 'checkout/actions';
-import { ConfigState, ModelState, InitializationStage, ErrorState, FormFlowItem, StepStatus } from 'checkout/state';
+import {
+    ConfigState,
+    ModelState,
+    InitializationStage,
+    ErrorState,
+    FormFlowItem,
+    StepStatus,
+    StageStatus
+} from 'checkout/state';
 
 export interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
@@ -24,5 +32,6 @@ export interface AppProps {
     error: ErrorState;
     initialization: InitializationStage;
     formsFlow: FormFlowItem[];
-    changeStepStatus: (name: StepName, status: StepStatus | boolean) => InitStageChange
+    changeStepStatus: (name: StepName, status: StepStatus) => ChangeStepStatus
+    changeStageStatus: (status: StageStatus) => ChangeStageStatus
 }

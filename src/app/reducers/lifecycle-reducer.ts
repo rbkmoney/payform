@@ -1,25 +1,33 @@
 import { LifecycleState } from 'checkout/state';
 import {
     TypeKeys,
-    InitStageChange
+    ChangeStepStatus, ChangeStageStatus
 } from 'checkout/actions';
 
-type LifecycleReducerAction = InitStageChange;
+type LifecycleReducerAction = ChangeStepStatus | ChangeStageStatus;
 
 const initState = {
     initialization: {
-        stageDone: false
+        stageStatus: 'pristine'
     }
 } as LifecycleState;
 
 export function lifecycleReducer(s: LifecycleState = initState, action: LifecycleReducerAction): LifecycleState {
     switch (action.type) {
-        case TypeKeys.INIT_STAGE_CHANGE:
+        case TypeKeys.LIFECYCLE_CHANGE_STEP_STATUS:
             return {
                 ...s,
                 initialization: {
                     ...s.initialization,
                     [action.meta.stepName]: action.payload
+                }
+            };
+        case TypeKeys.LIFECYCLE_CHANGE_STAGE_STATUS:
+            return {
+                ...s,
+                initialization: {
+                    ...s.initialization,
+                    stageStatus: action.payload
                 }
             };
     }

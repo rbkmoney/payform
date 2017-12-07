@@ -1,8 +1,7 @@
 import { AppProps } from './app-props';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
-import { initFormsFlow } from './init-forms-flow';
 import { InitializationStage, StepStatus } from 'checkout/state';
-import { InitStageChange, StepName } from 'checkout/actions';
+import { ChangeStepStatus, StepName } from 'checkout/actions';
 
 const manageInvoiceTemplate = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -63,7 +62,7 @@ const managePaymentMethods = (p: AppProps) => {
 };
 
 const resolveAsyncStage = (stage: InitializationStage,
-                           statusChanger: (name: StepName, status: StepStatus) => InitStageChange,
+                           statusChanger: (name: StepName, status: StepStatus) => ChangeStepStatus,
                            stepName: StepName,
                            action: () => any,
                            doneCondition: boolean,
@@ -101,18 +100,14 @@ const receivePaymentMethods = (fn: Shortened, p: AppProps) => {
     fn('receivePaymentMethods', managePaymentMethods.bind(null, p), done, start);
 };
 
-const resolveInitFormsFlow = (p: AppProps) => {
-    const stage = p.initialization;
-    if (stage.receivePaymentSubject === 'done' && stage.receivePaymentMethods === 'done' && !stage.initFormsFlow) {
-        p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
-        p.changeStepStatus('initFormsFlow', true);
-    }
-};
-
 const resolveDone = (p: AppProps) => {
     const stage = p.initialization;
-    if (stage.receiveLocale === 'done' && stage.initFormsFlow) {
-        p.changeStepStatus('stageDone', true);
+    const done =
+        stage.receiveLocale === 'done' &&
+        stage.receivePaymentSubject === 'done' &&
+        stage.receivePaymentMethods === 'done';
+    if (done) {
+        p.changeStageStatus('ready');
     }
 };
 
@@ -125,6 +120,5 @@ export const manageInitStage = (p: AppProps) => {
     receiveLocale(shortened, p);
     receivePaymentSubject(shortened, p);
     receivePaymentMethods(shortened, p);
-    resolveInitFormsFlow(p);
     resolveDone(p);
 };

@@ -1,12 +1,11 @@
 export type StepStatus = 'started' | 'done';
 
+export type StageStatus = 'pristine' | 'started' | 'ready' | 'processed';
+
 export class InitializationStage {
-    stageStart: boolean;
+    stageStatus: StageStatus;
     receiveAppConfig: StepStatus;
     receiveLocale: StepStatus;
     receivePaymentSubject: StepStatus;
-    checkPaymentSubject: StepStatus;
     receivePaymentMethods: StepStatus;
-    initFormsFlow: boolean;
-    stageDone: boolean;
 }
