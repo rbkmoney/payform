@@ -7,3 +7,4 @@ export * from './bank-card';
 export * from './payment-method';
 export * from './payment-system';
 export * from './payment-terminal';
+export * from './event';

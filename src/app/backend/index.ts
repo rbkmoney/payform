@@ -7,3 +7,4 @@ export * from './get-invoice';
 export * from './get-invoice-template';
 export * from './get-invoice-payment-methods';
 export * from './get-invoice-payment-methods-by-template-id';
+export * from './get-invoice-events';
