@@ -1,10 +1,10 @@
 import { cardExpiryVal } from './card-expiry-val';
 import { validateCardExpiry } from './validate-card-expiry';
 
-export function validateExpireDate(date: string): boolean {
-    if (!date) {
+export function validateExpireDate(value: any): boolean {
+    if (!value) {
         return true;
     }
-    const formatVal = cardExpiryVal(date);
+    const formatVal = cardExpiryVal(value);
     return !validateCardExpiry(formatVal);
 }

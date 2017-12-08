@@ -1,4 +1,10 @@
-import { validateCardHolder, validateCardNumber, validateEmail, validateExpireDate, validateSecureCode } from '.';
+import {
+    validateCardHolder,
+    validateCardNumber,
+    validateEmail,
+    validateExpireDate,
+    validateSecureCode
+} from '.';
 import { Dispatch } from 'redux';
 import { FormProps } from 'redux-form';
 

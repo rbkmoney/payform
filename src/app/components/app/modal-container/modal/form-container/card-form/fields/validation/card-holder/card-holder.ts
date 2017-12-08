@@ -1,7 +1,7 @@
-export function validateCardHolder(cardHolder: string): boolean {
-    if (!cardHolder) {
+export function validateCardHolder(value: any): boolean {
+    if (!value) {
         return true;
     }
     const reg = /^[a-zA-Z 0-9 .,'/-]+$/;
-    return !reg.test(cardHolder.trim());
+    return !reg.test(value.trim());
 }

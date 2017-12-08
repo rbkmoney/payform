@@ -4,9 +4,14 @@ import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { Button } from '../button';
-import { CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
+import {
+    CardHolder,
+    CardNumber,
+    Email,
+    ExpireDate,
+    SecureCode
+} from './fields';
 import { ChevronBack } from '../chevron-back';
-import { validateCardFormFields } from './fields/validation';
 
 const CardFormDef: React.SFC = (props: any) => {
     const {handleSubmit} = props;
@@ -38,7 +43,5 @@ const CardFormDef: React.SFC = (props: any) => {
 
 export const CardForm = reduxForm({
     form: 'cardForm',
-    asyncBlurFields: ['cardNumber', 'expireDate', 'secureCode', 'cardHolder', 'email'],
-    asyncValidate: validateCardFormFields,
     destroyOnUnmount: false
 })(CardFormDef);
