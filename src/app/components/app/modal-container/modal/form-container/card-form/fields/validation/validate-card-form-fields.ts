@@ -2,7 +2,23 @@ import { validateCardHolder, validateCardNumber, validateEmail, validateExpireDa
 import { Dispatch } from 'redux';
 import { FormProps } from 'redux-form';
 
-export function validateCardFormFields(values: any, dispatch: Dispatch<''>, props: FormProps, blurredField: string): Promise<undefined | object> {
+interface Values {
+    cardNumber?: string;
+    expireDate?: string;
+    secureCode?: string;
+    cardHolder?: string;
+    email?: string;
+}
+
+enum Fields {
+    cardNumber = 'cardNumber',
+    expireDate = 'expireDate',
+    secureCode = 'secureCode',
+    cardHolder = 'cardHolder',
+    email = 'email'
+}
+
+export function validateCardFormFields(values: Values, dispatch: Dispatch<''>, props: FormProps, blurredField: Fields): Promise<undefined | object> {
     return new Promise((resolve, reject) => {
         const errors: any = {};
         let hasErrors = false;

@@ -1,5 +1,5 @@
 import { isValidSecureCode } from './is-valid-secure-code';
-import { cardFromNumber } from '../../common-card-tools/card-from-number';
+import { cardFromNumber } from '../../common-card-tools';
 
 export function validateSecureCode(code: string, cardNumber: string): boolean {
     if (!code) {

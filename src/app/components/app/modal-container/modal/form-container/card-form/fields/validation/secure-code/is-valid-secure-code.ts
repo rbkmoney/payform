@@ -1,7 +1,6 @@
-import { cardFromType } from '../common/card-from-type';
-import { indexOf } from '../common/indexOf';
+import { cardFromType, indexOf } from '../common';
 
-export function isValidSecureCode(cvc: string, type: string) {
+export function isValidSecureCode(cvc: string, type: string): boolean {
     let ref;
     cvc = cvc.trim();
     if (!/^\d+$/.test(cvc)) {

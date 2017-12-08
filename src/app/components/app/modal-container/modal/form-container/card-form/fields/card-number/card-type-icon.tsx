@@ -1,11 +1,7 @@
 import * as React from 'react';
 import * as styles from './card-number.scss';
 import { Icon, IconType } from 'checkout/components/ui/icon';
-import { cardFromNumber } from 'checkout/components/app/modal-container/modal/form-container/card-form/fields/common-card-tools/card-from-number';
-import {
-    Card,
-    CardTypes
-} from 'checkout/components/app/modal-container/modal/form-container/card-form/fields/common-card-tools';
+import { Card, CardTypes, cardFromNumber } from '../common-card-tools';
 
 interface CardTypeIconProps {
     cardNumber: string;
