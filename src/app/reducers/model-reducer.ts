@@ -4,19 +4,24 @@ import {
     GetInvoiceTemplateAction,
     GetInvoiceAction,
     GetInvoicePaymentMethodsAction,
-    GetInvoicePaymentMethodsByTemplateIdAction
+    GetInvoicePaymentMethodsByTemplateIdAction,
+    GetInvoiceEvents,
+    SetInvoice
 } from 'checkout/actions';
 
 type ModelReducerAction =
     GetInvoiceTemplateAction |
     GetInvoiceAction |
+    SetInvoice |
     GetInvoicePaymentMethodsAction |
-    GetInvoicePaymentMethodsByTemplateIdAction;
+    GetInvoicePaymentMethodsByTemplateIdAction |
+    GetInvoiceEvents;
 
 const initialState = {
     invoiceTemplate: null,
     invoice: null,
-    paymentMethods: null
+    paymentMethods: null,
+    invoiceEvents: null
 } as ModelState;
 
 export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
@@ -31,6 +36,11 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
                 ...s,
                 invoice: action.payload
             };
+        case TypeKeys.SET_INVOICE:
+            return {
+                ...s,
+                invoice: action.payload
+            };
         case TypeKeys.GET_INVOICE_PAYMENT_METHODS:
             return {
                 ...s,
@@ -40,6 +50,11 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
             return {
                 ...s,
                 paymentMethods: action.payload
+            };
+        case TypeKeys.GET_INVOICE_EVENTS:
+            return {
+                ...s,
+                invoiceEvents: action.payload as any // TODO fix it
             };
     }
     return s;

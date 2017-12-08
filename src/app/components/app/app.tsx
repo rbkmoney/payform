@@ -12,13 +12,14 @@ import { initFormsFlow } from './init-forms-flow';
 import {
     getAppConfigAction,
     getInvoiceTemplateAction,
-    getInvoiceAction,
     getInvoicePaymentMethodsAction,
     getInvoicePaymentMethodsByTemplateIdAction,
     getLocaleAction,
     setFormFlowAction,
     changeStepStatus,
-    changeStageStatus
+    changeStageStatus,
+    getInvoiceEvents,
+    setInvoice
 } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
@@ -33,7 +34,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getAppConfig: bindActionCreators(getAppConfigAction, dispatch),
     getLocaleConfig: bindActionCreators(getLocaleAction, dispatch),
     getInvoiceTemplate: bindActionCreators(getInvoiceTemplateAction, dispatch),
-    getInvoice: bindActionCreators(getInvoiceAction, dispatch),
+    setInvoice: bindActionCreators(setInvoice, dispatch),
+    getInvoiceEvents: bindActionCreators(getInvoiceEvents, dispatch),
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
     setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),

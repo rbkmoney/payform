@@ -2,6 +2,7 @@ import { AppProps } from './app-props';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { InitializationStage, StepStatus } from 'checkout/state';
 import { ChangeStepStatus, StepName } from 'checkout/actions';
+import { ChangeType, Event, Invoice, InvoiceCreated } from 'checkout/backend';
 
 const manageInvoiceTemplate = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -12,24 +13,7 @@ const manageInvoiceTemplate = (p: AppProps) => {
 const manageInvoice = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
     const c = p.config.initConfig as InvoiceInitConfig;
-    p.getInvoice(endpoint, c.invoiceAccessToken, c.invoiceID);
-};
-
-const manageModel = (p: AppProps) => {
-    const config = p.config.initConfig;
-    if (!config.integrationType) {
-        throw new Error('Unexpected integrationType');
-    }
-    switch (config.integrationType) {
-        case IntegrationType.invoiceTemplate:
-            manageInvoiceTemplate(p);
-            break;
-        case IntegrationType.invoice:
-            manageInvoice(p);
-            break;
-        case IntegrationType.customer:
-            throw new Error('Unhandled customer integration');
-    }
+    p.getInvoiceEvents(endpoint, c.invoiceAccessToken, c.invoiceID);
 };
 
 const manageInvoicePaymentMethods = (p: AppProps) => {
@@ -88,16 +72,30 @@ const receiveLocale = (fn: Shortened, p: AppProps) => {
     fn('receiveLocale', p.getLocaleConfig, done);
 };
 
+const findInvoice = (events: Event[]): Invoice => {
+    return events.reduce((result: Invoice, event: Event) => {
+        if (!result) {
+            const found = event.changes.find((change) => change.changeType === ChangeType.InvoiceCreated);
+            return found ? (found as InvoiceCreated).invoice : null;
+        }
+        return result;
+    }, null);
+};
+
 const receiveInvoiceSubject = (fn: Shortened, p: AppProps) => {
-    const done = !!(p.model.invoice); // TODO need invoice events
+    const events = p.model.invoiceEvents;
+    if (events && !p.model.invoice) {
+        p.setInvoice(findInvoice(events));
+    }
+    const done = !!(events && p.model.invoice);
     const start = p.initialization.receiveAppConfig === 'done';
-    fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+    fn('receivePaymentSubject', manageInvoice.bind(null, p), done, start);
 };
 
 const receiveInvoiceTemplateSubject = (fn: Shortened, p: AppProps) => {
     const done = !!p.model.invoiceTemplate;
     const start = p.initialization.receiveAppConfig === 'done';
-    fn('receivePaymentSubject', manageModel.bind(null, p), done, start);
+    fn('receivePaymentSubject', manageInvoiceTemplate.bind(null, p), done, start);
 };
 
 const receivePaymentSubject = (fn: Shortened, p: AppProps) => {
