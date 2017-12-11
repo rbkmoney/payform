@@ -10,7 +10,7 @@ interface InputProps {
     mark?: boolean;
     className?: string;
     formatter?: (e: Element) => void;
-    type?: 'password';
+    type?: 'string' | 'number';
     currentValue?: string;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }

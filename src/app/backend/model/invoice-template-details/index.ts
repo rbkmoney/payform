@@ -8,3 +8,5 @@ export * from './invoice-template-multi-line';
 export * from './invoice-template-single-line';
 export * from './lifetime-interval';
 export * from './cost-amount-range';
+export * from './template-type';
+export * from './cost-type';

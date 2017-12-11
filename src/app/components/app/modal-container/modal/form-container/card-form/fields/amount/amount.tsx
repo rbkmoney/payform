@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { Input } from 'checkout/components';
 import { ChangeEvent } from 'react';
-import { connect } from 'react-redux';
 import { State, CardFormFlowItem } from 'checkout/state';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { getActive } from 'checkout/components/app/form-flow-manager';
@@ -18,6 +18,7 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
     <Input onChange={(e: ChangeEvent<HTMLInputElement>) => props.input.onChange((e.target.value))}
            currentValue={props.value}
            placeholder={getPlaceholder(props.cost)}
+           type={'number'}
     />
 );
 

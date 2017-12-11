@@ -1,8 +1,6 @@
 import { InvoiceTemplateLineCost } from './invoice-template-line-cost';
+import { CostType } from './cost-type';
 
 export class InvoiceTemplateLineCostUnlim extends InvoiceTemplateLineCost {
-    constructor() {
-        super();
-        this.costType = 'InvoiceTemplateLineCostUnlim';
-    }
+    constType: CostType.InvoiceTemplateLineCostUnlim;
 }

@@ -1,14 +1,8 @@
 import { InvoiceTemplateLineCost } from './invoice-template-line-cost';
+import { CostType } from './cost-type';
 
 export class InvoiceTemplateLineCostFixed extends InvoiceTemplateLineCost {
-
+    costType: CostType.InvoiceTemplateLineCostFixed;
     amount: number;
     currency: string;
-
-    constructor(amount: number, currency: string) {
-        super();
-        this.costType = 'InvoiceTemplateLineCostFixed';
-        this.amount = amount;
-        this.currency = currency;
-    }
 }
