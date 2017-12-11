@@ -2,6 +2,7 @@ export enum IconType {
     bankCard = 'bank-card',
     calendar = 'calendar',
     checkmark = 'checkmark',
+    redCross = 'red-cross',
     chevronLeft = 'chevron-left',
     cross = 'cross',
     card = 'card',

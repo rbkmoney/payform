@@ -1,0 +1,10 @@
+<svg width='18px' height='18px' viewBox='0 0 18 18'>
+    <g id='icon' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+        <g transform='translate(-1045.000000, -38.000000)' fill='red'>
+            <g transform='translate(1054.000000, 47.000000) rotate(-45.000000) translate(-1054.000000, -47.000000) translate(1043.000000, 36.000000)'>
+                <path
+                        d='M12,10 L12,0 L10,0 L10,10 L-1.13686838e-13,10 L-1.13686838e-13,12 L10,12 L10,22 L12,22 L12,12 L22,12 L22,10 L12,10 Z'/>
+            </g>
+        </g>
+    </g>
+</svg>
