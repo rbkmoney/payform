@@ -1,4 +1,4 @@
-import cardFromNumber from './card-from-number';
+import { cardFromNumber } from '../../common-card-tools';
 
 export const formatNumber = (e: KeyboardEvent): number => {
     const digit = String.fromCharCode(e.which);

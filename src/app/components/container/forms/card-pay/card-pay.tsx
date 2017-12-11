@@ -17,16 +17,16 @@ export class CardPay extends React.Component {
                     </div>
                 </div>
                 <div className='form-group'>
-                    <Input icon={IconType.card} placeholder='Номер на карте'/>
+                    {/*<Input icon={IconType.card} placeholder='Номер на карте'/>*/}
                 </div>
                 <div className='form-group'>
-                    <Input icon={IconType.calendar} placeholder='ММ/ГГ'/> <Input icon={IconType.lock} placeholder='CVV/CVC'/>
+                    {/*<Input icon={IconType.calendar} placeholder='ММ/ГГ'/> <Input icon={IconType.lock} placeholder='CVV/CVC'/>*/}
                 </div>
                 <div className='form-group'>
-                    <Input icon={IconType.user} placeholder='Имя на карте'/>
+                    {/*<Input icon={IconType.user} placeholder='Имя на карте'/>*/}
                 </div>
                 <div className='form-group'>
-                    <Input icon={IconType.letter} placeholder='Email для чека'/>
+                    {/*<Input icon={IconType.letter} placeholder='Email для чека'/>*/}
                 </div>
                 <Button className={styles.pay_button} style='primary'>Оплатить 3 144 599, 77 ₽</Button>
             </form>

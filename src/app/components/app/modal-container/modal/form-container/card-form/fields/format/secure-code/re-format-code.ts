@@ -1,5 +1,4 @@
-import replaceFullWidthChars from '../common/replace-full-width-chars';
-import safeVal from '../common/safe-val';
+import { safeVal, replaceFullWidthChars } from '../common';
 
 export function reFormatCVC(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;

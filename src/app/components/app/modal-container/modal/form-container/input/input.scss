@@ -1,4 +1,6 @@
 @import '../../../../../../styles/variables';
+@import '../../../../../../styles/animations';
+@import '../../../../../../styles/responsive';
 
 .container {
     position: relative;
@@ -8,22 +10,31 @@
         margin-left: 10px;
     }
 
-    .checkmark {
-        display: none;
+    .checkmark,
+    .errorCross {
+        display: flex;
         position: absolute;
         right: 0;
         top: 0;
-        height: 9px;
-        width: 13px;
-        margin: 19px 15px 0 19px;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
     }
+    .checkmark {
+        height: 9px;
+        width: 13px;
+        margin: 19px 15px 0 19px;
+    }
+    .errorCross {
+        height: 18px;
+        width: 18px;
+        margin: 15px 15px 0 19px;
+        transform: scale(.7);
+    }
 
-    &._correct {
-        .checkmark {
-            display: flex;
+    &._hasError {
+        input {
+            border-color: red;
         }
     }
 }
@@ -60,6 +71,7 @@
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
+    transition: border-color .3s;
 
     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
         color: $light-gray;
@@ -86,5 +98,23 @@
 
     &.mark {
         padding: 13px 30px 13px 40px;
+    }
+}
+
+.appearMarks {
+    @include responsive(sm) {
+        animation: fadein .5s;
+    }
+}
+
+.enterMarks {
+    @include responsive(sm) {
+        animation: fadein .5s;
+    }
+}
+
+.leaveMarks {
+    @include responsive(sm) {
+        animation: fadeout .5s;
     }
 }

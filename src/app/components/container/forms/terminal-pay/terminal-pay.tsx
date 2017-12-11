@@ -7,7 +7,7 @@ export class TerminalPay extends React.Component {
         return (
             <div className={''}>
                 <h4 className={styles.text}>Укажите телефон и почту, чтобы получить код для оплаты</h4>
-                <Input />
+                {/*<Input />*/}
             </div>
         );
     }
