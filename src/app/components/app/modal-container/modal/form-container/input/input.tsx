@@ -11,7 +11,7 @@ export interface CustomProps {
     mark?: boolean;
     className?: string;
     formatter?: (e: Element) => void;
-    type?: 'string' | 'number';
+    type?: 'text' | 'number';
 }
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
