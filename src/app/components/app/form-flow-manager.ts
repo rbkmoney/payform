@@ -1,11 +1,11 @@
-import { FormFlowItem, FormName } from 'checkout/state';
+import { FormFlowItem } from 'checkout/state';
 
-export const add = (f: FormFlowItem[], formName: FormName): FormFlowItem[] => {
+export const add = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
     if (!f) {
         return f;
     }
     const result = f.slice();
-    result.push({formName, active: false});
+    result.push(item);
     return result;
 };
 

@@ -3,3 +3,4 @@ export * from './card-number';
 export * from './email';
 export * from './expire-date';
 export * from './secure-code';
+export * from './amount';
