@@ -66,6 +66,7 @@
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
+    transition: border-color .3s;
 
     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
         color: $light-gray;

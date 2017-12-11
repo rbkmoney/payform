@@ -8,7 +8,7 @@ import { validateExpireDate } from '../validation';
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
-        error={props.meta.touched ? props.meta.error : false}
+        error={!props.meta.pristine ? props.meta.error : false}
         formatter={expireDateFormatter}
         icon={IconType.calendar}
         placeholder='ММ/ГГ'

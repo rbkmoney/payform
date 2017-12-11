@@ -1,15 +1,19 @@
-import { cardFromType, indexOf } from '../common';
+import { indexOf } from '../common';
+import { cardFromNumber } from '../../common-card-tools';
 
-export function isValidSecureCode(cvc: string, type: string): boolean {
+export function isValidSecureCode(value: string, cardNumber: string): boolean {
+    if (!value) {
+        return true;
+    }
     let ref;
-    cvc = cvc.trim();
-    if (!/^\d+$/.test(cvc)) {
+    value = value.trim();
+    if (!/^\d+$/.test(value)) {
         return false;
     }
-    const card = cardFromType(type);
+    const card = cardFromNumber(cardNumber);
     if (card != null) {
-        return (ref = cvc.length, indexOf.call(card.cvcLength, ref) >= 0);
+        return (ref = value.length, indexOf.call(card.cvcLength, ref) >= 0);
     } else {
-        return (cvc.length >= 3 && cvc.length <= 4);
+        return (value.length >= 3 && value.length <= 4);
     }
 }
