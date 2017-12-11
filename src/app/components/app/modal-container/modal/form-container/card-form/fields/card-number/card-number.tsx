@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, formValueSelector, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import * as styles from './card-number.scss';
 import { Input } from '../../../input';
 import { CardTypeIcon } from './card-type-icon';
 import { IconType } from 'checkout/components';
 import { cardNumberFormatter } from '../format';
-import { State } from 'checkout/state';
-import { get } from 'lodash';
+import { FormName, State } from 'checkout/state';
 import { validateCardNumber } from '../validation';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
@@ -25,8 +24,10 @@ export interface CardNumberDefProps {
     cardNumber: string;
 }
 
+const selector = formValueSelector(FormName.cardForm);
+
 const mapStateToProps = (state: State) => ({
-    cardNumber: get(state, 'form.cardForm.values.cardNumber')
+    cardNumber: selector(state, 'cardNumber')
 });
 
 const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => (
