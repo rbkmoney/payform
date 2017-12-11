@@ -19,7 +19,6 @@ type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
 export const Input: React.SFC<InputProps> = (props) => (
     <div className={cx(styles.container, props.className, {
-        [styles._correct]: !props.error && !!props.value,
         [styles._hasError]: props.error
     })}>
         {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
@@ -49,7 +48,7 @@ export const Input: React.SFC<InputProps> = (props) => (
             transitionEnter={true}
             transitionLeave={true}
         >
-            {props.mark && !props.active && !props.error ? <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
+            {props.mark && !props.active && !props.error && !props.pristine ? <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
             {props.mark && !props.active && props.error ?
                 <svg className={styles.errorCross} width='18px' height='18px' viewBox='0 0 18 18'>
                     <g id='icon' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
