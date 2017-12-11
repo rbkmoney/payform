@@ -13,5 +13,5 @@ export enum IconType {
     user = 'user',
     verByVisa = 'ver-by-visa',
     visa = 'visa',
-    mastercard = 'master-card'
+    mastercard = 'mastercard'
 }

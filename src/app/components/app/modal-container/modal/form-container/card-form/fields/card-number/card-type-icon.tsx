@@ -16,11 +16,12 @@ function getCardType(cardNumber: string): Card | null {
 }
 
 function findIcon(brand: CardTypes): IconType {
-    return Object.values(IconType).find((value) => value === brand) as IconType;
+    return Object.keys(IconType).find((key) => key === brand) as IconType;
 }
 
 export const CardTypeIcon: React.SFC<CardTypeIconProps> = (props) => {
     const cardType = getCardType(props.cardNumber);
     const icon = cardType ? findIcon(cardType.type) : null;
+    console.log(icon);
     return (icon ? <Icon className={styles.cardTypeIcon} icon={icon}/> : null);
 };
