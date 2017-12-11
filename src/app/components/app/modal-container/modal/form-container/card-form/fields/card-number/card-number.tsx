@@ -13,6 +13,7 @@ import { validateCardNumber } from '../validation';
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
+        {...props.meta}
         error={!props.meta.pristine ? props.meta.error : false}
         formatter={cardNumberFormatter}
         className={styles.cardNumberInput}

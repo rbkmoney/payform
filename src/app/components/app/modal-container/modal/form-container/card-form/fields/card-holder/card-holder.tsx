@@ -8,6 +8,7 @@ import { validateCardHolder } from '../validation';
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
+        {...props.meta}
         error={!props.meta.pristine ? props.meta.error : false}
         formatter={cardHolderFormatter}
         icon={IconType.user}
