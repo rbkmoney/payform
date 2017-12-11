@@ -1,5 +1,5 @@
-import hasTextSelected from '../common/has-text-selected';
-import cardFromNumber from './card-from-number';
+import { hasTextSelected } from '../common';
+import { cardFromNumber } from '../../common-card-tools';
 
 export function restrictCardNumber(e: KeyboardEvent): boolean {
     const target = e.currentTarget as HTMLInputElement;

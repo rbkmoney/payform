@@ -1,4 +1,4 @@
-enum CardTypes {
+export enum CardTypes {
     maestro = 'maestro',
     forbrugsforeningen = 'forbrugsforeningen',
     dankort = 'dankort',

@@ -1,5 +1,4 @@
-import replaceFullWidthChars from '../common/replace-full-width-chars';
-import safeVal from '../common/safe-val';
+import { safeVal, replaceFullWidthChars } from '../common';
 
 function format(expiry: string): string {
     const parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/);

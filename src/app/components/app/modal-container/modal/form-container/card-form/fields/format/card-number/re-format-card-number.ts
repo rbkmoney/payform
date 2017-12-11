@@ -1,6 +1,5 @@
-import replaceFullWidthChars from '../common/replace-full-width-chars';
-import safeVal from '../common/safe-val';
-import cardFromNumber from './card-from-number';
+import { replaceFullWidthChars, safeVal } from '../common';
+import { cardFromNumber } from '../../common-card-tools';
 
 function format(num: string): string {
     num = num.replace(/\D/g, '');
