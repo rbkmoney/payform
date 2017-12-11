@@ -1,10 +1,12 @@
-<svg width='18px' height='18px' viewBox='0 0 18 18' version="1.1" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id='icon' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-        <g transform='translate(-1045.000000, -38.000000)' fill='red'>
-            <g transform='translate(1054.000000, 47.000000) rotate(-45.000000) translate(-1054.000000, -47.000000) translate(1043.000000, 36.000000)'>
-                <path
-                        d='M12,10 L12,0 L10,0 L10,10 L-1.13686838e-13,10 L-1.13686838e-13,12 L10,12 L10,22 L12,22 L12,12 L22,12 L22,10 L12,10 Z'/>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="red-cross" transform="translate(-7.000000, -7.000000)" stroke-width="0.5" stroke="#FF0000" fill="#FF0000"
+           fill-rule="nonzero">
+            <g id="Group"
+               transform="translate(16.000000, 16.000000) rotate(-45.000000) translate(-16.000000, -16.000000) translate(5.000000, 5.000000)">
+                <polygon id="Shape"
+                         points="12 10 12 0 10 0 10 10 -1.13686838e-13 10 -1.13686838e-13 12 10 12 10 22 12 22 12 12 22 12 22 10"></polygon>
             </g>
         </g>
     </g>

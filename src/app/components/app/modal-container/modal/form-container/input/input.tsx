@@ -33,6 +33,6 @@ export const Input: React.SFC<InputProps> = (props) => (
             type={props.type}
             value={props.value}
         />
-        {props.mark && !props.active ? <Marks pristine={props.pristine} error={props.error} /> : false}
+        {props.mark  ? <Marks active={props.active} pristine={props.pristine} error={props.error} /> : false}
     </div>
 );

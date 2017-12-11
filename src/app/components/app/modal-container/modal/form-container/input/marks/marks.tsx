@@ -4,6 +4,7 @@ import * as styles from 'checkout/components/app/modal-container/modal/form-cont
 import { Icon, IconType } from 'checkout/components/ui';
 
 interface MarksProps {
+    active: boolean;
     pristine: boolean;
     error: boolean;
 }
@@ -23,8 +24,7 @@ export const Marks: React.SFC<MarksProps> = (props) => (
         transitionEnter={true}
         transitionLeave={true}
     >
-        {!props.error && !props.pristine ?
-            <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
-        {props.error ? <Icon className={styles.errorCross} icon={IconType.redCross}/> : false}
+        {!props.active && !props.error && !props.pristine ? <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
+        {!props.active && props.error ? <Icon className={styles.errorCross} icon={IconType.redCross}/> : false}
     </CSSTransitionGroup>
 );
