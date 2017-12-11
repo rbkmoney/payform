@@ -1,12 +1,12 @@
-<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="red-cross" transform="translate(-7.000000, -7.000000)" stroke-width="0.5" stroke="#FF0000" fill="#FF0000"
-           fill-rule="nonzero">
+        <g id="red-cross" transform="translate(-5.000000, -5.000000)" stroke="#FF0000" fill-rule="nonzero"
+           fill="#FF0000">
             <g id="Group"
-               transform="translate(16.000000, 16.000000) rotate(-45.000000) translate(-16.000000, -16.000000) translate(5.000000, 5.000000)">
+               transform="translate(13.500000, 13.500000) rotate(-45.000000) translate(-13.500000, -13.500000) translate(4.218750, 4.218750)">
                 <polygon id="Shape"
-                         points="12 10 12 0 10 0 10 10 -1.13686838e-13 10 -1.13686838e-13 12 10 12 10 22 12 22 12 12 22 12 22 10"></polygon>
+                         points="10.125 8.4375 10.125 0 8.4375 0 8.4375 8.4375 -1.13686838e-13 8.4375 -1.13686838e-13 10.125 8.4375 10.125 8.4375 18.5625 10.125 18.5625 10.125 10.125 18.5625 10.125 18.5625 8.4375"></polygon>
             </g>
         </g>
     </g>

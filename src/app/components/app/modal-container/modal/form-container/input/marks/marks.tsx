@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import * as styles from 'checkout/components/app/modal-container/modal/form-container/input/input.scss';
+import * as styles from '../input.scss';
 import { Icon, IconType } from 'checkout/components/ui';
 
 interface MarksProps {
@@ -17,9 +17,9 @@ export const Marks: React.SFC<MarksProps> = (props) => (
             enter: styles.enterMarks,
             leave: styles.leaveMarks
         }}
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={500}
-        transitionAppearTimeout={500}
+        transitionEnterTimeout={450}
+        transitionLeaveTimeout={450}
+        transitionAppearTimeout={450}
         transitionAppear={true}
         transitionEnter={true}
         transitionLeave={true}
