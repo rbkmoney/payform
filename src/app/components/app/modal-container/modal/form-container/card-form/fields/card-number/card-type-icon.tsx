@@ -16,7 +16,7 @@ function getCardType(cardNumber: string): Card | null {
 }
 
 function findIcon(brand: CardTypes): IconType {
-    return Object.keys(IconType).find((key) => key === brand) as IconType;
+    return Object.values(IconType).find((value) => value === brand) as IconType;
 }
 
 export const CardTypeIcon: React.SFC<CardTypeIconProps> = (props) => {
