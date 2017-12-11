@@ -1,18 +1,17 @@
 import * as React from 'react';
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import * as styles from './input.scss';
 import * as cx from 'classnames';
 import { Icon, IconType } from 'checkout/components/ui';
+import { Marks } from './marks';
 
-interface CustomProps {
+export interface CustomProps {
     icon?: IconType;
     placeholder?: string;
     mark?: boolean;
     className?: string;
     formatter?: (e: Element) => void;
     type?: 'password';
-    error?: boolean;
 }
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
@@ -34,22 +33,6 @@ export const Input: React.SFC<InputProps> = (props) => (
             type={props.type}
             value={props.value}
         />
-        <CSSTransitionGroup
-            component='div'
-            transitionName={{
-                appear: styles.appearMarks,
-                enter: styles.enterMarks,
-                leave: styles.leaveMarks
-            }}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-            transitionAppearTimeout={500}
-            transitionAppear={true}
-            transitionEnter={true}
-            transitionLeave={true}
-        >
-            {props.mark && !props.active && !props.error && !props.pristine ? <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
-            {props.mark && !props.active && props.error ? <Icon className={styles.errorCross} icon={IconType.redCross}/> : false }
-        </CSSTransitionGroup>
+        {props.mark ? <Marks active={props.active} pristine={props.pristine} error={props.error} /> : false}
     </div>
 );
