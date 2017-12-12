@@ -63,7 +63,8 @@ const CardFormDef: React.SFC<InjectedFormProps & CardFormProps> = (props) => (
 );
 
 const ReduxForm = reduxForm({
-    form: 'cardForm'
+    form: 'cardForm',
+    destroyOnUnmount: false
 })(CardFormDef);
 
 const mapStateToProps = (state: State) => ({
