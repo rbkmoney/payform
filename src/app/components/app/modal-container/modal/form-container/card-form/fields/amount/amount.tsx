@@ -10,6 +10,7 @@ import { validate } from './validate';
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
+    locale: any;
 }
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
@@ -19,7 +20,7 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
         {...props.input}
         {...props.meta}
         error={!props.meta.pristine ? props.meta.error : false}
-        placeholder={getPlaceholder(props.cost)}
+        placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         type={'number'}
         mark={true}
     />
@@ -34,7 +35,8 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-    cost: (getActive(state.formsFlow) as CardFormFlowItem).amountConfig.cost
+    cost: (getActive(state.formsFlow) as CardFormFlowItem).amountConfig.cost,
+    locale: state.config.locale
 });
 
 export const Amount = connect(mapStateToProps)(AmountDef);

@@ -76,6 +76,7 @@
     "form.input.secure.placeholder": "CVV",
     "form.input.cardholder.placeholder": "Имя держателя карты",
     "form.input.email.placeholder": "Email",
+    "form.input.amount.placeholder": "Сумма к оплате",
     "form.button.next.label": "Далее",
     "form.button.download.check.label": "Скачать чек",
     "form.button.pay.other.card.label": "Оплатить другой картой",
