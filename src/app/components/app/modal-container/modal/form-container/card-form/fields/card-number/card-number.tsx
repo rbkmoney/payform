@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, formValueSelector, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import {
+    Field,
+    formValueSelector,
+    WrappedFieldInputProps,
+    WrappedFieldProps
+} from 'redux-form';
 import * as styles from './card-number.scss';
 import { IconType } from 'checkout/components';
 import { FormName, State } from 'checkout/state';
@@ -11,7 +16,7 @@ import { validateCardNumber } from '../validation';
 
 export interface CardNumberDefProps {
     cardNumber: string;
-    locale: any;
+    locale: object;
 }
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
