@@ -5,9 +5,22 @@ import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { Button } from '../button';
-import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
+import {
+    Amount,
+    CardHolder,
+    CardNumber,
+    Email,
+    ExpireDate,
+    SecureCode
+} from './fields';
 import { ChevronBack } from '../chevron-back';
-import { CardFormFlowItem, ConfigState, FormFlowItem, ModelState, State } from 'checkout/state';
+import {
+    CardFormFlowItem,
+    ConfigState,
+    FormFlowItem,
+    ModelState,
+    State
+} from 'checkout/state';
 import { getActive, hasBack } from 'checkout/components/app/form-flow-manager';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
