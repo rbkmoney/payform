@@ -3,16 +3,27 @@ import * as TransitionGroup from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
 import { ChevronBack } from '../chevron-back';
+import { connect } from 'react-redux';
+import { State } from 'checkout/state';
 
-export class PaymentMethods extends React.Component {
+export interface PaymentMethodsProps {
+    locale: any;
+}
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
+
+export class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
     render() {
         const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
+        const locale = this.props.locale;
         return (
             <form>
                 <div className={formStyles.header}>
                     <ChevronBack/>
                     <div className={formStyles.title}>
-                        Выберите способ оплаты
+                        {locale['form.header.payment.methods.label']}
                     </div>
                 </div>
                 <CSSTransitionGroup
@@ -97,3 +108,5 @@ export class PaymentMethods extends React.Component {
         );
     }
 }
+
+export const PaymentMethods = connect(mapStateToProps)(PaymentMethodsDef);

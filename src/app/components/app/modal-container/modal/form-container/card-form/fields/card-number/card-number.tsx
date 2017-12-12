@@ -2,14 +2,21 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, formValueSelector, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import * as styles from './card-number.scss';
+import { IconType } from 'checkout/components';
+import { FormName, State } from 'checkout/state';
 import { Input } from '../../../input';
 import { CardTypeIcon } from './card-type-icon';
-import { IconType } from 'checkout/components';
 import { cardNumberFormatter } from '../format';
-import { FormName, State } from 'checkout/state';
 import { validateCardNumber } from '../validation';
 
-const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
+export interface CardNumberDefProps {
+    cardNumber: string;
+    locale: any;
+}
+
+type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+
+const CustomInput: React.SFC<FieldProps & CardNumberDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
@@ -17,24 +24,26 @@ const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (prop
         formatter={cardNumberFormatter}
         className={styles.cardNumberInput}
         icon={IconType.card}
-        placeholder='Номер на карте'
-    />);
+        placeholder={props.locale['form.input.card.placeholder']}
+    />
+);
 
-export interface CardNumberDefProps {
-    cardNumber: string;
-}
+const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => (
+    <div className={styles.inputContainer}>
+        <Field
+            name='cardNumber'
+            component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
+            validate={validateCardNumber}
+        />
+        <CardTypeIcon cardNumber={props.cardNumber}/>
+    </div>
+);
 
 const selector = formValueSelector(FormName.cardForm);
 
 const mapStateToProps = (state: State) => ({
-    cardNumber: selector(state, 'cardNumber')
+    cardNumber: selector(state, 'cardNumber'),
+    locale: state.config.locale
 });
-
-const CardNumberDef: React.SFC<CardNumberDefProps> = (props) => (
-    <div className={styles.inputContainer}>
-        <Field name='cardNumber' component={CustomInput} validate={validateCardNumber}/>
-        <CardTypeIcon cardNumber={props.cardNumber}/>
-    </div>
-);
 
 export const CardNumber = connect(mapStateToProps)(CardNumberDef);
