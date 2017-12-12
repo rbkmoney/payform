@@ -30,7 +30,7 @@ export interface CardFormProps {
     config: ConfigState;
     model: ModelState;
     formFlow: CardFormFlowItem;
-    locale: any;
+    locale: object;
 }
 
 const PayButton: React.SFC<CardFormProps> = (props) => {
