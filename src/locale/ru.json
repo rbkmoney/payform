@@ -81,6 +81,7 @@
     "form.button.download.check.label": "Скачать чек",
     "form.button.pay.other.card.label": "Оплатить другой картой",
     "form.button.pay.again.label": "Попробовать ещё раз",
+    "form.button.pay.label": "Оплатить",
     "form.payment.method.name.card.label": "Банковская карта",
     "form.payment.method.name.cash.label": "Наличные",
     "form.payment.method.name.ewallet.label": "Электронные кошельки",

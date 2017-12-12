@@ -16,7 +16,7 @@ import { validateCardNumber } from '../validation';
 
 export interface CardNumberDefProps {
     cardNumber: string;
-    locale: object;
+    locale: any;
 }
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;

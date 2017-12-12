@@ -14,7 +14,7 @@ import { validateCardHolder } from '../validation';
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
 export interface CardHolderDefProps {
-    locale: object;
+    locale: any;
 }
 
 const mapStateToProps = (state: State) => ({
