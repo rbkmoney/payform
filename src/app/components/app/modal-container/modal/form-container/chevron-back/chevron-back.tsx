@@ -5,7 +5,7 @@ import * as formStyles from '../form-container.scss';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { FormFlowItem, State } from 'checkout/state';
 import { Icon, IconType } from 'checkout/components';
-import { back } from 'checkout/components/app/form-flow-manager';
+import { back, hasBack } from 'checkout/components/app/form-flow-manager';
 
 export interface ChevronBackProps {
     formsFlow: FormFlowItem[];
@@ -33,9 +33,10 @@ class ChevronBackDef extends React.Component<ChevronBackProps> {
 
     render() {
         return (
-            <div className={formStyles.back_btn} onClick={this.back}>
-                <Icon icon={IconType.chevronLeft}/>
-            </div>
+            hasBack(this.props.formsFlow) ?
+                <div className={formStyles.back_btn} onClick={this.back}>
+                    <Icon icon={IconType.chevronLeft}/>
+                </div> : null
         );
     }
 }

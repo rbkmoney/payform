@@ -1,4 +1,4 @@
-export function validateCardHolder(value: any): boolean {
+export function validateCardHolder(value: string): boolean {
     if (!value) {
         return true;
     }

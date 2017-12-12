@@ -6,6 +6,7 @@ export type CardFormFields = {
     secureCode: RegisteredField;
     cardHolder: RegisteredField;
     email: RegisteredField;
+    amount?: RegisteredField;
 }
 
 export type CardFormValues = {
@@ -14,4 +15,5 @@ export type CardFormValues = {
     secureCode?: string;
     cardHolder?: string;
     email?: string;
+    amount?: number;
 }

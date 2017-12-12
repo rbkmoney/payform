@@ -1,4 +1,3 @@
-import { format, findCurrency } from 'currency-formatter';
 import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 import {
@@ -8,6 +7,7 @@ import {
     InvoiceTemplateMultiLine,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
+import { Amount } from 'checkout/utils';
 
 const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine): Amount | null => {
     let result = null;
@@ -41,11 +41,6 @@ const getAmountFromInvoice = (invoice: Invoice) => ({
     currencyCode: invoice.currency
 });
 
-export interface Amount {
-    value: number;
-    currencyCode: string;
-}
-
 export const getAmount = (integrationType: IntegrationType, m: ModelState): Amount | null => {
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:
@@ -56,13 +51,3 @@ export const getAmount = (integrationType: IntegrationType, m: ModelState): Amou
             throw new Error('Unhandled customer integration');
     }
 };
-
-export interface FormattedAmount {
-    value: string;
-    symbol: string;
-}
-
-export const formatAmount = (amount: Amount): FormattedAmount | null => (amount ? {
-    value: format(amount.value / 100, {decimal: ', ', thousand: ' '}),
-    symbol: findCurrency(amount.currencyCode).symbol
-} : null);

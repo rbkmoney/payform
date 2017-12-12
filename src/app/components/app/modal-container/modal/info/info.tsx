@@ -4,7 +4,8 @@ import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
 import { ModelState, State } from 'checkout/state';
 import { connect } from 'react-redux';
-import { Amount, formatAmount, getAmount } from '../amount-resolver';
+import { getAmount } from '../amount-resolver';
+import { Amount, formatAmount } from 'checkout/utils';
 
 interface InfoState {
     amount: Amount;

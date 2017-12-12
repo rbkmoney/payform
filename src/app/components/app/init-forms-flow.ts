@@ -1,29 +1,55 @@
 import { InitConfig, IntegrationType } from 'checkout/config';
-import { FormFlowItem, FormName, ModelState } from 'checkout/state';
-import { InvoiceTemplate, InvoiceTemplateSingleLine } from 'checkout/backend';
+import {
+    FormFlowItem,
+    FormName,
+    ModelState,
+    AmountConfig,
+    CardFormFlowItem
+} from 'checkout/state';
+import {
+    InvoiceTemplate,
+    InvoiceTemplateLineCostRange,
+    InvoiceTemplateLineCostUnlim,
+    InvoiceTemplateSingleLine
+} from 'checkout/backend';
 import { add, init } from './form-flow-manager';
 
-const checkSingleLine = (details: InvoiceTemplateSingleLine): boolean => {
-    const price = details.price;
-    return price && price.costType !== 'InvoiceTemplateLineCostFixed';
+const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
+    const result = {visible: false} as AmountConfig;
+    switch (c.price.costType) {
+        case 'InvoiceTemplateLineCostUnlim':
+            result.visible = true;
+            result.cost = c.price as InvoiceTemplateLineCostUnlim;
+            break;
+        case 'InvoiceTemplateLineCostRange':
+            result.visible = true;
+            result.cost = c.price as InvoiceTemplateLineCostRange;
+            break;
+    }
+    return result;
 };
 
-const hasOpenAmount = (invoiceTemplate: InvoiceTemplate): boolean => {
-    switch (invoiceTemplate.details.templateType) {
+const toTemplateAmountConfig = (t: InvoiceTemplate): AmountConfig => {
+    switch (t.details.templateType) {
         case 'InvoiceTemplateSingleLine':
-            return checkSingleLine(invoiceTemplate.details as InvoiceTemplateSingleLine);
+            return toSingleLineAmountConfig(t.details as InvoiceTemplateSingleLine);
     }
-    return false;
+    return {visible: false};
 };
 
-const isRequiredAmount = (initConfig: InitConfig, model: ModelState): boolean => {
-    const integrationType = initConfig.integrationType;
-    switch (integrationType) {
+const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
+    switch (c.integrationType) {
         case IntegrationType.invoiceTemplate:
-            return hasOpenAmount(model.invoiceTemplate);
+            return toTemplateAmountConfig(m.invoiceTemplate);
     }
-    return false;
+    return {visible: false};
 };
+
+const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
+    formName: FormName.cardForm,
+    active: false,
+    amountConfig: toAmountConfig(c, m)
+});
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
     return initConfig.terminals && model.paymentMethods.length > 1;
@@ -32,9 +58,9 @@ const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
 export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
     if (isMultiMethods(initConfig, model)) {
-        result = add(result, FormName.paymentMethods);
+        result = add(result, {formName: FormName.paymentMethods, active: false});
     } else {
-        result = add(result, FormName.cardForm);
+        result = add(result, toCardForm(initConfig, model));
     }
     result = init(result);
     return result;

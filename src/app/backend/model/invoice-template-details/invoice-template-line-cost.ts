@@ -1,3 +1,5 @@
+import { CostType } from 'checkout/backend';
+
 export abstract class InvoiceTemplateLineCost {
-    costType: string; // TODO enum
+    costType: CostType;
 }
