@@ -2,9 +2,10 @@ import * as React from 'react';
 import * as styles from './footer.scss';
 import { connect } from 'react-redux';
 import { State } from 'checkout/state';
+import { Locale } from 'checkout/locale';
 
 export interface FooterProps {
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({
