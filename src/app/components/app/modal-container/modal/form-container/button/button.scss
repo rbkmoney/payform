@@ -12,6 +12,7 @@
     transition: all .3s;
     cursor: pointer;
     width: 100%;
+    outline: none;
 
     &._default {
         color: $purple;

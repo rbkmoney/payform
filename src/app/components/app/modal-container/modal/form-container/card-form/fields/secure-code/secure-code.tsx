@@ -4,12 +4,13 @@ import { Input } from '../../../input';
 import { IconType } from 'checkout/components';
 import { secureCodeFormatter } from '../format';
 import { validateSecureCode } from '../validation';
+import { isError } from '../error-predicate';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={secureCodeFormatter}
         icon={IconType.lock}
         placeholder='CVV/CVC'

@@ -4,12 +4,13 @@ import { Input } from '../../../input';
 import { IconType } from 'checkout/components/ui';
 import { cardHolderFormatter } from '../format';
 import { validateCardHolder } from '../validation';
+import { isError } from '../error-predicate';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={cardHolderFormatter}
         icon={IconType.user}
         placeholder='Имя на карте'

@@ -8,12 +8,13 @@ import { IconType } from 'checkout/components';
 import { cardNumberFormatter } from '../format';
 import { FormName, State } from 'checkout/state';
 import { validateCardNumber } from '../validation';
+import { isError } from '../error-predicate';
 
 const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={cardNumberFormatter}
         className={styles.cardNumberInput}
         icon={IconType.card}

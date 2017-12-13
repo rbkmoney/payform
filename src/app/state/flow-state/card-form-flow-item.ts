@@ -1,6 +1,6 @@
 import { FormFlowItem } from './flow-item';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
-import { FormName } from 'checkout/state';
+import { FormName, CardFormValues } from 'checkout/state';
 
 export interface AmountConfig {
     visible: boolean;
@@ -10,4 +10,5 @@ export interface AmountConfig {
 export class CardFormFlowItem extends FormFlowItem {
     formName: FormName.cardForm;
     amountConfig: AmountConfig;
+    formValue?: CardFormValues;
 }

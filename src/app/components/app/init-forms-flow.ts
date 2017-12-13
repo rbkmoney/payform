@@ -4,7 +4,7 @@ import {
     FormName,
     ModelState,
     AmountConfig,
-    CardFormFlowItem
+    CardFormFlowItem, FormFlowStatus
 } from 'checkout/state';
 import {
     InvoiceTemplate,
@@ -48,7 +48,8 @@ const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
 const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     formName: FormName.cardForm,
     active: false,
-    amountConfig: toAmountConfig(c, m)
+    amountConfig: toAmountConfig(c, m),
+    status: FormFlowStatus.unprocessed
 });
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
@@ -58,7 +59,11 @@ const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
 export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
     if (isMultiMethods(initConfig, model)) {
-        result = add(result, {formName: FormName.paymentMethods, active: false});
+        result = add(result, {
+            formName: FormName.paymentMethods,
+            active: false,
+            status: FormFlowStatus.unprocessed
+        });
     } else {
         result = add(result, toCardForm(initConfig, model));
     }
