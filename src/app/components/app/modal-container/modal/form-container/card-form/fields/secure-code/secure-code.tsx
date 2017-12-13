@@ -1,20 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-    Field,
-    WrappedFieldInputProps,
-    WrappedFieldProps
-} from 'redux-form';
+import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { Input } from '../../../input';
 import { IconType } from 'checkout/components';
 import { secureCodeFormatter } from '../format';
 import { validateSecureCode } from '../validation';
 import { State } from 'checkout/state';
+import { Locale } from 'checkout/locale';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
 export interface SecureCodeDefProps {
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({

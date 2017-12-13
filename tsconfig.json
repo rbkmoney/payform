@@ -10,7 +10,7 @@
     "lib": ["es2015", "es2017", "dom"],
     "baseUrl": ".",
     "paths": {
-      "checkout/*": ["./src/app/*"]
+      "checkout/*": ["./src/app/*", "./src/locale/*"]
     }
   },
   "include": [

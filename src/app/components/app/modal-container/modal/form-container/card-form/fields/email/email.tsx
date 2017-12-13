@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-    Field,
-    WrappedFieldInputProps,
-    WrappedFieldProps
-} from 'redux-form';
+import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
 import { validateEmail } from '../validation';
+import { Locale } from 'checkout/locale';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
 export interface EmailDefProps {
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({

@@ -1,20 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {
-    Field,
-    WrappedFieldInputProps,
-    WrappedFieldProps
-} from 'redux-form';
+import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
 import { cardHolderFormatter } from '../format';
 import { validateCardHolder } from '../validation';
+import { Locale } from 'checkout/locale';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
 export interface CardHolderDefProps {
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({

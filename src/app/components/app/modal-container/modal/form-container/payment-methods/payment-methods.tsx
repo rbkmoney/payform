@@ -1,13 +1,14 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import * as TransitionGroup from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
 import { ChevronBack } from '../chevron-back';
-import { connect } from 'react-redux';
 import { State } from 'checkout/state';
+import { Locale } from 'checkout/locale';
 
 export interface PaymentMethodsProps {
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({

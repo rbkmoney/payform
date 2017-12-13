@@ -24,13 +24,14 @@ import {
 import { getActive, hasBack } from 'checkout/components/app/form-flow-manager';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
+import { Locale } from 'checkout/locale';
 
 export interface CardFormProps {
     formsFlow: FormFlowItem[];
     config: ConfigState;
     model: ModelState;
     formFlow: CardFormFlowItem;
-    locale: any;
+    locale: Locale;
 }
 
 const PayButton: React.SFC<CardFormProps> = (props) => {

@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as styles from './info.scss';
 import * as cx from 'classnames';
+import { connect } from 'react-redux';
+import * as styles from './info.scss';
 import { InitConfig } from 'checkout/config';
 import { ModelState, State } from 'checkout/state';
-import { connect } from 'react-redux';
 import { getAmount } from '../amount-resolver';
 import { Amount, formatAmount } from 'checkout/utils';
+import { Locale } from 'checkout/locale';
 
 interface InfoState {
     amount: Amount;
@@ -15,7 +16,7 @@ interface InfoState {
 export interface InfoProps {
     initConfig: InitConfig;
     model: ModelState;
-    locale: any;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({
