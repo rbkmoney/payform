@@ -1,10 +1,11 @@
 import { Dispatch } from 'redux';
 import { AbstractAction, TypeKeys, SetErrorAction } from '.';
 import { getLocale } from 'checkout/backend';
+import { Locale } from 'checkout/locale';
 
 export interface GetLocaleAction extends AbstractAction<object> {
     type: TypeKeys.GET_LOCALE;
-    payload: object;
+    payload: Locale;
 }
 
 export type GetLocaleDispatch = (dispatch: Dispatch<object | SetErrorAction>) => void;

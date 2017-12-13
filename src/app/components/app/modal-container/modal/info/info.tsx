@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as styles from './info.scss';
 import * as cx from 'classnames';
+import { connect } from 'react-redux';
+import * as styles from './info.scss';
 import { InitConfig } from 'checkout/config';
 import { ModelState, State } from 'checkout/state';
-import { connect } from 'react-redux';
 import { getAmount } from '../amount-resolver';
 import { Amount, formatAmount } from 'checkout/utils';
+import { Locale } from 'checkout/locale';
 
 interface InfoState {
     amount: Amount;
@@ -15,10 +16,12 @@ interface InfoState {
 export interface InfoProps {
     initConfig: InitConfig;
     model: ModelState;
+    locale: Locale;
 }
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
+    locale: state.config.locale,
     model: state.model
 });
 
@@ -52,6 +55,7 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
     }
 
     render() {
+        const locale = this.props.locale;
         const name = this.props.initConfig.name;
         const description = this.props.initConfig.description;
         const dueDate = false;
@@ -68,15 +72,15 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
                         </h1> : false}
                     {description ?
                         <div>
-                            <div className={styles.order}>ваш заказ</div>
+                            <div className={styles.order}>{locale['info.order.label']}</div>
                             <div className={styles.description}>{description}</div>
                         </div>
                         : false}
-                    {dueDate ? <div className={styles.dueDate}>Оплатите в течение 23:56</div> : false}
+                    {dueDate ? <div className={styles.dueDate}>{locale['info.dueTime.text']} 23:56</div> : false}
                 </div>
                 {recurrent ? <div>
                     <div className={styles.subscription} onClick={this.toggleHelp}>
-                        <span>Ежемесячный платёж</span>
+                        <span>{locale['info.subscription.label']}</span>
                         <svg width='15px' height='15px' viewBox='0 0 15 15'>
                             <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
                                 <g transform='translate(-201.000000, -205.000000)'>
@@ -95,8 +99,7 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
                     <p className={cx(styles.help, {
                         [styles._hide]: !this.state.help
                     })}>
-                        Деньги списываются 17 числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на
-                        email.
+                        {locale['info.subscription.help.text']}
                     </p>
                 </div> : false}
             </div>

@@ -1,10 +1,21 @@
 import * as React from 'react';
 import * as styles from './footer.scss';
-import {Icon} from '../../index';
+import { connect } from 'react-redux';
+import { State } from 'checkout/state';
+import { Locale } from 'checkout/locale';
 
-export class Footer extends React.Component {
+export interface FooterProps {
+    locale: Locale;
+}
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
+
+class FooterDef extends React.Component<FooterProps> {
 
     render() {
+        const locale = this.props.locale;
         return (
             <footer className={styles.footer}>
                 <div className={styles.safe_payment_container}>
@@ -22,8 +33,8 @@ export class Footer extends React.Component {
                                 </g>
                             </g>
                         </svg>
-                        {/* tslint:enable:max-line-length */}<h5 className={styles.text}>
-                        Безопасная оплата с RBKmoney </h5>
+                        {/* tslint:enable:max-line-length */}
+                        <h5 className={styles.text}>{locale['footer.pay.label']}</h5>
                     </div>
                     <div className={styles.safe_logos}>
                         {/* tslint:disable:max-line-length */}
@@ -117,11 +128,15 @@ export class Footer extends React.Component {
                 </div>
 
                 <p className={styles.copyright}>
-                    © 2008-2017 RBKmoney | НКО 'ЭПС' (ООО). Лицензия Банка России №3509-К, выдана 11 февраля 2013 г. Персональные данные защищены в соответствии с требованиями Федерального закона № 152-ФЗ «О&nbsp;персональных данных» от 27.07.2006 г. </p>
-                <a href='' className={styles.offer}> Публичная оферта
+                    {locale['footer.copyright.text']}
+                </p>
+                <a href='' className={styles.offer}>
+                    {locale['footer.offer.label']}
                     <hr/>
                 </a>
             </footer>
         );
     }
 }
+
+export const Footer = connect(mapStateToProps)(FooterDef);
