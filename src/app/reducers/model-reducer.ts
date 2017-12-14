@@ -6,7 +6,11 @@ import {
     GetInvoicePaymentMethodsAction,
     GetInvoicePaymentMethodsByTemplateIdAction,
     GetInvoiceEvents,
-    SetInvoice
+    SetInvoice,
+    CreateInvoiceWithTemplate,
+    CreatePaymentResource,
+    CreatePayment,
+    SetInvoiceAccessToken
 } from 'checkout/actions';
 
 type ModelReducerAction =
@@ -15,11 +19,16 @@ type ModelReducerAction =
     SetInvoice |
     GetInvoicePaymentMethodsAction |
     GetInvoicePaymentMethodsByTemplateIdAction |
-    GetInvoiceEvents;
+    GetInvoiceEvents |
+    CreateInvoiceWithTemplate |
+    CreatePaymentResource |
+    CreatePayment |
+    SetInvoiceAccessToken;
 
 const initialState = {
     invoiceTemplate: null,
     invoice: null,
+    invoiceAccessToken: null,
     paymentMethods: null,
     invoiceEvents: null
 } as ModelState;
@@ -54,7 +63,28 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
         case TypeKeys.GET_INVOICE_EVENTS:
             return {
                 ...s,
-                invoiceEvents: action.payload as any // TODO fix it
+                invoiceEvents: action.payload
+            };
+        case TypeKeys.CREATE_INVOICE_WITH_TEMPLATE:
+            return {
+                ...s,
+                invoice: action.payload.invoice,
+                invoiceAccessToken: action.payload.invoiceAccessToken.payload
+            };
+        case TypeKeys.CREATE_PAYMENT_RESOURCE:
+            return {
+                ...s,
+                paymentResource: action.payload
+            };
+        case TypeKeys.CREATE_PAYMENT:
+            return {
+                ...s,
+                payment: action.payload
+            };
+        case TypeKeys.SET_INVOICE_ACCESS_TOKEN:
+            return {
+                ...s,
+                invoiceAccessToken: action.payload
             };
     }
     return s;

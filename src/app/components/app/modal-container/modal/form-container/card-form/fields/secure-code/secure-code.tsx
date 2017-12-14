@@ -7,6 +7,7 @@ import { secureCodeFormatter } from '../format';
 import { validateSecureCode } from '../validation';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
+import { isError } from '../error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
@@ -22,7 +23,7 @@ const CustomInput: React.SFC<FieldProps & SecureCodeDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={secureCodeFormatter}
         icon={IconType.lock}
         placeholder={props.locale['form.input.secure.placeholder']}

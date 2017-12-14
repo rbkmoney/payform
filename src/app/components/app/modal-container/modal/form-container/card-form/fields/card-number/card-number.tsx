@@ -11,18 +11,16 @@ export interface CardNumberProps {
     cardNumber: string;
 }
 
-const CardNumberDef: React.SFC<CardNumberProps> = (props) => {
-    return (
-        <div className={styles.inputContainer}>
-            <Field
-                name='cardNumber'
-                component={CardNumberInput}
-                validate={validateCardNumber}
-            />
-            <CardTypeIcon cardNumber={props.cardNumber}/>
-        </div>
-    );
-};
+const CardNumberDef: React.SFC<CardNumberProps> = (props) => (
+    <div className={styles.inputContainer}>
+        <Field
+            name='cardNumber'
+            component={CardNumberInput}
+            validate={validateCardNumber}
+        />
+        <CardTypeIcon cardNumber={props.cardNumber}/>
+    </div>
+);
 
 const selector = formValueSelector(FormName.cardForm);
 

@@ -7,6 +7,7 @@ import { Input } from '../../../input';
 import { expireDateFormatter } from '../format';
 import { validateExpireDate } from '../validation';
 import { Locale } from 'checkout/locale';
+import { isError } from '../error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
@@ -22,7 +23,7 @@ const CustomInput: React.SFC<FieldProps & ExpireDateDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={expireDateFormatter}
         icon={IconType.calendar}
         placeholder={props.locale['form.input.expiry.placeholder']}

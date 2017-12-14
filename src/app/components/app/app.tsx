@@ -21,6 +21,7 @@ import {
     getInvoiceEvents,
     setInvoice
 } from 'checkout/actions';
+import { StageStatus } from 'checkout/lifecycle';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -45,21 +46,23 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 class AppDef extends React.Component<AppProps> {
 
+    stageName = 'initialization';
+
     constructor(props: AppProps) {
         super(props);
     }
 
     componentDidMount() {
-        this.props.changeStageStatus('started');
+        this.props.changeStageStatus(this.stageName, StageStatus.started);
     }
 
     componentWillReceiveProps(p: AppProps) {
-        if (p.initialization.stageStatus === 'started') {
+        if (p.initialization.stageStatus === StageStatus.started) {
             manageInitStage(p);
         }
         if (p.initialization.stageStatus === 'ready') {
             p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
-            p.changeStageStatus('processed');
+            p.changeStageStatus(this.stageName, StageStatus.processed);
         }
     }
 
@@ -70,8 +73,8 @@ class AppDef extends React.Component<AppProps> {
             <div className={styles.layout}>
                 <Overlay/>
                 {error ? <div>{error.message}</div> : false}
-                {status === 'processed' ? <ModalContainer/> : false}
-                {status === 'started' && !error ? <LayoutLoader/> : false}
+                {status === StageStatus.processed ? <ModalContainer/> : false}
+                {status === StageStatus.started && !error ? <LayoutLoader/> : false}
             </div>
         );
     }

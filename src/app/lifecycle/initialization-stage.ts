@@ -1,6 +1,4 @@
-export type StepStatus = 'started' | 'done';
-
-export type StageStatus = 'pristine' | 'started' | 'ready' | 'processed';
+import { StageStatus, StepStatus } from 'src/app/lifecycle/index';
 
 export class InitializationStage {
     stageStatus: StageStatus;

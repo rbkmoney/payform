@@ -1,15 +1,9 @@
 import { AbstractAction, TypeKeys } from 'checkout/actions';
-import { StepStatus } from 'checkout/state';
-
-export type StepName =
-    'stageStatus' |
-    'receiveAppConfig' |
-    'receiveLocale' |
-    'receivePaymentSubject' |
-    'receivePaymentMethods';
+import { StepStatus } from 'checkout/lifecycle';
 
 interface Meta {
-    stepName: StepName;
+    stageName: string;
+    stepName: string;
 }
 
 export interface ChangeStepStatus extends AbstractAction<StepStatus, Meta> {
@@ -18,10 +12,11 @@ export interface ChangeStepStatus extends AbstractAction<StepStatus, Meta> {
     meta: Meta;
 }
 
-export const changeStepStatus = (stepName: StepName, value: StepStatus): ChangeStepStatus => ({
+export const changeStepStatus = (stageName: string, stepName: string, value: StepStatus): ChangeStepStatus => ({
     type: TypeKeys.LIFECYCLE_CHANGE_STEP_STATUS,
     payload: value,
     meta: {
+        stageName,
         stepName
     }
 });

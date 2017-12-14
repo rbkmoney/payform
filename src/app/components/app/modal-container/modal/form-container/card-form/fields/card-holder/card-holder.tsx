@@ -7,6 +7,7 @@ import { Input } from '../../../input';
 import { cardHolderFormatter } from '../format';
 import { validateCardHolder } from '../validation';
 import { Locale } from 'checkout/locale';
+import { isError } from '../error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
@@ -22,7 +23,7 @@ const CustomInput: React.SFC<FieldProps & CardHolderDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={cardHolderFormatter}
         icon={IconType.user}
         placeholder={props.locale['form.input.cardholder.placeholder']}

@@ -6,6 +6,7 @@ import { State } from 'checkout/state';
 import { Input } from '../../../input';
 import { validateEmail } from '../validation';
 import { Locale } from 'checkout/locale';
+import { isError } from '../error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
@@ -21,7 +22,7 @@ const CustomInput: React.SFC<FieldProps & EmailDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         icon={IconType.letter}
         placeholder={props.locale['form.input.email.placeholder']}
         mark={true}

@@ -1,4 +1,4 @@
-import { FormFlowItem } from 'checkout/state';
+import { FormFlowItem, FormName } from 'checkout/state';
 
 export const add = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
     if (!f) {
@@ -54,4 +54,21 @@ export const back = (f: FormFlowItem[]): FormFlowItem[] => {
     return result;
 };
 
-export const getActive = (f: FormFlowItem[]): FormFlowItem => f.find((item) => item.active);
+export const update = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
+    if (!f || !item) {
+        return f;
+    }
+    const candidate = getByFormName(f, item.formName);
+    const result = f.slice();
+    if (candidate) {
+        const i = f.indexOf(candidate);
+        result[i] = item;
+    }
+    return result;
+};
+
+export const getActive = (f: FormFlowItem[]): FormFlowItem =>
+    f ? f.find((item) => item.active) : null;
+
+export const getByFormName = (f: FormFlowItem[], name: FormName): FormFlowItem =>
+    name ? f.find((item) => item.formName === name) : null;

@@ -7,20 +7,12 @@ import {
     GetLocaleDispatch,
     SetFormsFlowAction,
     ChangeStepStatus,
-    StepName,
     ChangeStageStatus,
     GetInvoiceEventsDispatch,
     SetInvoice
 } from 'checkout/actions';
-import {
-    ConfigState,
-    ModelState,
-    InitializationStage,
-    ErrorState,
-    FormFlowItem,
-    StepStatus,
-    StageStatus
-} from 'checkout/state';
+import { ConfigState, ModelState, ErrorState, FormFlowItem } from 'checkout/state';
+import { StageStatus, StepStatus, InitializationStage } from 'checkout/lifecycle';
 
 export interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
@@ -35,7 +27,7 @@ export interface AppProps {
     error: ErrorState;
     initialization: InitializationStage;
     formsFlow: FormFlowItem[];
-    changeStepStatus: (name: StepName, status: StepStatus) => ChangeStepStatus;
-    changeStageStatus: (status: StageStatus) => ChangeStageStatus;
+    changeStepStatus: (stageName: string, stepName: string, value: StepStatus) => ChangeStepStatus;
+    changeStageStatus: (stageName: string, value: StageStatus) => ChangeStageStatus;
     setInvoice: (invoice: Invoice) => SetInvoice;
 }

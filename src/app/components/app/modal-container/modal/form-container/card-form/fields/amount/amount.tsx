@@ -7,6 +7,7 @@ import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'chec
 import { getActive } from 'checkout/components/app/form-flow-manager';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
+import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
 
 export interface AmountProps {
@@ -21,7 +22,7 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
         {...props.input}
         {...props.meta}
         icon={IconType.amount}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         type={'number'}
         mark={true}

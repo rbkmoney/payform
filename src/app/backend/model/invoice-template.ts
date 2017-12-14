@@ -8,5 +8,5 @@ export class InvoiceTemplate {
     description: string;
     lifetime: LifetimeInterval;
     details: InvoiceTemplateDetails;
-    metadata: any;
+    metadata: object;
 }

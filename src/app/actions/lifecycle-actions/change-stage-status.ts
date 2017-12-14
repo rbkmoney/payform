@@ -1,12 +1,20 @@
 import { AbstractAction, TypeKeys } from 'checkout/actions';
-import { StageStatus } from 'checkout/state';
+import { StageStatus } from 'checkout/lifecycle';
 
-export interface ChangeStageStatus extends AbstractAction<StageStatus> {
-    type: TypeKeys.LIFECYCLE_CHANGE_STAGE_STATUS;
-    payload: StageStatus;
+interface Meta {
+    stageName: string;
 }
 
-export const changeStageStatus = (value: StageStatus) => ({
+export interface ChangeStageStatus extends AbstractAction<StageStatus, Meta> {
+    type: TypeKeys.LIFECYCLE_CHANGE_STAGE_STATUS;
+    payload: StageStatus;
+    meta: Meta;
+}
+
+export const changeStageStatus = (stageName: string, value: StageStatus): ChangeStageStatus => ({
     type: TypeKeys.LIFECYCLE_CHANGE_STAGE_STATUS,
-    payload: value
+    payload: value,
+    meta: {
+        stageName
+    }
 });

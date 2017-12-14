@@ -1,8 +1,11 @@
 import { AppProps } from './app-props';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
-import { InitializationStage, StepStatus } from 'checkout/state';
-import { ChangeStepStatus, StepName } from 'checkout/actions';
 import { ChangeType, Event, Invoice, InvoiceCreated } from 'checkout/backend';
+import { resolveStage, StageStatus, StepStatus } from 'checkout/lifecycle';
+
+const stageName = 'initialization';
+
+type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
 
 const manageInvoiceTemplate = (p: AppProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -45,23 +48,6 @@ const managePaymentMethods = (p: AppProps) => {
     }
 };
 
-const resolveAsyncStage = (stage: InitializationStage,
-                           statusChanger: (name: StepName, status: StepStatus) => ChangeStepStatus,
-                           stepName: StepName,
-                           action: () => any,
-                           doneCondition: boolean,
-                           startCondition: boolean = true) => {
-    if (startCondition && !stage[stepName]) {
-        action();
-        statusChanger(stepName, 'started');
-    }
-    if (stage[stepName] === 'started' && doneCondition) {
-        statusChanger(stepName, 'done');
-    }
-};
-
-type Shortened = (stepName: StepName, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
-
 const receiveAppConfig = (fn: Shortened, p: AppProps) => {
     const done = !!p.config.appConfig;
     fn('receiveAppConfig', p.getAppConfig, done);
@@ -88,13 +74,13 @@ const receiveInvoiceSubject = (fn: Shortened, p: AppProps) => {
         p.setInvoice(findInvoice(events));
     }
     const done = !!(events && p.model.invoice);
-    const start = p.initialization.receiveAppConfig === 'done';
+    const start = p.initialization.receiveAppConfig === StepStatus.done;
     fn('receivePaymentSubject', manageInvoice.bind(null, p), done, start);
 };
 
 const receiveInvoiceTemplateSubject = (fn: Shortened, p: AppProps) => {
     const done = !!p.model.invoiceTemplate;
-    const start = p.initialization.receiveAppConfig === 'done';
+    const start = p.initialization.receiveAppConfig === StepStatus.done;
     fn('receivePaymentSubject', manageInvoiceTemplate.bind(null, p), done, start);
 };
 
@@ -113,18 +99,18 @@ const receivePaymentSubject = (fn: Shortened, p: AppProps) => {
 
 const receivePaymentMethods = (fn: Shortened, p: AppProps) => {
     const done = !!p.model.paymentMethods;
-    const start = p.initialization.receiveAppConfig === 'done';
+    const start = p.initialization.receiveAppConfig === StepStatus.done;
     fn('receivePaymentMethods', managePaymentMethods.bind(null, p), done, start);
 };
 
 const resolveDone = (p: AppProps) => {
     const stage = p.initialization;
     const done =
-        stage.receiveLocale === 'done' &&
-        stage.receivePaymentSubject === 'done' &&
-        stage.receivePaymentMethods === 'done';
+        stage.receiveLocale === StepStatus.done &&
+        stage.receivePaymentSubject === StepStatus.done &&
+        stage.receivePaymentMethods === StepStatus.done;
     if (done) {
-        p.changeStageStatus('ready');
+        p.changeStageStatus(stageName, StageStatus.ready);
     }
 };
 
@@ -132,7 +118,7 @@ export const manageInitStage = (p: AppProps) => {
     if (p.error) {
         return;
     }
-    const shortened = resolveAsyncStage.bind(null, p.initialization, p.changeStepStatus);
+    const shortened = resolveStage.bind(null, p.initialization, p.changeStepStatus, stageName);
     receiveAppConfig(shortened, p);
     receiveLocale(shortened, p);
     receivePaymentSubject(shortened, p);
