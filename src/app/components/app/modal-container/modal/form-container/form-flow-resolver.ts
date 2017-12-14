@@ -1,16 +1,18 @@
-import { toNumber } from 'lodash';
+import { toNumber, clone } from 'lodash';
 import { CardFormFlowItem, FormFlowStatus, FormName, ModelState } from 'checkout/state';
-import { getActive } from 'checkout/components/app/form-flow-manager';
+import { add, getActive, next, update } from 'checkout/components/app/form-flow-manager';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { FormContainerProps } from './form-container-props';
 import { resolveStage, StepStatus } from 'checkout/lifecycle';
-import { FlowType, PayerType } from 'checkout/backend';
+import { FlowType, PayerType, PaymentToolType } from 'checkout/backend';
 import { getAmount } from '../amount-resolver';
-import { PaymentToolType } from 'checkout/backend/model/payment-tool/payment-tool-type';
+import { resolveEvents } from './form-flow-resolver/resolve-events';
+import { check, Type } from 'checkout/event-checker';
+import { FormFlowItem } from 'checkout/state/flow-state/flow-item';
 
 const stageName = 'cardPayment';
 
-type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
+export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 
@@ -78,18 +80,6 @@ const resolveInvoice = (fn: Shortened, p: FormContainerProps) => {
     fn('createInvoice', setInvoiceAccessToken.bind(null, p), done);
 };
 
-const resolvePaymentResource = (fn: Shortened, p: FormContainerProps, i: CardFormFlowItem) => {
-    const done = !!p.model.paymentResource;
-    const start = p.cardPayment.createInvoice === StepStatus.done;
-    fn('createPaymentResource', createPaymentResource.bind(null, p, i), done, start);
-};
-
-const resolvePayment = (fn: Shortened, p: FormContainerProps, i: CardFormFlowItem) => {
-    const done = !!p.model.payment;
-    const start = p.cardPayment.createPaymentResource === StepStatus.done;
-    fn('createPayment', createPayment.bind(null, p, i), done, start);
-};
-
 const resolveIntegrationType = (fn: Shortened, p: FormContainerProps, i: CardFormFlowItem) => {
     const initConfig = p.config.initConfig;
     switch (initConfig.integrationType) {
@@ -104,11 +94,44 @@ const resolveIntegrationType = (fn: Shortened, p: FormContainerProps, i: CardFor
     }
 };
 
-const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
+const resolvePaymentResource = (fn: Shortened, p: FormContainerProps, i: CardFormFlowItem) => {
+    const done = !!p.model.paymentResource;
+    const start = p.cardPayment.createInvoice === StepStatus.done;
+    fn('createPaymentResource', createPaymentResource.bind(null, p, i), done, start);
+};
+
+const resolvePayment = (fn: Shortened, p: FormContainerProps, i: CardFormFlowItem) => {
+    const done = !!p.model.payment;
+    const start = p.cardPayment.createPaymentResource === StepStatus.done;
+    fn('createPayment', createPayment.bind(null, p, i), done, start);
+};
+
+const pay = (p: FormContainerProps, i: CardFormFlowItem) => {
     const shortened = resolveStage.bind(null, p.cardPayment, p.changeStepStatus, stageName);
     resolveIntegrationType(shortened, p, i);
     resolvePaymentResource(shortened, p, i);
     resolvePayment(shortened, p, i);
+    resolveEvents(shortened, p);
+};
+
+const prepareAndGoNext = (f: FormFlowItem[], p: FormContainerProps): FormFlowItem[] => {
+    const withNext = add(f, {
+        formName: FormName.paymentMethods,
+        active: false,
+        status: FormFlowStatus.unprocessed
+    });
+    return next(withNext);
+};
+
+const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
+    const checked = check(p.model.invoiceEvents);
+    if (checked.type === Type.unexplained) {
+        pay(p, i);
+    } else {
+        const processed = clone(i);
+        processed.status = FormFlowStatus.processed;
+        p.setFormFlow(prepareAndGoNext(update(p.formsFlow, processed), p));
+    }
 };
 
 export const resolveFormFlow = (p: FormContainerProps) => {

@@ -3,6 +3,6 @@ import { ChangeType } from './change-type';
 
 export class InvoiceStatusChanged extends InvoiceChange {
     changeType = ChangeType.InvoiceStatusChanged;
-    status: string;
+    status: 'paid' | 'cancelled';
     reason: string;
 }

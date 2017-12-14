@@ -16,7 +16,8 @@ import {
     createInvoiceWithTemplate,
     createPayment,
     createPaymentResource,
-    getInvoiceEvents,
+    pollInvoiceEvents,
+    setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
 
@@ -31,10 +32,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     createInvoiceWithTemplate: bindActionCreators(createInvoiceWithTemplate, dispatch),
     createPaymentResource: bindActionCreators(createPaymentResource, dispatch),
     createPayment: bindActionCreators(createPayment, dispatch),
-    getInvoiceEvents: bindActionCreators(getInvoiceEvents, dispatch),
     changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
     changeStageStatus: bindActionCreators(changeStageStatus, dispatch),
-    setInvoiceAccessToken: bindActionCreators(setInvoiceAccessToken, dispatch)
+    setInvoiceAccessToken: bindActionCreators(setInvoiceAccessToken, dispatch),
+    pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
+    setFormFlow: bindActionCreators(setFormFlowAction, dispatch)
 });
 
 class FormContainerDef extends React.Component<FormContainerProps> {

@@ -8,3 +8,4 @@ export * from './set-invoice';
 export * from './create-payment-resource';
 export * from './create-payment';
 export * from './set-invoice-access-token';
+export * from './poll-invoice-events';
