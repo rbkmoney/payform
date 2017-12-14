@@ -8,7 +8,8 @@ export const resolveStage = (stage: any,
                              action: () => any,
                              doneCondition: boolean,
                              startCondition: boolean = true) => {
-    if (startCondition && !stage[stepName]) {
+    const isNotStarted = !stage[stepName];
+    if (startCondition && isNotStarted) {
         action();
         statusChanger(stageName, stepName, StepStatus.started);
     }
