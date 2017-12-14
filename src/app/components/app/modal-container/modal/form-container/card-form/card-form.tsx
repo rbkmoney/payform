@@ -19,7 +19,8 @@ const mapStateToProps = (state: State) => ({
     formsFlow: state.formsFlow,
     config: state.config,
     model: state.model,
-    cardForm: state.form.cardForm
+    cardForm: state.form.cardForm,
+    locale: state.config.locale
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -31,7 +32,7 @@ type Props = InjectedFormProps & CardFormProps;
 const PayButton: React.SFC<CardFormProps> = (props) => {
     const amount = formatAmount(getAmount(props.config.initConfig.integrationType, props.model));
     const label = amount ? `${amount.value} ${amount.symbol}` : null;
-    return <Button className={styles.pay_button} type='submit' style='primary'>Оплатить {label}</Button>;
+    return <Button className={styles.pay_button} type='submit' style='primary'>{props.locale['form.button.pay.label']} {label}</Button>;
 };
 
 class CardFormDef extends React.Component<Props> {
@@ -61,12 +62,13 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
+        const locale = this.props.locale;
         return (
             <form onSubmit={this.props.handleSubmit(this.submit)}>
                 <div className={formStyles.header}>
                     {hasBack(this.props.formsFlow) ? <ChevronBack/> : null}
                     <div className={formStyles.title}>
-                        Оплата банковской картой
+                        {locale['form.header.pay.card.label']}
                     </div>
                 </div>
                 {this.formFlow.amountConfig.visible ?
