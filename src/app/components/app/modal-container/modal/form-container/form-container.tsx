@@ -1,54 +1,64 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
-import { State, FormName, FormFlowItem, FormFlowStatus } from 'checkout/state';
+import { State, FormName, FormFlowStatus } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { getActive } from 'checkout/components/app/form-flow-manager';
-
-export interface FormContainerProps {
-    formsFlow: FormFlowItem[];
-}
+import { resolveFormFlow } from './form-flow-resolver';
+import { FormContainerProps } from './form-container-props';
+import { FormLoader } from './form-loader';
+import {
+    changeStageStatus,
+    changeStepStatus,
+    createInvoiceWithTemplate,
+    createPayment,
+    createPaymentResource,
+    getInvoiceEvents,
+    setInvoiceAccessToken
+} from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow
+    config: state.config,
+    model: state.model,
+    formsFlow: state.formsFlow,
+    cardPayment: state.lifecycle.cardPayment
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    createInvoiceWithTemplate: bindActionCreators(createInvoiceWithTemplate, dispatch),
+    createPaymentResource: bindActionCreators(createPaymentResource, dispatch),
+    createPayment: bindActionCreators(createPayment, dispatch),
+    getInvoiceEvents: bindActionCreators(getInvoiceEvents, dispatch),
+    changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
+    changeStageStatus: bindActionCreators(changeStageStatus, dispatch),
+    setInvoiceAccessToken: bindActionCreators(setInvoiceAccessToken, dispatch)
 });
 
 class FormContainerDef extends React.Component<FormContainerProps> {
-
-    private activeFlow: FormFlowItem;
 
     constructor(props: FormContainerProps) {
         super(props);
     }
 
-    componentWillMount() {
-        this.activeFlow = getActive(this.props.formsFlow);
-    }
-
     componentWillReceiveProps(props: FormContainerProps) {
-        this.activeFlow = getActive(this.props.formsFlow);
-        if (this.activeFlow.status === FormFlowStatus.inProcess) {
-            switch (this.activeFlow.formName) {
-                case FormName.cardForm:
-                    // const selector = formValueSelector(FormName.cardForm);
-
-            }
-        }
+        resolveFormFlow(props);
     }
 
     render() {
-        const {formName, status} = this.activeFlow;
+        const {formName, status} = getActive(this.props.formsFlow);
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {[styles._error]: status === FormFlowStatus.error})}>
                     {formName === FormName.paymentMethods ? <PaymentMethods/> : false}
                     {formName === FormName.cardForm ? <CardForm/> : false}
+                    {status === FormFlowStatus.inProcess ? <FormLoader/> : false}
                 </div>
             </div>
         );
     }
 }
 
-export const FormContainer = connect(mapStateToProps)(FormContainerDef);
+export const FormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainerDef);

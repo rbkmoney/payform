@@ -8,7 +8,7 @@ export class PaymentResourcePayer extends Payer {
     payerType: PayerType.PaymentResourcePayer;
     paymentToolToken: string;
     paymentSession: string;
-    paymentToolDetails: PaymentToolDetails;
-    clientInfo: ClientInfo;
     contactInfo: ContactInfo;
+    paymentToolDetails?: PaymentToolDetails;
+    clientInfo?: ClientInfo;
 }

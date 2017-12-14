@@ -8,3 +8,6 @@ export * from './get-invoice-template';
 export * from './get-invoice-payment-methods';
 export * from './get-invoice-payment-methods-by-template-id';
 export * from './get-invoice-events';
+export * from './create-invoice-with-template';
+export * from './create-payment-resource';
+export * from './create-payment';

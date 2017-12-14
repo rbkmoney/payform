@@ -1,4 +1,3 @@
-/// <reference path="./card-tokenizer.d.ts" />
 import CardTokenizer from 'tokenizer/src/tokenizers/CardTokenizer';
 import { PaymentResource, PaymentTool } from 'checkout/backend/model';
 

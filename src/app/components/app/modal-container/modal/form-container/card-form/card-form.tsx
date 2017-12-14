@@ -1,38 +1,25 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
-import { formValueSelector, InjectedFormProps, reduxForm } from 'redux-form';
+import { InjectedFormProps, reduxForm } from 'redux-form';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
+import { CardFormProps } from './card-form-props';
 import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import {
-    ConfigState,
-    FormFlowItem,
-    ModelState,
-    State,
-    CardFormFlowItem,
-    FormFlowStatus,
-    FormName
-} from 'checkout/state';
+import { State, CardFormFlowItem, FormFlowStatus, FormName } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
 import { getByFormName, hasBack, update } from 'checkout/components/app/form-flow-manager';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
-import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-
-export interface CardFormProps {
-    formsFlow: FormFlowItem[];
-    config: ConfigState;
-    model: ModelState;
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
-}
+import { setFormFlowAction } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     formsFlow: state.formsFlow,
     config: state.config,
-    model: state.model
+    model: state.model,
+    cardForm: state.form.cardForm
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -57,8 +44,8 @@ class CardFormDef extends React.Component<Props> {
     }
 
     submit() {
-        const selector = formValueSelector(FormName.cardForm);
         this.formFlow.status = FormFlowStatus.inProcess;
+        this.formFlow.values = this.props.cardForm.values;
         this.props.setFormFlow(update(this.props.formsFlow, this.formFlow));
     }
 

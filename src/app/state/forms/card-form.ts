@@ -1,19 +1,19 @@
 import { RegisteredField } from 'redux-form';
 
-export type CardFormFields = {
+export interface CardFormFields {
     cardNumber: RegisteredField;
-    expireDay: RegisteredField;
+    expireDate: RegisteredField;
     secureCode: RegisteredField;
     cardHolder: RegisteredField;
     email: RegisteredField;
     amount?: RegisteredField;
 }
 
-export type CardFormValues = {
+export interface CardFormValues {
     cardNumber?: string;
-    expireDay?: string;
+    expireDate?: string;
     secureCode?: string;
     cardHolder?: string;
     email?: string;
-    amount?: number;
+    amount?: string;
 }

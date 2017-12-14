@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import { getInvoiceEvents as capiRequest } from 'checkout/backend';
+import { Event } from 'checkout/backend/model';
 
 export interface GetInvoiceEvents extends AbstractAction<Event[]> {
     type: TypeKeys.GET_INVOICE_EVENTS;

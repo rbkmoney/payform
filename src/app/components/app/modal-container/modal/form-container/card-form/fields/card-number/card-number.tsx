@@ -19,6 +19,7 @@ const CustomInput: React.SFC<WrappedFieldInputProps & WrappedFieldProps> = (prop
         className={styles.cardNumberInput}
         icon={IconType.card}
         placeholder='Номер на карте'
+        mark={true}
     />);
 
 export interface CardNumberDefProps {

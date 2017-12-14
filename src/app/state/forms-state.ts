@@ -5,6 +5,8 @@ interface FormState<T, V> {
     values?: V;
 }
 
+export type CardFormState = FormState<CardFormFields, CardFormValues>;
+
 export class FormsState {
-    readonly cardForm: FormState<CardFormFields, CardFormValues>;
+    readonly cardForm: CardFormState;
 }

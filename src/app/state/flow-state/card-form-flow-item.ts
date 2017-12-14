@@ -10,5 +10,5 @@ export interface AmountConfig {
 export class CardFormFlowItem extends FormFlowItem {
     formName: FormName.cardForm;
     amountConfig: AmountConfig;
-    formValue?: CardFormValues;
+    values?: CardFormValues;
 }
