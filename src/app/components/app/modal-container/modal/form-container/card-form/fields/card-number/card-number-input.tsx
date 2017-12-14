@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
-import { IconType, Input } from 'checkout/components';
+import * as styles from './card-number.scss';
+import { cardNumberFormatter } from '../format/index';
+import { Locale } from 'src/locale/locale';
 import { State } from 'checkout/state';
-import * as styles from '../card-number.scss';
-import { cardNumberFormatter } from '../../format';
-import { Locale } from 'checkout/locale';
+import { isError } from '../error-predicate';
+import { IconType, Input } from 'checkout/components';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
@@ -17,11 +18,12 @@ const CardNumberInputDef: React.SFC<FieldProps & CardNumberInputProps> = (props)
     <Input
         {...props.input}
         {...props.meta}
-        error={!props.meta.pristine ? props.meta.error : false}
+        error={isError(props.meta)}
         formatter={cardNumberFormatter}
         className={styles.cardNumberInput}
         icon={IconType.card}
         placeholder={props.locale['form.input.card.placeholder']}
+        mark={true}
     />
 );
 

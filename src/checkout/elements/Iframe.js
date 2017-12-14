@@ -3,7 +3,7 @@ import guid from '../../utils/guid';
 export default class Iframe {
     constructor(payformHost) {
         const iframe = document.createElement('iframe');
-        iframe.setAttribute('src', `${payformHost}/v1/checkout.html`);
+        iframe.setAttribute('src', `${payformHost}/html/payframe.html`);
         iframe.setAttribute('name', `rbkmoney-payframe-${guid()}`);
         iframe.setAttribute('class', 'rbkmoney-payframe');
         iframe.setAttribute('allowtransparency', 'true');
