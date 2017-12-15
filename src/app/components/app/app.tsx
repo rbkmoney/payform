@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
-import { LayoutLoader } from './layout-loder';
+import { LayoutLoader } from './layout-loader';
 import { manageInitStage } from './manage-init-stage';
 import { State } from 'checkout/state';
 import { AppProps } from './app-props';

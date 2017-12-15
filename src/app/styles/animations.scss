@@ -11,6 +11,18 @@
         to {  opacity: 0;  }
     }
 
+    /* SLIDE FROM LEFT TO RIGHT FADE IN */
+    @keyframes slidelefttorightin {
+        from {  transform: translateX(30px); opacity: 0;  }
+        to {  transform: translateX(0); opacity: 1;  }
+    }
+
+    /* SLIDE FROM LEFT TO RIGHT FADE OUT */
+    @keyframes slideleftorightout {
+        from {  transform: translateX(0); opacity: 1;  }
+        to {  transform: translateX(-30px); opacity: 0;  }
+    }
+
     /* SLIDE DOWN FADE IN */
     @keyframes slidedown {
         from {  transform: translateY(-15px); opacity: 0;  }

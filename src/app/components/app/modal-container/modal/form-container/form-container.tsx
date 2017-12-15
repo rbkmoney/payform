@@ -6,7 +6,6 @@ import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
 import { State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
-import { resolveFormFlow } from './form-flow-resolver';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import {
@@ -20,6 +19,8 @@ import {
     setInvoiceAccessToken
 } from 'checkout/actions';
 import { FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
+import { resolveFormFlow } from './form-flow-resolver';
+import { ResultForm } from './result-form';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -56,6 +57,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 <div className={cx(styles.form, {[styles._error]: status === FormFlowStatus.error})}>
                     {formName === FormName.paymentMethods ? <PaymentMethods/> : false}
                     {formName === FormName.cardForm ? <CardForm/> : false}
+                    {formName === FormName.resultForm ? <ResultForm/> : false}
                     {status === FormFlowStatus.inProcess ? <FormLoader/> : false}
                 </div>
             </div>

@@ -12,7 +12,7 @@ import { EventCheckResult } from './event-check-result';
 const checkPaymentStatusChanged = (change: PaymentStatusChanged): EventCheckResult => {
     switch (change.status) {
         case 'processed':
-            return {type: Type.success};
+            return {type: Type.success, change};
         case 'failed':
         case 'cancelled':
             return {type: Type.failed, change};
