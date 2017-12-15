@@ -1,6 +1,5 @@
 import { toNumber, clone } from 'lodash';
-import { CardFormFlowItem, FormFlowStatus, FormName, ModelState, ModalInteractionFlowItem } from 'checkout/state';
-import { add, getActive, next, update } from 'checkout/components/app/form-flow-manager';
+import { ModelState } from 'checkout/state';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { FormContainerProps } from './form-container-props';
 import { resolveStage, StepStatus } from 'checkout/lifecycle';
@@ -15,10 +14,11 @@ import {
     Redirect,
     RequestType
 } from 'checkout/backend';
+import { CardFormFlowItem, FormFlowItem, FormFlowStatus, ModalInteractionFlowItem } from 'checkout/form-flow/flow-item';
 import { getAmount } from '../amount-resolver';
 import { resolveEvents } from './form-flow-resolver/resolve-events';
 import { check, Type } from 'checkout/event-checker';
-import { FormFlowItem } from 'checkout/state/flow-state/flow-item';
+import { add, FormName, getActive, next, update } from 'checkout/form-flow';
 
 const stageName = 'cardPayment';
 

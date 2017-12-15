@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import * as TransitionGroup from 'react-transition-group';
 import parser from 'uri-template';
 import * as styles from './user-interaction-modal.scss';
-import { ConfigState, FormFlowItem, FormName, ModalInteractionFlowItem, State } from 'checkout/state';
+import { ConfigState, State } from 'checkout/state';
 import { BrowserPostRequest } from 'checkout/backend';
-import { getActive } from 'checkout/components/app/form-flow-manager';
+import { FormFlowItem, FormName, getActive, ModalInteractionFlowItem } from 'checkout/form-flow';
 
 export interface UserInteractionModalProps {
     formsFlow: FormFlowItem[];
@@ -23,7 +23,7 @@ const prepareForm = (origin: string, request: BrowserPostRequest): HTMLFormEleme
             const decoded = decodeURIComponent(field.template);
             const template = parser.parse(decoded);
             const redirectUrl = `${origin}/html/finishInteraction.html`;
-            formParam.value = template.expand({'termination_uri': redirectUrl});
+            formParam.value = template.expand({termination_uri: redirectUrl});
         } else {
             formParam.value = field.template;
         }

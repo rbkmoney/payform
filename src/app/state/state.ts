@@ -1,4 +1,5 @@
-import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState, FormsState, FormFlowItem } from '.';
+import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState, FormsState } from '.';
+import { FormFlowItem } from 'checkout/form-flow';
 
 export type State = {
     readonly result: ResultState;

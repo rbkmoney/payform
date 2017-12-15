@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as formStyles from '../form-container.scss';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { FormFlowItem, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { Icon, IconType } from 'checkout/components';
-import { back, hasBack } from 'checkout/components/app/form-flow-manager';
+import { back, hasBack, FormFlowItem } from 'checkout/form-flow';
 
 export interface ChevronBackProps {
     formsFlow: FormFlowItem[];

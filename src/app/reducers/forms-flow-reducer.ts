@@ -1,5 +1,5 @@
-import { FormFlowItem } from 'checkout/state';
 import { TypeKeys, SetFormsFlowAction } from 'checkout/actions';
+import { FormFlowItem } from 'checkout/form-flow';
 
 type FormFlowReducerAction = SetFormsFlowAction;
 

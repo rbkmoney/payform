@@ -6,10 +6,10 @@ import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { FormFlowItem, FormName, State } from 'checkout/state';
+import { FormFlowItem, FormName, getActive } from 'checkout/form-flow';
 import { UserInteractionModal } from './user-interaction-modal';
-import { getActive } from 'checkout/components/app/form-flow-manager';
 import { finishInteraction } from './finish-interaction';
+import { State } from 'checkout/state';
 
 export interface ModalContainerProps {
     formsFlow: FormFlowItem[];

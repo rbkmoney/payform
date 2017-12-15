@@ -1,6 +1,6 @@
 import { AbstractAction } from '.';
-import { FormFlowItem } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions/type-keys';
+import { FormFlowItem } from 'checkout/form-flow';
 
 export interface SetFormsFlowAction extends AbstractAction<FormFlowItem[]> {
     type: TypeKeys.SET_FORMS_FLOW;

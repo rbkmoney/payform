@@ -1,4 +1,5 @@
-import { FormFlowItem, FormName } from 'checkout/state';
+import { FormFlowItem } from 'checkout/form-flow';
+import { FormName } from './form-name';
 
 export const add = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
     if (!f) {

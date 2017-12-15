@@ -11,8 +11,9 @@ import {
     GetInvoiceEventsDispatch,
     SetInvoice
 } from 'checkout/actions';
-import { ConfigState, ModelState, ErrorState, FormFlowItem } from 'checkout/state';
+import { ConfigState, ModelState, ErrorState } from 'checkout/state';
 import { StageStatus, StepStatus, InitializationStage } from 'checkout/lifecycle';
+import { FormFlowItem } from 'checkout/form-flow';
 
 export interface AppProps {
     getAppConfig: () => GetAppConfigDispatch;
