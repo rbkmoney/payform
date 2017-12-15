@@ -4,8 +4,7 @@ import {
     FormName,
     AmountConfig,
     CardFormFlowItem,
-    FormFlowStatus,
-    add, init
+    FormFlowStatus, add, init, ResultFormFlowItem
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -14,6 +13,7 @@ import {
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
 import { ModelState } from 'checkout/state';
+import { check, EventCheckResult, Type } from 'checkout/event-checker';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -57,7 +57,7 @@ const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
     return initConfig.terminals && model.paymentMethods.length > 1;
 };
 
-export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
+const handleUnexplained = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
     if (isMultiMethods(initConfig, model)) {
         result = add(result, {
@@ -68,6 +68,28 @@ export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFl
     } else {
         result = add(result, toCardForm(initConfig, model));
     }
-    result = init(result);
-    return result;
+    return init(result);
+};
+
+const handleSuccessFailed = (checkResult: EventCheckResult): FormFlowItem[] => {
+    let result: FormFlowItem[] = [];
+    result = add(result, {
+        formName: FormName.resultForm,
+        active: false,
+        change: checkResult.change
+    } as ResultFormFlowItem);
+    return init(result);
+};
+
+export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
+    const checkResult = check(model.invoiceEvents);
+    switch (checkResult.type) {
+        case Type.success:
+            return handleSuccessFailed(checkResult);
+        case Type.unexplained:
+        case Type.failed:
+            return handleUnexplained(initConfig, model);
+        case Type.interaction:
+            throw new Error('Unsupported event type');
+    }
 };

@@ -66,3 +66,17 @@
         text-align: center;
     }
 }
+
+.appearForm {
+    animation: slidelefttorightin 3s;
+    position: absolute;
+}
+
+.enterForm {
+    background: transparent;
+}
+
+.leaveForm {
+    animation: slideleftorightout 3s;
+    position: absolute;
+}

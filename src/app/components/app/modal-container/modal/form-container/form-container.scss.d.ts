@@ -7,3 +7,6 @@ export const back_btn: string;
 export const title: string;
 export const growth: string;
 export const popup: string;
+export const appearForm: string;
+export const enterForm: string;
+export const leaveForm: string;

@@ -5,23 +5,25 @@ import { check, Type } from 'checkout/event-checker';
 import { FormName, getActive, next, update } from 'checkout/form-flow';
 import { pay } from './card-pay';
 import { prepareInteractionFlow } from './prepare-interaction-flow';
+import { prepareResultationFlow } from './prepare-resultation-flow';
 
 export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
     const checkedEvent = check(p.model.invoiceEvents);
+    const processed = clone(i);
     switch (checkedEvent.type) {
         case Type.unexplained:
             pay(p, i);
             break;
         case Type.interaction:
-            const processed = clone(i);
             processed.status = FormFlowStatus.processed;
             p.setFormFlow(next(prepareInteractionFlow(update(p.formsFlow, processed), p)));
             break;
         case Type.success:
         case Type.failed:
-        // TODO need to implement
+            processed.status = FormFlowStatus.processed;
+            p.setFormFlow(next(prepareResultationFlow(update(p.formsFlow, processed), p)));
     }
 };
 
