@@ -2,10 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, formValueSelector } from 'redux-form';
 import * as styles from './card-number.scss';
-import { FormName, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { CardTypeIcon } from './card-type-icon';
 import { validateCardNumber } from '../validation';
 import { CardNumberInput } from './card-number-input';
+import { FormName } from 'checkout/form-flow';
 
 export interface CardNumberProps {
     cardNumber: string;

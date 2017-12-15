@@ -1,1 +1,1 @@
-export * from './resolve-events';
+export * from './form-flow-resolver';

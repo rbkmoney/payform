@@ -4,9 +4,9 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
-import { FormFlowItem, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { back, hasBack } from 'checkout/components/app/form-flow-manager';
+import { back, FormFlowItem, hasBack } from 'checkout/form-flow';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;

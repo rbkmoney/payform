@@ -1,5 +1,5 @@
 import { StepStatus } from 'checkout/lifecycle';
-import { FormContainerProps } from '../form-container-props';
+import { FormContainerProps } from '../../form-container-props';
 import { Shortened } from '../form-flow-resolver';
 import { check, Type } from 'checkout/event-checker';
 

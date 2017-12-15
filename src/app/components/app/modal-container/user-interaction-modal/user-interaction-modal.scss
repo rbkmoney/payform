@@ -1,0 +1,48 @@
+@import "../../../../styles/variables";
+@import "../../../../styles/responsive";
+@import "../../../../styles/animations";
+
+.container {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: $white;
+    border-radius: 6px;
+
+    @include responsive(sm) {
+        height: 690px;
+        width: 680px;
+        position: relative;
+    }
+
+    iframe {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+        border-radius: 6px;
+        border: none;
+
+        @include responsive(sm) {
+            position: absolute;
+        }
+    }
+}
+
+.enter {
+    background: green;
+}
+
+.leave {
+    @include responsive(sm) {
+        animation: rotateout 1s;
+    }
+}
+
+.appear {
+    @include responsive(sm) {
+        animation: rotatein 1s;
+    }
+}

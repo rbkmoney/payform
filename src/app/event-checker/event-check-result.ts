@@ -1,4 +1,4 @@
-import { Type } from 'checkout/event-checker/type';
+import { Type } from './type';
 import { InvoiceChange } from 'checkout/backend';
 
 export interface EventCheckResult {

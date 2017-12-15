@@ -4,9 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
-import { State, FormName, FormFlowStatus } from 'checkout/state';
+import { State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
-import { getActive } from 'checkout/components/app/form-flow-manager';
 import { resolveFormFlow } from './form-flow-resolver';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
@@ -20,6 +19,7 @@ import {
     setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
+import { FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,

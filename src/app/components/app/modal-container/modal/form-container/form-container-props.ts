@@ -9,8 +9,9 @@ import {
     SetFormsFlowAction
 } from 'checkout/actions';
 import { InvoiceParamsWithTemplate, PaymentParams, PaymentTool } from 'checkout/backend/model';
-import { ConfigState, FormFlowItem, ModelState } from 'checkout/state';
+import { ConfigState, ModelState } from 'checkout/state';
 import { CardPaymentStage, StageStatus, StepStatus } from 'checkout/lifecycle';
+import { FormFlowItem } from 'checkout/form-flow';
 
 export interface FormContainerProps {
     config: ConfigState;

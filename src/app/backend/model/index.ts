@@ -19,3 +19,4 @@ export * from './payer';
 export * from './invoice-cart';
 export * from './payment';
 export * from './payment-params';
+export * from './event/user-interaction';

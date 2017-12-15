@@ -2,17 +2,18 @@ import { InitConfig, IntegrationType } from 'checkout/config';
 import {
     FormFlowItem,
     FormName,
-    ModelState,
     AmountConfig,
-    CardFormFlowItem, FormFlowStatus
-} from 'checkout/state';
+    CardFormFlowItem,
+    FormFlowStatus,
+    add, init
+} from 'checkout/form-flow';
 import {
     InvoiceTemplate,
     InvoiceTemplateLineCostRange,
     InvoiceTemplateLineCostUnlim,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
-import { add, init } from './form-flow-manager';
+import { ModelState } from 'checkout/state';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;

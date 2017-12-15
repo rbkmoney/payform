@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
-import { CardFormFlowItem, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
-import { getActive } from 'checkout/components/app/form-flow-manager';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
+import { CardFormFlowItem, getActive } from 'checkout/form-flow';
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;

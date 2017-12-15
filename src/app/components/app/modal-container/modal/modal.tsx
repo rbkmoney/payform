@@ -6,8 +6,15 @@ import { Info } from './info';
 import { Footer } from '../footer';
 import { MobileHeader } from './mobile-header';
 import { FormContainer } from './form-container';
+import { connect } from 'react-redux';
+import { State } from 'checkout/state';
+import { InitConfig } from 'checkout/config';
 
-const ModalDef: React.SFC = () => (
+export interface ModalProps {
+    initConfig: InitConfig;
+}
+
+const ModalDef: React.SFC<ModalProps> = (props) => (
     <CSSTransitionGroup
         component='div'
         transitionName={{
@@ -23,7 +30,7 @@ const ModalDef: React.SFC = () => (
         transitionLeave={true}
     >
         <div className={styles.form_container}>
-            <Close/>
+            {props.initConfig.popupMode ? null : <Close/>}
             <MobileHeader/>
             <Info/>
             <FormContainer/>
@@ -32,4 +39,8 @@ const ModalDef: React.SFC = () => (
     </CSSTransitionGroup>
 );
 
-export const Modal = ModalDef;
+const mapStateToProps = (state: State) => ({
+    initConfig: state.config.initConfig
+});
+
+export const Modal = connect(mapStateToProps)(ModalDef);
