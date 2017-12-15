@@ -58,9 +58,11 @@
     "form.header.terminals.label": "Все платёжные терминалы",
     "form.header.terminal.cashbox.label": "Касса в салоне связи",
     "form.header.final.success.label": "Успешная оплата",
+    "form.header.final.already.success.label": "Оплачено",
     "form.header.final.failed.label": "Не оплачено",
     "form.final.failed.dueTime.text": "Время на оплату  истекло",
-    "form.final.success.card.text": "Оплачено картой ${card}.  Чек отправлен вам на email и по смс",
+    "form.final.success.card.text": "Оплачено картой",
+    "form.final.success.check.text": " Чек отправлен вам на email",
     "form.input.delivery.repeat": "Повторить адрес доставки",
     "form.input.name.placeholder": "Имя",
     "form.input.phone.placeholder": "Телефон",

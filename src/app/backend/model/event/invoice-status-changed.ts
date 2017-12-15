@@ -3,7 +3,9 @@ import { ChangeType } from './change-type';
 
 export enum InvoiceStatuses {
     paid = 'paid',
-    cancelled = 'cancelled'
+    cancelled = 'cancelled',
+    fulfilled = 'fulfilled',
+    unpaid = 'unpaid'
 }
 
 export class InvoiceStatusChanged extends InvoiceChange {

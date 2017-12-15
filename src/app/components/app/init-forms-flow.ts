@@ -85,9 +85,9 @@ export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFl
     const checkResult = check(model.invoiceEvents);
     switch (checkResult.type) {
         case Type.success:
-        case Type.failed:
             return handleSuccessFailed(checkResult);
         case Type.unexplained:
+        case Type.failed:
             return handleUnexplained(initConfig, model);
         case Type.interaction:
             throw new Error('Unsupported event type');

@@ -41,17 +41,23 @@ interface ResultFormContent {
     image: string;
 }
 
-const gotFailedPayment = (locale: Locale, paymentChange: PaymentStatusChanged) => ({
+const gotFailedPayment = (locale: Locale, paymentChange: PaymentStatusChanged): ResultFormContent => ({
     error: true,
     header: locale['form.header.final.failed.label'],
     description: locale[paymentChange.error.code],
     image: 'http://www.rabbitpoets.com/wp-content/uploads/2009/07/spiceandwolf21.jpg'
 });
 
-const gotSuccessPayment = (locale: Locale) => ({
+const gotSuccessPayment = (locale: Locale): ResultFormContent => ({
     error: false,
     header: locale['form.header.final.success.label'],
-    description: locale['form.final.success.card.text'],
+    description: locale['form.final.success.card.text'] + locale['form.final.success.check.text'],
+    image: 'https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'
+});
+
+const alreadyPaid = (locale: Locale) => ({
+    error: false,
+    header: locale['form.header.final.already.success.label'],
     image: 'https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'
 });
 
@@ -65,7 +71,7 @@ const makeContent = (props: ResultFormProps): ResultFormContent => {
             const invoiceChange = change as InvoiceStatusChanged;
             switch (invoiceChange.status) {
                 case InvoiceStatuses.paid:
-                    return gotSuccessPayment(locale);
+                    return alreadyPaid(locale);
             }
             break;
         case ChangeType.PaymentStatusChanged:

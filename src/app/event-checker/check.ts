@@ -3,19 +3,21 @@ import {
     ChangeType,
     Event,
     InvoiceStatusChanged,
+    InvoiceStatuses,
     PaymentInteractionRequested,
-    PaymentStatusChanged
+    PaymentStatusChanged, PaymentStatuses
 } from 'checkout/backend';
 import { Type } from './type';
 import { EventCheckResult } from './event-check-result';
 
 const checkPaymentStatusChanged = (change: PaymentStatusChanged): EventCheckResult => {
     switch (change.status) {
-        case 'processed':
+        case PaymentStatuses.processed:
             return {type: Type.success, change};
-        case 'failed':
-        case 'cancelled':
+        case PaymentStatuses.failed:
+        case PaymentStatuses.cancelled:
             return {type: Type.failed, change};
+        // TODO need handle other types
     }
 };
 
@@ -24,8 +26,9 @@ const checkPaymentInteractionRequested = (change: PaymentInteractionRequested): 
 
 const checkInvoiceStatusChanged = (change: InvoiceStatusChanged): EventCheckResult => {
     switch (change.status) {
-        case 'paid':
-        case 'cancelled':
+        case InvoiceStatuses.paid:
+        case InvoiceStatuses.cancelled:
+        case InvoiceStatuses.fulfilled:
             return {type: Type.failed, change};
     }
 };
