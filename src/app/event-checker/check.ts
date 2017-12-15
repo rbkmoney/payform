@@ -27,6 +27,7 @@ const checkPaymentInteractionRequested = (change: PaymentInteractionRequested): 
 const checkInvoiceStatusChanged = (change: InvoiceStatusChanged): EventCheckResult => {
     switch (change.status) {
         case InvoiceStatuses.paid:
+            return {type: Type.success, change};
         case InvoiceStatuses.cancelled:
         case InvoiceStatuses.fulfilled:
             return {type: Type.failed, change};
