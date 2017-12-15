@@ -1,10 +1,20 @@
 import { toNumber, clone } from 'lodash';
-import { CardFormFlowItem, FormFlowStatus, FormName, ModelState } from 'checkout/state';
+import { CardFormFlowItem, FormFlowStatus, FormName, ModelState, ModalInteractionFlowItem } from 'checkout/state';
 import { add, getActive, next, update } from 'checkout/components/app/form-flow-manager';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { FormContainerProps } from './form-container-props';
 import { resolveStage, StepStatus } from 'checkout/lifecycle';
-import { FlowType, PayerType, PaymentToolType } from 'checkout/backend';
+import {
+    BrowserPostRequest,
+    Event,
+    FlowType,
+    InteractionType,
+    PayerType,
+    PaymentInteractionRequested,
+    PaymentToolType,
+    Redirect,
+    RequestType
+} from 'checkout/backend';
 import { getAmount } from '../amount-resolver';
 import { resolveEvents } from './form-flow-resolver/resolve-events';
 import { check, Type } from 'checkout/event-checker';
@@ -114,23 +124,48 @@ const pay = (p: FormContainerProps, i: CardFormFlowItem) => {
     resolveEvents(shortened, p);
 };
 
-const prepareAndGoNext = (f: FormFlowItem[], p: FormContainerProps): FormFlowItem[] => {
-    const withNext = add(f, {
-        formName: FormName.paymentMethods,
-        active: false,
-        status: FormFlowStatus.unprocessed
-    });
-    return next(withNext);
+const getRedirect = (redirect: Redirect): BrowserPostRequest => {
+    if (redirect.request.requestType === RequestType.BrowserPostRequest) {
+        return redirect.request as BrowserPostRequest;
+    }
+    throw new Error('Unsupported user interaction browser request type');
+};
+
+const getRequest = (events: Event[]): BrowserPostRequest => {
+    const checkResult = check(events);
+    const change = checkResult.change as PaymentInteractionRequested;
+    const interaction = change.userInteraction;
+    switch (interaction.interactionType) {
+        case InteractionType.Redirect:
+            return getRedirect(interaction as Redirect);
+        case InteractionType.PaymentTerminalReceipt:
+            throw new Error('Unsupported user interaction browser request type');
+    }
+};
+
+const prepareInteractionFlow = (f: FormFlowItem[], p: FormContainerProps): FormFlowItem[] => {
+    return add(f, {
+        formName: FormName.modalInteraction,
+        active: true,
+        status: FormFlowStatus.unprocessed,
+        request: getRequest(p.model.invoiceEvents)
+    } as ModalInteractionFlowItem);
 };
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
-    const checked = check(p.model.invoiceEvents);
-    if (checked.type === Type.unexplained) {
-        pay(p, i);
-    } else {
-        const processed = clone(i);
-        processed.status = FormFlowStatus.processed;
-        p.setFormFlow(prepareAndGoNext(update(p.formsFlow, processed), p));
+    const checkedEvent = check(p.model.invoiceEvents);
+    switch (checkedEvent.type) {
+        case Type.unexplained:
+            pay(p, i);
+            break;
+        case Type.interaction:
+            const processed = clone(i);
+            processed.status = FormFlowStatus.processed;
+            p.setFormFlow(next(prepareInteractionFlow(update(p.formsFlow, processed), p)));
+            break;
+        case Type.success:
+        case Type.failed:
+        // TODO need to implement
     }
 };
 
@@ -140,6 +175,9 @@ export const resolveFormFlow = (p: FormContainerProps) => {
         switch (activeFlow.formName) {
             case FormName.cardForm:
                 resolveCardForm(p, activeFlow as CardFormFlowItem);
+                break;
+            case FormName.resultForm:
+                // TODO need to implement
                 break;
         }
     }

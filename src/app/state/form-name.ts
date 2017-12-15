@@ -1,4 +1,6 @@
 export enum FormName {
     paymentMethods = 'paymentMethods',
-    cardForm = 'cardForm'
+    cardForm = 'cardForm',
+    modalInteraction = 'modalInteraction',
+    resultForm = 'resultForm'
 }
