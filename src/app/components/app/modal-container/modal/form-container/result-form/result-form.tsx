@@ -22,44 +22,44 @@ export interface ResultFormProps {
     setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
 }
 
-const ErrorBlock: React.SFC = (locale: Locale) => (
+const ActionBlock: React.SFC = (locale: Locale) => (
     <div className={styles.errorBlock}>
         {/*<div className={cx(styles.link_container, styles.help)}>
             <a href='' className={styles.link}>Как решить проблему?</a>
             <hr/>
         </div>*/}
-        <Button style='primary'>locale['form.button.pay.again.label']</Button>
-        <Button style='default' className={styles.pay_with_other}>locale['form.button.pay.other.card.label']</Button>
+        <Button style='primary'>{locale['form.button.pay.again.label']}</Button>
+        <Button style='default' className={styles.pay_with_other}>{locale['form.button.pay.other.card.label']}</Button>
         <div className={styles.link_container}>
-            <a href='' className={styles.link}>locale['form.payment.method.name.others.label']</a>
+            <a href='' className={styles.link}>{locale['form.payment.method.name.others.label'}</a>
             <hr/>
         </div>
     </div>
 );
 
 interface ResultFormContent {
-    error: boolean;
+    hasActions: boolean;
     header: string;
     description?: string;
     image: string;
 }
 
 const gotFailedPayment = (locale: Locale, paymentChange: PaymentStatusChanged): ResultFormContent => ({
-    error: true,
+    hasActions: true,
     header: locale['form.header.final.failed.label'],
     description: locale[paymentChange.error.code],
     image: 'http://www.rabbitpoets.com/wp-content/uploads/2009/07/spiceandwolf21.jpg'
 });
 
 const gotSuccessPayment = (locale: Locale): ResultFormContent => ({
-    error: false,
+    hasActions: false,
     header: locale['form.header.final.success.label'],
     description: locale['form.final.success.card.text'] + locale['form.final.success.check.text'],
     image: 'https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'
 });
 
 const alreadyPaid = (locale: Locale) => ({
-    error: false,
+    hasActions: false,
     header: locale['form.header.final.already.success.label'],
     image: 'https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'
 });
@@ -90,13 +90,13 @@ const makeContent = (props: ResultFormProps): ResultFormContent => {
 };
 
 const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
-    const {header, description, image, error} = makeContent(props);
+    const {header, description, image, hasActions} = makeContent(props);
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
             <img className={styles.image} src={image}/>
             {description ? <p className={styles.text}> {description} </p> : false}
-            {error ? <ErrorBlock {...props.locale}/> : false}
+            {hasActions ? <ActionBlock {...props.locale}/> : false}
         </form>
     );
 };
