@@ -8,7 +8,10 @@ import { FormFlowItem, getActive } from 'checkout/form-flow';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { ResultFormFlowItem } from 'checkout/form-flow';
 import {
-    ChangeType, InvoiceStatusChanged, InvoiceStatuses, PaymentStatusChanged,
+    ChangeType,
+    InvoiceStatusChanged,
+    InvoiceStatuses,
+    PaymentStatusChanged,
     PaymentStatuses
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
@@ -19,16 +22,16 @@ export interface ResultFormProps {
     setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
 }
 
-const ErrorBlock: React.SFC = () => (
+const ErrorBlock: React.SFC = (locale: Locale) => (
     <div className={styles.errorBlock}>
         {/*<div className={cx(styles.link_container, styles.help)}>
             <a href='' className={styles.link}>Как решить проблему?</a>
             <hr/>
         </div>*/}
-        <Button style='primary'>Попробовать ещё раз</Button>
-        <Button style='default' className={styles.pay_with_other}>Оплатить другой картой</Button>
+        <Button style='primary'>locale['form.button.pay.again.label']</Button>
+        <Button style='default' className={styles.pay_with_other}>locale['form.button.pay.other.card.label']</Button>
         <div className={styles.link_container}>
-            <a href='' className={styles.link}>Другие способы оплаты</a>
+            <a href='' className={styles.link}>locale['form.payment.method.name.others.label']</a>
             <hr/>
         </div>
     </div>
@@ -93,7 +96,7 @@ const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
             <h2 className={styles.title}>{header}</h2>
             <img className={styles.image} src={image}/>
             {description ? <p className={styles.text}> {description} </p> : false}
-            {error ? <ErrorBlock/> : false}
+            {error ? <ErrorBlock {...props.locale}/> : false}
         </form>
     );
 };
