@@ -24,14 +24,10 @@ export interface ResultFormProps {
 
 const ActionBlock: React.SFC = (locale: Locale) => (
     <div className={styles.errorBlock}>
-        {/*<div className={cx(styles.link_container, styles.help)}>
-            <a href='' className={styles.link}>Как решить проблему?</a>
-            <hr/>
-        </div>*/}
         <Button style='primary'>{locale['form.button.pay.again.label']}</Button>
         <Button style='default' className={styles.pay_with_other}>{locale['form.button.pay.other.card.label']}</Button>
         <div className={styles.link_container}>
-            <a href='' className={styles.link}>{locale['form.payment.method.name.others.label'}</a>
+            <a href='' className={styles.link}>{locale['form.payment.method.name.others.label']}</a>
             <hr/>
         </div>
     </div>
