@@ -6,8 +6,7 @@ import {
     Redirect,
     RequestType
 } from 'checkout/backend';
-import { add, FormName } from 'checkout/form-flow';
-import { check } from 'checkout/event-checker';
+import { add, FormName, getLastChange } from 'checkout/form-flow';
 import { FormFlowItem, FormFlowStatus, ModalInteractionFlowItem } from 'checkout/form-flow';
 import { FormContainerProps } from '../form-container-props';
 
@@ -19,8 +18,7 @@ const getRedirect = (redirect: Redirect): BrowserPostRequest => {
 };
 
 const getRequest = (events: Event[]): BrowserPostRequest => {
-    const checkResult = check(events);
-    const change = checkResult.change as PaymentInteractionRequested;
+    const change = getLastChange(events) as PaymentInteractionRequested;
     const interaction = change.userInteraction;
     switch (interaction.interactionType) {
         case InteractionType.Redirect:

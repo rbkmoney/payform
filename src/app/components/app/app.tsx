@@ -8,7 +8,6 @@ import { LayoutLoader } from './layout-loader';
 import { manageInitStage } from './manage-init-stage';
 import { State } from 'checkout/state';
 import { AppProps } from './app-props';
-import { initFormsFlow } from './init-forms-flow';
 import {
     getAppConfigAction,
     getInvoiceTemplateAction,
@@ -22,6 +21,7 @@ import {
     setInvoice
 } from 'checkout/actions';
 import { StageStatus } from 'checkout/lifecycle';
+import { initFormsFlow } from 'checkout/form-flow';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,

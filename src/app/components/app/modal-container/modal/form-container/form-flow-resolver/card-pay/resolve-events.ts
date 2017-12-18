@@ -1,7 +1,8 @@
 import { StepStatus } from 'checkout/lifecycle';
 import { FormContainerProps } from '../../form-container-props';
 import { Shortened } from '../form-flow-resolver';
-import { check, Type } from 'checkout/event-checker';
+import { checkLastChange } from 'checkout/form-flow';
+import { ChangeType } from 'checkout/backend';
 
 const pollEvents = (p: FormContainerProps) => {
     const endpoint = p.config.appConfig.capiEndpoint;
@@ -10,8 +11,11 @@ const pollEvents = (p: FormContainerProps) => {
     p.pollInvoiceEvents(endpoint, token, invoiceID);
 };
 
-export const resolveEvents = (fn: Shortened, current: FormContainerProps) => {
-    const done = check(current.model.invoiceEvents).type !== Type.unexplained;
+export const resolveEvents = (fn: Shortened, current: FormContainerProps, retry?: boolean) => {
+    const isLastChange = checkLastChange.bind(null, current.model.invoiceEvents);
+    const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
+    const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
+    const done = isInvoiceChange() || isPaymentChange();
     const start = current.cardPayment.createPayment === StepStatus.done;
-    fn('pollEvents', pollEvents.bind(null, current), done, start);
+    fn('pollEvents', pollEvents.bind(null, current), done, start, retry);
 };

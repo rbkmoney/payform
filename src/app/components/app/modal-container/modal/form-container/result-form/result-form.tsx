@@ -86,15 +86,17 @@ const makeContent = (props: ResultFormProps): ResultFormContent => {
 };
 
 const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
-    const {header, description, image, hasActions} = makeContent(props);
-    return (
-        <form className={styles.form}>
-            <h2 className={styles.title}>{header}</h2>
-            <img className={styles.image} src={image}/>
-            {description ? <p className={styles.text}> {description} </p> : false}
-            {hasActions ? <ActionBlock {...props.locale}/> : false}
-        </form>
-    );
+    // const {header, description, image, hasActions} = makeContent(props);
+    // return (
+    //     <form className={styles.form}>
+    //         <h2 className={styles.title}>{header}</h2>
+    //         <img className={styles.image} src={image}/>
+    //         {description ? <p className={styles.text}> {description} </p> : false}
+    //         {hasActions ? <ActionBlock {...props.locale}/> : false}
+    //     </form>
+    // );
+
+    return (<div>XEP</div>);
 };
 
 const mapStateToProps = (state: State) => ({
