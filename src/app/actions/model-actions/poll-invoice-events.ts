@@ -14,13 +14,13 @@ export type PollInvoiceEventsDispatch = (dispatch: Dispatch<PollInvoiceEvents | 
 const pollingRetries = 60;
 const pollingTimeout = 300;
 
-export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, invoiceID: string): PollInvoiceEventsDispatch =>
+export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, invoiceID: string, eventID: number): PollInvoiceEventsDispatch =>
     (dispatch) => {
         let pollCount = 0;
         (function poll() {
             setTimeout(() => {
-                capiRequest(capiEndpoint, accessToken, invoiceID).then((events) => {
-                    const isLastChange = checkLastChange.bind(null, events);
+                capiRequest(capiEndpoint, accessToken, invoiceID, 10, eventID).then((events) => {
+                    const isLastChange = checkLastChange.bind(null, events, eventID);
                     const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
                     const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
                     const isInteraction = isLastChange.bind(null, ChangeType.PaymentInteractionRequested);

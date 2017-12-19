@@ -2,12 +2,13 @@ import {
     add,
     FormFlowItem,
     FormFlowStatus,
-    FormName, getLastChange,
+    FormName,
+    getLastChange,
     ResultFormFlowItem
 } from 'checkout/form-flow';
 import { FormContainerProps } from '../form-container-props';
 
-export const prepareResultationFlow = (f: FormFlowItem[], p: FormContainerProps): FormFlowItem[] => {
+export const prepareResultFlow = (f: FormFlowItem[], p: FormContainerProps): FormFlowItem[] => {
     return add(f, {
         formName: FormName.resultForm,
         active: true,

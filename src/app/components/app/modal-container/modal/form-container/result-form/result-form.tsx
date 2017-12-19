@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './result-form.scss';
 import { Button } from 'checkout/components';
 import { connect } from 'react-redux';
 import { State } from 'checkout/state';
-import { bindActionCreators, Dispatch } from 'redux';
-import { FormFlowItem, getActive } from 'checkout/form-flow';
+import { FormFlowItem, FormFlowStatus, getActive } from 'checkout/form-flow';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { ResultFormFlowItem } from 'checkout/form-flow';
 import {
@@ -85,18 +85,26 @@ const makeContent = (props: ResultFormProps): ResultFormContent => {
     }
 };
 
-const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
-    // const {header, description, image, hasActions} = makeContent(props);
-    // return (
-    //     <form className={styles.form}>
-    //         <h2 className={styles.title}>{header}</h2>
-    //         <img className={styles.image} src={image}/>
-    //         {description ? <p className={styles.text}> {description} </p> : false}
-    //         {hasActions ? <ActionBlock {...props.locale}/> : false}
-    //     </form>
-    // );
+const ResultBlock: React.SFC<ResultFormProps> = (props) => {
+    const {header, description, image, hasActions} = makeContent(props);
+    return (
+        <form className={styles.form}>
+            <h2 className={styles.title}>{header}</h2>
+            <img className={styles.image} src={image}/>
+            {description ? <p className={styles.text}> {description} </p> : false}
+            {hasActions ? <ActionBlock {...props.locale}/> : false}
+        </form>
+    );
+};
 
-    return (<div>XEP</div>);
+const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
+    const flowItem = getActive(props.flowItems) as ResultFormFlowItem;
+    return (
+        <div>
+            {flowItem.status === FormFlowStatus.inProcess ? <div className={styles.loadingSubstrate}/> : false}
+            {flowItem.status === FormFlowStatus.processed ? <ResultBlock {...props}/> : false}
+        </div>
+    );
 };
 
 const mapStateToProps = (state: State) => ({

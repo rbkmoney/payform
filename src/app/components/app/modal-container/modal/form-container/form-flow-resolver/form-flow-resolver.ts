@@ -1,49 +1,64 @@
 import { clone } from 'lodash';
 import { FormContainerProps } from '../form-container-props';
 import { CardFormFlowItem, FormFlowStatus } from 'checkout/form-flow/flow-item';
-import { FormFlowItem, FormName, getActive, next, update } from 'checkout/form-flow';
+import { FormFlowItem, FormName, getActive, getLastEventID, next, update } from 'checkout/form-flow';
 import { pay } from './card-pay';
-import { prepareInteractionFlow } from './prepare-interaction-flow';
-import { prepareResultationFlow } from './prepare-resultation-flow';
+import { addActiveInteraction } from '../../../../../../form-flow/interaction/add-active-interaction';
+import { prepareResultFlow } from './prepare-result-flow';
 import { checkLastChange } from 'checkout/form-flow/event-checker';
 import { ChangeType } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
-import { pollResultEvents } from './poll-result-events';
+import { getPaymentResult } from './get-payment-result';
 import { StepStatus } from 'checkout/lifecycle';
 
 export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean, retryCondition?: boolean) => void;
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
-    const e = p.model.invoiceEvents;
-    if (!e && p.config.initConfig.integrationType === IntegrationType.invoiceTemplate) {
+    const events = p.model.invoiceEvents;
+    if (!events && p.config.initConfig.integrationType === IntegrationType.invoiceTemplate) {
         pay(p, i);
     } else {
-        const isLastChange = checkLastChange.bind(null, p.model.invoiceEvents);
+        const isLastChange = checkLastChange.bind(null, events, i.handledEventID);
         const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
         const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
         const isCardInteraction = isLastChange.bind(null, ChangeType.PaymentInteractionRequested);
+
         const processed = clone(i);
+        processed.handledEventID = getLastEventID(events);
+        processed.status = FormFlowStatus.processed;
+
         if (isPaymentChange() || isInvoiceChange()) {
-            processed.status = FormFlowStatus.processed;
-            p.setFormFlow(next(prepareResultationFlow(update(p.formsFlow, processed), p)));
+            p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
         } else if (isCardInteraction()) {
-            processed.status = FormFlowStatus.processed;
             p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.suspend);
-            p.setFormFlow(next(prepareInteractionFlow(update(p.formsFlow, processed), p)));
+            p.setFormFlow(next(addActiveInteraction(update(p.formsFlow, processed), events)));
         } else {
             pay(p, i);
         }
     }
 };
 
-const resolveInProcess = (p: FormContainerProps, flow: FormFlowItem) => {
-    switch (flow.formName) {
+const resolveResultForm = (p: FormContainerProps, i: FormFlowItem) => {
+    const isLastChange = checkLastChange.bind(null, p.model.invoiceEvents, i.handledEventID);
+    const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
+    const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
+    if (isPaymentChange() || isInvoiceChange()) {
+        const processed = clone(i);
+        processed.handledEventID = getLastEventID(p.model.invoiceEvents);
+        processed.status = FormFlowStatus.processed;
+        p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
+    } else {
+        getPaymentResult(p, i);
+    }
+};
+
+const resolveInProcess = (p: FormContainerProps, i: FormFlowItem) => {
+    switch (i.formName) {
         case FormName.cardForm:
-            resolveCardForm(p, flow as CardFormFlowItem);
+            resolveCardForm(p, i as CardFormFlowItem);
             break;
         case FormName.resultForm:
-            p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.started);
-            pollResultEvents(p, flow);
+            resolveResultForm(p, i);
             break;
     }
 };

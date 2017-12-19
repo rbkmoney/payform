@@ -1,4 +1,13 @@
-import { add, AmountConfig, CardFormFlowItem, FormFlowItem, FormFlowStatus, FormName, init } from 'checkout/form-flow';
+import {
+    add,
+    AmountConfig,
+    CardFormFlowItem,
+    FormFlowItem,
+    FormFlowStatus,
+    FormName,
+    getLastEventID,
+    init
+} from 'checkout/form-flow';
 import {
     InvoiceTemplate,
     InvoiceTemplateLineCostRange,
@@ -43,7 +52,8 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     formName: FormName.cardForm,
     active: false,
     amountConfig: toAmountConfig(c, m),
-    status: FormFlowStatus.unprocessed
+    status: FormFlowStatus.unprocessed,
+    handledEventID: getLastEventID(m.invoiceEvents)
 });
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {

@@ -1,6 +1,12 @@
 import { clone } from 'lodash';
-import { add, getByFormName, next, update, FormFlowItem, FormFlowStatus, FormName } from 'checkout/form-flow';
-import { ResultFormFlowItem } from 'checkout/form-flow/flow-item';
+import {
+    add, update,
+    FormFlowItem,
+    FormFlowStatus,
+    FormName,
+    getByFormName, next,
+    ResultFormFlowItem
+} from 'checkout/form-flow';
 
 const prepareResultFlow = (f: FormFlowItem[]): FormFlowItem[] => add(f, {
     formName: FormName.resultForm,

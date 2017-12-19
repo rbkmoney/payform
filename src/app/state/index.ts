@@ -6,3 +6,4 @@ export * from './error-state';
 export * from './forms-state';
 export * from './state';
 export * from './forms';
+export * from './payment-state';

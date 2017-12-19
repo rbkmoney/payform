@@ -3,18 +3,23 @@ import { ChangeType, Event, InvoiceStatuses, PaymentStatuses, InvoiceChange } fr
 
 type Statuses = PaymentStatuses | InvoiceStatuses;
 
-export const getLastChange = (e: Event[]): InvoiceChange => {
+export const getLastEventID = (e: Event[]): number => {
+    const lastEvent = last(e);
+    return lastEvent ? lastEvent.id : null;
+};
+
+export const getLastChange = (e: Event[], lastHandledEventID: number = 0): InvoiceChange => {
     const event = last(e);
-    if (!event) {
+    if (!event || event.id <= lastHandledEventID) {
         return;
     }
     return last(event.changes);
 };
 
-export const checkLastChange = (e: Event[], changeType: ChangeType, ...statuses: Statuses[]): boolean => {
-    const change = getLastChange(e) as any;
+export const checkLastChange = (e: Event[], lastHandledEventID: number, changeType: ChangeType, ...statuses: Statuses[]): boolean => {
+    const change = getLastChange(e, lastHandledEventID) as any;
     if (!change) {
-        return;
+        return false;
     }
     const typeChecked = change.changeType === changeType;
     let statusChecked = true;
