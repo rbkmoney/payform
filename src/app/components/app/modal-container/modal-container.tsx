@@ -10,7 +10,6 @@ import { finishInteraction, FormFlowItem, FormName, getActive } from 'checkout/f
 import { UserInteractionModal } from './user-interaction-modal';
 import { State } from 'checkout/state';
 import { Event } from 'checkout/backend';
-import { FormFlowStatus } from 'checkout/form-flow/flow-item/flow-status';
 
 export interface ModalContainerProps {
     formsFlow: FormFlowItem[];

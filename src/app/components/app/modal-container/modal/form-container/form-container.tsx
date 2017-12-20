@@ -22,6 +22,7 @@ import {
 import { CardFormFlowItem, FormFlowStatus, FormName, getActive, getByFormName } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
+import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -66,7 +67,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     }
 
     render() {
-        const {formName, status} = getActive(this.props.formsFlow);
+        const {formName, status, view} = getActive(this.props.formsFlow);
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
@@ -77,7 +78,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 })}>
                     <CSSTransitionGroup
                         component='div'
-                        transitionName='formsAnimation'
+                        transitionName={view.animation}
                         transitionEnterTimeout={550}
                         transitionLeaveTimeout={550}
                     >

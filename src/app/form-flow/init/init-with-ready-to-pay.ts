@@ -16,6 +16,7 @@ import {
 } from 'checkout/backend';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
+import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -53,7 +54,10 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     active: false,
     amountConfig: toAmountConfig(c, m),
     status: FormFlowStatus.unprocessed,
-    handledEventID: getLastEventID(m.invoiceEvents)
+    handledEventID: getLastEventID(m.invoiceEvents),
+    view: {
+        animation: FlowItemViewAnimation.formsAnimation
+    }
 });
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
@@ -66,7 +70,10 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
         result = add(result, {
             formName: FormName.paymentMethods,
             active: false,
-            status: FormFlowStatus.unprocessed
+            status: FormFlowStatus.unprocessed,
+            view: {
+                animation: FlowItemViewAnimation.formsAnimation
+            }
         });
     } else {
         result = add(result, toCardForm(c, m));

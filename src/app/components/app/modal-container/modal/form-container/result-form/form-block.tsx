@@ -6,6 +6,7 @@ import { makeContent } from './make-content';
 import { IntegrationType } from 'checkout/config';
 import { StepStatus } from 'checkout/lifecycle';
 import { CardFormFlowItem, FormFlowStatus, FormName, getByFormName } from 'checkout/form-flow';
+import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ const retry = (e: any, props: ResultFormProps) => {
     const cardForm = getByFormName(props.formsFlow, FormName.cardForm) as CardFormFlowItem;
     cardForm.active = true;
     cardForm.status = FormFlowStatus.inProcess;
+    cardForm.view.animation = FlowItemViewAnimation.reverseFormsAnimation;
     props.setFormFlow([cardForm]);
 };
 
@@ -44,6 +46,7 @@ const choseAnotherCard = (e: any, props: ResultFormProps) => {
     cardForm.status = FormFlowStatus.unprocessed;
     cardForm.values = null;
     cardForm.needToReset = true;
+    cardForm.view.animation = FlowItemViewAnimation.reverseFormsAnimation;
     props.setFormFlow([cardForm]);
 };
 
