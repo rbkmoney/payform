@@ -1,6 +1,6 @@
-import { PaymentMethod } from './payment-method';
+import { PaymentMethod, PaymentMethodsNames } from './payment-method';
 
 export class PaymentTerminal extends PaymentMethod {
-    method: 'PaymentTerminal';
+    method: PaymentMethodsNames.PaymentTerminal;
     providers: 'euroset';
 }
