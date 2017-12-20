@@ -85,16 +85,28 @@
     }
 }
 
+.appearLoader {
+    animation: fadein .5s;
+}
+
+.enterLoader {
+    animation: fadein .5s;
+}
+
+.leaveLoader {
+    animation: fadeout .5s;
+}
+
 .appearForm {
-    animation: slidelefttorightin 3s;
-    position: absolute;
+    animation: slidelefttorightin .6s;
+
 }
 
 .enterForm {
-    background: transparent;
+    animation: slidelefttorightin .6s;
+    position: absolute;
 }
 
 .leaveForm {
-    animation: slideleftorightout 3s;
-    position: absolute;
+    animation: slidelefttorightout .6s;
 }

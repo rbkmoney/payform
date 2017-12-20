@@ -29,9 +29,9 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
         const {formName, status} = getActive(this.props.formsFlow);
         const isResultFormAfterInteractionActive = formName === FormName.resultForm && status === FormFlowStatus.inProcess;
         const isInteractionActive = formName === FormName.modalInteraction;
-        console.log('isResultFormAfterInteractionActive', isResultFormAfterInteractionActive);
-        console.log('isInteractionActive', isInteractionActive);
-        console.log('====');
+        // console.log('isResultFormAfterInteractionActive', isResultFormAfterInteractionActive);
+        // console.log('isInteractionActive', isInteractionActive);
+        // console.log('====');
         return (
             <CSSTransitionGroup
                 component='div'

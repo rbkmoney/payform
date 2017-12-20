@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
@@ -18,7 +19,7 @@ import {
     setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
-import { CardFormFlowItem, FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
+import { CardFormFlowItem, FormFlowStatus, FormName, getActive, hasBack } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
 
@@ -62,6 +63,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     render() {
         const {formName, status} = getActive(this.props.formsFlow);
+        const isHasBack = hasBack(this.props.formsFlow);
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
@@ -70,10 +72,40 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                     [styles._cardFormAmount]: this.isCardFormAmount(),
                     [styles._resultForm]: formName === FormName.resultForm
                 })}>
-                    {formName === FormName.paymentMethods ? <PaymentMethods/> : false}
-                    {formName === FormName.cardForm ? <CardForm/> : false}
-                    {formName === FormName.resultForm ? <ResultForm/> : false}
-                    {status === FormFlowStatus.inProcess ? <FormLoader/> : false}
+                    <CSSTransitionGroup
+                        component='div'
+                        transitionName={{
+                            appear: isHasBack ? styles.appearForm : '123',
+                            enter: isHasBack ? styles.enterForm : '123',
+                            leave: styles.leaveForm
+                        }}
+                        transitionLeaveTimeout={500}
+                        transitionEnterTimeout={500}
+                        transitionAppearTimeout={500}
+                        transitionAppear={true}
+                        transitionEnter={true}
+                        transitionLeave={true}
+                    >
+                        {formName === FormName.paymentMethods ? <PaymentMethods/> : null}
+                        {formName === FormName.cardForm ? <CardForm/> : null}
+                        {formName === FormName.resultForm ? <ResultForm/> : null}
+                    </CSSTransitionGroup>
+                    <CSSTransitionGroup
+                        component='div'
+                        transitionName={{
+                            appear: styles.appearLoader,
+                            enter: styles.enterLoader,
+                            leave: styles.leaveLoader
+                        }}
+                        transitionLeaveTimeout={450}
+                        transitionEnterTimeout={450}
+                        transitionAppearTimeout={450}
+                        transitionAppear={true}
+                        transitionEnter={true}
+                        transitionLeave={true}
+                    >
+                        {status === FormFlowStatus.inProcess ? <FormLoader/> : null}
+                    </CSSTransitionGroup>
                 </div>
             </div>
         );
