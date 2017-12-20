@@ -14,6 +14,7 @@ import {
 } from 'checkout/backend';
 import { ModelState } from 'checkout/state';
 import { check, EventCheckResult, Type } from 'checkout/event-checker';
+import { PaymentMethodsFormFlowItem } from 'checkout/form-flow/flow-item/payment-methods-form-flow-item';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -38,7 +39,7 @@ const toTemplateAmountConfig = (t: InvoiceTemplate): AmountConfig => {
     return {visible: false};
 };
 
-const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
+export const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
     switch (c.integrationType) {
         case IntegrationType.invoiceTemplate:
             return toTemplateAmountConfig(m.invoiceTemplate);
@@ -53,7 +54,7 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     status: FormFlowStatus.unprocessed
 });
 
-const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
+const isMultiMethods = (initConfig: InitConfig, model: ModelState): boolean => {
     return initConfig.terminals && model.paymentMethods.length > 1;
 };
 
@@ -64,7 +65,7 @@ const handleUnexplained = (initConfig: InitConfig, model: ModelState): FormFlowI
             formName: FormName.paymentMethods,
             active: false,
             status: FormFlowStatus.unprocessed
-        });
+        } as PaymentMethodsFormFlowItem);
     } else {
         result = add(result, toCardForm(initConfig, model));
     }

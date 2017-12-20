@@ -1,7 +1,7 @@
 import { PaymentSystem } from './payment-system';
-import { PaymentMethod } from './payment-method';
+import { PaymentMethod, PaymentMethodsNames } from './payment-method';
 
 export class BankCard extends PaymentMethod {
-    method: 'BankCard';
+    method: PaymentMethodsNames.BankCard;
     paymentSystems: PaymentSystem[];
 }
