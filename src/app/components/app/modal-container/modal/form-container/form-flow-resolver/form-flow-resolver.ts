@@ -1,42 +1,82 @@
 import { clone } from 'lodash';
 import { FormContainerProps } from '../form-container-props';
 import { CardFormFlowItem, FormFlowStatus } from 'checkout/form-flow/flow-item';
-import { check, Type } from 'checkout/event-checker';
-import { FormName, getActive, next, update } from 'checkout/form-flow';
+import {
+    addActiveInteraction,
+    FormFlowItem,
+    FormName,
+    getActive,
+    getLastEventID,
+    next,
+    update
+} from 'checkout/form-flow';
 import { pay } from './card-pay';
-import { prepareInteractionFlow } from './prepare-interaction-flow';
-import { prepareResultationFlow } from './prepare-resultation-flow';
+import { prepareResultFlow } from './prepare-result-flow';
+import { checkLastChange } from 'checkout/form-flow/event-checker';
+import { ChangeType } from 'checkout/backend';
+import { IntegrationType } from 'checkout/config';
+import { getPaymentResult } from './get-payment-result';
+import { StepStatus } from 'checkout/lifecycle';
 
-export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
+export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean, retryCondition?: boolean) => void;
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
-    const checkedEvent = check(p.model.invoiceEvents);
-    const processed = clone(i);
-    switch (checkedEvent.type) {
-        case Type.unexplained:
+    const events = p.model.invoiceEvents;
+    if (!events && p.config.initConfig.integrationType === IntegrationType.invoiceTemplate) {
+        pay(p, i);
+    } else {
+        const isLastChange = checkLastChange.bind(null, events, i.handledEventID);
+        const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
+        const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
+        const isCardInteraction = isLastChange.bind(null, ChangeType.PaymentInteractionRequested);
+
+        const processed = clone(i);
+        processed.handledEventID = getLastEventID(events);
+        processed.status = FormFlowStatus.processed;
+
+        if (isPaymentChange() || isInvoiceChange()) {
+            p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
+        } else if (isCardInteraction()) {
+            p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.suspend);
+            p.setFormFlow(next(addActiveInteraction(update(p.formsFlow, processed), events)));
+        } else {
             pay(p, i);
+        }
+    }
+};
+
+const resolveResultForm = (p: FormContainerProps, i: FormFlowItem) => {
+    const isLastChange = checkLastChange.bind(null, p.model.invoiceEvents, i.handledEventID);
+    const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
+    const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
+    if (isPaymentChange() || isInvoiceChange()) {
+        const processed = clone(i);
+        processed.handledEventID = getLastEventID(p.model.invoiceEvents);
+        processed.status = FormFlowStatus.processed;
+        p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
+    } else {
+        getPaymentResult(p, i);
+    }
+};
+
+const resolveInProcess = (p: FormContainerProps, i: FormFlowItem) => {
+    switch (i.formName) {
+        case FormName.cardForm:
+            resolveCardForm(p, i as CardFormFlowItem);
             break;
-        case Type.interaction:
-            processed.status = FormFlowStatus.processed;
-            p.setFormFlow(next(prepareInteractionFlow(update(p.formsFlow, processed), p)));
+        case FormName.resultForm:
+            resolveResultForm(p, i);
             break;
-        case Type.success:
-        case Type.failed:
-            processed.status = FormFlowStatus.processed;
-            p.setFormFlow(next(prepareResultationFlow(update(p.formsFlow, processed), p)));
     }
 };
 
 export const resolveFormFlow = (p: FormContainerProps) => {
     const activeFlow = getActive(p.formsFlow);
-    if (activeFlow.status === FormFlowStatus.inProcess) {
-        switch (activeFlow.formName) {
-            case FormName.cardForm:
-                resolveCardForm(p, activeFlow as CardFormFlowItem);
-                break;
-            case FormName.resultForm:
-                // TODO need to implement
-                break;
-        }
+    switch (activeFlow.status) {
+        case FormFlowStatus.inProcess:
+            resolveInProcess(p, activeFlow);
+            break;
+        case FormFlowStatus.retry:
+            throw new Error('Unhandled FormFlowStatus');
     }
 };

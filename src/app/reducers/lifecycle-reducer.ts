@@ -2,10 +2,11 @@ import { LifecycleState } from 'checkout/state';
 import {
     TypeKeys,
     ChangeStepStatus,
-    ChangeStageStatus
+    ChangeStageStatus,
+    ResetStage
 } from 'checkout/actions';
 
-type LifecycleReducerAction = ChangeStepStatus | ChangeStageStatus;
+type LifecycleReducerAction = ChangeStepStatus | ChangeStageStatus | ResetStage;
 
 const initState = {
     initialization: {
@@ -32,6 +33,13 @@ export function lifecycleReducer(s: LifecycleState = initState, action: Lifecycl
                 [action.meta.stageName]: {
                     ...(s as any)[action.meta.stageName],
                     stageStatus: action.payload
+                }
+            };
+        case TypeKeys.LIFECYCLE_RESET_STAGE:
+            return {
+                ...s,
+                [action.meta.stageName]: {
+                    stageStatus: 'pristine'
                 }
             };
     }

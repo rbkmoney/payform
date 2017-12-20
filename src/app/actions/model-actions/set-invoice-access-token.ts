@@ -5,7 +5,7 @@ export interface SetInvoiceAccessToken extends AbstractAction<string> {
     payload: string;
 }
 
-export const setInvoiceAccessToken = (token: string) => ({
+export const setInvoiceAccessToken = (token: string): SetInvoiceAccessToken => ({
     type: TypeKeys.SET_INVOICE_ACCESS_TOKEN,
     payload: token
 });

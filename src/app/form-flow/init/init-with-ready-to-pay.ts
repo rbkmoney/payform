@@ -1,10 +1,12 @@
-import { InitConfig, IntegrationType } from 'checkout/config';
 import {
-    FormFlowItem,
-    FormName,
+    add,
     AmountConfig,
     CardFormFlowItem,
-    FormFlowStatus, add, init, ResultFormFlowItem
+    FormFlowItem,
+    FormFlowStatus,
+    FormName,
+    getLastEventID,
+    init
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -12,8 +14,8 @@ import {
     InvoiceTemplateLineCostUnlim,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
+import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
-import { check, EventCheckResult, Type } from 'checkout/event-checker';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -50,46 +52,24 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     formName: FormName.cardForm,
     active: false,
     amountConfig: toAmountConfig(c, m),
-    status: FormFlowStatus.unprocessed
+    status: FormFlowStatus.unprocessed,
+    handledEventID: getLastEventID(m.invoiceEvents)
 });
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
     return initConfig.terminals && model.paymentMethods.length > 1;
 };
 
-const handleUnexplained = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
+export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
-    if (isMultiMethods(initConfig, model)) {
+    if (isMultiMethods(c, m)) {
         result = add(result, {
             formName: FormName.paymentMethods,
             active: false,
             status: FormFlowStatus.unprocessed
         });
     } else {
-        result = add(result, toCardForm(initConfig, model));
+        result = add(result, toCardForm(c, m));
     }
     return init(result);
-};
-
-const handleSuccessFailed = (checkResult: EventCheckResult): FormFlowItem[] => {
-    let result: FormFlowItem[] = [];
-    result = add(result, {
-        formName: FormName.resultForm,
-        active: false,
-        change: checkResult.change
-    } as ResultFormFlowItem);
-    return init(result);
-};
-
-export const initFormsFlow = (initConfig: InitConfig, model: ModelState): FormFlowItem[] => {
-    const checkResult = check(model.invoiceEvents);
-    switch (checkResult.type) {
-        case Type.success:
-            return handleSuccessFailed(checkResult);
-        case Type.unexplained:
-        case Type.failed:
-            return handleUnexplained(initConfig, model);
-        case Type.interaction:
-            throw new Error('Unsupported event type');
-    }
 };
