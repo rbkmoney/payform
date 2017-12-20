@@ -1,9 +1,16 @@
 import { clone } from 'lodash';
 import { FormContainerProps } from '../form-container-props';
 import { CardFormFlowItem, FormFlowStatus } from 'checkout/form-flow/flow-item';
-import { FormFlowItem, FormName, getActive, getLastEventID, next, update } from 'checkout/form-flow';
+import {
+    addActiveInteraction,
+    FormFlowItem,
+    FormName,
+    getActive,
+    getLastEventID,
+    next,
+    update
+} from 'checkout/form-flow';
 import { pay } from './card-pay';
-import { addActiveInteraction } from '../../../../../../form-flow/interaction/add-active-interaction';
 import { prepareResultFlow } from './prepare-result-flow';
 import { checkLastChange } from 'checkout/form-flow/event-checker';
 import { ChangeType } from 'checkout/backend';

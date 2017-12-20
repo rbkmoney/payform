@@ -1,4 +1,4 @@
-import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState, FormsState, PaymentState } from '.';
+import { ResultState, ConfigState, ModelState, LifecycleState, ErrorState, FormsState } from '.';
 import { FormFlowItem } from 'checkout/form-flow';
 
 export type State = {
@@ -9,5 +9,4 @@ export type State = {
     readonly formsFlow: FormFlowItem[];
     readonly error: ErrorState;
     readonly form: FormsState;
-    // readonly payment: PaymentState;
 }
