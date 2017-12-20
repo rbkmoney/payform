@@ -6,14 +6,15 @@ import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { FormFlowItem, FormName, getActive } from 'checkout/form-flow';
+import { finishInteraction, FormFlowItem, FormName, getActive } from 'checkout/form-flow';
 import { UserInteractionModal } from './user-interaction-modal';
-import { finishInteraction } from './finish-interaction';
 import { State } from 'checkout/state';
+import { Event } from 'checkout/backend';
 import { FormFlowStatus } from 'checkout/form-flow/flow-item/flow-status';
 
 export interface ModalContainerProps {
     formsFlow: FormFlowItem[];
+    invoiceEvents: Event[];
     setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
 }
 
@@ -74,7 +75,8 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow
+    formsFlow: state.formsFlow,
+    invoiceEvents: state.model.invoiceEvents
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

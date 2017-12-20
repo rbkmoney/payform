@@ -55,6 +55,9 @@ class CardFormDef extends React.Component<Props> {
 
     componentWillMount() {
         this.formFlow = getByFormName(this.props.formsFlow, FormName.cardForm) as CardFormFlowItem;
+        if (this.formFlow.needToReset) {
+            this.props.reset();
+        }
     }
 
     componentWillReceiveProps(props: Props) {

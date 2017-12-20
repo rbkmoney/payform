@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
-import { getInvoiceEvents as capiRequest } from 'checkout/backend';
+import { ChangeType, getInvoiceEvents as capiRequest } from 'checkout/backend';
 import { Event } from 'checkout/backend/model';
-import { check, Type } from 'checkout/event-checker';
+import { checkLastChange } from 'checkout/form-flow';
 
 export interface PollInvoiceEvents extends AbstractAction<Event[]> {
     type: TypeKeys.GET_INVOICE_EVENTS;
@@ -14,13 +14,17 @@ export type PollInvoiceEventsDispatch = (dispatch: Dispatch<PollInvoiceEvents | 
 const pollingRetries = 60;
 const pollingTimeout = 300;
 
-export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, invoiceID: string): PollInvoiceEventsDispatch =>
+export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, invoiceID: string, eventID: number): PollInvoiceEventsDispatch =>
     (dispatch) => {
         let pollCount = 0;
         (function poll() {
             setTimeout(() => {
-                capiRequest(capiEndpoint, accessToken, invoiceID).then((events) => {
-                    if (check(events).type !== Type.unexplained) {
+                capiRequest(capiEndpoint, accessToken, invoiceID, 10, eventID).then((events) => {
+                    const isLastChange = checkLastChange.bind(null, events, eventID);
+                    const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
+                    const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
+                    const isInteraction = isLastChange.bind(null, ChangeType.PaymentInteractionRequested);
+                    if (isInvoiceChange() || isPaymentChange() || isInteraction()) {
                         dispatch({
                             type: TypeKeys.GET_INVOICE_EVENTS,
                             payload: events

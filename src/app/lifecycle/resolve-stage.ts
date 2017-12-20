@@ -7,9 +7,10 @@ export const resolveStage = (stage: any,
                              stepName: string,
                              action: () => any,
                              doneCondition: boolean,
-                             startCondition: boolean = true) => {
+                             startCondition: boolean = true,
+                             retryCondition: boolean = false) => {
     const isNotStarted = !stage[stepName];
-    if (startCondition && isNotStarted) {
+    if (startCondition && (isNotStarted || retryCondition)) {
         action();
         statusChanger(stageName, stepName, StepStatus.started);
     }

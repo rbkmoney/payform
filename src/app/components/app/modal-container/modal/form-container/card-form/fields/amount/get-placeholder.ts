@@ -13,6 +13,9 @@ const toRangePlaceholder = (cost: InvoiceTemplateLineCostRange): string => {
 };
 
 export const getPlaceholder = (cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim, localeString: string): string => {
+    if (!cost) {
+        return;
+    }
     switch (cost.costType) {
         case 'InvoiceTemplateLineCostUnlim':
             return toUnlimPlaceholder(localeString);

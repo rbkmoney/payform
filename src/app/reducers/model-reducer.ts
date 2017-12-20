@@ -10,7 +10,8 @@ import {
     CreateInvoiceWithTemplate,
     CreatePaymentResource,
     CreatePayment,
-    SetInvoiceAccessToken
+    SetInvoiceAccessToken,
+    SetModel
 } from 'checkout/actions';
 
 type ModelReducerAction =
@@ -23,7 +24,8 @@ type ModelReducerAction =
     CreateInvoiceWithTemplate |
     CreatePaymentResource |
     CreatePayment |
-    SetInvoiceAccessToken;
+    SetInvoiceAccessToken |
+    SetModel;
 
 const initialState = {
     invoiceTemplate: null,
@@ -86,6 +88,8 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
                 ...s,
                 invoiceAccessToken: action.payload
             };
+        case TypeKeys.SET_MODEL:
+            return action.payload;
     }
     return s;
 }

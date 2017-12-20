@@ -13,6 +13,6 @@ export type ModelState = {
     readonly invoiceAccessToken?: string;
     readonly invoiceEvents?: Event[];
     readonly paymentMethods?: PaymentMethod[];
-    readonly paymentResource: PaymentResource;
-    readonly payment: Payment;
+    readonly paymentResource?: PaymentResource;
+    readonly payment?: Payment;
 }

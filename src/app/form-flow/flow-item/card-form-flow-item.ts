@@ -12,4 +12,5 @@ export class CardFormFlowItem extends FormFlowItem {
     formName: FormName.cardForm;
     amountConfig: AmountConfig;
     values?: CardFormValues;
+    needToReset?: boolean;
 }

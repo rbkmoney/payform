@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
@@ -38,7 +39,7 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-    cost: (getActive(state.formsFlow) as CardFormFlowItem).amountConfig.cost,
+    cost: get((getActive(state.formsFlow) as CardFormFlowItem), 'amountConfig.cost'), // TODO fix it
     locale: state.config.locale
 });
 

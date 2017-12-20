@@ -47,6 +47,10 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         super(props);
     }
 
+    componentWillMount() {
+        resolveFormFlow(this.props);
+    }
+
     componentWillReceiveProps(props: FormContainerProps) {
         resolveFormFlow(props);
     }

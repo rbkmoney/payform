@@ -24,6 +24,6 @@ export interface FormContainerProps {
     changeStepStatus: (stageName: string, stepName: string, value: StepStatus) => ChangeStepStatus;
     changeStageStatus: (stageName: string, value: StageStatus) => ChangeStageStatus;
     setInvoiceAccessToken: (token: string) => SetInvoiceAccessToken;
-    pollInvoiceEvents: (capiEndpoint: string, accessToken: string, invoiceID: string) => PollInvoiceEventsDispatch;
+    pollInvoiceEvents: (capiEndpoint: string, accessToken: string, invoiceID: string, eventID: number) => PollInvoiceEventsDispatch;
     setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
 }

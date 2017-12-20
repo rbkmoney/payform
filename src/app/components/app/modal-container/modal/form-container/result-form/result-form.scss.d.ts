@@ -7,3 +7,4 @@ export const link_container: string;
 export const help: string;
 export const link: string;
 export const errorBlock: string;
+export const loadingSubstrate: string;
