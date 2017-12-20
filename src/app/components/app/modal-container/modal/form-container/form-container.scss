@@ -96,17 +96,3 @@
 .leaveLoader {
     animation: fadeout .5s;
 }
-
-.appearForm {
-    animation: slidelefttorightin .6s;
-
-}
-
-.enterForm {
-    animation: slidelefttorightin .6s;
-    position: absolute;
-}
-
-.leaveForm {
-    animation: slidelefttorightout .6s;
-}

@@ -67,7 +67,6 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     render() {
         const {formName, status} = getActive(this.props.formsFlow);
-        const isHasBack = hasBack(this.props.formsFlow);
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
@@ -78,17 +77,9 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 })}>
                     <CSSTransitionGroup
                         component='div'
-                        transitionName={{
-                            appear: isHasBack ? styles.appearForm : '123',
-                            enter: isHasBack ? styles.enterForm : '123',
-                            leave: styles.leaveForm
-                        }}
-                        transitionLeaveTimeout={500}
-                        transitionEnterTimeout={500}
-                        transitionAppearTimeout={500}
-                        transitionAppear={true}
-                        transitionEnter={true}
-                        transitionLeave={true}
+                        transitionName='formsAnimation'
+                        transitionEnterTimeout={550}
+                        transitionLeaveTimeout={550}
                     >
                         {formName === FormName.paymentMethods ? <PaymentMethods/> : null}
                         {formName === FormName.cardForm ? <CardForm/> : null}
