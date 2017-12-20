@@ -62,9 +62,28 @@
         40%, 60% {  transform: translate3d(4px, 0, 0);  }
     }
 
+    /* ITERACTION ANIMATION */
+    .interactionAnimation-enter {
+        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
+        transition: all .5s;
+        transition-delay: .5s;
+    }
+    .interactionAnimation-enter.interactionAnimation-enter-active {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+    }
+    .interactionAnimation-leave {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        position: absolute;
+        top: 0;
+        transition: all .5s;
+    }
+    .interactionAnimation-leave.interactionAnimation-leave-active {
+        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+    }
+
     /* FORMS ANIMATION */
     .formsAnimation-enter {
-        transform: translateX(30px); opacity: 0;
+        transform: translateX(360px); opacity: 0;
         transition: all .6s;
     }
     .formsAnimation-enter.formsAnimation-enter-active {
@@ -80,6 +99,6 @@
         transition: all .6s;
     }
     .formsAnimation-leave.formsAnimation-leave-active {
-        transform: translateX(-30px); opacity: 0;
+        transform: translateX(-360px); opacity: 0;
     }
 }

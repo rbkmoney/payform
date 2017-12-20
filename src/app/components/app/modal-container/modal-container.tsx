@@ -27,12 +27,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {formName, status} = getActive(this.props.formsFlow);
-        const isResultFormAfterInteractionActive = formName === FormName.resultForm && status === FormFlowStatus.inProcess;
-        const isInteractionActive = formName === FormName.modalInteraction;
-        // console.log('isResultFormAfterInteractionActive', isResultFormAfterInteractionActive);
-        // console.log('isInteractionActive', isInteractionActive);
-        // console.log('====');
+        const {formName} = getActive(this.props.formsFlow);
         return (
             <CSSTransitionGroup
                 component='div'
@@ -52,20 +47,17 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 <div className={styles.container}>
                     <CSSTransitionGroup
                         component='div'
-                        transitionName={{
-                            appear: styles.appearInteraction,
-                            enter: styles.enterInteraction,
-                            leave: styles.leaveInteraction
-                        }}
-                        transitionLeaveTimeout={10000}
-                        transitionEnterTimeout={10000}
-                        transitionAppearTimeout={10000}
-                        transitionAppear={true}
-                        transitionEnter={true}
-                        transitionLeave={true}
+                        transitionName='interactionAnimation'
+                        transitionEnterTimeout={1000}
+                        transitionLeaveTimeout={500}
                     >
-                        {formName !== FormName.modalInteraction ? <Modal/> : null}
-                        {formName !== FormName.modalInteraction ? <Footer/> : null}
+                        {formName !== FormName.modalInteraction ?
+                            <div>
+                                <Modal/>
+                                <Footer/>
+                            </div>
+                            :
+                            null}
                         {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
                     </CSSTransitionGroup>
                 </div>

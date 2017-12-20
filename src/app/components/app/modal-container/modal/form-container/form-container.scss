@@ -17,6 +17,7 @@
     box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.25);
     padding: 30px 20px;
     position: relative;
+    overflow: hidden;
 
     @include responsive(sm) {
         padding: 30px;
