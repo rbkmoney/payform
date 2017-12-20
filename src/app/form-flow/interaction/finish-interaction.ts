@@ -7,11 +7,15 @@ import {
     getByFormName, next,
     ResultFormFlowItem
 } from 'checkout/form-flow';
+import { FlowItemViewAnimation } from '../flow-item/flow-item-view';
 
 const prepareResultFlow = (f: FormFlowItem[]): FormFlowItem[] => add(f, {
     formName: FormName.resultForm,
     active: true,
-    status: FormFlowStatus.inProcess
+    status: FormFlowStatus.inProcess,
+    view: {
+        animation: FlowItemViewAnimation.formsAnimation
+    }
 } as ResultFormFlowItem);
 
 export const finishInteraction = (f: FormFlowItem[]): FormFlowItem[] => {
