@@ -56,14 +56,14 @@
 
     /* ROTATE IN ANIMATION */
     @keyframes rotatein {
-        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 90deg);  }
+        from {  transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);  }
         to {  transform: perspective(0) rotate3d(0, 1, 0, 0);  }
     }
 
     /* ROTATE OUT ANIMATION */
     @keyframes rotateout {
-        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 0);  }
-        to {  transform: perspective(0) rotate3d(0, 1, 0, 90deg);  }
+        from {  transform: perspective(1000px) rotate3d(0, 0, 0, 0);  }
+        to {  transform: perspective(0) rotate3d(0, 1, 0, -90deg);  }
     }
 
     /* SHAKE ANIMATION */

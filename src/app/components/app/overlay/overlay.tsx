@@ -8,7 +8,7 @@ interface OverlayProps {
     result: ResultState;
 }
 
-const OverlayDef: React.SFC<OverlayProps> = (props) => (
+const OverlayDef: React.SFC<OverlayProps> = () => (
     <CSSTransitionGroup
         component='div'
         className={styles.overlayContainer}
@@ -17,14 +17,16 @@ const OverlayDef: React.SFC<OverlayProps> = (props) => (
             enter: styles.enterOverlay,
             leave: styles.leaveOverlay
         }}
-        transitionEnterTimeout={1000}
+        transitionEnterTimeout={450}
         transitionLeaveTimeout={450}
-        transitionAppearTimeout={1000}
+        transitionAppearTimeout={450}
         transitionAppear={true}
         transitionEnter={true}
         transitionLeave={true}
     >
-        <div className={styles.overlay}/>
+        <div className={styles.overlay}>
+            <div />
+        </div>
     </CSSTransitionGroup>
 );
 

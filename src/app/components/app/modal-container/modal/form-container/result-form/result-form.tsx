@@ -4,7 +4,7 @@ import { Button } from 'checkout/components';
 import { connect } from 'react-redux';
 import { State } from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
-import { FormFlowItem, getActive } from 'checkout/form-flow';
+import { FormFlowItem, FormFlowStatus, getActive } from 'checkout/form-flow';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { ResultFormFlowItem } from 'checkout/form-flow';
 import {
@@ -43,14 +43,14 @@ interface ResultFormContent {
 const gotFailedPayment = (locale: Locale, paymentChange: PaymentStatusChanged): ResultFormContent => ({
     hasActions: true,
     header: locale['form.header.final.failed.label'],
-    description: locale[paymentChange.error.code],
+    description: `${locale[paymentChange.error.code]}.`,
     image: 'http://www.rabbitpoets.com/wp-content/uploads/2009/07/spiceandwolf21.jpg'
 });
 
 const gotSuccessPayment = (locale: Locale): ResultFormContent => ({
     hasActions: false,
     header: locale['form.header.final.success.label'],
-    description: locale['form.final.success.card.text'] + locale['form.final.success.check.text'],
+    description: `${locale['form.final.success.card.text']}. ${locale['form.final.success.check.text']}.`,
     image: 'https://avatanplus.com/files/resources/mid/56ece2c5863321538d55d3ae.png'
 });
 
@@ -63,25 +63,29 @@ const alreadyPaid = (locale: Locale) => ({
 const makeContent = (props: ResultFormProps): ResultFormContent => {
     const locale = props.locale;
     const flowItem = getActive(props.flowItems) as ResultFormFlowItem;
-    const change = flowItem.change;
 
-    switch (change.changeType) {
-        case ChangeType.InvoiceStatusChanged:
-            const invoiceChange = change as InvoiceStatusChanged;
-            switch (invoiceChange.status) {
-                case InvoiceStatuses.paid:
-                    return alreadyPaid(locale);
-            }
-            break;
-        case ChangeType.PaymentStatusChanged:
-            const paymentChange = change as PaymentStatusChanged;
-            switch (paymentChange.status) {
-                case PaymentStatuses.failed:
-                    return gotFailedPayment(locale, paymentChange);
-                case PaymentStatuses.processed:
-                    return gotSuccessPayment(locale);
-            }
-            break;
+    if (flowItem.status !== FormFlowStatus.inProcess) {
+        const change = flowItem.change;
+        switch (change.changeType) {
+            case ChangeType.InvoiceStatusChanged:
+                const invoiceChange = change as InvoiceStatusChanged;
+                switch (invoiceChange.status) {
+                    case InvoiceStatuses.paid:
+                        return alreadyPaid(locale);
+                }
+                break;
+            case ChangeType.PaymentStatusChanged:
+                const paymentChange = change as PaymentStatusChanged;
+                switch (paymentChange.status) {
+                    case PaymentStatuses.failed:
+                        return gotFailedPayment(locale, paymentChange);
+                    case PaymentStatuses.processed:
+                        return gotSuccessPayment(locale);
+                }
+                break;
+        }
+    } else {
+        return alreadyPaid(locale);
     }
 };
 

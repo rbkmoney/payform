@@ -102,19 +102,13 @@
 }
 
 .appearMarks {
-    @include responsive(sm) {
-        animation: fadein .5s;
-    }
+    animation: fadein .5s;
 }
 
 .enterMarks {
-    @include responsive(sm) {
-        animation: fadein .5s;
-    }
+    animation: fadein .5s;
 }
 
 .leaveMarks {
-    @include responsive(sm) {
-        animation: fadeout .5s;
-    }
+    animation: fadeout .5s;
 }

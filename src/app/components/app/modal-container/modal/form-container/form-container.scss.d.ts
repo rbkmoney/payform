@@ -10,3 +10,6 @@ export const popup: string;
 export const appearForm: string;
 export const enterForm: string;
 export const leaveForm: string;
+export const _cardForm: string;
+export const _resultForm: string;
+export const _cardFormAmount: string;

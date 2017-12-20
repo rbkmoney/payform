@@ -10,6 +10,7 @@ import { FormFlowItem, FormName, getActive } from 'checkout/form-flow';
 import { UserInteractionModal } from './user-interaction-modal';
 import { finishInteraction } from './finish-interaction';
 import { State } from 'checkout/state';
+import { FormFlowStatus } from 'checkout/form-flow/flow-item/flow-status';
 
 export interface ModalContainerProps {
     formsFlow: FormFlowItem[];
@@ -25,26 +26,47 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {formName} = getActive(this.props.formsFlow);
+        const {formName, status} = getActive(this.props.formsFlow);
+        const isResultFormAfterInteractionActive = formName === FormName.resultForm && status === FormFlowStatus.inProcess;
+        const isInteractionActive = formName === FormName.modalInteraction;
+        console.log('isResultFormAfterInteractionActive', isResultFormAfterInteractionActive);
+        console.log('isInteractionActive', isInteractionActive);
+        console.log('====');
         return (
             <CSSTransitionGroup
                 component='div'
+                className={styles.animationContainer}
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
                     leave: styles.leaveContainer
                 }}
-                transitionEnterTimeout={1000}
+                transitionEnterTimeout={950}
                 transitionLeaveTimeout={950}
-                transitionAppearTimeout={1000}
+                transitionAppearTimeout={950}
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}
             >
                 <div className={styles.container}>
-                    {formName !== FormName.modalInteraction ? <Modal/> : null}
-                    {formName !== FormName.modalInteraction ? <Footer/> : null}
-                    {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                    <CSSTransitionGroup
+                        component='div'
+                        transitionName={{
+                            appear: styles.appearInteraction,
+                            enter: styles.enterInteraction,
+                            leave: styles.leaveInteraction
+                        }}
+                        transitionLeaveTimeout={10000}
+                        transitionEnterTimeout={10000}
+                        transitionAppearTimeout={10000}
+                        transitionAppear={true}
+                        transitionEnter={true}
+                        transitionLeave={true}
+                    >
+                        {formName !== FormName.modalInteraction ? <Modal/> : null}
+                        {formName !== FormName.modalInteraction ? <Footer/> : null}
+                        {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                    </CSSTransitionGroup>
                 </div>
             </CSSTransitionGroup>
         );

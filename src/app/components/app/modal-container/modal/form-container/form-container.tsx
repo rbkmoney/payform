@@ -18,7 +18,7 @@ import {
     setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
-import { FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
+import { CardFormFlowItem, FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
 
@@ -50,11 +50,26 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         resolveFormFlow(props);
     }
 
+    isCardFormAmount() {
+        const {formName} = getActive(this.props.formsFlow);
+        if (formName === FormName.cardForm) {
+            const cardForm = getActive(this.props.formsFlow) as CardFormFlowItem;
+            return cardForm.amountConfig.visible;
+        } else {
+            return false;
+        }
+    }
+
     render() {
         const {formName, status} = getActive(this.props.formsFlow);
         return (
             <div className={styles.container}>
-                <div className={cx(styles.form, {[styles._error]: status === FormFlowStatus.error})}>
+                <div className={cx(styles.form, {
+                    [styles._error]: status === FormFlowStatus.error,
+                    [styles._cardForm]: formName === FormName.cardForm,
+                    [styles._cardFormAmount]: this.isCardFormAmount(),
+                    [styles._resultForm]: formName === FormName.resultForm
+                })}>
                     {formName === FormName.paymentMethods ? <PaymentMethods/> : false}
                     {formName === FormName.cardForm ? <CardForm/> : false}
                     {formName === FormName.resultForm ? <ResultForm/> : false}
