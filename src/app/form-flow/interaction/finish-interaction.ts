@@ -6,9 +6,9 @@ import {
     FormName,
     getByFormName, next,
     ResultFormFlowItem,
-    FormSizeClass
+    FormSizeClass,
+    DirectionTransition
 } from 'checkout/form-flow';
-import { DirectionTransition } from '../flow-item/flow-item-view';
 
 const prepareResultFlow = (f: FormFlowItem[]): FormFlowItem[] => {
     return add(f, {

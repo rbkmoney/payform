@@ -7,7 +7,8 @@ import {
     FormName,
     FormSizeClass,
     getLastEventID,
-    init
+    init,
+    DirectionTransition
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -17,7 +18,6 @@ import {
 } from 'checkout/backend';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
-import { DirectionTransition } from 'checkout/form-flow/flow-item/flow-item-view';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;

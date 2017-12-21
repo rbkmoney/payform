@@ -74,12 +74,11 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 };
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
-    const {header, description, status, hasActions} = makeContent(props.locale, props.model, props.active);
+    const {header, description, icon, hasActions} = makeContent(props.locale, props.model, props.active);
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
-            {status === 'success' ? <Checkmark/> : null}
-            {status === 'failed' ? <Cross/> : null}
+            {icon}
             {description ? description : false}
             {hasActions ? <ActionBlock {...props}/> : false}
         </form>

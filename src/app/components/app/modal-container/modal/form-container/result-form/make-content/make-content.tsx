@@ -11,32 +11,33 @@ import { Locale } from 'checkout/locale';
 import { getDescription } from './get-description';
 import { ModelState } from 'checkout/state';
 import { FormFlowItem, ResultFormFlowItem } from 'checkout/form-flow';
+import { Checkmark, Cross } from '../result-icons';
 
 const gotFailedPayment = (l: Locale, c: PaymentStatusChanged): ResultFormContent => ({
     hasActions: true,
     header: l['form.header.final.failed.label'],
     description: c.error && c.error.code ? <p className={styles.text}>{l[c.error.code]}</p> : null,
-    status: 'failed'
+    icon: <Cross/>
 });
 
 const gotSuccessPayment = (l: Locale, m: ModelState): ResultFormContent => ({
     hasActions: false,
     header: l['form.header.final.success.label'],
     description: getDescription(l, m),
-    status: 'success'
+    icon: <Checkmark/>
 });
 
 const alreadyPaid = (l: Locale) => ({
     hasActions: false,
     header: l['form.header.final.already.success.label'],
-    status: 'success'
+    icon: <Checkmark/>
 });
 
 export interface ResultFormContent {
     hasActions: boolean;
     header: string;
     description?: JSX.Element;
-    status: string;
+    icon: JSX.Element;
 }
 
 export const makeContent = (l: Locale, m: ModelState, active: FormFlowItem): ResultFormContent => {
