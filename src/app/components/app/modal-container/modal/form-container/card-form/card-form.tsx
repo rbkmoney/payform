@@ -7,7 +7,7 @@ import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { State } from 'checkout/state';
+import { CardFormValues, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
 import { CardFormFlowItem, FormFlowStatus, getByFormName, hasBack, update, FormName } from 'checkout/form-flow';
 import { getAmount } from '../../amount-resolver';
@@ -44,9 +44,9 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    submit() {
+    submit(values: CardFormValues) {
         this.formFlow.status = FormFlowStatus.inProcess;
-        this.formFlow.values = this.props.cardForm.values;
+        this.formFlow.values = values;
         this.props.setFormFlow(update(this.props.formsFlow, this.formFlow));
     }
 

@@ -68,11 +68,11 @@ class AppDef extends React.Component<AppProps> {
 
     render() {
         const status = this.props.initialization.stageStatus;
-        const error = this.props.error;
+        const error = this.props.error ? this.props.error.error : null;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {error ? <div>{error.message}</div> : false}
+                {status !== StageStatus.processed && error ? <div>{error.message}</div> : false}
                 {status === StageStatus.processed ? <ModalContainer/> : false}
                 {status === StageStatus.started && !error ? <LayoutLoader/> : false}
             </div>

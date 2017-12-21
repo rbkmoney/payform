@@ -1,4 +1,12 @@
-import { add, FormFlowItem, FormFlowStatus, FormName, init, ResultFormFlowItem } from 'checkout/form-flow';
+import {
+    add, init,
+    FormFlowItem,
+    FormFlowStatus,
+    FormName,
+    ResultFormFlowItem,
+    ResultSubject,
+    ResultSubjectType
+} from 'checkout/form-flow';
 import { InvoiceChange } from 'checkout/backend';
 
 export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] => {
@@ -6,7 +14,10 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
     result = add(result, {
         formName: FormName.resultForm,
         status: FormFlowStatus.processed,
-        change
+        subject: {
+            type: ResultSubjectType.invoiceChange,
+            change
+        } as ResultSubject
     } as ResultFormFlowItem);
     return init(result);
 };

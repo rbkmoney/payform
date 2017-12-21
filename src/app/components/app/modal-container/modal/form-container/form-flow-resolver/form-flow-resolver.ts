@@ -76,7 +76,5 @@ export const resolveFormFlow = (p: FormContainerProps) => {
         case FormFlowStatus.inProcess:
             resolveInProcess(p, activeFlow);
             break;
-        case FormFlowStatus.retry:
-            throw new Error('Unhandled FormFlowStatus');
     }
 };

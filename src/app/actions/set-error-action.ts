@@ -1,7 +1,7 @@
 import { AbstractAction, TypeKeys } from '.';
-import { ErrorState } from 'checkout/state';
+import { LogicError } from 'checkout/backend';
 
-export interface SetErrorAction extends AbstractAction<ErrorState> {
+export interface SetErrorAction extends AbstractAction<LogicError> {
     type: TypeKeys.SET_ERROR,
-    payload: ErrorState
+    payload: LogicError;
 }

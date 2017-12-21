@@ -5,7 +5,7 @@ import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
 import { IntegrationType } from 'checkout/config';
 import { StepStatus } from 'checkout/lifecycle';
-import { CardFormFlowItem, FormFlowStatus, FormName, getByFormName } from 'checkout/form-flow';
+import { CardFormFlowItem, FormFlowStatus, FormName, getByFormName, ResultFormFlowItem } from 'checkout/form-flow';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -71,7 +71,8 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 };
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
-    const {header, description, image, hasActions} = makeContent(props.locale, props.model, props.active);
+    const flowItem = props.active as ResultFormFlowItem;
+    const {header, description, image, hasActions} = makeContent(props.locale, props.model, flowItem.subject);
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
