@@ -4,10 +4,10 @@ export enum DirectionTransition {
 }
 
 export enum FormSizeClass {
-    _cardForm = '_cardForm',
-    _cardFormWithAmount = '_cardFormWithAmount',
-    _resultForm = '_resultForm',
-    _paymentMethods = '_paymentMethods'
+    cardForm = '_cardForm',
+    cardFormWithAmount = '_cardFormWithAmount',
+    resultForm = '_resultForm',
+    paymentMethods = '_paymentMethods'
 }
 
 export class FlowViewInfo {

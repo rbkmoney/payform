@@ -7,6 +7,6 @@ export const addActiveInteraction = (f: FormFlowItem[], e: Event[]): FormFlowIte
     active: true,
     view: {
         slideDirection: DirectionTransition.right,
-        formSizeClass: FormSizeClass._cardForm
+        formSizeClass: FormSizeClass.cardForm
     }
 } as FormFlowItem));

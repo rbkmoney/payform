@@ -19,7 +19,7 @@ import {
     setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
-import { CardFormFlowItem, FormFlowStatus, FormName, getActive, getByFormName } from 'checkout/form-flow';
+import { FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
 

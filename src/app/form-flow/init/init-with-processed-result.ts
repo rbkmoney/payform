@@ -18,7 +18,7 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
         change,
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: FormSizeClass._resultForm
+            formSizeClass: FormSizeClass.resultForm
         }
     } as ResultFormFlowItem);
     return init(result);

@@ -58,7 +58,7 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     handledEventID: getLastEventID(m.invoiceEvents),
     view: {
         slideDirection: DirectionTransition.right,
-        formSizeClass: toAmountConfig(c, m).visible ? FormSizeClass._cardFormWithAmount : FormSizeClass._cardForm
+        formSizeClass: toAmountConfig(c, m).visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
     }
 });
 
@@ -75,7 +75,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             status: FormFlowStatus.unprocessed,
             view: {
                 slideDirection: DirectionTransition.right,
-                formSizeClass: FormSizeClass._paymentMethods
+                formSizeClass: FormSizeClass.paymentMethods
             }
         });
     } else {
