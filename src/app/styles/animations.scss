@@ -139,15 +139,15 @@
     }
 
     /* REVERSE FORMS ANIMATION */
-    .reverseFormsAnimation-enter {
+    .slideLeftAnimation-enter {
         transform: translateX(-360px); opacity: 0;
         transition: all .6s;
 
-        &.reverseFormsAnimation-enter-active {
+        &.slideLeftAnimation-enter-active {
             transform: translateX(0); opacity: 1;
         }
     }
-    .reverseFormsAnimation-leave {
+    .slideLeftAnimation-leave {
         transform: translateX(0); opacity: 1;
         position: absolute;
         top: 30px;
@@ -156,7 +156,7 @@
         bottom: 30px;
         transition: all .6s;
 
-        &.reverseFormsAnimation-leave-active {
+        &.slideLeftAnimation-leave-active {
             transform: translateX(360px); opacity: 0;
         }
     }
