@@ -88,7 +88,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                             enter: styles.enterLoader,
                             leave: styles.leaveLoader
                         }}
-                        transitionLeaveTimeout={450}
+                        transitionLeaveTimeout={200}
                         transitionEnterTimeout={450}
                         transitionAppearTimeout={450}
                         transitionAppear={true}
