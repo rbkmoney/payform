@@ -5,6 +5,7 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
+    FormSizeClass,
     getLastEventID,
     init
 } from 'checkout/form-flow';
@@ -56,7 +57,8 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     status: FormFlowStatus.unprocessed,
     handledEventID: getLastEventID(m.invoiceEvents),
     view: {
-        slideDirection: DirectionTransition.right
+        slideDirection: DirectionTransition.right,
+        formSizeClass: toAmountConfig(c, m).visible ? FormSizeClass._cardFormWithAmount : FormSizeClass._cardForm
     }
 });
 
@@ -72,7 +74,8 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             active: false,
             status: FormFlowStatus.unprocessed,
             view: {
-                slideDirection: DirectionTransition.right
+                slideDirection: DirectionTransition.right,
+                formSizeClass: FormSizeClass._paymentMethods
             }
         });
     } else {

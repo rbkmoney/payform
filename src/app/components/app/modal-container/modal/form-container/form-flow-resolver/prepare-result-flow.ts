@@ -5,7 +5,8 @@ import {
     FormName,
     getLastChange, getLastEventID,
     ResultFormFlowItem,
-    DirectionTransition
+    DirectionTransition,
+    FormSizeClass
 } from 'checkout/form-flow';
 import { FormContainerProps } from '../form-container-props';
 
@@ -17,7 +18,8 @@ export const prepareResultFlow = (f: FormFlowItem[], p: FormContainerProps): For
         change: getLastChange(p.model.invoiceEvents),
         handledEventID: getLastEventID(p.model.invoiceEvents), // TODO fix it,
         view: {
-            slideDirection: DirectionTransition.right
+            slideDirection: DirectionTransition.right,
+            formSizeClass: FormSizeClass._resultForm
         }
     } as ResultFormFlowItem);
 };

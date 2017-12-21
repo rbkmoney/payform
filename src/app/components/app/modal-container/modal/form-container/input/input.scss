@@ -94,6 +94,7 @@
         border-color: $light-blue;
         box-shadow: 0 0 4px 0 $light-blue;
         outline: $light-blue solid 2px;
+        outline-offset: -1px;
     }
 
     &.mark {

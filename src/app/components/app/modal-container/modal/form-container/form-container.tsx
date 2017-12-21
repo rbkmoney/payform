@@ -55,13 +55,11 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         resolveFormFlow(props);
     }
 
-    isCardFormAmount() {
+    isCardFormAmount(): boolean {
         const {formName} = getActive(this.props.formsFlow);
         if (formName === FormName.cardForm || formName === FormName.modalInteraction) {
             const cardForm = getByFormName(this.props.formsFlow, FormName.cardForm) as CardFormFlowItem;
             return cardForm.amountConfig.visible;
-        } else {
-            return false;
         }
     }
 
@@ -71,9 +69,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
             <div className={styles.container}>
                 <div className={cx(styles.form, {
                     [styles._error]: status === FormFlowStatus.error,
-                    [styles._cardForm]: formName === FormName.cardForm || formName === FormName.modalInteraction,
-                    [styles._cardFormAmount]: this.isCardFormAmount(),
-                    [styles._resultForm]: formName === FormName.resultForm
+                    [(styles as any)[view.formSizeClass]]: true
                 })}>
                     <CSSTransitionGroup
                         component='div'
