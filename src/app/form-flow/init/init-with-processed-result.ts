@@ -1,6 +1,6 @@
 import { add, FormFlowItem, FormFlowStatus, FormName, init, ResultFormFlowItem } from 'checkout/form-flow';
 import { InvoiceChange } from 'checkout/backend';
-import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
+import { DirectionTransition } from 'checkout/form-flow/flow-item/flow-item-view';
 
 export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
@@ -9,7 +9,7 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
         status: FormFlowStatus.processed,
         change,
         view: {
-            animation: FlowItemViewAnimation.formsAnimation
+            slideDirection: DirectionTransition.right
         }
     } as ResultFormFlowItem);
     return init(result);

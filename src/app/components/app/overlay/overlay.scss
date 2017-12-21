@@ -14,7 +14,7 @@
 
     @include responsive(sm) {
         background: rgba(0, 0, 0, .7);
-        transform: translateZ(-1000px); //Safari animation fix
+        transform: translateZ(-1000px); //Safari slideDirection fix
     }
 
     div {

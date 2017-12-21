@@ -1,8 +1,8 @@
-export enum FlowItemViewAnimation {
-    formsAnimation = 'formsAnimation',
-    reverseFormsAnimation = 'reverseFormsAnimation'
+export enum DirectionTransition {
+    right = 'slideRightAnimation',
+    left = 'slideLeftAnimation'
 }
 
-export class FlowItemView {
-    animation: FlowItemViewAnimation;
+export class FlowViewInfo {
+    slideDirection: DirectionTransition;
 }

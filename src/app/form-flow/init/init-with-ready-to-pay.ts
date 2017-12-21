@@ -16,7 +16,7 @@ import {
 } from 'checkout/backend';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
-import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
+import { DirectionTransition } from 'checkout/form-flow/flow-item/flow-item-view';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -56,7 +56,7 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     status: FormFlowStatus.unprocessed,
     handledEventID: getLastEventID(m.invoiceEvents),
     view: {
-        animation: FlowItemViewAnimation.formsAnimation
+        slideDirection: DirectionTransition.right
     }
 });
 
@@ -72,7 +72,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             active: false,
             status: FormFlowStatus.unprocessed,
             view: {
-                animation: FlowItemViewAnimation.formsAnimation
+                slideDirection: DirectionTransition.right
             }
         });
     } else {

@@ -1,5 +1,4 @@
 import { FormFlowItem, FormName } from 'checkout/form-flow';
-import { FlowItemViewAnimation } from 'checkout/form-flow/flow-item/flow-item-view';
 
 export const add = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
     if (!f) {
@@ -34,7 +33,6 @@ export const next = (f: FormFlowItem[]): FormFlowItem[] => {
     const result = f.slice();
     result[i].active = false;
     result[i + 1].active = true;
-    result[i + 1].view.animation = FlowItemViewAnimation.formsAnimation;
     return result;
 };
 
@@ -53,7 +51,6 @@ export const back = (f: FormFlowItem[]): FormFlowItem[] => {
     const result = f.slice();
     result[i].active = false;
     result[i - 1].active = true;
-    result[i - 1].view.animation = FlowItemViewAnimation.reverseFormsAnimation;
     return result;
 };
 
