@@ -55,14 +55,6 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         resolveFormFlow(props);
     }
 
-    isCardFormAmount(): boolean {
-        const {formName} = getActive(this.props.formsFlow);
-        if (formName === FormName.cardForm || formName === FormName.modalInteraction) {
-            const cardForm = getByFormName(this.props.formsFlow, FormName.cardForm) as CardFormFlowItem;
-            return cardForm.amountConfig.visible;
-        }
-    }
-
     render() {
         const {formName, status, view} = getActive(this.props.formsFlow);
         return (
