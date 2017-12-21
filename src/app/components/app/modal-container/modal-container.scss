@@ -8,7 +8,7 @@
 }
 
 .enterContainer {
-    background: green;
+    background: transparent;
 }
 
 .leaveContainer {
@@ -17,6 +17,25 @@
     }
 }
 
+.appearInteraction {
+    @include responsive(sm) {
+        animation: rotatein 10s;
+    }
+}
+
+.enterInteraction {
+    @include responsive(sm) {
+        animation: rotatein 10s;
+    }
+}
+
+.leaveInteraction {
+    @include responsive(sm) {
+        animation: rotateout 10s;
+    }
+}
+
 .container {
+    height: 100%;
     position: relative;
 }

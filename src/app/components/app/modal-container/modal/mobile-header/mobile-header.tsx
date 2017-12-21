@@ -7,6 +7,7 @@ import { InitConfig } from 'checkout/config';
 import { State } from 'checkout/state';
 import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
 import { back, FormFlowItem, hasBack } from 'checkout/form-flow';
+import { ChevronIcon } from './chevron-icon';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
@@ -40,17 +41,7 @@ class MobileHeaderDef extends React.Component<MobileHeaderProps> {
             <header className={styles.header}>
                 {hasBack(this.props.formsFlow) ? (
                     <button className={styles.back_btn} onClick={this.back as any}>
-                        {/*<Icon icon={IconType.chevronLeft}/>*/}
-                        <svg width='9px' height='60px' viewBox='0 0 9 60'>
-                            <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-                                <g transform='translate(-25.000000, 0.000000)'>
-                                    <g transform='translate(25.000000, 0.000000)'>
-                                        <path d='M8,24 L1,31' strokeWidth='2'/>
-                                        <path d='M1,30 L8,37 L1,30 Z' strokeWidth='2'/>
-                                    </g>
-                                </g>
-                            </g>
-                        </svg>
+                        <ChevronIcon/>
                     </button>
                 ) : false}
                 <div className={cx(styles.text, {[styles._center]: true})}>

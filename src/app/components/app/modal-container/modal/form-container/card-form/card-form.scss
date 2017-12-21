@@ -1,3 +1,11 @@
+.form {
+    min-height: 340px;
+
+    &._withAmount {
+        min-height: 398px;
+    }
+}
+
 .pay_button {
     margin-top: 20px;
 }

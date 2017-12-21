@@ -11,7 +11,7 @@
         width: 100%;
         min-width: 320px;
         -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+        -moz-osx-font-smoothing: grayscale;
 
         &._loading {
             height: 100%;
@@ -20,6 +20,10 @@
         @include responsive(sm) {
             height: 100%;
             min-width: 680px;
+        }
+
+        @media (min-height: 701px) and (min-width: 768px) {
+            overflow-y: hidden;
         }
     }
 

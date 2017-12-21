@@ -14,14 +14,17 @@
 
     @include responsive(sm) {
         background: rgba(0, 0, 0, .7);
-        transform: translateZ(-1000px);
+        transform: translateZ(-1000px); //Safari slideDirection fix
+    }
+
+    div {
+        height: 100%;
+        width: 100%;
     }
 }
 
 .appearOverlay {
-    @include responsive(sm) {
-        animation: fadein .5s;
-    }
+    animation: fadein .5s;
 }
 
 .enterOverlay {
@@ -29,7 +32,5 @@
 }
 
 .leaveOverlay {
-    @include responsive(sm) {
-        animation: fadeout .5s;
-    }
+    animation: fadeout .5s;
 }
