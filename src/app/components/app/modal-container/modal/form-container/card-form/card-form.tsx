@@ -70,9 +70,7 @@ class CardFormDef extends React.Component<Props> {
     render() {
         const locale = this.props.locale;
         return (
-            <form onSubmit={this.props.handleSubmit(this.submit)} className={cx(styles.form, {
-                [styles._withAmount]: this.formFlow.amountConfig.visible
-            })}>
+            <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
                 <div className={formStyles.header}>
                     {hasBack(this.props.formsFlow) ? <ChevronBack/> : null}
                     <div className={formStyles.title}>
