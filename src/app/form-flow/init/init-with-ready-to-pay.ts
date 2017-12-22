@@ -50,21 +50,22 @@ const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
     return {visible: false};
 };
 
-const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
-    formName: FormName.cardForm,
-    active: false,
-    amountConfig: toAmountConfig(c, m),
-    status: FormFlowStatus.unprocessed,
-    handledEventID: getLastEventID(m.invoiceEvents),
-    view: {
-        slideDirection: DirectionTransition.right,
-        formSizeClass: toAmountConfig(c, m).visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
-    }
-});
-
-const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
-    return initConfig.terminals && model.paymentMethods.length > 1;
+const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
+    const amountConfig = toAmountConfig(c, m);
+    return {
+        formName: FormName.cardForm,
+        active: false,
+        amountConfig,
+        status: FormFlowStatus.unprocessed,
+        handledEventID: getLastEventID(m.invoiceEvents),
+        view: {
+            slideDirection: DirectionTransition.right,
+            formSizeClass: amountConfig.visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
+        }
+    };
 };
+
+const isMultiMethods = (c: InitConfig, m: ModelState) => c.terminals && m.paymentMethods.length > 1;
 
 export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[] => {
     let result: FormFlowItem[] = [];

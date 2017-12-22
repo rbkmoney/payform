@@ -1,7 +1,8 @@
 import * as ReactDOM from 'react-dom';
 import { Transport, PossibleEvents } from '../communication-ts';
 import { State } from './state';
-import { ResultState } from './state/result-state';
+import { ResultState } from 'checkout/state';
+import { isSafetyUrl } from 'checkout/utils';
 
 class AppFinalizer {
 
@@ -24,7 +25,7 @@ class AppFinalizer {
             this.transport.emit(PossibleEvents.done);
             this.transport.destroy();
             if (popupMode) {
-                redirectUrl ? location.replace(redirectUrl) : window.close();
+                redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
             }
         }, this.actionTimeout);
     }

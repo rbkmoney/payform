@@ -13,7 +13,6 @@ import {
     getByFormName,
     ResultFormFlowItem
 } from 'checkout/form-flow';
-import { Cross, Checkmark } from './result-icons';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -25,6 +24,7 @@ const retry = (e: any, props: ResultFormProps) => {
     cardForm.active = true;
     cardForm.status = FormFlowStatus.inProcess;
     cardForm.view.slideDirection = DirectionTransition.left;
+    cardForm.needToReset = false;
     props.setFormFlow([cardForm]);
 };
 

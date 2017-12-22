@@ -21,11 +21,11 @@ import {
     setInvoiceAccessToken
 } from 'checkout/actions';
 import {
-    add,
     FormFlowStatus,
     FormName,
-    getActive, next,
+    getActive, next, add,
     ResultFormFlowItem,
+    ResultSubject,
     ResultSubjectType
 } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
@@ -70,7 +70,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 subject: {
                     type: ResultSubjectType.error,
                     error: props.error.error
-                }
+                } as ResultSubject
             } as ResultFormFlowItem));
             props.setFormFlow(flow);
             props.setErrorStatus(ErrorHandleStatus.processed);

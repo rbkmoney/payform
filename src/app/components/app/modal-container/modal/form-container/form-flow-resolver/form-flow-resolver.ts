@@ -7,8 +7,7 @@ import {
     FormName,
     getActive,
     getLastEventID,
-    next,
-    update
+    next, update
 } from 'checkout/form-flow';
 import { pay } from './card-pay';
 import { prepareResultFlow } from './prepare-result-flow';
@@ -18,7 +17,7 @@ import { IntegrationType } from 'checkout/config';
 import { getPaymentResult } from './get-payment-result';
 import { StepStatus } from 'checkout/lifecycle';
 
-export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean, retryCondition?: boolean) => void;
+export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
     const events = p.model.invoiceEvents;
@@ -37,7 +36,7 @@ const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
         if (isPaymentChange() || isInvoiceChange()) {
             p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
         } else if (isCardInteraction()) {
-            p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.suspend);
+            p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.pristine);
             p.setFormFlow(next(addActiveInteraction(update(p.formsFlow, processed), events)));
         } else {
             pay(p, i);
@@ -55,7 +54,7 @@ const resolveResultForm = (p: FormContainerProps, i: FormFlowItem) => {
         processed.status = FormFlowStatus.processed;
         p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
     } else {
-        getPaymentResult(p, i);
+        getPaymentResult(p);
     }
 };
 

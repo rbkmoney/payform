@@ -25,8 +25,8 @@ export interface ResultFormContent {
     icon: JSX.Element;
 }
 
-const gotFailedPayment = (l: Locale, e: LogicError): ResultFormContent => ({
-    hasActions: true,
+const gotFailedPayment = (l: Locale, m: ModelState, e: LogicError): ResultFormContent => ({
+    hasActions: !!m.paymentResource,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),
     icon: <Cross/>
@@ -58,7 +58,7 @@ export const makeContentInvoiceChange = (l: Locale, m: ModelState, s: ResultSubj
             const paymentChange = s.change as PaymentStatusChanged;
             switch (paymentChange.status) {
                 case PaymentStatuses.failed:
-                    return gotFailedPayment(l, paymentChange.error);
+                    return gotFailedPayment(l, m, paymentChange.error);
                 case PaymentStatuses.processed:
                     return gotSuccessPayment(l, m);
             }
@@ -66,14 +66,14 @@ export const makeContentInvoiceChange = (l: Locale, m: ModelState, s: ResultSubj
     }
 };
 
-const makeContentError = (l: Locale, s: ResultSubjectError): ResultFormContent => gotFailedPayment(l, s.error);
+const makeContentError = (l: Locale, m: ModelState, s: ResultSubjectError): ResultFormContent => gotFailedPayment(l, m, s.error);
 
 export const makeContent = (l: Locale, m: ModelState, s: ResultSubject): ResultFormContent => {
     switch (s.type) {
         case ResultSubjectType.invoiceChange:
             return makeContentInvoiceChange(l, m, s as ResultSubjectInvoiceChange);
         case ResultSubjectType.error:
-            return makeContentError(l, s as ResultSubjectError);
+            return makeContentError(l, m, s as ResultSubjectError);
     }
     throw new Error('Unknown ResultSubject type');
 };
