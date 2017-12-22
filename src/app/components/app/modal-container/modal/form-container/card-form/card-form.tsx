@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
+import * as cx from 'classnames';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
@@ -45,6 +46,8 @@ class CardFormDef extends React.Component<Props> {
     }
 
     submit(values: CardFormValues) {
+        const activeElement = document.activeElement as HTMLInputElement;
+        activeElement.blur();
         this.formFlow.status = FormFlowStatus.inProcess;
         this.formFlow.values = values;
         this.props.setFormFlow(update(this.props.formsFlow, this.formFlow));
@@ -67,7 +70,7 @@ class CardFormDef extends React.Component<Props> {
     render() {
         const locale = this.props.locale;
         return (
-            <form onSubmit={this.props.handleSubmit(this.submit)}>
+            <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
                 <div className={formStyles.header}>
                     {hasBack(this.props.formsFlow) ? <ChevronBack/> : null}
                     <div className={formStyles.title}>

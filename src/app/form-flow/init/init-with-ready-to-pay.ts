@@ -5,8 +5,10 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
+    FormSizeClass,
     getLastEventID,
-    init
+    init,
+    DirectionTransition
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -53,7 +55,11 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => ({
     active: false,
     amountConfig: toAmountConfig(c, m),
     status: FormFlowStatus.unprocessed,
-    handledEventID: getLastEventID(m.invoiceEvents)
+    handledEventID: getLastEventID(m.invoiceEvents),
+    view: {
+        slideDirection: DirectionTransition.right,
+        formSizeClass: toAmountConfig(c, m).visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
+    }
 });
 
 const isMultiMethods = (initConfig: InitConfig, model: ModelState) => {
@@ -66,7 +72,11 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
         result = add(result, {
             formName: FormName.paymentMethods,
             active: false,
-            status: FormFlowStatus.unprocessed
+            status: FormFlowStatus.unprocessed,
+            view: {
+                slideDirection: DirectionTransition.right,
+                formSizeClass: FormSizeClass.paymentMethods
+            }
         });
     } else {
         result = add(result, toCardForm(c, m));

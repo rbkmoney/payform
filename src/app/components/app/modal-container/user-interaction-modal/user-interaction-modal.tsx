@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as TransitionGroup from 'react-transition-group';
 import parser from 'uri-template';
 import * as styles from './user-interaction-modal.scss';
 import { ConfigState, State } from 'checkout/state';
@@ -50,27 +49,11 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
     }
 
     render() {
-        const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
         return (
-            <CSSTransitionGroup
-                component='div'
-                transitionName={{
-                    appear: styles.appear,
-                    enter: styles.enter,
-                    leave: styles.leave
-                }}
-                transitionEnterTimeout={1000}
-                transitionLeaveTimeout={1000}
-                transitionAppearTimeout={1000}
-                transitionAppear={true}
-                transitionEnter={true}
-                transitionLeave={true}
-            >
-                <div className={styles.container} key='3ds'>
-                    <iframe id='interactionFrame'>
-                    </iframe>
-                </div>
-            </CSSTransitionGroup>
+            <div className={styles.container} key='3ds'>
+                <iframe id='interactionFrame'>
+                </iframe>
+            </div>
         );
     }
 }

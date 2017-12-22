@@ -17,15 +17,34 @@
     box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.25);
     padding: 30px 20px;
     position: relative;
+    overflow: hidden;
 
     @include responsive(sm) {
         padding: 30px;
         min-height: auto;
-        transition: min-height .75s;
+        transition: height .75s;
     }
 
     &._error {
         animation: shake .82s;
+    }
+
+    &._cardForm {
+        @include responsive(sm) {
+            height: 340px;
+        }
+    }
+
+    &._cardFormAmount {
+        @include responsive(sm) {
+            height: 398px;
+        }
+    }
+
+    &._resultForm {
+        @include responsive(sm) {
+            height: 392px;
+        }
     }
 }
 
@@ -67,16 +86,14 @@
     }
 }
 
-.appearForm {
-    animation: slidelefttorightin 3s;
-    position: absolute;
+.appearLoader {
+    animation: fadein .5s;
 }
 
-.enterForm {
-    background: transparent;
+.enterLoader {
+    animation: fadein .5s;
 }
 
-.leaveForm {
-    animation: slideleftorightout 3s;
-    position: absolute;
+.leaveLoader {
+    animation: fadeout .25s;
 }

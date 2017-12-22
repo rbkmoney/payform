@@ -30,22 +30,35 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
         return (
             <CSSTransitionGroup
                 component='div'
+                className={styles.animationContainer}
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
                     leave: styles.leaveContainer
                 }}
-                transitionEnterTimeout={1000}
+                transitionEnterTimeout={950}
                 transitionLeaveTimeout={950}
-                transitionAppearTimeout={1000}
+                transitionAppearTimeout={950}
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}
             >
                 <div className={styles.container}>
-                    {formName !== FormName.modalInteraction ? <Modal/> : null}
-                    {formName !== FormName.modalInteraction ? <Footer/> : null}
-                    {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                    <CSSTransitionGroup
+                        component='div'
+                        transitionName='interactionAnimation'
+                        transitionEnterTimeout={1000}
+                        transitionLeaveTimeout={500}
+                    >
+                        {formName !== FormName.modalInteraction ?
+                            <div>
+                                <Modal/>
+                                <Footer/>
+                            </div>
+                            :
+                            null}
+                        {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                    </CSSTransitionGroup>
                 </div>
             </CSSTransitionGroup>
         );
