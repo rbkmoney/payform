@@ -1,11 +1,13 @@
 import { FormContainerProps } from '../form-container-props';
-import { FormFlowItem } from 'checkout/form-flow';
-import { resolveStage, StepStatus } from 'checkout/lifecycle';
-import { resolveEvents } from './card-pay/resolve-events';
+import { resolveStage } from 'checkout/lifecycle';
+import { continuePolling } from './card-pay/resolve-events';
+import { resolveIntegrationType } from './card-pay/resolve-integration-type';
+import { CardFormFlowItem, FormName, getByFormName } from 'checkout/form-flow';
 
 const stageName = 'cardPayment';
 
-export const getPaymentResult = (p: FormContainerProps, i: FormFlowItem) => {
+export const getPaymentResult = (p: FormContainerProps) => {
     const shortened = resolveStage.bind(null, p.cardPayment, p.changeStepStatus, stageName);
-    resolveEvents(shortened, p, p.cardPayment.pollEvents === StepStatus.suspend);
+    resolveIntegrationType(shortened, p, getByFormName(p.formsFlow, FormName.cardForm) as CardFormFlowItem);
+    continuePolling(shortened, p);
 };

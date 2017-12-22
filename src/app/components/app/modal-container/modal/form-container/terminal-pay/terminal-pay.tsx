@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as styles from './terminal-pay.scss';
-import { Input } from '../../../index';
 
 export class TerminalPay extends React.Component {
     render() {

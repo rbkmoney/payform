@@ -39,11 +39,11 @@ class MobileHeaderDef extends React.Component<MobileHeaderProps> {
     render() {
         return (
             <header className={styles.header}>
-                {hasBack(this.props.formsFlow) ? (
-                    <button className={styles.back_btn} onClick={this.back as any}>
-                        <ChevronIcon/>
-                    </button>
-                ) : false}
+                {/*{hasBack(this.props.formsFlow) ? (*/}
+                    {/*<button className={styles.back_btn} onClick={this.back as any}>*/}
+                        {/*<ChevronIcon/>*/}
+                    {/*</button>*/}
+                {/*) : false}*/}
                 <div className={cx(styles.text, {[styles._center]: true})}>
                     {this.props.initConfig.name}
                 </div>

@@ -6,10 +6,10 @@ import {
     CreatePaymentResourceDispatch,
     SetInvoiceAccessToken,
     PollInvoiceEventsDispatch,
-    SetFormsFlowAction
+    SetFormsFlowAction, SetErrorStatus
 } from 'checkout/actions';
 import { InvoiceParamsWithTemplate, PaymentParams, PaymentTool } from 'checkout/backend/model';
-import { ConfigState, ModelState } from 'checkout/state';
+import { ConfigState, ErrorHandleStatus, ErrorState, ModelState } from 'checkout/state';
 import { CardPaymentStage, StageStatus, StepStatus } from 'checkout/lifecycle';
 import { FormFlowItem } from 'checkout/form-flow';
 
@@ -18,6 +18,7 @@ export interface FormContainerProps {
     model: ModelState;
     formsFlow: FormFlowItem[];
     cardPayment: CardPaymentStage;
+    error: ErrorState;
     createInvoiceWithTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string, params: InvoiceParamsWithTemplate) => CreateInvoiceWithTemplateDispatch;
     createPaymentResource: (capiEndpoint: string, accessToken: string, paymentTool: PaymentTool) => CreatePaymentResourceDispatch;
     createPayment: (capiEndpoint: string, accessToken: string, invoiceID: string, paymentParams: PaymentParams) => CreatePaymentDispatch;
@@ -26,4 +27,5 @@ export interface FormContainerProps {
     setInvoiceAccessToken: (token: string) => SetInvoiceAccessToken;
     pollInvoiceEvents: (capiEndpoint: string, accessToken: string, invoiceID: string, eventID: number) => PollInvoiceEventsDispatch;
     setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
+    setErrorStatus: (status: ErrorHandleStatus) => SetErrorStatus;
 }

@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import * as cx from 'classnames';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { State } from 'checkout/state';
+import { CardFormValues, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
 import { CardFormFlowItem, FormFlowStatus, getByFormName, hasBack, update, FormName } from 'checkout/form-flow';
 import { getAmount } from '../../amount-resolver';
@@ -45,11 +44,11 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    submit() {
+    submit(values: CardFormValues) {
         const activeElement = document.activeElement as HTMLInputElement;
         activeElement.blur();
         this.formFlow.status = FormFlowStatus.inProcess;
-        this.formFlow.values = this.props.cardForm.values;
+        this.formFlow.values = values;
         this.props.setFormFlow(update(this.props.formsFlow, this.formFlow));
     }
 

@@ -27,10 +27,11 @@ const getCardMask = (m: ModelState): string => {
     return null;
 };
 
-export const getDescription = (l: Locale, m: ModelState) => (
-    <p className={styles.text}>
-        {l['form.final.success.card.text']} *{getCardMask(m)}.
-        <br/>
-        {l['form.final.success.check.text']}.
-    </p>
+export const getSuccessDescription = (l: Locale, m: ModelState): JSX.Element => (
+    m.payment ?
+        <p className={styles.text}>
+            {l['form.final.success.card.text']} *{getCardMask(m)}.
+            <br/>
+            {l['form.final.success.check.text']}.
+        </p> : null
 );

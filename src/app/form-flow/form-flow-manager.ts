@@ -1,10 +1,11 @@
 import { FormFlowItem, FormName } from 'checkout/form-flow';
+import { cloneDeep } from 'lodash';
 
 export const add = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] => {
     if (!f) {
         return f;
     }
-    const result = f.slice();
+    const result = cloneDeep(f);
     result.push(item);
     return result;
 };
@@ -13,7 +14,7 @@ export const init = (f: FormFlowItem[]): FormFlowItem[] => {
     if (!f || f.length === 0) {
         return f;
     }
-    const result = f.slice();
+    const result = cloneDeep(f);
     result[0].active = true;
     return result;
 };
@@ -30,7 +31,7 @@ export const next = (f: FormFlowItem[]): FormFlowItem[] => {
         return f;
     }
     const i = f.indexOf(getActive(f));
-    const result = f.slice();
+    const result = cloneDeep(f);
     result[i].active = false;
     result[i + 1].active = true;
     return result;
@@ -48,7 +49,7 @@ export const back = (f: FormFlowItem[]): FormFlowItem[] => {
         return f;
     }
     const i = f.indexOf(getActive(f));
-    const result = f.slice();
+    const result = cloneDeep(f);
     result[i].active = false;
     result[i - 1].active = true;
     return result;
@@ -59,7 +60,7 @@ export const update = (f: FormFlowItem[], item: FormFlowItem): FormFlowItem[] =>
         return f;
     }
     const candidate = getByFormName(f, item.formName);
-    const result = f.slice();
+    const result = cloneDeep(f);
     if (candidate) {
         const i = f.indexOf(candidate);
         result[i] = item;

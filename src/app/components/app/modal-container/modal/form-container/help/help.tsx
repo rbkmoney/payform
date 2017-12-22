@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as styles from './help.scss';
-import * as formStyles from '../forms.scss';
-import {Icon} from '../../../index';
-import { IconType } from '../../../ui/icon/icon-type';
+import * as formStyles from '../form-container.scss';
+import { Icon, IconType } from 'checkout/components';
 
 export class Help extends React.Component {
     render() {

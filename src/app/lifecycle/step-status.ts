@@ -1,5 +1,5 @@
 export enum StepStatus {
+    pristine = 'pristine',
     started = 'started',
-    suspend = 'suspend',
     done = 'done'
 }

@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
-import { State } from 'checkout/state';
+import { ErrorHandleStatus, State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
@@ -16,10 +16,18 @@ import {
     createPayment,
     createPaymentResource,
     pollInvoiceEvents,
+    setErrorStatus,
     setFormFlowAction,
     setInvoiceAccessToken
 } from 'checkout/actions';
-import { FormFlowStatus, FormName, getActive } from 'checkout/form-flow';
+import {
+    FormFlowStatus,
+    FormName,
+    getActive, next, add,
+    ResultFormFlowItem,
+    ResultSubject,
+    ResultSubjectType
+} from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
 
@@ -27,7 +35,8 @@ const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     formsFlow: state.formsFlow,
-    cardPayment: state.lifecycle.cardPayment
+    cardPayment: state.lifecycle.cardPayment,
+    error: state.error
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -38,7 +47,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     changeStageStatus: bindActionCreators(changeStageStatus, dispatch),
     setInvoiceAccessToken: bindActionCreators(setInvoiceAccessToken, dispatch),
     pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
-    setFormFlow: bindActionCreators(setFormFlowAction, dispatch)
+    setFormFlow: bindActionCreators(setFormFlowAction, dispatch),
+    setErrorStatus: bindActionCreators(setErrorStatus, dispatch)
 });
 
 class FormContainerDef extends React.Component<FormContainerProps> {
@@ -52,7 +62,21 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     }
 
     componentWillReceiveProps(props: FormContainerProps) {
-        resolveFormFlow(props);
+        if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
+            const flow = next(add(props.formsFlow, {
+                formName: FormName.resultForm,
+                active: false,
+                status: FormFlowStatus.processed,
+                subject: {
+                    type: ResultSubjectType.error,
+                    error: props.error.error
+                } as ResultSubject
+            } as ResultFormFlowItem));
+            props.setFormFlow(flow);
+            props.setErrorStatus(ErrorHandleStatus.processed);
+        } else {
+            resolveFormFlow(props);
+        }
     }
 
     render() {

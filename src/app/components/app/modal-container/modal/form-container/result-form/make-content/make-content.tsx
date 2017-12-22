@@ -1,29 +1,41 @@
 import * as React from 'react';
-import * as styles from '../result-form.scss';
 import {
     ChangeType,
     InvoiceStatusChanged,
-    InvoiceStatuses,
+    InvoiceStatuses, LogicError,
     PaymentStatusChanged,
     PaymentStatuses
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import { getDescription } from './get-description';
 import { ModelState } from 'checkout/state';
-import { FormFlowItem, ResultFormFlowItem } from 'checkout/form-flow';
+import {
+    ResultSubject,
+    ResultSubjectError,
+    ResultSubjectInvoiceChange,
+    ResultSubjectType
+} from 'checkout/form-flow';
 import { Checkmark, Cross } from '../result-icons';
+import { getFailedDescription } from './get-failed-description';
+import { getSuccessDescription } from './get-success-description';
 
-const gotFailedPayment = (l: Locale, c: PaymentStatusChanged): ResultFormContent => ({
-    hasActions: true,
+export interface ResultFormContent {
+    hasActions: boolean;
+    header: string;
+    description?: JSX.Element;
+    icon: JSX.Element;
+}
+
+const gotFailedPayment = (l: Locale, m: ModelState, e: LogicError): ResultFormContent => ({
+    hasActions: !!m.paymentResource,
     header: l['form.header.final.failed.label'],
-    description: c.error && c.error.code ? <p className={styles.text}>{l[c.error.code]}</p> : null,
+    description: getFailedDescription(l, e),
     icon: <Cross/>
 });
 
 const gotSuccessPayment = (l: Locale, m: ModelState): ResultFormContent => ({
     hasActions: false,
     header: l['form.header.final.success.label'],
-    description: getDescription(l, m),
+    description: getSuccessDescription(l, m),
     icon: <Checkmark/>
 });
 
@@ -33,32 +45,35 @@ const alreadyPaid = (l: Locale) => ({
     icon: <Checkmark/>
 });
 
-export interface ResultFormContent {
-    hasActions: boolean;
-    header: string;
-    description?: JSX.Element;
-    icon: JSX.Element;
-}
-
-export const makeContent = (l: Locale, m: ModelState, active: FormFlowItem): ResultFormContent => {
-    const flowItem = active as ResultFormFlowItem;
-    const change = flowItem.change;
-    switch (change.changeType) {
+export const makeContentInvoiceChange = (l: Locale, m: ModelState, s: ResultSubjectInvoiceChange): ResultFormContent => {
+    switch (s.change.changeType) {
         case ChangeType.InvoiceStatusChanged:
-            const invoiceChange = change as InvoiceStatusChanged;
+            const invoiceChange = s.change as InvoiceStatusChanged;
             switch (invoiceChange.status) {
                 case InvoiceStatuses.paid:
                     return alreadyPaid(l);
             }
             break;
         case ChangeType.PaymentStatusChanged:
-            const paymentChange = change as PaymentStatusChanged;
+            const paymentChange = s.change as PaymentStatusChanged;
             switch (paymentChange.status) {
                 case PaymentStatuses.failed:
-                    return gotFailedPayment(l, paymentChange);
+                    return gotFailedPayment(l, m, paymentChange.error);
                 case PaymentStatuses.processed:
                     return gotSuccessPayment(l, m);
             }
             break;
     }
+};
+
+const makeContentError = (l: Locale, m: ModelState, s: ResultSubjectError): ResultFormContent => gotFailedPayment(l, m, s.error);
+
+export const makeContent = (l: Locale, m: ModelState, s: ResultSubject): ResultFormContent => {
+    switch (s.type) {
+        case ResultSubjectType.invoiceChange:
+            return makeContentInvoiceChange(l, m, s as ResultSubjectInvoiceChange);
+        case ResultSubjectType.error:
+            return makeContentError(l, m, s as ResultSubjectError);
+    }
+    throw new Error('Unknown ResultSubject type');
 };

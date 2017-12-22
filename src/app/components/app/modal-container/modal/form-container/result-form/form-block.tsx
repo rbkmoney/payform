@@ -5,8 +5,14 @@ import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
 import { IntegrationType } from 'checkout/config';
 import { StepStatus } from 'checkout/lifecycle';
-import { CardFormFlowItem, FormFlowStatus, FormName, DirectionTransition, getByFormName } from 'checkout/form-flow';
-import { Cross, Checkmark } from './result-icons';
+import {
+    CardFormFlowItem,
+    FormFlowStatus,
+    FormName,
+    DirectionTransition,
+    getByFormName,
+    ResultFormFlowItem
+} from 'checkout/form-flow';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -18,6 +24,7 @@ const retry = (e: any, props: ResultFormProps) => {
     cardForm.active = true;
     cardForm.status = FormFlowStatus.inProcess;
     cardForm.view.slideDirection = DirectionTransition.left;
+    cardForm.needToReset = false;
     props.setFormFlow([cardForm]);
 };
 
@@ -74,7 +81,8 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 };
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
-    const {header, description, icon, hasActions} = makeContent(props.locale, props.model, props.active);
+    const flowItem = props.active as ResultFormFlowItem;
+    const {header, description, icon, hasActions} = makeContent(props.locale, props.model, flowItem.subject);
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
