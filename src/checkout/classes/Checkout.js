@@ -47,7 +47,7 @@ export default class Checkout {
     prepareTarget() {
         let target;
         if (this.config.popupMode) {
-            const url = `${this.payformHost}/html/payframe.html?${UriSerializer.serialize(this.config)}`;
+            const url = `${this.payformHost}/v1/checkout.html?${UriSerializer.serialize(this.config)}`;
             target = window.open(url);
         } else {
             target = window.frames[this.iframe.getName()];

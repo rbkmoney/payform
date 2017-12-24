@@ -13,6 +13,7 @@ import {
     getByFormName,
     ResultFormFlowItem
 } from 'checkout/form-flow';
+import { ResultState } from 'checkout/state';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -25,6 +26,7 @@ const retry = (e: any, props: ResultFormProps) => {
     cardForm.status = FormFlowStatus.inProcess;
     cardForm.view.slideDirection = DirectionTransition.left;
     cardForm.needToReset = false;
+    cardForm.handledEventID = props.active.handledEventID;
     props.setFormFlow([cardForm]);
 };
 
@@ -54,6 +56,7 @@ const choseAnotherCard = (e: any, props: ResultFormProps) => {
     cardForm.values = null;
     cardForm.needToReset = true;
     cardForm.view.slideDirection = DirectionTransition.left;
+    cardForm.handledEventID = props.active.handledEventID;
     props.setFormFlow([cardForm]);
 };
 
@@ -82,7 +85,10 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
     const flowItem = props.active as ResultFormFlowItem;
-    const {header, description, icon, hasActions} = makeContent(props.locale, props.model, flowItem.subject);
+    const {header, description, icon, hasActions, hasDone} = makeContent(props.locale, props.model, flowItem.subject);
+    if (hasDone) {
+        props.setResult(ResultState.done);
+    }
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
