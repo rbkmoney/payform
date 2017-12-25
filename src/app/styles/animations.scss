@@ -1,3 +1,6 @@
+@import './variables';
+@import './responsive';
+
 :global {
     /* FADE IN ANIMATION */
     @keyframes fadein {
@@ -44,14 +47,14 @@
 
     /* ROTATE IN ANIMATION */
     @keyframes rotatein {
-        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 90deg);  }
+        from {  transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);  }
         to {  transform: perspective(0) rotate3d(0, 1, 0, 0);  }
     }
 
     /* ROTATE OUT ANIMATION */
     @keyframes rotateout {
-        from {  transform: perspective(1000px) rotate3d(0, 1, 0, 0);  }
-        to {  transform: perspective(0) rotate3d(0, 1, 0, 90deg);  }
+        from {  transform: perspective(1000px) rotate3d(0, 0, 0, 0);  }
+        to {  transform: perspective(0) rotate3d(0, 1, 0, -90deg);  }
     }
 
     /* SHAKE ANIMATION */
@@ -60,5 +63,102 @@
         20%, 80% {  transform: translate3d(2px, 0, 0);  }
         30%, 50%, 70% {  transform: translate3d(-4px, 0, 0);  }
         40%, 60% {  transform: translate3d(4px, 0, 0);  }
+    }
+
+    /* STROKE ANIMATION */
+    @keyframes stroke {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    /* SCALE ANIMATION */
+    @keyframes scale {
+        0%, 100% {
+            transform: none;
+        }
+        50% {
+            transform: scale3d(1.1, 1.1, 1);
+        }
+    }
+
+    /* FILL ANIMATION */
+    @keyframes fillGreen {
+        100% {
+            box-shadow: inset 0 0 0 30px $green;
+        }
+
+    }
+
+    @keyframes fillRed {
+        100% {
+            box-shadow: inset 0 0 0 30px $red;
+        }
+
+    }
+
+    /* ITERACTION ANIMATION */
+    .interactionAnimation-enter {
+        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
+        transition: all .5s;
+        transition-delay: .5s;
+    }
+    .interactionAnimation-enter.interactionAnimation-enter-active {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+    }
+    .interactionAnimation-leave {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        position: absolute;
+        top: 0;
+        transition: all .5s;
+    }
+    .interactionAnimation-leave.interactionAnimation-leave-active {
+        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+    }
+
+    /* FORMS ANIMATION */
+    .slideRightAnimation-enter {
+        transform: translateX(360px); opacity: 0;
+        transition: all .6s;
+
+        &.slideRightAnimation-enter-active {
+            transform: translateX(0); opacity: 1;
+        }
+    }
+    .slideRightAnimation-leave {
+        transform: translateX(0); opacity: 1;
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+        transition: all .6s;
+
+        &.slideRightAnimation-leave-active {
+            transform: translateX(-360px); opacity: 0;
+        }
+    }
+
+    /* REVERSE FORMS ANIMATION */
+    .slideLeftAnimation-enter {
+        transform: translateX(-360px); opacity: 0;
+        transition: all .6s;
+
+        &.slideLeftAnimation-enter-active {
+            transform: translateX(0); opacity: 1;
+        }
+    }
+    .slideLeftAnimation-leave {
+        transform: translateX(0); opacity: 1;
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+        transition: all .6s;
+
+        &.slideLeftAnimation-leave-active {
+            transform: translateX(360px); opacity: 0;
+        }
     }
 }

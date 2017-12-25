@@ -1,0 +1,115 @@
+@import '../../../../../../styles/variables';
+@import '../../../../../../styles/animations';
+@import '../../../../../../styles/responsive';
+
+.container {
+    position: relative;
+    width: 100%;
+
+    &:nth-child(2) {
+        margin-left: 10px;
+    }
+
+    .checkmark,
+    .errorCross {
+        display: flex;
+        position: absolute;
+        right: 0;
+        top: 0;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    .checkmark {
+        height: 9px;
+        width: 13px;
+        margin: 19px 15px 0 19px;
+    }
+    .errorCross {
+        height: 18px;
+        width: 18px;
+        margin: 15px 15px 0 19px;
+        transform: scale(.7);
+    }
+
+    &._hasError {
+        input {
+            border-color: red;
+        }
+    }
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 15px 0 15px 15px;
+    width: 19px;
+    height: 18px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    //opacity: .75;
+    opacity: 1;
+}
+
+.input {
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid $gray;
+    box-shadow: 0 0 4px 0 $white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: $deep-gray;
+    letter-spacing: 0;
+    line-height: 20px;
+    padding: 14px 13px 12px 40px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color .3s;
+
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: $light-gray;
+        font-family: 'Roboto', sans-serif;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+        color: $light-gray;
+        font-family: 'Roboto', sans-serif;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: $light-gray;
+        font-family: 'Roboto', sans-serif;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+        color: $light-gray;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    &:focus {
+        border-color: $light-blue;
+        box-shadow: 0 0 4px 0 $light-blue;
+        outline: $light-blue solid 2px;
+        outline-offset: -1px;
+    }
+
+    &.mark {
+        padding: 13px 30px 13px 40px;
+    }
+}
+
+.appearMarks {
+    animation: fadein .5s;
+}
+
+.enterMarks {
+    animation: fadein .5s;
+}
+
+.leaveMarks {
+    animation: fadeout .5s;
+}

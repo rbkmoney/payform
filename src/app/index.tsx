@@ -3,11 +3,11 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './styles/main.scss';
 import './styles/forms.scss';
-import { ConfigResolver } from './config/config-resolver';
-import { Child } from '../communication-ts/child';
-import { Container } from './components';
 import { configureStore } from './configure-store';
-import { finalize } from './finalize-app';
+import { App } from './components/app';
+import { finalize } from './finalize';
+import { Child } from '../communication-ts';
+import { ConfigResolver } from './config';
 
 Child.resolve()
     .then((transport) =>
@@ -17,20 +17,19 @@ Child.resolve()
         ]))
     .then((res) => {
         const app = document.getElementById('app');
-        const store = configureStore({});
+        const store = configureStore({
+            config: res[1]
+        });
         store.subscribe(() => {
             const state = store.getState();
             if (state.result) {
-                finalize(state.result, res[0], app);
+                finalize(state, res[0], app);
             }
         });
         ReactDOM.render(
             <Provider store={store}>
-                <Container/>
+                <App/>
             </Provider>,
             app
         );
-    })
-    .catch((error) => {
-        throw new Error(error); // TODO need to implement
     });

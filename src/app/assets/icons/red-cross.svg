@@ -1,0 +1,13 @@
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="red-cross" transform="translate(-5.000000, -5.000000)" stroke="#FF0000" fill-rule="nonzero"
+           fill="#FF0000">
+            <g id="Group"
+               transform="translate(13.500000, 13.500000) rotate(-45.000000) translate(-13.500000, -13.500000) translate(4.218750, 4.218750)">
+                <polygon id="Shape"
+                         points="10.125 8.4375 10.125 0 8.4375 0 8.4375 8.4375 -1.13686838e-13 8.4375 -1.13686838e-13 10.125 8.4375 10.125 8.4375 18.5625 10.125 18.5625 10.125 10.125 18.5625 10.125 18.5625 8.4375"/>
+            </g>
+        </g>
+    </g>
+</svg>

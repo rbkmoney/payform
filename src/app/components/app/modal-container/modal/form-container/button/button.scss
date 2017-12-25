@@ -1,0 +1,48 @@
+@import '../../../../../../styles/variables';
+
+.button {
+    text-align: center;
+    border-radius: 4px;
+    padding: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    transition: all .3s;
+    cursor: pointer;
+    width: 100%;
+    outline: none;
+
+    &._default {
+        color: $purple;
+        background: $white;
+        border: 2px solid $purple;
+
+        &:hover {
+            border-color: $deep-purple;
+        }
+
+        &:active {
+            border-color: $deepest-purple;
+            outline: none;
+        }
+    }
+
+    &._primary {
+        color: $white;
+        background: $purple;
+        border: 2px solid $purple;
+
+        &:hover {
+            background: $deep-purple;
+            border-color: $deep-purple;
+        }
+
+        &:active {
+            background: $deepest-purple;
+            border-color: $deepest-purple;
+            outline: none;
+        }
+    }
+}

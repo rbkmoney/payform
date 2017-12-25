@@ -1,0 +1,23 @@
+@import '../../../styles/responsive';
+@import '../../../styles/animations';
+
+.appearContainer {
+    @include responsive(sm) {
+        animation: popup .75s;
+    }
+}
+
+.enterContainer {
+    background: transparent;
+}
+
+.leaveContainer {
+    @include responsive(sm) {
+        animation: popout 1s;
+    }
+}
+
+.container {
+    height: 100%;
+    position: relative;
+}

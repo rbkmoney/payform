@@ -8,11 +8,17 @@ const commonConfig = require('./webpack.config.common');
 module.exports = merge(commonConfig, {
     devtool: 'source-map',
     plugins: [
-        new WriteFilePlugin()
+        new WriteFilePlugin({
+            log: false
+        })
     ],
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
         compress: true,
-        disableHostCheck: true
+        disableHostCheck: true,
+        stats: {
+            children: false,
+            chunks: false
+        }
     }
 });

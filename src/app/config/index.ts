@@ -1,4 +1,3 @@
-export * from './app-config';
 export * from './config';
 export * from './config-resolver';
 export * from './customer-init-config';
