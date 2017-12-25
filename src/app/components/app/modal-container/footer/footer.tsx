@@ -203,10 +203,10 @@ class FooterDef extends React.Component<FooterProps> {
                 <p className={styles.copyright}>
                     {locale['footer.copyright.text']}
                 </p>
-                <a href='' className={styles.offer}>
-                    {locale['footer.offer.label']}
-                    <hr/>
-                </a>
+                {/*<a href='' className={styles.offer}>*/}
+                    {/*{locale['footer.offer.label']}*/}
+                    {/*<hr/>*/}
+                {/*</a>*/}
             </footer>
         );
     }

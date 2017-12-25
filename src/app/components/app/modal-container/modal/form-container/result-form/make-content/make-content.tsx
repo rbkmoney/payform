@@ -20,6 +20,7 @@ import { getSuccessDescription } from './get-success-description';
 
 export interface ResultFormContent {
     hasActions: boolean;
+    hasDone: boolean;
     header: string;
     description?: JSX.Element;
     icon: JSX.Element;
@@ -27,6 +28,7 @@ export interface ResultFormContent {
 
 const gotFailedPayment = (l: Locale, m: ModelState, e: LogicError): ResultFormContent => ({
     hasActions: !!m.paymentResource,
+    hasDone: false,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),
     icon: <Cross/>
@@ -34,6 +36,7 @@ const gotFailedPayment = (l: Locale, m: ModelState, e: LogicError): ResultFormCo
 
 const gotSuccessPayment = (l: Locale, m: ModelState): ResultFormContent => ({
     hasActions: false,
+    hasDone: true,
     header: l['form.header.final.success.label'],
     description: getSuccessDescription(l, m),
     icon: <Checkmark/>
@@ -41,6 +44,7 @@ const gotSuccessPayment = (l: Locale, m: ModelState): ResultFormContent => ({
 
 const alreadyPaid = (l: Locale) => ({
     hasActions: false,
+    hasDone: false,
     header: l['form.header.final.already.success.label'],
     icon: <Checkmark/>
 });

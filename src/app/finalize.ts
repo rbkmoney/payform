@@ -6,28 +6,24 @@ import { isSafetyUrl } from 'checkout/utils';
 
 class AppFinalizer {
 
-    private actionTimeout = 300;
-
     constructor(private transport: Transport, private checkoutEl: HTMLElement) {
     }
 
     close() {
         ReactDOM.unmountComponentAtNode(this.checkoutEl);
-        setTimeout(() => {
-            this.transport.emit(PossibleEvents.close);
-            this.transport.destroy();
-        }, this.actionTimeout);
+        this.transport.emit(PossibleEvents.close);
+        this.transport.destroy();
     }
 
     done(redirectUrl: string, popupMode: boolean) {
-        ReactDOM.unmountComponentAtNode(this.checkoutEl);
         setTimeout(() => {
+            ReactDOM.unmountComponentAtNode(this.checkoutEl);
             this.transport.emit(PossibleEvents.done);
             this.transport.destroy();
             if (popupMode) {
                 redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
             }
-        }, this.actionTimeout);
+        }, 4000);
     }
 }
 

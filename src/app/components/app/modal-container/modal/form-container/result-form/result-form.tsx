@@ -8,7 +8,8 @@ import {
     changeStepStatus,
     setModel,
     resetStage,
-    setFormFlowAction
+    setFormFlowAction,
+    setResult
 } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { FormBlock } from './form-block';
@@ -37,6 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     resetStage: bindActionCreators(resetStage, dispatch),
     changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
     setModel: bindActionCreators(setModel, dispatch),
+    setResult: bindActionCreators(setResult, dispatch)
 });
 
 export const ResultForm = connect(mapStateToProps, mapDispatchToProps)(ResultFormDef);
