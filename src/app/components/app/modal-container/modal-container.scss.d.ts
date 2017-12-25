@@ -13,6 +13,3 @@ export const rotatein: string;
 export const rotateout: string;
 export const shake: string;
 export const animationContainer: string;
-export const appearInteraction: string;
-export const leaveInteraction: string;
-export const enterInteraction: string;

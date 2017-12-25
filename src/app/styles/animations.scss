@@ -1,4 +1,5 @@
 @import './variables';
+@import './responsive';
 
 :global {
     /* FADE IN ANIMATION */
@@ -98,21 +99,29 @@
 
     /* ITERACTION ANIMATION */
     .interactionAnimation-enter {
-        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
-        transition: all .5s;
-        transition-delay: .5s;
+        @include responsive(sm) {
+            transform: perspective(0) rotate3d(0, 1, 0, 90deg);
+            transition: all .5s;
+            transition-delay: .5s;
+        }
     }
     .interactionAnimation-enter.interactionAnimation-enter-active {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        @include responsive(sm) {
+            transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        }
     }
     .interactionAnimation-leave {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
-        position: absolute;
-        top: 0;
-        transition: all .5s;
+        @include responsive(sm) {
+            transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+            position: absolute;
+            top: 0;
+            transition: all .5s;
+        }
     }
     .interactionAnimation-leave.interactionAnimation-leave-active {
-        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+        @include responsive(sm) {
+            transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+        }
     }
 
     /* FORMS ANIMATION */
