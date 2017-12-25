@@ -13,6 +13,7 @@ import settings from '../settings';
 import StateResolver from './StateResolver';
 import ConfigLoader from './loaders/ConfigLoader';
 import getIntegrationType from '../utils/getIntegrationType';
+import isSafetyUrl from '../utils/isSafetyUrl';
 
 ready(function (origin) {
     const modal = document.getElementById('modal');
@@ -24,7 +25,7 @@ ready(function (origin) {
                 transport.emit('payment-done');
                 transport.destroy();
                 if (this.popupMode) {
-                    if (this.redirectUrl) {
+                    if (this.redirectUrl && isSafetyUrl(this.redirectUrl)) {
                         location.replace(this.redirectUrl);
                     } else {
                         window.close();
