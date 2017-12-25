@@ -94,7 +94,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         transitionLeaveTimeout={550}
                     >
                         {formName === FormName.paymentMethods ? <PaymentMethods/> : null}
-                        {formName === FormName.cardForm ? <CardForm/> : null}
+                        {formName === FormName.cardForm || formName === FormName.modalInteraction ? <CardForm/> : null}
                         {formName === FormName.resultForm ? <ResultForm/> : null}
                     </CSSTransitionGroup>
                     <CSSTransitionGroup

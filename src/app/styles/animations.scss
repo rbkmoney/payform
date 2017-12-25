@@ -99,29 +99,21 @@
 
     /* ITERACTION ANIMATION */
     .interactionAnimation-enter {
-        @include responsive(sm) {
-            transform: perspective(0) rotate3d(0, 1, 0, 90deg);
-            transition: all .5s;
-            transition-delay: .5s;
-        }
+        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
+        transition: all .5s;
+        transition-delay: .5s;
     }
     .interactionAnimation-enter.interactionAnimation-enter-active {
-        @include responsive(sm) {
-            transform: perspective(1000px) rotate3d(0, 0, 0, 0);
-        }
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
     }
     .interactionAnimation-leave {
-        @include responsive(sm) {
-            transform: perspective(1000px) rotate3d(0, 0, 0, 0);
-            position: absolute;
-            top: 0;
-            transition: all .5s;
-        }
+        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        position: absolute;
+        top: 0;
+        transition: all .5s;
     }
     .interactionAnimation-leave.interactionAnimation-leave-active {
-        @include responsive(sm) {
-            transform: perspective(0) rotate3d(0, 1, 0, -90deg);
-        }
+        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
     }
 
     /* FORMS ANIMATION */
