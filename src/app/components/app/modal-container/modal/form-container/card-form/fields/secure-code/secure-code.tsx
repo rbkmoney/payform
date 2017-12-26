@@ -28,6 +28,7 @@ const CustomInput: React.SFC<FieldProps & SecureCodeDefProps> = (props) => (
         icon={IconType.lock}
         placeholder={props.locale['form.input.secure.placeholder']}
         mark={true}
+        type='tel'
     />
 );
 

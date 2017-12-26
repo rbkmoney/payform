@@ -25,8 +25,8 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
         icon={IconType.amount}
         error={isError(props.meta)}
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
-        type={'number'}
         mark={true}
+        type={'tel'}
     />
 );
 

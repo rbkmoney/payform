@@ -26,6 +26,7 @@ const CustomInput: React.SFC<FieldProps & EmailDefProps> = (props) => (
         icon={IconType.letter}
         placeholder={props.locale['form.input.email.placeholder']}
         mark={true}
+        type='email'
     />
 );
 
