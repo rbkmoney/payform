@@ -61,6 +61,7 @@
     "form.header.final.already.success.label": "Оплачено",
     "form.header.final.failed.label": "Не оплачено",
     "form.final.failed.dueTime.text": "Время на оплату  истекло",
+    "form.final.failed.cancelled.text": "Платеж был отменен",
     "form.final.success.card.text": "Оплачено картой",
     "form.final.success.check.text": " Чек отправлен вам на email",
     "form.input.delivery.repeat": "Повторить адрес доставки",

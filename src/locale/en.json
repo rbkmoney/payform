@@ -61,6 +61,7 @@
     "form.header.final.already.success.label": "Fully paid-up",
     "form.header.final.failed.label": "Unpaid",
     "form.final.failed.dueTime.text": "Payment timeout error",
+    "form.final.failed.cancelled.text": "Payment was cancelled",
     "form.final.success.card.text": "Paid with card",
     "form.final.success.check.text": "Receipt sent to email",
     "form.input.delivery.repeat": "Repeat shipping address",

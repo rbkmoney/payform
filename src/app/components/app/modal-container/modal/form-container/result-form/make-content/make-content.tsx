@@ -56,6 +56,8 @@ export const makeContentInvoiceChange = (l: Locale, m: ModelState, s: ResultSubj
             switch (invoiceChange.status) {
                 case InvoiceStatuses.paid:
                     return alreadyPaid(l);
+                case InvoiceStatuses.cancelled:
+                    return gotFailedPayment(l, m, {code: 'Payment was cancelled', message: 'Payment was cancelled'}); // TODO: make a normal change
             }
             break;
         case ChangeType.PaymentStatusChanged:
