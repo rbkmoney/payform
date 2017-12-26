@@ -76,11 +76,6 @@ class CardFormDef extends React.Component<Props> {
                         {locale['form.header.pay.card.label']}
                     </div>
                 </div>
-                {this.formFlow.amountConfig.visible ?
-                    <div className={commonFormStyles.formGroup}>
-                        <Amount/>
-                    </div> : false
-                }
                 <div className={commonFormStyles.formGroup}>
                     <CardNumber/>
                 </div>
@@ -94,6 +89,11 @@ class CardFormDef extends React.Component<Props> {
                 <div className={commonFormStyles.formGroup}>
                     <Email/>
                 </div>
+                {this.formFlow.amountConfig.visible ?
+                    <div className={commonFormStyles.formGroup}>
+                        <Amount/>
+                    </div> : false
+                }
                 <PayButton {...this.props}/>
             </form>
         );
