@@ -17,7 +17,7 @@ const prepareResultFlow = (f: FormFlowItem[]): FormFlowItem[] => {
         status: FormFlowStatus.inProcess,
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: FormSizeClass.resultForm
+            height: FormSizeClass.resultForm
         }
     } as ResultFormFlowItem);
 };

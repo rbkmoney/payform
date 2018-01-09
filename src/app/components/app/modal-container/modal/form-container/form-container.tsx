@@ -84,9 +84,9 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
-                    [styles._error]: status === FormFlowStatus.error,
-                    [(styles as any)[view.formSizeClass]]: true
-                })}>
+                        [styles._error]: status === FormFlowStatus.error
+                     })}
+                     style={{height: view.height}}>
                     <CSSTransitionGroup
                         component='div'
                         transitionName={view.slideDirection}

@@ -20,7 +20,7 @@ export const prepareResultFlow = (f: FormFlowItem[], p: FormContainerProps): For
         handledEventID: getLastEventID(p.model.invoiceEvents), // TODO fix it,
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: FormSizeClass.resultForm
+            height: FormSizeClass.resultForm
         },
         subject: {
             type: ResultSubjectType.invoiceChange,

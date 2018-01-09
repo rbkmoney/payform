@@ -4,14 +4,14 @@ export enum DirectionTransition {
 }
 
 export enum FormSizeClass {
-    cardForm = '_cardForm',
-    cardFormWithAdditonalField = '_cardFormWithAdditonalField',
-    cardFormWithTwoAdditonalField = '__cardFormWithTwoAdditonalField',
-    resultForm = '_resultForm',
-    paymentMethods = '_paymentMethods'
+    cardForm = '288px',
+    cardFormWithAdditonalField = '340px',
+    cardFormWithTwoAdditonalField = '392px',
+    resultForm = '392px',
+    paymentMethods = '100px'
 }
 
 export class FlowViewInfo {
     slideDirection: DirectionTransition;
-    formSizeClass: FormSizeClass;
+    height: FormSizeClass;
 }

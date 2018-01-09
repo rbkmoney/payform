@@ -66,11 +66,13 @@ const toCardFormSizeClass = (amountConfig: AmountConfig, emailConfig: EmailConfi
     amountConfig.visible ? ++result : false;
     emailConfig.visible ? ++result : false;
     switch (result) {
+        default:
         case 0:
             return FormSizeClass.cardForm;
         case 1:
             return FormSizeClass.cardFormWithAdditonalField;
-        case 2: return FormSizeClass.cardFormWithTwoAdditonalField
+        case 2:
+            return FormSizeClass.cardFormWithTwoAdditonalField;
     }
 };
 
@@ -86,7 +88,7 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
         handledEventID: getLastEventID(m.invoiceEvents),
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: toCardFormSizeClass(amountConfig, emailConfig)
+            height: toCardFormSizeClass(amountConfig, emailConfig)
         }
     };
 };
@@ -102,7 +104,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             status: FormFlowStatus.unprocessed,
             view: {
                 slideDirection: DirectionTransition.right,
-                formSizeClass: FormSizeClass.paymentMethods
+                height: FormSizeClass.paymentMethods
             }
         });
     } else {

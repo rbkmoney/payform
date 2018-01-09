@@ -18,7 +18,7 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
         status: FormFlowStatus.processed,
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: FormSizeClass.resultForm
+            height: FormSizeClass.resultForm
         },
         subject: {
             type: ResultSubjectType.invoiceChange,
