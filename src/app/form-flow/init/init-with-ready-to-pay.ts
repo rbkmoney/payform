@@ -8,7 +8,7 @@ import {
     FormSizeClass,
     getLastEventID,
     init,
-    DirectionTransition
+    DirectionTransition, EmailConfig
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -50,17 +50,43 @@ const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
     return {visible: false};
 };
 
+const toEmailConfig = (c: InitConfig): EmailConfig => {
+    if (c.email) {
+        return {
+            visible: false,
+            email: c.email
+        };
+    } else {
+        return {visible: true};
+    }
+};
+
+const toCardFormSizeClass = (amountConfig: AmountConfig, emailConfig: EmailConfig): FormSizeClass => {
+    let result = 0;
+    amountConfig.visible ? ++result : false;
+    emailConfig.visible ? ++result : false;
+    switch (result) {
+        case 0:
+            return FormSizeClass.cardForm;
+        case 1:
+            return FormSizeClass.cardFormWithAdditonalField;
+        case 2: return FormSizeClass.cardFormWithTwoAdditonalField
+    }
+};
+
 const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
     const amountConfig = toAmountConfig(c, m);
+    const emailConfig = toEmailConfig(c);
     return {
         formName: FormName.cardForm,
         active: false,
         amountConfig,
+        emailConfig,
         status: FormFlowStatus.unprocessed,
         handledEventID: getLastEventID(m.invoiceEvents),
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: amountConfig.visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
+            formSizeClass: toCardFormSizeClass(amountConfig, emailConfig)
         }
     };
 };

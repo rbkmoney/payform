@@ -31,13 +31,19 @@
 
     &._cardForm {
         @include responsive(sm) {
+            height: 288px;
+        }
+    }
+
+    &._cardFormWithAdditonalField {
+        @include responsive(sm) {
             height: 340px;
         }
     }
 
-    &._cardFormAmount {
+    &._cardFormWithTwoAdditonalField {
         @include responsive(sm) {
-            height: 398px;
+            height: 392px;
         }
     }
 

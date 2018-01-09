@@ -86,9 +86,11 @@ class CardFormDef extends React.Component<Props> {
                 <div className={commonFormStyles.formGroup}>
                     <CardHolder/>
                 </div>
-                <div className={commonFormStyles.formGroup}>
-                    <Email/>
-                </div>
+                {this.formFlow.emailConfig.visible ?
+                    <div className={commonFormStyles.formGroup}>
+                        <Email/>
+                    </div> : false
+                }
                 {this.formFlow.amountConfig.visible ?
                     <div className={commonFormStyles.formGroup}>
                         <Amount/>

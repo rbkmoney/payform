@@ -5,7 +5,8 @@ export enum DirectionTransition {
 
 export enum FormSizeClass {
     cardForm = '_cardForm',
-    cardFormWithAmount = '_cardFormWithAmount',
+    cardFormWithAdditonalField = '_cardFormWithAdditonalField',
+    cardFormWithTwoAdditonalField = '__cardFormWithTwoAdditonalField',
     resultForm = '_resultForm',
     paymentMethods = '_paymentMethods'
 }
