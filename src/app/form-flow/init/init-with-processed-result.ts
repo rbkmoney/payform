@@ -3,7 +3,7 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
-    FormSizeClass,
+    FormHeight,
     ResultFormFlowItem,
     ResultSubject,
     ResultSubjectType,
@@ -18,7 +18,7 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
         status: FormFlowStatus.processed,
         view: {
             slideDirection: DirectionTransition.right,
-            height: FormSizeClass.resultForm
+            height: FormHeight.resultForm
         },
         subject: {
             type: ResultSubjectType.invoiceChange,

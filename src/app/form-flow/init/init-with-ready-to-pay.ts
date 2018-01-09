@@ -5,7 +5,7 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
-    FormSizeClass,
+    FormHeight,
     getLastEventID,
     init,
     DirectionTransition, EmailConfig
@@ -61,18 +61,18 @@ const toEmailConfig = (c: InitConfig): EmailConfig => {
     }
 };
 
-const toCardFormSizeClass = (amountConfig: AmountConfig, emailConfig: EmailConfig): FormSizeClass => {
+const toCardFormSizeClass = (amountConfig: AmountConfig, emailConfig: EmailConfig): FormHeight => {
     let result = 0;
     amountConfig.visible ? ++result : false;
     emailConfig.visible ? ++result : false;
     switch (result) {
         default:
         case 0:
-            return FormSizeClass.cardForm;
+            return FormHeight.cardForm;
         case 1:
-            return FormSizeClass.cardFormWithAdditonalField;
+            return FormHeight.cardFormWithAdditonalField;
         case 2:
-            return FormSizeClass.cardFormWithTwoAdditonalField;
+            return FormHeight.cardFormWithTwoAdditonalField;
     }
 };
 
@@ -104,7 +104,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             status: FormFlowStatus.unprocessed,
             view: {
                 slideDirection: DirectionTransition.right,
-                height: FormSizeClass.paymentMethods
+                height: FormHeight.paymentMethods
             }
         });
     } else {

@@ -6,7 +6,7 @@ import {
     FormName,
     getByFormName, next,
     ResultFormFlowItem,
-    FormSizeClass,
+    FormHeight,
     DirectionTransition
 } from 'checkout/form-flow';
 
@@ -17,7 +17,7 @@ const prepareResultFlow = (f: FormFlowItem[]): FormFlowItem[] => {
         status: FormFlowStatus.inProcess,
         view: {
             slideDirection: DirectionTransition.right,
-            height: FormSizeClass.resultForm
+            height: FormHeight.resultForm
         }
     } as ResultFormFlowItem);
 };
