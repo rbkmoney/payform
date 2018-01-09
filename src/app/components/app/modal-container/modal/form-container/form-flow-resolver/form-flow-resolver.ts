@@ -21,10 +21,11 @@ export type Shortened = (stepName: string, action: () => any, doneCondition: boo
 
 const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
     const events = p.model.invoiceEvents;
-    if (!events && p.config.initConfig.integrationType === IntegrationType.invoiceTemplate) {
+    const isTemplateIntegration = p.config.initConfig.integrationType === IntegrationType.invoiceTemplate;
+    if (!events && isTemplateIntegration) {
         pay(p, i);
     } else {
-        const isLastChange = checkLastChange.bind(null, events, i.handledEventID);
+        const isLastChange = checkLastChange.bind(null, events, isTemplateIntegration ? 0 : i.handledEventID);
         const isPaymentChange = isLastChange.bind(null, ChangeType.PaymentStatusChanged);
         const isInvoiceChange = isLastChange.bind(null, ChangeType.InvoiceStatusChanged);
         const isCardInteraction = isLastChange.bind(null, ChangeType.PaymentInteractionRequested);

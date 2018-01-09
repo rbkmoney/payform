@@ -25,8 +25,9 @@ import {
     FormName,
     getActive, next, add,
     ResultFormFlowItem,
-    ResultSubject,
-    ResultSubjectType
+    ResultSubjectType,
+    FormSizeClass,
+    DirectionTransition
 } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
@@ -70,7 +71,11 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 subject: {
                     type: ResultSubjectType.error,
                     error: props.error.error
-                } as ResultSubject
+                },
+                view: {
+                    slideDirection: DirectionTransition.right,
+                    formSizeClass: FormSizeClass.resultForm
+                }
             } as ResultFormFlowItem));
             props.setFormFlow(flow);
             props.setErrorStatus(ErrorHandleStatus.processed);
