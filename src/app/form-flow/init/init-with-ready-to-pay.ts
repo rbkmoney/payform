@@ -5,10 +5,9 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
-    FormSizeClass,
     getLastEventID,
     init,
-    DirectionTransition
+    DirectionTransition, EmailConfig, FieldsConfig
 } from 'checkout/form-flow';
 import {
     InvoiceTemplate,
@@ -18,6 +17,7 @@ import {
 } from 'checkout/backend';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
+import { ItemConfig } from 'checkout/form-flow/flow-item/card-form-flow-item';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -50,19 +50,39 @@ const toAmountConfig = (c: InitConfig, m: ModelState): AmountConfig => {
     return {visible: false};
 };
 
+const toEmailConfig = (c: InitConfig): EmailConfig => {
+    if (c.email) {
+        return {
+            visible: false,
+            value: c.email
+        };
+    } else {
+        return {visible: true};
+    }
+};
+
+const calcHeight = (fieldsConfig: FieldsConfig): number => {
+    const count = Object.values(fieldsConfig)
+        .reduce((acc: number, current: ItemConfig) => current.visible ? ++acc : acc, 0);
+    return 288 + count * 52;
+};
+
 const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
-    const amountConfig = toAmountConfig(c, m);
-    return {
+    const fieldsConfig = {
+        amount: toAmountConfig(c, m),
+        email: toEmailConfig(c)
+    };
+    return new CardFormFlowItem({
         formName: FormName.cardForm,
         active: false,
-        amountConfig,
+        fieldsConfig,
         status: FormFlowStatus.unprocessed,
         handledEventID: getLastEventID(m.invoiceEvents),
         view: {
             slideDirection: DirectionTransition.right,
-            formSizeClass: amountConfig.visible ? FormSizeClass.cardFormWithAmount : FormSizeClass.cardForm
+            height: calcHeight(fieldsConfig)
         }
-    };
+    });
 };
 
 const isMultiMethods = (c: InitConfig, m: ModelState) => c.terminals && m.paymentMethods.length > 1;
@@ -76,7 +96,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             status: FormFlowStatus.unprocessed,
             view: {
                 slideDirection: DirectionTransition.right,
-                formSizeClass: FormSizeClass.paymentMethods
+                height: 100
             }
         });
     } else {

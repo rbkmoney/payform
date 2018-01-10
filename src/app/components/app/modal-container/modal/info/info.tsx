@@ -58,6 +58,7 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
         const locale = this.props.locale;
         const name = this.props.initConfig.name;
         const description = this.props.initConfig.description;
+        const email = this.props.initConfig.email;
         const dueDate = false;
         const recurrent = false;
         const formattedAmount = formatAmount(this.state.amount);
@@ -74,6 +75,12 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
                         <div>
                             <div className={styles.order}>{locale['info.order.label']}</div>
                             <div className={styles.description}>{description}</div>
+                        </div>
+                        : false}
+                    {email ?
+                        <div>
+                            <div className={styles.order}>{locale['info.email.label']}</div>
+                            <div className={styles.description}>{email}</div>
                         </div>
                         : false}
                     {dueDate ? <div className={styles.dueDate}>{locale['info.dueTime.text']} 23:56</div> : false}

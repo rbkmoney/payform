@@ -38,11 +38,12 @@
     "Unknown Failure": "Unknown error",
 
     "info.order.label": "Order details",
+    "info.email.label": "Email",
     "info.dueTime.text": "Pay by",
     "info.dueDate.text": "Pay before",
     "info.subscription.label": "Monthly subscription",
     "info.subscription.help.text": "Payment charges at ${day} monthly applied. Cancellation link will be sent via email",
-    "footer.copyright.text": "© 2008-2017 RBKmoney | Direct Payments Ltd.",
+    "footer.copyright.text": "© 2008-2018 RBKmoney | Direct Payments Ltd.",
     "footer.pay.label": "Secure payment with RBKmoney",
     "footer.offer.label": "Public offer",
     "form.header.delivery.label": "Delivery",

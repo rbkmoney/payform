@@ -28,24 +28,6 @@
     &._error {
         animation: shake .82s;
     }
-
-    &._cardForm {
-        @include responsive(sm) {
-            height: 340px;
-        }
-    }
-
-    &._cardFormAmount {
-        @include responsive(sm) {
-            height: 398px;
-        }
-    }
-
-    &._resultForm {
-        @include responsive(sm) {
-            height: 392px;
-        }
-    }
 }
 
 .header {
