@@ -17,6 +17,7 @@ import {
 } from 'checkout/backend';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
+import { ItemConfig } from 'checkout/form-flow/flow-item/card-form-flow-item';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -60,16 +61,10 @@ const toEmailConfig = (c: InitConfig): EmailConfig => {
     }
 };
 
-const toCardFormSize = (fieldsConfig: any): number => {
-    let result = 0;
-    for (const key in fieldsConfig) {
-        if (fieldsConfig.hasOwnProperty(key)) {
-             if (fieldsConfig[key].visible) {
-                 result++;
-             }
-        }
-    }
-    return 288 + result * 52;
+const calcHeight = (fieldsConfig: FieldsConfig): number => {
+    const count = Object.values(fieldsConfig)
+        .reduce((acc: number, current: ItemConfig) => current.visible ? ++acc : acc, 0);
+    return 288 + count * 52;
 };
 
 const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
@@ -85,7 +80,7 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
         handledEventID: getLastEventID(m.invoiceEvents),
         view: {
             slideDirection: DirectionTransition.right,
-            height: toCardFormSize(fieldsConfig)
+            height: calcHeight(fieldsConfig)
         }
     });
 };
