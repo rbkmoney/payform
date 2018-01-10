@@ -6,6 +6,6 @@ export const addActiveInteraction = (f: FormFlowItem[], e: Event[]): FormFlowIte
     active: true,
     view: {
         slideDirection: DirectionTransition.right,
-        height: 188
+        height: 288
     }
 } as FormFlowItem));
