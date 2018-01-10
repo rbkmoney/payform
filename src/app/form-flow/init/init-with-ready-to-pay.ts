@@ -5,7 +5,6 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
-    FormHeight,
     getLastEventID,
     init,
     DirectionTransition, EmailConfig

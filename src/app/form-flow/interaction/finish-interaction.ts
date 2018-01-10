@@ -6,7 +6,6 @@ import {
     FormName,
     getByFormName, next,
     ResultFormFlowItem,
-    FormHeight,
     DirectionTransition, ResultSubjectType
 } from 'checkout/form-flow';
 import { InvoiceChange } from 'checkout/backend';
