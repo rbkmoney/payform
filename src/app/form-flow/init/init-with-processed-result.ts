@@ -8,6 +8,7 @@ import {
     DirectionTransition
 } from 'checkout/form-flow';
 import { InvoiceChange } from 'checkout/backend';
+import { ResultSubjectInvoiceChange } from 'checkout/form-flow/flow-item/result-form-flow-item';
 
 export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
@@ -22,7 +23,7 @@ export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] =
         subject: {
             type: ResultSubjectType.invoiceChange,
             change
-        }
+        } as ResultSubjectInvoiceChange
     }));
     return init(result);
 };

@@ -26,11 +26,11 @@ import {
     getActive, next, add,
     ResultFormFlowItem,
     ResultSubjectType,
-    FormSizeClass,
     DirectionTransition
 } from 'checkout/form-flow';
 import { resolveFormFlow } from './form-flow-resolver';
 import { ResultForm } from './result-form';
+import { ResultSubjectError } from 'checkout/form-flow/flow-item/result-form-flow-item';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -64,19 +64,19 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     componentWillReceiveProps(props: FormContainerProps) {
         if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
-            const flow = next(add(props.formsFlow, {
+            const flow = next(add(props.formsFlow, new ResultFormFlowItem({
                 formName: FormName.resultForm,
                 active: false,
                 status: FormFlowStatus.processed,
                 subject: {
                     type: ResultSubjectType.error,
                     error: props.error.error
-                },
+                } as ResultSubjectError,
                 view: {
                     slideDirection: DirectionTransition.right,
-                    formSizeClass: FormSizeClass.resultForm
+                    height: 392
                 }
-            } as ResultFormFlowItem));
+            })));
             props.setFormFlow(flow);
             props.setErrorStatus(ErrorHandleStatus.processed);
         } else {
@@ -89,8 +89,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
-                        [styles._error]: status === FormFlowStatus.error
-                     })}
+                    [styles._error]: status === FormFlowStatus.error
+                })}
                      style={{height: view.height}}>
                     <CSSTransitionGroup
                         component='div'

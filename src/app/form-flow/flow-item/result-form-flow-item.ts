@@ -20,7 +20,7 @@ export interface ResultSubjectInvoiceChange extends ResultSubject {
 }
 
 export class ResultFormFlowItem extends FormFlowItem {
-    subject: ResultSubjectInvoiceChange;
+    subject: ResultSubject;
 
     constructor(props: ResultFormFlowItem) {
         super();

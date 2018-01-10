@@ -9,7 +9,7 @@ import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
-import { CardFormFlowItem, getActive } from 'checkout/form-flow';
+import { CardFormFlowItem, FormName, getByFormName } from 'checkout/form-flow';
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -39,7 +39,7 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-        cost: get((getActive(state.formsFlow) as CardFormFlowItem), 'fieldsConfig.amount.cost'), // TODO fix it
+        cost: get((getByFormName(state.formsFlow, FormName.cardForm) as CardFormFlowItem), 'fieldsConfig.amount.cost'), // TODO fix it
         locale: state.config.locale
     }
 );
