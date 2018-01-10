@@ -10,7 +10,7 @@ import { ApplePayWrapper } from '../../../applePay';
  * @param {string} param.formAmount
  */
 function getWrapperFromInvoiceTemplate(param) {
-    const cost = param.invoiceTemplate.cost;
+    const cost = param.invoiceTemplate.value;
     return new ApplePayWrapper({
         validationEndpoint: param.validationEndpoint,
         merchantID: param.merchantID,

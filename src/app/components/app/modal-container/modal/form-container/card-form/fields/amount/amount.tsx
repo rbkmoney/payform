@@ -39,8 +39,9 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-    cost: get((getActive(state.formsFlow) as CardFormFlowItem), 'amountConfig.cost'), // TODO fix it
-    locale: state.config.locale
-});
+        cost: get((getActive(state.formsFlow) as CardFormFlowItem), 'fieldsConfig.amount.cost'), // TODO fix it
+        locale: state.config.locale
+    }
+);
 
 export const Amount = connect(mapStateToProps)(AmountDef);

@@ -17,7 +17,7 @@ describe('<Header />', function () {
         header.find('div.checkout--company-description').text().should.be.equal('Description');
     });
 
-    it('check default email exist', () => {
-        header.find('div.checkout--default-email').text().should.be.equal('test@test.com');
+    it('check default value exist', () => {
+        header.find('div.checkout--default-value').text().should.be.equal('test@test.com');
     });
 });

@@ -8,7 +8,7 @@ const createPayment = (p: FormContainerProps, i: CardFormFlowItem) => {
     const endpoint = p.config.appConfig.capiEndpoint;
     const token = p.model.invoiceAccessToken;
     const invoiceID = p.model.invoice.id;
-    const email = i.emailConfig.email || i.values.email;
+    const email = i.fieldsConfig.email.value || i.values.email;
     const {paymentToolToken, paymentSession} = p.model.paymentResource;
     const request = {
         flow: {

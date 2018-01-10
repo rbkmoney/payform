@@ -7,25 +7,28 @@ export interface ItemConfig {
     visible: boolean;
 }
 
+export interface FieldsConfig {
+    amount: AmountConfig;
+    email: EmailConfig;
+}
+
 export interface AmountConfig extends ItemConfig {
     cost?: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
 }
 
 export interface EmailConfig extends ItemConfig {
-    email?: string;
+    value?: string;
 }
 
 export class CardFormFlowItem extends FormFlowItem {
-    amountConfig: AmountConfig;
-    emailConfig: EmailConfig;
+    fieldsConfig: FieldsConfig;
     values?: CardFormValues;
     needToReset?: boolean;
 
     constructor(props: CardFormFlowItem) {
         super();
 
-        this.amountConfig = props.amountConfig;
-        this.emailConfig = props.emailConfig;
+        this.fieldsConfig = props.fieldsConfig;
         this.values = props.values;
         this.needToReset = props.needToReset;
         this.formName = FormName.cardForm;
