@@ -31,6 +31,6 @@ export function fetchCapi<T>(param: FetchCapiParams): Promise<T> {
                     .catch(() => reject({
                         message: `${res.status}: ${res.statusText}`
                     }))
-        );
+        ).catch((ex) => reject({message: `${ex}`}));
     });
 }
