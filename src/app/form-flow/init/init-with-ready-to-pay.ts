@@ -61,25 +61,17 @@ const toEmailConfig = (c: InitConfig): EmailConfig => {
     }
 };
 
-const toCardFormSizeClass = (amountConfig: AmountConfig, emailConfig: EmailConfig): FormHeight => {
+const toCardFormSize = (amountConfig: AmountConfig, emailConfig: EmailConfig): number => {
     let result = 0;
     amountConfig.visible ? ++result : false;
     emailConfig.visible ? ++result : false;
-    switch (result) {
-        default:
-        case 0:
-            return FormHeight.cardForm;
-        case 1:
-            return FormHeight.cardFormWithAdditonalField;
-        case 2:
-            return FormHeight.cardFormWithTwoAdditonalField;
-    }
+    return 288 + result * 52;
 };
 
 const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
     const amountConfig = toAmountConfig(c, m);
     const emailConfig = toEmailConfig(c);
-    return {
+    return new CardFormFlowItem({
         formName: FormName.cardForm,
         active: false,
         amountConfig,
@@ -88,9 +80,9 @@ const toCardForm = (c: InitConfig, m: ModelState): CardFormFlowItem => {
         handledEventID: getLastEventID(m.invoiceEvents),
         view: {
             slideDirection: DirectionTransition.right,
-            height: toCardFormSizeClass(amountConfig, emailConfig)
+            height: toCardFormSize(amountConfig, emailConfig)
         }
-    };
+    });
 };
 
 const isMultiMethods = (c: InitConfig, m: ModelState) => c.terminals && m.paymentMethods.length > 1;
@@ -104,7 +96,7 @@ export const initWithReadyToPay = (c: InitConfig, m: ModelState): FormFlowItem[]
             status: FormFlowStatus.unprocessed,
             view: {
                 slideDirection: DirectionTransition.right,
-                height: FormHeight.paymentMethods
+                height: 100
             }
         });
     } else {

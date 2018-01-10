@@ -13,9 +13,19 @@ export interface EmailConfig extends ItemConfig {
 }
 
 export class CardFormFlowItem extends FormFlowItem {
-    formName: FormName.cardForm;
     amountConfig: AmountConfig;
     emailConfig: EmailConfig;
     values?: CardFormValues;
     needToReset?: boolean;
+
+    constructor(props: CardFormFlowItem) {
+        super();
+
+        this.amountConfig = props.amountConfig;
+        this.emailConfig = props.emailConfig;
+        this.values = props.values;
+        this.needToReset = props.needToReset;
+        this.formName = FormName.cardForm;
+        this.view = props.view;
+    }
 }

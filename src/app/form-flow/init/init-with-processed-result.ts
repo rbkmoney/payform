@@ -3,9 +3,7 @@ import {
     FormFlowItem,
     FormFlowStatus,
     FormName,
-    FormHeight,
     ResultFormFlowItem,
-    ResultSubject,
     ResultSubjectType,
     DirectionTransition
 } from 'checkout/form-flow';
@@ -13,17 +11,18 @@ import { InvoiceChange } from 'checkout/backend';
 
 export const initWithProcessedResult = (change: InvoiceChange): FormFlowItem[] => {
     let result: FormFlowItem[] = [];
-    result = add(result, {
+    result = add(result, new ResultFormFlowItem({
         formName: FormName.resultForm,
+        active: true,
         status: FormFlowStatus.processed,
         view: {
             slideDirection: DirectionTransition.right,
-            height: FormHeight.resultForm
+            height: 392
         },
         subject: {
             type: ResultSubjectType.invoiceChange,
             change
-        } as ResultSubject
-    } as ResultFormFlowItem);
+        }
+    }));
     return init(result);
 };

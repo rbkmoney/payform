@@ -10,6 +10,7 @@ import { finishInteraction, FormFlowItem, FormName, getActive } from 'checkout/f
 import { UserInteractionModal } from './user-interaction-modal';
 import { State } from 'checkout/state';
 import { Event } from 'checkout/backend';
+import { getLastChange } from 'checkout/form-flow/event-checker';
 
 export interface ModalContainerProps {
     formsFlow: FormFlowItem[];
@@ -21,7 +22,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 
     componentWillMount() {
         window.addEventListener('message', (e) => e.data === 'finish-interaction'
-            ? this.props.setFormFlow(finishInteraction(this.props.formsFlow))
+            ? this.props.setFormFlow(finishInteraction(this.props.formsFlow, getLastChange(this.props.invoiceEvents)))
             : null);
     }
 

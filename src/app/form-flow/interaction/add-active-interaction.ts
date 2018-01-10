@@ -1,4 +1,4 @@
-import { add, FormFlowItem, FormHeight, toInteractionForm, DirectionTransition } from 'checkout/form-flow';
+import { add, FormFlowItem, toInteractionForm, DirectionTransition } from 'checkout/form-flow';
 import { Event } from 'checkout/backend';
 
 export const addActiveInteraction = (f: FormFlowItem[], e: Event[]): FormFlowItem[] => (add(f, {
@@ -6,6 +6,6 @@ export const addActiveInteraction = (f: FormFlowItem[], e: Event[]): FormFlowIte
     active: true,
     view: {
         slideDirection: DirectionTransition.right,
-        height: FormHeight.cardForm
+        height: 188
     }
 } as FormFlowItem));

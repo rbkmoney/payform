@@ -13,5 +13,5 @@ export enum FormHeight {
 
 export class FlowViewInfo {
     slideDirection: DirectionTransition;
-    height: FormHeight;
+    height: number;
 }
