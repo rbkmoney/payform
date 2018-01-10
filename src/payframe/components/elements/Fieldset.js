@@ -28,7 +28,7 @@ class Fieldset extends React.Component {
 
     handleTemplate() {
         const actions = this.props.actions.viewDataActions;
-        const cost = this.props.integration.invoiceTemplate.value;
+        const cost = this.props.integration.invoiceTemplate.cost;
         let visible = false;
         switch (cost.invoiceTemplateCostType) {
             case 'InvoiceTemplateCostRange':

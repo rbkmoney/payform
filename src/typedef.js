@@ -14,7 +14,7 @@
 
 /**
  * @typedef {Object} ContactInfo
- * @property {string} [value]
+ * @property {string} [email]
  * @property {string} [phoneNumber]
  */
 

@@ -44,7 +44,7 @@ describe('UriSerializer', function () {
             }).should.be.equal('urlField=http%3A%2F%2Ftest.com%2Fsomething%3Fparam%3D1%26param%3D2');
         });
 
-        it('should serialize value field', function () {
+        it('should serialize email field', function () {
             UriSerializer.serialize({
                 emailField: 'test@test.com'
             }).should.be.equal('emailField=test%40test.com');
@@ -141,7 +141,7 @@ describe('UriSerializer', function () {
             });
         });
 
-        it('should deserialize value field', function () {
+        it('should deserialize email field', function () {
             UriSerializer.deserialize('emailField=test%40test.com').should.be.deep.equal({
                 emailField: 'test@test.com'
             });
