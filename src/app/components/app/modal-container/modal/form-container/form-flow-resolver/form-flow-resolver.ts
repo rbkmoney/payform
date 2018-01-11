@@ -2,7 +2,6 @@ import { clone } from 'lodash';
 import { FormContainerProps } from '../form-container-props';
 import { CardFormFlowItem, FormFlowStatus } from 'checkout/form-flow/flow-item';
 import {
-    addActiveInteraction,
     FormFlowItem,
     FormName,
     getActive,
@@ -15,7 +14,6 @@ import { checkLastChange } from 'checkout/form-flow/event-checker';
 import { ChangeType } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
 import { getPaymentResult } from './get-payment-result';
-import { StepStatus } from 'checkout/lifecycle';
 
 export type Shortened = (stepName: string, action: () => any, doneCondition: boolean, startCondition?: boolean) => void;
 
@@ -37,8 +35,8 @@ const resolveCardForm = (p: FormContainerProps, i: CardFormFlowItem) => {
         if (isPaymentChange() || isInvoiceChange()) {
             p.setFormFlow(next(prepareResultFlow(update(p.formsFlow, processed), p)));
         } else if (isCardInteraction()) {
-            p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.pristine);
-            p.setFormFlow(next(addActiveInteraction(update(p.formsFlow, processed), events)));
+            // p.changeStepStatus('cardPayment', 'pollEvents', StepStatus.pristine);
+            // p.setFormFlow(next(addActiveInteraction(update(p.formsFlow, processed), events)));
         } else {
             pay(p, i);
         }

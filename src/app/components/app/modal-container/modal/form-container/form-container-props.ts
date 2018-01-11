@@ -6,12 +6,13 @@ import {
     CreatePaymentResourceDispatch,
     SetInvoiceAccessToken,
     PollInvoiceEventsDispatch,
-    SetFormsFlowAction, SetErrorStatus
+    SetFormsFlowAction, SetErrorStatus,
 } from 'checkout/actions';
 import { InvoiceParamsWithTemplate, PaymentParams, PaymentTool } from 'checkout/backend/model';
-import { ConfigState, ErrorHandleStatus, ErrorState, ModelState } from 'checkout/state';
+import { ConfigState, ErrorHandleStatus, ErrorState, ModalState, ModelState } from 'checkout/state';
 import { CardPaymentStage, StageStatus, StepStatus } from 'checkout/lifecycle';
 import { FormFlowItem } from 'checkout/form-flow';
+import { FormInfo } from 'checkout/state/modal/form-info';
 
 export interface FormContainerProps {
     config: ConfigState;
@@ -19,6 +20,7 @@ export interface FormContainerProps {
     formsFlow: FormFlowItem[];
     cardPayment: CardPaymentStage;
     error: ErrorState;
+    formInfo: FormInfo;
     createInvoiceWithTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string, params: InvoiceParamsWithTemplate) => CreateInvoiceWithTemplateDispatch;
     createPaymentResource: (capiEndpoint: string, accessToken: string, paymentTool: PaymentTool) => CreatePaymentResourceDispatch;
     createPayment: (capiEndpoint: string, accessToken: string, invoiceID: string, paymentParams: PaymentParams) => CreatePaymentDispatch;

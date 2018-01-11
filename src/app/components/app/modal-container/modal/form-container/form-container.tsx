@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
-import { ErrorHandleStatus, State } from 'checkout/state';
+import { ErrorHandleStatus, FormName, ModalForms, State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
@@ -22,7 +22,6 @@ import {
 } from 'checkout/actions';
 import {
     FormFlowStatus,
-    FormName,
     getActive, next, add,
     ResultFormFlowItem,
     ResultSubjectType,
@@ -37,7 +36,8 @@ const mapStateToProps = (state: State) => ({
     model: state.model,
     formsFlow: state.formsFlow,
     cardPayment: state.lifecycle.cardPayment,
-    error: state.error
+    error: state.error,
+    formInfo: (state.modal as ModalForms).formInfo
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -63,44 +63,44 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     }
 
     componentWillReceiveProps(props: FormContainerProps) {
-        if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
-            const flow = next(add(props.formsFlow, new ResultFormFlowItem({
-                formName: FormName.resultForm,
-                active: false,
-                status: FormFlowStatus.processed,
-                subject: {
-                    type: ResultSubjectType.error,
-                    error: props.error.error
-                } as ResultSubjectError,
-                view: {
-                    slideDirection: DirectionTransition.right,
-                    height: 392
-                }
-            })));
-            props.setFormFlow(flow);
-            props.setErrorStatus(ErrorHandleStatus.processed);
-        } else {
-            resolveFormFlow(props);
-        }
+        // if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
+        //     const flow = next(add(props.formsFlow, new ResultFormFlowItem({
+        //         formName: FormName.resultForm,
+        //         active: false,
+        //         status: FormFlowStatus.processed,
+        //         subject: {
+        //             type: ResultSubjectType.error,
+        //             error: props.error.error
+        //         } as ResultSubjectError,
+        //         view: {
+        //             slideDirection: DirectionTransition.right,
+        //             height: 392
+        //         }
+        //     })));
+        //     props.setFormFlow(flow);
+        //     props.setErrorStatus(ErrorHandleStatus.processed);
+        // } else {
+        //     resolveFormFlow(props);
+        // }
     }
 
     render() {
-        const {formName, status, view} = getActive(this.props.formsFlow);
+        const {name, viewInfo} = this.props.formInfo;
         return (
             <div className={styles.container}>
                 <div className={cx(styles.form, {
-                    [styles._error]: status === FormFlowStatus.error
+                    [styles._error]: viewInfo.error
                 })}
-                     style={{height: view.height}}>
+                     style={{height: viewInfo.height}}>
                     <CSSTransitionGroup
                         component='div'
-                        transitionName={view.slideDirection}
+                        transitionName={viewInfo.slideDirection}
                         transitionEnterTimeout={550}
                         transitionLeaveTimeout={550}
                     >
-                        {formName === FormName.paymentMethods ? <PaymentMethods/> : null}
-                        {formName === FormName.cardForm || formName === FormName.modalInteraction ? <CardForm/> : null}
-                        {formName === FormName.resultForm ? <ResultForm/> : null}
+                        {name === FormName.paymentMethods ? <PaymentMethods/> : null}
+                        {name === FormName.cardForm ? <CardForm/> : null}
+                        {name === FormName.resultForm ? <ResultForm/> : null}
                     </CSSTransitionGroup>
                     <CSSTransitionGroup
                         component='div'

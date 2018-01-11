@@ -5,29 +5,32 @@ import { connect } from 'react-redux';
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
-import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { finishInteraction, FormFlowItem, FormName, getActive } from 'checkout/form-flow';
+import { initModalState } from 'checkout/actions';
 import { UserInteractionModal } from './user-interaction-modal';
-import { State } from 'checkout/state';
+import { ModalName, ModalState, State } from 'checkout/state';
 import { Event } from 'checkout/backend';
-import { getLastChange } from 'checkout/form-flow/event-checker';
 
 export interface ModalContainerProps {
-    formsFlow: FormFlowItem[];
     invoiceEvents: Event[];
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
+    modal: ModalState;
 }
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
 
     componentWillMount() {
-        window.addEventListener('message', (e) => e.data === 'finish-interaction'
-            ? this.props.setFormFlow(finishInteraction(this.props.formsFlow, getLastChange(this.props.invoiceEvents)))
-            : null);
+        // this.props.setFormFlow(finishInteraction(this.props.formsFlow, getLastChange(this.props.invoiceEvents)))
+
+        // window.addEventListener('message', (e) => e.data === 'finish-interaction'
+        //     ? this.props.modalStateFromEvents(this.props.invoiceEvents)
+        //     : null);
+    }
+
+    componentWillReceiveProps(props: ModalContainerProps) {
+        console.log(props);
     }
 
     render() {
-        const {formName} = getActive(this.props.formsFlow);
+        const {name} = this.props.modal;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -51,14 +54,12 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                         transitionEnterTimeout={1000}
                         transitionLeaveTimeout={500}
                     >
-                        {formName !== FormName.modalInteraction ?
+                        {name === ModalName.modalForms ?
                             <div>
                                 <Modal/>
                                 <Footer/>
-                            </div>
-                            :
-                            null}
-                        {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                            </div> : null}
+                        {name === ModalName.modalInteraction ? <UserInteractionModal/> : null}
                     </CSSTransitionGroup>
                 </div>
             </CSSTransitionGroup>
@@ -67,12 +68,12 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow,
+    modal: state.modal,
     invoiceEvents: state.model.invoiceEvents
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setFormFlow: bindActionCreators(setFormFlowAction, dispatch)
+    // modalStateFromEvents: bindActionCreators(initModalState, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);
