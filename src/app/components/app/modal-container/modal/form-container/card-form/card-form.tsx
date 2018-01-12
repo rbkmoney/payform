@@ -32,7 +32,7 @@ type Props = InjectedFormProps & CardFormProps;
 const PayButton: React.SFC<CardFormProps> = (props) => {
     const amount = formatAmount(getAmount(props.config.initConfig.integrationType, props.model));
     const label = amount ? `${amount.value} ${amount.symbol}` : null;
-    return <Button className={styles.pay_button} type='submit' style='primary'>{props.locale['form.button.pay.label']} {label}</Button>;
+    return <Button className={styles.pay_button} type='submit' style='primary' id='payButton'>{props.locale['form.button.pay.label']} {label}</Button>;
 };
 
 class CardFormDef extends React.Component<Props> {

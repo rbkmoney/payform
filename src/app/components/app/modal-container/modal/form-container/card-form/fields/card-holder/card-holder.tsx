@@ -28,6 +28,7 @@ const CustomInput: React.SFC<FieldProps & CardHolderDefProps> = (props) => (
         icon={IconType.user}
         placeholder={props.locale['form.input.cardholder.placeholder']}
         mark={true}
+        id='cardHolderInput'
     />
 );
 

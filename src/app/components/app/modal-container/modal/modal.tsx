@@ -29,7 +29,7 @@ const ModalDef: React.SFC<ModalProps> = (props) => (
         transitionEnter={true}
         transitionLeave={true}
     >
-        <div className={styles.form_container}>
+        <div className={styles.form_container} id='container'>
             {props.initConfig.popupMode ? null : <Close/>}
             <MobileHeader/>
             <Info/>

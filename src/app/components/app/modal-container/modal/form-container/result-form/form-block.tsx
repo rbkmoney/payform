@@ -66,13 +66,15 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
         <div className={styles.errorBlock}>
             <Button
                 style='primary'
-                onClick={(e) => retry(e, props)}>
+                onClick={(e) => retry(e, props)}
+                id='tryAgainButton'>
                 {l['form.button.pay.again.label']}
             </Button>
             <Button
                 style='default'
                 className={styles.pay_with_other}
-                onClick={(e) => choseAnotherCard(e, props)}>
+                onClick={(e) => choseAnotherCard(e, props)}
+                id='payOtherCardButton'>
                 {l['form.button.pay.other.card.label']}
             </Button>
             {/*<div className={styles.link_container}>*/}
