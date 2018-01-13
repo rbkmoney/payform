@@ -1,13 +1,13 @@
-import { CardFormState, ConfigState, ModelState } from 'checkout/state';
-import { SetFormsFlowAction } from 'checkout/actions';
+import { CardFormInfo, CardFormState, CardFormValues, ConfigState, ModelState } from 'checkout/state';
 import { Locale } from 'checkout/locale';
-import { FormFlowItem } from 'checkout/form-flow';
 
 export interface CardFormProps {
-    formsFlow: FormFlowItem[];
     config: ConfigState;
     model: ModelState;
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
+    formInfo: CardFormInfo;
     cardForm: CardFormState;
     locale: Locale;
+    pay: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
+    setViewInfoError: (hasError: boolean) => any;
+    setViewInfoInProcess: (inProcess: boolean) => any;
 }

@@ -18,10 +18,10 @@ import {
     changeStepStatus,
     changeStageStatus,
     getInvoiceEvents,
-    setInvoice, initModalState
+    setInvoice,
+    initModalState
 } from 'checkout/actions';
 import { StageStatus } from 'checkout/lifecycle';
-import { initFormsFlow } from 'checkout/form-flow';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -62,7 +62,6 @@ class AppDef extends React.Component<AppProps> {
             manageInitStage(p);
         }
         if (p.initialization.stageStatus === 'ready') {
-            p.setFormFlowAction(initFormsFlow(p.config.initConfig, p.model));
             p.initModalState(p.config.initConfig, p.model);
             p.changeStageStatus(this.stageName, StageStatus.processed);
         }

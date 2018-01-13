@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
-import { ErrorHandleStatus, FormName, ModalForms, State } from 'checkout/state';
+import { ErrorHandleStatus, FormInfo, FormName, ModalForms, State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
@@ -56,10 +56,6 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     constructor(props: FormContainerProps) {
         super(props);
-    }
-
-    componentWillMount() {
-        resolveFormFlow(this.props);
     }
 
     componentWillReceiveProps(props: FormContainerProps) {
@@ -116,7 +112,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         transitionEnter={true}
                         transitionLeave={true}
                     >
-                        {status === FormFlowStatus.inProcess ? <FormLoader/> : null}
+                        {viewInfo.inProcess ? <FormLoader/> : null}
                     </CSSTransitionGroup>
                 </div>
             </div>

@@ -2,42 +2,30 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './result-form.scss';
 import { connect } from 'react-redux';
-import { State } from 'checkout/state';
-import { FormFlowStatus, getActive } from 'checkout/form-flow';
-import {
-    changeStepStatus,
-    setModel,
-    resetStage,
-    setFormFlowAction,
-    setResult
-} from 'checkout/actions';
+import { ModalForms, State } from 'checkout/state';
+import { setResult } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { FormBlock } from './form-block';
+import { ResultType } from 'checkout/state/modal/form-info/result-form-info';
 
 const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
-    const {active: {status}} = props;
+    const {resultType} = props.formInfo;
     return (
         <div>
-            {status === FormFlowStatus.inProcess ? <div className={styles.loadingSubstrate}/> : false}
-            {status === FormFlowStatus.processed ? <FormBlock {...props}/> : false}
+            {resultType === ResultType.indefinite ? <div className={styles.loadingSubstrate}/> : false}
+            {resultType !== ResultType.indefinite ? <FormBlock {...props}/> : false}
         </div>
     );
 };
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow,
-    active: getActive(state.formsFlow),
     model: state.model,
     locale: state.config.locale,
-    initConfig: state.config.initConfig,
-    cardForm: state.form.cardForm
+    formInfo: (state.modal as ModalForms).formInfo,
+    error: state.error ? state.error.error : null
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setFormFlow: bindActionCreators(setFormFlowAction, dispatch),
-    resetStage: bindActionCreators(resetStage, dispatch),
-    changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
-    setModel: bindActionCreators(setModel, dispatch),
     setResult: bindActionCreators(setResult, dispatch)
 });
 

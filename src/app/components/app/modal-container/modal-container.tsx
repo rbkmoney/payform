@@ -5,14 +5,16 @@ import { connect } from 'react-redux';
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
-import { initModalState } from 'checkout/actions';
 import { UserInteractionModal } from './user-interaction-modal';
-import { ModalName, ModalState, State } from 'checkout/state';
+import { ModalName, ModalState, ModelState, State } from 'checkout/state';
+import { setModalStateFromEvents, process } from 'checkout/actions';
 import { Event } from 'checkout/backend';
 
 export interface ModalContainerProps {
-    invoiceEvents: Event[];
     modal: ModalState;
+    model: ModelState;
+    setModalStateFromEvents: (events: Event[]) => any;
+    processModel: () => any;
 }
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
@@ -26,7 +28,10 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     componentWillReceiveProps(props: ModalContainerProps) {
-        console.log(props);
+        if (props.model.processed === false) { // TODO fix it
+            props.setModalStateFromEvents(props.model.invoiceEvents);
+            props.processModel();
+        }
     }
 
     render() {
@@ -69,11 +74,12 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 
 const mapStateToProps = (state: State) => ({
     modal: state.modal,
-    invoiceEvents: state.model.invoiceEvents
+    model: state.model
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    // modalStateFromEvents: bindActionCreators(initModalState, dispatch)
+    setModalStateFromEvents: bindActionCreators(setModalStateFromEvents, dispatch),
+    processModel: bindActionCreators(process, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);

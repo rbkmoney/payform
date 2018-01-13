@@ -11,7 +11,9 @@ import {
     CreatePaymentResource,
     CreatePayment,
     SetInvoiceAccessToken,
-    SetModel
+    SetModel,
+    PayAction,
+    ProcessAction
 } from 'checkout/actions';
 
 type ModelReducerAction =
@@ -25,7 +27,9 @@ type ModelReducerAction =
     CreatePaymentResource |
     CreatePayment |
     SetInvoiceAccessToken |
-    SetModel;
+    SetModel |
+    PayAction |
+    ProcessAction;
 
 const initialState = {
     invoiceTemplate: null,
@@ -90,6 +94,17 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
             };
         case TypeKeys.SET_MODEL:
             return action.payload;
+        case TypeKeys.PAY:
+            return {
+                ...s,
+                processed: false,
+                invoiceEvents: action.payload
+            };
+        case TypeKeys.PROCESS_MODEL:
+            return {
+                ...s,
+                processed: action.payload
+            };
     }
     return s;
 }

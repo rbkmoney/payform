@@ -1,4 +1,4 @@
-import { FormInfo, SlideDirection } from '../form-info';
+import { FormInfo, SlideDirection, FormName } from '../form-info';
 
 export enum ResultType {
     error = 'error',
@@ -15,6 +15,7 @@ export class ResultFormInfo extends FormInfo {
             slideDirection: SlideDirection.right,
             height: 392
         });
+        this.name = FormName.resultForm;
         this.resultType = resultType;
     }
 }

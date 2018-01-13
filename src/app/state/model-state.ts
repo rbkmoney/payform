@@ -15,4 +15,5 @@ export type ModelState = {
     readonly paymentMethods?: PaymentMethod[];
     readonly paymentResource?: PaymentResource;
     readonly payment?: Payment;
+    readonly processed: boolean;
 }

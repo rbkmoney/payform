@@ -1,26 +1,12 @@
-import {
-    ChangeStepStatus,
-    SetModel,
-    ResetStage,
-    SetFormsFlowAction,
-    ResultAction
-} from 'checkout/actions';
-import { FormFlowItem } from 'checkout/form-flow';
+import { ResultAction } from 'checkout/actions';
 import { Locale } from 'checkout/locale';
-import { ModelState, CardFormState, ResultState } from 'checkout/state';
-import { InitConfig } from 'checkout/config';
-import { StepStatus } from 'checkout/lifecycle';
+import { ModelState, ResultState, ResultFormInfo } from 'checkout/state';
+import { LogicError } from 'checkout/backend';
 
 export interface ResultFormProps {
-    locale: Locale;
     model: ModelState;
-    initConfig: InitConfig;
-    formsFlow: FormFlowItem[];
-    active: FormFlowItem;
-    cardForm: CardFormState;
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
-    resetStage: (stageName: string) => ResetStage;
-    changeStepStatus: (stageName: string, stepName: string, value: StepStatus) => ChangeStepStatus;
-    setModel: (model: ModelState) => SetModel;
+    locale: Locale;
+    formInfo: ResultFormInfo;
+    error: LogicError;
     setResult: (resultState: ResultState) => ResultAction;
 }

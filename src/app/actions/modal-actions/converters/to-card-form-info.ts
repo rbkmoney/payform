@@ -1,3 +1,4 @@
+import { values } from 'lodash';
 import {
     InvoiceTemplate,
     InvoiceTemplateLineCostRange,
@@ -56,7 +57,7 @@ const toFieldsConfig = (c: InitConfig, t: InvoiceTemplate): FieldsConfig => ({
 });
 
 const calcHeight = (fieldsConfig: FieldsConfig): number => {
-    const count = Object.values(fieldsConfig)
+    const count = values(fieldsConfig)
         .reduce((acc: number, current: ItemConfig) => current.visible ? ++acc : acc, 0);
     return 288 + count * 52;
 };

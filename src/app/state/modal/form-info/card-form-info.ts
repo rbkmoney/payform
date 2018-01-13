@@ -1,5 +1,5 @@
 import { FormInfo, FormName } from './form-info';
-import { CardFormValues, SlideDirection } from 'checkout/state';
+import { SlideDirection } from 'checkout/state';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 
 export interface ItemConfig {
@@ -22,7 +22,6 @@ export interface FieldsConfig {
 export class CardFormInfo extends FormInfo {
 
     fieldsConfig: FieldsConfig;
-    values?: CardFormValues;
     needToReset?: boolean;
 
     constructor(height: number, fieldsConfig: FieldsConfig) {
