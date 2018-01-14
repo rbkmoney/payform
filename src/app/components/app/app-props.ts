@@ -28,10 +28,9 @@ export interface AppProps {
     model: ModelState;
     error: ErrorState;
     initialization: InitializationStage;
-    formsFlow: FormFlowItem[];
     changeStepStatus: (stageName: string, stepName: string, value: StepStatus) => ChangeStepStatus;
     changeStageStatus: (stageName: string, value: StageStatus) => ChangeStageStatus;
     setInvoice: (invoice: Invoice) => SetInvoice;
 
-    initModalState: (config: InitConfig, model: ModelState) => any;
+    initModal: (config: InitConfig, model: ModelState) => any;
 }

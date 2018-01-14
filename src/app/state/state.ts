@@ -9,5 +9,5 @@ export type State = {
     readonly formsFlow: FormFlowItem[];
     readonly error: ErrorState;
     readonly form: FormsState;
-    readonly modal: ModalState;
+    readonly modals: ModalState[];
 }

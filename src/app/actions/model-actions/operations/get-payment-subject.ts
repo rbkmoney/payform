@@ -3,9 +3,10 @@ import { getAmount } from 'checkout/components/app/modal-container/modal/amount-
 import { ConfigState, ModelState } from 'checkout/state';
 import { toNumber } from 'lodash';
 import { createInvoiceWithTemplate } from 'checkout/backend';
+import { PaymentSubject } from './payment-subject';
 
 const resolveAmount = (t: IntegrationType, m: ModelState, formAmount: string): number =>
-    formAmount ? toNumber(formAmount) * 100 : getAmount(t, m).value;
+    formAmount ? toNumber(formAmount) * 100 : getAmount(t, m).value; // TODO use amount from events
 
 const resolveInvoiceTemplate = (c: ConfigState, m: ModelState, formAmount: string): Promise<PaymentSubject> => {
     const endpoint = c.appConfig.capiEndpoint;
@@ -26,11 +27,6 @@ const resolveInvoice = (c: InvoiceInitConfig): Promise<PaymentSubject> => {
         accessToken: c.invoiceAccessToken
     });
 };
-
-export interface PaymentSubject {
-    invoiceID: string;
-    accessToken: string;
-}
 
 export const getPaymentSubject = (c: ConfigState, m: ModelState, formAmount: string): Promise<PaymentSubject> => {
     switch (c.initConfig.integrationType) {

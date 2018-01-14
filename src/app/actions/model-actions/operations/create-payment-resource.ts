@@ -4,7 +4,7 @@ import {
     PaymentResource
 } from 'checkout/backend';
 import { CardFormValues } from 'checkout/state';
-import { PaymentSubject } from './get-payment-subject';
+import { PaymentSubject } from './payment-subject';
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 

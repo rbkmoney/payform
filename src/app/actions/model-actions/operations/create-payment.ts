@@ -1,5 +1,5 @@
-import { PaymentSubject } from './get-payment-subject';
 import { PaymentResource, createPayment as capiRequest, FlowType, PayerType } from 'checkout/backend';
+import { PaymentSubject } from './payment-subject';
 
 export const createPayment = (s: PaymentSubject, endpoint: string, r: PaymentResource, email: string) => {
     const {paymentToolToken, paymentSession} = r;

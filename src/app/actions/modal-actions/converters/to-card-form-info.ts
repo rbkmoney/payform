@@ -64,5 +64,5 @@ const calcHeight = (fieldsConfig: FieldsConfig): number => {
 
 export const toCardFormInfo = (c: InitConfig, t: InvoiceTemplate): CardFormInfo => {
     const fieldConfig = toFieldsConfig(c, t);
-    return new CardFormInfo(calcHeight(fieldConfig), fieldConfig);
+    return new CardFormInfo(calcHeight(fieldConfig), fieldConfig, true);
 };

@@ -4,18 +4,23 @@ import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import { pay as payOperation } from './operations';
 
-export interface PayAction extends AbstractAction<Event[]> {
+export interface PayActionPayload {
+    invoiceEvents: Event[];
+    invoiceAccessToken: string;
+}
+
+export interface PayAction extends AbstractAction<PayActionPayload> {
     type: TypeKeys.PAY;
-    payload: Event[];
+    payload: PayActionPayload;
 }
 
 export type PayDispatch = (dispatch: Dispatch<PayAction | SetErrorAction>) => void;
 
 export const pay = (c: ConfigState, m: ModelState, v: CardFormValues): PayDispatch =>
     (dispatch) => payOperation(c, m, v)
-        .then((events) => dispatch({
+        .then((payload) => dispatch({
             type: TypeKeys.PAY,
-            payload: events
+            payload
         }))
         .catch((error) => dispatch({
             type: TypeKeys.SET_ERROR,

@@ -22,6 +22,6 @@ export function configureStore(initState: any): Store<State> {
         error: errorReducer,
         form: formReducer,
         formsFlow: formsFlowReducer,
-        modal: modalReducer
+        modals: modalReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk)));
 }

@@ -7,35 +7,38 @@ import { Modal } from './modal';
 import { Footer } from './footer';
 import { UserInteractionModal } from './user-interaction-modal';
 import { ModalName, ModalState, ModelState, State } from 'checkout/state';
-import { setModalStateFromEvents, process } from 'checkout/actions';
-import { Event } from 'checkout/backend';
+import { pollInvoiceEvents, process, setModalFromEvents } from 'checkout/actions';
+import { AppConfig, Event } from 'checkout/backend';
 
 export interface ModalContainerProps {
-    modal: ModalState;
+    activeModal: ModalState;
     model: ModelState;
-    setModalStateFromEvents: (events: Event[]) => any;
+    appConfig: AppConfig;
+    setModalFromEvents: (events: Event[]) => any;
     processModel: () => any;
+    pollInvoiceEvents: (capiEndpoint: string, accessToken: string, events: Event[]) => any;
 }
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
 
     componentWillMount() {
-        // this.props.setFormFlow(finishInteraction(this.props.formsFlow, getLastChange(this.props.invoiceEvents)))
-
-        // window.addEventListener('message', (e) => e.data === 'finish-interaction'
-        //     ? this.props.modalStateFromEvents(this.props.invoiceEvents)
-        //     : null);
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                const {appConfig: {capiEndpoint}, model: {invoiceAccessToken, invoiceEvents}} = this.props;
+                this.props.pollInvoiceEvents(capiEndpoint, invoiceAccessToken, invoiceEvents);
+            }
+        });
     }
 
     componentWillReceiveProps(props: ModalContainerProps) {
         if (props.model.processed === false) { // TODO fix it
-            props.setModalStateFromEvents(props.model.invoiceEvents);
+            props.setModalFromEvents(props.model.invoiceEvents);
             props.processModel();
         }
     }
 
     render() {
-        const {name} = this.props.modal;
+        const {name} = this.props.activeModal;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -73,13 +76,15 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    modal: state.modal,
-    model: state.model
+    activeModal: state.modals.find((modal) => modal.active),
+    model: state.model,
+    appConfig: state.config.appConfig
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setModalStateFromEvents: bindActionCreators(setModalStateFromEvents, dispatch),
-    processModel: bindActionCreators(process, dispatch)
+    setModalFromEvents: bindActionCreators(setModalFromEvents, dispatch),
+    processModel: bindActionCreators(process, dispatch),
+    pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);

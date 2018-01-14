@@ -1,31 +1,37 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
+import { get } from 'lodash';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { CardFormValues, ModalForms, State } from 'checkout/state';
-import { FormName } from 'checkout/form-flow';
+import { CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State } from 'checkout/state';
 import { getAmount } from '../../amount-resolver';
-import { formatAmount } from 'checkout/utils';
+import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
-import { pay, setViewInfoError, setViewInfoInProcess } from 'checkout/actions';
+import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
+
+const toCardFormInfo = (modals: ModalState[]) => {
+    const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
+    return findNamed(info, FormName.cardForm);
+};
 
 const mapStateToProps = (state: State) => ({
-    formInfo: (state.modal as ModalForms).formInfo,
+    cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
     model: state.model,
     cardForm: state.form.cardForm,
-    locale: state.config.locale
+    locale: state.config.locale,
+    formValues: get(state.form, 'cardForm.values')
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    setViewInfoInProcess: bindActionCreators(setViewInfoInProcess, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
@@ -47,26 +53,32 @@ class CardFormDef extends React.Component<Props> {
     submit(values: CardFormValues) {
         const activeElement = document.activeElement as HTMLInputElement;
         activeElement.blur();
-        this.props.setViewInfoInProcess(true);
+        this.props.prepareToPay();
         const {config, model} = this.props;
         this.props.pay(config, model, values);
     }
 
     componentWillMount() {
-        if (this.props.formInfo.needToReset) {
-            this.props.reset();
+        switch (this.props.cardFormInfo.paymentStatus) {
+            case PaymentStatus.pristine:
+                this.props.reset();
+                break;
+            case PaymentStatus.needRetry:
+                this.props.prepareToPay();
+                const {config, model, formValues} = this.props;
+                this.props.pay(config, model, formValues);
         }
     }
 
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
-            this.props.setViewInfoError(true);
+            this.props.setViewInfoError(true, FormName.cardForm);
         }
     }
 
     render() {
         const locale = this.props.locale;
-        const {fieldsConfig} = this.props.formInfo;
+        const {fieldsConfig} = this.props.cardFormInfo;
         return (
             <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
                 <div className={formStyles.header}>

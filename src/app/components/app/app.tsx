@@ -19,7 +19,7 @@ import {
     changeStageStatus,
     getInvoiceEvents,
     setInvoice,
-    initModalState
+    initModal
 } from 'checkout/actions';
 import { StageStatus } from 'checkout/lifecycle';
 
@@ -27,7 +27,6 @@ const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     error: state.error,
-    formsFlow: state.formsFlow,
     initialization: state.lifecycle.initialization
 });
 
@@ -42,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),
     changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
     changeStageStatus: bindActionCreators(changeStageStatus, dispatch),
-    initModalState: bindActionCreators(initModalState, dispatch)
+    initModal: bindActionCreators(initModal, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
@@ -62,7 +61,7 @@ class AppDef extends React.Component<AppProps> {
             manageInitStage(p);
         }
         if (p.initialization.stageStatus === 'ready') {
-            p.initModalState(p.config.initConfig, p.model);
+            p.initModal(p.config.initConfig, p.model);
             p.changeStageStatus(this.stageName, StageStatus.processed);
         }
     }

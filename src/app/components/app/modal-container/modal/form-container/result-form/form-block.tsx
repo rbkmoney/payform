@@ -3,51 +3,15 @@ import * as styles from './result-form.scss';
 import { ResultFormProps } from './result-form-props';
 import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
-import { ResultState } from 'checkout/state';
 
 const retry = (e: any, props: ResultFormProps) => {
-    // e.preventDefault();
-    // props.resetStage('cardPayment');
-    // if (props.initConfig.integrationType === IntegrationType.invoiceTemplate) {
-    //     props.changeStepStatus('cardPayment', 'createInvoice', StepStatus.done);
-    // }
-    // const cardForm = getByFormName(props.formsFlow, FormName.cardForm) as CardFormFlowItem;
-    // cardForm.active = true;
-    // cardForm.status = FormFlowStatus.inProcess;
-    // cardForm.view.slideDirection = DirectionTransition.left;
-    // cardForm.needToReset = false;
-    // cardForm.handledEventID = props.active.handledEventID;
-    // props.setFormFlow([cardForm]);
+    e.preventDefault();
+    props.prepareToRetry(false);
 };
 
 const choseAnotherCard = (e: any, props: ResultFormProps) => {
-    // e.preventDefault();
-    // props.resetStage('cardPayment');
-    // const cardForm = getByFormName(props.formsFlow, FormName.cardForm) as CardFormFlowItem;
-    // if (props.initConfig.integrationType === IntegrationType.invoiceTemplate) {
-    //     props.setModel({
-    //         ...props.model,
-    //         paymentResource: null,
-    //         payment: null,
-    //         invoice: null,
-    //         invoiceAccessToken: null,
-    //         invoiceEvents: null
-    //     });
-    //     cardForm.handledEventID = 0;
-    // } else {
-    //     props.setModel({
-    //         ...props.model,
-    //         paymentResource: null,
-    //         payment: null
-    //     });
-    // }
-    // cardForm.active = true;
-    // cardForm.status = FormFlowStatus.unprocessed;
-    // cardForm.values = null;
-    // cardForm.needToReset = true;
-    // cardForm.view.slideDirection = DirectionTransition.left;
-    // cardForm.handledEventID = props.active.handledEventID;
-    // props.setFormFlow([cardForm]);
+    e.preventDefault();
+    props.prepareToRetry(true);
 };
 
 const ActionBlock: React.SFC<ResultFormProps> = (props) => {
@@ -75,7 +39,7 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
     const {header, description, icon, hasActions, hasDone} = makeContent(
-        props.formInfo,
+        props.resultFormInfo,
         props.locale,
         props.model.invoiceEvents,
         props.error

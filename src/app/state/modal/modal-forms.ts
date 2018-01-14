@@ -3,11 +3,12 @@ import { FormInfo } from './form-info';
 
 export class ModalForms extends ModalState {
 
-    formInfo: FormInfo;
+    formsInfo: FormInfo[];
 
-    constructor(formInfo: FormInfo) {
+    constructor(formsInfo: FormInfo[], active: boolean) {
         super();
         this.name = ModalName.modalForms;
-        this.formInfo = formInfo;
+        this.formsInfo = formsInfo;
+        this.active = active;
     }
 }

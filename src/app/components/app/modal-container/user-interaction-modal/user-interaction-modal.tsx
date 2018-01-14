@@ -2,8 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import parser from 'uri-template';
 import * as styles from './user-interaction-modal.scss';
-import { ModalInteraction, State } from 'checkout/state';
+import { ModalInteraction, ModalName, State } from 'checkout/state';
 import { BrowserPostRequest } from 'checkout/backend';
+import { findNamed } from 'checkout/utils';
 
 export interface UserInteractionModalProps {
     modal: ModalInteraction;
@@ -54,7 +55,7 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
 }
 
 const mapStateToProps = (state: State) => ({
-    modal: state.modal,
+    modal: findNamed(state.modals, ModalName.modalInteraction),
     origin: state.config.origin
 });
 

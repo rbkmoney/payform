@@ -1,12 +1,13 @@
-import { ResultAction } from 'checkout/actions';
 import { Locale } from 'checkout/locale';
-import { ModelState, ResultState, ResultFormInfo } from 'checkout/state';
+import { ModelState, ResultState, ResultFormInfo, ConfigState } from 'checkout/state';
 import { LogicError } from 'checkout/backend';
 
 export interface ResultFormProps {
     model: ModelState;
+    config: ConfigState;
     locale: Locale;
-    formInfo: ResultFormInfo;
+    resultFormInfo: ResultFormInfo;
     error: LogicError;
-    setResult: (resultState: ResultState) => ResultAction;
+    setResult: (resultState: ResultState) => any;
+    prepareToRetry: (resetFormData: boolean) => any;
 }

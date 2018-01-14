@@ -1,6 +1,7 @@
 import { FormInfo, FormName } from './form-info';
 import { SlideDirection } from 'checkout/state';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
+import { PaymentStatus } from './payment-status';
 
 export interface ItemConfig {
     visible: boolean;
@@ -22,14 +23,16 @@ export interface FieldsConfig {
 export class CardFormInfo extends FormInfo {
 
     fieldsConfig: FieldsConfig;
-    needToReset?: boolean;
+    paymentStatus: PaymentStatus;
 
-    constructor(height: number, fieldsConfig: FieldsConfig) {
+    constructor(height: number, fieldsConfig: FieldsConfig, active: boolean) {
         super({
             slideDirection: SlideDirection.right,
             height
         });
         this.name = FormName.cardForm;
         this.fieldsConfig = fieldsConfig;
+        this.active = active;
+        this.paymentStatus = PaymentStatus.pristine;
     }
 }
