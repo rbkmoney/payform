@@ -1,19 +1,20 @@
 import {
     InvoiceTemplate,
-    Invoice,
     PaymentMethod,
-    Event,
-    PaymentResource,
-    Payment
+    Event
 } from 'checkout/backend/model';
 
-export type ModelState = {
+export enum ModelStatus {
+    initialized = 'initialized',
+    refreshed = 'refreshed',
+    accepted = 'accepted',
+    none = 'none'
+}
+
+export interface ModelState {
     readonly invoiceTemplate?: InvoiceTemplate;
-    readonly invoice?: Invoice;
     readonly invoiceAccessToken?: string;
     readonly invoiceEvents?: Event[];
     readonly paymentMethods?: PaymentMethod[];
-    readonly paymentResource?: PaymentResource;
-    readonly payment?: Payment;
-    readonly processed: boolean;
+    readonly status?: ModelStatus;
 }

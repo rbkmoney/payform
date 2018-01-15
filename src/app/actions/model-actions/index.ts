@@ -9,6 +9,6 @@ export * from './create-payment-resource';
 export * from './create-payment';
 export * from './set-invoice-access-token';
 export * from './poll-invoice-events';
-export * from './set-model';
 export * from './pay-action';
-export * from './process-action';
+export * from './accept-action';
+export * from './initialize-action';

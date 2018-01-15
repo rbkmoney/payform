@@ -1,11 +1,11 @@
 import { LogicError } from 'checkout/backend';
 
-export enum ErrorHandleStatus {
+export enum ErrorStatus {
     unhandled = 'unhandled',
-    processed = 'processed'
+    accepted = 'accepted'
 }
 
 export interface ErrorState {
-    readonly status: ErrorHandleStatus;
-    readonly error: LogicError;
+    status: ErrorStatus;
+    error?: LogicError;
 }

@@ -10,7 +10,8 @@ export class ConfigResolver {
         return this.resolveInitConfig(transport)
             .then((initConfig) => ({
                 origin: this.getOrigin(),
-                initConfig
+                initConfig,
+                ready: false
             }));
     }
 

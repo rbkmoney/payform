@@ -1,19 +1,15 @@
-import { TypeKeys, GetAppConfigAction, GetLocaleAction } from 'checkout/actions';
+import { TypeKeys, SetConfigChunk } from 'checkout/actions';
 import { ConfigState } from 'checkout/state';
 
-type ConfigReducerAction = GetAppConfigAction | GetLocaleAction;
+type ConfigReducerAction = SetConfigChunk;
 
 export function configReducer(s: ConfigState = null, action: ConfigReducerAction): ConfigState {
     switch (action.type) {
-        case TypeKeys.GET_APP_CONFIG:
+        case TypeKeys.SET_CONFIG_CHUNK:
             return {
                 ...s,
-                appConfig: action.payload
-            };
-        case TypeKeys.GET_LOCALE:
-            return {
-                ...s,
-                locale: action.payload
+                ...action.payload,
+                ready: true
             };
 
     }

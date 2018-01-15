@@ -6,20 +6,20 @@ import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
 import { UserInteractionModal } from './user-interaction-modal';
-import { ErrorHandleStatus, ErrorState, ModalName, ModalState, ModelState, State } from 'checkout/state';
-import { pollInvoiceEvents, process, setErrorFormInfo, setErrorStatus, setModalFromEvents } from 'checkout/actions';
+import { ErrorStatus, ModalName, ModalState, ModelState, State, ModelStatus } from 'checkout/state';
+import { accept, pollInvoiceEvents, setErrorFormInfo, acceptError, setModalFromEvents } from 'checkout/actions';
 import { AppConfig, Event } from 'checkout/backend';
 
 export interface ModalContainerProps {
     activeModal: ModalState;
     model: ModelState;
     appConfig: AppConfig;
-    error: ErrorState;
+    unhandledError: boolean;
     setModalFromEvents: (events: Event[]) => any;
-    processModel: () => any;
+    acceptModel: () => any;
     pollInvoiceEvents: (capiEndpoint: string, accessToken: string, events: Event[]) => any;
     setErrorFormInfo: () => any;
-    setErrorStatus: (status: ErrorHandleStatus) => any;
+    acceptError: () => any;
 }
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
@@ -34,13 +34,13 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     componentWillReceiveProps(props: ModalContainerProps) {
-        if (props.model.processed === false) {
+        if (props.model.status === ModelStatus.refreshed) {
             props.setModalFromEvents(props.model.invoiceEvents);
-            props.processModel();
+            props.acceptModel();
         }
-        if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
+        if (props.unhandledError) {
             props.setErrorFormInfo();
-            props.setErrorStatus(ErrorHandleStatus.processed);
+            props.acceptError();
         }
     }
 
@@ -86,15 +86,15 @@ const mapStateToProps = (state: State) => ({
     activeModal: state.modals.find((modal) => modal.active),
     model: state.model,
     appConfig: state.config.appConfig,
-    error: state.error
+    unhandledError: state.error && state.error.status === ErrorStatus.unhandled
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setModalFromEvents: bindActionCreators(setModalFromEvents, dispatch),
-    processModel: bindActionCreators(process, dispatch),
+    acceptModel: bindActionCreators(accept, dispatch),
     pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
     setErrorFormInfo: bindActionCreators(setErrorFormInfo, dispatch),
-    setErrorStatus: bindActionCreators(setErrorStatus, dispatch)
+    acceptError: bindActionCreators(acceptError, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);

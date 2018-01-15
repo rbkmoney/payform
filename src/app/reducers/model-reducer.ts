@@ -1,46 +1,22 @@
-import { ModelState } from 'checkout/state';
+import { ModelState, ModelStatus } from 'checkout/state';
 import {
     TypeKeys,
-    GetInvoiceTemplateAction,
-    GetInvoiceAction,
-    GetInvoicePaymentMethodsAction,
-    GetInvoicePaymentMethodsByTemplateIdAction,
-    GetInvoiceEvents,
-    SetInvoice,
-    CreateInvoiceWithTemplate,
-    CreatePaymentResource,
-    CreatePayment,
-    SetInvoiceAccessToken,
-    SetModel,
     PayAction,
-    ProcessAction,
-    PollInvoiceEvents
+    Accept,
+    PollInvoiceEvents,
+    Initialize
 } from 'checkout/actions';
 import { Event } from 'checkout/backend';
 
 type ModelReducerAction =
-    GetInvoiceTemplateAction |
-    GetInvoiceAction |
-    SetInvoice |
-    GetInvoicePaymentMethodsAction |
-    GetInvoicePaymentMethodsByTemplateIdAction |
-    GetInvoiceEvents |
-    CreateInvoiceWithTemplate |
-    CreatePaymentResource |
-    CreatePayment |
-    SetInvoiceAccessToken |
-    SetModel |
     PayAction |
-    ProcessAction |
-    PollInvoiceEvents;
+    Accept |
+    PollInvoiceEvents |
+    Initialize;
 
 const initialState = {
-    invoiceTemplate: null,
-    invoice: null,
-    invoiceAccessToken: null,
-    paymentMethods: null,
-    invoiceEvents: null
-} as ModelState;
+    status: ModelStatus.none
+};
 
 const mergeEvents = (stateEvents: Event[], actionEvents: Event[]) => {
     const first = actionEvents[0];
@@ -50,77 +26,30 @@ const mergeEvents = (stateEvents: Event[], actionEvents: Event[]) => {
 
 export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
     switch (action.type) {
-        case TypeKeys.GET_INVOICE_TEMPLATE:
+        case TypeKeys.INIT_MODEL:
             return {
                 ...s,
-                invoiceTemplate: action.payload
+                ...action.payload,
+                status: ModelStatus.initialized
             };
-        case TypeKeys.GET_INVOICE:
-            return {
-                ...s,
-                invoice: action.payload
-            };
-        case TypeKeys.SET_INVOICE:
-            return {
-                ...s,
-                invoice: action.payload
-            };
-        case TypeKeys.GET_INVOICE_PAYMENT_METHODS:
-            return {
-                ...s,
-                paymentMethods: action.payload
-            };
-        case TypeKeys.GET_INVOICE_PAYMENT_METHODS_BY_TEMPLATE_ID:
-            return {
-                ...s,
-                paymentMethods: action.payload
-            };
-        case TypeKeys.GET_INVOICE_EVENTS:
-            return {
-                ...s,
-                invoiceEvents: action.payload
-            };
-        case TypeKeys.CREATE_INVOICE_WITH_TEMPLATE:
-            return {
-                ...s,
-                invoice: action.payload.invoice,
-                invoiceAccessToken: action.payload.invoiceAccessToken.payload
-            };
-        case TypeKeys.CREATE_PAYMENT_RESOURCE:
-            return {
-                ...s,
-                paymentResource: action.payload
-            };
-        case TypeKeys.CREATE_PAYMENT:
-            return {
-                ...s,
-                payment: action.payload
-            };
-        case TypeKeys.SET_INVOICE_ACCESS_TOKEN:
-            return {
-                ...s,
-                invoiceAccessToken: action.payload
-            };
-        case TypeKeys.SET_MODEL:
-            return action.payload;
         case TypeKeys.PAY:
             return {
                 ...s,
                 invoiceEvents: mergeEvents(s.invoiceEvents, action.payload.invoiceEvents),
                 invoiceAccessToken: action.payload.invoiceAccessToken,
-                processed: false
+                status: ModelStatus.refreshed
 
             };
         case TypeKeys.POLL_EVENTS:
             return {
                 ...s,
                 invoiceEvents: mergeEvents(s.invoiceEvents, action.payload),
-                processed: false
+                status: ModelStatus.refreshed
             };
-        case TypeKeys.PROCESS_MODEL:
+        case TypeKeys.ACCEPT_MODEL:
             return {
                 ...s,
-                processed: action.payload
+                status: ModelStatus.accepted
             };
     }
     return s;
