@@ -7,8 +7,8 @@ import {
     Redirect,
     RequestType
 } from 'checkout/backend';
-import { getLastChange } from 'checkout/form-flow';
 import { ModalInteraction } from 'checkout/state';
+import { getLastChange } from 'checkout/utils';
 
 const getRedirect = (redirect: Redirect): BrowserPostRequest => {
     if (redirect.request.requestType === RequestType.BrowserPostRequest) {

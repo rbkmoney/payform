@@ -1,27 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
 import { State } from 'checkout/state';
-import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { back, FormFlowItem, hasBack } from 'checkout/form-flow';
-import { ChevronIcon } from './chevron-icon';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
-    formsFlow: FormFlowItem[];
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
 }
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    formsFlow: state.formsFlow
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setFormFlow: bindActionCreators(setFormFlowAction, dispatch)
 });
 
 class MobileHeaderDef extends React.Component<MobileHeaderProps> {
@@ -33,7 +22,6 @@ class MobileHeaderDef extends React.Component<MobileHeaderProps> {
 
     back(e: Event) {
         e.preventDefault();
-        this.props.setFormFlow(back(this.props.formsFlow));
     }
 
     render() {
@@ -52,4 +40,4 @@ class MobileHeaderDef extends React.Component<MobileHeaderProps> {
     }
 }
 
-export const MobileHeader = connect(mapStateToProps, mapDispatchToProps)(MobileHeaderDef);
+export const MobileHeader = connect(mapStateToProps)(MobileHeaderDef);

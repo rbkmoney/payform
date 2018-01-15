@@ -1,5 +1,5 @@
-import { FormInfo, ResultFormInfo, ResultType } from 'checkout/state';
-import { AbstractAction, TypeKeys } from 'checkout/actions';
+import { ResultFormInfo, ResultType } from 'checkout/state';
+import { SetFormInfo, TypeKeys } from 'checkout/actions';
 import { ChangeType, Event } from 'checkout/backend';
 import { SetModalState } from './set-modal-state';
 import { toModalInteraction } from './converters';
@@ -22,11 +22,6 @@ const prepareFromEvents = (events: Event[]): SetStateFromEvents => {
     }
     throw new Error('Unhandled invoice changeType');
 };
-
-export interface SetFormInfo extends AbstractAction<FormInfo> {
-    type: TypeKeys.SET_FORM_INFO;
-    payload: FormInfo;
-}
 
 export type SetStateFromEvents = SetFormInfo | SetModalState;
 

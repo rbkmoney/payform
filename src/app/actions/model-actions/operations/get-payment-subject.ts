@@ -16,6 +16,7 @@ const resolveInvoiceTemplate = (c: ConfigState, m: ModelState, formAmount: strin
     const params = {amount, metadata, currency: 'RUB'}; // TODO fix hardcoded currency
     return createInvoiceWithTemplate(endpoint, initConfig.invoiceTemplateAccessToken, initConfig.invoiceTemplateID, params)
         .then((invoiceAndToken) => ({
+            integrationType: IntegrationType.invoiceTemplate,
             invoiceID: invoiceAndToken.invoice.id,
             accessToken: invoiceAndToken.invoiceAccessToken.payload
         }));
@@ -23,6 +24,7 @@ const resolveInvoiceTemplate = (c: ConfigState, m: ModelState, formAmount: strin
 
 const resolveInvoice = (c: InvoiceInitConfig): Promise<PaymentSubject> => {
     return Promise.resolve({
+        integrationType: IntegrationType.invoice,
         invoiceID: c.invoiceID,
         accessToken: c.invoiceAccessToken
     });

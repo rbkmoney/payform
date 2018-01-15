@@ -14,7 +14,6 @@ import {
     getInvoicePaymentMethodsAction,
     getInvoicePaymentMethodsByTemplateIdAction,
     getLocaleAction,
-    setFormFlowAction,
     changeStepStatus,
     changeStageStatus,
     getInvoiceEvents,
@@ -38,7 +37,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     getInvoiceEvents: bindActionCreators(getInvoiceEvents, dispatch),
     getInvoicePaymentMethods: bindActionCreators(getInvoicePaymentMethodsAction, dispatch),
     getInvoicePaymentMethodsByTemplateId: bindActionCreators(getInvoicePaymentMethodsByTemplateIdAction, dispatch),
-    setFormFlowAction: bindActionCreators(setFormFlowAction, dispatch),
     changeStepStatus: bindActionCreators(changeStepStatus, dispatch),
     changeStageStatus: bindActionCreators(changeStageStatus, dispatch),
     initModal: bindActionCreators(initModal, dispatch)
