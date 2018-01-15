@@ -59,7 +59,9 @@
     "form.header.terminals.label": "Все платёжные терминалы",
     "form.header.terminal.cashbox.label": "Касса в салоне связи",
     "form.header.final.success.label": "Успешная оплата",
-    "form.header.final.already.success.label": "Оплачено",
+    "form.header.final.invoice.paid.label": "Оплачено",
+    "form.header.final.invoice.cancelled.label": "Инвойс отменен",
+    "form.header.final.invoice.fulfilled.label": "Инвойс погашен",
     "form.header.final.failed.label": "Не оплачено",
     "form.final.failed.dueTime.text": "Время на оплату  истекло",
     "form.final.failed.cancelled.text": "Платеж был отменен",

@@ -2,13 +2,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import parser from 'uri-template';
 import * as styles from './user-interaction-modal.scss';
-import { ConfigState, State } from 'checkout/state';
+import { ModalInteraction, ModalName, State } from 'checkout/state';
 import { BrowserPostRequest } from 'checkout/backend';
-import { FormFlowItem, FormName, getActive, ModalInteractionFlowItem } from 'checkout/form-flow';
+import { findNamed } from 'checkout/utils';
 
 export interface UserInteractionModalProps {
-    formsFlow: FormFlowItem[];
-    config: ConfigState;
+    modal: ModalInteraction;
+    origin: string;
 }
 
 const prepareForm = (origin: string, request: BrowserPostRequest): HTMLFormElement => {
@@ -36,14 +36,10 @@ const prepareForm = (origin: string, request: BrowserPostRequest): HTMLFormEleme
 class UserInteractionModalDef extends React.Component<UserInteractionModalProps> {
 
     componentDidMount() {
-        const interactionItem = getActive(this.props.formsFlow);
-        if (interactionItem.formName !== FormName.modalInteraction) {
-            throw new Error('Form flow item has wrong type');
-        }
-        const request = (interactionItem as ModalInteractionFlowItem).request;
+        const request = this.props.modal.request;
         const frame = document.querySelector('#interactionFrame') as HTMLIFrameElement;
         const frameDocument = frame.contentWindow.document;
-        const form = prepareForm(this.props.config.origin, request);
+        const form = prepareForm(this.props.origin, request);
         frameDocument.body.appendChild(form);
         form.submit();
     }
@@ -59,8 +55,8 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
 }
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow,
-    config: state.config
+    modal: findNamed(state.modals, ModalName.modalInteraction),
+    origin: state.config.origin
 });
 
 export const UserInteractionModal = connect(mapStateToProps)(UserInteractionModalDef);

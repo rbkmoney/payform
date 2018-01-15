@@ -1,85 +1,35 @@
 import * as React from 'react';
 import {
-    ChangeType,
+    ChangeType, Event,
     InvoiceStatusChanged,
-    InvoiceStatuses, LogicError,
-    PaymentStatusChanged,
-    PaymentStatuses
+    LogicError
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import { ModelState } from 'checkout/state';
-import {
-    ResultSubject,
-    ResultSubjectError,
-    ResultSubjectInvoiceChange,
-    ResultSubjectType
-} from 'checkout/form-flow';
-import { Checkmark, Cross } from '../result-icons';
-import { getFailedDescription } from './get-failed-description';
-import { getSuccessDescription } from './get-success-description';
+import { getLastChange } from 'checkout/utils';
+import { ResultFormContent } from './result-form-content';
+import { ResultFormInfo, ResultType } from 'checkout/state';
+import { makeFromInvoiceChange } from './make-from-invoice-change';
+import { failed, makeFromPaymentChange } from './make-from-payment-change';
 
-export interface ResultFormContent {
-    hasActions: boolean;
-    hasDone: boolean;
-    header: string;
-    description?: JSX.Element;
-    icon: JSX.Element;
-}
-
-const gotFailedPayment = (l: Locale, m: ModelState, e: LogicError): ResultFormContent => ({
-    hasActions: !!m.paymentResource,
-    hasDone: false,
-    header: l['form.header.final.failed.label'],
-    description: getFailedDescription(l, e),
-    icon: <Cross/>
-});
-
-const gotSuccessPayment = (l: Locale, m: ModelState): ResultFormContent => ({
-    hasActions: false,
-    hasDone: true,
-    header: l['form.header.final.success.label'],
-    description: getSuccessDescription(l, m),
-    icon: <Checkmark/>
-});
-
-const alreadyPaid = (l: Locale) => ({
-    hasActions: false,
-    hasDone: false,
-    header: l['form.header.final.already.success.label'],
-    icon: <Checkmark/>
-});
-
-export const makeContentInvoiceChange = (l: Locale, m: ModelState, s: ResultSubjectInvoiceChange): ResultFormContent => {
-    switch (s.change.changeType) {
+export const makeContentProcessed = (l: Locale, e: Event[]): ResultFormContent => {
+    const change = getLastChange(e);
+    switch (change.changeType) {
         case ChangeType.InvoiceStatusChanged:
-            const invoiceChange = s.change as InvoiceStatusChanged;
-            switch (invoiceChange.status) {
-                case InvoiceStatuses.paid:
-                    return alreadyPaid(l);
-                case InvoiceStatuses.cancelled:
-                    return gotFailedPayment(l, m, {code: 'Payment was cancelled', message: 'Payment was cancelled'}); // TODO: make a normal change
-            }
-            break;
+            return makeFromInvoiceChange(l, change as InvoiceStatusChanged);
         case ChangeType.PaymentStatusChanged:
-            const paymentChange = s.change as PaymentStatusChanged;
-            switch (paymentChange.status) {
-                case PaymentStatuses.failed:
-                    return gotFailedPayment(l, m, paymentChange.error);
-                case PaymentStatuses.processed:
-                    return gotSuccessPayment(l, m);
-            }
-            break;
+            return makeFromPaymentChange(l, e);
     }
+    throw new Error('Unsupported invoice ChangeType');
 };
 
-const makeContentError = (l: Locale, m: ModelState, s: ResultSubjectError): ResultFormContent => gotFailedPayment(l, m, s.error);
+const makeContentError = (l: Locale, error: LogicError): ResultFormContent => failed(l, error);
 
-export const makeContent = (l: Locale, m: ModelState, s: ResultSubject): ResultFormContent => {
-    switch (s.type) {
-        case ResultSubjectType.invoiceChange:
-            return makeContentInvoiceChange(l, m, s as ResultSubjectInvoiceChange);
-        case ResultSubjectType.error:
-            return makeContentError(l, m, s as ResultSubjectError);
+export const makeContent = (i: ResultFormInfo, l: Locale, e: Event[], err: LogicError): ResultFormContent => {
+    switch (i.resultType) {
+        case ResultType.processed:
+            return makeContentProcessed(l, e);
+        case ResultType.error:
+            return makeContentError(l, err);
     }
-    throw new Error('Unknown ResultSubject type');
+    throw new Error('Unsupported ResultType');
 };

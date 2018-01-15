@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
-import { State } from 'checkout/state';
+import { CardFormInfo, FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
-import { CardFormFlowItem, FormName, getByFormName } from 'checkout/form-flow';
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -39,8 +37,14 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
     />
 );
 
+const toCost = (s: ModalState[]) => {
+    const modalForms = s.find((modal) => modal.name === ModalName.modalForms) as ModalForms;
+    const cardFormInfo = modalForms.formsInfo.find((info) => info.name === FormName.cardForm) as CardFormInfo;
+    return cardFormInfo.fieldsConfig.amount.cost;
+};
+
 const mapStateToProps = (state: State) => ({
-        cost: get((getByFormName(state.formsFlow, FormName.cardForm) as CardFormFlowItem), 'fieldsConfig.amount.cost'), // TODO fix it
+        cost: toCost(state.modals),
         locale: state.config.locale
     }
 );
