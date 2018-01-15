@@ -11,8 +11,12 @@ import {
     CreatePaymentResource,
     CreatePayment,
     SetInvoiceAccessToken,
-    SetModel
+    SetModel,
+    PayAction,
+    ProcessAction,
+    PollInvoiceEvents
 } from 'checkout/actions';
+import { Event } from 'checkout/backend';
 
 type ModelReducerAction =
     GetInvoiceTemplateAction |
@@ -25,7 +29,10 @@ type ModelReducerAction =
     CreatePaymentResource |
     CreatePayment |
     SetInvoiceAccessToken |
-    SetModel;
+    SetModel |
+    PayAction |
+    ProcessAction |
+    PollInvoiceEvents;
 
 const initialState = {
     invoiceTemplate: null,
@@ -34,6 +41,12 @@ const initialState = {
     paymentMethods: null,
     invoiceEvents: null
 } as ModelState;
+
+const mergeEvents = (stateEvents: Event[], actionEvents: Event[]) => {
+    const first = actionEvents[0];
+    const sliced = stateEvents ? stateEvents.slice(0, first ? first.id : undefined) : [];
+    return sliced.concat(actionEvents);
+};
 
 export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
     switch (action.type) {
@@ -90,6 +103,25 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
             };
         case TypeKeys.SET_MODEL:
             return action.payload;
+        case TypeKeys.PAY:
+            return {
+                ...s,
+                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload.invoiceEvents),
+                invoiceAccessToken: action.payload.invoiceAccessToken,
+                processed: false
+
+            };
+        case TypeKeys.POLL_EVENTS:
+            return {
+                ...s,
+                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload),
+                processed: false
+            };
+        case TypeKeys.PROCESS_MODEL:
+            return {
+                ...s,
+                processed: action.payload
+            };
     }
     return s;
 }

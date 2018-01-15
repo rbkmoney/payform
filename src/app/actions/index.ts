@@ -6,5 +6,5 @@ export * from './type-keys';
 export * from './abstract-action';
 export * from './set-error-action';
 export * from './get-locale-action';
-export * from './set-forms-flow-action';
 export * from './set-error-status';
+export * from './modal-actions';

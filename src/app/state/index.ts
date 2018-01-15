@@ -4,5 +4,7 @@ export * from './model-state';
 export * from './lifecycle-state';
 export * from './error-state';
 export * from './forms-state';
+export * from './modal-state';
 export * from './state';
 export * from './forms';
+export * from './modal';

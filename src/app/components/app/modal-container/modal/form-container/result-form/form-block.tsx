@@ -3,61 +3,15 @@ import * as styles from './result-form.scss';
 import { ResultFormProps } from './result-form-props';
 import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
-import { IntegrationType } from 'checkout/config';
-import { StepStatus } from 'checkout/lifecycle';
-import {
-    CardFormFlowItem,
-    FormFlowStatus,
-    FormName,
-    DirectionTransition,
-    getByFormName,
-    ResultFormFlowItem
-} from 'checkout/form-flow';
-import { ResultState } from 'checkout/state';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
-    props.resetStage('cardPayment');
-    if (props.initConfig.integrationType === IntegrationType.invoiceTemplate) {
-        props.changeStepStatus('cardPayment', 'createInvoice', StepStatus.done);
-    }
-    const cardForm = getByFormName(props.formsFlow, FormName.cardForm) as CardFormFlowItem;
-    cardForm.active = true;
-    cardForm.status = FormFlowStatus.inProcess;
-    cardForm.view.slideDirection = DirectionTransition.left;
-    cardForm.needToReset = false;
-    cardForm.handledEventID = props.active.handledEventID;
-    props.setFormFlow([cardForm]);
+    props.prepareToRetry(false);
 };
 
 const choseAnotherCard = (e: any, props: ResultFormProps) => {
     e.preventDefault();
-    props.resetStage('cardPayment');
-    const cardForm = getByFormName(props.formsFlow, FormName.cardForm) as CardFormFlowItem;
-    if (props.initConfig.integrationType === IntegrationType.invoiceTemplate) {
-        props.setModel({
-            ...props.model,
-            paymentResource: null,
-            payment: null,
-            invoice: null,
-            invoiceAccessToken: null,
-            invoiceEvents: null
-        });
-        cardForm.handledEventID = 0;
-    } else {
-        props.setModel({
-            ...props.model,
-            paymentResource: null,
-            payment: null
-        });
-    }
-    cardForm.active = true;
-    cardForm.status = FormFlowStatus.unprocessed;
-    cardForm.values = null;
-    cardForm.needToReset = true;
-    cardForm.view.slideDirection = DirectionTransition.left;
-    cardForm.handledEventID = props.active.handledEventID;
-    props.setFormFlow([cardForm]);
+    props.prepareToRetry(true);
 };
 
 const ActionBlock: React.SFC<ResultFormProps> = (props) => {
@@ -84,11 +38,15 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
 };
 
 export const FormBlock: React.SFC<ResultFormProps> = (props) => {
-    const flowItem = props.active as ResultFormFlowItem;
-    const {header, description, icon, hasActions, hasDone} = makeContent(props.locale, props.model, flowItem.subject);
-    if (hasDone) {
-        props.setResult(ResultState.done);
-    }
+    const {header, description, icon, hasActions, hasDone} = makeContent(
+        props.resultFormInfo,
+        props.locale,
+        props.model.invoiceEvents,
+        props.error
+    );
+    // if (hasDone) {
+    //     props.setResult(ResultState.done);
+    // }
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>

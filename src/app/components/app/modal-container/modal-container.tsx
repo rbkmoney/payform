@@ -5,29 +5,47 @@ import { connect } from 'react-redux';
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
-import { setFormFlowAction, SetFormsFlowAction } from 'checkout/actions';
-import { finishInteraction, FormFlowItem, FormName, getActive } from 'checkout/form-flow';
 import { UserInteractionModal } from './user-interaction-modal';
-import { State } from 'checkout/state';
-import { Event } from 'checkout/backend';
-import { getLastChange } from 'checkout/form-flow/event-checker';
+import { ErrorHandleStatus, ErrorState, ModalName, ModalState, ModelState, State } from 'checkout/state';
+import { pollInvoiceEvents, process, setErrorFormInfo, setErrorStatus, setModalFromEvents } from 'checkout/actions';
+import { AppConfig, Event } from 'checkout/backend';
 
 export interface ModalContainerProps {
-    formsFlow: FormFlowItem[];
-    invoiceEvents: Event[];
-    setFormFlow: (formFlow: FormFlowItem[]) => SetFormsFlowAction;
+    activeModal: ModalState;
+    model: ModelState;
+    appConfig: AppConfig;
+    error: ErrorState;
+    setModalFromEvents: (events: Event[]) => any;
+    processModel: () => any;
+    pollInvoiceEvents: (capiEndpoint: string, accessToken: string, events: Event[]) => any;
+    setErrorFormInfo: () => any;
+    setErrorStatus: (status: ErrorHandleStatus) => any;
 }
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
 
     componentWillMount() {
-        window.addEventListener('message', (e) => e.data === 'finish-interaction'
-            ? this.props.setFormFlow(finishInteraction(this.props.formsFlow, getLastChange(this.props.invoiceEvents)))
-            : null);
+        window.addEventListener('message', (e) => {
+            if (e.data === 'finish-interaction') {
+                const {appConfig: {capiEndpoint}, model: {invoiceAccessToken, invoiceEvents}} = this.props;
+                this.props.pollInvoiceEvents(capiEndpoint, invoiceAccessToken, invoiceEvents);
+            }
+        });
+    }
+
+    componentWillReceiveProps(props: ModalContainerProps) {
+        if (props.model.processed === false) {
+            props.setModalFromEvents(props.model.invoiceEvents);
+            props.processModel();
+        }
+        if (props.error && props.error.status === ErrorHandleStatus.unhandled) {
+            props.setErrorFormInfo();
+            props.setErrorStatus(ErrorHandleStatus.processed);
+        }
     }
 
     render() {
-        const {formName} = getActive(this.props.formsFlow);
+        const {name} = this.props.activeModal;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -51,14 +69,12 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                         transitionEnterTimeout={1000}
                         transitionLeaveTimeout={500}
                     >
-                        {formName !== FormName.modalInteraction ?
+                        {name === ModalName.modalForms ?
                             <div>
                                 <Modal/>
                                 <Footer/>
-                            </div>
-                            :
-                            null}
-                        {formName === FormName.modalInteraction ? <UserInteractionModal/> : null}
+                            </div> : null}
+                        {name === ModalName.modalInteraction ? <UserInteractionModal/> : null}
                     </CSSTransitionGroup>
                 </div>
             </CSSTransitionGroup>
@@ -67,12 +83,18 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    formsFlow: state.formsFlow,
-    invoiceEvents: state.model.invoiceEvents
+    activeModal: state.modals.find((modal) => modal.active),
+    model: state.model,
+    appConfig: state.config.appConfig,
+    error: state.error
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setFormFlow: bindActionCreators(setFormFlowAction, dispatch)
+    setModalFromEvents: bindActionCreators(setModalFromEvents, dispatch),
+    processModel: bindActionCreators(process, dispatch),
+    pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
+    setErrorFormInfo: bindActionCreators(setErrorFormInfo, dispatch),
+    setErrorStatus: bindActionCreators(setErrorStatus, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);
