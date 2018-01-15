@@ -3,6 +3,7 @@ import * as styles from './result-form.scss';
 import { ResultFormProps } from './result-form-props';
 import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
+import { ResultState } from 'checkout/state';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -15,20 +16,20 @@ const choseAnotherCard = (e: any, props: ResultFormProps) => {
 };
 
 const ActionBlock: React.SFC<ResultFormProps> = (props) => {
-    const l = props.locale;
+    const {locale, isPaymentStarted} = props;
     return (
         <div className={styles.errorBlock}>
-            <Button
+            {isPaymentStarted ? <Button
                 style='primary'
                 onClick={(e) => retry(e, props)}>
-                {l['form.button.pay.again.label']}
-            </Button>
-            <Button
+                {locale['form.button.pay.again.label']}
+            </Button> : null}
+            {isPaymentStarted ? <Button
                 style='default'
                 className={styles.pay_with_other}
                 onClick={(e) => choseAnotherCard(e, props)}>
-                {l['form.button.pay.other.card.label']}
-            </Button>
+                {locale['form.button.pay.other.card.label']}
+            </Button> : null}
             {/*<div className={styles.link_container}>*/}
             {/*<a href='' className={styles.link}>{l['form.payment.method.name.others.label']}</a>*/}
             {/*<hr/>*/}
@@ -44,9 +45,9 @@ export const FormBlock: React.SFC<ResultFormProps> = (props) => {
         props.model.invoiceEvents,
         props.error
     );
-    // if (hasDone) {
-    //     props.setResult(ResultState.done);
-    // }
+    if (hasDone) {
+        props.setResult(ResultState.done);
+    }
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>

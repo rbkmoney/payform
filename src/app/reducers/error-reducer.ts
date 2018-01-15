@@ -1,20 +1,20 @@
-import { SetErrorAction, SetErrorStatus, TypeKeys } from 'checkout/actions';
-import { ErrorHandleStatus, ErrorState } from 'checkout/state';
+import { SetErrorAction, AcceptError, TypeKeys } from 'checkout/actions';
+import { ErrorStatus, ErrorState } from 'checkout/state';
 
-type ErrorReducerAction = SetErrorAction | SetErrorStatus;
+type ErrorReducerAction = SetErrorAction | AcceptError;
 
 export function errorReducer(s: ErrorState = null, action: ErrorReducerAction): ErrorState {
     switch (action.type) {
         case TypeKeys.SET_ERROR:
             console.error(action.payload);
             return {
-                status: ErrorHandleStatus.unhandled,
+                status: ErrorStatus.unhandled,
                 error: action.payload
             };
-        case TypeKeys.SET_ERROR_STATUS:
+        case TypeKeys.ACCEPT_ERROR:
             return {
                 ...s,
-                status: action.payload
+                status: ErrorStatus.accepted
             };
     }
     return s;

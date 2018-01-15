@@ -1,4 +1,5 @@
 import { isIE } from 'checkout/utils/is-ie';
+import { Locale } from 'checkout/locale';
 
 const locales = ['ru', 'en'];
 
@@ -13,7 +14,7 @@ function detectLocale(locale: string = 'auto'): string {
     return result || 'ru';
 }
 
-export const getLocale = (locale: string): Promise<object> => (
+export const getLocale = (locale: string): Promise<Locale> => (
     fetch(`../locale/${detectLocale(locale)}.json`, {
         method: 'GET',
         headers: {

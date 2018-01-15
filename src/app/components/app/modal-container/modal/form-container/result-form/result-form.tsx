@@ -2,7 +2,10 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './result-form.scss';
 import { connect } from 'react-redux';
-import { FormName, ModalForms, ModalName, ModalState, State, ResultType } from 'checkout/state';
+import {
+    FormName, ModalForms, ModalName, ModalState, State,
+    ResultType, PaymentStatus, ResultFormInfo
+} from 'checkout/state';
 import { prepareToRetry, setResult } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { FormBlock } from './form-block';
@@ -18,17 +21,25 @@ const ResultFormDef: React.SFC<ResultFormProps> = (props) => {
     );
 };
 
-const toResultFormInfo = (modals: ModalState[]) => {
+interface FormInfoChunk {
+    resultFormInfo: ResultFormInfo;
+    isPaymentStarted: boolean;
+}
+
+const toFormInfoChunk = (modals: ModalState[]): FormInfoChunk => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, FormName.resultForm);
+    return {
+        resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
+        isPaymentStarted: !!info.find((item) => item.paymentStatus === PaymentStatus.started)
+    };
 };
 
 const mapStateToProps = (state: State) => ({
     model: state.model,
     config: state.config,
     locale: state.config.locale,
-    resultFormInfo: toResultFormInfo(state.modals),
-    error: state.error ? state.error.error : null
+    error: state.error ? state.error.error : null,
+    ...toFormInfoChunk(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
