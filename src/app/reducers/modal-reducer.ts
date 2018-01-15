@@ -1,7 +1,6 @@
 import { cloneDeep } from 'lodash';
 import {
     FormInfo,
-    FormName,
     ModalForms,
     ModalName,
     ModalState,
@@ -16,8 +15,6 @@ import {
     SetFormInfo,
     SetViewInfoError,
     SetViewInfoInProcess,
-    SetActiveFormInfo,
-    SetActiveModal,
     PrepareToPay,
     PrepareToRetry
 } from 'checkout/actions';
@@ -27,8 +24,6 @@ type ModalReducerAction =
     SetViewInfoError |
     SetViewInfoInProcess |
     SetFormInfo |
-    SetActiveModal |
-    SetActiveFormInfo |
     PrepareToPay |
     PrepareToRetry;
 
@@ -56,7 +51,7 @@ const addOrUpdate = (items: Named[], item: Named): Named[] => {
     return index === -1 ? add(items, item) : update(items, item, index);
 };
 
-const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalReducerAction) => {
+const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalReducerAction): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const info = findNamed(modal.formsInfo, action.meta.formName) as FormInfo;
     return addOrUpdate(s, {
@@ -71,49 +66,20 @@ const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalRed
     } as ModalForms);
 };
 
-const updateFormInfo = (s: ModalState[], formInfo: FormInfo) => {
-    const modal = findNamed(s, ModalName.modalForms) as ModalForms;
+const updateFound = (s: ModalState[], found: ModalForms, formInfo: FormInfo): ModalState[] => {
     return addOrUpdate(s, {
-        ...modal,
+        ...found,
         active: true,
-        formsInfo: addOrUpdate(modal.formsInfo, formInfo)
+        formsInfo: addOrUpdate(found.formsInfo, formInfo)
     } as ModalForms);
 };
 
-const setActiveModal = (s: ModalState[], name: ModalName) => {
-    const deactivatedModal = s.find((item) => item.active);
-    const deactivatedState = addOrUpdate(s, {
-        ...deactivatedModal,
-        active: false
-    } as ModalState);
-    const activatedModal = findNamed(s, name);
-    return addOrUpdate(deactivatedState, {
-        ...activatedModal,
-        active: true
-    } as ModalState);
+const updateFormInfo = (s: ModalState[], formInfo: FormInfo): ModalState[] => {
+    const found = findNamed(s, ModalName.modalForms) as ModalForms;
+    return found ? updateFound(s, found, formInfo) : [new ModalForms([formInfo], true)];
 };
 
-const setActiveFormInfo = (s: ModalState[], name: FormName) => {
-    const modal = findNamed(s, ModalName.modalForms) as ModalForms;
-    const deactivatedInfo = modal.formsInfo.find((item) => item.active);
-    const deactivatedState = addOrUpdate(s, {
-        ...modal,
-        formsInfo: addOrUpdate(modal.formsInfo, {
-            ...deactivatedInfo,
-            active: false
-        } as FormInfo)
-    } as ModalForms);
-    const activatedInfo = findNamed(modal.formsInfo, name);
-    return addOrUpdate(deactivatedState, {
-        ...modal,
-        formsInfo: addOrUpdate(modal.formsInfo, {
-            ...activatedInfo,
-            active: true
-        } as FormInfo)
-    } as ModalForms);
-};
-
-const prepareToPay = (s: ModalState[]) => {
+const prepareToPay = (s: ModalState[]): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const active = modal.formsInfo.find((item) => item.active);
     return addOrUpdate(s, {
@@ -129,7 +95,7 @@ const prepareToPay = (s: ModalState[]) => {
     } as ModalForms);
 };
 
-const prepareToRetry = (s: ModalState[], toPristine: boolean) => {
+const prepareToRetry = (s: ModalState[], toPristine: boolean): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const started = modal.formsInfo.find((item) => item.paymentStatus === PaymentStatus.started);
     return addOrUpdate(s, {
@@ -157,10 +123,6 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
             return updateViewInfo(s, 'inProcess', action);
         case TypeKeys.SET_FORM_INFO:
             return updateFormInfo(s, action.payload);
-        case TypeKeys.SET_ACTIVE_MODAL:
-            return setActiveModal(s, action.payload);
-        case TypeKeys.SET_ACTIVE_FORM_INFO:
-            return setActiveFormInfo(s, action.payload);
         case TypeKeys.PREPARE_TO_PAY:
             return prepareToPay(s);
         case TypeKeys.PREPARE_TO_RETRY:

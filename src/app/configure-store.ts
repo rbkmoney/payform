@@ -7,7 +7,6 @@ import {
     resultReducer,
     configReducer,
     modelReducer,
-    lifecycleReducer,
     errorReducer,
     modalReducer
 } from './reducers';
@@ -17,7 +16,6 @@ export function configureStore(initState: any): Store<State> {
         result: resultReducer,
         config: configReducer,
         model: modelReducer,
-        lifecycle: lifecycleReducer,
         error: errorReducer,
         form: formReducer,
         modals: modalReducer

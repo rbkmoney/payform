@@ -1,13 +1,14 @@
 import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 import {
-    Invoice,
+    ChangeType,
+    Event, InvoiceCreated,
     InvoiceTemplate,
     InvoiceTemplateLineCostFixed,
     InvoiceTemplateMultiLine,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
-import { Amount } from 'checkout/utils';
+import { Amount, findChange } from 'checkout/utils';
 
 const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine): Amount | null => {
     let result = null;
@@ -36,17 +37,20 @@ const getAmountFromInvoiceTemplate = (invoiceTemplate: InvoiceTemplate): Amount 
     }
 };
 
-const getAmountFromInvoice = (invoice: Invoice) => ({
-    value: invoice.amount,
-    currencyCode: invoice.currency
-});
+const getAmountFromInvoice = (events: Event[]) => {
+    const {invoice} = findChange(events, ChangeType.InvoiceCreated) as InvoiceCreated;
+    return {
+        value: invoice.amount,
+        currencyCode: invoice.currency
+    };
+};
 
 export const getAmount = (integrationType: IntegrationType, m: ModelState): Amount | null => {
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:
             return getAmountFromInvoiceTemplate(m.invoiceTemplate);
         case IntegrationType.invoice:
-            return getAmountFromInvoice(m.invoice);
+            return getAmountFromInvoice(m.invoiceEvents);
         case IntegrationType.customer:
             throw new Error('Unhandled customer integration');
     }

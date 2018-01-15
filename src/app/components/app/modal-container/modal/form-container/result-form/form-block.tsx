@@ -16,22 +16,21 @@ const choseAnotherCard = (e: any, props: ResultFormProps) => {
 };
 
 const ActionBlock: React.SFC<ResultFormProps> = (props) => {
-    const l = props.locale;
+    const {locale, isPaymentStarted} = props;
     return (
         <div className={styles.errorBlock}>
-            <Button
+            {isPaymentStarted ? <Button
                 style='primary'
-                onClick={(e) => retry(e, props)}
-                id='retry-btn'>
-                {l['form.button.pay.again.label']}
-            </Button>
-            <Button
+                onClick={(e) => retry(e, props)}>
+                {locale['form.button.pay.again.label']}
+            </Button> : null}
+            {isPaymentStarted ? <Button
                 style='default'
                 className={styles.pay_with_other}
                 onClick={(e) => choseAnotherCard(e, props)}
                 id='reenter-btn'>
-                {l['form.button.pay.other.card.label']}
-            </Button>
+                {locale['form.button.pay.other.card.label']}
+            </Button> : null}
             {/*<div className={styles.link_container}>*/}
             {/*<a href='' className={styles.link}>{l['form.payment.method.name.others.label']}</a>*/}
             {/*<hr/>*/}

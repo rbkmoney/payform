@@ -7,4 +7,5 @@ export class Config {
     initConfig: InitConfig;
     appConfig?: AppConfig;
     locale?: Locale;
+    ready: boolean;
 }

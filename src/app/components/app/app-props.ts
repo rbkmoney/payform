@@ -1,32 +1,13 @@
-import { Invoice } from 'checkout/backend';
-import {
-    GetAppConfigDispatch,
-    GetInvoicePaymentMethodsDispatch,
-    GetInvoiceTemplateDispatch,
-    GetInvoicePaymentMethodsByTemplateIdDispatch,
-    GetLocaleDispatch,
-    ChangeStepStatus,
-    ChangeStageStatus,
-    GetInvoiceEventsDispatch,
-    SetInvoice
-} from 'checkout/actions';
-import { ConfigState, ModelState, ErrorState } from 'checkout/state';
-import { StageStatus, StepStatus, InitializationStage } from 'checkout/lifecycle';
+import { ConfigState, ModelState } from 'checkout/state';
 import { InitConfig } from 'checkout/config';
+import { LogicError } from 'checkout/backend';
 
 export interface AppProps {
-    getAppConfig: () => GetAppConfigDispatch;
-    getLocaleConfig: () => GetLocaleDispatch;
-    getInvoiceTemplate: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoiceTemplateDispatch;
-    getInvoicePaymentMethods: (capiEndpoint: string, accessToken: string, invoiceID: string) => GetInvoicePaymentMethodsDispatch;
-    getInvoicePaymentMethodsByTemplateId: (capiEndpoint: string, accessToken: string, invoiceTemplateID: string) => GetInvoicePaymentMethodsByTemplateIdDispatch;
-    getInvoiceEvents: (capiEndpoint: string, accessToken: string, invoiceID: string) => GetInvoiceEventsDispatch;
     config: ConfigState;
     model: ModelState;
-    error: ErrorState;
-    initialization: InitializationStage;
-    changeStepStatus: (stageName: string, stepName: string, value: StepStatus) => ChangeStepStatus;
-    changeStageStatus: (stageName: string, value: StageStatus) => ChangeStageStatus;
-    setInvoice: (invoice: Invoice) => SetInvoice;
+    error: LogicError;
+    modalReady: boolean;
+    loadConfig: (locale: string) => any;
+    initModel: (config: ConfigState) => any;
     initModal: (config: InitConfig, model: ModelState) => any;
 }
