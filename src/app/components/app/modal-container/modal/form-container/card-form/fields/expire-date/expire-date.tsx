@@ -29,7 +29,7 @@ const CustomInput: React.SFC<FieldProps & ExpireDateDefProps> = (props) => (
         placeholder={props.locale['form.input.expiry.placeholder']}
         mark={true}
         type='tel'
-        id='expireDateInput'
+        id='expire-date-input'
     />
 );
 

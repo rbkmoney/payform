@@ -46,7 +46,7 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
 
     render() {
         return (
-            <div className={styles.container} key='3ds' id='interactContainer'>
+            <div className={styles.container} key='3ds' id='interact-container'>
                 <iframe id='interactionFrame'>
                 </iframe>
             </div>

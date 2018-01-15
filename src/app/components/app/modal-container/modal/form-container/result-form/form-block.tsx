@@ -21,14 +21,14 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
             <Button
                 style='primary'
                 onClick={(e) => retry(e, props)}
-                id='tryAgainButton'>
+                id='retry-btn'>
                 {l['form.button.pay.again.label']}
             </Button>
             <Button
                 style='default'
                 className={styles.pay_with_other}
                 onClick={(e) => choseAnotherCard(e, props)}
-                id='payOtherCardButton'>
+                id='reenter-btn'>
                 {l['form.button.pay.other.card.label']}
             </Button>
             {/*<div className={styles.link_container}>*/}

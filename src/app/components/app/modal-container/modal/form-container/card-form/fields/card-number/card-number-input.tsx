@@ -25,7 +25,7 @@ const CardNumberInputDef: React.SFC<FieldProps & CardNumberInputProps> = (props)
         placeholder={props.locale['form.input.card.placeholder']}
         mark={true}
         type='tel'
-        id='cardNumberInput'
+        id='card-number-input'
     />
 );
 
