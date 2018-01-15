@@ -22,6 +22,7 @@ interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
     invoiceEvents?: Event[];
     paymentMethods?: PaymentMethod[];
+    invoiceAccessToken?: string;
 }
 
 const resolveInvoiceTemplate = (endpoint: string, config: InvoiceTemplateInitConfig): Promise<ModelChunk> =>
@@ -32,7 +33,7 @@ const resolveInvoiceTemplate = (endpoint: string, config: InvoiceTemplateInitCon
 const resolveInvoice = (endpoint: string, config: InvoiceInitConfig): Promise<ModelChunk> =>
     getInvoiceEvents(endpoint, config.invoiceAccessToken, config.invoiceID).then((invoiceEvents) =>
         getInvoicePaymentMethods(endpoint, config.invoiceAccessToken, config.invoiceID).then((paymentMethods) =>
-            ({invoiceEvents, paymentMethods})));
+            ({invoiceEvents, paymentMethods, invoiceAccessToken: config.invoiceAccessToken})));
 
 const resolve = (config: ConfigState): Promise<ModelChunk> => {
     const endpoint = config.appConfig.capiEndpoint;

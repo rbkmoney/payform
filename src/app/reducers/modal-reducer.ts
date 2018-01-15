@@ -51,7 +51,7 @@ const addOrUpdate = (items: Named[], item: Named): Named[] => {
     return index === -1 ? add(items, item) : update(items, item, index);
 };
 
-const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalReducerAction) => {
+const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalReducerAction): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const info = findNamed(modal.formsInfo, action.meta.formName) as FormInfo;
     return addOrUpdate(s, {
@@ -66,16 +66,20 @@ const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalRed
     } as ModalForms);
 };
 
-const updateFormInfo = (s: ModalState[], formInfo: FormInfo) => {
-    const modal = findNamed(s, ModalName.modalForms) as ModalForms;
+const updateFound = (s: ModalState[], found: ModalForms, formInfo: FormInfo): ModalState[] => {
     return addOrUpdate(s, {
-        ...modal,
+        ...found,
         active: true,
-        formsInfo: addOrUpdate(modal.formsInfo, formInfo)
+        formsInfo: addOrUpdate(found.formsInfo, formInfo)
     } as ModalForms);
 };
 
-const prepareToPay = (s: ModalState[]) => {
+const updateFormInfo = (s: ModalState[], formInfo: FormInfo): ModalState[] => {
+    const found = findNamed(s, ModalName.modalForms) as ModalForms;
+    return found ? updateFound(s, found, formInfo) : [new ModalForms([formInfo], true)];
+};
+
+const prepareToPay = (s: ModalState[]): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const active = modal.formsInfo.find((item) => item.active);
     return addOrUpdate(s, {
@@ -91,7 +95,7 @@ const prepareToPay = (s: ModalState[]) => {
     } as ModalForms);
 };
 
-const prepareToRetry = (s: ModalState[], toPristine: boolean) => {
+const prepareToRetry = (s: ModalState[], toPristine: boolean): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const started = modal.formsInfo.find((item) => item.paymentStatus === PaymentStatus.started);
     return addOrUpdate(s, {
