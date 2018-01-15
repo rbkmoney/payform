@@ -3,6 +3,7 @@ import * as styles from './result-form.scss';
 import { ResultFormProps } from './result-form-props';
 import { Button } from 'checkout/components';
 import { makeContent } from './make-content';
+import { ResultState } from 'checkout/state';
 
 const retry = (e: any, props: ResultFormProps) => {
     e.preventDefault();
@@ -46,9 +47,9 @@ export const FormBlock: React.SFC<ResultFormProps> = (props) => {
         props.model.invoiceEvents,
         props.error
     );
-    // if (hasDone) {
-    //     props.setResult(ResultState.done);
-    // }
+    if (hasDone) {
+        props.setResult(ResultState.done);
+    }
     return (
         <form className={styles.form}>
             <h2 className={styles.title}>{header}</h2>
