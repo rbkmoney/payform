@@ -21,7 +21,8 @@ const ActionBlock: React.SFC<ResultFormProps> = (props) => {
         <div className={styles.errorBlock}>
             {isPaymentStarted ? <Button
                 style='primary'
-                onClick={(e) => retry(e, props)}>
+                onClick={(e) => retry(e, props)}
+                id='retry-btn'>
                 {locale['form.button.pay.again.label']}
             </Button> : null}
             {isPaymentStarted ? <Button
