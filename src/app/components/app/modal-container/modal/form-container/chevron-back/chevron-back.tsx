@@ -1,19 +1,13 @@
 import * as React from 'react';
+import {Icon, IconType} from 'checkout/components';
+import * as formStyles from '../form-container.scss';
 
-class ChevronBackDef extends React.Component<any> {
-
-    constructor(props: any) {
-        super(props);
-    }
-
-    render(): any {
-        // return (
-        //     <div className={formStyles.back_btn} onClick={this.back}>
-        //         <Icon icon={IconType.chevronLeft}/>
-        //     </div>
-        // );
-        return null;
-    }
+interface ChevronBackProps {
+    back: () => void;
 }
 
-export const ChevronBack = ChevronBackDef;
+export const ChevronBack: React.SFC<ChevronBackProps> = (props) => (
+    <div className={formStyles.back_btn} onClick={props.back}>
+         <Icon icon={IconType.chevronLeft}/>
+     </div>
+);

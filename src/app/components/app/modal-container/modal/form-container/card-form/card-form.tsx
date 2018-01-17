@@ -13,16 +13,19 @@ import { getAmount } from '../../amount-resolver';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
+import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
+import {setActiveFormInfo} from 'checkout/actions/modal-actions/set-active-form-info-action';
 
-const toCardFormInfo = (modals: ModalState[]) => {
+const toFormInfo = (modals: ModalState[], formName: FormName) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, FormName.cardForm);
+    return findNamed(info, formName);
 };
 
 const mapStateToProps = (state: State) => ({
-    cardFormInfo: toCardFormInfo(state.modals),
+    cardFormInfo: toFormInfo(state.modals, FormName.cardForm),
     config: state.config,
     model: state.model,
+    modals: state.modals,
     cardForm: state.form.cardForm,
     locale: state.config.locale,
     formValues: get(state.form, 'cardForm.values')
@@ -31,7 +34,8 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch),
+    setActiveFormInfo: bindActionCreators(setActiveFormInfo, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
@@ -48,6 +52,7 @@ class CardFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
+        this.back = this.back.bind(this);
     }
 
     submit(values: CardFormValues) {
@@ -56,6 +61,14 @@ class CardFormDef extends React.Component<Props> {
         this.props.prepareToPay();
         const {config, model} = this.props;
         this.props.pay(config, model, values);
+    }
+
+    back() {
+        this.props.setActiveFormInfo(FormName.paymentMethods, this.props.modals);
+    }
+
+    hasBack() {
+        return !!toFormInfo(this.props.modals, FormName.paymentMethods);
     }
 
     componentWillMount() {
@@ -82,7 +95,7 @@ class CardFormDef extends React.Component<Props> {
         return (
             <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
                 <div className={formStyles.header}>
-                    {/*{hasBack(this.props.formsFlow) ? <ChevronBack/> : null}*/}
+                    {this.hasBack() ? <ChevronBack back={this.back}/> : null}
                     <div className={formStyles.title}>
                         {locale['form.header.pay.card.label']}
                     </div>

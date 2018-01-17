@@ -36,6 +36,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    position: relative;
 }
 
 .back_btn {
@@ -45,6 +46,8 @@
     flex-wrap: nowrap;
     align-items: center;
     cursor: pointer;
+    position: absolute;
+    width: 20px;
     @include responsive(sm) {
         display: flex;
     }

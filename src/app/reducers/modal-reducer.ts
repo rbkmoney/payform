@@ -13,6 +13,7 @@ import {
     TypeKeys,
     SetModalState,
     SetFormInfo,
+    SetActiveFormInfo,
     SetViewInfoError,
     SetViewInfoInProcess,
     PrepareToPay,
@@ -24,6 +25,7 @@ type ModalReducerAction =
     SetViewInfoError |
     SetViewInfoInProcess |
     SetFormInfo |
+    SetActiveFormInfo |
     PrepareToPay |
     PrepareToRetry;
 
@@ -122,6 +124,7 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
         case TypeKeys.SET_VIEW_INFO_IN_PROCESS:
             return updateViewInfo(s, 'inProcess', action);
         case TypeKeys.SET_FORM_INFO:
+        case TypeKeys.SET_ACTIVE_FORM_INFO:
             return updateFormInfo(s, action.payload);
         case TypeKeys.PREPARE_TO_PAY:
             return prepareToPay(s);

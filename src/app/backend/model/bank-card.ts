@@ -1,7 +1,7 @@
 import { PaymentSystem } from './payment-system';
-import { PaymentMethod } from './payment-method';
+import { PaymentMethod, PaymentMethodsEnum } from './payment-method';
 
 export class BankCard extends PaymentMethod {
-    method: 'BankCard';
+    method: PaymentMethodsEnum.BankCard;
     paymentSystems: PaymentSystem[];
 }

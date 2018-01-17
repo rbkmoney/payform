@@ -4,6 +4,7 @@ import { IntegrationType } from './integration-type';
 export class InitConfig {
     integrationType: IntegrationType;
     terminals: boolean = false;
+    ewallets: boolean = false;
     paymentFlowHold: boolean = false;
     holdExpiration: HoldExpiration = HoldExpiration.cancel;
     locale: string = 'auto';
