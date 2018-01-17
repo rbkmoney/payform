@@ -12,5 +12,5 @@ export const setActiveFormInfo = (formName: FormName, modals: ModalState[]): Set
     return {
         type: TypeKeys.SET_ACTIVE_FORM_INFO,
         payload: formInfo
-    }
+    };
 };
