@@ -41,7 +41,6 @@ export class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
     }
 
     renderMethods(method: PaymentMethod) {
-        console.log(this.props.initConfig);
         const initConfig = this.props.initConfig;
         switch (method.method) {
             case PaymentMethodsEnum.PaymentTerminal:
