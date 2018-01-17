@@ -3,11 +3,13 @@ import { BrowserPostRequest } from 'checkout/backend';
 
 export class ModalInteraction extends ModalState {
     request: BrowserPostRequest;
+    pollingEvents: boolean;
 
     constructor(request: BrowserPostRequest, active: boolean) {
         super();
         this.name = ModalName.modalInteraction;
         this.request = request;
         this.active = active;
+        this.pollingEvents = false;
     }
 }
