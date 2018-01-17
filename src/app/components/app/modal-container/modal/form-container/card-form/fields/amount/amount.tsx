@@ -25,6 +25,7 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         mark={true}
         type='tel'
+        id='amount-input'
     />
 );
 

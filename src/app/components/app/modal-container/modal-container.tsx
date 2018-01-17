@@ -6,9 +6,13 @@ import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
 import { UserInteractionModal } from './user-interaction-modal';
-import { ErrorStatus, ModalName, ModalState, ModelState, State, ModelStatus } from 'checkout/state';
-import { accept, pollInvoiceEvents, setErrorFormInfo, acceptError, setModalFromEvents } from 'checkout/actions';
+import { ErrorStatus, ModalName, ModalState, ModelState, State, ModelStatus, ModalInteraction } from 'checkout/state';
+import {
+    accept, pollInvoiceEvents, setErrorFormInfo, acceptError, setModalFromEvents,
+    setModalInteractionPollingStatus
+} from 'checkout/actions';
 import { AppConfig, Event } from 'checkout/backend';
+import { ModalLoader } from './modal-loader';
 
 export interface ModalContainerProps {
     activeModal: ModalState;
@@ -20,7 +24,11 @@ export interface ModalContainerProps {
     pollInvoiceEvents: (capiEndpoint: string, accessToken: string, events: Event[]) => any;
     setErrorFormInfo: () => any;
     acceptError: () => any;
+    setModalInteractionPollingStatus: (status: boolean) => any;
 }
+
+const isInteractionPolling = (modal: ModalState) =>
+    (modal.name === ModalName.modalInteraction && (modal as ModalInteraction).pollingEvents);
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
 
@@ -29,12 +37,14 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
             if (e.data === 'finish-interaction') {
                 const {appConfig: {capiEndpoint}, model: {invoiceAccessToken, invoiceEvents}} = this.props;
                 this.props.pollInvoiceEvents(capiEndpoint, invoiceAccessToken, invoiceEvents);
+                this.props.setModalInteractionPollingStatus(true);
             }
         });
     }
 
     componentWillReceiveProps(props: ModalContainerProps) {
         if (props.model.status === ModelStatus.refreshed) {
+            props.setModalInteractionPollingStatus(false);
             props.setModalFromEvents(props.model.invoiceEvents);
             props.acceptModel();
         }
@@ -76,6 +86,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                             </div> : null}
                         {name === ModalName.modalInteraction ? <UserInteractionModal/> : null}
                     </CSSTransitionGroup>
+                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader/> : null}
                 </div>
             </CSSTransitionGroup>
         );
@@ -94,7 +105,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     acceptModel: bindActionCreators(accept, dispatch),
     pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
     setErrorFormInfo: bindActionCreators(setErrorFormInfo, dispatch),
-    acceptError: bindActionCreators(acceptError, dispatch)
+    acceptError: bindActionCreators(acceptError, dispatch),
+    setModalInteractionPollingStatus: bindActionCreators(setModalInteractionPollingStatus, dispatch)
 });
 
 export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);

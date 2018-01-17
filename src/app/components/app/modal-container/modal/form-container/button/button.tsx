@@ -10,13 +10,14 @@ export interface ButtonProps {
     type?: 'submit';
     children: React.ReactNode;
     className?: string;
+    id?: string;
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 const getClass = (type: ButtonType) => type === 'primary' ? styles._primary : styles._default;
 
 export const Button: React.SFC<ButtonProps> = (props) => (
-    <button type={props.type} onClick={props.onClick} className={cx(styles.button, getClass(props.style), props.className)}>
+    <button type={props.type} onClick={props.onClick} className={cx(styles.button, getClass(props.style), props.className)} id={props.id}>
         {props.children}
     </button>
 );

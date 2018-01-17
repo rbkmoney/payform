@@ -65,7 +65,7 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
         return (
             <div className={styles.info}>
                 <div>
-                    {name ? <h4 className={styles.site_name}>{name}</h4> : false}
+                    {name ? <h4 className={styles.company_name} id='company-name-label'>{name}</h4> : false}
                     {formattedAmount ?
                         <h1 className={styles.amount}>
                             {formattedAmount.value}
@@ -74,13 +74,13 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
                     {description ?
                         <div>
                             <div className={styles.order}>{locale['info.order.label']}</div>
-                            <div className={styles.description}>{description}</div>
+                            <div className={styles.product_description} id='product-description'>{description}</div>
                         </div>
                         : false}
                     {email ?
                         <div>
                             <div className={styles.order}>{locale['info.email.label']}</div>
-                            <div className={styles.description}>{email}</div>
+                            <div className={styles.email}>{email}</div>
                         </div>
                         : false}
                     {dueDate ? <div className={styles.dueDate}>{locale['info.dueTime.text']} 23:56</div> : false}

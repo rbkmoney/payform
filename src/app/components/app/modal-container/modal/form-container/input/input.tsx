@@ -12,6 +12,7 @@ export interface CustomProps {
     className?: string;
     formatter?: (e: Element) => void;
     type?: 'text' | 'number' | 'value' | 'tel' | 'email';
+    id?: string;
 }
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
@@ -32,6 +33,7 @@ export const Input: React.SFC<InputProps> = (props) => (
             ref={(input) => input && props.formatter ? props.formatter(input) : false}
             type={props.type}
             value={props.value}
+            id={props.id}
         />
         {props.mark  ? <Marks active={props.active} pristine={props.pristine} error={props.error} /> : false}
     </div>
