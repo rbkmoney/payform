@@ -2,6 +2,7 @@ import { cloneDeep } from 'lodash';
 import {
     FormInfo,
     ModalForms,
+    ModalInteraction,
     ModalName,
     ModalState,
     Named,
@@ -17,7 +18,8 @@ import {
     SetViewInfoError,
     SetViewInfoInProcess,
     PrepareToPay,
-    PrepareToRetry
+    PrepareToRetry,
+    SetModalInteractionPolling
 } from 'checkout/actions';
 
 type ModalReducerAction =
@@ -27,7 +29,8 @@ type ModalReducerAction =
     SetFormInfo |
     SetActiveFormInfo |
     PrepareToPay |
-    PrepareToRetry;
+    PrepareToRetry |
+    SetModalInteractionPolling;
 
 const deactivate = (items: Named[]): Named[] => items.map((item) => {
     item.active = false;
@@ -115,6 +118,14 @@ const prepareToRetry = (s: ModalState[], toPristine: boolean): ModalState[] => {
     } as ModalForms);
 };
 
+const setPollingEvents = (s: ModalState[], status: boolean): ModalState[] => {
+    const modal = findNamed(s, ModalName.modalInteraction) as ModalInteraction;
+    return modal ? addOrUpdate(s, {
+        ...modal,
+        pollingEvents: status
+    } as ModalInteraction) : s;
+};
+
 export function modalReducer(s: ModalState[] = null, action: ModalReducerAction): ModalState[] {
     switch (action.type) {
         case TypeKeys.SET_MODAL_STATE:
@@ -130,6 +141,8 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
             return prepareToPay(s);
         case TypeKeys.PREPARE_TO_RETRY:
             return prepareToRetry(s, action.payload);
+        case TypeKeys.SET_MODAL_INTERACTION_POLLING:
+            return setPollingEvents(s, action.payload);
     }
     return s;
 }
