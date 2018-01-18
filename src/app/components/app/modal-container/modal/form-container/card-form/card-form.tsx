@@ -26,6 +26,7 @@ const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     modals: state.modals,
+    hasBack: !!toFormInfo(state.modals, FormName.paymentMethods),
     cardForm: state.form.cardForm,
     locale: state.config.locale,
     formValues: get(state.form, 'cardForm.values')
@@ -64,11 +65,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     back() {
-        this.props.setActiveFormInfo(FormName.paymentMethods, this.props.modals);
-    }
-
-    hasBack() {
-        return !!toFormInfo(this.props.modals, FormName.paymentMethods);
+        this.props.setActiveFormInfo(FormName.paymentMethods);
     }
 
     componentWillMount() {
@@ -90,12 +87,11 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const locale = this.props.locale;
-        const {fieldsConfig} = this.props.cardFormInfo;
+        const {locale, hasBack, cardFormInfo: {fieldsConfig}} = this.props;
         return (
             <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
                 <div className={formStyles.header}>
-                    {this.hasBack() ? <ChevronBack back={this.back}/> : null}
+                    {hasBack ? <ChevronBack back={this.back}/> : null}
                     <div className={formStyles.title}>
                         {locale['form.header.pay.card.label']}
                     </div>
