@@ -1,9 +1,9 @@
-export enum PaymentMethodsEnum {
+export enum PaymentMethodName {
     'BankCard' = 'BankCard',
     'PaymentTerminal' = 'PaymentTerminal',
     'DigitalWallet' = 'DigitalWallet'
 }
 
 export abstract class PaymentMethod {
-    method: PaymentMethodsEnum;
+    method: PaymentMethodName;
 }

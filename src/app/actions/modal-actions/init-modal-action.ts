@@ -13,7 +13,11 @@ import { InitConfig } from 'checkout/config';
 import { toCardFormInfo, toModalInteraction } from './converters';
 import { getLastChange } from 'checkout/utils';
 
-const isMultiMethods = (c: InitConfig, m: ModelState) => m.paymentMethods.length > 1;
+const checkPaymentMethodsConfig = (c: InitConfig): boolean => {
+    return c.terminals || c.wallets;
+};
+
+const isMultiMethods = (c: InitConfig, m: ModelState) => checkPaymentMethodsConfig(c) && m.paymentMethods.length > 1;
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
     const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate);

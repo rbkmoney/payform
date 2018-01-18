@@ -1,23 +1,23 @@
-import {FormName, ModelState} from 'checkout/state';
+import {FormInfo, FormName, ModelState, ResultFormInfo, ResultType} from 'checkout/state';
 import {InitConfig} from 'checkout/config';
 import {SetFormInfo} from './set-form-info';
 import {TypeKeys} from 'checkout/actions';
 import {toCardFormInfo, toPaymentMethods} from 'checkout/actions/modal-actions/converters';
 
-export const setFormInfo = (formName: FormName, initConfig: InitConfig, model: ModelState): SetFormInfo => {
-    let payload;
-
+const toPayload = (formName: FormName, initConfig: InitConfig, model: ModelState): FormInfo => {
     switch (formName) {
         case FormName.cardForm:
-            payload = toCardFormInfo(initConfig, model.invoiceTemplate);
-            break;
+            return toCardFormInfo(initConfig, model.invoiceTemplate);
         case FormName.paymentMethods:
-            payload = toPaymentMethods();
-            break;
+            return toPaymentMethods();
+        default:
+            return new ResultFormInfo(ResultType.error, true);
     }
+};
 
+export const setFormInfo = (formName: FormName, initConfig: InitConfig, model: ModelState): SetFormInfo  => {
     return {
         type: TypeKeys.SET_FORM_INFO,
-        payload
+        payload: toPayload(formName, initConfig, model)
     };
 };
