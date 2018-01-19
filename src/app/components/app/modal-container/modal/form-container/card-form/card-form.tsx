@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import * as styles from './card-form.scss';
 import * as formStyles from '../form-container.scss';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
@@ -14,7 +14,7 @@ import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
 import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
-import {setActiveFormInfo} from 'checkout/actions/modal-actions/set-active-form-info-action';
+import {setActiveFormInfo} from 'checkout/actions/modal-actions';
 
 const toFormInfo = (modals: ModalState[], formName: FormName) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -57,6 +57,9 @@ class CardFormDef extends React.Component<Props> {
     }
 
     submit(values: CardFormValues) {
+        if (isEmpty(values)) {
+            return;
+        }
         const activeElement = document.activeElement as HTMLInputElement;
         activeElement.blur();
         this.props.prepareToPay();
