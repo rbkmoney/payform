@@ -3,19 +3,19 @@ import {connect} from 'react-redux';
 import * as TransitionGroup from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
-import {FormName, ModalState, ModelState, State} from 'checkout/state';
+import {FormName, ModalState, ModelState, SlideDirection, State} from 'checkout/state';
 import {Locale} from 'checkout/locale';
 import {BankCard, Terminals, Wallets} from './methods';
 import {PaymentMethod, PaymentMethodName} from 'checkout/backend/model';
 import {bindActionCreators, Dispatch} from 'redux';
 import {InitConfig} from 'checkout/config';
-import {setActiveFormInfo, setFormInfo} from 'checkout/actions';
+import {navigateToFormInfo, setFormInfo} from 'checkout/actions';
 
 export interface PaymentMethodsProps {
     locale: Locale;
     methods: PaymentMethod[];
     setFormInfo: (formName: FormName, initConfig: InitConfig, model: ModelState) => any;
-    setActiveFormInfo: (formName: FormName, modals: ModalState[]) => any;
+    navigateToFormInfo: (formName: FormName, slideDirection: SlideDirection) => any;
     initConfig: InitConfig;
     model: ModelState;
     modals: ModalState[];
@@ -31,7 +31,7 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setFormInfo: bindActionCreators(setFormInfo, dispatch),
-    setActiveFormInfo: bindActionCreators(setActiveFormInfo, dispatch),
+    navigateToFormInfo: bindActionCreators(navigateToFormInfo, dispatch),
 });
 
 const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;

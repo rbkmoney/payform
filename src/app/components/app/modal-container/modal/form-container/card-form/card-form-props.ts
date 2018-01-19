@@ -1,6 +1,6 @@
 import {
     CardFormInfo, CardFormState, CardFormValues, ConfigState, FormInfo, FormName, ModalState,
-    ModelState
+    ModelState, SlideDirection
 } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 
@@ -15,5 +15,5 @@ export interface CardFormProps {
     pay: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
     setViewInfoError: (hasError: boolean, formName: FormName) => any;
     prepareToPay: () => any;
-    setActiveFormInfo: (formName: FormName) => any;
+    navigateToFormInfo: (formName: FormName, slideDirections: SlideDirection) => any;
 }

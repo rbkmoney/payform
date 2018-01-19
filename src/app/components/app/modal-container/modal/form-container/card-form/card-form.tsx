@@ -8,13 +8,16 @@ import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State } from 'checkout/state';
+import {
+    CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, SlideDirection,
+    State
+} from 'checkout/state';
 import { getAmount } from '../../amount-resolver';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
 import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
-import {setActiveFormInfo} from 'checkout/actions/modal-actions';
+import {navigateToFormInfo} from 'checkout/actions/modal-actions';
 
 const toFormInfo = (modals: ModalState[], formName: FormName) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -36,7 +39,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
-    setActiveFormInfo: bindActionCreators(setActiveFormInfo, dispatch)
+    navigateToFormInfo: bindActionCreators(navigateToFormInfo, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
@@ -69,7 +72,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     back() {
-        this.props.setActiveFormInfo(FormName.paymentMethods);
+        this.props.navigateToFormInfo(FormName.paymentMethods, SlideDirection.left);
     }
 
     componentWillMount() {

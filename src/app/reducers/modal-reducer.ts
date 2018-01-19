@@ -14,12 +14,12 @@ import {
     TypeKeys,
     SetModalState,
     SetFormInfo,
-    SetActiveFormInfo,
+    NavigateTo,
     SetViewInfoError,
     SetViewInfoInProcess,
     PrepareToPay,
     PrepareToRetry,
-    SetModalInteractionPolling
+    SetModalInteractionPolling, Navigation
 } from 'checkout/actions';
 
 type ModalReducerAction =
@@ -27,7 +27,7 @@ type ModalReducerAction =
     SetViewInfoError |
     SetViewInfoInProcess |
     SetFormInfo |
-    SetActiveFormInfo |
+    NavigateTo |
     PrepareToPay |
     PrepareToRetry |
     SetModalInteractionPolling;
@@ -37,10 +37,11 @@ const deactivate = (items: Named[]): Named[] => items.map((item) => {
     return item;
 });
 
-const activateFormInfo = (modals: ModalState[], formName: FormName): ModalState[] => {
+const navigateTo = (modals: ModalState[], payload: Navigation): ModalState[] => {
     const formsInfos = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    const formInfo = findNamed(formsInfos, formName) as FormInfo;
+    const formInfo = findNamed(formsInfos, payload.formName) as FormInfo;
     formInfo.active = true;
+    formInfo.viewInfo.slideDirection = payload.slideDirection;
     return updateFormInfo(modals, formInfo);
 };
 
@@ -143,8 +144,8 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
             return updateViewInfo(s, 'inProcess', action);
         case TypeKeys.SET_FORM_INFO:
             return updateFormInfo(s, action.payload);
-        case TypeKeys.SET_ACTIVE_FORM_INFO:
-            return activateFormInfo(s, action.payload);
+        case TypeKeys.NAVIGATE_TO_FORM_INFO:
+            return navigateTo(s, action.payload);
         case TypeKeys.PREPARE_TO_PAY:
             return prepareToPay(s);
         case TypeKeys.PREPARE_TO_RETRY:
