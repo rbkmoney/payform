@@ -58,6 +58,7 @@ class CardFormDef extends React.Component<Props> {
 
     submit(values: CardFormValues) {
         if (isEmpty(values)) {
+            this.props.setViewInfoError(true, FormName.cardForm);
             return;
         }
         const activeElement = document.activeElement as HTMLInputElement;
