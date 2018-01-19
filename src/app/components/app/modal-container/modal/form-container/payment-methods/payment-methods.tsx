@@ -43,9 +43,10 @@ const renderMethods = (method: PaymentMethod, props: PaymentMethodsProps) => {
             return initConfig.terminals ? <Terminals key={method.method} {...props}/> : null;
         case PaymentMethodName.DigitalWallet:
             return initConfig.wallets ? <Wallets key={method.method} {...props}/> : null;
-        default:
         case PaymentMethodName.BankCard:
             return <BankCard key={method.method} {...props}/>;
+        default:
+            return null;
     }
 };
 
