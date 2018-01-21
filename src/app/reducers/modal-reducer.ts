@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import {
-    FormInfo, FormName,
+    FormInfo,
     ModalForms,
     ModalInteraction,
     ModalName,
@@ -92,7 +92,7 @@ const updateFormInfo = (s: ModalState[], formInfo: FormInfo): ModalState[] => {
     return found ? updateFound(s, found, formInfo) : [new ModalForms([formInfo], true)];
 };
 
-const prepareToPay = (s: ModalState[]): ModalState[] => {
+const prepareToPay = (s: ModalState[], values: any): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const active = modal.formsInfo.find((item) => item.active);
     return addOrUpdate(s, {
@@ -103,7 +103,8 @@ const prepareToPay = (s: ModalState[]): ModalState[] => {
             viewInfo: {
                 ...active.viewInfo,
                 inProcess: true
-            }
+            },
+            values
         } as FormInfo)
     } as ModalForms);
 };
@@ -147,7 +148,7 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
         case TypeKeys.NAVIGATE_TO_FORM_INFO:
             return navigateTo(s, action.payload);
         case TypeKeys.PREPARE_TO_PAY:
-            return prepareToPay(s);
+            return prepareToPay(s, action.payload);
         case TypeKeys.PREPARE_TO_RETRY:
             return prepareToRetry(s, action.payload);
         case TypeKeys.SET_MODAL_INTERACTION_POLLING:

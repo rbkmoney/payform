@@ -1,89 +1,82 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import { get, isEmpty } from 'lodash';
-import * as styles from './card-form.scss';
-import * as formStyles from '../form-container.scss';
+import { bindActionCreators, Dispatch } from 'redux';
 import * as commonFormStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
-import { Button } from '../button';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
 import {
-    CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, SlideDirection,
+    CardFormValues,
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentStatus,
     State
 } from 'checkout/state';
-import { getAmount } from '../../amount-resolver';
-import { findNamed, formatAmount } from 'checkout/utils';
-import { bindActionCreators, Dispatch } from 'redux';
+import { findNamed } from 'checkout/utils';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
-import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
-import {navigateToFormInfo} from 'checkout/actions/modal-actions';
+import { PayButton } from './pay-button';
+import { Header } from './header';
 
-const toFormInfo = (modals: ModalState[], formName: FormName) => {
+const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, formName);
+    return findNamed(info, FormName.cardForm);
 };
 
 const mapStateToProps = (state: State) => ({
-    cardFormInfo: toFormInfo(state.modals, FormName.cardForm),
+    cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
-    model: state.model,
-    modals: state.modals,
-    hasBack: !!toFormInfo(state.modals, FormName.paymentMethods),
-    cardForm: state.form.cardForm,
-    locale: state.config.locale,
-    formValues: get(state.form, 'cardForm.values')
+    model: state.model
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch),
-    navigateToFormInfo: bindActionCreators(navigateToFormInfo, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
-
-const PayButton: React.SFC<CardFormProps> = (props) => {
-    const amount = formatAmount(getAmount(props.config.initConfig.integrationType, props.model));
-    const label = amount ? `${amount.value} ${amount.symbol}` : null;
-    return <Button className={styles.pay_button} type='submit'
-                   style='primary' id='pay-btn'>{props.locale['form.button.pay.label']} {label}</Button>;
-};
 
 class CardFormDef extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
-        this.back = this.back.bind(this);
     }
 
     submit(values: CardFormValues) {
-        if (isEmpty(values)) {
-            this.props.setViewInfoError(true, FormName.cardForm);
-            return;
-        }
         const activeElement = document.activeElement as HTMLInputElement;
         activeElement.blur();
-        this.props.prepareToPay();
+        this.props.prepareToPay(values);
         const {config, model} = this.props;
         this.props.pay(config, model, values);
     }
 
-    back() {
-        this.props.navigateToFormInfo(FormName.paymentMethods, SlideDirection.left);
+    init(values: CardFormValues) {
+        this.props.initialize(values ? {
+            email: values.email,
+            amount: values.amount
+        } : null);
+    }
+
+    retry(values: CardFormValues) {
+        const {config, model} = this.props;
+        this.props.initialize(values);
+        this.props.prepareToPay(values);
+        this.props.pay(config, model, values);
     }
 
     componentWillMount() {
-        switch (this.props.cardFormInfo.paymentStatus) {
+        this.props.setViewInfoError(false, FormName.cardForm);
+        const {values, paymentStatus} = this.props.cardFormInfo;
+        switch (paymentStatus) {
             case PaymentStatus.pristine:
-                this.props.reset();
+                this.init(values);
                 break;
             case PaymentStatus.needRetry:
-                this.props.prepareToPay();
-                const {config, model, formValues} = this.props;
-                this.props.pay(config, model, formValues);
+                this.retry(values);
+                break;
         }
     }
 
@@ -94,15 +87,10 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {locale, hasBack, cardFormInfo: {fieldsConfig}} = this.props;
+        const {handleSubmit, cardFormInfo: {fieldsConfig: {email, amount}}} = this.props;
         return (
-            <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
-                <div className={formStyles.header}>
-                    {hasBack ? <ChevronBack back={this.back}/> : null}
-                    <div className={formStyles.title}>
-                        {locale['form.header.pay.card.label']}
-                    </div>
-                </div>
+            <form onSubmit={handleSubmit(this.submit)}>
+                <Header/>
                 <div className={commonFormStyles.formGroup}>
                     <CardNumber/>
                 </div>
@@ -113,25 +101,24 @@ class CardFormDef extends React.Component<Props> {
                 <div className={commonFormStyles.formGroup}>
                     <CardHolder/>
                 </div>
-                {fieldsConfig.email.visible ?
+                {email.visible ?
                     <div className={commonFormStyles.formGroup}>
                         <Email/>
                     </div> : false
                 }
-                {fieldsConfig.amount.visible ?
+                {amount.visible ?
                     <div className={commonFormStyles.formGroup}>
                         <Amount/>
                     </div> : false
                 }
-                <PayButton {...this.props}/>
+                <PayButton/>
             </form>
         );
     }
 }
 
 const ReduxForm = reduxForm({
-    form: FormName.cardForm,
-    destroyOnUnmount: false
+    form: FormName.cardForm
 })(CardFormDef);
 
 export const CardForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);

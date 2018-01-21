@@ -2,10 +2,12 @@ import { AbstractAction, TypeKeys } from 'checkout/actions';
 
 export interface PrepareToPay extends AbstractAction {
     type: TypeKeys.PREPARE_TO_PAY;
+    payload: any;
 }
 
-export const prepareToPay = (): PrepareToPay => ({
-    type: TypeKeys.PREPARE_TO_PAY
+export const prepareToPay = (values: any): PrepareToPay => ({
+    type: TypeKeys.PREPARE_TO_PAY,
+    payload: values
 });
 
 export interface PrepareToRetry extends AbstractAction<boolean> {
