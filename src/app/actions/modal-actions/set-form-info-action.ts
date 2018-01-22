@@ -4,10 +4,10 @@ import {SetFormInfo} from './set-form-info';
 import {TypeKeys} from 'checkout/actions';
 import {toCardFormInfo, toPaymentMethods} from 'checkout/actions/modal-actions/converters';
 
-const toPayload = (formName: FormName, initConfig: InitConfig, model: ModelState): FormInfo => {
+const toPayload = (formName: FormName, initConfig: InitConfig, model: ModelState, previous: FormName): FormInfo => {
     switch (formName) {
         case FormName.cardForm:
-            return toCardFormInfo(initConfig, model.invoiceTemplate);
+            return toCardFormInfo(initConfig, model.invoiceTemplate, previous);
         case FormName.paymentMethods:
             return toPaymentMethods();
         default:
@@ -15,9 +15,7 @@ const toPayload = (formName: FormName, initConfig: InitConfig, model: ModelState
     }
 };
 
-export const setFormInfo = (formName: FormName, initConfig: InitConfig, model: ModelState): SetFormInfo  => {
-    return {
-        type: TypeKeys.SET_FORM_INFO,
-        payload: toPayload(formName, initConfig, model)
-    };
-};
+export const setFormInfo = (formName: FormName, initConfig: InitConfig, model: ModelState, previous: FormName): SetFormInfo => ({
+    type: TypeKeys.SET_FORM_INFO,
+    payload: toPayload(formName, initConfig, model, previous)
+});

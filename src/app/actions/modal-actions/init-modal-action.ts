@@ -5,7 +5,7 @@ import {
     ModalState,
     ModelState,
     ResultFormInfo,
-    ResultType
+    ResultType,
 } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
 import { SetModalState } from './set-modal-state';
@@ -13,11 +13,11 @@ import { InitConfig } from 'checkout/config';
 import { toCardFormInfo, toModalInteraction } from './converters';
 import { getLastChange } from 'checkout/utils';
 
-const checkPaymentMethodsConfig = (c: InitConfig, m: ModelState): boolean => {
+const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boolean => {
     let terminals = false;
     let wallets = false;
 
-    m.paymentMethods.forEach((paymentMethod: PaymentMethod) => {
+    methods.forEach((paymentMethod: PaymentMethod) => {
         switch (paymentMethod.method) {
             case PaymentMethodName.PaymentTerminal:
                 terminals = c.terminals;
@@ -31,10 +31,10 @@ const checkPaymentMethodsConfig = (c: InitConfig, m: ModelState): boolean => {
     return terminals || wallets;
 };
 
-const isMultiMethods = (c: InitConfig, m: ModelState) => checkPaymentMethodsConfig(c, m) && m.paymentMethods.length > 1;
+const isMultiMethods = (c: InitConfig, m: ModelState) =>  m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
-    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate);
+    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate, null);
     return new ModalForms([formInfo], true);
 };
 

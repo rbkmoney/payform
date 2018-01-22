@@ -10,7 +10,7 @@ import {
     CardFormInfo,
     ItemConfig,
     AmountConfig,
-    EmailConfig
+    EmailConfig, FormName
 } from 'checkout/state';
 import { InitConfig, IntegrationType } from 'checkout/config';
 
@@ -62,7 +62,7 @@ const calcHeight = (fieldsConfig: FieldsConfig): number => {
     return 288 + count * 52;
 };
 
-export const toCardFormInfo = (c: InitConfig, t: InvoiceTemplate): CardFormInfo => {
+export const toCardFormInfo = (c: InitConfig, t: InvoiceTemplate, previous: FormName): CardFormInfo => {
     const fieldConfig = toFieldsConfig(c, t);
-    return new CardFormInfo(calcHeight(fieldConfig), fieldConfig, true);
+    return new CardFormInfo(calcHeight(fieldConfig), fieldConfig, true, previous);
 };

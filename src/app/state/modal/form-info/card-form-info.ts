@@ -25,11 +25,11 @@ export class CardFormInfo extends FormInfo {
     fieldsConfig: FieldsConfig;
     paymentStatus: PaymentStatus;
 
-    constructor(height: number, fieldsConfig: FieldsConfig, active: boolean) {
+    constructor(height: number, fieldsConfig: FieldsConfig, active: boolean, previous: FormName) {
         super({
             slideDirection: SlideDirection.right,
             height
-        });
+        }, previous);
         this.name = FormName.cardForm;
         this.fieldsConfig = fieldsConfig;
         this.active = active;

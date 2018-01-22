@@ -18,7 +18,7 @@ import {
 import { findNamed } from 'checkout/utils';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
 import { PayButton } from './pay-button';
-import { Header } from './header';
+import { Header } from '../header/header';
 
 const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -88,7 +88,7 @@ class CardFormDef extends React.Component<Props> {
         const {handleSubmit, cardFormInfo: {fieldsConfig: {email, amount}}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
-                <Header/>
+                <Header localeString='form.header.pay.card.label'/>
                 <div className={formStyles.formGroup}>
                     <CardNumber/>
                 </div>
