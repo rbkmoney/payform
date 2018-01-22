@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
     <header className={styles.header}>
-        {props.previous ? <ChevronBack className={styles.back_btn} previous={props.previous} navigateTo={props.navigateTo}/> : null}
+        {props.previous ? <ChevronBack className={styles.back_btn} destination={props.previous} navigateTo={props.navigateTo}/> : null}
         <div className={cx(styles.text, {[styles._center]: true})}>
             {props.initConfig.name}
         </div>

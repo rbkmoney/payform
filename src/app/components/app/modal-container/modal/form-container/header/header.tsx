@@ -12,7 +12,7 @@ export interface HeaderProps {
     previous: FormName;
     locale: Locale;
     navigateTo: (formName: FormName, direction: NavigateDirection) => any;
-    localeString: string;
+    title: string;
 }
 
 const mapStateToProps = (state: State) => ({
@@ -26,9 +26,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const HeaderDef: React.SFC<HeaderProps> = (props) => (
     <div className={formStyles.header}>
-        {props.previous ? <ChevronBack className={formStyles.back_btn} previous={props.previous} navigateTo={props.navigateTo} /> : null}
+        {props.previous ? <ChevronBack className={formStyles.back_btn} destination={props.previous} navigateTo={props.navigateTo} /> : null}
         <div className={formStyles.title}>
-            {props.locale[props.localeString]}
+            {props.title}
         </div>
     </div>
 );
