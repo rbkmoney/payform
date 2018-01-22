@@ -10,7 +10,7 @@ import {NavigateDirection} from 'checkout/actions';
 interface BankCardProps {
     locale: Locale;
     setFormInfo: (formName: FormName, initConfig: InitConfig, model: ModelState, previous: FormName) => any;
-    navigateTo: (formName: FormName, direction: NavigateDirection, previous: FormName) => any;
+    navigateTo: (formName: FormName, direction: NavigateDirection) => any;
     initConfig: InitConfig;
     model: ModelState;
     modals: ModalState[];
@@ -20,7 +20,7 @@ const toBankCard = (props: BankCardProps) => {
     const forms = (findNamed(props.modals, ModalName.modalForms) as ModalForms).formsInfo;
     const isBankCardExist = findNamed(forms, FormName.cardForm);
     isBankCardExist ?
-        props.navigateTo(FormName.cardForm, NavigateDirection.forward, FormName.paymentMethods)
+        props.navigateTo(FormName.cardForm, NavigateDirection.forward)
     :
         props.setFormInfo(FormName.cardForm, props.initConfig, props.model, FormName.paymentMethods);
 };

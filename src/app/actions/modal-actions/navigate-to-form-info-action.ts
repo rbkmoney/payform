@@ -15,12 +15,11 @@ export interface NavigateTo extends AbstractAction<Navigation> {
     type: TypeKeys.NAVIGATE_TO_FORM_INFO;
     payload: {
         formName: FormName,
-        direction: NavigateDirection,
-        previous: FormName
+        direction: NavigateDirection
     };
 }
 
-export const navigateTo = (formName: FormName, direction: NavigateDirection, previous: FormName): NavigateTo => ({
+export const navigateTo = (formName: FormName, direction: NavigateDirection): NavigateTo => ({
     type: TypeKeys.NAVIGATE_TO_FORM_INFO,
-    payload: {formName, direction, previous}
+    payload: {formName, direction}
 });
