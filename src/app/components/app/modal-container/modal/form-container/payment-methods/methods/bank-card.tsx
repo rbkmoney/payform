@@ -4,7 +4,7 @@ import {Locale} from 'checkout/locale';
 import {FormName, ModalForms, ModalName, ModalState, ModelState} from 'checkout/state';
 import {InitConfig} from 'checkout/config';
 import {BankCardIcon} from './icons/bank-card-icon';
-import {findNamed, toActiveFormName} from 'checkout/utils';
+import {findNamed} from 'checkout/utils';
 import {NavigateDirection} from 'checkout/actions';
 
 interface BankCardProps {
@@ -20,9 +20,9 @@ const toBankCard = (props: BankCardProps) => {
     const forms = (findNamed(props.modals, ModalName.modalForms) as ModalForms).formsInfo;
     const isBankCardExist = findNamed(forms, FormName.cardForm);
     isBankCardExist ?
-        props.navigateTo(FormName.cardForm, NavigateDirection.forward, toActiveFormName(props.modals))
+        props.navigateTo(FormName.cardForm, NavigateDirection.forward, FormName.paymentMethods)
     :
-        props.setFormInfo(FormName.cardForm, props.initConfig, props.model, toActiveFormName(props.modals));
+        props.setFormInfo(FormName.cardForm, props.initConfig, props.model, FormName.paymentMethods);
 };
 
 export const BankCard: React.SFC<BankCardProps> = (props) => (
