@@ -40,7 +40,7 @@
 }
 
 .back_btn {
-    display: none;
+    display: flex;
     height: 20px;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -48,9 +48,6 @@
     cursor: pointer;
     position: absolute;
     width: 20px;
-    @include responsive(sm) {
-        display: flex;
-    }
     svg {
         height: 15px;
         width: 9px;
@@ -65,10 +62,7 @@
     letter-spacing: 0;
     line-height: 20px;
     width: 100%;
-
-    @include responsive(sm) {
-        text-align: center;
-    }
+    text-align: center;
 }
 
 .appearLoader {

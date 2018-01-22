@@ -19,7 +19,9 @@ import {
     SetViewInfoInProcess,
     PrepareToPay,
     PrepareToRetry,
-    SetModalInteractionPolling, Navigation
+    SetModalInteractionPolling,
+    Navigation,
+    NavigateDirection
 } from 'checkout/actions';
 
 type ModalReducerAction =
@@ -37,12 +39,26 @@ const deactivate = (items: Named[]): Named[] => items.map((item) => {
     return item;
 });
 
+const toSlideDirection = (direction: NavigateDirection): SlideDirection => {
+    switch (direction) {
+        case NavigateDirection.forward:
+            return SlideDirection.right;
+        case NavigateDirection.back:
+            return SlideDirection.left;
+    }
+};
+
 const navigateTo = (modals: ModalState[], payload: Navigation): ModalState[] => {
-    const formsInfos = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    const formInfo = findNamed(formsInfos, payload.formName) as FormInfo;
-    formInfo.active = true;
-    formInfo.viewInfo.slideDirection = payload.slideDirection;
-    return updateFormInfo(modals, formInfo);
+    const formsInfo = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
+    const formInfo = findNamed(formsInfo, payload.formName) as FormInfo;
+    const updatedFormInfo = {...formInfo,
+        active: true,
+        viewInfo: {
+            ...formInfo.viewInfo,
+            slideDirection: toSlideDirection(payload.direction)
+        }
+    } as FormInfo;
+    return updateFormInfo(modals, updatedFormInfo);
 };
 
 const add = (items: Named[], item: Named): Named[] => {

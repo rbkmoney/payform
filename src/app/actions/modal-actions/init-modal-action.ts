@@ -1,4 +1,4 @@
-import { ChangeType } from 'checkout/backend';
+import {ChangeType, PaymentMethod, PaymentMethodName} from 'checkout/backend';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -13,11 +13,25 @@ import { InitConfig } from 'checkout/config';
 import { toCardFormInfo, toModalInteraction } from './converters';
 import { getLastChange } from 'checkout/utils';
 
-const checkPaymentMethodsConfig = (c: InitConfig): boolean => {
-    return c.terminals || c.wallets;
+const checkPaymentMethodsConfig = (c: InitConfig, m: ModelState): boolean => {
+    let terminals = false;
+    let wallets = false;
+
+    m.paymentMethods.forEach((paymentMethod: PaymentMethod) => {
+        switch (paymentMethod.method) {
+            case PaymentMethodName.PaymentTerminal:
+                terminals = c.terminals;
+                break;
+            case PaymentMethodName.DigitalWallet:
+                wallets = c.wallets;
+                break;
+        }
+    });
+
+    return terminals || wallets;
 };
 
-const isMultiMethods = (c: InitConfig, m: ModelState) => checkPaymentMethodsConfig(c) && m.paymentMethods.length > 1;
+const isMultiMethods = (c: InitConfig, m: ModelState) => checkPaymentMethodsConfig(c, m) && m.paymentMethods.length > 1;
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
     const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate);
