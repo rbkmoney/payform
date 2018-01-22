@@ -6,7 +6,7 @@ import * as formStyles from '../form-container.scss';
 import { ChevronBack } from '../chevron-back/index';
 import { bindActionCreators, Dispatch } from 'redux';
 import {NavigateDirection, navigateTo} from 'checkout/actions';
-import {toActiveFormName, toPrevious} from 'checkout/utils';
+import {toPrevious} from 'checkout/utils';
 
 export interface HeaderProps {
     previous: FormName;
@@ -16,7 +16,7 @@ export interface HeaderProps {
 }
 
 const mapStateToProps = (state: State) => ({
-    previous: toPrevious(state.modals, toActiveFormName(state.modals)),
+    previous: toPrevious(state.modals),
     locale: state.config.locale
 });
 

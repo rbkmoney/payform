@@ -7,7 +7,7 @@ import {FormName, State} from 'checkout/state';
 import {bindActionCreators, Dispatch} from 'redux';
 import {NavigateDirection, navigateTo} from 'checkout/actions';
 import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
-import {toPrevious, toActiveFormName} from 'checkout/utils';
+import {toPrevious} from 'checkout/utils';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
@@ -17,7 +17,7 @@ export interface MobileHeaderProps {
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    previous: toPrevious(state.modals, toActiveFormName(state.modals))
+    previous: toPrevious(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
