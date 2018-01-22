@@ -48,9 +48,9 @@ class CardFormDef extends React.Component<Props> {
     }
 
     pay(values: CardFormValues) {
-        const {config, model, prepareToPay, pay} = this.props;
-        prepareToPay();
-        pay(config, model, values);
+        const {config, model} = this.props;
+        this.props.prepareToPay();
+        this.props.pay(config, model, values);
     }
 
     init(values: CardFormValues) {
@@ -66,8 +66,8 @@ class CardFormDef extends React.Component<Props> {
     }
 
     componentWillMount() {
-        const {cardFormInfo: {paymentStatus}, formValues, setViewInfoError} = this.props;
-        setViewInfoError(false, FormName.cardForm);
+        const {cardFormInfo: {paymentStatus}, formValues} = this.props;
+        this.props.setViewInfoError(false, FormName.cardForm);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
                 this.init(formValues);
