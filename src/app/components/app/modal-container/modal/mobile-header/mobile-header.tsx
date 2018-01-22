@@ -1,23 +1,23 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
-import {InitConfig} from 'checkout/config';
-import {FormName, State} from 'checkout/state';
-import {bindActionCreators, Dispatch} from 'redux';
-import {NavigateDirection, navigateTo} from 'checkout/actions';
-import {ChevronBack} from 'checkout/components/app/modal-container/modal/form-container/chevron-back';
-import {toPrevious} from 'checkout/utils';
+import { InitConfig } from 'checkout/config';
+import { FormInfo, FormName, State } from 'checkout/state';
+import { NavigateDirection, navigateTo } from 'checkout/actions';
+import { ChevronBack } from '../form-container/chevron-back';
+import { findInfoWithPrevious } from 'checkout/utils';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
     navigateTo: (formName: FormName, direction: NavigateDirection) => any;
-    previous: FormName;
+    infoWithPrevious: FormInfo;
 }
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    previous: toPrevious(state.modals)
+    infoWithPrevious: findInfoWithPrevious(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -26,7 +26,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
     <header className={styles.header}>
-        {props.previous ? <ChevronBack className={styles.back_btn} destination={props.previous} navigateTo={props.navigateTo}/> : null}
+        {props.infoWithPrevious ?
+            <ChevronBack
+                className={styles.back_btn}
+                destination={props.infoWithPrevious.previous}
+                navigateTo={props.navigateTo}/> : null}
         <div className={cx(styles.text, {[styles._center]: true})}>
             {props.initConfig.name}
         </div>

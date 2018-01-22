@@ -1,23 +1,21 @@
+import { bindActionCreators, Dispatch } from 'redux';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Locale } from 'src/locale/locale';
 import { FormName, State } from 'src/app/state/index';
 import * as formStyles from '../form-container.scss';
 import { ChevronBack } from '../chevron-back/index';
-import { bindActionCreators, Dispatch } from 'redux';
-import {NavigateDirection, navigateTo} from 'checkout/actions';
-import {toPrevious} from 'checkout/utils';
+import { NavigateDirection, navigateTo } from 'checkout/actions';
+import { findInfoWithPrevious } from 'checkout/utils';
+import { FormInfo } from 'checkout/state';
 
 export interface HeaderProps {
-    previous: FormName;
-    locale: Locale;
+    infoWithPrevious: FormInfo;
     navigateTo: (formName: FormName, direction: NavigateDirection) => any;
     title: string;
 }
 
 const mapStateToProps = (state: State) => ({
-    previous: toPrevious(state.modals),
-    locale: state.config.locale
+    infoWithPrevious: findInfoWithPrevious(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -26,7 +24,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const HeaderDef: React.SFC<HeaderProps> = (props) => (
     <div className={formStyles.header}>
-        {props.previous ? <ChevronBack className={formStyles.back_btn} destination={props.previous} navigateTo={props.navigateTo} /> : null}
+        {props.infoWithPrevious ?
+            <ChevronBack
+                className={formStyles.back_btn}
+                destination={props.infoWithPrevious.previous}
+                navigateTo={props.navigateTo}/> : null
+        }
         <div className={formStyles.title}>
             {props.title}
         </div>
