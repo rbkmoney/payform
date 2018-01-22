@@ -53,9 +53,8 @@
     display: inline-table;
 
     hr {
-        border-color: $light-blue;
-        opacity: .4;
-        border-bottom: 0;
+        border: 1px solid $lightest-blue2;
+        border-bottom-width: 0;
         padding: 0;
         margin: 0 0 3px;
     }

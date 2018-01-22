@@ -1,6 +1,6 @@
 import { FormViewInfo } from './form-view-info';
-import { Named } from '../named';
 import { PaymentStatus } from './payment-status';
+import { Named } from '../named';
 
 export enum FormName {
     paymentMethods = 'paymentMethods',
@@ -10,11 +10,13 @@ export enum FormName {
 
 export abstract class FormInfo implements Named {
     name: FormName;
-    viewInfo: FormViewInfo;
     active: boolean;
+    viewInfo: FormViewInfo;
     paymentStatus?: PaymentStatus;
+    previous?: FormName;
 
-    constructor(viewInfo: FormViewInfo) {
+    constructor(viewInfo: FormViewInfo, previous?: FormName) {
+        this.previous = previous;
         this.viewInfo = viewInfo;
     }
 }

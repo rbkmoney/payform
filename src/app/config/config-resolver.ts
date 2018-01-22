@@ -10,9 +10,13 @@ export class ConfigResolver {
         return this.resolveInitConfig(transport)
             .then((initConfig) => ({
                 origin: this.getOrigin(),
-                initConfig,
+                initConfig: ConfigResolver.toInitConfig(initConfig),
                 ready: false
             }));
+    }
+
+    private static toInitConfig(initConfig: InitConfig): InitConfig {
+        return {...new InitConfig(), ...initConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {

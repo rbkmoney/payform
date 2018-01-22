@@ -4,6 +4,7 @@ export * from './access-token';
 export * from './invoice';
 export * from './invoice-template-details';
 export * from './bank-card';
+export * from './digital-wallet';
 export * from './payment-method';
 export * from './payment-system';
 export * from './payment-terminal';

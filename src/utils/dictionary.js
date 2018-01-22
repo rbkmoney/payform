@@ -70,6 +70,9 @@ const integration = [
     },
     {
         name: 'terminals'
+    },
+    {
+        name: 'wallets'
     }
 ];
 

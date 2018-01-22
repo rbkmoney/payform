@@ -1,19 +1,18 @@
 import * as React from 'react';
+import {Icon, IconType} from 'checkout/components';
+import {NavigateDirection} from 'checkout/actions';
+import {FormName} from 'checkout/state';
 
-class ChevronBackDef extends React.Component<any> {
-
-    constructor(props: any) {
-        super(props);
-    }
-
-    render(): any {
-        // return (
-        //     <div className={formStyles.back_btn} onClick={this.back}>
-        //         <Icon icon={IconType.chevronLeft}/>
-        //     </div>
-        // );
-        return null;
-    }
+interface ChevronBackProps {
+    className: string;
+    destination: FormName;
+    navigateTo: (formName: FormName, direction: NavigateDirection) => any;
 }
 
-export const ChevronBack = ChevronBackDef;
+const back = (props: ChevronBackProps) => props.navigateTo(props.destination, NavigateDirection.back);
+
+export const ChevronBack: React.SFC<ChevronBackProps> = (props) => (
+    <div className={props.className} onClick={back.bind(null, props)}>
+         <Icon icon={IconType.chevronLeft}/>
+     </div>
+);

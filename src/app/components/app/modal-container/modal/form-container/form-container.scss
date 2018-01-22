@@ -36,18 +36,26 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    position: relative;
+
+    .back_btn {
+        display: none;
+
+        @include responsive(sm) {
+            display: flex;
+        }
+    }
 }
 
 .back_btn {
-    display: none;
     height: 20px;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     cursor: pointer;
-    @include responsive(sm) {
-        display: flex;
-    }
+    position: absolute;
+    width: 20px;
+
     svg {
         height: 15px;
         width: 9px;

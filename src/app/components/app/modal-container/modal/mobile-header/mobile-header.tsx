@@ -1,43 +1,40 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
-import { State } from 'checkout/state';
+import { FormInfo, FormName, State } from 'checkout/state';
+import { NavigateDirection, navigateTo } from 'checkout/actions';
+import { ChevronBack } from '../form-container/chevron-back';
+import { findInfoWithPrevious } from 'checkout/utils';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
+    navigateTo: (formName: FormName, direction: NavigateDirection) => any;
+    infoWithPrevious: FormInfo;
 }
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
+    infoWithPrevious: findInfoWithPrevious(state.modals)
 });
 
-class MobileHeaderDef extends React.Component<MobileHeaderProps> {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    navigateTo: bindActionCreators(navigateTo, dispatch)
+});
 
-    constructor(props: MobileHeaderProps) {
-        super(props);
-        this.back = this.back.bind(this);
-    }
+const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
+    <header className={styles.header}>
+        {props.infoWithPrevious ?
+            <ChevronBack
+                className={styles.back_btn}
+                destination={props.infoWithPrevious.previous}
+                navigateTo={props.navigateTo}/> : null}
+        <div className={cx(styles.text, {[styles._center]: true})}>
+            {props.initConfig.name}
+        </div>
+    </header>
+);
 
-    back(e: Event) {
-        e.preventDefault();
-    }
-
-    render() {
-        return (
-            <header className={styles.header}>
-                {/*{hasBack(this.props.formsFlow) ? (*/}
-                    {/*<button className={styles.back_btn} onClick={this.back as any}>*/}
-                        {/*<ChevronIcon/>*/}
-                    {/*</button>*/}
-                {/*) : false}*/}
-                <div className={cx(styles.text, {[styles._center]: true})}>
-                    {this.props.initConfig.name}
-                </div>
-            </header>
-        );
-    }
-}
-
-export const MobileHeader = connect(mapStateToProps)(MobileHeaderDef);
+export const MobileHeader = connect(mapStateToProps, mapDispatchToProps)(MobileHeaderDef);

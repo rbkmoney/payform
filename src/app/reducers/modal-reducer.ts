@@ -14,11 +14,14 @@ import {
     TypeKeys,
     SetModalState,
     SetFormInfo,
+    NavigateTo,
     SetViewInfoError,
     SetViewInfoInProcess,
     PrepareToPay,
     PrepareToRetry,
-    SetModalInteractionPolling
+    SetModalInteractionPolling,
+    Navigation,
+    NavigateDirection
 } from 'checkout/actions';
 
 type ModalReducerAction =
@@ -26,6 +29,7 @@ type ModalReducerAction =
     SetViewInfoError |
     SetViewInfoInProcess |
     SetFormInfo |
+    NavigateTo |
     PrepareToPay |
     PrepareToRetry |
     SetModalInteractionPolling;
@@ -34,6 +38,28 @@ const deactivate = (items: Named[]): Named[] => items.map((item) => {
     item.active = false;
     return item;
 });
+
+const toSlideDirection = (direction: NavigateDirection): SlideDirection => {
+    switch (direction) {
+        case NavigateDirection.forward:
+            return SlideDirection.right;
+        case NavigateDirection.back:
+            return SlideDirection.left;
+    }
+};
+
+const navigateTo = (modals: ModalState[], payload: Navigation): ModalState[] => {
+    const formsInfo = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
+    const formInfo = findNamed(formsInfo, payload.formName) as FormInfo;
+    const updatedFormInfo = {...formInfo,
+        active: true,
+        viewInfo: {
+            ...formInfo.viewInfo,
+            slideDirection: toSlideDirection(payload.direction)
+        }
+    } as FormInfo;
+    return updateFormInfo(modals, updatedFormInfo);
+};
 
 const add = (items: Named[], item: Named): Named[] => {
     let result = items ? cloneDeep(items) : [];
@@ -134,6 +160,8 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
             return updateViewInfo(s, 'inProcess', action);
         case TypeKeys.SET_FORM_INFO:
             return updateFormInfo(s, action.payload);
+        case TypeKeys.NAVIGATE_TO_FORM_INFO:
+            return navigateTo(s, action.payload);
         case TypeKeys.PREPARE_TO_PAY:
             return prepareToPay(s);
         case TypeKeys.PREPARE_TO_RETRY:

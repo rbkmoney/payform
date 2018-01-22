@@ -1,18 +1,24 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import { get } from 'lodash';
-import * as styles from './card-form.scss';
-import * as formStyles from '../form-container.scss';
-import * as commonFormStyles from 'checkout/styles/forms.scss';
-import { CardFormProps } from './card-form-props';
-import { Button } from '../button';
-import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State } from 'checkout/state';
-import { getAmount } from '../../amount-resolver';
-import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
+import { get } from 'lodash';
+import * as formStyles from 'checkout/styles/forms.scss';
+import { CardFormProps } from './card-form-props';
+import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
+import {
+    CardFormValues,
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentStatus,
+    State
+} from 'checkout/state';
+import { findNamed } from 'checkout/utils';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
+import { PayButton } from './pay-button';
+import { Header } from '../header/header';
 
 const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -23,9 +29,8 @@ const mapStateToProps = (state: State) => ({
     cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
     model: state.model,
-    cardForm: state.form.cardForm,
-    locale: state.config.locale,
-    formValues: get(state.form, 'cardForm.values')
+    formValues: get(state.form, 'cardForm.values'),
+    locale: state.config.locale
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -36,13 +41,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 type Props = InjectedFormProps & CardFormProps;
 
-const PayButton: React.SFC<CardFormProps> = (props) => {
-    const amount = formatAmount(getAmount(props.config.initConfig.integrationType, props.model));
-    const label = amount ? `${amount.value} ${amount.symbol}` : null;
-    return <Button className={styles.pay_button} type='submit'
-                   style='primary' id='pay-btn'>{props.locale['form.button.pay.label']} {label}</Button>;
-};
-
 class CardFormDef extends React.Component<Props> {
 
     constructor(props: Props) {
@@ -50,64 +48,69 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    submit(values: CardFormValues) {
-        const activeElement = document.activeElement as HTMLInputElement;
-        activeElement.blur();
-        this.props.prepareToPay();
+    pay(values: CardFormValues) {
         const {config, model} = this.props;
+        this.props.prepareToPay();
         this.props.pay(config, model, values);
     }
 
+    init(values: CardFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    submit(values: CardFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.pay(values);
+    }
+
     componentWillMount() {
-        switch (this.props.cardFormInfo.paymentStatus) {
+        const {cardFormInfo: {paymentStatus}, formValues} = this.props;
+        this.props.setViewInfoError(false, FormName.cardForm);
+        switch (paymentStatus) {
             case PaymentStatus.pristine:
-                this.props.reset();
+                this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.props.prepareToPay();
-                const {config, model, formValues} = this.props;
-                this.props.pay(config, model, formValues);
+                this.pay(formValues);
+                break;
         }
     }
 
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
-            this.props.setViewInfoError(true, FormName.cardForm);
+            props.setViewInfoError(true, FormName.cardForm);
         }
     }
 
     render() {
-        const locale = this.props.locale;
-        const {fieldsConfig} = this.props.cardFormInfo;
+        const {handleSubmit, cardFormInfo: {fieldsConfig: {email, amount}}} = this.props;
         return (
-            <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
-                <div className={formStyles.header}>
-                    {/*{hasBack(this.props.formsFlow) ? <ChevronBack/> : null}*/}
-                    <div className={formStyles.title}>
-                        {locale['form.header.pay.card.label']}
-                    </div>
-                </div>
-                <div className={commonFormStyles.formGroup}>
+            <form onSubmit={handleSubmit(this.submit)}>
+                <Header title={this.props.locale['form.header.pay.card.label']}/>
+                <div className={formStyles.formGroup}>
                     <CardNumber/>
                 </div>
-                <div className={commonFormStyles.formGroup}>
+                <div className={formStyles.formGroup}>
                     <ExpireDate/>
                     <SecureCode/>
                 </div>
-                <div className={commonFormStyles.formGroup}>
+                <div className={formStyles.formGroup}>
                     <CardHolder/>
                 </div>
-                {fieldsConfig.email.visible ?
-                    <div className={commonFormStyles.formGroup}>
+                {email.visible ?
+                    <div className={formStyles.formGroup}>
                         <Email/>
                     </div> : false
                 }
-                {fieldsConfig.amount.visible ?
-                    <div className={commonFormStyles.formGroup}>
+                {amount.visible ?
+                    <div className={formStyles.formGroup}>
                         <Amount/>
                     </div> : false
                 }
-                <PayButton {...this.props}/>
+                <PayButton/>
             </form>
         );
     }
