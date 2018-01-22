@@ -1,4 +1,4 @@
-import { HoldExpiration } from './hold-expiration';
+import { HoldExpirationType } from 'checkout/backend';
 import { IntegrationType } from './integration-type';
 
 export class InitConfig {
@@ -6,7 +6,7 @@ export class InitConfig {
     terminals: boolean;
     wallets: boolean;
     paymentFlowHold: boolean;
-    holdExpiration: HoldExpiration;
+    holdExpiration: HoldExpirationType;
     locale: string;
     popupMode: boolean;
     redirectUrl?: string;
@@ -18,7 +18,7 @@ export class InitConfig {
         this.terminals = true;
         this.wallets = true;
         this.paymentFlowHold = false;
-        this.holdExpiration = HoldExpiration.cancel;
+        this.holdExpiration = HoldExpirationType.cancel;
         this.locale = 'auto';
         this.popupMode = false;
     }

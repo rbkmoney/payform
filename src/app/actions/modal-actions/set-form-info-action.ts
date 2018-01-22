@@ -1,8 +1,8 @@
-import {FormInfo, FormName, ModelState, ResultFormInfo, ResultType} from 'checkout/state';
-import {InitConfig} from 'checkout/config';
-import {SetFormInfo} from './set-form-info';
-import {TypeKeys} from 'checkout/actions';
-import {toCardFormInfo, toPaymentMethods} from 'checkout/actions/modal-actions/converters';
+import { FormInfo, FormName, ModelState, ResultFormInfo, ResultType } from 'checkout/state';
+import { InitConfig } from 'checkout/config';
+import { SetFormInfo } from './set-form-info';
+import { TypeKeys } from 'checkout/actions';
+import { toCardFormInfo, toPaymentMethods } from './converters';
 
 const toPayload = (formName: FormName, initConfig: InitConfig, model: ModelState, previous: FormName): FormInfo => {
     switch (formName) {

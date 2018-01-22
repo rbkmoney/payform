@@ -16,7 +16,7 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
+import { payCardData, prepareToPay, setViewInfoError } from 'checkout/actions';
 import { PayButton } from './pay-button';
 import { Header } from '../header/header';
 
@@ -34,7 +34,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    pay: bindActionCreators(pay, dispatch),
+    pay: bindActionCreators(payCardData, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch)
 });
@@ -68,7 +68,7 @@ class CardFormDef extends React.Component<Props> {
 
     componentWillMount() {
         const {cardFormInfo: {paymentStatus}, formValues} = this.props;
-        this.props.setViewInfoError(false, FormName.cardForm);
+        this.props.setViewInfoError(false);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
                 this.init(formValues);
@@ -81,7 +81,7 @@ class CardFormDef extends React.Component<Props> {
 
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
-            props.setViewInfoError(true, FormName.cardForm);
+            props.setViewInfoError(true);
         }
     }
 
