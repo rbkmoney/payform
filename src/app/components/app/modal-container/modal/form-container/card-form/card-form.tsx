@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as commonFormStyles from 'checkout/styles/forms.scss';
+import { get } from 'lodash';
+import * as formStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
 import {
@@ -27,7 +28,8 @@ const toCardFormInfo = (modals: ModalState[]) => {
 const mapStateToProps = (state: State) => ({
     cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
-    model: state.model
+    model: state.model,
+    formValues: get(state.form, 'cardForm.values')
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -45,44 +47,40 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    submit(values: CardFormValues) {
-        const activeElement = document.activeElement as HTMLInputElement;
-        activeElement.blur();
-        this.props.prepareToPay(values);
-        const {config, model} = this.props;
-        this.props.pay(config, model, values);
+    pay(values: CardFormValues) {
+        const {config, model, prepareToPay, pay} = this.props;
+        prepareToPay();
+        pay(config, model, values);
     }
 
     init(values: CardFormValues) {
-        this.props.initialize(values ? {
-            email: values.email,
-            amount: values.amount
-        } : null);
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
     }
 
-    retry(values: CardFormValues) {
-        const {config, model} = this.props;
-        this.props.initialize(values);
-        this.props.prepareToPay(values);
-        this.props.pay(config, model, values);
+    submit(values: CardFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.pay(values);
     }
 
     componentWillMount() {
-        this.props.setViewInfoError(false, FormName.cardForm);
-        const {values, paymentStatus} = this.props.cardFormInfo;
+        const {cardFormInfo: {paymentStatus}, formValues, setViewInfoError} = this.props;
+        setViewInfoError(false, FormName.cardForm);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
-                this.init(values);
+                this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.retry(values);
+                this.pay(formValues);
                 break;
         }
     }
 
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
-            this.props.setViewInfoError(true, FormName.cardForm);
+            props.setViewInfoError(true, FormName.cardForm);
         }
     }
 
@@ -91,23 +89,23 @@ class CardFormDef extends React.Component<Props> {
         return (
             <form onSubmit={handleSubmit(this.submit)}>
                 <Header/>
-                <div className={commonFormStyles.formGroup}>
+                <div className={formStyles.formGroup}>
                     <CardNumber/>
                 </div>
-                <div className={commonFormStyles.formGroup}>
+                <div className={formStyles.formGroup}>
                     <ExpireDate/>
                     <SecureCode/>
                 </div>
-                <div className={commonFormStyles.formGroup}>
+                <div className={formStyles.formGroup}>
                     <CardHolder/>
                 </div>
                 {email.visible ?
-                    <div className={commonFormStyles.formGroup}>
+                    <div className={formStyles.formGroup}>
                         <Email/>
                     </div> : false
                 }
                 {amount.visible ?
-                    <div className={commonFormStyles.formGroup}>
+                    <div className={formStyles.formGroup}>
                         <Amount/>
                     </div> : false
                 }
@@ -118,7 +116,8 @@ class CardFormDef extends React.Component<Props> {
 }
 
 const ReduxForm = reduxForm({
-    form: FormName.cardForm
+    form: FormName.cardForm,
+    destroyOnUnmount: false
 })(CardFormDef);
 
 export const CardForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
