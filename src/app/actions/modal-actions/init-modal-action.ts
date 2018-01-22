@@ -26,7 +26,7 @@ const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boo
 const isMultiMethods = (c: InitConfig, m: ModelState) => m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
-    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate, null);
+    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate);
     return new ModalForms([formInfo], true);
 };
 

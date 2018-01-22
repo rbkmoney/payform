@@ -15,7 +15,7 @@ export abstract class FormInfo implements Named {
     paymentStatus?: PaymentStatus;
     previous?: FormName;
 
-    constructor(viewInfo: FormViewInfo, previous: FormName) {
+    constructor(viewInfo: FormViewInfo, previous?: FormName) {
         this.previous = previous;
         this.viewInfo = viewInfo;
     }

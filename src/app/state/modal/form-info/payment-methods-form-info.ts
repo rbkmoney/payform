@@ -7,7 +7,7 @@ export class PaymentMethodsFormInfo extends FormInfo {
         super({
             slideDirection: SlideDirection.left,
             height: height || 306
-        }, null);
+        });
         this.name = FormName.paymentMethods;
         this.active = active;
     }

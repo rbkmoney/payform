@@ -14,7 +14,7 @@ export class ResultFormInfo extends FormInfo {
         super({
             slideDirection: SlideDirection.right,
             height: 392
-        }, null);
+        });
         this.name = FormName.resultForm;
         this.resultType = resultType;
         this.active = active;
