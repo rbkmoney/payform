@@ -10,6 +10,7 @@ import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
 import { findNamed } from 'checkout/utils';
+import { WalletForm } from './wallet-form';
 
 const toActiveFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -36,6 +37,7 @@ const FormContainerDef: React.SFC<FormContainerProps> = (props) => {
                 >
                     {name === FormName.paymentMethods ? <PaymentMethods/> : null}
                     {name === FormName.cardForm ? <CardForm/> : null}
+                    {name === FormName.walletForm ? <WalletForm /> : null}
                     {name === FormName.resultForm ? <ResultForm/> : null}
                 </CSSTransitionGroup>
                 <CSSTransitionGroup
