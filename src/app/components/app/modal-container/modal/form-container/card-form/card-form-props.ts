@@ -5,8 +5,10 @@ import {
     FormName,
     ModelState,
 } from 'checkout/state';
+import {Locale} from 'checkout/locale';
 
 export interface CardFormProps {
+    locale: Locale;
     config: ConfigState;
     model: ModelState;
     cardFormInfo: CardFormInfo;

@@ -29,7 +29,8 @@ const mapStateToProps = (state: State) => ({
     cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
     model: state.model,
-    formValues: get(state.form, 'cardForm.values')
+    formValues: get(state.form, 'cardForm.values'),
+    locale: state.config.locale
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -88,7 +89,7 @@ class CardFormDef extends React.Component<Props> {
         const {handleSubmit, cardFormInfo: {fieldsConfig: {email, amount}}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
-                <Header localeString='form.header.pay.card.label'/>
+                <Header title={this.props.locale['form.header.pay.card.label']}/>
                 <div className={formStyles.formGroup}>
                     <CardNumber/>
                 </div>
