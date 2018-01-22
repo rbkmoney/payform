@@ -1,34 +1,21 @@
 import { AbstractAction, TypeKeys } from 'checkout/actions';
-import { FormName } from 'checkout/state';
 
-interface Meta {
-    formName: FormName;
-}
-
-export interface SetViewInfoError extends AbstractAction<boolean, Meta> {
+export interface SetViewInfoError extends AbstractAction<boolean> {
     type: TypeKeys.SET_VIEW_INFO_ERROR;
     payload: boolean;
-    meta: Meta;
 }
 
-export const setViewInfoError = (hasError: boolean, formName: FormName): SetViewInfoError => ({
+export const setViewInfoError = (hasError: boolean): SetViewInfoError => ({
     type: TypeKeys.SET_VIEW_INFO_ERROR,
-    payload: hasError,
-    meta: {
-        formName
-    }
+    payload: hasError
 });
 
-export interface SetViewInfoInProcess extends AbstractAction<boolean, Meta> {
-    type: TypeKeys.SET_VIEW_INFO_IN_PROCESS;
-    payload: boolean;
-    meta: Meta;
+export interface SetViewInfoHeight extends AbstractAction<number> {
+    type: TypeKeys.SET_VIEW_INFO_HEIGHT;
+    payload: number;
 }
 
-export const setViewInfoInProcess = (inProcess: boolean, formName: FormName): SetViewInfoInProcess => ({
-    type: TypeKeys.SET_VIEW_INFO_IN_PROCESS,
-    payload: inProcess,
-    meta: {
-        formName
-    }
+export const setViewInfoHeight = (height: number): SetViewInfoHeight => ({
+    type: TypeKeys.SET_VIEW_INFO_HEIGHT,
+    payload: height
 });

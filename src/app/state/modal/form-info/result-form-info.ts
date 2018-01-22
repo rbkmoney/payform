@@ -2,8 +2,7 @@ import { FormInfo, SlideDirection, FormName } from '../form-info';
 
 export enum ResultType {
     error = 'error',
-    processed = 'processed',
-    indefinite = 'indefinite'
+    processed = 'processed'
 }
 
 export class ResultFormInfo extends FormInfo {

@@ -1,4 +1,5 @@
 import { RegisteredField } from 'redux-form';
+import { PayableFormValues } from './payable-form-values';
 
 export interface CardFormFields {
     cardNumber: RegisteredField;
@@ -9,11 +10,9 @@ export interface CardFormFields {
     amount?: RegisteredField;
 }
 
-export interface CardFormValues {
+export interface CardFormValues extends PayableFormValues {
     cardNumber?: string;
     expireDate?: string;
     secureCode?: string;
     cardHolder?: string;
-    email?: string;
-    amount?: string;
 }

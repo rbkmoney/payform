@@ -8,3 +8,4 @@ export * from './set-form-info-action';
 export * from './navigate-to-form-info-action';
 export * from './set-error-form-info-action';
 export * from './modal-interaction-polling-status-action';
+export * from './set-form-info-to-active-action';

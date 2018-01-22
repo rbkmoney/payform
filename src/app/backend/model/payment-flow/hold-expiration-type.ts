@@ -1,4 +1,4 @@
-export enum HoldExpiration {
+export enum HoldExpirationType {
     cancel = 'cancel',
     capture = 'capture'
 }

@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import {
-    FormInfo,
+    FormInfo, FormName,
     ModalForms,
     ModalInteraction,
     ModalName,
@@ -16,23 +16,25 @@ import {
     SetFormInfo,
     NavigateTo,
     SetViewInfoError,
-    SetViewInfoInProcess,
     PrepareToPay,
     PrepareToRetry,
     SetModalInteractionPolling,
     Navigation,
-    NavigateDirection
+    NavigateDirection,
+    SetViewInfoHeight,
+    SetFormInfoToActive
 } from 'checkout/actions';
 
 type ModalReducerAction =
     SetModalState |
     SetViewInfoError |
-    SetViewInfoInProcess |
     SetFormInfo |
     NavigateTo |
     PrepareToPay |
     PrepareToRetry |
-    SetModalInteractionPolling;
+    SetModalInteractionPolling |
+    SetViewInfoHeight |
+    SetFormInfoToActive;
 
 const deactivate = (items: Named[]): Named[] => items.map((item) => {
     item.active = false;
@@ -51,7 +53,8 @@ const toSlideDirection = (direction: NavigateDirection): SlideDirection => {
 const navigateTo = (modals: ModalState[], payload: Navigation): ModalState[] => {
     const formsInfo = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
     const formInfo = findNamed(formsInfo, payload.formName) as FormInfo;
-    const updatedFormInfo = {...formInfo,
+    const updatedFormInfo = {
+        ...formInfo,
         active: true,
         viewInfo: {
             ...formInfo.viewInfo,
@@ -80,16 +83,16 @@ const addOrUpdate = (items: Named[], item: Named): Named[] => {
     return index === -1 ? add(items, item) : update(items, item, index);
 };
 
-const updateViewInfo = (s: ModalState[], viewInfoField: string, action: ModalReducerAction): ModalState[] => {
+const updateViewInfo = (s: ModalState[], field: string, value: any): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
-    const info = findNamed(modal.formsInfo, action.meta.formName) as FormInfo;
+    const active = modal.formsInfo.find((item) => item.active) as FormInfo;
     return addOrUpdate(s, {
         ...modal,
         formsInfo: addOrUpdate(modal.formsInfo, {
-            ...info,
+            ...active,
             viewInfo: {
-                ...info.viewInfo,
-                [viewInfoField]: action.payload
+                ...active.viewInfo,
+                [field]: value
             }
         } as FormInfo)
     } as ModalForms);
@@ -108,10 +111,22 @@ const updateFormInfo = (s: ModalState[], formInfo: FormInfo): ModalState[] => {
     return found ? updateFound(s, found, formInfo) : [new ModalForms([formInfo], true)];
 };
 
+const setActiveToPristine = (s: ModalState[]): ModalState[] => {
+    const modal = findNamed(s, ModalName.modalForms) as ModalForms;
+    const started = modal.formsInfo.find((item) => item.paymentStatus === PaymentStatus.started);
+    return started ? addOrUpdate(s, {
+        ...modal,
+        formsInfo: addOrUpdate(modal.formsInfo, {
+            ...started,
+            paymentStatus: PaymentStatus.pristine
+        } as FormInfo)
+    } as ModalForms) : s;
+};
+
 const prepareToPay = (s: ModalState[]): ModalState[] => {
     const modal = findNamed(s, ModalName.modalForms) as ModalForms;
     const active = modal.formsInfo.find((item) => item.active);
-    return addOrUpdate(s, {
+    return addOrUpdate(setActiveToPristine(s), {
         ...modal,
         formsInfo: addOrUpdate(modal.formsInfo, {
             ...active,
@@ -150,14 +165,26 @@ const setPollingEvents = (s: ModalState[], status: boolean): ModalState[] => {
     } as ModalInteraction) : s;
 };
 
+const setFormInfoToActive = (s: ModalState[], formName: FormName): ModalState[] => {
+    const modal = findNamed(s, ModalName.modalForms) as ModalForms;
+    const activated = modal.formsInfo.find((info) => info.name === formName);
+    return addOrUpdate(s, {
+        ...modal,
+        formsInfo: addOrUpdate(modal.formsInfo, {
+            ...activated,
+            active: true
+        } as FormInfo)
+    } as ModalForms);
+};
+
 export function modalReducer(s: ModalState[] = null, action: ModalReducerAction): ModalState[] {
     switch (action.type) {
         case TypeKeys.SET_MODAL_STATE:
             return addOrUpdate(s, action.payload);
         case TypeKeys.SET_VIEW_INFO_ERROR:
-            return updateViewInfo(s, 'error', action);
-        case TypeKeys.SET_VIEW_INFO_IN_PROCESS:
-            return updateViewInfo(s, 'inProcess', action);
+            return updateViewInfo(s, 'error', action.payload);
+        case TypeKeys.SET_VIEW_INFO_HEIGHT:
+            return updateViewInfo(s, 'height', action.payload);
         case TypeKeys.SET_FORM_INFO:
             return updateFormInfo(s, action.payload);
         case TypeKeys.NAVIGATE_TO_FORM_INFO:
@@ -168,6 +195,8 @@ export function modalReducer(s: ModalState[] = null, action: ModalReducerAction)
             return prepareToRetry(s, action.payload);
         case TypeKeys.SET_MODAL_INTERACTION_POLLING:
             return setPollingEvents(s, action.payload);
+        case TypeKeys.SET_FORM_INFO_TO_ACTIVE:
+            return setFormInfoToActive(s, action.payload);
     }
     return s;
 }
