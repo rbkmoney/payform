@@ -1,5 +1,4 @@
 import { FormInfo, FormName } from './form-info';
-import { SlideDirection } from 'checkout/state';
 import { PaymentStatus } from './payment-status';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 
@@ -25,14 +24,10 @@ export class WalletFormInfo extends FormInfo {
     fieldsConfig: FieldsConfig;
     paymentStatus: PaymentStatus;
 
-    constructor(height: number, fieldsConfig: FieldsConfig, active: boolean, previous: FormName) {
-        super({
-            slideDirection: SlideDirection.right,
-            height
-        }, previous);
-        this.fieldsConfig = fieldsConfig;
+    constructor(previous?: FormName) {
+        super(previous);
         this.name = FormName.walletForm;
-        this.active = active;
+        this.active = true;
         this.paymentStatus = PaymentStatus.pristine;
     }
 }

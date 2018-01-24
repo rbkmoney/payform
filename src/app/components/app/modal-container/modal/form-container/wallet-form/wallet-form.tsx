@@ -7,25 +7,38 @@ import * as formStyles from 'checkout/styles/forms.scss';
 import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { PayButton } from '../pay-button';
 import { Header } from '../header';
-import { findNamed } from 'checkout/utils';
 import { Amount, Email, Phone } from '../common-fields';
+import { toFieldsConfig } from 'checkout/components/app/modal-container/modal/form-container/fields-config';
+import { findNamed } from 'checkout/utils';
+import { setViewInfoHeight } from 'checkout/actions';
+import { bindActionCreators, Dispatch } from 'redux';
+import { calcHeight } from 'checkout/utils/calc-height';
 
-const toWalletFormInfo = (modals: ModalState[]) => {
-    const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
+const toWalletFormInfo = (m: ModalState[]) => {
+    const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
     return findNamed(info, FormName.walletForm);
 };
 
 const mapStateToProps = (state: State) => ({
-    walletFormInfo: toWalletFormInfo(state.modals),
     formValues: get(state.form, 'walletForm.values'),
-    locale: state.config.locale
+    locale: state.config.locale,
+    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
+    walletFormInfo: toWalletFormInfo(state.modals)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
+    componentDidMount() {
+        this.props.setViewInfoHeight(calcHeight(172, this.props.fieldsConfig));
+    }
+
     render() {
-        const {walletFormInfo: {fieldsConfig: {email, amount}}} = this.props;
+        const {fieldsConfig: {email, amount}, locale} = this.props;
         return (
             <form>
                 <Header title={this.props.locale['form.header.pay.wallet.label']}/>
@@ -39,7 +52,7 @@ class WalletFormDef extends React.Component<Props> {
                 }
                 {amount.visible ?
                     <div className={formStyles.formGroup}>
-                        <Amount/>
+                        <Amount cost={amount.cost} locale={locale}/>
                     </div> : false
                 }
                 <PayButton/>
@@ -53,4 +66,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(WalletFormDef);
 
-export const WalletForm = connect(mapStateToProps)(ReduxForm as any);
+export const WalletForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
