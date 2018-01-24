@@ -4,8 +4,20 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './result-form.scss';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
-import { prepareToRetry, setFormInfoToActive, setViewInfoHeight } from 'checkout/actions';
-import { FormInfo, FormName, ModalForms, ModalName, PaymentStatus, State } from 'checkout/state';
+import {
+    prepareToRetry,
+    goToFormInfo,
+    Direction
+} from 'checkout/actions';
+import {
+    FormInfo,
+    FormName,
+    ModalForms,
+    ModalName,
+    PaymentMethodsFormInfo,
+    PaymentStatus,
+    State
+} from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 
 const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
@@ -21,17 +33,10 @@ export interface ActionBlockProps {
     startedInfo: FormInfo;
     hasMultiMethods: boolean;
     prepareToRetry: (resetFormData: boolean) => any;
-    setViewInfoHeight: (height: number) => any;
-    setFormInfoToActive: (formName: FormName) => any;
+    goToFormInfo: (formInfo: FormInfo, direction: Direction) => any;
 }
 
 class ActionBlockDef extends React.Component<ActionBlockProps> {
-
-    componentDidMount() {
-        if (this.props.hasMultiMethods) {
-            this.props.setViewInfoHeight(425);
-        }
-    }
 
     retry(e: any, resetFormData: boolean = false) {
         e.preventDefault();
@@ -39,7 +44,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
     }
 
     goToPaymentMethods() {
-        this.props.setFormInfoToActive(FormName.paymentMethods);
+        this.props.goToFormInfo(new PaymentMethodsFormInfo(), Direction.back);
     }
 
     render() {
@@ -81,8 +86,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     prepareToRetry: bindActionCreators(prepareToRetry, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
-    setFormInfoToActive: bindActionCreators(setFormInfoToActive, dispatch)
+    goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
 export const ActionBlock = connect(mapStateToProps, mapDispatchToProps)(ActionBlockDef);

@@ -16,9 +16,11 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import { payCardData, prepareToPay, setViewInfoError } from 'checkout/actions';
+import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { PayButton } from './pay-button';
 import { Header } from '../header/header';
+import { calcHeight } from './calc-height';
+import { toFieldsConfig } from '../fields-config';
 
 const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -30,18 +32,22 @@ const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     formValues: get(state.form, 'cardForm.values'),
-    locale: state.config.locale
+    locale: state.config.locale,
+    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(payCardData, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch),
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
 
 class CardFormDef extends React.Component<Props> {
+
+    form: HTMLFormElement;
 
     constructor(props: Props) {
         super(props);
@@ -79,6 +85,10 @@ class CardFormDef extends React.Component<Props> {
         }
     }
 
+    componentDidMount() {
+        this.props.setViewInfoHeight(calcHeight(this.props.fieldsConfig));
+    }
+
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
             props.setViewInfoError(true);
@@ -86,10 +96,10 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, cardFormInfo: {fieldsConfig: {email, amount}}} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
-                <Header title={this.props.locale['form.header.pay.card.label']}/>
+            <form ref={(form) => { this.form = form; }} onSubmit={handleSubmit(this.submit)}>
+                <Header title={locale['form.header.pay.card.label']}/>
                 <div className={formStyles.formGroup}>
                     <CardNumber/>
                 </div>
@@ -107,7 +117,7 @@ class CardFormDef extends React.Component<Props> {
                 }
                 {amount.visible ?
                     <div className={formStyles.formGroup}>
-                        <Amount/>
+                        <Amount cost={amount.cost} locale={locale}/>
                     </div> : false
                 }
                 <PayButton/>

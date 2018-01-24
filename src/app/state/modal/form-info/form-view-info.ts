@@ -5,7 +5,7 @@ export enum SlideDirection {
 
 export interface FormViewInfo {
     slideDirection: SlideDirection;
-    height: number;
+    height?: number;
     error?: boolean;
     inProcess?: boolean;
 }
