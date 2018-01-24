@@ -1,6 +1,6 @@
 import { CostType, InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { toNumber } from 'lodash';
-import { validateAmount } from '../validation';
+import { validateAmount } from '../validation/amount';
 
 export const validate = (value: string, cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim): boolean => {
     const binded = validateAmount.bind(null, toNumber(value) * 100);

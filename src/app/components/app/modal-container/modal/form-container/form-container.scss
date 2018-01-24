@@ -19,6 +19,7 @@
     position: relative;
     overflow: hidden;
     transition: height .75s;
+    position: relative;
 
     @include responsive(sm) {
         padding: 30px;
@@ -27,6 +28,15 @@
 
     &._error {
         animation: shake .82s;
+    }
+}
+
+.formAnimationContainer {
+    height: 100%;
+
+    form {
+        position: relative;
+        height: 100%;
     }
 }
 

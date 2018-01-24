@@ -4,7 +4,8 @@ import { Named } from '../named';
 export enum FormName {
     paymentMethods = 'paymentMethods',
     cardForm = 'cardForm',
-    resultForm = 'resultForm'
+    resultForm = 'resultForm',
+    walletForm = 'walletForm'
 }
 
 export abstract class FormInfo implements Named {

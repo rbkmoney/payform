@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as styles from './pay-button.scss';
 import { ModelState, State } from 'checkout/state';
 import { IntegrationType } from 'checkout/config';
-import { getAmount } from '../../../amount-resolver';
+import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
