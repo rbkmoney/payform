@@ -6,7 +6,6 @@ import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
 import {
-    CardFormValues,
     FormName,
     ModalForms,
     ModalName,
