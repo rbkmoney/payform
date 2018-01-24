@@ -7,7 +7,6 @@ export interface WalletFormFields {
     amount?: RegisteredField;
 }
 
-
 export interface WalletFormValues extends PayableFormValues {
     phone: string;
 }
