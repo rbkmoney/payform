@@ -6,7 +6,12 @@ import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
 import {
-    CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State,
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentStatus,
+    State,
     WalletFormValues
 } from 'checkout/state';
 import { PayButton } from '../pay-button';
