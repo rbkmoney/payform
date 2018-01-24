@@ -5,7 +5,8 @@ import {
     ModalState,
     ModelState,
     ResultFormInfo,
-    ResultType, CardFormInfo
+    ResultType,
+    CardFormInfo
 } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
 import { SetModalState } from './set-modal-state';
