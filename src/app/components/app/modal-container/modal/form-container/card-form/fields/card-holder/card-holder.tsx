@@ -7,7 +7,7 @@ import { Input } from '../../../input';
 import { cardHolderFormatter } from '../format';
 import { validateCardHolder } from '../validation';
 import { Locale } from 'checkout/locale';
-import { isError } from '../error-predicate';
+import { isError } from '../../../common-fields/error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 

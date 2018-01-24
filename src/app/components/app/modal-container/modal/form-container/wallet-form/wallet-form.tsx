@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { InjectedFormProps, reduxForm } from 'redux-form';
+import { bindActionCreators, Dispatch } from 'redux';
 import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
@@ -8,11 +9,10 @@ import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/sta
 import { PayButton } from '../pay-button';
 import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
-import { toFieldsConfig } from 'checkout/components/app/modal-container/modal/form-container/fields-config';
+import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
 import { setViewInfoHeight } from 'checkout/actions';
-import { bindActionCreators, Dispatch } from 'redux';
-import { calcHeight } from 'checkout/utils/calc-height';
+import { calcFormHeight } from '../calc-form-height';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -33,8 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
+
     componentDidMount() {
-        this.props.setViewInfoHeight(calcHeight(172, this.props.fieldsConfig));
+        this.props.setViewInfoHeight(calcFormHeight(172, this.props.fieldsConfig));
     }
 
     render() {

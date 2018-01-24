@@ -20,7 +20,7 @@
     "date-fns": "~1.28.5",
     "did-you-mean": "0.0.1",
     "ismobilejs": "~0.4.1",
-    "libphonenumber-js": "^1.0.3",
+    "libphonenumber-js": "~1.0.3",
     "lodash": "~4.17.4",
     "react": "~15.5.4",
     "react-dom": "~15.5.4",

@@ -5,7 +5,7 @@ import * as styles from './card-number.scss';
 import { cardNumberFormatter } from '../format/index';
 import { Locale } from 'src/locale/locale';
 import { State } from 'checkout/state';
-import { isError } from '../error-predicate';
+import { isError } from '../../../common-fields/error-predicate';
 import { IconType, Input } from 'checkout/components';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;

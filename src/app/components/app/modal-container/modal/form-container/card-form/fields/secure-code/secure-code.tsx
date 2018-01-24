@@ -7,7 +7,7 @@ import { secureCodeFormatter } from '../format';
 import { validateSecureCode } from '../validation';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
-import { isError } from '../error-predicate';
+import { isError } from '../../../common-fields/error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 

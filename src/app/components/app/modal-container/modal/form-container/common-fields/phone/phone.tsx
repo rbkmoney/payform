@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
-import { Input } from '../../input/index';
+import { Input } from '../../input';
 import { Locale } from 'checkout/locale';
-import { isError } from '../../card-form/fields/error-predicate';
+import { isError } from '../error-predicate';
 import { validatePhone } from '../validation/phone';
 import { phoneNumberFormatter } from '../format';
 

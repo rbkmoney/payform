@@ -6,7 +6,7 @@ import { IntegrationType } from 'checkout/config';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { Button } from 'checkout/components';
-import { Locale } from 'src/locale/locale';
+import { Locale } from 'checkout/locale';
 
 export interface PayButtonProps {
     locale: Locale;

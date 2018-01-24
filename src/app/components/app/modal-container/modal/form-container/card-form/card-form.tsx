@@ -19,7 +19,7 @@ import { findNamed } from 'checkout/utils';
 import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
-import { calcHeight } from 'checkout/utils/calc-height';
+import { calcFormHeight } from '../calc-form-height';
 import { toFieldsConfig } from '../fields-config';
 import { Email, Amount } from '../common-fields';
 
@@ -87,7 +87,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     componentDidMount() {
-        this.props.setViewInfoHeight(calcHeight(288, this.props.fieldsConfig));
+        this.props.setViewInfoHeight(calcFormHeight(288, this.props.fieldsConfig));
     }
 
     componentWillReceiveProps(props: Props) {

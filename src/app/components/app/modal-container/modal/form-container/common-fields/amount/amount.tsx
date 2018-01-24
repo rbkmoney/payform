@@ -3,7 +3,7 @@ import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
-import { isError } from '../../card-form/fields/error-predicate';
+import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 
