@@ -5,13 +5,16 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
-import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
+import {
+    CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State,
+    WalletFormValues
+} from 'checkout/state';
 import { PayButton } from '../pay-button';
 import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
-import { setViewInfoHeight } from 'checkout/actions';
+import { setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -26,7 +29,8 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
 });
 
 type Props = WalletFormProps & InjectedFormProps;
@@ -35,6 +39,23 @@ class WalletFormDef extends React.Component<Props> {
 
     componentDidMount() {
         this.props.setViewInfoHeight(288);
+    }
+
+    init(values: WalletFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    componentWillMount() {
+        const {walletFormInfo: {paymentStatus}, formValues} = this.props;
+        this.props.setViewInfoError(false);
+        switch (paymentStatus) {
+            case PaymentStatus.pristine:
+                this.init(formValues);
+                break;
+        }
     }
 
     render() {
