@@ -66,6 +66,7 @@
     "form.final.failed.dueTime.text": "Payment timeout error",
     "form.final.failed.cancelled.text": "Payment cancelled",
     "form.final.success.card.text": "Paid with card",
+    "form.final.success.wallet.text": "Paid with wallet",
     "form.final.success.check.text": "Receipt sent to email",
     "form.input.delivery.repeat": "Repeat shipping address",
     "form.input.name.placeholder": "Name",

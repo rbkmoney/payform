@@ -1,13 +1,12 @@
-import { CostType, InvoiceTemplateLineCostRange } from 'checkout/backend';
+import { CostType, InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { toNumber } from 'lodash';
-import { AmountProps } from './amount';
-import { validateAmount } from '../validation/amount';
+import { validateAmount } from '../validation';
 
-export const validate = (value: string, props: AmountProps): boolean => {
+export const validate = (value: string, cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim): boolean => {
     const binded = validateAmount.bind(null, toNumber(value) * 100);
-    switch (props.cost.costType) {
+    switch (cost.costType) {
         case CostType.InvoiceTemplateLineCostRange:
-            const range = (props.cost as InvoiceTemplateLineCostRange).range;
+            const range = (cost as InvoiceTemplateLineCostRange).range;
             return binded(range.lowerBound, range.upperBound);
         case CostType.InvoiceTemplateLineCostUnlim:
             return binded();

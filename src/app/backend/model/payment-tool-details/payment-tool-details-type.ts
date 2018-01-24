@@ -1,4 +1,5 @@
 export enum PaymentToolDetailsType {
     PaymentToolDetailsBankCard = 'PaymentToolDetailsBankCard',
-    PaymentToolDetailsPaymentTerminal = 'PaymentToolDetailsPaymentTerminal'
+    PaymentToolDetailsPaymentTerminal = 'PaymentToolDetailsPaymentTerminal',
+    PaymentToolDetailsDigitalWallet = 'PaymentToolDetailsDigitalWallet'
 }

@@ -1,4 +1,5 @@
 export enum PaymentToolType {
     CardData = 'CardData',
-    PaymentTerminalData = 'PaymentTerminalData'
+    PaymentTerminalData = 'PaymentTerminalData',
+    DigitalWalletData = 'DigitalWalletData'
 }

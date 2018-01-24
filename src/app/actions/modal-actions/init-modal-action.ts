@@ -1,4 +1,4 @@
-import {ChangeType, PaymentMethod, PaymentMethodName} from 'checkout/backend';
+import { ChangeType, PaymentMethod, PaymentMethodName } from 'checkout/backend';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -6,12 +6,13 @@ import {
     ModelState,
     ResultFormInfo,
     ResultType,
+    CardFormInfo
 } from 'checkout/state';
-import {TypeKeys} from 'checkout/actions';
-import {SetModalState} from './set-modal-state';
-import {InitConfig} from 'checkout/config';
-import {toCardFormInfo, toModalInteraction} from './converters';
-import {getLastChange} from 'checkout/utils';
+import { TypeKeys } from 'checkout/actions';
+import { SetModalState } from './set-modal-state';
+import { InitConfig } from 'checkout/config';
+import { toModalInteraction } from './converters';
+import { getLastChange } from 'checkout/utils';
 
 const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boolean =>
     methods.reduce((acc, current): boolean => {
@@ -26,12 +27,12 @@ const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boo
 const isMultiMethods = (c: InitConfig, m: ModelState) => m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
-    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo(true) : toCardFormInfo(c, m.invoiceTemplate);
+    const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo() : new CardFormInfo();
     return new ModalForms([formInfo], true);
 };
 
 const toInitialModalResult = (): ModalState => {
-    const formInfo = new ResultFormInfo(ResultType.processed, true);
+    const formInfo = new ResultFormInfo(ResultType.processed);
     return new ModalForms([formInfo], true);
 };
 

@@ -66,6 +66,7 @@
     "form.final.failed.dueTime.text": "Время на оплату  истекло",
     "form.final.failed.cancelled.text": "Платеж был отменен",
     "form.final.success.card.text": "Оплачено картой",
+    "form.final.success.wallet.text": "Оплачено кошельком",
     "form.final.success.check.text": " Чек отправлен вам на email",
     "form.input.delivery.repeat": "Повторить адрес доставки",
     "form.input.name.placeholder": "Имя",

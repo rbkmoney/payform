@@ -8,7 +8,8 @@ export interface ResultFormProps {
     locale: Locale;
     resultFormInfo: ResultFormInfo;
     error: LogicError;
-    isPaymentStarted: boolean;
+    hasMultiMethods: boolean;
     setResult: (resultState: ResultState) => any;
-    prepareToRetry: (resetFormData: boolean) => any;
+    setViewInfoInProcess: (inProcess: boolean) => any;
+    setViewInfoHeight: (height: number) => any;
 }

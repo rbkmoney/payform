@@ -1,39 +1,76 @@
 import * as React from 'react';
+import * as styles from '../result-form.scss';
 import {
     Event,
     PayerType,
     PaymentResourcePayer,
     PaymentToolDetailsBankCard,
     PaymentToolDetailsType,
-    PaymentStarted
+    PaymentStarted,
+    ChangeType,
+    PaymentToolDetails
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import * as styles from '../result-form.scss';
 import { findChange } from 'checkout/utils';
-import { ChangeType } from 'checkout/backend/model/event/change-type';
+import {
+    PaymentToolDetailsDigitalWallet,
+    DigitalWalletDetailsType,
+    DigitalWalletDetailsQiwi
+} from 'checkout/backend/model';
 
-const getCardMaskFromPayer = (payer: PaymentResourcePayer): string => {
-    const details = payer.paymentToolDetails;
-    switch (details.detailsType) {
-        case PaymentToolDetailsType.PaymentToolDetailsBankCard:
-            return (details as PaymentToolDetailsBankCard).cardNumberMask;
+const toCardDescription = (details: PaymentToolDetailsBankCard): string => `*${details.cardNumberMask}`;
+
+const toDigitalWalletQiwi = (details: DigitalWalletDetailsQiwi) => `qiwi ${details.phoneNumberMask}`;
+
+const toDigitalWallet = (details: PaymentToolDetailsDigitalWallet): string => {
+    switch (details.digitalWalletDetailsType) {
+        case DigitalWalletDetailsType.DigitalWalletDetailsQIWI:
+            return toDigitalWalletQiwi(details as any); // mixin cast problem
     }
-    return null;
+    throw new Error('Unsupported DigitalWalletDetailsType');
 };
 
-const getCardMask = (e: Event[]): string => {
+const toDetailsDescription = (details: PaymentToolDetails): string => {
+    switch (details.detailsType) {
+        case PaymentToolDetailsType.PaymentToolDetailsBankCard:
+            return toCardDescription(details as PaymentToolDetailsBankCard);
+        case PaymentToolDetailsType.PaymentToolDetailsDigitalWallet:
+            return toDigitalWallet(details as PaymentToolDetailsDigitalWallet);
+        case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
+            throw new Error('Unsupported PaymentToolDetailsPaymentTerminal');
+    }
+    throw new Error('Unsupported PaymentToolDetailsType');
+};
+
+const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
     const change = findChange(e, ChangeType.PaymentStarted) as PaymentStarted;
     const payer = change.payment.payer;
     switch (payer.payerType) {
         case PayerType.PaymentResourcePayer:
-            return getCardMaskFromPayer(payer as PaymentResourcePayer);
+            return (payer as PaymentResourcePayer).paymentToolDetails;
+        case PayerType.CustomerPayer:
+            throw new Error('Unsupported CustomerPayer');
     }
-    return null;
+    throw new Error('Unsupported PayerType');
+};
+
+const toPaymentMethodDescription = (l: Locale, e: Event[]): string => {
+    const paymentToolDetails = getPaymentToolDetails(e);
+    const description = toDetailsDescription(paymentToolDetails);
+    switch (paymentToolDetails.detailsType) {
+        case PaymentToolDetailsType.PaymentToolDetailsBankCard:
+            return `${l['form.final.success.card.text']} ${description}`;
+        case PaymentToolDetailsType.PaymentToolDetailsDigitalWallet:
+            return `${l['form.final.success.wallet.text']} ${description}`;
+        case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
+            throw new Error('Unsupported PaymentToolDetailsPaymentTerminal');
+    }
+    throw new Error('Unsupported PaymentToolDetailsType');
 };
 
 export const getSuccessDescription = (l: Locale, e: Event[]): JSX.Element => (
     <p className={styles.text}>
-        {l['form.final.success.card.text']} *{getCardMask(e)}.
+        {toPaymentMethodDescription(l, e)}
         <br/>
         {l['form.final.success.check.text']}.
     </p>
