@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
-import { Input } from '../../../input';
-import { validateEmail } from '../validation';
+import { Input } from '../../input/index';
 import { Locale } from 'checkout/locale';
-import { isError } from '../error-predicate';
+import { isError } from '../../card-form/fields/error-predicate';
+import { validateEmail } from '../validation/email';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 

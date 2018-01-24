@@ -30,6 +30,7 @@ export class WalletFormInfo extends FormInfo {
             slideDirection: SlideDirection.right,
             height
         }, previous);
+        this.fieldsConfig = fieldsConfig;
         this.name = FormName.walletForm;
         this.active = active;
         this.paymentStatus = PaymentStatus.pristine;

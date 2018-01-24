@@ -1,15 +1,14 @@
 import * as React from 'react';
-import {WalletFormProps} from './wallet-form-props';
-import * as formStyles from 'checkout/styles/forms.scss';
-import { CardFormValues, FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
-import { PayButton } from 'checkout/components/app/modal-container/modal/form-container/card-form/pay-button';
-import { Amount, Email } from 'checkout/components/app/modal-container/modal/form-container/card-form/fields';
-import { Header } from 'checkout/components/app/modal-container/modal/form-container/header';
 import { connect } from 'react-redux';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { get } from 'lodash';
-import { Dispatch } from 'redux';
+import { WalletFormProps } from './wallet-form-props';
+import * as formStyles from 'checkout/styles/forms.scss';
+import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
+import { PayButton } from '../pay-button';
+import { Header } from '../header';
 import { findNamed } from 'checkout/utils';
+import { Amount, Email, Phone } from '../common-fields';
 
 const toWalletFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -22,20 +21,17 @@ const mapStateToProps = (state: State) => ({
     locale: state.config.locale
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({});
-
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
-    submit(values: CardFormValues) {
-        (document.activeElement as HTMLElement).blur();
-    }
-
     render() {
-        const {handleSubmit, walletFormInfo: {fieldsConfig: {email, amount}}} = this.props;
+        const {walletFormInfo: {fieldsConfig: {email, amount}}} = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
+            <form>
                 <Header title={this.props.locale['form.header.pay.wallet.label']}/>
+                <div className={formStyles.formGroup}>
+                    <Phone/>
+                </div>
                 {email.visible ?
                     <div className={formStyles.formGroup}>
                         <Email/>
@@ -57,4 +53,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(WalletFormDef);
 
-export const WalletForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const WalletForm = connect(mapStateToProps)(ReduxForm as any);

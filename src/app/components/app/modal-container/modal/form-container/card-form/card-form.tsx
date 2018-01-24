@@ -5,7 +5,8 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { get } from 'lodash';
 import * as formStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
-import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
+import {CardHolder, CardNumber, ExpireDate, SecureCode } from './fields';
+import { Amount, Email } from '../common-fields';
 import {
     CardFormValues,
     FormName,
@@ -17,7 +18,7 @@ import {
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
-import { PayButton } from './pay-button';
+import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 
 const toCardFormInfo = (modals: ModalState[]) => {

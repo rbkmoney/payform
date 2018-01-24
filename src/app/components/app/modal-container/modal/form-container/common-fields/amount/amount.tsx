@@ -6,7 +6,7 @@ import { CardFormInfo, FormName, ModalForms, ModalName, ModalState, State } from
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
-import { isError } from '../error-predicate';
+import { isError } from '../../card-form/fields/error-predicate';
 import { Locale } from 'checkout/locale';
 
 export interface AmountProps {
