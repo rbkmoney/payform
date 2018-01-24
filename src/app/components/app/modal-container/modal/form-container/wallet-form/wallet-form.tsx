@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
 import {
+    CardFormValues,
     FormName,
     ModalForms,
     ModalName,
@@ -35,12 +36,19 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
-    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
 });
 
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
+
+    form: HTMLFormElement;
+
+    constructor(props: Props) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
 
     componentDidMount() {
         this.props.setViewInfoHeight(288);
@@ -53,6 +61,10 @@ class WalletFormDef extends React.Component<Props> {
         });
     }
 
+    submit() {
+        (document.activeElement as HTMLElement).blur();
+    }
+
     componentWillMount() {
         const {walletFormInfo: {paymentStatus}, formValues} = this.props;
         this.props.setViewInfoError(false);
@@ -63,10 +75,16 @@ class WalletFormDef extends React.Component<Props> {
         }
     }
 
+    componentWillReceiveProps(props: Props) {
+        if (props.submitFailed) {
+            props.setViewInfoError(true);
+        }
+    }
+
     render() {
-        const {fieldsConfig: {email, amount}, locale} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form>
+            <form ref={(form) => { this.form = form; }} onSubmit={handleSubmit(this.submit)}>
                 <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
                 <div className={formStyles.formGroup}>
                     <Phone/>
