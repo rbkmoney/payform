@@ -1,7 +1,6 @@
-import { WalletFormInfo } from 'checkout/state/modal/form-info/wallet-form-info';
+import { WalletFormInfo, WalletFormFields } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { FieldsConfig } from '../fields-config';
-import { WalletFormFields } from 'checkout/state';
 
 export interface WalletFormProps {
     walletFormInfo: WalletFormInfo;
