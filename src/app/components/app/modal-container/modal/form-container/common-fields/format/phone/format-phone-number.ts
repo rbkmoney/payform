@@ -6,7 +6,7 @@ const format = (e: KeyboardEvent) => {
     if (value.slice(0, 2) === '+7') {
         target.value = new libphonenumber.AsYouType('RU').input(value);
     } else {
-        target.value = `+${libphonenumber.getPhoneCode('RU') as string} `;
+        target.value = `+${libphonenumber.getPhoneCode('RU')} `;
     }
 };
 
