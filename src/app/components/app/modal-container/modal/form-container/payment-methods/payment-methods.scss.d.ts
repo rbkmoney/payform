@@ -1,3 +1,4 @@
+export const form: string;
 export const list: string;
 export const method: string;
 export const icon: string;

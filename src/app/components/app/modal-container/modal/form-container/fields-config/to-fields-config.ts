@@ -1,18 +1,11 @@
-import { values } from 'lodash';
 import {
     InvoiceTemplate,
     InvoiceTemplateLineCostRange,
     InvoiceTemplateLineCostUnlim,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
-import {
-    FieldsConfig,
-    CardFormInfo,
-    ItemConfig,
-    AmountConfig,
-    EmailConfig, FormName
-} from 'checkout/state';
 import { InitConfig, IntegrationType } from 'checkout/config';
+import { AmountConfig, EmailConfig, FieldsConfig } from './fields-config';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
     const result = {visible: false} as AmountConfig;
@@ -51,18 +44,7 @@ const toEmailConfig = (email: string): EmailConfig => {
         : {visible: true};
 };
 
-const toFieldsConfig = (c: InitConfig, t: InvoiceTemplate): FieldsConfig => ({
+export const toFieldsConfig = (c: InitConfig, t: InvoiceTemplate): FieldsConfig => ({
     amount: toAmountConfig(c.integrationType, t),
     email: toEmailConfig(c.email)
 });
-
-const calcHeight = (fieldsConfig: FieldsConfig): number => {
-    const count = values(fieldsConfig)
-        .reduce((acc: number, current: ItemConfig) => current.visible ? ++acc : acc, 0);
-    return 288 + count * 52;
-};
-
-export const toCardFormInfo = (c: InitConfig, t: InvoiceTemplate, previous?: FormName): CardFormInfo => {
-    const fieldConfig = toFieldsConfig(c, t);
-    return new CardFormInfo(calcHeight(fieldConfig), fieldConfig, true, previous);
-};

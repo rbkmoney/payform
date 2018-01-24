@@ -1,24 +1,24 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as TransitionGroup from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
-import {FormName, ModalState, ModelState, State} from 'checkout/state';
-import {Locale} from 'checkout/locale';
-import {BankCard, Terminals, Wallets} from './methods';
-import {PaymentMethod, PaymentMethodName} from 'checkout/backend/model';
-import {bindActionCreators, Dispatch} from 'redux';
-import {InitConfig} from 'checkout/config';
-import {NavigateDirection, navigateTo, setFormInfo} from 'checkout/actions';
+import { FormInfo, ModalState, ModelState, State } from 'checkout/state';
+import { Locale } from 'checkout/locale';
+import { BankCard, Terminals, Wallets } from './methods';
+import { PaymentMethod, PaymentMethodName } from 'checkout/backend/model';
+import { bindActionCreators, Dispatch } from 'redux';
+import { InitConfig } from 'checkout/config';
+import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
 
 export interface PaymentMethodsProps {
     locale: Locale;
     methods: PaymentMethod[];
-    setFormInfo: (formName: FormName, initConfig: InitConfig, model: ModelState) => any;
-    navigateTo: (formName: FormName, direction: NavigateDirection) => any;
+    setFormInfo: (formInfo: FormInfo) => any;
     initConfig: InitConfig;
     model: ModelState;
     modals: ModalState[];
+    setViewInfoHeight: (height: number) => any;
 }
 
 const mapStateToProps = (state: State) => ({
@@ -30,8 +30,8 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setFormInfo: bindActionCreators(setFormInfo, dispatch),
-    navigateTo: bindActionCreators(navigateTo, dispatch),
+    setFormInfo: bindActionCreators(goToFormInfo, dispatch),
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
 const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
@@ -50,31 +50,40 @@ const renderMethods = (method: PaymentMethod, props: PaymentMethodsProps) => {
     }
 };
 
-export const PaymentMethodsDef: React.SFC<PaymentMethodsProps> = (props) => (
-    <form>
-        <div className={formStyles.header}>
-            <div className={formStyles.title}>
-                {props.locale['form.header.payment.methods.label']}
-            </div>
-        </div>
-        <CSSTransitionGroup
-            className={styles.list}
-            component='ul'
-            transitionName={{
-                appear: styles.appearItem,
-                enter: styles.enterItem,
-                leave: styles.leaveItem
-            }}
-            transitionEnterTimeout={1000}
-            transitionLeaveTimeout={1000}
-            transitionAppearTimeout={1000}
-            transitionAppear={true}
-            transitionEnter={true}
-            transitionLeave={true}
-        >
-            {props.methods.map((method: PaymentMethod) => renderMethods(method, props))}
-        </CSSTransitionGroup>
-    </form>
-);
+class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
+
+    componentWillMount() {
+        this.props.setViewInfoHeight(306);
+    }
+
+    render() {
+        return (
+            <form>
+                <div className={formStyles.header}>
+                    <div className={formStyles.title}>
+                        {this.props.locale['form.header.payment.methods.label']}
+                    </div>
+                </div>
+                <CSSTransitionGroup
+                    className={styles.list}
+                    component='ul'
+                    transitionName={{
+                        appear: styles.appearItem,
+                        enter: styles.enterItem,
+                        leave: styles.leaveItem
+                    }}
+                    transitionEnterTimeout={1000}
+                    transitionLeaveTimeout={1000}
+                    transitionAppearTimeout={1000}
+                    transitionAppear={true}
+                    transitionEnter={true}
+                    transitionLeave={true}
+                >
+                    {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
+                </CSSTransitionGroup>
+            </form>
+        );
+    }
+}
 
 export const PaymentMethods = connect(mapStateToProps, mapDispatchToProps)(PaymentMethodsDef);
