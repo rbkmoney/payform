@@ -3,10 +3,11 @@ import * as libphonenumber from 'libphonenumber-js';
 const format = (e: KeyboardEvent) => {
     const target = e.currentTarget as HTMLInputElement;
     const value = target.value;
-    if (value.substring(0, 1) === '+7') {
+    const defaultCode = `+${libphonenumber.getPhoneCode('RU') as string} `;
+    if (value.slice(0, 2) === defaultCode) {
         target.value = new libphonenumber.AsYouType('RU').input(value);
     } else {
-        target.value = `+${libphonenumber.getPhoneCode('RU') as string} `;
+        target.value = defaultCode;
     }
 };
 
