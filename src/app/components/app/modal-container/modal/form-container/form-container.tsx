@@ -31,6 +31,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                     style={{height: viewInfo.height}}>
                     <CSSTransitionGroup
                         component='div'
+                        className={styles.formAnimationContainer}
                         transitionName={viewInfo.slideDirection}
                         transitionEnterTimeout={550}
                         transitionLeaveTimeout={550}>

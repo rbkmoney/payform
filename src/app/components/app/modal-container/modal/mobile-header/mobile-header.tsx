@@ -4,20 +4,26 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
 import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
-import { FormInfo, State } from 'checkout/state';
+import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { Direction, goToFormInfo } from 'checkout/actions';
 import { ChevronBack } from '../form-container/chevron-back';
-import { findInfoWithPrevious } from 'checkout/utils';
+import { findInfoWithPrevious, findNamed } from 'checkout/utils';
 
 export interface MobileHeaderProps {
     initConfig: InitConfig;
     goToFormInfo: (formInfo: FormInfo, direction: Direction) => any;
-    infoWithPrevious: FormInfo;
+    destination: FormInfo;
 }
+
+const getDestination = (modals: ModalState[]): FormInfo => {
+    const modalForms = findNamed(modals, ModalName.modalForms) as ModalForms;
+    const withPrevious = findInfoWithPrevious(modals);
+    return withPrevious ? findNamed(modalForms.formsInfo, withPrevious.previous) as FormInfo : null;
+};
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    infoWithPrevious: findInfoWithPrevious(state.modals)
+    destination: getDestination(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -26,10 +32,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
     <header className={styles.header}>
-        {props.infoWithPrevious ?
+        {props.destination ?
             <ChevronBack
                 className={styles.back_btn}
-                back={props.goToFormInfo.bind(null, props.infoWithPrevious, Direction.back)}/> : null}
+                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}/> : null}
         <div className={cx(styles.text, {[styles._center]: true})}>
             {props.initConfig.name}
         </div>

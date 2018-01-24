@@ -52,6 +52,7 @@
     "form.header.pay.card.label": "Оплата банковской картой",
     "form.header.pay.cash.label": "Оплата наличными",
     "form.header.pay.wallet.label": "Оплата электронным кошельком",
+    "form.header.pay.qiwi.label": "Оплата через QIWI Кошелек",
     "form.header.pay.bank.label": "Оплата через интернет-банк",
     "form.header.pay.bonus.label": "Оплата бонусами",
     "form.header.pay.crypto.label": "Оплата криптовалютой",
@@ -98,6 +99,7 @@
     "form.payment.method.name.crypto.label": "Криптовалюта",
     "form.payment.method.name.others.label": "Другие способы оплаты",
     "form.payment.method.description.cash.text": "Оплата через терминал, банкомат или салон связи",
+    "form.payment.method.description.qiwi.text": "Оплата через QIWI Кошелек",
     "form.payment.method.description.bonus.text": "Сбербанк Спасибо, программа Аэрофлот Бонус",
     "form.payment.terminal.email.label": "Укажите почту, чтобы получить  код для оплаты",
     "form.pay.terminals.step.one.text": "Посетите любой удобный для вас салон связи",

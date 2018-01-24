@@ -12,7 +12,6 @@ import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
 import { setViewInfoHeight } from 'checkout/actions';
-import { calcFormHeight } from '../calc-form-height';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -35,14 +34,14 @@ type Props = WalletFormProps & InjectedFormProps;
 class WalletFormDef extends React.Component<Props> {
 
     componentDidMount() {
-        this.props.setViewInfoHeight(calcFormHeight(172, this.props.fieldsConfig));
+        this.props.setViewInfoHeight(288);
     }
 
     render() {
         const {fieldsConfig: {email, amount}, locale} = this.props;
         return (
             <form>
-                <Header title={this.props.locale['form.header.pay.wallet.label']}/>
+                <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
                 <div className={formStyles.formGroup}>
                     <Phone/>
                 </div>

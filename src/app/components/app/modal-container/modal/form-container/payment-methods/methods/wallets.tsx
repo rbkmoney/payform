@@ -14,9 +14,14 @@ const toWallets = (props: WalletsProps) => props.setFormInfo(new WalletFormInfo(
 export const Wallets: React.SFC<WalletsProps> = (props) => (
     <li className={styles.method} onClick={toWallets.bind(null, props)}>
         <WalletsIcon />
-        <div className={styles.title}>
-            {props.locale['form.payment.method.name.wallet.label']}
-            <hr/>
+        <div className={styles.text}>
+            <h5 className={styles.title}>
+                {props.locale['form.payment.method.name.wallet.label']}
+                <hr/>
+            </h5>
+            <p className={styles.description}>
+                {props.locale['form.payment.method.description.qiwi.text']}
+            </p>
         </div>
     </li>
 );
