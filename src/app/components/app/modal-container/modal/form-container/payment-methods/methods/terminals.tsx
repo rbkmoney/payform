@@ -16,7 +16,7 @@ export const Terminals: React.SFC<TerminalsProps> = (props) => (
                 <hr/>
             </h5>
             <p className={styles.description}>
-                {props.locale['form.payment.method.description.cash.text']}
+                {props.locale['form.payment.method.description.euroset.text']}
             </p>
         </div>
     </li>
