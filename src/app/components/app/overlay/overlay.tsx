@@ -9,6 +9,6 @@ export const Overlay: React.SFC = () => (
         transitionAppear={true}
         transitionAppearTimeout={500}
         transitionLeaveTimeout={500}>
-        <div key={'overlay'} className={overlay}/>
+        <div key='overlay' className={overlay}/>
     </CSSTransitionGroup>
 );

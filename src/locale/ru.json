@@ -89,6 +89,7 @@
     "form.button.next.label": "Далее",
     "form.button.download.check.label": "Скачать чек",
     "form.button.pay.other.card.label": "Оплатить другой картой",
+    "form.button.pay.other.wallet.label": "Ввести другой номер телефона",
     "form.button.pay.again.label": "Попробовать ещё раз",
     "form.button.pay.label": "Оплатить",
     "form.payment.method.name.card.label": "Банковская карта",

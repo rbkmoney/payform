@@ -4,17 +4,16 @@ import {
     PaymentResource,
     DigitalWalletType
 } from 'checkout/backend';
-import { CardFormValues } from 'checkout/state';
+import { CardFormValues, WalletFormValues } from 'checkout/state';
 import { PaymentSubject } from './payment-subject';
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 
-// TODO change any to DigitalWalletFormValues
-export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: any): Promise<PaymentResource> => {
+export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
     const paymentTool = {
         paymentToolType: PaymentToolType.DigitalWalletData,
         digitalWalletType: DigitalWalletType.DigitalWalletQIWI,
-        phoneNumber: v.phoneNumber
+        phoneNumber: replaceSpaces(v.phone)
     };
     return capiRequest(endpoint, s.accessToken, paymentTool);
 };

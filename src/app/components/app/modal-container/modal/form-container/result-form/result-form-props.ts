@@ -10,6 +10,5 @@ export interface ResultFormProps {
     error: LogicError;
     hasMultiMethods: boolean;
     setResult: (resultState: ResultState) => any;
-    setViewInfoInProcess: (inProcess: boolean) => any;
     setViewInfoHeight: (height: number) => any;
 }

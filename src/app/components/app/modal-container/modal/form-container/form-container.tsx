@@ -39,21 +39,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         {name === FormName.walletForm ? <WalletForm/> : null}
                         {name === FormName.resultForm ? <ResultForm/> : null}
                     </CSSTransitionGroup>
-                    <CSSTransitionGroup
-                        component='div'
-                        transitionName={{
-                            appear: styles.appearLoader,
-                            enter: styles.enterLoader,
-                            leave: styles.leaveLoader
-                        }}
-                        transitionLeaveTimeout={200}
-                        transitionEnterTimeout={450}
-                        transitionAppearTimeout={450}
-                        transitionAppear={true}
-                        transitionEnter={true}
-                        transitionLeave={true}>
-                        {viewInfo.inProcess ? <FormLoader/> : null}
-                    </CSSTransitionGroup>
+                    {viewInfo.inProcess ? <FormLoader/> : null}
                 </div>
             </div>
         );

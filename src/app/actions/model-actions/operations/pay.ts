@@ -1,4 +1,4 @@
-import { CardFormValues, ConfigState, ModelState, PayableFormValues } from 'checkout/state';
+import { CardFormValues, ConfigState, ModelState, PayableFormValues, WalletFormValues } from 'checkout/state';
 import {
     createPayment,
     createPaymentResourceCardData,
@@ -33,6 +33,5 @@ const pay = (c: ConfigState, m: ModelState, v: PayableFormValues, createPaymentR
 export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): Promise<PayActionPayload> =>
     pay(c, m, v, createPaymentResourceCardData);
 
-// TODO change any to DigitalWalletFormValues
-export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: any): Promise<PayActionPayload> =>
+export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFormValues): Promise<PayActionPayload> =>
     pay(c, m, v, createPaymentResourceDigitalWalletQiwi);
