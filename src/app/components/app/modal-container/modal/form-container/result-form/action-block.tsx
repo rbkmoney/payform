@@ -25,7 +25,7 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
         case FormName.walletForm:
             return locale['form.button.pay.other.wallet.label'];
     }
-    throw new Error('Unsupported formInfo type');
+    throw new Error('Unsupported form type');
 };
 
 export interface ActionBlockProps {
