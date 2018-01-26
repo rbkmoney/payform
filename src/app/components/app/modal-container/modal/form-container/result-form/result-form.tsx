@@ -31,10 +31,12 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         // }
         return (
             <form className={styles.form}>
-                <h2 className={styles.title}>{header}</h2>
-                {icon}
-                {description ? description : false}
-                {hasActions ? <ActionBlock/> : false}
+                <div>
+                    <h2 className={styles.title}>{header}</h2>
+                    {icon}
+                    {description ? description : false}
+                    {hasActions ? <ActionBlock/> : false}
+                </div>
             </form>
         );
     }

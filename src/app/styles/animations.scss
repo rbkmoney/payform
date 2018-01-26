@@ -134,10 +134,7 @@
         transform: translateX(0);
         opacity: 1;
         position: absolute;
-        top: 30px;
-        left: 30px;
-        right: 30px;
-        bottom: 30px;
+        top: 0;
         transition: all $slide-transition-time;
 
         &.slideRightAnimation-leave-active {
@@ -161,10 +158,7 @@
         transform: translateX(0);
         opacity: 1;
         position: absolute;
-        top: 30px;
-        left: 30px;
-        right: 30px;
-        bottom: 30px;
+        top: 0;
         transition: all $slide-transition-time;
 
         &.slideLeftAnimation-leave-active {
