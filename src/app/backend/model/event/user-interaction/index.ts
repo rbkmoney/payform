@@ -6,3 +6,4 @@ export * from './payment-terminal-receipt';
 export * from './redirect';
 export * from './request-type';
 export * from './user-interaction';
+export * from './browser-get-request';

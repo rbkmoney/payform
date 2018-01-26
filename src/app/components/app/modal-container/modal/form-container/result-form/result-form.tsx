@@ -26,9 +26,9 @@ class ResultFormDef extends React.Component<ResultFormProps> {
             this.props.model.invoiceEvents,
             this.props.error
         );
-        if (hasDone) {
-            this.props.setResult(ResultState.done);
-        }
+        // if (hasDone) {
+        //     this.props.setResult(ResultState.done);
+        // }
         return (
             <form className={styles.form}>
                 <h2 className={styles.title}>{header}</h2>
