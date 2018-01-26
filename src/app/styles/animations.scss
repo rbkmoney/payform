@@ -128,10 +128,10 @@
     .slideRightAnimation-leave {
         transform: translateX(0); opacity: 1;
         position: absolute;
-        top: 30px;
-        left: 30px;
-        right: 30px;
-        bottom: 30px;
+        top: 0;
+        //left: 30px;
+        //right: 30px;
+        //bottom: 30px;
         transition: all .6s;
 
         &.slideRightAnimation-leave-active {
@@ -151,10 +151,10 @@
     .slideLeftAnimation-leave {
         transform: translateX(0); opacity: 1;
         position: absolute;
-        top: 30px;
-        left: 30px;
-        right: 30px;
-        bottom: 30px;
+        top: 0;
+        //left: 30px;
+        //right: 30px;
+        //bottom: 30px;
         transition: all .6s;
 
         &.slideLeftAnimation-leave-active {

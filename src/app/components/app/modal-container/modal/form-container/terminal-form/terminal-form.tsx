@@ -47,7 +47,7 @@ export class TerminalFormDef extends React.Component<any> {
     }
 
     componentDidMount() {
-        this.props.setViewInfoHeight(calcFormHeight(288, this.props.fieldsConfig));
+        this.props.setViewInfoHeight(288);
     }
 
     componentWillReceiveProps(props: Props) {
@@ -60,17 +60,19 @@ export class TerminalFormDef extends React.Component<any> {
         const {handleSubmit, locale, fieldsConfig: {email, amount}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
-                <Header title={locale['form.header.pay.euroset.label']}/>
-                {email.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {amount.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Amount cost={amount.cost} locale={locale}/>
-                    </div> : false
-                }
+                <div>
+                    <Header title={locale['form.header.pay.euroset.label']}/>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost} locale={locale}/>
+                        </div> : false
+                    }
+                </div>
                 <PayButton/>
             </form>
         );

@@ -83,21 +83,25 @@ class WalletFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form ref={(form) => { this.form = form; }} onSubmit={handleSubmit(this.submit)}>
-                <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
-                <div className={formStyles.formGroup}>
-                    <Phone/>
+            <form ref={(form) => {
+                this.form = form;
+            }} onSubmit={handleSubmit(this.submit)}>
+                <div>
+                    <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
+                    <div className={formStyles.formGroup}>
+                        <Phone/>
+                    </div>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost} locale={locale}/>
+                        </div> : false
+                    }
                 </div>
-                {email.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {amount.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Amount cost={amount.cost} locale={locale}/>
-                    </div> : false
-                }
                 <PayButton/>
             </form>
         );

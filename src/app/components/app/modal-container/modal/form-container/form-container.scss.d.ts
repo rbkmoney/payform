@@ -16,3 +16,4 @@ export const leaveLoader: string;
 export const _cardForm: string;
 export const _resultForm: string;
 export const _cardFormAmount: string;
+export const animationFormContainer: string;
