@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as styles from './pay-button.scss';
 import { ModelState, State } from 'checkout/state';
 import { IntegrationType } from 'checkout/config';
 import { getAmount } from '../../amount-resolver';
@@ -15,7 +14,6 @@ export interface PayButtonProps {
 
 const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
     <Button
-        className={styles.pay_button}
         type='submit'
         style='primary'
         id='pay-btn'>

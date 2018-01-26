@@ -18,7 +18,7 @@
     padding: 30px 20px;
     position: relative;
     overflow: hidden;
-    transition: height .75s;
+    transition: height .4s;
 
     @include responsive(sm) {
         padding: 30px;
@@ -27,6 +27,20 @@
 
     &._error {
         animation: shake .82s;
+    }
+}
+
+.animationFormContainer {
+    height: 100%;
+    position: relative;
+
+    form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
 
@@ -76,14 +90,3 @@
     }
 }
 
-.appearLoader {
-    animation: fadein .5s;
-}
-
-.enterLoader {
-    animation: fadein .5s;
-}
-
-.leaveLoader {
-    animation: fadeout .25s;
-}

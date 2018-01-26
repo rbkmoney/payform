@@ -14,3 +14,11 @@
     justify-content: center;
     background: rgba(255, 255, 255, .9);
 }
+
+.appear {
+    animation: fadein .5s;
+}
+
+.leave {
+    animation: fadeout .2s;
+}

@@ -19,7 +19,7 @@ import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
-import { setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { payDigitalWalletQiwi, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -27,6 +27,8 @@ const toWalletFormInfo = (m: ModalState[]) => {
 };
 
 const mapStateToProps = (state: State) => ({
+    config: state.config,
+    model: state.model,
     formValues: get(state.form, 'walletForm.values'),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
@@ -35,18 +37,24 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
-    setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
+    prepareToPay: bindActionCreators(prepareToPay, dispatch),
+    pay: bindActionCreators(payDigitalWalletQiwi, dispatch)
 });
 
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
 
-    form: HTMLFormElement;
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
+    }
+
+    pay(values: WalletFormValues) {
+        const {config, model} = this.props;
+        this.props.prepareToPay();
+        this.props.pay(config, model, values);
     }
 
     componentDidMount() {
@@ -60,8 +68,9 @@ class WalletFormDef extends React.Component<Props> {
         });
     }
 
-    submit() {
+    submit(values: WalletFormValues) {
         (document.activeElement as HTMLElement).blur();
+        this.pay(values);
     }
 
     componentWillMount() {
@@ -70,6 +79,9 @@ class WalletFormDef extends React.Component<Props> {
         switch (paymentStatus) {
             case PaymentStatus.pristine:
                 this.init(formValues);
+                break;
+            case PaymentStatus.needRetry:
+                this.pay(formValues);
                 break;
         }
     }
@@ -81,23 +93,25 @@ class WalletFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
         return (
-            <form ref={(form) => { this.form = form; }} onSubmit={handleSubmit(this.submit)}>
-                <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
-                <div className={formStyles.formGroup}>
-                    <Phone/>
+            <form onSubmit={handleSubmit(this.submit)}>
+                <div>
+                    <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
+                    <div className={formStyles.formGroup}>
+                        <Phone/>
+                    </div>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost}/>
+                        </div> : false
+                    }
                 </div>
-                {email.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {amount.visible ?
-                    <div className={formStyles.formGroup}>
-                        <Amount cost={amount.cost} locale={locale}/>
-                    </div> : false
-                }
                 <PayButton/>
             </form>
         );

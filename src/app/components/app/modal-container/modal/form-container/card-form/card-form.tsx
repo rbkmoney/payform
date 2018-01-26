@@ -48,8 +48,6 @@ type Props = InjectedFormProps & CardFormProps;
 
 class CardFormDef extends React.Component<Props> {
 
-    form: HTMLFormElement;
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -99,28 +97,30 @@ class CardFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form ref={(form) => { this.form = form; }} onSubmit={handleSubmit(this.submit)}>
-                <Header title={locale['form.header.pay.card.label']}/>
-                <div className={formStyles.formGroup}>
-                    <CardNumber/>
-                </div>
-                <div className={formStyles.formGroup}>
-                    <ExpireDate/>
-                    <SecureCode/>
-                </div>
-                <div className={formStyles.formGroup}>
-                    <CardHolder/>
-                </div>
-                {email.visible ?
+            <form onSubmit={handleSubmit(this.submit)}>
+                <div>
+                    <Header title={locale['form.header.pay.card.label']}/>
                     <div className={formStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {amount.visible ?
+                        <CardNumber/>
+                    </div>
                     <div className={formStyles.formGroup}>
-                        <Amount cost={amount.cost} locale={locale}/>
-                    </div> : false
-                }
+                        <ExpireDate/>
+                        <SecureCode/>
+                    </div>
+                    <div className={formStyles.formGroup}>
+                        <CardHolder/>
+                    </div>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost}/>
+                        </div> : false
+                    }
+                </div>
                 <PayButton/>
             </form>
         );
