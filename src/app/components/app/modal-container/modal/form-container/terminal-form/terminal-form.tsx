@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 type Props = TerminalFormProps & InjectedFormProps;
 
-export class TerminalFormDef extends React.Component<any> {
+export class TerminalFormDef extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props);

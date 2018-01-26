@@ -6,7 +6,8 @@ export enum FormName {
     cardForm = 'cardForm',
     resultForm = 'resultForm',
     walletForm = 'walletForm',
-    terminalForm = 'terminalForm'
+    terminalForm = 'terminalForm',
+    interactionForm = 'interactionForm'
 }
 
 export abstract class FormInfo implements Named {

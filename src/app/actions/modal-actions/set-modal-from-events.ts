@@ -2,8 +2,8 @@ import { ResultFormInfo, ResultType } from 'checkout/state';
 import { Direction, GoToFormInfo, TypeKeys } from 'checkout/actions';
 import { ChangeType, Event } from 'checkout/backend';
 import { SetModalState } from './set-modal-state';
-import { toModalInteraction } from './converters';
 import { getLastChange } from 'checkout/utils';
+import { toInteraction } from 'checkout/actions/modal-actions/converters';
 
 const prepareFromEvents = (events: Event[]): SetStateFromEvents => {
     const change = getLastChange(events);
@@ -11,7 +11,7 @@ const prepareFromEvents = (events: Event[]): SetStateFromEvents => {
         case ChangeType.PaymentInteractionRequested:
             return {
                 type: TypeKeys.SET_MODAL_STATE,
-                payload: toModalInteraction(events)
+                payload: toInteraction(events)
             };
         case ChangeType.PaymentStatusChanged:
         case ChangeType.InvoiceStatusChanged:
