@@ -93,7 +93,7 @@ class WalletFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
                 <div>
@@ -108,7 +108,7 @@ class WalletFormDef extends React.Component<Props> {
                     }
                     {amount.visible ?
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost} locale={locale}/>
+                            <Amount cost={amount.cost}/>
                         </div> : false
                     }
                 </div>

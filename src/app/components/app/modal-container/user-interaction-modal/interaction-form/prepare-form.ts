@@ -7,16 +7,16 @@ const toInputs = (origin: string, request: BrowserRequest): HTMLInputElement[] =
         case RequestType.BrowserPostRequest:
             return toPostFormInputs(origin, (request as BrowserPostRequest).form);
         case RequestType.BrowserGetRequest:
-            return toGetFormInputs(request);
+            return toGetFormInputs(origin, request);
     }
 };
 
 const toMethod = (request: BrowserRequest): 'POST' | 'GET' => {
     switch (request.requestType) {
         case RequestType.BrowserPostRequest:
-            return 'GET';
-        case RequestType.BrowserGetRequest:
             return 'POST';
+        case RequestType.BrowserGetRequest:
+            return 'GET';
     }
 };
 

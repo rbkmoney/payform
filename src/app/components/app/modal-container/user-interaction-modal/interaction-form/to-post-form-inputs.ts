@@ -1,18 +1,11 @@
-import parser from 'uri-template';
 import { FormField } from 'checkout/backend';
-
-const prepareTermUri = (origin: string, template: string): string => {
-    const decoded = decodeURIComponent(template);
-    const parsed = parser.parse(decoded);
-    const redirectUrl = `${origin}/html/finishInteraction.html`;
-    return parsed.expand({termination_uri: redirectUrl});
-};
+import { expandWithRedirect } from './uri-template';
 
 const createInput = (origin: string, formField: FormField): HTMLInputElement => {
     const formParam = document.createElement('input');
     formParam.name = formField.key;
     formField.key === 'TermUrl'
-        ? formParam.value = prepareTermUri(origin, formField.template)
+        ? formParam.value = expandWithRedirect(origin, formField.template)
         : formParam.value = formField.template;
     return formParam;
 };

@@ -117,7 +117,7 @@ class CardFormDef extends React.Component<Props> {
                     }
                     {amount.visible ?
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost} locale={locale}/>
+                            <Amount cost={amount.cost}/>
                         </div> : false
                     }
                 </div>
