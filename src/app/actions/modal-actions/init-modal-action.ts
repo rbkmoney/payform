@@ -17,14 +17,15 @@ import { getLastChange } from 'checkout/utils';
 const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boolean =>
     methods.reduce((acc, current): boolean => {
         switch (current.method) {
-            // case PaymentMethodName.PaymentTerminal:
-            //     return acc || c.terminals;
+            case PaymentMethodName.PaymentTerminal:
+                return acc;
             case PaymentMethodName.DigitalWallet:
                 return acc || c.wallets;
         }
     }, false);
 
-const isMultiMethods = (c: InitConfig, m: ModelState) => m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
+const isMultiMethods = (c: InitConfig, m: ModelState) =>
+    m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
     const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo() : new CardFormInfo();
