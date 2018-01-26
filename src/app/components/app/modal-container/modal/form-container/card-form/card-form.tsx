@@ -98,7 +98,7 @@ class CardFormDef extends React.Component<Props> {
         const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
-                <div>
+                <fieldset>
                     <Header title={locale['form.header.pay.card.label']}/>
                     <div className={formStyles.formGroup}>
                         <CardNumber/>
@@ -120,7 +120,7 @@ class CardFormDef extends React.Component<Props> {
                             <Amount cost={amount.cost} locale={locale}/>
                         </div> : false
                     }
-                </div>
+                </fieldset>
                 <PayButton/>
             </form>
         );

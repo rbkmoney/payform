@@ -59,7 +59,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
     render() {
         return (
             <form>
-                <div>
+                <fieldset>
                     <div className={formStyles.header}>
                         <div className={formStyles.title}>
                             {this.props.locale['form.header.payment.methods.label']}
@@ -82,7 +82,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
                     >
                         {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
                     </CSSTransitionGroup>
-                </div>
+                </fieldset>
             </form>
         );
     }

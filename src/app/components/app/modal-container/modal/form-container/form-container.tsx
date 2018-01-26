@@ -27,7 +27,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         return (
             <div className={styles.container}>
                 <div
-                    className={cx(styles.form, {[styles._error]: viewInfo.error})}
+                    className={cx(styles.formContainer, {[styles._error]: viewInfo.error})}
                     style={{height: viewInfo.height}}>
                     <CSSTransitionGroup
                         component='div'
