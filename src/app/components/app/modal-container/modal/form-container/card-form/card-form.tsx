@@ -1,18 +1,27 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
-import { get } from 'lodash';
-import * as styles from './card-form.scss';
-import * as formStyles from '../form-container.scss';
-import * as commonFormStyles from 'checkout/styles/forms.scss';
-import { CardFormProps } from './card-form-props';
-import { Button } from '../button';
-import { Amount, CardHolder, CardNumber, Email, ExpireDate, SecureCode } from './fields';
-import { CardFormValues, FormName, ModalForms, ModalName, ModalState, PaymentStatus, State } from 'checkout/state';
-import { getAmount } from '../../amount-resolver';
-import { findNamed, formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
-import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
+import { get } from 'lodash';
+import * as formStyles from 'checkout/styles/forms.scss';
+import { CardFormProps } from './card-form-props';
+import { CardHolder, CardNumber, ExpireDate, SecureCode } from './fields';
+import {
+    CardFormValues,
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentStatus,
+    State
+} from 'checkout/state';
+import { findNamed } from 'checkout/utils';
+import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { PayButton } from '../pay-button';
+import { Header } from '../header/header';
+import { calcFormHeight } from '../calc-form-height';
+import { toFieldsConfig } from '../fields-config';
+import { Email, Amount } from '../common-fields';
 
 const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -23,25 +32,19 @@ const mapStateToProps = (state: State) => ({
     cardFormInfo: toCardFormInfo(state.modals),
     config: state.config,
     model: state.model,
-    cardForm: state.form.cardForm,
+    formValues: get(state.form, 'cardForm.values'),
     locale: state.config.locale,
-    formValues: get(state.form, 'cardForm.values')
+    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    pay: bindActionCreators(pay, dispatch),
+    pay: bindActionCreators(payCardData, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch),
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
-
-const PayButton: React.SFC<CardFormProps> = (props) => {
-    const amount = formatAmount(getAmount(props.config.initConfig.integrationType, props.model));
-    const label = amount ? `${amount.value} ${amount.symbol}` : null;
-    return <Button className={styles.pay_button} type='submit'
-                   style='primary' id='pay-btn'>{props.locale['form.button.pay.label']} {label}</Button>;
-};
 
 class CardFormDef extends React.Component<Props> {
 
@@ -50,64 +53,75 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    submit(values: CardFormValues) {
-        const activeElement = document.activeElement as HTMLInputElement;
-        activeElement.blur();
-        this.props.prepareToPay();
+    pay(values: CardFormValues) {
         const {config, model} = this.props;
+        this.props.prepareToPay();
         this.props.pay(config, model, values);
     }
 
+    init(values: CardFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    submit(values: CardFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.pay(values);
+    }
+
     componentWillMount() {
-        switch (this.props.cardFormInfo.paymentStatus) {
+        const {cardFormInfo: {paymentStatus}, formValues} = this.props;
+        this.props.setViewInfoError(false);
+        switch (paymentStatus) {
             case PaymentStatus.pristine:
-                this.props.reset();
+                this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.props.prepareToPay();
-                const {config, model, formValues} = this.props;
-                this.props.pay(config, model, formValues);
+                this.pay(formValues);
+                break;
         }
+    }
+
+    componentDidMount() {
+        this.props.setViewInfoHeight(calcFormHeight(288, this.props.fieldsConfig));
     }
 
     componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
-            this.props.setViewInfoError(true, FormName.cardForm);
+            props.setViewInfoError(true);
         }
     }
 
     render() {
-        const locale = this.props.locale;
-        const {fieldsConfig} = this.props.cardFormInfo;
+        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form onSubmit={this.props.handleSubmit(this.submit)} className={styles.form}>
-                <div className={formStyles.header}>
-                    {/*{hasBack(this.props.formsFlow) ? <ChevronBack/> : null}*/}
-                    <div className={formStyles.title}>
-                        {locale['form.header.pay.card.label']}
+            <form onSubmit={handleSubmit(this.submit)}>
+                <div>
+                    <Header title={locale['form.header.pay.card.label']}/>
+                    <div className={formStyles.formGroup}>
+                        <CardNumber/>
                     </div>
+                    <div className={formStyles.formGroup}>
+                        <ExpireDate/>
+                        <SecureCode/>
+                    </div>
+                    <div className={formStyles.formGroup}>
+                        <CardHolder/>
+                    </div>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost}/>
+                        </div> : false
+                    }
                 </div>
-                <div className={commonFormStyles.formGroup}>
-                    <CardNumber/>
-                </div>
-                <div className={commonFormStyles.formGroup}>
-                    <ExpireDate/>
-                    <SecureCode/>
-                </div>
-                <div className={commonFormStyles.formGroup}>
-                    <CardHolder/>
-                </div>
-                {fieldsConfig.email.visible ?
-                    <div className={commonFormStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {fieldsConfig.amount.visible ?
-                    <div className={commonFormStyles.formGroup}>
-                        <Amount/>
-                    </div> : false
-                }
-                <PayButton {...this.props}/>
+                <PayButton/>
             </form>
         );
     }

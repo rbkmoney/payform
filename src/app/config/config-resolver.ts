@@ -1,8 +1,8 @@
 import * as URL from 'url-parse';
 import { Transport, PossibleEvents } from '../../communication-ts';
-import { UriSerializer } from '../../utils/uri-serializer';
 import { Config, InitConfig } from '.';
 import { getIntegrationType } from './get-integration-type';
+import { deserialize } from 'checkout/utils';
 
 export class ConfigResolver {
 
@@ -10,15 +10,19 @@ export class ConfigResolver {
         return this.resolveInitConfig(transport)
             .then((initConfig) => ({
                 origin: this.getOrigin(),
-                initConfig,
+                initConfig: ConfigResolver.toInitConfig(initConfig),
                 ready: false
             }));
+    }
+
+    private static toInitConfig(initConfig: InitConfig): InitConfig {
+        return {...new InitConfig(), ...initConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
         return new Promise((resolve) => {
             this.isUriContext()
-                ? resolve(UriSerializer.deserialize(location.search))
+                ? resolve(deserialize(location.search))
                 : transport.on(PossibleEvents.init, (config) => resolve(config));
         }).then((config: InitConfig) => {
             config.integrationType = getIntegrationType(config);

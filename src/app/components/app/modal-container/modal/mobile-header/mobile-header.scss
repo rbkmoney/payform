@@ -2,64 +2,54 @@
 @import '../../../../../styles/responsive';
 
 .header {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    height: 60px;
-    background-color: $white;
-    align-items: center;
-    padding: 0 25px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  height: 60px;
+  background-color: $white;
+  align-items: center;
+  padding: 0 25px;
+  justify-content: center;
 
-    @include responsive(sm) {
-        display: none;
-    }
+  @include responsive(sm) {
+    display: none;
+  }
 }
 
 .text {
-    position: relative;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    width: 210px;
-    height: 20px;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 20px;
-    color: $deep-gray;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  height: 20px;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 20px;
+  color: $deep-gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: 100%;
 
-    &._center {
-        text-align: center;
-        width: 100%;
-    }
 }
 
 .back_btn {
-    position: relative;
-    margin-right: 20px;
-    background: none;
-    border: none;
-    outline: none;
+  display: flex;
+  height: 20px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
+  width: 20px;
+  z-index: 1;
 
-    svg {
-        path {
-            stroke: $purple;
-        }
-    }
+  @include responsive(sm) {
+    display: none;
+  }
 
-    &:hover {
-        svg {
-            path {
-                stroke: $deep-purple;
-            }
-        }
-    }
-
-    &:focus {
-        svg {
-            path {
-                stroke: $deepest-purple;
-            }
-        }
-    }
+  svg {
+    height: 15px;
+    width: 9px;
+  }
 }

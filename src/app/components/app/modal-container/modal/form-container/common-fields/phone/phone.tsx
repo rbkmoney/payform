@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
-import { Input } from '../../../input';
-import { validateEmail } from '../validation';
+import { Input } from '../../input';
 import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
+import { validatePhone } from '../validation/phone';
+import { phoneNumberFormatter } from '../format';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
-export interface EmailDefProps {
+export interface PhoneDefProps {
     locale: Locale;
 }
 
@@ -18,25 +19,26 @@ const mapStateToProps = (state: State) => ({
     locale: state.config.locale
 });
 
-const CustomInput: React.SFC<FieldProps & EmailDefProps> = (props) => (
+const CustomInput: React.SFC<FieldProps & PhoneDefProps> = (props) => (
     <Input
         {...props.input}
         {...props.meta}
         error={isError(props.meta)}
-        icon={IconType.letter}
-        placeholder={props.locale['form.input.email.placeholder']}
+        formatter={phoneNumberFormatter}
+        icon={IconType.phone}
+        placeholder={props.locale['form.input.phone.placeholder']}
         mark={true}
-        type='email'
-        id='email-input'
+        type='tel'
+        id='phone-input'
     />
 );
 
-export const EmailDef: React.SFC<EmailDefProps> = (props) => (
+export const PhoneDef: React.SFC<PhoneDefProps> = (props) => (
     <Field
-        name='email'
+        name='phone'
         component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
-        validate={validateEmail}
+        validate={validatePhone}
     />
 );
 
-export const Email = connect(mapStateToProps)(EmailDef);
+export const Phone = connect(mapStateToProps)(PhoneDef);

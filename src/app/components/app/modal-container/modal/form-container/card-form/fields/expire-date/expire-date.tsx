@@ -7,7 +7,7 @@ import { Input } from '../../../input';
 import { expireDateFormatter } from '../format';
 import { validateExpireDate } from '../validation';
 import { Locale } from 'checkout/locale';
-import { isError } from '../error-predicate';
+import { isError } from '../../../common-fields/error-predicate';
 
 type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 

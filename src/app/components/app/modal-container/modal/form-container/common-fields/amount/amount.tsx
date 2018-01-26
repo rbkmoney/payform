@@ -2,19 +2,28 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
-import { CardFormInfo, FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
-import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { getPlaceholder } from './get-placeholder';
 import { validate } from './validate';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
+import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
+import { State } from 'checkout/state';
+
+type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+
+interface OwnProps {
+    cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
+}
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
     locale: Locale;
 }
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    cost: ownProps.cost,
+    locale: state.config.locale
+});
 
 const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
     <Input
@@ -33,20 +42,8 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
     <Field
         name='amount'
         component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
-        validate={(value) => validate(value, props)}
+        validate={(value) => validate(value, props.cost)}
     />
-);
-
-const toCost = (s: ModalState[]) => {
-    const modalForms = s.find((modal) => modal.name === ModalName.modalForms) as ModalForms;
-    const cardFormInfo = modalForms.formsInfo.find((info) => info.name === FormName.cardForm) as CardFormInfo;
-    return cardFormInfo.fieldsConfig.amount.cost;
-};
-
-const mapStateToProps = (state: State) => ({
-        cost: toCost(state.modals),
-        locale: state.config.locale
-    }
 );
 
 export const Amount = connect(mapStateToProps)(AmountDef);

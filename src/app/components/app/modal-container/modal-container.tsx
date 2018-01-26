@@ -6,10 +6,21 @@ import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
 import { UserInteractionModal } from './user-interaction-modal';
-import { ErrorStatus, ModalName, ModalState, ModelState, State, ModelStatus, ModalInteraction } from 'checkout/state';
 import {
-    accept, pollInvoiceEvents, setErrorFormInfo, acceptError, setModalFromEvents,
-    setModalInteractionPollingStatus
+    ErrorStatus,
+    ModalName,
+    ModalState,
+    ModelState,
+    State,
+    ModelStatus,
+    ModalInteraction,
+    FormInfo,
+    ResultFormInfo,
+    ResultType
+} from 'checkout/state';
+import {
+    accept, pollInvoiceEvents, acceptError, setModalFromEvents,
+    setModalInteractionPollingStatus, goToFormInfo
 } from 'checkout/actions';
 import { AppConfig, Event } from 'checkout/backend';
 import { ModalLoader } from './modal-loader';
@@ -22,13 +33,13 @@ export interface ModalContainerProps {
     setModalFromEvents: (events: Event[]) => any;
     acceptModel: () => any;
     pollInvoiceEvents: (capiEndpoint: string, accessToken: string, events: Event[]) => any;
-    setErrorFormInfo: () => any;
+    goToFormInfo: (formInfo: FormInfo) => any;
     acceptError: () => any;
     setModalInteractionPollingStatus: (status: boolean) => any;
 }
 
 const isInteractionPolling = (modal: ModalState) =>
-    (modal.name === ModalName.modalInteraction && (modal as ModalInteraction).pollingEvents);
+    modal.name === ModalName.modalInteraction && (modal as ModalInteraction).pollingEvents;
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
 
@@ -49,7 +60,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
             props.acceptModel();
         }
         if (props.unhandledError) {
-            props.setErrorFormInfo();
+            props.goToFormInfo(new ResultFormInfo(ResultType.error));
             props.acceptError();
         }
     }
@@ -104,7 +115,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setModalFromEvents: bindActionCreators(setModalFromEvents, dispatch),
     acceptModel: bindActionCreators(accept, dispatch),
     pollInvoiceEvents: bindActionCreators(pollInvoiceEvents, dispatch),
-    setErrorFormInfo: bindActionCreators(setErrorFormInfo, dispatch),
+    goToFormInfo: bindActionCreators(goToFormInfo, dispatch),
     acceptError: bindActionCreators(acceptError, dispatch),
     setModalInteractionPollingStatus: bindActionCreators(setModalInteractionPollingStatus, dispatch)
 });

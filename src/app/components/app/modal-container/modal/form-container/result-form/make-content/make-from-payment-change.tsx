@@ -8,7 +8,7 @@ import { Checkmark, Cross } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 
 export const failed = (l: Locale, e: LogicError): ResultFormContent => ({
-    hasActions: true, // TODO fix it
+    hasActions: true,
     hasDone: false,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),

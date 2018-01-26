@@ -24,13 +24,13 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 class AppDef extends React.Component<AppProps> {
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.loadConfig(this.props.config.initConfig.locale);
     }
 
     componentWillReceiveProps(props: AppProps) {
-        const {config, model, modalReady} = props;
-        if (config.ready && model.status === ModelStatus.none) {
+        const {config, model, modalReady, error} = props;
+        if (config.ready && model.status === ModelStatus.none && !error) {
             props.initModel(props.config);
         }
         if (!modalReady && model.status === ModelStatus.initialized) {

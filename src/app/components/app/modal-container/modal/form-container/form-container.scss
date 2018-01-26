@@ -18,15 +18,29 @@
     padding: 30px 20px;
     position: relative;
     overflow: hidden;
+    transition: height .4s;
 
     @include responsive(sm) {
         padding: 30px;
         min-height: auto;
-        transition: height .75s;
     }
 
     &._error {
         animation: shake .82s;
+    }
+}
+
+.animationFormContainer {
+    height: 100%;
+    position: relative;
+
+    form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
 
@@ -36,18 +50,26 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    position: relative;
+
+    .back_btn {
+        display: none;
+
+        @include responsive(sm) {
+            display: flex;
+        }
+    }
 }
 
 .back_btn {
-    display: none;
     height: 20px;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
     cursor: pointer;
-    @include responsive(sm) {
-        display: flex;
-    }
+    position: absolute;
+    width: 20px;
+
     svg {
         height: 15px;
         width: 9px;
@@ -68,14 +90,3 @@
     }
 }
 
-.appearLoader {
-    animation: fadein .5s;
-}
-
-.enterLoader {
-    animation: fadein .5s;
-}
-
-.leaveLoader {
-    animation: fadeout .25s;
-}

@@ -1,8 +1,11 @@
 import { Dispatch } from 'redux';
-import { CardFormValues, ConfigState, ModelState } from 'checkout/state';
+import { CardFormValues, ConfigState, ModelState, WalletFormValues } from 'checkout/state';
 import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
-import { pay as payOperation } from './operations';
+import {
+    payCardData as payCardDataOperation,
+    payDigitalWalletQiwi as payDigitalWalletQiwiOperation
+} from './operations';
 
 export interface PayActionPayload {
     invoiceEvents: Event[];
@@ -16,8 +19,19 @@ export interface PayAction extends AbstractAction<PayActionPayload> {
 
 export type PayDispatch = (dispatch: Dispatch<PayAction | SetErrorAction>) => void;
 
-export const pay = (c: ConfigState, m: ModelState, v: CardFormValues): PayDispatch =>
-    (dispatch) => payOperation(c, m, v)
+export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): PayDispatch =>
+    (dispatch) => payCardDataOperation(c, m, v)
+        .then((payload) => dispatch({
+            type: TypeKeys.PAY,
+            payload
+        }))
+        .catch((error) => dispatch({
+            type: TypeKeys.SET_ERROR,
+            payload: error
+        }));
+
+export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFormValues): PayDispatch =>
+    (dispatch) => payDigitalWalletQiwiOperation(c, m, v)
         .then((payload) => dispatch({
             type: TypeKeys.PAY,
             payload

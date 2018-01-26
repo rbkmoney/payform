@@ -1,5 +1,5 @@
 import { ResultFormInfo, ResultType } from 'checkout/state';
-import { SetFormInfo, TypeKeys } from 'checkout/actions';
+import { Direction, GoToFormInfo, TypeKeys } from 'checkout/actions';
 import { ChangeType, Event } from 'checkout/backend';
 import { SetModalState } from './set-modal-state';
 import { toModalInteraction } from './converters';
@@ -16,13 +16,16 @@ const prepareFromEvents = (events: Event[]): SetStateFromEvents => {
         case ChangeType.PaymentStatusChanged:
         case ChangeType.InvoiceStatusChanged:
             return {
-                type: TypeKeys.SET_FORM_INFO,
-                payload: new ResultFormInfo(ResultType.processed, true)
+                type: TypeKeys.GO_TO_FORM_INFO,
+                payload: {
+                    formInfo: new ResultFormInfo(ResultType.processed),
+                    direction: Direction.forward
+                }
             };
     }
     throw new Error('Unhandled invoice changeType');
 };
 
-export type SetStateFromEvents = SetFormInfo | SetModalState;
+export type SetStateFromEvents = GoToFormInfo | SetModalState;
 
 export const setModalFromEvents = (events: Event[]): SetStateFromEvents => prepareFromEvents(events);
