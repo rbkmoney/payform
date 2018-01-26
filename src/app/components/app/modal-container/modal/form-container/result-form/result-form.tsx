@@ -27,12 +27,12 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         }
         return (
             <form className={styles.form}>
-                <div>
+                <fieldset>
                     <h2 className={styles.title}>{header}</h2>
                     {icon}
                     {description ? description : false}
                     {hasActions ? <ActionBlock/> : false}
-                </div>
+                </fieldset>
             </form>
         );
     }
