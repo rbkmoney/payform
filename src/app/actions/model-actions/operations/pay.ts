@@ -2,6 +2,7 @@ import { CardFormValues, ConfigState, ModelState, PayableFormValues } from 'chec
 import {
     createPayment,
     createPaymentResourceCardData,
+    createPaymentResourceTerminal,
     getPaymentSubject,
     pollEvents,
     createPaymentResourceDigitalWalletQiwi
@@ -32,6 +33,9 @@ const pay = (c: ConfigState, m: ModelState, v: PayableFormValues, createPaymentR
 
 export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): Promise<PayActionPayload> =>
     pay(c, m, v, createPaymentResourceCardData);
+
+export const payTerminal = (c: ConfigState, m: ModelState, v: CardFormValues): Promise<PayActionPayload> =>
+    pay(c, m, v, createPaymentResourceTerminal);
 
 // TODO change any to DigitalWalletFormValues
 export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: any): Promise<PayActionPayload> =>

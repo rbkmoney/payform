@@ -51,6 +51,7 @@
     "form.header.payment.methods.label": "Выберите способ оплаты",
     "form.header.pay.card.label": "Оплата банковской картой",
     "form.header.pay.cash.label": "Оплата наличными",
+    "form.header.pay.euroset.label": "Оплата через Евросеть",
     "form.header.pay.wallet.label": "Оплата электронным кошельком",
     "form.header.pay.qiwi.label": "Оплата через QIWI Кошелек",
     "form.header.pay.bank.label": "Оплата через интернет-банк",

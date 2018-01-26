@@ -4,8 +4,10 @@ import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import {
     payCardData as payCardDataOperation,
+    payTerminal as payTerminalDataOperation,
     payDigitalWalletQiwi as payDigitalWalletQiwiOperation
 } from './operations';
+import { WalletFormValues, TerminalFormValues } from 'checkout/state/forms';
 
 export interface PayActionPayload {
     invoiceEvents: Event[];
@@ -30,8 +32,18 @@ export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): P
             payload: error
         }));
 
-// TODO change any to DigitalWalletFormValues
-export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: any): PayDispatch =>
+export const payTerminalData = (c: ConfigState, m: ModelState, v: TerminalFormValues): PayDispatch =>
+    (dispatch) => payTerminalDataOperation(c, m, v)
+        .then((payload) => dispatch({
+            type: TypeKeys.PAY,
+            payload
+        }))
+        .catch((error) => dispatch({
+            type: TypeKeys.SET_ERROR,
+            payload: error
+        }));
+
+export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFormValues): PayDispatch =>
     (dispatch) => payDigitalWalletQiwiOperation(c, m, v)
         .then((payload) => dispatch({
             type: TypeKeys.PAY,
