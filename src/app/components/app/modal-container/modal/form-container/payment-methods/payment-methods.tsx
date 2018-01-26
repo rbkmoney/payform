@@ -59,28 +59,30 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
     render() {
         return (
             <form>
-                <div className={formStyles.header}>
-                    <div className={formStyles.title}>
-                        {this.props.locale['form.header.payment.methods.label']}
+                <div>
+                    <div className={formStyles.header}>
+                        <div className={formStyles.title}>
+                            {this.props.locale['form.header.payment.methods.label']}
+                        </div>
                     </div>
+                    <CSSTransitionGroup
+                        className={styles.list}
+                        component='ul'
+                        transitionName={{
+                            appear: styles.appearItem,
+                            enter: styles.enterItem,
+                            leave: styles.leaveItem
+                        }}
+                        transitionEnterTimeout={1000}
+                        transitionLeaveTimeout={1000}
+                        transitionAppearTimeout={1000}
+                        transitionAppear={true}
+                        transitionEnter={true}
+                        transitionLeave={true}
+                    >
+                        {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
+                    </CSSTransitionGroup>
                 </div>
-                <CSSTransitionGroup
-                    className={styles.list}
-                    component='ul'
-                    transitionName={{
-                        appear: styles.appearItem,
-                        enter: styles.enterItem,
-                        leave: styles.leaveItem
-                    }}
-                    transitionEnterTimeout={1000}
-                    transitionLeaveTimeout={1000}
-                    transitionAppearTimeout={1000}
-                    transitionAppear={true}
-                    transitionEnter={true}
-                    transitionLeave={true}
-                >
-                    {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
-                </CSSTransitionGroup>
             </form>
         );
     }
