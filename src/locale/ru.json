@@ -106,9 +106,12 @@
     "form.payment.method.description.qiwi.text": "Оплата через QIWI Кошелек",
     "form.payment.method.description.bonus.text": "Сбербанк Спасибо, программа Аэрофлот Бонус",
     "form.payment.terminal.email.label": "Укажите почту, чтобы получить  код для оплаты",
+    "form.pay.terminals.instruction.to.pay": "К оплате",
+    "form.pay.terminals.instruction.dueDate": "Оплату необходимо произвести до",
     "form.pay.terminals.step.one.text": "Посетите любой удобный для вас салон связи",
     "form.pay.terminals.step.two.text": "Скажите кассиру, что платите через RBKmoney",
-    "form.pay.terminals.step.three.text": "Скажите ваш код платежа: ${code} и сумму ${amount}. Или покажите сотруднику письмо.",
+    "form.pay.terminals.step.three.text": "Скажите ваш код платежа",
     "form.pay.terminals.step.four.text": "Внесите наличные",
-    "form.pay.terminals.step.five.text": "Обязательно возьмите чек"
+    "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
+    "brand.euroset": "Евросеть"
 }

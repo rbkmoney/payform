@@ -106,9 +106,12 @@
     "form.payment.method.description.qiwi.text": "Pay with QIWI Wallet",
     "form.payment.method.description.bonus.text": "Sberbank \"Spasibo\", Aeroflot Bonus miles",
     "form.payment.terminal.email.label": "Where to send the payment code",
+    "form.pay.terminals.instruction.to.pay": "To pay",
+    "form.pay.terminals.instruction.dueDate": "Payment must be made before",
     "form.pay.terminals.step.one.text": "Choose nearest mobile shop",
     "form.pay.terminals.step.two.text": "Tell the booking-clerk you’re paying with RBKmoney",
-    "form.pay.terminals.step.three.text": "Tell your payment code: ${code} and amount ${amount}. Or show the booking clerk email with payment code.",
+    "form.pay.terminals.step.three.text": "Tell your payment code",
     "form.pay.terminals.step.four.text": "Pay with cash",
-    "form.pay.terminals.step.five.text": "Don’t forget the receipt"
+    "form.pay.terminals.step.five.text": "Don’t forget the receipt",
+    "brand.euroset": "Euroset"
 }

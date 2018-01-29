@@ -15,5 +15,6 @@ export enum IconType {
     user = 'user',
     verByVisa = 'ver-by-visa',
     visa = 'visa',
-    mastercard = 'mastercard'
+    mastercard = 'mastercard',
+    eurosetLogo = 'euroset-logo'
 }
