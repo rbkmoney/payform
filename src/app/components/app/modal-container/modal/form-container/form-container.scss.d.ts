@@ -13,4 +13,7 @@ export const list_item_text: string;
 export const hightlight: string;
 export const text: string;
 export const systemLogo: string;
+export const appearLoader: string;
+export const enterLoader: string;
+export const leaveLoader: string;
 export const animationFormContainer: string;

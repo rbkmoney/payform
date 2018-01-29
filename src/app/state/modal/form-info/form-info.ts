@@ -1,5 +1,5 @@
-import { PaymentStatus } from './payment-status';
 import { Named } from '../named';
+import { PaymentStatus } from './payment-status';
 
 export enum FormName {
     paymentMethods = 'paymentMethods',
