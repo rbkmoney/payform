@@ -15,10 +15,6 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         this.setHeight(this.props);
     }
 
-    componentWillReceiveProps(props: ResultFormProps) {
-        // this.setHeight(props); // TODO fix it
-    }
-
     render() {
         const {header, description, icon, hasActions, hasDone} = makeContent(
             this.props.resultFormInfo,
@@ -26,15 +22,17 @@ class ResultFormDef extends React.Component<ResultFormProps> {
             this.props.model.invoiceEvents,
             this.props.error
         );
-        // if (hasDone) {
-        //     this.props.setResult(ResultState.done);
-        // }
+        if (hasDone) {
+            this.props.setResult(ResultState.done);
+        }
         return (
             <form className={styles.form}>
-                <h2 className={styles.title}>{header}</h2>
-                {icon}
-                {description ? description : false}
-                {hasActions ? <ActionBlock/> : false}
+                <div>
+                    <h2 className={styles.title}>{header}</h2>
+                    {icon}
+                    {description ? description : false}
+                    {hasActions ? <ActionBlock/> : false}
+                </div>
             </form>
         );
     }

@@ -98,27 +98,29 @@ class CardFormDef extends React.Component<Props> {
         const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
-                <Header title={locale['form.header.pay.card.label']}/>
-                <div className={formStyles.formGroup}>
-                    <CardNumber/>
-                </div>
-                <div className={formStyles.formGroup}>
-                    <ExpireDate/>
-                    <SecureCode/>
-                </div>
-                <div className={formStyles.formGroup}>
-                    <CardHolder/>
-                </div>
-                {email.visible ?
+                <div>
+                    <Header title={locale['form.header.pay.card.label']}/>
                     <div className={formStyles.formGroup}>
-                        <Email/>
-                    </div> : false
-                }
-                {amount.visible ?
+                        <CardNumber/>
+                    </div>
                     <div className={formStyles.formGroup}>
-                        <Amount cost={amount.cost} locale={locale}/>
-                    </div> : false
-                }
+                        <ExpireDate/>
+                        <SecureCode/>
+                    </div>
+                    <div className={formStyles.formGroup}>
+                        <CardHolder/>
+                    </div>
+                    {email.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Email/>
+                        </div> : false
+                    }
+                    {amount.visible ?
+                        <div className={formStyles.formGroup}>
+                            <Amount cost={amount.cost}/>
+                        </div> : false
+                    }
+                </div>
                 <PayButton/>
             </form>
         );

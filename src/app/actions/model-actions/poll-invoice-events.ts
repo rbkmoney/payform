@@ -23,5 +23,9 @@ export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, eve
             .then((event) => dispatch({
                 type: TypeKeys.POLL_EVENTS,
                 payload: event
+            }))
+            .catch((error) => dispatch({
+                type: TypeKeys.SET_ERROR,
+                payload: error
             }));
     };

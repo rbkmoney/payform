@@ -30,6 +30,20 @@
     }
 }
 
+.animationFormContainer {
+    height: 100%;
+    position: relative;
+
+    form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
 .header {
     margin-bottom: 20px;
     display: flex;
