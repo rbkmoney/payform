@@ -37,6 +37,5 @@ export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): P
 export const payTerminal = (c: ConfigState, m: ModelState, v: CardFormValues): Promise<PayActionPayload> =>
     pay(c, m, v, createPaymentResourceTerminal);
 
-// TODO change any to DigitalWalletFormValues
 export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFormValues): Promise<PayActionPayload> =>
     pay(c, m, v, createPaymentResourceDigitalWalletQiwi);

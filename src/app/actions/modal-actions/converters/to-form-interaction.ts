@@ -1,8 +1,19 @@
-import { ChangeType, Event, InteractionType, PaymentInteractionRequested, Redirect } from 'checkout/backend';
-import { InteractionFormInfo, InteractionFormType } from 'checkout/state/modal/form-info/interaction-form-info';
+import {
+    ChangeType,
+    Event,
+    InteractionType,
+    PaymentInteractionRequested,
+    Redirect
+} from 'checkout/backend';
+import { ModalForms,
+    ModalInteraction,
+    ModalState,
+    PaymentStatus,
+    InteractionFormInfo,
+    InteractionFormType
+} from 'checkout/state';
+import { getRedirect } from 'checkout/actions/modal-actions/converters';
 import { getLastChange } from 'checkout/utils';
-import { getRedirect } from 'checkout/actions/modal-actions/converters/index';
-import { ModalForms, ModalInteraction, ModalState, PaymentStatus } from 'checkout/state';
 
 export const toInteraction = (events: Event[]): ModalState => {
     const change = getLastChange(events);

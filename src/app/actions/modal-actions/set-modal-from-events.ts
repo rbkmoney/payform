@@ -1,9 +1,8 @@
 import { ResultFormInfo, ResultType } from 'checkout/state';
-import { Direction, GoToFormInfo, TypeKeys } from 'checkout/actions';
+import { Direction, GoToFormInfo, TypeKeys, toInteraction } from 'checkout/actions';
 import { ChangeType, Event } from 'checkout/backend';
 import { SetModalState } from './set-modal-state';
 import { getLastChange } from 'checkout/utils';
-import { toInteraction } from 'checkout/actions/modal-actions/converters';
 
 const prepareFromEvents = (events: Event[]): SetStateFromEvents => {
     const change = getLastChange(events);

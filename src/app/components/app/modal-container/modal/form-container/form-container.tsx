@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
-import { CardForm } from './card-form';
 import { FormName, ModalForms, ModalName, State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
-import { findNamed } from 'checkout/utils';
+import { CardForm } from './card-form';
 import { WalletForm } from './wallet-form';
-import { TerminalForm } from 'checkout/components/app/modal-container/modal/form-container/terminal-form';
-import { InteractionForm } from 'checkout/components/app/modal-container/modal/form-container/interaction-form';
+import { TerminalForm } from './terminal-form';
+import { InteractionForm } from './interaction-form';
+import { findNamed } from 'checkout/utils';
 
 const mapStateToProps = (state: State) => {
     const modalForms = (findNamed(state.modals, ModalName.modalForms) as ModalForms);
