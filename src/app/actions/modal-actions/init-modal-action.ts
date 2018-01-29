@@ -21,8 +21,8 @@ import { toInteraction } from 'checkout/actions/modal-actions/converters/to-form
 const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boolean =>
     methods.reduce((acc, current): boolean => {
         switch (current.method) {
-            case PaymentMethodName.PaymentTerminal:
-                return acc || c.terminals;
+            // case PaymentMethodName.PaymentTerminal:
+            //     return acc || c.terminals;
             case PaymentMethodName.DigitalWallet:
                 return acc || c.wallets;
         }

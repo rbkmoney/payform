@@ -18,7 +18,7 @@
     padding: 30px 20px;
     position: relative;
     overflow: hidden;
-    transition: height .75s;
+    transition: height .4s;
 
     @include responsive(sm) {
         padding: 30px;

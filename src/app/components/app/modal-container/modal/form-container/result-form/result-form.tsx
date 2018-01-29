@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './result-form.scss';
 import { FormName, ModalForms, ModalName, State, ResultFormInfo, ResultState } from 'checkout/state';
-import { setResult, setViewInfoHeight, setViewInfoInProcess } from 'checkout/actions';
+import { setResult, setViewInfoHeight } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
 import { makeContent } from './make-content';
@@ -12,10 +12,7 @@ import { ActionBlock } from './action-block';
 class ResultFormDef extends React.Component<ResultFormProps> {
 
     componentDidMount() {
-        this.props.setViewInfoInProcess(false);
-        this.props.hasMultiMethods
-            ? this.props.setViewInfoHeight(425)
-            : this.props.setViewInfoHeight(392);
+        this.setHeight(this.props);
     }
 
     render() {
@@ -30,12 +27,20 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         }
         return (
             <form className={styles.form}>
-                <h2 className={styles.title}>{header}</h2>
-                {icon}
-                {description ? description : false}
-                {hasActions ? <ActionBlock/> : false}
+                <div>
+                    <h2 className={styles.title}>{header}</h2>
+                    {icon}
+                    {description ? description : false}
+                    {hasActions ? <ActionBlock/> : false}
+                </div>
             </form>
         );
+    }
+
+    private setHeight(props: ResultFormProps) {
+        props.hasMultiMethods
+            ? props.setViewInfoHeight(425)
+            : props.setViewInfoHeight(392);
     }
 }
 
@@ -53,7 +58,6 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setResult: bindActionCreators(setResult, dispatch),
-    setViewInfoInProcess: bindActionCreators(setViewInfoInProcess, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 

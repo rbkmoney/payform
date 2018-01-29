@@ -11,6 +11,10 @@
     @include responsive(sm) {
         padding-top: 50px;
     }
+
+    & > div {
+        width: 100%;
+    }
 }
 
 .title {

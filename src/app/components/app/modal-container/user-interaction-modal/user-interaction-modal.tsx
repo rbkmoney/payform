@@ -1,45 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import parser from 'uri-template';
 import * as styles from './user-interaction-modal.scss';
 import { ModalInteraction, ModalName, State } from 'checkout/state';
-import { BrowserPostRequest } from 'checkout/backend';
 import { findNamed } from 'checkout/utils';
+import { prepareForm } from './interaction-form';
 
 export interface UserInteractionModalProps {
     modal: ModalInteraction;
     origin: string;
 }
 
-const prepareForm = (origin: string, request: BrowserPostRequest): HTMLFormElement => {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = request.uriTemplate;
-    request.form.forEach((field) => {
-        const formParam = document.createElement('input');
-        formParam.name = field.key;
-        if (field.key === 'TermUrl') {
-            const decoded = decodeURIComponent(field.template);
-            const template = parser.parse(decoded);
-            const redirectUrl = `${origin}/html/finishInteraction.html`;
-            formParam.value = template.expand({termination_uri: redirectUrl});
-        } else {
-            formParam.value = field.template;
-        }
-        form.appendChild(formParam);
-    });
-    form.setAttribute('target', '_self');
-    form.style.visibility = 'hidden';
-    return form;
+const getContentDocument = (): Document => {
+    const frame = document.querySelector('#interactionFrame') as HTMLIFrameElement;
+    return frame.contentWindow.document;
 };
 
 class UserInteractionModalDef extends React.Component<UserInteractionModalProps> {
 
     componentDidMount() {
-        const request = this.props.modal.request;
-        const frame = document.querySelector('#interactionFrame') as HTMLIFrameElement;
-        const frameDocument = frame.contentWindow.document;
-        const form = prepareForm(this.props.origin, request);
+        const frameDocument = getContentDocument();
+        const {origin, modal: {request}} = this.props;
+        const form = prepareForm(origin, request);
         frameDocument.body.appendChild(form);
         form.submit();
     }

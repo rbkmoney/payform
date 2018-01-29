@@ -4,9 +4,8 @@ import {
     PaymentResource,
     DigitalWalletType
 } from 'checkout/backend';
-import { CardFormValues } from 'checkout/state';
+import { CardFormValues, WalletFormValues, TerminalFormValues } from 'checkout/state';
 import { PaymentSubject } from './payment-subject';
-import { WalletFormValues, TerminalFormValues } from 'checkout/state/forms';
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 
@@ -19,10 +18,12 @@ export const createPaymentResourceTerminal = (s: PaymentSubject, endpoint: strin
 };
 
 export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
+export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
     const paymentTool = {
         paymentToolType: PaymentToolType.DigitalWalletData,
         digitalWalletType: DigitalWalletType.DigitalWalletQIWI,
         phoneNumber: v.phone
+        phoneNumber: replaceSpaces(v.phone)
     };
     return capiRequest(endpoint, s.accessToken, paymentTool);
 };

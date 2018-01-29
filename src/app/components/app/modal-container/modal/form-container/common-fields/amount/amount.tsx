@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
 import { getPlaceholder } from './get-placeholder';
@@ -6,13 +7,23 @@ import { validate } from './validate';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
+import { State } from 'checkout/state';
+
+type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+
+interface OwnProps {
+    cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
+}
 
 export interface AmountProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
     locale: Locale;
 }
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    cost: ownProps.cost,
+    locale: state.config.locale
+});
 
 const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
     <Input
@@ -35,4 +46,4 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
     />
 );
 
-export const Amount = AmountDef;
+export const Amount = connect(mapStateToProps)(AmountDef);

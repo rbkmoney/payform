@@ -1,11 +1,11 @@
 import { ModalName, ModalState } from '../modal-state';
-import { BrowserPostRequest } from 'checkout/backend';
+import { BrowserRequest } from 'checkout/backend';
 
 export class ModalInteraction extends ModalState {
-    request: BrowserPostRequest;
+    request: BrowserRequest;
     pollingEvents: boolean;
 
-    constructor(request: BrowserPostRequest, active: boolean) {
+    constructor(request: BrowserRequest, active: boolean) {
         super();
         this.name = ModalName.modalInteraction;
         this.request = request;

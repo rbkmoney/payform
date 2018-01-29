@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 class AppDef extends React.Component<AppProps> {
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.loadConfig(this.props.config.initConfig.locale);
     }
 

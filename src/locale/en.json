@@ -90,6 +90,7 @@
     "form.button.next.label": "Next",
     "form.button.download.check.label": "Download receipt",
     "form.button.pay.other.card.label": "Use another card",
+    "form.button.pay.other.wallet.label": "Use another phone number",
     "form.button.pay.again.label": "Try again",
     "form.button.pay.label": "Pay",
     "form.payment.method.name.card.label": "Bank card",

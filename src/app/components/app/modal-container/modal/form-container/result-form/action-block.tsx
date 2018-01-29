@@ -6,15 +6,13 @@ import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 import {
     prepareToRetry,
-    goToFormInfo,
-    Direction
+    forgetPaymentAttempt
 } from 'checkout/actions';
 import {
     FormInfo,
     FormName,
     ModalForms,
     ModalName,
-    PaymentMethodsFormInfo,
     PaymentStatus,
     State
 } from 'checkout/state';
@@ -24,8 +22,10 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
     switch (startedInfo.name) {
         case FormName.cardForm:
             return locale['form.button.pay.other.card.label'];
+        case FormName.walletForm:
+            return locale['form.button.pay.other.wallet.label'];
     }
-    throw new Error('Unsupported FormInfo');
+    throw new Error('Unsupported form type');
 };
 
 export interface ActionBlockProps {
@@ -33,7 +33,7 @@ export interface ActionBlockProps {
     startedInfo: FormInfo;
     hasMultiMethods: boolean;
     prepareToRetry: (resetFormData: boolean) => any;
-    goToFormInfo: (formInfo: FormInfo, direction: Direction) => any;
+    forgetPaymentAttempt: () => any;
 }
 
 class ActionBlockDef extends React.Component<ActionBlockProps> {
@@ -44,7 +44,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
     }
 
     goToPaymentMethods() {
-        this.props.goToFormInfo(new PaymentMethodsFormInfo(), Direction.back);
+        this.props.forgetPaymentAttempt();
     }
 
     render() {
@@ -86,7 +86,7 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     prepareToRetry: bindActionCreators(prepareToRetry, dispatch),
-    goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
+    forgetPaymentAttempt: bindActionCreators(forgetPaymentAttempt, dispatch)
 });
 
 export const ActionBlock = connect(mapStateToProps, mapDispatchToProps)(ActionBlockDef);

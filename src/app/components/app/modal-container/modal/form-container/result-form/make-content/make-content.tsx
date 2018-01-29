@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-    ChangeType, Event,
-    InvoiceStatusChanged,
-    LogicError
-} from 'checkout/backend';
+import { ChangeType, Event, LogicError } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { getLastChange } from 'checkout/utils';
 import { ResultFormContent } from './result-form-content';
@@ -15,7 +11,7 @@ export const makeContentProcessed = (l: Locale, e: Event[]): ResultFormContent =
     const change = getLastChange(e);
     switch (change.changeType) {
         case ChangeType.InvoiceStatusChanged:
-            return makeFromInvoiceChange(l, change as InvoiceStatusChanged);
+            return makeFromInvoiceChange(l, e);
         case ChangeType.PaymentStatusChanged:
             return makeFromPaymentChange(l, e);
     }

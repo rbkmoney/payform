@@ -48,8 +48,6 @@ type Props = InjectedFormProps & CardFormProps;
 
 class CardFormDef extends React.Component<Props> {
 
-    form: HTMLFormElement;
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -99,9 +97,7 @@ class CardFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
         return (
-            <form ref={(form) => {
-                this.form = form;
-            }} onSubmit={handleSubmit(this.submit)}>
+            <form onSubmit={handleSubmit(this.submit)}>
                 <div>
                     <Header title={locale['form.header.pay.card.label']}/>
                     <div className={formStyles.formGroup}>
@@ -121,7 +117,7 @@ class CardFormDef extends React.Component<Props> {
                     }
                     {amount.visible ?
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost} locale={locale}/>
+                            <Amount cost={amount.cost}/>
                         </div> : false
                     }
                 </div>
