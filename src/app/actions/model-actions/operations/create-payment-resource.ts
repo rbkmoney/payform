@@ -18,11 +18,9 @@ export const createPaymentResourceTerminal = (s: PaymentSubject, endpoint: strin
 };
 
 export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
-export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
     const paymentTool = {
         paymentToolType: PaymentToolType.DigitalWalletData,
         digitalWalletType: DigitalWalletType.DigitalWalletQIWI,
-        phoneNumber: v.phone
         phoneNumber: replaceSpaces(v.phone)
     };
     return capiRequest(endpoint, s.accessToken, paymentTool);

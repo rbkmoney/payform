@@ -8,7 +8,6 @@ import * as formStyles from 'checkout/styles/forms.scss';
 import { Amount, Email } from 'checkout/components/app/modal-container/modal/form-container';
 import { toFieldsConfig } from 'checkout/components/app/modal-container/modal/form-container/fields-config';
 import { PayButton } from '../pay-button';
-import { calcFormHeight } from 'checkout/components/app/modal-container/modal/form-container/calc-form-height';
 import { payTerminalData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { TerminalFormProps } from 'checkout/components/app/modal-container/modal/form-container/terminal-form/terminal-form-props';
 
@@ -69,7 +68,7 @@ export class TerminalFormDef extends React.Component<Props> {
                     }
                     {amount.visible ?
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost} locale={locale}/>
+                            <Amount cost={amount.cost}/>
                         </div> : false
                     }
                 </div>
