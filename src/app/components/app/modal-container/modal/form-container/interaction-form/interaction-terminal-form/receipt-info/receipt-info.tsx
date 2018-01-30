@@ -14,13 +14,17 @@ interface ReceiptInfo {
     amount: string;
 }
 
+const formatPaymentId = (id: string): string => {
+    return `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
+};
+
 export const ReceiptInfo: React.SFC<ReceiptInfo> = (props) => (
     <div>
         <p className={formStyles.text}>
             {props.locale['form.pay.terminals.instruction.to.pay']} <span className={formStyles.highlight}>{props.amount}</span>.
             {props.locale['form.pay.terminals.instruction.dueDate']}
             <span
-                className={formStyles.highlight}>{dateFns.format(this.props.receipt.dueDate, 'D.MM.YYYY HH:mm')}</span>.
+                className={formStyles.highlight}>{dateFns.format(props.receipt.dueDate, 'D.MM.YYYY HH:mm')}</span>.
         </p>
 
         <NumerableList>
@@ -33,7 +37,7 @@ export const ReceiptInfo: React.SFC<ReceiptInfo> = (props) => (
             <ListItem number={3}>
                 {props.locale['form.pay.terminals.step.three.text']}: <br/>
                 <span className={formStyles.highlight}>
-                                {this.formatPaymentId(this.props.receipt.shortPaymentID)}
+                                {formatPaymentId(props.receipt.shortPaymentID)}
                         </span>.
             </ListItem>
             <ListItem number={4}>

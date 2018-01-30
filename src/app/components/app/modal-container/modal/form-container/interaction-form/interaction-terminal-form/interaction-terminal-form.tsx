@@ -48,10 +48,6 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
             </div>
         );
     }
-
-    private formatPaymentId(id: string): string {
-        return `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
-    }
 }
 
 export const InteractionTerminalForm = connect(mapStateToProps, mapDispatchToProps)(InteractionTerminalFormDef);
