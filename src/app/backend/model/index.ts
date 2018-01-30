@@ -22,4 +22,3 @@ export * from './payment';
 export * from './payment-params';
 export * from './event/user-interaction';
 export * from './logic-error';
-export * from './cancel-payment-params';

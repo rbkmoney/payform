@@ -6,13 +6,14 @@ import * as styles from '../form-container.scss';
 import { CardFormValues, FormName, State } from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
-import { Amount, Email } from '..';
+import { Amount, Email } from '../';
 import { toFieldsConfig } from '../fields-config';
 import { payTerminalEuroset, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { TerminalFormProps } from './terminal-form-props';
-import { NextButton } from '../next-button';
+import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
+import { AmountInfo } from 'checkout/components/app/modal-container/modal/form-container/terminal-form/amount-info';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
@@ -66,12 +67,10 @@ export class TerminalFormDef extends React.Component<Props> {
                 <div>
                     <Header title={locale['form.header.pay.euroset.label']}/>
                     <p className={styles.text}>
-                        Будет сформирован номер счета для оплаты через платежный терминал.
+                        {locale['form.pay.terminals.info.text']}.
                     </p>
                     {!amount.visible ?
-                        <p className={styles.text}>
-                            Сумма к оплате: <span className={styles.hightlight}>{`${this.props.amount.value} ${this.props.amount.symbol}`}</span>
-                        </p> : false
+                        <AmountInfo amount={this.props.amount} locale={locale}/> : false
                     }
                     {email.visible ?
                         <div className={formStyles.formGroup}>
@@ -84,7 +83,7 @@ export class TerminalFormDef extends React.Component<Props> {
                         </div> : false
                     }
                 </div>
-                <NextButton/>
+                <NextButton locale={locale}/>
             </form>
         );
     }

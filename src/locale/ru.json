@@ -114,5 +114,6 @@
     "form.pay.terminals.step.three.text": "Скажите ваш код платежа",
     "form.pay.terminals.step.four.text": "Внесите наличные",
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
+    "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
     "brand.euroset": "Евросеть"
 }
