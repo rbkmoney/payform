@@ -43,7 +43,7 @@ const toDetailsDescription = (details: PaymentToolDetails, locale: Locale): stri
         case PaymentToolDetailsType.PaymentToolDetailsDigitalWallet:
             return toDigitalWallet(details as PaymentToolDetailsDigitalWallet);
         case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
-            return toTerminalDescription(details as PaymentToolDetailsPaymentTerminal, locale)
+            return toTerminalDescription(details as PaymentToolDetailsPaymentTerminal, locale);
     }
     throw new Error('Unsupported PaymentToolDetailsType');
 };
@@ -69,7 +69,7 @@ const toPaymentMethodDescription = (l: Locale, e: Event[]): string => {
         case PaymentToolDetailsType.PaymentToolDetailsDigitalWallet:
             return `${l['form.final.success.wallet.text']} ${description}`;
         case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
-            return `${l['form.final.success.terminal.text']} ${description}`
+            return `${l['form.final.success.terminal.text']} ${description}`;
     }
     throw new Error('Unsupported PaymentToolDetailsType');
 };
