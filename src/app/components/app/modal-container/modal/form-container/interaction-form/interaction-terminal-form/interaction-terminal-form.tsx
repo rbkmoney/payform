@@ -36,8 +36,7 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
     }
 
     render() {
-        const amount = `${this.props.amount.value} ${this.props.amount.symbol}`;
-        const {locale, receipt} = this.props;
+        const {locale, receipt, amount} = this.props;
         return (
             <div className={styles.container}>
                 <Header title={this.props.locale['form.header.pay.euroset.label']}/>
