@@ -32,7 +32,7 @@ export interface InteractionTerminalFormProps {
 
 class InteractionTerminalFormDef extends React.Component<InteractionTerminalFormProps> {
     componentDidMount() {
-        this.props.setViewInfoHeight(405);
+        this.props.setViewInfoHeight(445);
     }
 
     render() {
