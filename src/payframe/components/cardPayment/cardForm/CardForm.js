@@ -136,14 +136,14 @@ class CardForm extends React.Component {
     }
 
     renderPayform() {
-        const form = 'card-formContainer';
+        const form = 'card-form';
         const status = this.props.payment.status;
         const cardForm = this.props.viewData.cardForm;
         const email = cardForm.email;
         const amount = cardForm.amount;
         return (
             <form
-                className={cx('payform--formContainer', {_error: this.state.shakeValidation})}
+                className={cx('payform--form', {_error: this.state.shakeValidation})}
                 id={form}
                 role="form"
                 onSubmit={this.pay}

@@ -88,14 +88,14 @@ class EurosetForm extends Component {
     }
 
     renderPayform() {
-        const form = 'card-formContainer';
+        const form = 'card-form';
         const cardForm = this.props.viewData.cardForm;
         const status = this.props.payment.status;
         const email = cardForm.email;
         const amount = cardForm.amount;
 
         return(
-            <form className={cx('payform--formContainer', {_error: this.state.shakeValidation})}
+            <form className={cx('payform--form', {_error: this.state.shakeValidation})}
                 id={form}
                 role="form"
                 onSubmit={this.pay}

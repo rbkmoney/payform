@@ -12,7 +12,7 @@ import {
 /**
  * @typedef {Object} EventPollingResult
  * @property {string} type=paid,unpaid,processed,interact
- * @property {Object} [data] - Data for provide user terminalReceipt
+ * @property {Object} [data] - Data for provide user interaction
  */
 
 const pollingRetries = 60;
