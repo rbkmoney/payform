@@ -21,11 +21,12 @@ const cancelled = (l: Locale): ResultFormContent => ({
     icon: <Cross/>
 });
 
-const fulfilled = (l: Locale): ResultFormContent => ({
+const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.fulfilled.label'],
-    icon: <Cross/>
+    description: getSuccessDescription(l, e),
+    icon: <Checkmark/>
 });
 
 export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {
@@ -36,7 +37,7 @@ export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {
         case InvoiceStatuses.cancelled:
             return cancelled(l);
         case InvoiceStatuses.fulfilled:
-            return fulfilled(l);
+            return fulfilled(l, e);
     }
     throw new Error('Unsupported InvoiceStatusChange');
 };
