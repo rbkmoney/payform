@@ -10,6 +10,7 @@ import { PaymentMethod, PaymentMethodName } from 'checkout/backend/model';
 import { bindActionCreators, Dispatch } from 'redux';
 import { InitConfig } from 'checkout/config';
 import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
+import { Terminals } from './methods';
 
 export interface PaymentMethodsProps {
     locale: Locale;
@@ -39,8 +40,8 @@ const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
 const renderMethods = (method: PaymentMethod, props: PaymentMethodsProps) => {
     const initConfig = props.initConfig;
     switch (method.method) {
-        // case PaymentMethodName.PaymentTerminal:
-        //     return initConfig.terminals ? <Terminals key={method.method} {...props}/> : null;
+        case PaymentMethodName.PaymentTerminal:
+            return initConfig.terminals ? <Terminals key={method.method} {...props}/> : null;
         case PaymentMethodName.DigitalWallet:
             return initConfig.wallets ? <Wallets key={method.method} {...props}/> : null;
         case PaymentMethodName.BankCard:

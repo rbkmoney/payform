@@ -2,15 +2,15 @@ import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 import {
     ChangeType,
-    Event, InvoiceCreated,
-    InvoiceTemplate,
+    InvoiceCreated,
     InvoiceTemplateLineCostFixed,
     InvoiceTemplateMultiLine,
-    InvoiceTemplateSingleLine
+    InvoiceTemplateSingleLine,
 } from 'checkout/backend';
 import { Amount, findChange } from 'checkout/utils';
 
-const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine): Amount | null => {
+const getAmountFromSingleLine = (model: ModelState): Amount | null => {
+    const details = model.invoiceTemplate.details as InvoiceTemplateSingleLine;
     let result = null;
     const price = details.price;
     if (price && price.costType === 'InvoiceTemplateLineCostFixed') {
@@ -28,30 +28,24 @@ const getAmountFromMultiLine = (details: InvoiceTemplateMultiLine): Amount => ({
     currencyCode: details.currency
 });
 
-const getAmountFromInvoiceTemplate = (invoiceTemplate: InvoiceTemplate): Amount => {
-    switch (invoiceTemplate.details.templateType) {
+const getAmountFromInvoiceTemplate = (model: ModelState): Amount => {
+    switch (model.invoiceTemplate.details.templateType) {
         case 'InvoiceTemplateSingleLine':
-            return getAmountFromSingleLine(invoiceTemplate.details as InvoiceTemplateSingleLine);
+            return getAmountFromSingleLine(model);
         case 'InvoiceTemplateMultiLine':
-            return getAmountFromMultiLine(invoiceTemplate.details as InvoiceTemplateMultiLine);
+            return getAmountFromMultiLine(model.invoiceTemplate.details as InvoiceTemplateMultiLine);
     }
 };
 
-const getAmountFromInvoice = (events: Event[]) => {
-    const {invoice} = findChange(events, ChangeType.InvoiceCreated) as InvoiceCreated;
+const getAmountFromInvoice = (invoiceCreated: InvoiceCreated): Amount => {
+    const {invoice: {amount, currency}} = invoiceCreated;
     return {
-        value: invoice.amount,
-        currencyCode: invoice.currency
+        value: amount,
+        currencyCode: currency
     };
 };
 
 export const getAmount = (integrationType: IntegrationType, m: ModelState): Amount | null => {
-    switch (integrationType) {
-        case IntegrationType.invoiceTemplate:
-            return getAmountFromInvoiceTemplate(m.invoiceTemplate);
-        case IntegrationType.invoice:
-            return getAmountFromInvoice(m.invoiceEvents);
-        case IntegrationType.customer:
-            throw new Error('Unhandled customer integration');
-    }
+    const invoiceCreated = findChange(m.invoiceEvents, ChangeType.InvoiceCreated);
+    return invoiceCreated ? getAmountFromInvoice(invoiceCreated as InvoiceCreated) : getAmountFromInvoiceTemplate(m);
 };

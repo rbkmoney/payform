@@ -53,6 +53,7 @@
     "form.header.pay.cash.label": "Оплата наличными",
     "form.header.pay.wallet.label": "Оплата электронным кошельком",
     "form.header.pay.qiwi.label": "Оплата через QIWI Кошелек",
+    "form.header.pay.euroset.label": "Оплата через Евросеть",
     "form.header.pay.bank.label": "Оплата через интернет-банк",
     "form.header.pay.bonus.label": "Оплата бонусами",
     "form.header.pay.crypto.label": "Оплата криптовалютой",
@@ -69,6 +70,7 @@
     "form.final.failed.cancelled.text": "Платеж был отменен",
     "form.final.success.card.text": "Оплачено картой",
     "form.final.success.wallet.text": "Оплачено кошельком",
+    "form.final.success.terminal.text": "Оплачено через терминал",
     "form.final.success.check.text": " Чек отправлен вам на email",
     "form.input.delivery.repeat": "Повторить адрес доставки",
     "form.input.name.placeholder": "Имя",
@@ -106,9 +108,13 @@
     "form.payment.method.description.qiwi.text": "Оплата через QIWI Кошелек",
     "form.payment.method.description.bonus.text": "Сбербанк Спасибо, программа Аэрофлот Бонус",
     "form.payment.terminal.email.label": "Укажите почту, чтобы получить  код для оплаты",
-    "form.pay.terminals.step.one.text": "Посетите любой удобный для вас салон связи",
+    "form.pay.terminals.instruction.to.pay": "К оплате",
+    "form.pay.terminals.instruction.dueDate": "Оплату необходимо произвести до",
+    "form.pay.terminals.step.one.text": "Посетите любой удобный  для вас салон связи",
     "form.pay.terminals.step.two.text": "Скажите кассиру, что платите через RBKmoney",
-    "form.pay.terminals.step.three.text": "Скажите ваш код платежа: ${code} и сумму ${amount}. Или покажите сотруднику письмо.",
+    "form.pay.terminals.step.three.text": "Скажите ваш код платежа",
     "form.pay.terminals.step.four.text": "Внесите наличные",
-    "form.pay.terminals.step.five.text": "Обязательно возьмите чек"
+    "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
+    "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
+    "brand.euroset": "Евросеть"
 }

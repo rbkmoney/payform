@@ -51,6 +51,7 @@
     "form.header.payment.methods.label": "Payment method",
     "form.header.pay.card.label": "Bank card",
     "form.header.pay.cash.label": "Cash",
+    "form.header.pay.euroset.label": "Euroset",
     "form.header.pay.wallet.label": "E-Wallets",
     "form.header.pay.qiwi.label": "QIWI Wallet",
     "form.header.pay.bank.label": "Online banks",
@@ -69,6 +70,7 @@
     "form.final.failed.cancelled.text": "Payment cancelled",
     "form.final.success.card.text": "Paid with card",
     "form.final.success.wallet.text": "Paid with wallet",
+    "form.final.success.terminal.text": "Paid with terminal",
     "form.final.success.check.text": "Receipt sent to email",
     "form.input.delivery.repeat": "Repeat shipping address",
     "form.input.name.placeholder": "Name",
@@ -106,9 +108,13 @@
     "form.payment.method.description.qiwi.text": "Pay with QIWI Wallet",
     "form.payment.method.description.bonus.text": "Sberbank \"Spasibo\", Aeroflot Bonus miles",
     "form.payment.terminal.email.label": "Where to send the payment code",
+    "form.pay.terminals.instruction.to.pay": "To pay",
+    "form.pay.terminals.instruction.dueDate": "Payment must be made before",
     "form.pay.terminals.step.one.text": "Choose nearest mobile shop",
     "form.pay.terminals.step.two.text": "Tell the booking-clerk you’re paying with RBKmoney",
-    "form.pay.terminals.step.three.text": "Tell your payment code: ${code} and amount ${amount}. Or show the booking clerk email with payment code.",
+    "form.pay.terminals.step.three.text": "Tell your payment code",
     "form.pay.terminals.step.four.text": "Pay with cash",
-    "form.pay.terminals.step.five.text": "Don’t forget the receipt"
+    "form.pay.terminals.step.five.text": "Don’t forget the receipt",
+    "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
+    "brand.euroset": "Euroset"
 }

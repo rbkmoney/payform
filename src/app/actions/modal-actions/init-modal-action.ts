@@ -1,4 +1,6 @@
-import { ChangeType, PaymentMethod, PaymentMethodName } from 'checkout/backend';
+import {
+    ChangeType
+} from 'checkout/backend';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -11,21 +13,9 @@ import {
 import { TypeKeys } from 'checkout/actions';
 import { SetModalState } from './set-modal-state';
 import { InitConfig } from 'checkout/config';
-import { toModalInteraction } from './converters';
 import { getLastChange } from 'checkout/utils';
-
-const checkPaymentMethodsConfig = (c: InitConfig, methods: PaymentMethod[]): boolean =>
-    methods.reduce((acc, current): boolean => {
-        switch (current.method) {
-            case PaymentMethodName.PaymentTerminal:
-                return acc;
-            case PaymentMethodName.DigitalWallet:
-                return acc || c.wallets;
-        }
-    }, false);
-
-const isMultiMethods = (c: InitConfig, m: ModelState) =>
-    m.paymentMethods.length > 1 && checkPaymentMethodsConfig(c, m.paymentMethods);
+import { toInteraction } from './converters';
+import { isMultiMethods } from './is-multi-methods';
 
 const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
     const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo() : new CardFormInfo();
@@ -45,7 +35,7 @@ const toInitPayload = (c: InitConfig, m: ModelState): ModalState => {
     const change = getLastChange(events);
     switch (change.changeType) {
         case ChangeType.PaymentInteractionRequested:
-            return toModalInteraction(events);
+            return toInteraction(events);
         case ChangeType.InvoiceStatusChanged:
             return toInitialModalResult();
         case ChangeType.PaymentStatusChanged:

@@ -1,11 +1,13 @@
-import { PaymentStatus } from './payment-status';
 import { Named } from '../named';
+import { PaymentStatus } from './payment-status';
 
 export enum FormName {
     paymentMethods = 'paymentMethods',
     cardForm = 'cardForm',
     resultForm = 'resultForm',
-    walletForm = 'walletForm'
+    walletForm = 'walletForm',
+    terminalForm = 'terminalForm',
+    interactionForm = 'interactionForm'
 }
 
 export abstract class FormInfo implements Named {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './result-form.scss';
+import * as formStyles from '../form-container.scss';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 import {
@@ -64,8 +65,8 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                     id='reenter-btn'>
                     {toReenterButtonText(startedInfo, locale)}
                 </Button> : null}
-                {hasMultiMethods ? <div className={styles.link_container}>
-                    <a className={styles.link} onClick={() => this.goToPaymentMethods()}>
+                {hasMultiMethods ? <div className={formStyles.link_container}>
+                    <a className={formStyles.link} onClick={() => this.goToPaymentMethods()}>
                         {locale['form.payment.method.name.others.label']}
                     </a>
                     <hr/>

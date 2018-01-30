@@ -9,6 +9,14 @@ import { PaymentSubject } from './payment-subject';
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 
+export const createPaymentResourceTerminalEuroset = (s: PaymentSubject, endpoint: string): Promise<PaymentResource> => {
+    const paymentTool = {
+        paymentToolType: PaymentToolType.PaymentTerminalData,
+        provider: 'euroset'
+    };
+    return capiRequest(endpoint, s.accessToken, paymentTool);
+};
+
 export const createPaymentResourceDigitalWalletQiwi = (s: PaymentSubject, endpoint: string, v: WalletFormValues): Promise<PaymentResource> => {
     const paymentTool = {
         paymentToolType: PaymentToolType.DigitalWalletData,

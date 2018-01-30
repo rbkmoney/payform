@@ -90,3 +90,60 @@
     }
 }
 
+.text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 30px;
+    line-height: 20px;
+}
+
+.highlight {
+    background: $yellow;
+    border-radius: 3px;
+    padding: 0 3px;
+    margin: 0 3px;
+}
+
+.systemLogo {
+    max-height: 50px;
+    max-width: 105px;
+    margin-bottom: 25px;
+}
+
+.link_container {
+    display: inline-block;
+    margin: auto;
+
+    hr {
+        border-color: $light-blue;
+        border-bottom: 0;
+        opacity: 0.37;
+        padding: 0;
+        margin: 0 0 3px;
+    }
+}
+
+.link {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 11px;
+    color: $light-blue;
+    letter-spacing: 2px;
+    line-height: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.appearLoader {
+    animation: fadein .5s;
+}
+
+.enterLoader {
+    animation: fadein .5s;
+}
+
+.leaveLoader {
+    animation: fadeout .25s;
+}

@@ -1,9 +1,10 @@
 import { Dispatch } from 'redux';
-import { CardFormValues, ConfigState, ModelState, WalletFormValues } from 'checkout/state';
+import { CardFormValues, ConfigState, ModelState, WalletFormValues, TerminalFormValues } from 'checkout/state';
 import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import {
     payCardData as payCardDataOperation,
+    payTerminal as payTerminalDataOperation,
     payDigitalWalletQiwi as payDigitalWalletQiwiOperation
 } from './operations';
 
@@ -21,6 +22,17 @@ export type PayDispatch = (dispatch: Dispatch<PayAction | SetErrorAction>) => vo
 
 export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): PayDispatch =>
     (dispatch) => payCardDataOperation(c, m, v)
+        .then((payload) => dispatch({
+            type: TypeKeys.PAY,
+            payload
+        }))
+        .catch((error) => dispatch({
+            type: TypeKeys.SET_ERROR,
+            payload: error
+        }));
+
+export const payTerminalEuroset = (c: ConfigState, m: ModelState, v: TerminalFormValues): PayDispatch =>
+    (dispatch) => payTerminalDataOperation(c, m, v)
         .then((payload) => dispatch({
             type: TypeKeys.PAY,
             payload
