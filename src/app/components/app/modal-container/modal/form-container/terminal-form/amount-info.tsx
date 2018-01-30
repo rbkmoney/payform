@@ -10,6 +10,6 @@ export interface AmountInfoProps {
 
 export const AmountInfo: React.SFC<AmountInfoProps> = (props) => (
     <p className={styles.text}>
-        {props.locale['form.pay.terminals.instruction.to.pay']}: <span className={styles.hightlight}>{`${props.amount.value} ${props.amount.symbol}`}</span>
+        {props.locale['form.pay.terminals.instruction.to.pay']}: <span className={styles.highlight}>{`${props.amount.value} ${props.amount.symbol}`}</span>
     </p>
 );

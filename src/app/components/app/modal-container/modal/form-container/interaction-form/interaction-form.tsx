@@ -7,17 +7,17 @@ import { findNamed } from 'checkout/utils';
 import { InteractionTerminalForm } from './interaction-terminal-form';
 import { InteractionFormInfo } from 'checkout/state/modal/form-info';
 
-const toInteractionFormInfo = (modals: ModalState[]) => {
+const toInteractionFormReceipt = (modals: ModalState[]): PaymentTerminalReceipt => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, FormName.interactionForm);
+    return (findNamed(info, FormName.interactionForm) as InteractionFormInfo).terminalReceipt;
 };
 
 const mapStateToProps = (state: State) => ({
-    interactionFormInfo: toInteractionFormInfo(state.modals)
+    terminalReceipt: toInteractionFormReceipt(state.modals)
 });
 
 interface InteractionFormProps {
-    interactionFormInfo: InteractionFormInfo;
+    terminalReceipt: PaymentTerminalReceipt;
 }
 
 type Props = InteractionFormProps & InjectedFormProps;
@@ -25,11 +25,12 @@ type Props = InteractionFormProps & InjectedFormProps;
 export class InteractionFormDef extends React.Component<Props> {
 
     render() {
-        const { interactionFormInfo: { terminalReceipt } } = this.props;
+        const { terminalReceipt } = this.props;
         return (
             <form>
                 <div>
-                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ? <InteractionTerminalForm receipt={terminalReceipt as PaymentTerminalReceipt} /> : null}
+                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ?
+                        <InteractionTerminalForm receipt={terminalReceipt} /> : null}
                 </div>
             </form>
         );

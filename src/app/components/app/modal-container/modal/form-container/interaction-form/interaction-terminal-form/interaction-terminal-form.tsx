@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as dateFns from 'date-fns';
 import * as formStyles from '../../form-container.scss';
 import * as styles from './interaction-terminal-form.scss';
 import { State } from 'checkout/state';
@@ -13,7 +12,7 @@ import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { FormattedAmount } from 'checkout/utils/amount-formatter';
 import { Icon, IconType } from 'checkout/components';
-import { List, ListItem } from '../../list';
+import { ReceiptInfo } from './receipt-info';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
@@ -38,39 +37,14 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
 
     render() {
         const amount = `${this.props.amount.value} ${this.props.amount.symbol}`;
-        const {locale} = this.props;
+        const {locale, receipt} = this.props;
         return (
             <div className={styles.container}>
                 <Header title={this.props.locale['form.header.pay.euroset.label']}/>
 
                 <Icon icon={IconType.eurosetLogo} className={formStyles.systemLogo}/>
 
-                <p className={formStyles.text}>
-                    {locale['form.pay.terminals.instruction.to.pay']} <span className={formStyles.hightlight}>{amount}</span>.
-                    {locale['form.pay.terminals.instruction.dueDate']}
-                    <span className={formStyles.hightlight}>{dateFns.format(this.props.receipt.dueDate, 'D.MM.YYYY HH:mm')}</span>.
-                </p>
-
-                <List>
-                    <ListItem number={1}>
-                        {locale['form.pay.terminals.step.one.text']} {locale['brand.euroset']}.
-                    </ListItem>
-                    <ListItem number={2}>
-                        {locale['form.pay.terminals.step.two.text']}.
-                    </ListItem>
-                    <ListItem number={3}>
-                        {locale['form.pay.terminals.step.three.text']}: <br/>
-                        <span className={formStyles.hightlight}>
-                                {this.formatPaymentId(this.props.receipt.shortPaymentID)}
-                        </span>.
-                    </ListItem>
-                    <ListItem number={4}>
-                        {locale['form.pay.terminals.step.four.text']}.
-                    </ListItem>
-                    <ListItem number={5}>
-                        {locale['form.pay.terminals.step.five.text']}.
-                    </ListItem>
-                </List>
+                <ReceiptInfo amount={amount} receipt={receipt} locale={locale}/>
             </div>
         );
     }
