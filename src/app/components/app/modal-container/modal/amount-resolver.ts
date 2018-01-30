@@ -2,17 +2,15 @@ import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 import {
     ChangeType,
-    Event, InvoiceCreated,
+    InvoiceCreated,
     InvoiceTemplateLineCostFixed,
     InvoiceTemplateMultiLine,
     InvoiceTemplateSingleLine,
-    PaymentStarted
 } from 'checkout/backend';
 import { Amount, findChange } from 'checkout/utils';
 
 const getAmountFromSingleLine = (model: ModelState): Amount | null => {
     const details = model.invoiceTemplate.details as InvoiceTemplateSingleLine;
-    const paymentStarted = findChange(model.invoiceEvents, ChangeType.PaymentStarted) as PaymentStarted;
     let result = null;
     const price = details.price;
     if (price && price.costType === 'InvoiceTemplateLineCostFixed') {
@@ -20,11 +18,6 @@ const getAmountFromSingleLine = (model: ModelState): Amount | null => {
         result = {
             value: fixed.amount,
             currencyCode: fixed.currency
-        };
-    } else if (paymentStarted) {
-        result = {
-            value: paymentStarted.payment.amount,
-            currencyCode: paymentStarted.payment.currency
         };
     }
     return result;
@@ -44,21 +37,15 @@ const getAmountFromInvoiceTemplate = (model: ModelState): Amount => {
     }
 };
 
-const getAmountFromInvoice = (events: Event[]) => {
-    const {invoice} = findChange(events, ChangeType.InvoiceCreated) as InvoiceCreated;
+const getAmountFromInvoice = (invoiceCreated: InvoiceCreated): Amount => {
+    const {invoice: {amount, currency}} = invoiceCreated;
     return {
-        value: invoice.amount,
-        currencyCode: invoice.currency
+        value: amount,
+        currencyCode: currency
     };
 };
 
 export const getAmount = (integrationType: IntegrationType, m: ModelState): Amount | null => {
-    switch (integrationType) {
-        case IntegrationType.invoiceTemplate:
-            return getAmountFromInvoiceTemplate(m);
-        case IntegrationType.invoice:
-            return getAmountFromInvoice(m.invoiceEvents);
-        case IntegrationType.customer:
-            throw new Error('Unhandled customer integration');
-    }
+    const invoiceCreated = findChange(m.invoiceEvents, ChangeType.InvoiceCreated);
+    return invoiceCreated ? getAmountFromInvoice(invoiceCreated as InvoiceCreated) : getAmountFromInvoiceTemplate(m);
 };
