@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as styles from '../payment-methods.scss';
 import {Locale} from 'checkout/locale';
 import {TerminalsIcon} from './icons/terminals-icon';
-import { FormInfo, FormName } from 'checkout/state';
-import { TerminalFormInfo } from 'checkout/state/modal/form-info/terminal-form-info';
+import { FormInfo, FormName, TerminalFormInfo } from 'checkout/state';
 
 interface TerminalsProps {
     locale: Locale;

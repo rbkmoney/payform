@@ -13,7 +13,7 @@ import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
-import { AmountInfo } from 'checkout/components/app/modal-container/modal/form-container/terminal-form/amount-info';
+import { AmountInfo } from './amount-info';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
