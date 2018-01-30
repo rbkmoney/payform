@@ -1,17 +1,19 @@
 import * as React from 'react';
-import * as styles from '../../form-container.scss';
 import { connect } from 'react-redux';
+import * as dateFns from 'date-fns';
+import * as formStyles from '../../form-container.scss';
+import * as styles from './interaction-terminal-form.scss';
 import { State } from 'checkout/state';
-import { Header } from 'checkout/components/app/modal-container/modal/form-container/header';
-import { getAmount } from 'checkout/components/app/modal-container/modal/amount-resolver';
+import { Header } from '../../header';
+import { getAmount } from '../../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { setViewInfoHeight } from 'checkout/actions';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { FormattedAmount } from 'checkout/utils/amount-formatter';
-import * as dateFns from 'date-fns';
 import { Icon, IconType } from 'checkout/components';
+import { List, ListItem } from '../../list';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
@@ -31,73 +33,50 @@ export interface InteractionTerminalFormProps {
 
 class InteractionTerminalFormDef extends React.Component<InteractionTerminalFormProps> {
     componentDidMount() {
-        this.props.setViewInfoHeight(454);
-    }
-
-    formatPaymentId(id: string): string {
-        return `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
+        this.props.setViewInfoHeight(405);
     }
 
     render() {
         const amount = `${this.props.amount.value} ${this.props.amount.symbol}`;
-        const locale = this.props.locale;
+        const {locale} = this.props;
         return (
-            <div>
+            <div className={styles.container}>
                 <Header title={this.props.locale['form.header.pay.euroset.label']}/>
 
-                <Icon icon={IconType.eurosetLogo} className={styles.systemLogo}/>
+                <Icon icon={IconType.eurosetLogo} className={formStyles.systemLogo}/>
 
-                <p className={styles.text}>
-                    {locale['form.pay.terminals.instruction.to.pay']} <span className={styles.hightlight}>{amount}</span>.
+                <p className={formStyles.text}>
+                    {locale['form.pay.terminals.instruction.to.pay']} <span className={formStyles.hightlight}>{amount}</span>.
                     {locale['form.pay.terminals.instruction.dueDate']}
-                    <span className={styles.hightlight}>{dateFns.format(this.props.receipt.dueDate, 'D.MM.YYYY HH:mm')}</span>.
+                    <span className={formStyles.hightlight}>{dateFns.format(this.props.receipt.dueDate, 'D.MM.YYYY HH:mm')}</span>.
                 </p>
 
-                <ul className={styles.list}>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            1
-                        </div>
-                        <div className={styles.list_item_text}>
-                            {locale['form.pay.terminals.step.one.text']} {locale['brand.euroset']}.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            2
-                        </div>
-                        <div className={styles.list_item_text}>
-                            {locale['form.pay.terminals.step.two.text']}.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            3
-                        </div>
-                        <div className={styles.list_item_text}>
-                            {locale['form.pay.terminals.step.three.text']}: <br />
-                            <span className={styles.hightlight}>{this.formatPaymentId(this.props.receipt.shortPaymentID)}</span>.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            4
-                        </div>
-                        <div className={styles.list_item_text}>
-                            {locale['form.pay.terminals.step.four.text']}.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            5
-                        </div>
-                        <div className={styles.list_item_text}>
-                            {locale['form.pay.terminals.step.five.text']}.
-                        </div>
-                    </li>
-                </ul>
+                <List>
+                    <ListItem number={1}>
+                        {locale['form.pay.terminals.step.one.text']} {locale['brand.euroset']}.
+                    </ListItem>
+                    <ListItem number={2}>
+                        {locale['form.pay.terminals.step.two.text']}.
+                    </ListItem>
+                    <ListItem number={3}>
+                        {locale['form.pay.terminals.step.three.text']}: <br/>
+                        <span className={formStyles.hightlight}>
+                                {this.formatPaymentId(this.props.receipt.shortPaymentID)}
+                        </span>.
+                    </ListItem>
+                    <ListItem number={4}>
+                        {locale['form.pay.terminals.step.four.text']}.
+                    </ListItem>
+                    <ListItem number={5}>
+                        {locale['form.pay.terminals.step.five.text']}.
+                    </ListItem>
+                </List>
             </div>
         );
+    }
+
+    private formatPaymentId(id: string): string {
+        return `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
     }
 }
 

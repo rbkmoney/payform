@@ -40,7 +40,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         {name === FormName.paymentMethods ? <PaymentMethods/> : null}
                         {name === FormName.cardForm ? <CardForm/> : null}
                         {name === FormName.walletForm ? <WalletForm/> : null}
-                        {name === FormName.terminalForm ? <TerminalForm /> : null}
+                        {name === FormName.terminalForm ? <TerminalForm/> : null}
                         {name === FormName.resultForm ? <ResultForm/> : null}
                         {name === FormName.interactionForm ? <InteractionForm/> : null}
                     </CSSTransitionGroup>

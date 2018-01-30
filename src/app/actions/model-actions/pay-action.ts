@@ -31,7 +31,7 @@ export const payCardData = (c: ConfigState, m: ModelState, v: CardFormValues): P
             payload: error
         }));
 
-export const payTerminalData = (c: ConfigState, m: ModelState, v: TerminalFormValues): PayDispatch =>
+export const payTerminalEuroset = (c: ConfigState, m: ModelState, v: TerminalFormValues): PayDispatch =>
     (dispatch) => payTerminalDataOperation(c, m, v)
         .then((payload) => dispatch({
             type: TypeKeys.PAY,

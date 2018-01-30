@@ -4,12 +4,12 @@ import {
     PaymentResource,
     DigitalWalletType
 } from 'checkout/backend';
-import { CardFormValues, WalletFormValues, TerminalFormValues } from 'checkout/state';
+import { CardFormValues, WalletFormValues } from 'checkout/state';
 import { PaymentSubject } from './payment-subject';
 
 const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
 
-export const createPaymentResourceTerminal = (s: PaymentSubject, endpoint: string, v: TerminalFormValues): Promise<PaymentResource> => {
+export const createPaymentResourceTerminalEuroset = (s: PaymentSubject, endpoint: string): Promise<PaymentResource> => {
     const paymentTool = {
         paymentToolType: PaymentToolType.PaymentTerminalData,
         provider: 'euroset'

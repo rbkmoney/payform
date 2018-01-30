@@ -10,7 +10,7 @@ import { PaymentMethod, PaymentMethodName } from 'checkout/backend/model';
 import { bindActionCreators, Dispatch } from 'redux';
 import { InitConfig } from 'checkout/config';
 import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
-import { Terminals } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods';
+import { Terminals } from './methods';
 
 export interface PaymentMethodsProps {
     locale: Locale;

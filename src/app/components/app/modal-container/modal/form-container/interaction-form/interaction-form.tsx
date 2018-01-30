@@ -2,11 +2,10 @@ import * as React from 'react';
 import { InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
 import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
+import { InteractionType, PaymentTerminalReceipt } from 'checkout/backend';
 import { findNamed } from 'checkout/utils';
-import { InteractionType } from 'checkout/backend/model/event/user-interaction/interation-type';
 import { InteractionTerminalForm } from './interaction-terminal-form';
-import { InteractionFormInfo } from 'checkout/state/modal/form-info/interaction-form-info';
-import { PaymentTerminalReceipt } from 'checkout/backend';
+import { InteractionFormInfo } from 'checkout/state/modal/form-info';
 
 const toInteractionFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -26,11 +25,11 @@ type Props = InteractionFormProps & InjectedFormProps;
 export class InteractionFormDef extends React.Component<Props> {
 
     render() {
-        const { interactionFormInfo: { interaction } } = this.props;
+        const { interactionFormInfo: { terminalReceipt } } = this.props;
         return (
             <form>
                 <div>
-                    {interaction.interactionType === InteractionType.PaymentTerminalReceipt ? <InteractionTerminalForm receipt={interaction as PaymentTerminalReceipt} /> : null}
+                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ? <InteractionTerminalForm receipt={terminalReceipt as PaymentTerminalReceipt} /> : null}
                 </div>
             </form>
         );

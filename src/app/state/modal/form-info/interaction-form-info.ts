@@ -1,23 +1,14 @@
 import { FormInfo, FormName } from './form-info';
-import { PaymentStatus } from './payment-status';
-import { UserInteraction } from 'checkout/backend/model/event/user-interaction';
-
-export enum InteractionFormType {
-    terminalInteraction = 'terminalInteraction'
-}
+import { PaymentTerminalReceipt } from 'checkout/backend';
 
 export class InteractionFormInfo extends FormInfo {
 
-    paymentStatus: PaymentStatus;
-    type: InteractionFormType;
-    interaction: UserInteraction;
+    terminalReceipt: PaymentTerminalReceipt;
 
-    constructor(paymentStatus: PaymentStatus, type: InteractionFormType, interaction: UserInteraction, previous?: FormName) {
-        super(previous);
+    constructor(terminalReceipt: PaymentTerminalReceipt) {
+        super();
         this.name = FormName.interactionForm;
-        this.type = type;
-        this.interaction = interaction;
+        this.terminalReceipt = terminalReceipt;
         this.active = true;
-        this.paymentStatus = paymentStatus;
     }
 }

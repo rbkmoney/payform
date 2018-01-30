@@ -1,25 +1,29 @@
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import * as formStyles from 'checkout/styles/forms.scss';
+import * as styles from '../form-container.scss';
 import { CardFormValues, FormName, State } from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
-import * as formStyles from 'checkout/styles/forms.scss';
-import { Amount, Email } from 'checkout/components/app/modal-container/modal/form-container';
-import { toFieldsConfig } from 'checkout/components/app/modal-container/modal/form-container/fields-config';
-import { PayButton } from '../pay-button';
-import { payTerminalData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
-import { TerminalFormProps } from 'checkout/components/app/modal-container/modal/form-container/terminal-form/terminal-form-props';
+import { Amount, Email } from '..';
+import { toFieldsConfig } from '../fields-config';
+import { payTerminalEuroset, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { TerminalFormProps } from './terminal-form-props';
+import { NextButton } from '../next-button';
+import { getAmount } from '../../amount-resolver';
+import { formatAmount } from 'checkout/utils';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
     config: state.config,
-    model: state.model
+    model: state.model,
+    amount: formatAmount(getAmount(state.config.initConfig.integrationType, state.model))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    pay: bindActionCreators(payTerminalData, dispatch),
+    pay: bindActionCreators(payTerminalEuroset, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
@@ -61,6 +65,14 @@ export class TerminalFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)}>
                 <div>
                     <Header title={locale['form.header.pay.euroset.label']}/>
+                    <p className={styles.text}>
+                        Будет сформирован номер счета для оплаты через платежный терминал.
+                    </p>
+                    {!amount.visible ?
+                        <p className={styles.text}>
+                            Сумма к оплате: <span className={styles.hightlight}>{`${this.props.amount.value} ${this.props.amount.symbol}`}</span>
+                        </p> : false
+                    }
                     {email.visible ?
                         <div className={formStyles.formGroup}>
                             <Email/>
@@ -72,7 +84,7 @@ export class TerminalFormDef extends React.Component<Props> {
                         </div> : false
                     }
                 </div>
-                <PayButton/>
+                <NextButton/>
             </form>
         );
     }
