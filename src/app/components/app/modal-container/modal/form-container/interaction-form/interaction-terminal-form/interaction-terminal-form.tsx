@@ -40,9 +40,7 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
         return (
             <div className={styles.container}>
                 <Header title={this.props.locale['form.header.pay.euroset.label']}/>
-
                 <Icon icon={IconType.eurosetLogo} className={formStyles.systemLogo}/>
-
                 <ReceiptInfo amount={amount} receipt={receipt} locale={locale}/>
             </div>
         );
