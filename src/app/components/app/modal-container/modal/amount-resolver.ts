@@ -25,7 +25,7 @@ const getAmountFromSingleLine = (model: ModelState): Amount | null => {
         result = {
             value: paymentStarted.payment.amount,
             currencyCode: paymentStarted.payment.currency
-        }
+        };
     }
     return result;
 };
