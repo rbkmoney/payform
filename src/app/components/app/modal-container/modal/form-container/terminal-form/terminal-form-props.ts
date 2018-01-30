@@ -13,4 +13,5 @@ export interface TerminalFormProps {
     prepareToPay: () => any;
     setViewInfoHeight: (height: number) => any;
     amount: FormattedAmount;
+    formValues: TerminalFormValues;
 }

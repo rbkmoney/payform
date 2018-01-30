@@ -3,7 +3,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import * as formStyles from 'checkout/styles/forms.scss';
 import * as styles from '../form-container.scss';
-import { CardFormValues, FormName, State } from 'checkout/state';
+import { CardFormValues, FormName, PaymentStatus, State, TerminalFormValues } from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
 import { Amount, Email } from '../';
@@ -14,6 +14,7 @@ import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
+import { get } from 'lodash';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
@@ -52,6 +53,19 @@ export class TerminalFormDef extends React.Component<Props> {
 
     componentDidMount() {
         this.props.setViewInfoHeight(288);
+    }
+
+    init(values: TerminalFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    componentWillMount() {
+        const {formValues} = this.props;
+        this.props.setViewInfoError(false);
+        this.init(formValues);
     }
 
     componentWillReceiveProps(props: Props) {
