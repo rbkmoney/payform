@@ -7,7 +7,7 @@ import {
     PaymentToolDetailsBankCard,
     PaymentToolDetailsType,
     PaymentStarted,
-    ChangeType,
+    InvoiceChangeType,
     PaymentToolDetails
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
@@ -19,7 +19,7 @@ import {
     DigitalWalletDetailsQiwi
 } from 'checkout/backend/model';
 
-const toCardDescription = (details: PaymentToolDetailsBankCard): string => `*${details.cardNumberMask}`;
+const toCardDescription = (details: PaymentToolDetailsBankCard): string => `${details.paymentSystem} *${details.cardNumberMask}`;
 
 const toDigitalWalletQiwi = (details: DigitalWalletDetailsQiwi): string => `qiwi ${details.phoneNumberMask}`;
 
@@ -49,7 +49,7 @@ const toDetailsDescription = (details: PaymentToolDetails, locale: Locale): stri
 };
 
 const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
-    const change = findChange(e, ChangeType.PaymentStarted) as PaymentStarted;
+    const change = findChange(e, InvoiceChangeType.PaymentStarted) as PaymentStarted;
     const payer = change.payment.payer;
     switch (payer.payerType) {
         case PayerType.PaymentResourcePayer:

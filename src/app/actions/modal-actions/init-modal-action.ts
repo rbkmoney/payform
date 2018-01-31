@@ -1,6 +1,4 @@
-import {
-    ChangeType
-} from 'checkout/backend';
+import { CustomerChangeType, InvoiceChangeType } from 'checkout/backend';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -8,43 +6,71 @@ import {
     ModelState,
     ResultFormInfo,
     ResultType,
-    CardFormInfo
+    CardFormInfo,
+    FormInfo
 } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
 import { SetModalState } from './set-modal-state';
-import { InitConfig } from 'checkout/config';
-import { getLastChange } from 'checkout/utils';
+import { InitConfig, IntegrationType } from 'checkout/config';
 import { toInteraction } from './converters';
+import { getLastChange } from 'checkout/utils';
 import { isMultiMethods } from './is-multi-methods';
 
-const toInitialState = (c: InitConfig, m: ModelState): ModalState => {
+const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
+
+const toInitialInvoiceState = (c: InitConfig, m: ModelState): ModalState => {
     const formInfo = isMultiMethods(c, m) ? new PaymentMethodsFormInfo() : new CardFormInfo();
-    return new ModalForms([formInfo], true);
+    return toInitialModal(formInfo);
 };
 
-const toInitialModalResult = (): ModalState => {
-    const formInfo = new ResultFormInfo(ResultType.processed);
-    return new ModalForms([formInfo], true);
-};
+const toInitialCustomerState = () => toInitialModal(new CardFormInfo());
 
-const toInitPayload = (c: InitConfig, m: ModelState): ModalState => {
+const toInitialModalResult = (): ModalState => toInitialModal(new ResultFormInfo(ResultType.processed));
+
+const initFromInvoiceIntegration = (c: InitConfig, m: ModelState): ModalState => {
     const events = m.invoiceEvents;
     if (!events || events.length === 0) {
-        return toInitialState(c, m);
+        return toInitialInvoiceState(c, m);
     }
     const change = getLastChange(events);
     switch (change.changeType) {
-        case ChangeType.PaymentInteractionRequested:
+        case InvoiceChangeType.PaymentInteractionRequested:
             return toInteraction(events);
-        case ChangeType.InvoiceStatusChanged:
+        case InvoiceChangeType.InvoiceStatusChanged:
             return toInitialModalResult();
-        case ChangeType.PaymentStatusChanged:
-        case ChangeType.InvoiceCreated:
-            return toInitialState(c, m);
-        case ChangeType.PaymentStarted:
-            throw new Error('Unhandled invoice PaymentStarted');
+        case InvoiceChangeType.PaymentStatusChanged:
+        case InvoiceChangeType.InvoiceCreated:
+            return toInitialInvoiceState(c, m);
+        case InvoiceChangeType.PaymentStarted:
+            return toInitialModalResult();
     }
     throw new Error('Unhandled invoice changeType');
+};
+
+const initFromCustomerIntegration = (c: InitConfig, m: ModelState): ModalState => {
+    const events = m.customerEvents;
+    if (!events || events.length === 0) {
+        return toInitialCustomerState();
+    }
+    const change = getLastChange(events);
+    switch (change.changeType) {
+        case CustomerChangeType.CustomerBindingInteractionRequested:
+            return toInteraction(events);
+        case CustomerChangeType.CustomerBindingStatusChanged:
+            return toInitialCustomerState();
+        case CustomerChangeType.CustomerBindingStarted:
+            return toInitialModalResult();
+    }
+};
+
+const toInitPayload = (c: InitConfig, m: ModelState): ModalState => {
+    switch (c.integrationType) {
+        case IntegrationType.invoice:
+        case IntegrationType.invoiceTemplate:
+            return initFromInvoiceIntegration(c, m);
+        case IntegrationType.customer:
+            return initFromCustomerIntegration(c, m);
+    }
 };
 
 export const initModal = (config: InitConfig, model: ModelState): SetModalState => ({

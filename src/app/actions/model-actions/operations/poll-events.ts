@@ -1,5 +1,12 @@
 import { last } from 'lodash';
-import { ChangeType, Event, getInvoiceEvents } from 'checkout/backend';
+import {
+    InvoiceChangeType,
+    Event,
+    getInvoiceEvents,
+    CustomerEvent,
+    getCustomerEvents,
+    CustomerChangeType
+} from 'checkout/backend';
 import { getLastChange } from 'checkout/utils';
 import { PaymentSubject } from './payment-subject';
 import { IntegrationType } from 'checkout/config';
@@ -15,7 +22,7 @@ const continuePolling = (pollCount: number, retries: number, pollFn: () => any, 
     return count;
 };
 
-export const pollEvents = (endpoint: string, subject: PaymentSubject, e: Event[]): Promise<Event[]> => {
+export const pollInvoiceEvents = (endpoint: string, subject: PaymentSubject, e: Event[]): Promise<Event[]> => {
     return new Promise((resolve, reject) => {
         let pollCount = 0;
         (function poll() {
@@ -26,9 +33,9 @@ export const pollEvents = (endpoint: string, subject: PaymentSubject, e: Event[]
                     const change = getLastChange(events);
                     if (change) {
                         switch (change.changeType) {
-                            case ChangeType.InvoiceStatusChanged:
-                            case ChangeType.PaymentStatusChanged:
-                            case ChangeType.PaymentInteractionRequested:
+                            case InvoiceChangeType.InvoiceStatusChanged:
+                            case InvoiceChangeType.PaymentStatusChanged:
+                            case InvoiceChangeType.PaymentInteractionRequested:
                                 resolve(events);
                                 break;
                             default:
@@ -38,6 +45,33 @@ export const pollEvents = (endpoint: string, subject: PaymentSubject, e: Event[]
                         pollCount = continuePolling(pollCount, pollingRetries, poll, reject);
                     }
                 }).catch((error) => reject(error));
+            }, pollingTimeout);
+        })();
+    });
+};
+
+export const pollCustomerEvents = (endpoint: string, accessToken: string, customerID: string, e: CustomerEvent[]): Promise<CustomerEvent[]> => {
+    return new Promise((resolve, reject) => {
+        let pollCount = 0;
+        (function poll() {
+            setTimeout(() => {
+                const lastEvent = last(e);
+                const lastEventID = lastEvent ? lastEvent.id : 0;
+                getCustomerEvents(endpoint, accessToken, customerID, 10, lastEventID).then((events) => {
+                    const change = getLastChange(events);
+                    if (change) {
+                        switch (change.changeType) {
+                            case CustomerChangeType.CustomerBindingStatusChanged:
+                            case CustomerChangeType.CustomerBindingInteractionRequested:
+                                resolve(events);
+                                break;
+                            default:
+                                pollCount = continuePolling(pollCount, pollingRetries, poll, reject);
+                        }
+                    } else {
+                        pollCount = continuePolling(pollCount, pollingRetries, poll, reject);
+                    }
+                });
             }, pollingTimeout);
         })();
     });

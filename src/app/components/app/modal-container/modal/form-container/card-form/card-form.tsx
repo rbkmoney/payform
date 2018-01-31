@@ -16,12 +16,13 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 import { calcFormHeight } from '../calc-form-height';
 import { toFieldsConfig } from '../fields-config';
 import { Email, Amount } from '../common-fields';
+import { IntegrationType } from 'checkout/config';
 
 const toCardFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -39,6 +40,7 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(payCardData, dispatch),
+    subscribe: bindActionCreators(subscribe, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
@@ -53,24 +55,6 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    pay(values: CardFormValues) {
-        const {config, model} = this.props;
-        this.props.prepareToPay();
-        this.props.pay(config, model, values);
-    }
-
-    init(values: CardFormValues) {
-        this.props.initialize({
-            email: get(values, 'email'),
-            amount: get(values, 'amount')
-        });
-    }
-
-    submit(values: CardFormValues) {
-        (document.activeElement as HTMLElement).blur();
-        this.pay(values);
-    }
-
     componentWillMount() {
         const {cardFormInfo: {paymentStatus}, formValues} = this.props;
         this.props.setViewInfoError(false);
@@ -79,7 +63,7 @@ class CardFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.pay(formValues);
+                this.doPaymentAction(formValues);
                 break;
         }
     }
@@ -95,11 +79,11 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount}, locale} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)}>
                 <div>
-                    <Header title={locale['form.header.pay.card.label']}/>
+                    <Header title={this.getHeaderTitle()}/>
                     <div className={formStyles.formGroup}>
                         <CardNumber/>
                     </div>
@@ -124,6 +108,42 @@ class CardFormDef extends React.Component<Props> {
                 <PayButton/>
             </form>
         );
+    }
+
+    private submit(values: CardFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.doPaymentAction(values);
+    }
+
+    private doPaymentAction(values: CardFormValues) {
+        const {config, model} = this.props;
+        this.props.prepareToPay();
+        switch (this.props.config.initConfig.integrationType) {
+            case IntegrationType.invoice:
+            case IntegrationType.invoiceTemplate:
+                this.props.pay(config, model, values);
+                break;
+            case IntegrationType.customer:
+                this.props.subscribe(config, model, values);
+                break;
+        }
+    }
+
+    private init(values: CardFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    private getHeaderTitle(): string {
+        switch (this.props.config.initConfig.integrationType) {
+            case IntegrationType.invoice:
+            case IntegrationType.invoiceTemplate:
+                return this.props.locale['form.header.pay.card.label'];
+            case IntegrationType.customer:
+                return this.props.locale['form.header.pay.card.customer.label'];
+        }
     }
 }
 

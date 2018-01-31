@@ -1,8 +1,8 @@
 import { InvoiceChange } from './invoice-change';
 import { Payment } from '../payment';
-import { ChangeType } from './change-type';
+import { InvoiceChangeType } from './invoice-change-type';
 
 export class PaymentStarted extends InvoiceChange {
-    changeType = ChangeType.PaymentStarted;
+    changeType = InvoiceChangeType.PaymentStarted;
     payment: Payment;
 }

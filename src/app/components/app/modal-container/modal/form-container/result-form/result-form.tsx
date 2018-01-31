@@ -2,26 +2,22 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './result-form.scss';
-import { FormName, ModalForms, ModalName, State, ResultFormInfo, ResultState } from 'checkout/state';
+import { FormName, ModalForms, ModalName, State, ResultFormInfo, ResultState, ResultType } from 'checkout/state';
 import { setResult, setViewInfoHeight } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
-import { makeContent } from './make-content';
+import { makeContentInvoice, ResultFormContent, makeContentError, makeContentCustomer } from './make-content';
 import { ActionBlock } from './action-block';
+import { IntegrationType } from 'checkout/config';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
 
     componentDidMount() {
-        this.setHeight(this.props);
+        this.setHeight();
     }
 
     render() {
-        const {header, description, icon, hasActions, hasDone} = makeContent(
-            this.props.resultFormInfo,
-            this.props.locale,
-            this.props.model.invoiceEvents,
-            this.props.error
-        );
+        const {header, description, icon, hasActions, hasDone} = this.makeContent();
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
@@ -37,10 +33,26 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         );
     }
 
-    private setHeight(props: ResultFormProps) {
-        props.hasMultiMethods
-            ? props.setViewInfoHeight(425)
-            : props.setViewInfoHeight(392);
+    private setHeight() {
+        this.props.hasMultiMethods
+            ? this.props.setViewInfoHeight(425)
+            : this.props.setViewInfoHeight(392);
+    }
+
+    private makeContent(): ResultFormContent {
+        const {locale, model, error, resultFormInfo, integrationType} = this.props;
+        switch (resultFormInfo.resultType) {
+            case ResultType.error:
+                return makeContentError(locale, error);
+            case ResultType.processed:
+                switch (integrationType) {
+                    case IntegrationType.invoice:
+                    case IntegrationType.invoiceTemplate:
+                        return makeContentInvoice(locale, model.invoiceEvents);
+                    case IntegrationType.customer:
+                        return makeContentCustomer(locale, model.customerEvents);
+                }
+        }
     }
 }
 
@@ -48,7 +60,7 @@ const mapStateToProps = (state: State) => {
     const info = (findNamed(state.modals, ModalName.modalForms) as ModalForms).formsInfo;
     return {
         model: state.model,
-        config: state.config,
+        integrationType: state.config.initConfig.integrationType,
         locale: state.config.locale,
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,

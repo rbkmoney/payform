@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { get } from 'lodash';
 import * as formStyles from 'checkout/styles/forms.scss';
 import * as styles from '../form-container.scss';
-import { CardFormValues, FormName, PaymentStatus, State, TerminalFormValues } from 'checkout/state';
+import { CardFormValues, FormName, State, TerminalFormValues } from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
 import { Amount, Email } from '../';
@@ -14,14 +15,13 @@ import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
 import { formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
-import { get } from 'lodash';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
     config: state.config,
     model: state.model,
-    amount: formatAmount(getAmount(state.config.initConfig.integrationType, state.model))
+    amount: formatAmount(getAmount(state.model))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

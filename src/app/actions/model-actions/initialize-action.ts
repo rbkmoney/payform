@@ -1,14 +1,16 @@
 import { Dispatch } from 'redux';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import { ConfigState, ModelState } from 'checkout/state';
-import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
+import { CustomerInitConfig, IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import {
     getInvoiceEvents,
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
     getInvoiceTemplateByID,
     InvoiceTemplate, Event,
-    PaymentMethod
+    PaymentMethod,
+    getCustomerEvents,
+    CustomerEvent
 } from 'checkout/backend';
 
 export interface Initialize extends AbstractAction<ModelState> {
@@ -23,6 +25,7 @@ interface ModelChunk {
     invoiceEvents?: Event[];
     paymentMethods?: PaymentMethod[];
     invoiceAccessToken?: string;
+    customerEvents?: CustomerEvent[];
 }
 
 const resolveInvoiceTemplate = (endpoint: string, config: InvoiceTemplateInitConfig): Promise<ModelChunk> =>
@@ -35,6 +38,10 @@ const resolveInvoice = (endpoint: string, config: InvoiceInitConfig): Promise<Mo
         getInvoicePaymentMethods(endpoint, config.invoiceAccessToken, config.invoiceID).then((paymentMethods) =>
             ({invoiceEvents, paymentMethods, invoiceAccessToken: config.invoiceAccessToken})));
 
+const resolveCustomer = (endpoint: string, config: CustomerInitConfig): Promise<ModelChunk> =>
+    getCustomerEvents(endpoint, config.customerAccessToken, config.customerID).then((customerEvents) =>
+        ({customerEvents}));
+
 const resolve = (config: ConfigState): Promise<ModelChunk> => {
     const endpoint = config.appConfig.capiEndpoint;
     switch (config.initConfig.integrationType) {
@@ -43,7 +50,7 @@ const resolve = (config: ConfigState): Promise<ModelChunk> => {
         case IntegrationType.invoice:
             return resolveInvoice(endpoint, config.initConfig as InvoiceInitConfig);
         case IntegrationType.customer:
-            throw new Error('Unsupported integration type');
+            return resolveCustomer(endpoint, config.initConfig as CustomerInitConfig);
     }
 };
 

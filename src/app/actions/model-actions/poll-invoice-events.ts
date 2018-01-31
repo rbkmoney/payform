@@ -1,8 +1,8 @@
 import { Dispatch } from 'redux';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
-import { ChangeType, InvoiceCreated } from 'checkout/backend';
+import { InvoiceChangeType, InvoiceCreated } from 'checkout/backend';
 import { Event } from 'checkout/backend/model';
-import { pollEvents } from './operations';
+import { pollInvoiceEvents as pollInvoiceEventsOperation } from './operations';
 import { findChange } from 'checkout/utils';
 
 export interface PollInvoiceEvents extends AbstractAction<Event[]> {
@@ -14,12 +14,12 @@ export type PollInvoiceEventsDispatch = (dispatch: Dispatch<PollInvoiceEvents | 
 
 export const pollInvoiceEvents = (capiEndpoint: string, accessToken: string, events: Event[]): PollInvoiceEventsDispatch =>
     (dispatch) => {
-        const change = findChange(events, ChangeType.InvoiceCreated) as InvoiceCreated;
+        const change = findChange(events, InvoiceChangeType.InvoiceCreated) as InvoiceCreated;
         const subject = {
             invoiceID: change.invoice.id,
             accessToken
         };
-        pollEvents(capiEndpoint, subject, events)
+        pollInvoiceEventsOperation(capiEndpoint, subject, events)
             .then((event) => dispatch({
                 type: TypeKeys.POLL_EVENTS,
                 payload: event

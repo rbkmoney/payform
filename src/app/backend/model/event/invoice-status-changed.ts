@@ -1,5 +1,5 @@
 import { InvoiceChange } from './invoice-change';
-import { ChangeType } from './change-type';
+import { InvoiceChangeType } from './invoice-change-type';
 
 export enum InvoiceStatuses {
     paid = 'paid',
@@ -9,7 +9,7 @@ export enum InvoiceStatuses {
 }
 
 export class InvoiceStatusChanged extends InvoiceChange {
-    changeType = ChangeType.InvoiceStatusChanged;
+    changeType = InvoiceChangeType.InvoiceStatusChanged;
     status: InvoiceStatuses;
     reason: string;
 }

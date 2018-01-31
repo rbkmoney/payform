@@ -11,14 +11,13 @@ import {
     createPaymentResourceCardData,
     createPaymentResourceTerminalEuroset,
     getPaymentSubject,
-    pollEvents,
+    pollInvoiceEvents,
     createPaymentResourceDigitalWalletQiwi
 } from './';
 import { PayActionPayload } from '../pay-action';
 import { FlowType, PaymentFlow, PaymentResource } from 'checkout/backend';
-import { PaymentSubject } from './payment-subject';
 
-type CreatePaymentResourceFn = (s: PaymentSubject, endpoint: string, v: PayableFormValues) => Promise<PaymentResource>;
+type CreatePaymentResourceFn = (endpoint: string, accessToken: string, v: PayableFormValues) => Promise<PaymentResource>;
 
 const toPaymentFlow = (c: ConfigState): PaymentFlow => {
     const instant = {type: FlowType.PaymentFlowInstant};
@@ -30,9 +29,9 @@ const pay = (c: ConfigState, m: ModelState, v: PayableFormValues, createPaymentR
     const endpoint = c.appConfig.capiEndpoint;
     const email = c.initConfig.email || v.email;
     return getPaymentSubject(c, m, v.amount).then((subject) =>
-        createPaymentResourceFn(subject, endpoint, v).then((paymentResource) =>
+        createPaymentResourceFn(endpoint, subject.accessToken, v).then((paymentResource) =>
             createPayment(subject, endpoint, paymentResource, email, toPaymentFlow(c)).then(() =>
-                pollEvents(endpoint, subject, m.invoiceEvents).then((events) => ({
+                pollInvoiceEvents(endpoint, subject, m.invoiceEvents).then((events) => ({
                     invoiceEvents: events,
                     invoiceAccessToken: subject.accessToken
                 })))));

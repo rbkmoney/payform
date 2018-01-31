@@ -1,4 +1,5 @@
 import {
+    CustomerEvent,
     Event,
     InteractionType,
     PaymentInteractionRequested,
@@ -13,7 +14,7 @@ import {
 } from 'checkout/state';
 import { getLastChange } from 'checkout/utils';
 
-export const toInteraction = (events: Event[]): ModalState => {
+export const toInteraction = (events: Event[] | CustomerEvent[]): ModalState => {
     const change = getLastChange(events) as PaymentInteractionRequested;
     const interaction = change.userInteraction;
     switch (interaction.interactionType) {
