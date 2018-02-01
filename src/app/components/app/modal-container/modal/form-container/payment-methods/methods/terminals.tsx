@@ -12,7 +12,7 @@ interface TerminalsProps {
 const toTerminals = (props: TerminalsProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
 
 export const Terminals: React.SFC<TerminalsProps> = (props) => (
-    <li className={styles.method} onClick={toTerminals.bind(null, props)}>
+    <li className={styles.method} onClick={toTerminals.bind(null, props)} id='terminal-payment-method'>
         <TerminalsIcon />
         <div className={styles.text}>
             <h5 className={styles.title}>
