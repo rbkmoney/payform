@@ -25,6 +25,7 @@ import {
 import { CustomerEvent, Event } from 'checkout/backend';
 import { ModalLoader } from './modal-loader';
 import { Config, CustomerInitConfig, IntegrationType } from 'checkout/config';
+import { Close } from '../modal-container/modal/close';
 
 export interface ModalContainerProps {
     activeModal: ModalState;
@@ -87,7 +88,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {name} = this.props.activeModal;
+        const {activeModal: {name}, config: {initConfig: {popupMode}}} = this.props;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -113,10 +114,15 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                     >
                         {name === ModalName.modalForms ?
                             <div>
+                                {popupMode ? null : <Close/>}
                                 <Modal/>
                                 <Footer/>
                             </div> : null}
-                        {name === ModalName.modalInteraction ? <UserInteractionModal/> : null}
+                        {name === ModalName.modalInteraction ?
+                            <div>
+                                {popupMode ? null : <Close/>}
+                                <UserInteractionModal/>
+                            </div> : null}
                     </CSSTransitionGroup>
                     {isInteractionPolling(this.props.activeModal) ? <ModalLoader/> : null}
                 </div>

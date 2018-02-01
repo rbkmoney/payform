@@ -22,8 +22,8 @@ const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
 
 const toInvoiceLabel = (locale: Locale, model: ModelState): string => {
     const amount = formatAmount(getAmount(model));
-    const amountLabel = amount ? `${amount.value} ${amount.symbol}` : null;
-    return `${locale['form.button.pay.label']} ${amountLabel}`;
+    const amountLabel = amount ? ` ${amount.value} ${amount.symbol}` : '';
+    return `${locale['form.button.pay.label']}${amountLabel}`;
 };
 
 const toCustomerLabel = (locale: Locale): string => locale['form.button.bind.label'];

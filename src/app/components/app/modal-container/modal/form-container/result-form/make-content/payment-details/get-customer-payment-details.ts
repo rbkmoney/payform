@@ -7,28 +7,24 @@ import {
     PaymentToolDetailsType
 } from 'checkout/backend';
 import { findChange } from 'checkout/utils';
-
-const toCardDescription = (details: PaymentToolDetailsBankCard): string => `${details.paymentSystem} *${details.cardNumberMask}`;
+import { PaymentDetailsInfo } from './payment-details-info';
+import { toCardInfo } from './details-to-info';
 
 const getPaymentToolDetails = (e: CustomerEvent[]): PaymentToolDetails => {
     const change = findChange(e, CustomerChangeType.CustomerBindingStarted) as CustomerBindingStarted;
     return change.customerBinding.paymentResource.paymentToolDetails;
 };
 
-const toDetailsDescription = (details: PaymentToolDetails): string => {
+const toDetailsInfo = (details: PaymentToolDetails): string => {
     switch (details.detailsType) {
         case PaymentToolDetailsType.PaymentToolDetailsBankCard:
-            return toCardDescription(details as PaymentToolDetailsBankCard);
+            return toCardInfo(details as PaymentToolDetailsBankCard);
     }
     throw new Error('Unsupported PaymentToolDetailsType');
 };
 
-export const getCustomerPaymentDetails = (e: CustomerEvent[]): string => {
-    const paymentToolDetails = getPaymentToolDetails(e);
-    const description = toDetailsDescription(paymentToolDetails);
-    switch (paymentToolDetails.detailsType) {
-        case PaymentToolDetailsType.PaymentToolDetailsBankCard:
-            return description;
-    }
-    throw new Error('Unsupported PaymentToolDetailsType');
+export const getCustomerPaymentDetails = (e: CustomerEvent[]): PaymentDetailsInfo => {
+    const details = getPaymentToolDetails(e);
+    const info = toDetailsInfo(details);
+    return {type: details.detailsType, info};
 };

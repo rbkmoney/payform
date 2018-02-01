@@ -16,7 +16,7 @@ import { getFailedDescription } from './get-failed-description';
 
 const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
     <p className={styles.text}>
-        {prefix} {getCustomerPaymentDetails(e)}.
+        {prefix} {getCustomerPaymentDetails(e).info}.
     </p>
 );
 
