@@ -10,7 +10,7 @@ const NextButtonDef: React.SFC<NextButtonProps> = (props) => (
     <Button
         type='submit'
         style='primary'
-        id='pay-btn'>
+        id='next-btn'>
         {props.locale['form.button.next.label']}
     </Button>
 );
