@@ -1,10 +1,11 @@
 import { Locale } from 'checkout/locale';
-import { ModelState, ResultState, ResultFormInfo, ConfigState } from 'checkout/state';
+import { ModelState, ResultState, ResultFormInfo } from 'checkout/state';
 import { LogicError } from 'checkout/backend';
+import { IntegrationType } from 'checkout/config';
 
 export interface ResultFormProps {
     model: ModelState;
-    config: ConfigState;
+    integrationType: IntegrationType;
     locale: Locale;
     resultFormInfo: ResultFormInfo;
     error: LogicError;

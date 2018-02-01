@@ -1,7 +1,8 @@
 import {
     InvoiceTemplate,
     PaymentMethod,
-    Event
+    Event,
+    CustomerEvent
 } from 'checkout/backend/model';
 
 export enum ModelStatus {
@@ -17,4 +18,5 @@ export interface ModelState {
     readonly invoiceEvents?: Event[];
     readonly paymentMethods?: PaymentMethod[];
     readonly status?: ModelStatus;
+    readonly customerEvents?: CustomerEvent[];
 }

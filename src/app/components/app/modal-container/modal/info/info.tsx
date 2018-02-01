@@ -38,13 +38,13 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
 
     componentDidMount() {
         this.setState({
-            amount: getAmount(this.props.initConfig.integrationType, this.props.model)
+            amount: getAmount(this.props.model)
         });
     }
 
     componentWillReceiveProps(props: InfoProps) {
         this.setState({
-            amount: getAmount(props.initConfig.integrationType, props.model)
+            amount: getAmount(props.model)
         });
     }
 

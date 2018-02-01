@@ -1,9 +1,9 @@
 import { InvoiceChange } from './invoice-change';
-import { ChangeType } from './change-type';
+import { InvoiceChangeType } from './invoice-change-type';
 import { UserInteraction } from './user-interaction';
 
 export class PaymentInteractionRequested extends InvoiceChange {
-    changeType = ChangeType.PaymentInteractionRequested;
+    changeType = InvoiceChangeType.PaymentInteractionRequested;
     paymentID: string;
     userInteraction: UserInteraction;
 }

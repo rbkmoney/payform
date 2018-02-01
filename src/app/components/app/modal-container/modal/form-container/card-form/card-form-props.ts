@@ -15,6 +15,7 @@ export interface CardFormProps {
     formValues: CardFormValues;
     fieldsConfig: FieldsConfig;
     pay: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
+    subscribe: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
     setViewInfoError: (hasError: boolean) => any;
     prepareToPay: () => any;
     setViewInfoHeight: (height: number) => any;

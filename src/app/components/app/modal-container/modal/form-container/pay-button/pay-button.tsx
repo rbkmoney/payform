@@ -8,7 +8,6 @@ import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 
 export interface PayButtonProps {
-    locale: Locale;
     label: string;
 }
 
@@ -17,18 +16,30 @@ const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
         type='submit'
         style='primary'
         id='pay-btn'>
-        {props.locale['form.button.pay.label']} {props.label}
+        {props.label}
     </Button>
 );
 
-const toLabel = (integrationType: IntegrationType, model: ModelState): string => {
-    const amount = formatAmount(getAmount(integrationType, model));
-    return amount ? `${amount.value} ${amount.symbol}` : null;
+const toInvoiceLabel = (locale: Locale, model: ModelState): string => {
+    const amount = formatAmount(getAmount(model));
+    const amountLabel = amount ? ` ${amount.value} ${amount.symbol}` : '';
+    return `${locale['form.button.pay.label']}${amountLabel}`;
+};
+
+const toCustomerLabel = (locale: Locale): string => locale['form.button.bind.label'];
+
+const toLabel = (locale: Locale, integrationType: IntegrationType, model: ModelState): string => {
+    switch (integrationType) {
+        case IntegrationType.invoice:
+        case IntegrationType.invoiceTemplate:
+            return toInvoiceLabel(locale, model);
+        case IntegrationType.customer:
+            return toCustomerLabel(locale);
+    }
 };
 
 const mapStateToProps = (state: State) => ({
-    locale: state.config.locale,
-    label: toLabel(state.config.initConfig.integrationType, state.model)
+    label: toLabel(state.config.locale, state.config.initConfig.integrationType, state.model)
 });
 
 export const PayButton = connect(mapStateToProps)(PayButtonDef);

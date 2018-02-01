@@ -22,9 +22,9 @@ import { findNamed } from 'checkout/utils';
 const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
     switch (startedInfo.name) {
         case FormName.cardForm:
-            return locale['form.button.pay.other.card.label'];
+            return locale['form.button.use.other.card.label'];
         case FormName.walletForm:
-            return locale['form.button.pay.other.wallet.label'];
+            return locale['form.button.use.other.wallet.label'];
     }
     throw new Error('Unsupported form type');
 };

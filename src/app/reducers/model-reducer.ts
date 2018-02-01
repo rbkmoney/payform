@@ -4,24 +4,22 @@ import {
     PayAction,
     Accept,
     PollInvoiceEvents,
-    Initialize
+    Initialize,
+    Subscribe, PollCustomerEvents
 } from 'checkout/actions';
-import { Event } from 'checkout/backend';
+import { mergeEvents } from 'checkout/utils';
+import { CustomerEvent, Event } from 'checkout/backend';
 
 type ModelReducerAction =
     PayAction |
     Accept |
     PollInvoiceEvents |
-    Initialize;
+    PollCustomerEvents |
+    Initialize |
+    Subscribe;
 
 const initialState = {
     status: ModelStatus.none
-};
-
-const mergeEvents = (stateEvents: Event[], actionEvents: Event[]) => {
-    const first = actionEvents[0];
-    const sliced = stateEvents ? stateEvents.slice(0, first ? first.id : undefined) : [];
-    return sliced.concat(actionEvents);
 };
 
 export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
@@ -35,15 +33,27 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
         case TypeKeys.PAY:
             return {
                 ...s,
-                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload.invoiceEvents),
+                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload.invoiceEvents) as Event[],
                 invoiceAccessToken: action.payload.invoiceAccessToken,
                 status: ModelStatus.refreshed
 
             };
+        case TypeKeys.SUBSCRIBE:
+            return {
+                ...s,
+                customerEvents: mergeEvents(s.customerEvents, action.payload) as CustomerEvent[],
+                status: ModelStatus.refreshed
+            };
         case TypeKeys.POLL_EVENTS:
             return {
                 ...s,
-                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload),
+                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload) as Event[],
+                status: ModelStatus.refreshed
+            };
+        case TypeKeys.POLL_CUSTOMER_EVENTS:
+            return {
+                ...s,
+                customerEvents: mergeEvents(s.customerEvents, action.payload) as CustomerEvent[],
                 status: ModelStatus.refreshed
             };
         case TypeKeys.ACCEPT_MODEL:

@@ -1,7 +1,21 @@
 import { last, clone } from 'lodash';
-import { ChangeType, Event, InvoiceChange } from 'checkout/backend';
 
-export const getLastChange = (e: Event[]): InvoiceChange => {
+interface ChangeLike {
+    changeType: any;
+}
+
+interface EventLike {
+    id: number;
+    changes: ChangeLike[];
+}
+
+export const mergeEvents = (stateEvents: EventLike[], actionEvents: EventLike[]): EventLike[] => {
+    const first = actionEvents[0];
+    const sliced = stateEvents ? stateEvents.slice(0, first ? first.id : undefined) : [];
+    return sliced.concat(actionEvents);
+};
+
+export const getLastChange = (e: EventLike[]): ChangeLike => {
     const event = last(e);
     if (!event) {
         return;
@@ -9,7 +23,7 @@ export const getLastChange = (e: Event[]): InvoiceChange => {
     return last(event.changes);
 };
 
-export const findChange = (e: Event[], foundType: ChangeType): InvoiceChange => {
+export const findChange = (e: EventLike[], foundType: string): ChangeLike => {
     if (!e || e.length === 0 || !foundType) {
         return null;
     }

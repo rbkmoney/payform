@@ -1,5 +1,5 @@
-import { ChangeType } from './change-type';
+import { InvoiceChangeType } from './invoice-change-type';
 
 export abstract class InvoiceChange {
-    changeType: ChangeType;
+    changeType: InvoiceChangeType;
 }

@@ -5,13 +5,13 @@ import { toNumber } from 'lodash';
 import { createInvoiceWithTemplate } from 'checkout/backend';
 import { PaymentSubject } from './payment-subject';
 
-const resolveAmount = (t: IntegrationType, m: ModelState, formAmount: string): number =>
-    formAmount ? toNumber(formAmount) * 100 : getAmount(t, m).value; // TODO use amount from events
+const resolveAmount = (m: ModelState, formAmount: string): number =>
+    formAmount ? toNumber(formAmount) * 100 : getAmount(m).value;
 
 const resolveInvoiceTemplate = (c: ConfigState, m: ModelState, formAmount: string): Promise<PaymentSubject> => {
     const endpoint = c.appConfig.capiEndpoint;
     const initConfig = c.initConfig as InvoiceTemplateInitConfig;
-    const amount = resolveAmount(IntegrationType.invoiceTemplate, m, formAmount);
+    const amount = resolveAmount(m, formAmount);
     const metadata = m.invoiceTemplate.metadata;
     const params = {amount, metadata, currency: 'RUB'}; // TODO fix hardcoded currency
     return createInvoiceWithTemplate(endpoint, initConfig.invoiceTemplateAccessToken, initConfig.invoiceTemplateID, params)

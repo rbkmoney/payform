@@ -1,11 +1,10 @@
-import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 import {
-    ChangeType,
+    InvoiceChangeType,
     InvoiceCreated,
     InvoiceTemplateLineCostFixed,
     InvoiceTemplateMultiLine,
-    InvoiceTemplateSingleLine,
+    InvoiceTemplateSingleLine
 } from 'checkout/backend';
 import { Amount, findChange } from 'checkout/utils';
 
@@ -45,7 +44,10 @@ const getAmountFromInvoice = (invoiceCreated: InvoiceCreated): Amount => {
     };
 };
 
-export const getAmount = (integrationType: IntegrationType, m: ModelState): Amount | null => {
-    const invoiceCreated = findChange(m.invoiceEvents, ChangeType.InvoiceCreated);
+export const getAmount = (m: ModelState): Amount | null => {
+    if (!m.invoiceEvents && !m.invoiceTemplate) {
+        return;
+    }
+    const invoiceCreated = findChange(m.invoiceEvents, InvoiceChangeType.InvoiceCreated);
     return invoiceCreated ? getAmountFromInvoice(invoiceCreated as InvoiceCreated) : getAmountFromInvoiceTemplate(m);
 };

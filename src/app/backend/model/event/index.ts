@@ -5,4 +5,5 @@ export * from './invoice-status-changed';
 export * from './payment-interaction-requested';
 export * from './payment-started';
 export * from './payment-status-changed';
-export * from './change-type';
+export * from './invoice-change-type';
+export * from './customer-event';

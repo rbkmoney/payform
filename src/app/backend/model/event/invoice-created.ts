@@ -1,8 +1,8 @@
 import { InvoiceChange } from './invoice-change';
 import { Invoice } from '../invoice';
-import { ChangeType } from 'checkout/backend/model/event/change-type';
+import { InvoiceChangeType } from 'checkout/backend/model/event/invoice-change-type';
 
 export class InvoiceCreated extends InvoiceChange {
-    changeType = ChangeType.InvoiceCreated;
+    changeType = InvoiceChangeType.InvoiceCreated;
     invoice: Invoice;
 }
