@@ -21,7 +21,7 @@ export default class Iframe {
             top: '0',
             width: '100%',
             height: '100%',
-            zIndex: 9999
+            zIndex: 2147483647
         });
         this.element = iframe;
         this.render();

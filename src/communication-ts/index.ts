@@ -6,3 +6,4 @@ export * from './stub-transport';
 export * from './transport-info';
 export * from './possible-events';
 export * from './transport-message';
+export * from './parent';

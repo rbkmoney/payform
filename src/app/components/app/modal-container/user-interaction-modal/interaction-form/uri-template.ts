@@ -23,7 +23,7 @@ export const hasTerminationUriTemplate = (value: any): boolean => {
 export const expandWithRedirect = (origin: string, template: string, decode: boolean = false): string => {
     const decoded = decodeURIComponent(template);
     const parsed = parser.parse(decoded);
-    const redirectUrl = `${origin}/html/finishInteraction.html`;
+    const redirectUrl = `${origin}/v1/finish-interaction.html`;
     const expanded = parsed.expand({termination_uri: redirectUrl});
     return decode ? decodeURIComponent(expanded) : expanded;
 };

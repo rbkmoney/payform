@@ -7,9 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     name: 'js',
     entry: {
-        '../dist/checkout': path.join(__dirname, '../src/checkout/checkout.js'),
-        '../dist/payframe': path.join(__dirname, '../src/payframe/payframe.js'),
-        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx')
+        '../dist/checkout': path.join(__dirname, '../src/initializer/index.ts'),
+        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx'),
     },
     output: {
         filename: '[name].js',
@@ -23,8 +22,8 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.(js|jsx)$/, use: ['babel-loader', 'eslint-loader'], exclude: /node_modules(?!\/tokenizer)/ },
-            { test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader'] },
+            { test: /\.(js)$/, use: ['babel-loader'], exclude: /node_modules(?!\/tokenizer)/ },
+            { test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader'], exclude: '/node_modules/'},
             {
                 test: /\.(css|scss)$/,
                 exclude: [
@@ -45,17 +44,6 @@ module.exports = {
                     ],
                     fallback: 'style-loader'
                 })
-            },
-            {
-                test: /\.(css|scss)$/,
-                exclude: path.join(__dirname, '../src/app'),
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        { loader: 'css-loader', options: { minimize: true } },
-                        { loader: 'sass-loader' }
-                    ],
-                    fallback: 'style-loader'
-                })
             }
         ]
     },
@@ -63,9 +51,7 @@ module.exports = {
         new ExtractTextPlugin({ filename: '[name].css' }),
         new CopyWebpackPlugin(
             [
-                { from: './src/payframe/payframe.html', to: '../dist/html/' },
-                { from: './src/payframe/finishInteraction.html', to: '../dist/html/' },
-                { from: './src/payframe/images', to: '../dist/images' },
+                { from: './src/app/finish-interaction.html', to: '../dist/v1/' },
                 { from: './src/appConfig.json', to: '../dist/' },
                 { from: './src/locale', to: '../dist/locale' },
                 { from: './src/app/assets', to: '../dist/v1/assets' }
