@@ -12,7 +12,7 @@ interface BankCardProps {
 const toBankCard = (props: BankCardProps) => props.setFormInfo(new CardFormInfo(FormName.paymentMethods));
 
 export const BankCard: React.SFC<BankCardProps> = (props) => (
-    <li className={styles.method} onClick={toBankCard.bind(null, props)}>
+    <li className={styles.method} onClick={toBankCard.bind(null, props)} id='bank-card-payment-method'>
         <BankCardIcon/>
         <div className={styles.title}>
             {props.locale['form.payment.method.name.card.label']}

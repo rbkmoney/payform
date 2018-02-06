@@ -81,7 +81,7 @@ class CardFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
+            <form onSubmit={handleSubmit(this.submit)} id='card-form'>
                 <div>
                     <Header title={this.getHeaderTitle()}/>
                     <div className={formStyles.formGroup}>
