@@ -60,7 +60,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                     id='retry-btn'>
                     {locale['form.button.pay.again.label']}
                 </Button> : null}
-                {startedInfo ? <Button
+                {this.payOtherCapability(startedInfo) ? <Button
                     style='default'
                     className={styles.pay_with_other}
                     onClick={(e) => this.retry(e, true)}
@@ -75,6 +75,10 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                 </div> : false}
             </div>
         );
+    }
+
+    private payOtherCapability(startedInfo: FormInfo): boolean {
+        return startedInfo && startedInfo.name !== FormName.terminalForm;
     }
 }
 
