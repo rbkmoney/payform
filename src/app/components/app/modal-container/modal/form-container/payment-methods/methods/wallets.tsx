@@ -12,7 +12,7 @@ interface WalletsProps {
 const toWallets = (props: WalletsProps) => props.setFormInfo(new WalletFormInfo(FormName.paymentMethods));
 
 export const Wallets: React.SFC<WalletsProps> = (props) => (
-    <li className={styles.method} onClick={toWallets.bind(null, props)}>
+    <li className={styles.method} onClick={toWallets.bind(null, props)} id='wallets-payment-method'>
         <WalletsIcon />
         <div className={styles.text}>
             <h5 className={styles.title}>
