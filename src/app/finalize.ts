@@ -1,5 +1,5 @@
 import * as ReactDOM from 'react-dom';
-import { Transport, PossibleEvents } from '../communication-ts';
+import { Transport, PossibleEvents } from '../communication';
 import { State } from './state';
 import { ResultState } from 'checkout/state';
 import { isSafetyUrl } from 'checkout/utils';

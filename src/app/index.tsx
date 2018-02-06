@@ -9,7 +9,7 @@ import './styles/forms.scss';
 import { configureStore } from './configure-store';
 import { App } from './components/app';
 import { finalize } from './finalize';
-import { Child } from '../communication-ts';
+import { Child } from '../communication';
 import { ConfigResolver } from './config';
 
 Child.resolve()

@@ -5,10 +5,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    name: 'js',
+    stats: {children: false},
     entry: {
         '../dist/checkout': path.join(__dirname, '../src/initializer/index.ts'),
-        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx'),
+        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx')
     },
     output: {
         filename: '[name].js',
@@ -22,17 +22,17 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.(js)$/, use: ['babel-loader'], exclude: /node_modules(?!\/tokenizer)/ },
-            { test: /\.(ts|tsx)$/, use: ['awesome-typescript-loader', 'tslint-loader'], exclude: '/node_modules/'},
+            {
+                test: /\.(ts|tsx)$/,
+                use: ['awesome-typescript-loader', 'tslint-loader'],
+                exclude: '/node_modules/'
+            },
             {
                 test: /\.(css|scss)$/,
-                exclude: [
-                    path.join(__dirname, '../src/checkout'),
-                    path.join(__dirname, '../src/payframe')
-                ],
                 use: ExtractTextPlugin.extract({
                     use: [
-                        { loader: 'css-loader',
+                        {
+                            loader: 'css-loader',
                             options: {
                                 minimize: true,
                                 modules: true,
@@ -40,7 +40,7 @@ module.exports = {
                                 localIdentName: '[local]___[hash:base64:5]'
                             }
                         },
-                        { loader: 'sass-loader' }
+                        'sass-loader'
                     ],
                     fallback: 'style-loader'
                 })
@@ -48,15 +48,15 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin({ filename: '[name].css' }),
+        new ExtractTextPlugin({filename: '[name].css'}),
         new CopyWebpackPlugin(
             [
-                { from: './src/app/finish-interaction.html', to: '../dist/v1/' },
-                { from: './src/appConfig.json', to: '../dist/' },
-                { from: './src/locale', to: '../dist/locale' },
-                { from: './src/app/assets', to: '../dist/v1/assets' }
+                {from: './src/app/finish-interaction.html', to: '../dist/v1/'},
+                {from: './src/appConfig.json', to: '../dist/'},
+                {from: './src/locale', to: '../dist/locale'},
+                {from: './src/app/assets', to: '../dist/v1/assets'}
             ],
-            { debug: 'warning' }
+            {debug: 'warning'}
         ),
         new HtmlWebpackPlugin({
             inject: false,

@@ -1,5 +1,5 @@
 import * as URL from 'url-parse';
-import { Transport, PossibleEvents } from '../../communication-ts';
+import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
 import { getIntegrationType } from './get-integration-type';
 import { deserialize } from 'checkout/utils';

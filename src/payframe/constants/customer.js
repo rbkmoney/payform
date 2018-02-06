@@ -1,5 +1,0 @@
-const SET_CUSTOMER = 'SET_CUSTOMER';
-
-export {
-    SET_CUSTOMER
-}

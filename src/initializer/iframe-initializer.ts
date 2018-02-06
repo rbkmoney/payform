@@ -1,5 +1,5 @@
 import { IframeContainer } from './iframe-container';
-import { PossibleEvents, Parent } from '../communication-ts';
+import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
 
 export class IframeInitializer extends Initializer {

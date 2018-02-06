@@ -1,4 +1,4 @@
-import { PossibleEvents, Parent } from '../communication-ts';
+import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
 import { serialize } from 'checkout/utils';
 
