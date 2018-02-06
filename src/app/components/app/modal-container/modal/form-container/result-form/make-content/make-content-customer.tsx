@@ -39,7 +39,7 @@ const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
 const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
-    header: l['form.header.final.customer.binding.started.label'],
+    header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.binding.text'], e),
     icon: null // TODO need special icon
 });

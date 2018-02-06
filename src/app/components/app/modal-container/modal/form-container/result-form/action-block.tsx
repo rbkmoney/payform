@@ -25,9 +25,13 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
             return locale['form.button.use.other.card.label'];
         case FormName.walletForm:
             return locale['form.button.use.other.wallet.label'];
+        case FormName.terminalForm:
+            return locale['form.button.use.other.terminal.label'];
     }
     throw new Error('Unsupported form type');
 };
+
+const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo && startedInfo.name !== FormName.terminalForm;
 
 export interface ActionBlockProps {
     locale: Locale;
@@ -58,7 +62,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                     id='retry-btn'>
                     {locale['form.button.pay.again.label']}
                 </Button> : null}
-                {startedInfo ? <Button
+                {payOtherCapability(startedInfo) ? <Button
                     style='default'
                     className={styles.pay_with_other}
                     onClick={(e) => this.retry(e, true)}
