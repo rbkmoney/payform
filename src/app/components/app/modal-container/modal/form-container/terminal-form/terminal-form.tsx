@@ -123,12 +123,7 @@ export class TerminalFormDef extends React.Component<Props> {
     private doPaymentAction(values: TerminalFormValues) {
         const {config, model} = this.props;
         this.props.prepareToPay();
-        switch (this.props.config.initConfig.integrationType) {
-            case IntegrationType.invoice:
-            case IntegrationType.invoiceTemplate:
-                this.props.pay(config, model, values);
-                break;
-        }
+        this.props.pay(config, model, values);
     }
 }
 
