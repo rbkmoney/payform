@@ -1,5 +1,5 @@
 import { CostType, InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
-import { toNumber } from 'lodash';
+import toNumber from 'lodash-es/toNumber';
 import { validateAmount } from '../validation/amount';
 
 export const validate = (value: string, cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim): boolean => {

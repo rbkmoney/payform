@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import isString from 'lodash-es/isString';
 import parser, { FormStartExpression } from 'uri-template';
 
 const hasTerminationUriParam = (expression: FormStartExpression): boolean =>

@@ -1,4 +1,4 @@
-import { mapKeys } from 'lodash';
+import mapKeys from 'lodash-es/mapKeys';
 import { appendInitButton } from './init-button/append-init-button';
 
 const getOuterForm = (element: HTMLScriptElement) => {

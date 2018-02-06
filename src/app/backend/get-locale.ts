@@ -1,5 +1,5 @@
 import { Locale } from 'checkout/locale';
-import { detectLocale } from 'checkout/utils';
+import { detectLocale } from '../../locale';
 
 export const getLocale = (locale: string): Promise<Locale> => (
     fetch(`../locale/${detectLocale(locale)}.json`, {

@@ -1,20 +1,3 @@
-export const serialize = (params: any): string => {
-    let urlParams = '';
-    for (const prop in params) {
-        if (params.hasOwnProperty(prop)) {
-            const value = params[prop];
-            if ((typeof value === 'function') || (value === undefined) || (value === null)) {
-                continue;
-            }
-            if (urlParams !== '') {
-                urlParams += '&';
-            }
-            urlParams += `${prop}=${encodeURIComponent(value)}`;
-        }
-    }
-    return urlParams;
-};
-
 export const deserialize = (url: string): any => {
     const split = (typeof url === 'string' && url !== '') && url.split('?');
     if (!split) {

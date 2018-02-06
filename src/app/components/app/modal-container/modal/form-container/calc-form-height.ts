@@ -1,4 +1,4 @@
-import { values } from 'lodash';
+import values from 'lodash-es/values';
 import { FieldsConfig, ItemConfig } from './fields-config';
 
 export const calcFormHeight = (defaultHeight: number, fieldsConfig: FieldsConfig): number => {

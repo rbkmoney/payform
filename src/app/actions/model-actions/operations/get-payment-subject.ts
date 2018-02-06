@@ -1,7 +1,7 @@
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { getAmount } from 'checkout/components/app/modal-container/modal/amount-resolver';
 import { ConfigState, ModelState } from 'checkout/state';
-import { toNumber } from 'lodash';
+import toNumber from 'lodash-es/toNumber';
 import { createInvoiceWithTemplate } from 'checkout/backend';
 import { PaymentSubject } from './payment-subject';
 

@@ -1,5 +1,5 @@
 import { initButton } from './init-button.scss';
-import { detectLocale } from 'checkout/utils';
+import { detectLocale } from '../../locale';
 
 const getDefaultLabel = (): string => detectLocale() === 'ru'
     ? 'Оплатить с помощью RBKmoney'

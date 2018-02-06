@@ -1,4 +1,5 @@
-import { mapValues, isFunction } from 'lodash';
+import mapValues from 'lodash-es/mapValues';
+import isFunction from 'lodash-es/isFunction';
 import * as isMobile from 'ismobilejs';
 
 const mapBoolean = (obj: object): object => mapValues(obj, (value: any) => {

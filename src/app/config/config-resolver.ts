@@ -1,4 +1,3 @@
-import * as URL from 'url-parse';
 import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
 import { getIntegrationType } from './get-integration-type';
@@ -36,7 +35,7 @@ export class ConfigResolver {
 
     private static getOrigin(): string {
         const currentScript: any = document.currentScript || this.getCurrentScript();
-        const url = URL(currentScript.src);
+        const url = new URL(currentScript.src);
         return url.origin;
     }
 

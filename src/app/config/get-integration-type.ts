@@ -1,6 +1,7 @@
+import difference from 'lodash-es/difference';
+import intersection from 'lodash-es/intersection';
 import { InitConfig } from './init-config';
 import { IntegrationType } from './integration-type';
-import { intersection, difference } from 'lodash';
 
 declare interface TypeDef {
     type: IntegrationType.invoiceTemplate;

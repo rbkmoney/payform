@@ -1,6 +1,22 @@
 import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
-import { serialize } from 'checkout/utils';
+
+const serialize = (params: any): string => {
+    let urlParams = '';
+    for (const prop in params) {
+        if (params.hasOwnProperty(prop)) {
+            const value = params[prop];
+            if ((typeof value === 'function') || (value === undefined) || (value === null)) {
+                continue;
+            }
+            if (urlParams !== '') {
+                urlParams += '&';
+            }
+            urlParams += `${prop}=${encodeURIComponent(value)}`;
+        }
+    }
+    return urlParams;
+};
 
 export class PopupInitializer extends Initializer {
 

@@ -1,3 +1,5 @@
+import assign from 'lodash-es/assign';
+
 const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
 const generateId = () => `${s4()}${s4()}${s4()}${s4()}`;
@@ -25,7 +27,7 @@ const create = (origin: string): HTMLIFrameElement => {
     iframe.setAttribute('class', 'rbkmoney-payframe');
     iframe.setAttribute('allowtransparency', 'true');
     iframe.setAttribute('frameborder', '0');
-    Object.assign(iframe.style, styles);
+    assign(iframe.style, styles);
     return iframe;
 };
 
