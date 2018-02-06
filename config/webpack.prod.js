@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const commonConfig = require('./webpack.config.common');
+const commonConfig = require('./webpack.common');
 
 module.exports = merge(commonConfig, {
     plugins: [
