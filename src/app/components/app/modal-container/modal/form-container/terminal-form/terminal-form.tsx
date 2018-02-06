@@ -4,7 +4,16 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import * as formStyles from 'checkout/styles/forms.scss';
 import * as styles from '../form-container.scss';
-import { CardFormValues, FormName, State, TerminalFormValues } from 'checkout/state';
+import {
+    CardFormValues,
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentStatus,
+    State,
+    TerminalFormValues
+} from 'checkout/state';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
 import { Amount, Email } from '../';
@@ -13,12 +22,20 @@ import { payTerminalEuroset, prepareToPay, setViewInfoError, setViewInfoHeight }
 import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
-import { formatAmount } from 'checkout/utils';
+import { findNamed, formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
+import { IntegrationType } from 'checkout/config';
+
+const toTerminalFormInfo = (modals: ModalState[]) => {
+    const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
+    return findNamed(info, FormName.terminalForm);
+};
 
 const mapStateToProps = (state: State) => ({
+    terminalFormInfo: toTerminalFormInfo(state.modals),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
+    formValues: get(state.form, 'terminalForm.values'),
     config: state.config,
     model: state.model,
     amount: formatAmount(getAmount(state.model))
@@ -40,17 +57,6 @@ export class TerminalFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    pay(values: CardFormValues) {
-        const {config, model} = this.props;
-        this.props.prepareToPay();
-        this.props.pay(config, model, values);
-    }
-
-    submit(values: CardFormValues) {
-        (document.activeElement as HTMLElement).blur();
-        this.pay(values);
-    }
-
     componentDidMount() {
         this.props.setViewInfoHeight(288);
     }
@@ -63,9 +69,16 @@ export class TerminalFormDef extends React.Component<Props> {
     }
 
     componentWillMount() {
-        const {formValues} = this.props;
+        const {terminalFormInfo: {paymentStatus}, formValues} = this.props;
         this.props.setViewInfoError(false);
-        this.init(formValues);
+        switch (paymentStatus) {
+            case PaymentStatus.pristine:
+                this.init(formValues);
+                break;
+            case PaymentStatus.needRetry:
+                this.doPaymentAction(formValues);
+                break;
+        }
     }
 
     componentWillReceiveProps(props: Props) {
@@ -100,6 +113,22 @@ export class TerminalFormDef extends React.Component<Props> {
                 <NextButton locale={locale}/>
             </form>
         );
+    }
+
+    private submit(values: CardFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.doPaymentAction(values);
+    }
+
+    private doPaymentAction(values: TerminalFormValues) {
+        const {config, model} = this.props;
+        this.props.prepareToPay();
+        switch (this.props.config.initConfig.integrationType) {
+            case IntegrationType.invoice:
+            case IntegrationType.invoiceTemplate:
+                this.props.pay(config, model, values);
+                break;
+        }
     }
 }
 
