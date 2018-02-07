@@ -4,12 +4,13 @@ import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
-import { cardHolderFormatter } from '../format';
-import { validateCardHolder } from '../validation';
+import { validateCardHolder } from './validate-card-holder';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
+import { cardHolderUppercase } from './card-holder-uppercase';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+type FieldProps = any;
 
 export interface CardHolderDefProps {
     locale: Locale;
@@ -24,11 +25,11 @@ const CustomInput: React.SFC<FieldProps & CardHolderDefProps> = (props) => (
         {...props.input}
         {...props.meta}
         error={isError(props.meta)}
-        formatter={cardHolderFormatter}
         icon={IconType.user}
         placeholder={props.locale['form.input.cardholder.placeholder']}
         mark={true}
         id='card-holder-input'
+        onInput={cardHolderUppercase}
     />
 );
 

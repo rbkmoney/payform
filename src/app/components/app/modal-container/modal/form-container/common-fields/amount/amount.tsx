@@ -9,7 +9,7 @@ import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { State } from 'checkout/state';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+type FieldProps = any;
 
 interface OwnProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -44,6 +44,7 @@ const AmountDef: React.SFC<AmountProps> = (props) => (
         component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
         validate={(value) => validate(value, props.cost)}
     />
+
 );
 
 export const Amount = connect(mapStateToProps)(AmountDef);

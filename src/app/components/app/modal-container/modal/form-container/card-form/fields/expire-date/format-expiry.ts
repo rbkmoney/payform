@@ -1,4 +1,4 @@
-import { safeVal, replaceFullWidthChars } from '../common';
+import { safeVal, replaceFullWidthChars } from '../format-utils';
 
 function format(expiry: string): string {
     const parts = expiry.match(/^\D*(\d{1,2})(\D+)?(\d{1,4})?/);
@@ -22,7 +22,7 @@ function format(expiry: string): string {
     return mon + sep + year;
 }
 
-export function reFormatExpiry(e: KeyboardEvent): number {
+export function formatExpiry(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;
     let value = target.value;
     value = replaceFullWidthChars(value);

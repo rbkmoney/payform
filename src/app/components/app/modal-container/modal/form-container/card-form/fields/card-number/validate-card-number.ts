@@ -1,6 +1,4 @@
-import { luhnCheck } from '../common/luhnCheck';
-import { indexOf } from '../common/indexOf';
-import { cardFromNumber } from '../../common-card-tools/card-from-number';
+import { cardFromNumber, luhnCheck } from '../card-info';
 
 export function validateCardNumber(value: string): boolean {
     if (!value) {
@@ -15,5 +13,5 @@ export function validateCardNumber(value: string): boolean {
     if (!card) {
         return true;
     }
-    return !((ref = value.length, indexOf.call(card.length, ref) >= 0) && (card.luhn === false || luhnCheck(value)));
+    return !((ref = value.length, [].indexOf.call(card.length, ref) >= 0) && (card.luhn === false || luhnCheck(value)));
 }

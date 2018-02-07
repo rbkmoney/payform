@@ -4,12 +4,12 @@ import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components';
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
-import { expireDateFormatter } from '../format';
-import { validateExpireDate } from '../validation';
+import { validateExpireDate } from './validate-expire-date';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
+import { formatExpiry } from './format-expiry';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+type FieldProps = any;
 
 export interface ExpireDateDefProps {
     locale: Locale;
@@ -24,12 +24,12 @@ const CustomInput: React.SFC<FieldProps & ExpireDateDefProps> = (props) => (
         {...props.input}
         {...props.meta}
         error={isError(props.meta)}
-        formatter={expireDateFormatter}
         icon={IconType.calendar}
         placeholder={props.locale['form.input.expiry.placeholder']}
         mark={true}
         type='tel'
         id='expire-date-input'
+        onInput={formatExpiry}
     />
 );
 

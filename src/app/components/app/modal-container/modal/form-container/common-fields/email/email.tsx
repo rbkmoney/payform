@@ -8,7 +8,8 @@ import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
 import { validateEmail } from '../validation/email';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+type FieldProps = any;
 
 export interface EmailDefProps {
     locale: Locale;

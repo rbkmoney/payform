@@ -13,6 +13,7 @@ export interface CustomProps {
     formatter?: (e: Element) => void;
     type?: 'text' | 'number' | 'value' | 'tel' | 'email';
     id?: string;
+    onInput?: React.FormEventHandler<HTMLInputElement>;
 }
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
@@ -28,6 +29,7 @@ export const Input: React.SFC<InputProps> = (props) => (
             onFocus={props.onFocus}
             onDrop={props.onDrop}
             onDragStart={props.onDragStart}
+            onInput={props.onInput}
             className={cx(styles.input, {[styles.mark]: props.mark})}
             placeholder={props.placeholder}
             ref={(input) => input && props.formatter ? props.formatter(input) : false}
@@ -35,6 +37,6 @@ export const Input: React.SFC<InputProps> = (props) => (
             value={props.value}
             id={props.id}
         />
-        {props.mark  ? <Marks active={props.active} pristine={props.pristine} error={props.error} /> : false}
+        {props.mark ? <Marks active={props.active} pristine={props.pristine} error={props.error}/> : false}
     </div>
 );

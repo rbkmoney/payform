@@ -9,7 +9,8 @@ import { isError } from '../error-predicate';
 import { validatePhone } from '../validation/phone';
 import { phoneNumberFormatter } from '../format';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+type FieldProps = any;
 
 export interface PhoneDefProps {
     locale: Locale;

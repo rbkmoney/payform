@@ -1,6 +1,6 @@
-import { safeVal, replaceFullWidthChars } from '../common';
+import { safeVal, replaceFullWidthChars } from '../format-utils';
 
-export function reFormatCVC(e: KeyboardEvent): number {
+export function formatCVC(e: KeyboardEvent): number {
     const target = e.currentTarget as HTMLInputElement;
     let value = target.value;
     value = replaceFullWidthChars(value);
