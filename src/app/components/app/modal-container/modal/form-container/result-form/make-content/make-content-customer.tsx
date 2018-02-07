@@ -11,7 +11,7 @@ import { ResultFormContent } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
 import { Checkmark } from '../result-icons';
 import { getCustomerPaymentDetails } from './payment-details';
-import { Cross } from '../result-icons';
+import { Cross, Warning } from '../result-icons';
 import { getFailedDescription } from './get-failed-description';
 
 const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
@@ -41,7 +41,7 @@ const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.binding.text'], e),
-    icon: null // TODO need special icon
+    icon: <Warning/>
 });
 
 const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFormContent => {
