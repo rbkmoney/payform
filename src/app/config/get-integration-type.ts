@@ -3,7 +3,7 @@ import intersection from 'lodash-es/intersection';
 import { InitConfig } from './init-config';
 import { IntegrationType } from './integration-type';
 
-declare interface TypeDef {
+interface TypeDef {
     type: IntegrationType.invoiceTemplate;
     requiredFields: string[];
 }

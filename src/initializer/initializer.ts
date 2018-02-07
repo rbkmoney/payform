@@ -1,6 +1,5 @@
 import mapValues from 'lodash-es/mapValues';
 import isFunction from 'lodash-es/isFunction';
-import * as isMobile from 'ismobilejs';
 
 const mapBoolean = (obj: object): object => mapValues(obj, (value: any) => {
     switch (value) {
@@ -13,13 +12,10 @@ const mapBoolean = (obj: object): object => mapValues(obj, (value: any) => {
     }
 });
 
-const getPopupMode = (userConfig: any) => isMobile.any || userConfig.popupMode === true;
-
 const getLocale = (userConfig: any) => userConfig.locale || 'auto';
 
 const prepareConfig = (userConfig: any): any => ({
     ...mapBoolean(userConfig),
-    popupMode: getPopupMode(userConfig),
     locale: getLocale(userConfig)
 });
 
@@ -39,7 +35,7 @@ export abstract class Initializer {
     protected finished: ActionCallback;
 
     constructor(origin: string, userConfig: any) {
-        this.config = prepareConfig(userConfig); // TODO fix it
+        this.config = prepareConfig(userConfig);
         this.origin = origin;
         this.opened = initCallback(userConfig.opened);
         this.closed = initCallback(userConfig.closed);

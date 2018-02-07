@@ -7,15 +7,15 @@ export class ConfigResolver {
 
     static resolve(transport: Transport): Promise<Config> {
         return this.resolveInitConfig(transport)
-            .then((initConfig) => ({
+            .then((userConfig) => ({
                 origin: this.getOrigin(),
-                initConfig: ConfigResolver.toInitConfig(initConfig),
+                initConfig: ConfigResolver.toInitConfig(userConfig),
                 ready: false
             }));
     }
 
-    private static toInitConfig(initConfig: InitConfig): InitConfig {
-        return {...new InitConfig(), ...initConfig};
+    private static toInitConfig(userConfig: InitConfig): InitConfig {
+        return {...new InitConfig(), ...userConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
