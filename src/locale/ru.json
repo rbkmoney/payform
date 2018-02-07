@@ -30,13 +30,14 @@
     "form.header.final.invoice.fulfilled.label": "Инвойс погашен",
     "form.header.final.customer.binding.success.label": "Успешно",
     "form.header.final.customer.binding.failed.label": "Неудачно",
-    "form.header.final.customer.binding.started.label": "В процессе",
+    "form.header.final.started.label": "В процессе",
     "form.header.final.failed.label": "Не оплачено",
     "form.final.failed.dueTime.text": "Время на оплату  истекло",
     "form.final.failed.cancelled.text": "Платеж был отменен",
     "form.final.success.card.text": "Оплачено картой",
     "form.final.success.binding.text": "Привязана карта",
     "form.final.started.binding.text": "Карта в процессе привязки",
+    "form.final.started.pay.text": "Платёж в процессе",
     "form.final.success.wallet.text": "Оплачено кошельком",
     "form.final.success.terminal.text": "Оплачено через терминал",
     "form.final.success.check.text": " Чек отправлен вам на email",
