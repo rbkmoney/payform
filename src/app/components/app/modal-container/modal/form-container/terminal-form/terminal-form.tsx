@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import get from 'lodash-es/get';
 import * as formStyles from 'checkout/styles/forms.scss';
 import * as styles from '../form-container.scss';
 import {

@@ -1,5 +1,4 @@
-import * as URL from 'url-parse';
-import { Transport, PossibleEvents } from '../../communication-ts';
+import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
 import { getIntegrationType } from './get-integration-type';
 import { deserialize } from 'checkout/utils';
@@ -8,15 +7,15 @@ export class ConfigResolver {
 
     static resolve(transport: Transport): Promise<Config> {
         return this.resolveInitConfig(transport)
-            .then((initConfig) => ({
+            .then((userConfig) => ({
                 origin: this.getOrigin(),
-                initConfig: ConfigResolver.toInitConfig(initConfig),
+                initConfig: ConfigResolver.toInitConfig(userConfig),
                 ready: false
             }));
     }
 
-    private static toInitConfig(initConfig: InitConfig): InitConfig {
-        return {...new InitConfig(), ...initConfig};
+    private static toInitConfig(userConfig: InitConfig): InitConfig {
+        return {...new InitConfig(), ...userConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
@@ -36,7 +35,7 @@ export class ConfigResolver {
 
     private static getOrigin(): string {
         const currentScript: any = document.currentScript || this.getCurrentScript();
-        const url = URL(currentScript.src);
+        const url = new URL(currentScript.src);
         return url.origin;
     }
 

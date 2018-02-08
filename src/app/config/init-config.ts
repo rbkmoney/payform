@@ -1,3 +1,4 @@
+import * as isMobile from 'ismobilejs';
 import { HoldExpirationType } from 'checkout/backend';
 import { IntegrationType } from './integration-type';
 
@@ -20,6 +21,6 @@ export class InitConfig {
         this.paymentFlowHold = false;
         this.holdExpiration = HoldExpirationType.cancel;
         this.locale = 'auto';
-        this.popupMode = false;
+        this.popupMode = isMobile.any;
     }
 }

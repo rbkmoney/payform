@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { IconType, Input } from 'checkout/components';
 import { getPlaceholder } from './get-placeholder';
-import { validate } from './validate';
+import { validateAmount } from './validate-amount';
 import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { State } from 'checkout/state';
-
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
 
 interface OwnProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -20,17 +18,12 @@ export interface AmountProps {
     locale: Locale;
 }
 
-const mapStateToProps = (state: State, ownProps: OwnProps) => ({
-    cost: ownProps.cost,
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
+const getCustomInput = (props: AmountProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
+        {...fieldProps.input}
+        {...fieldProps.meta}
         icon={IconType.amount}
-        error={isError(props.meta)}
+        error={isError(fieldProps.meta)}
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         mark={true}
         type='tel'
@@ -41,9 +34,15 @@ const CustomInput: React.SFC<FieldProps & AmountProps> = (props) => (
 const AmountDef: React.SFC<AmountProps> = (props) => (
     <Field
         name='amount'
-        component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
-        validate={(value) => validate(value, props.cost)}
+        component={getCustomInput.bind(null, props)}
+        validate={(value) => validateAmount(value, props.cost)}
     />
+
 );
+
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    cost: ownProps.cost,
+    locale: state.config.locale
+});
 
 export const Amount = connect(mapStateToProps)(AmountDef);

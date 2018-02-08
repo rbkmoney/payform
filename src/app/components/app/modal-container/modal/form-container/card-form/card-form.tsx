@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
-import { get } from 'lodash';
+import get from 'lodash-es/get';
 import * as formStyles from 'checkout/styles/forms.scss';
 import { CardFormProps } from './card-form-props';
 import { CardHolder, CardNumber, ExpireDate, SecureCode } from './fields';

@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "checkout/*": ["./src/app/*", "./src/locale/*"]
-    }
+    },
+    "pretty": true
   },
   "include": [
     "./src/**/*"
