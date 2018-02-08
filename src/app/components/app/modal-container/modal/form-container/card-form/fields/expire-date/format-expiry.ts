@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import { safeVal, replaceFullWidthChars } from '../format-utils';
 
 function format(expiry: string): string {
@@ -22,8 +23,8 @@ function format(expiry: string): string {
     return mon + sep + year;
 }
 
-export function formatExpiry(e: KeyboardEvent): number {
-    const target = e.currentTarget as HTMLInputElement;
+export function formatExpiry(e: FormEvent<HTMLInputElement>): number {
+    const target = e.currentTarget;
     let value = target.value;
     value = replaceFullWidthChars(value);
     value = format(value);

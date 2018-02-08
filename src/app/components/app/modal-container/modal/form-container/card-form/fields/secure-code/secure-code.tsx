@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { Input } from '../../../input';
 import { IconType } from 'checkout/components';
 import { validateSecureCode } from './validate-secure-code';
@@ -9,22 +9,15 @@ import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
 import { formatCVC } from './format-cvc';
 
-// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
-type FieldProps = any;
-
-export interface SecureCodeDefProps {
+export interface SecureCodeProps {
     locale: Locale;
 }
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & SecureCodeDefProps> = (props) => (
+const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         icon={IconType.lock}
         placeholder={props.locale['form.input.secure.placeholder']}
         mark={true}
@@ -34,12 +27,16 @@ const CustomInput: React.SFC<FieldProps & SecureCodeDefProps> = (props) => (
     />
 );
 
-export const SecureCodeDef: React.SFC<SecureCodeDefProps> = (props) => (
+export const SecureCodeDef: React.SFC<SecureCodeProps> = (props) => (
     <Field
         name='secureCode'
-        component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
+        component={getCustomInput.bind(null, props)}
         validate={validateSecureCode}
     />
 );
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
 
 export const SecureCode = connect(mapStateToProps)(SecureCodeDef);

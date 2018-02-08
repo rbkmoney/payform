@@ -18,7 +18,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
 
-    &:not(:disabled):active, .initButton.active {
+    &:not(:disabled):active, &.active {
         color: #eee;
         border: 1px solid #1d73a4;
         background-image: linear-gradient(#008cdd, #008cdd 85%, #239adf);

@@ -1,10 +1,7 @@
-export const cardHolderUppercase = (e: KeyboardEvent) => {
-    const target = e.currentTarget as HTMLInputElement;
+import { FormEvent } from 'react';
+
+export const cardHolderUppercase = (e: FormEvent<HTMLInputElement>) => {
+    const target = e.currentTarget;
     const value = target.value;
-    if (e.which === 8) {
-        return;
-    }
-    setTimeout(() => {
-        target.value = value.toUpperCase();
-    });
+    target.value = value.toUpperCase();
 };

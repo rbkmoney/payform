@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
@@ -9,22 +9,15 @@ import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
 import { cardHolderUppercase } from './card-holder-uppercase';
 
-// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
-type FieldProps = any;
-
-export interface CardHolderDefProps {
+export interface CardHolderProps {
     locale: Locale;
 }
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & CardHolderDefProps> = (props) => (
+const getCustomInput = (props: CardHolderProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         icon={IconType.user}
         placeholder={props.locale['form.input.cardholder.placeholder']}
         mark={true}
@@ -33,12 +26,16 @@ const CustomInput: React.SFC<FieldProps & CardHolderDefProps> = (props) => (
     />
 );
 
-export const CardHolderDef: React.SFC<CardHolderDefProps> = (props) => (
+export const CardHolderDef: React.SFC<CardHolderProps> = (props) => (
     <Field
         name='cardHolder'
-        component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
+        component={getCustomInput.bind(null, props)}
         validate={validateCardHolder}
     />
 );
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
 
 export const CardHolder = connect(mapStateToProps)(CardHolderDef);

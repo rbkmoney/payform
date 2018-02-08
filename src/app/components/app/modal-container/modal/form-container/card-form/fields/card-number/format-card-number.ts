@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import { replaceFullWidthChars, safeVal } from '../format-utils';
 import { cardFromNumber } from '../card-info';
 
@@ -23,8 +24,8 @@ function format(num: string): string {
     }
 }
 
-export function formatCardNumber(e: KeyboardEvent): any {
-    const target = e.currentTarget as HTMLInputElement;
+export function formatCardNumber(e: FormEvent<HTMLInputElement>): number {
+    const target = e.currentTarget;
     let value = target.value;
     value = replaceFullWidthChars(value);
     value = format(value);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import * as styles from './card-number.scss';
 import { State } from 'checkout/state';
 import { CardTypeIcon } from './card-type-icon';
@@ -14,11 +14,11 @@ export interface CardNumberProps {
     locale: Locale;
 }
 
-const CustomInput: React.SFC<any> = (props) => (
+const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         className={styles.cardNumberInput}
         icon={IconType.card}
         placeholder={props.locale['form.input.card.placeholder']}
@@ -29,16 +29,16 @@ const CustomInput: React.SFC<any> = (props) => (
     />
 );
 
-const CardNumberDef: React.SFC<CardNumberProps> = (props) => {
-    return <div className={styles.inputContainer}>
+const CardNumberDef: React.SFC<CardNumberProps> = (props) => (
+    <div className={styles.inputContainer}>
         <Field
             name='cardNumber'
-            component={(fieldProps: any) => CustomInput({...fieldProps, ...props})}
+            component={getCustomInput.bind(null, props)}
             validate={validateCardNumber}
         />
         <CardTypeIcon/>
-    </div>;
-};
+    </div>
+);
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale
