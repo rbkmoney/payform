@@ -24,7 +24,7 @@
         background-image: linear-gradient(#008cdd, #008cdd 85%, #239adf);
         box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1)
     }
-    &:disabled, .initButton.disabled {
+    &:disabled, &.disabled {
         color: #999;
         background: #f8f9fa;
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5)
