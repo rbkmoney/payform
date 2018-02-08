@@ -8,9 +8,8 @@ import { Marks } from './marks';
 export interface CustomProps {
     icon?: IconType;
     placeholder?: string;
-    mark?: boolean;
+    mark?: boolean; // TODO mark always true
     className?: string;
-    formatter?: (e: Element) => void;
     type?: 'text' | 'number' | 'value' | 'tel' | 'email';
     id?: string;
     onInput?: React.FormEventHandler<HTMLInputElement>;
@@ -32,7 +31,6 @@ export const Input: React.SFC<InputProps> = (props) => (
             onInput={props.onInput}
             className={cx(styles.input, {[styles.mark]: props.mark})}
             placeholder={props.placeholder}
-            ref={(input) => input && props.formatter ? props.formatter(input) : false}
             type={props.type}
             value={props.value}
             id={props.id}

@@ -1,45 +1,43 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../input';
 import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
-import { validatePhone } from '../validation/phone';
-import { phoneNumberFormatter } from '../format';
+import { validatePhone } from './validate-phone';
+import { formatPhoneNumber } from './format-phone-number';
 
-// type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
-type FieldProps = any;
-
-export interface PhoneDefProps {
+export interface PhoneProps {
     locale: Locale;
 }
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & PhoneDefProps> = (props) => (
+const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
-        formatter={phoneNumberFormatter}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         icon={IconType.phone}
         placeholder={props.locale['form.input.phone.placeholder']}
         mark={true}
         type='tel'
         id='phone-input'
+        onInput={formatPhoneNumber}
+        onFocus={formatPhoneNumber}
     />
 );
 
-export const PhoneDef: React.SFC<PhoneDefProps> = (props) => (
+export const PhoneDef: React.SFC<PhoneProps> = (props) => (
     <Field
         name='phone'
-        component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
+        component={getCustomInput.bind(null, props)}
         validate={validatePhone}
     />
 );
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
 
 export const Phone = connect(mapStateToProps)(PhoneDef);
