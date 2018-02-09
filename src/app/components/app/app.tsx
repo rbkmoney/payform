@@ -7,7 +7,7 @@ import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loader';
 import { ModelStatus, State } from 'checkout/state';
 import { AppProps } from './app-props';
-import { loadConfig, initialize, initModal } from 'checkout/actions';
+import { loadConfig, initialize, initModal, checkInitConfigCapability } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -19,7 +19,8 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     loadConfig: bindActionCreators(loadConfig, dispatch),
     initModel: bindActionCreators(initialize, dispatch),
-    initModal: bindActionCreators(initModal, dispatch)
+    initModal: bindActionCreators(initModal, dispatch),
+    checkInitConfigCapability: bindActionCreators(checkInitConfigCapability, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
@@ -29,12 +30,16 @@ class AppDef extends React.Component<AppProps> {
     }
 
     componentWillReceiveProps(props: AppProps) {
-        const {config, model, modalReady, error} = props;
+        const {config, model, error} = props;
         if (config.ready && model.status === ModelStatus.none && !error) {
-            props.initModel(props.config);
+            props.initModel(config);
         }
-        if (!modalReady && model.status === ModelStatus.initialized) {
-            props.initModal(config.initConfig, model);
+        const {config: {initConfig}, modalReady} = props;
+        if (model.status === ModelStatus.initialized && !initConfig.checked) {
+            props.checkInitConfigCapability(initConfig, model);
+        }
+        if (!modalReady && initConfig.checked) {
+            props.initModal(initConfig, model);
         }
     }
 

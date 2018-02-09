@@ -24,7 +24,6 @@ import { NextButton } from './next-button';
 import { getAmount } from '../../amount-resolver';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
-import { IntegrationType } from 'checkout/config';
 
 const toTerminalFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -38,7 +37,7 @@ const mapStateToProps = (state: State) => ({
     formValues: get(state.form, 'terminalForm.values'),
     config: state.config,
     model: state.model,
-    amount: formatAmount(getAmount(state.model))
+    amount: formatAmount(getAmount(state.model, state.config.initConfig.amount))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

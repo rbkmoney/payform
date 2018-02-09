@@ -16,7 +16,7 @@ import { ReceiptInfo } from './receipt-info';
 
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
-    amount: formatAmount(getAmount(state.model))
+    amount: formatAmount(getAmount(state.model, state.config.initConfig.amount))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

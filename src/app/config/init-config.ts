@@ -14,6 +14,8 @@ export class InitConfig {
     name?: string;
     description?: string;
     email?: string;
+    amount?: number;
+    checked?: boolean;
 
     constructor() {
         this.terminals = true;
@@ -22,5 +24,6 @@ export class InitConfig {
         this.holdExpiration = HoldExpirationType.cancel;
         this.locale = 'auto';
         this.popupMode = isMobile.any;
+        this.checked = false;
     }
 }
