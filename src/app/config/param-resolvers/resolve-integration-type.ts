@@ -1,7 +1,6 @@
 import difference from 'lodash-es/difference';
 import intersection from 'lodash-es/intersection';
-import { InitConfig } from './init-config';
-import { IntegrationType } from './integration-type';
+import { IntegrationType } from '../integration-type';
 
 interface TypeDef {
     type: IntegrationType.invoiceTemplate;
@@ -23,8 +22,11 @@ const integrationTypes = [
     }
 ] as TypeDef[];
 
-export function getIntegrationType(config: InitConfig): IntegrationType | null {
-    const configFields = Object.keys(config);
+export function resolveIntegrationType(userConfig: any): IntegrationType | null {
+    if (!userConfig) {
+        return null;
+    }
+    const configFields = Object.keys(userConfig);
     const result: IntegrationType[] = [];
     integrationTypes.forEach((typeDef) => {
         if (difference(typeDef.requiredFields, intersection(typeDef.requiredFields, configFields)).length === 0) {

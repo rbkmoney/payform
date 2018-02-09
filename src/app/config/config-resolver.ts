@@ -1,7 +1,21 @@
 import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
-import { getIntegrationType } from './get-integration-type';
 import { deserialize } from 'checkout/utils';
+import { resolveAmount, resolveIntegrationType } from './param-resolvers';
+
+const resolveInitConfig = (userConfig: any): InitConfig => {
+    const integrationType = resolveIntegrationType(userConfig);
+    if (!integrationType) {
+        throw new Error('Unrecognized integration type');
+    }
+    const amount = resolveAmount(userConfig.amount);
+    return {
+        ...new InitConfig(),
+        ...userConfig,
+        integrationType,
+        amount
+    };
+};
 
 export class ConfigResolver {
 
@@ -9,13 +23,9 @@ export class ConfigResolver {
         return this.resolveInitConfig(transport)
             .then((userConfig) => ({
                 origin: this.getOrigin(),
-                initConfig: ConfigResolver.toInitConfig(userConfig),
+                initConfig: resolveInitConfig(userConfig),
                 ready: false
             }));
-    }
-
-    private static toInitConfig(userConfig: InitConfig): InitConfig {
-        return {...new InitConfig(), ...userConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
@@ -23,9 +33,6 @@ export class ConfigResolver {
             this.isUriContext()
                 ? resolve(deserialize(location.search))
                 : transport.on(PossibleEvents.init, (config) => resolve(config));
-        }).then((config: InitConfig) => {
-            config.integrationType = getIntegrationType(config);
-            return config;
         });
     }
 
