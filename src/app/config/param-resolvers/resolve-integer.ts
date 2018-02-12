@@ -2,7 +2,7 @@ import isInteger from 'lodash-es/isInteger';
 import toNumber from 'lodash-es/toNumber';
 import isNumber from 'lodash-es/isNumber';
 import isString from 'lodash-es/isString';
-import { logPrefix, sadnessMessage } from 'checkout/log-messages';
+import { getMessageInvalidValue } from 'checkout/log-messages';
 
 const getFromNumber = (userAmount: number): number | null =>
     isInteger(userAmount) ? userAmount : undefined;
@@ -10,7 +10,7 @@ const getFromNumber = (userAmount: number): number | null =>
 const getFromString = (userAmount: string): number | null =>
     getFromNumber(toNumber(userAmount));
 
-export const resolveAmount = (userAmount: any): number | null => {
+export const resolveInteger = (userAmount: any, fieldName: string): number | null => {
     if (!userAmount) {
         return null;
     }
@@ -21,7 +21,7 @@ export const resolveAmount = (userAmount: any): number | null => {
         result = getFromString(userAmount);
     }
     if (!result) {
-        console.warn(`${logPrefix} Invalid value of param \'amount\':'${userAmount}'. Value should be positive integer. ${sadnessMessage}`);
+        console.warn(getMessageInvalidValue(fieldName, userAmount, 'Value should be positive integer.'));
     }
     return result;
 };

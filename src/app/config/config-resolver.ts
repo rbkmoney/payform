@@ -1,19 +1,21 @@
 import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
 import { deserialize } from 'checkout/utils';
-import { resolveAmount, resolveIntegrationType } from './param-resolvers';
+import { resolveInteger, resolveIntegrationType, resolveBoolean } from './param-resolvers';
 
 const resolveInitConfig = (userConfig: any): InitConfig => {
     const integrationType = resolveIntegrationType(userConfig);
     if (!integrationType) {
         throw new Error('Unrecognized integration type');
     }
-    const amount = resolveAmount(userConfig.amount);
+    const amount = resolveInteger(userConfig.amount, 'amount');
+    const obscureCardCvv = resolveBoolean(userConfig.obscureCardCvv, 'obscureCardCvv');
     return {
         ...new InitConfig(),
         ...userConfig,
         integrationType,
-        amount
+        amount,
+        obscureCardCvv
     };
 };
 

@@ -11,8 +11,8 @@ function format(num: string): string {
     const upperLength = card.length[card.length.length - 1];
     num = num.slice(0, upperLength);
     if (card.format.global) {
-        let ref;
-        return (ref = num.match(card.format)) != null ? ref.join(' ') : void 0;
+        const ref = num.match(card.format);
+        return ref != null ? ref.join(' ') : void 0;
     } else {
         let groups: any = card.format.exec(num);
         if (groups == null) {
