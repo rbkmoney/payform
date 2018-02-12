@@ -11,6 +11,7 @@ import { formatCVC } from './format-cvc';
 
 export interface SecureCodeProps {
     locale: Locale;
+    obscureCardCvv: boolean;
 }
 
 const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) => (
@@ -21,7 +22,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
         icon={IconType.lock}
         placeholder={props.locale['form.input.secure.placeholder']}
         mark={true}
-        type='tel'
+        type={props.obscureCardCvv ? 'password' : 'tel'}
         id='secure-code-input'
         onInput={formatCVC}
     />
@@ -36,7 +37,8 @@ export const SecureCodeDef: React.SFC<SecureCodeProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
+    locale: state.config.locale,
+    obscureCardCvv: state.config.initConfig.obscureCardCvv
 });
 
 export const SecureCode = connect(mapStateToProps)(SecureCodeDef);

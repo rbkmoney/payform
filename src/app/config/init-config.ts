@@ -15,6 +15,7 @@ export class InitConfig {
     description?: string;
     email?: string;
     amount?: number;
+    obscureCardCvv?: boolean;
     checked?: boolean;
 
     constructor() {

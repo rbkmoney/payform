@@ -5,7 +5,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    stats: {children: false},
+    stats: {
+        children: false,
+        moduleTrace: false
+    },
     entry: {
         '../dist/checkout': path.join(__dirname, '../src/initializer/index.ts'),
         '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx')
@@ -24,7 +27,16 @@ module.exports = {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
-                use: ['awesome-typescript-loader', 'tslint-loader'],
+                enforce: 'pre',
+                loader: 'tslint-loader',
+                options: {
+                    emitErrors: false,
+                    formatter: 'codeFrame'
+                }
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                use: 'awesome-typescript-loader',
                 exclude: '/node_modules/'
             },
             {

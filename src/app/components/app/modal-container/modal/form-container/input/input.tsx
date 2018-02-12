@@ -10,7 +10,7 @@ export interface CustomProps {
     placeholder?: string;
     mark?: boolean; // TODO mark always true
     className?: string;
-    type?: 'text' | 'number' | 'value' | 'tel' | 'email';
+    type?: 'text' | 'number' | 'value' | 'tel' | 'email' | 'password';
     id?: string;
     onInput?: React.FormEventHandler<HTMLInputElement>;
 }
