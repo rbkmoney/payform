@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -49,13 +48,25 @@ module.exports = {
                                 minimize: true,
                                 modules: true,
                                 namedExport: true,
-                                localIdentName: '[local]___[hash:base64:5]'
+                                localIdentName: '[local]__[hash:8]'
                             }
                         },
                         'sass-loader'
                     ],
                     fallback: 'style-loader'
                 })
+            },
+            {
+                test: /\.(woff|woff2)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[hash:8].[ext]',
+                        mimetype: 'mimetype=application/font-woff',
+                        outputPath: '../dist/v1/fonts/',
+                        publicPath: (url) => url.replace('../dist', '..')
+                    }
+                }]
             }
         ]
     },
