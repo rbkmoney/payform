@@ -1,10 +1,9 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const helpers = require('./helpers');
 const checkoutConfig = require('./webpack.checkout');
 const initializerConfig = require('./webpack.initializer');
+const prepareOutputConfig = require('./prepare-output-config');
 
 const commonProdConfig = {
     plugins: [
@@ -34,29 +33,12 @@ const commonProdConfig = {
     ]
 };
 
-const checkoutProdConfig = {
-    output: {
-        filename: '[hash:20].js',
-        path: helpers.root('dist/v1'),
-        publicPath: '/'
-    },
-    plugins: [
-        new ExtractTextPlugin({filename: '[hash:20].css'})
-    ]
-};
+const baseOutput = 'dist';
 
-const initializerProdConfig = {
-    output: {
-        filename: '[name].js',
-        path: helpers.root('dist'),
-        publicPath: '/'
-    },
-    plugins: [
-        new ExtractTextPlugin({filename: '[name].css'})
-    ]
-};
+const prepareModule = (baseConfig, outputPath, jsPattern, cssPattern) =>
+    merge(merge(baseConfig, prepareOutputConfig(outputPath, jsPattern, cssPattern)), commonProdConfig);
 
 module.exports = [
-    merge(merge(checkoutConfig, checkoutProdConfig), commonProdConfig),
-    merge(merge(initializerConfig, initializerProdConfig), commonProdConfig)
+    prepareModule(checkoutConfig, `${baseOutput}/v1`, '[hash:20]', '[hash:20]'),
+    prepareModule(initializerConfig, baseOutput)
 ];

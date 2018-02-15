@@ -1,10 +1,9 @@
 const path = require('path');
-const helpers = require('./helpers');
 const WriteFilePlugin = require('write-file-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const checkoutConfig = require('./webpack.checkout');
 const initializerConfig = require('./webpack.initializer');
+const prepareOutputConfig = require('./prepare-output-config');
 
 const commonDevConfig = {
     devtool: 'source-map',
@@ -21,18 +20,12 @@ const commonDevConfig = {
     }
 };
 
-const prepareDevConfig = (baseConfig, outputPath) => merge(baseConfig, {
-    output: {
-        filename: '[name].js',
-        path: helpers.root(outputPath),
-        publicPath: '/'
-    },
-    plugins: [
-        new ExtractTextPlugin({filename: '[name].css'})
-    ]
-});
+const baseOutput = 'dist';
+
+const prepareModule = (baseConfig, outputPath) =>
+    merge(merge(baseConfig, prepareOutputConfig(outputPath)), commonDevConfig);
 
 module.exports = [
-    merge(prepareDevConfig(checkoutConfig, 'dist/v1'), commonDevConfig),
-    merge(prepareDevConfig(initializerConfig, 'dist'), commonDevConfig)
+    prepareModule(checkoutConfig, `${baseOutput}/v1`),
+    prepareModule(initializerConfig, baseOutput)
 ];
