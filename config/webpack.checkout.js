@@ -4,19 +4,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    name: 'checkout',
     stats: {
         children: false,
         moduleTrace: false
     },
     entry: {
-        '../dist/checkout': path.join(__dirname, '../src/initializer/index.ts'),
-        '../dist/v1/app': path.join(__dirname, '../src/app/index.tsx')
-    },
-    output: {
-        filename: '[name].js',
-        path: path.join(__dirname)
+        app: './src/app/index.tsx'
     },
     resolve: {
+        modules: ['node_modules', path.join(__dirname, 'src')],
         extensions: ['.ts', '.tsx', '.js'],
         alias: {
             checkout: __dirname + '/../src/app'
@@ -35,8 +32,11 @@ module.exports = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                use: 'awesome-typescript-loader',
-                exclude: '/node_modules/'
+                loader: 'awesome-typescript-loader',
+                exclude: '/node_modules/',
+                options: {
+                    useCache: true
+                }
             },
             {
                 test: /\.(css|scss)$/,
@@ -63,32 +63,25 @@ module.exports = {
                     options: {
                         name: '[hash:8].[ext]',
                         mimetype: 'mimetype=application/font-woff',
-                        outputPath: '../dist/v1/fonts/',
-                        publicPath: (url) => url.replace('../dist', '..')
+                        outputPath: './fonts/'
                     }
                 }]
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin({filename: '[name].css'}),
+        new HtmlWebpackPlugin({
+            template: './src/app/index.html',
+            filename: 'checkout.html'
+        }),
         new CopyWebpackPlugin(
             [
-                {from: './src/app/finish-interaction.html', to: '../dist/v1/'},
-                {from: './src/appConfig.json', to: '../dist/'},
-                {from: './src/locale', to: '../dist/locale'},
-                {from: './src/app/assets', to: '../dist/v1/assets'}
+                {from: './src/app/finish-interaction.html'},
+                {from: './src/appConfig.json'},
+                {from: './src/locale/*.json', to: './locale', flatten: true},
+                {from: './src/app/assets', to: './assets'}
             ],
             {debug: 'warning'}
-        ),
-        new HtmlWebpackPlugin({
-            inject: false,
-            template: 'src/app/index.html',
-            filename: '../dist/v1/checkout.html',
-            files: {
-                app: './app.js',
-                styles: './app.css'
-            }
-        })
+        )
     ]
 };
