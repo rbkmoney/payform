@@ -1,6 +1,6 @@
 import { ResultState, ConfigState, ModelState, ErrorState, FormsState, ModalState } from '.';
 
-export type State = {
+export interface State {
     readonly result: ResultState;
     readonly config: ConfigState;
     readonly model: ModelState;

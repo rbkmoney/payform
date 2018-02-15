@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "webpack --colors --progress --config config/webpack.prod.js",
-    "start": "webpack-dev-server --colors --progress --config config/webpack.dev.js --port 7050 --host ::"
+    "build": "rimraf dist && webpack --colors --progress --config config/webpack.prod.js",
+    "start": "rimraf dist && webpack-dev-server --colors --progress --config config/webpack.dev.js --port 7050 --host ::"
   },
   "repository": {
     "type": "git",
@@ -51,6 +51,7 @@
     "html-webpack-plugin": "~2.30.1",
     "node-sass": "~4.7.2",
     "redux-devtools-extension": "~2.13.2",
+    "rimraf": "~2.6.2",
     "sass-loader": "~6.0.3",
     "style-loader": "~0.20.1",
     "tslint": "~5.9.1",
@@ -59,6 +60,7 @@
     "tslint-react": "~3.4.0",
     "typescript": "~2.7.1",
     "webpack": "~3.11.0",
+    "webpack-bundle-analyzer": "~2.10.0",
     "webpack-dev-server": "~2.11.1",
     "webpack-merge": "~4.1.0",
     "write-file-webpack-plugin": "~4.2.0"

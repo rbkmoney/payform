@@ -1,11 +1,11 @@
-const webpack = require('webpack');
 const path = require('path');
-const fs = require('fs');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const merge = require('webpack-merge');
-const commonConfig = require('./webpack.common');
+const checkoutConfig = require('./webpack.checkout');
+const initializerConfig = require('./webpack.initializer');
+const prepareOutputConfig = require('./prepare-output-config');
 
-module.exports = merge(commonConfig, {
+const commonDevConfig = {
     devtool: 'source-map',
     plugins: [
         new WriteFilePlugin({
@@ -15,10 +15,17 @@ module.exports = merge(commonConfig, {
     devServer: {
         contentBase: path.join(__dirname, '../dist'),
         compress: true,
-        disableHostCheck: true,
-        stats: {
-            children: false,
-            chunks: false
-        }
+        disableHostCheck: false,
+        stats: 'minimal'
     }
-});
+};
+
+const baseOutput = 'dist';
+
+const prepareModule = (baseConfig, outputPath) =>
+    merge(merge(baseConfig, prepareOutputConfig(outputPath)), commonDevConfig);
+
+module.exports = [
+    prepareModule(checkoutConfig, `${baseOutput}/v1`),
+    prepareModule(initializerConfig, baseOutput)
+];
