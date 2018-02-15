@@ -5,7 +5,7 @@ const prepareOutputConfig = (outputPath, jsFilenamePattern = '[name]', cssFilena
     output: {
         filename: `${jsFilenamePattern}.js`,
         path: helpers.root(outputPath),
-        publicPath: '/'
+        publicPath: './'
     },
     plugins: [
         new ExtractTextPlugin({filename: `${cssFilenamePattern}.css`})

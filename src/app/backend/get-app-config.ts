@@ -1,7 +1,7 @@
 import { AppConfig } from './app-config';
 
 export const getAppConfig = (): Promise<AppConfig> => (
-    fetch('../appConfig.json', {
+    fetch('../v1/appConfig.json', {
         headers: {
             'Content-Type': 'application/json'
         },
