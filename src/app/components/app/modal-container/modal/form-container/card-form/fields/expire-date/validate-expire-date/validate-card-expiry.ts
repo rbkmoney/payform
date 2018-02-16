@@ -1,6 +1,6 @@
-import { Date } from './card-expiry-val';
+import { ExpiryDate } from './card-expiry-val';
 
-export function validateCardExpiry({month, year}: Date): boolean {
+export function validateCardExpiry({month, year}: ExpiryDate): boolean {
     if (!(month && year)) {
         return false;
     }

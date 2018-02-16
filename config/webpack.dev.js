@@ -1,8 +1,8 @@
 const path = require('path');
 const WriteFilePlugin = require('write-file-webpack-plugin');
 const merge = require('webpack-merge');
-const checkoutConfig = require('./webpack.checkout');
-const initializerConfig = require('./webpack.initializer');
+const checkoutConfig = require('./checkout-config');
+const initializerConfig = require('./initializer-config');
 const prepareOutputConfig = require('./prepare-output-config');
 
 const commonDevConfig = {
