@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as dateFns from 'date-fns';
+import * as format from 'date-fns/format';
 import * as formStyles from '../../../form-container.scss';
 import {
     ListItem,
@@ -18,11 +18,12 @@ interface ReceiptInfo {
 const formatPaymentId = (id: string): string => `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
 
 const Instruction: React.SFC<ReceiptInfo> = (props) => {
-    const formattedDate = dateFns.format(props.receipt.dueDate, 'D.MM.YYYY HH:mm');
+    const formattedDate = format(props.receipt.dueDate, 'D.MM.YYYY HH:mm');
     const amount = `${props.amount.value} ${props.amount.symbol}`;
     return (
         <p className={formStyles.text}>
-            {props.locale['form.pay.terminals.instruction.to.pay']} <span className={formStyles.highlight}>{amount}</span>.
+            {props.locale['form.pay.terminals.instruction.to.pay']} <span
+            className={formStyles.highlight}>{amount}</span>.
             {props.locale['form.pay.terminals.instruction.dueDate']}
             <span className={formStyles.highlight}>{formattedDate}</span>.
         </p>

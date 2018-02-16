@@ -30,7 +30,7 @@ const rules = [
                         minimize: true,
                         modules: true,
                         namedExport: true,
-                        localIdentName: '[local]__[hash:8]'
+                        localIdentName: '[local]__[hash:5]'
                     }
                 },
                 'sass-loader'

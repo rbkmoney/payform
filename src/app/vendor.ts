@@ -1,4 +1,3 @@
-import 'date-fns';
 import 'libphonenumber-js';
 import 'uri-template';
 import 'currency-formatter';
