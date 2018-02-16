@@ -1,9 +1,9 @@
-export interface Date {
+export interface ExpiryDate {
     month: number;
     year: number;
 }
 
-export function cardExpiryVal(value: string): Date {
+export function cardExpiryVal(value: string): ExpiryDate {
     let month;
     let prefix;
     let year;

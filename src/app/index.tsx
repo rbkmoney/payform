@@ -1,7 +1,3 @@
-import 'url-polyfill';
-import 'core-js/es6/promise';
-import 'core-js/es6/object';
-import 'core-js/es6/array';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
