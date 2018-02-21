@@ -1,22 +1,33 @@
-import * as URL from 'url-parse';
-import { Transport, PossibleEvents } from '../../communication-ts';
+import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
-import { getIntegrationType } from './get-integration-type';
 import { deserialize } from 'checkout/utils';
+import { resolveInteger, resolveIntegrationType, resolveBoolean } from './param-resolvers';
+
+const resolveInitConfig = (userConfig: any): InitConfig => {
+    const integrationType = resolveIntegrationType(userConfig);
+    if (!integrationType) {
+        throw new Error('Unrecognized integration type');
+    }
+    const amount = resolveInteger(userConfig.amount, 'amount');
+    const obscureCardCvv = resolveBoolean(userConfig.obscureCardCvv, 'obscureCardCvv');
+    return {
+        ...new InitConfig(),
+        ...userConfig,
+        integrationType,
+        amount,
+        obscureCardCvv
+    };
+};
 
 export class ConfigResolver {
 
     static resolve(transport: Transport): Promise<Config> {
         return this.resolveInitConfig(transport)
-            .then((initConfig) => ({
+            .then((userConfig) => ({
                 origin: this.getOrigin(),
-                initConfig: ConfigResolver.toInitConfig(initConfig),
+                initConfig: resolveInitConfig(userConfig),
                 ready: false
             }));
-    }
-
-    private static toInitConfig(initConfig: InitConfig): InitConfig {
-        return {...new InitConfig(), ...initConfig};
     }
 
     private static resolveInitConfig(transport: Transport): Promise<InitConfig> {
@@ -24,9 +35,6 @@ export class ConfigResolver {
             this.isUriContext()
                 ? resolve(deserialize(location.search))
                 : transport.on(PossibleEvents.init, (config) => resolve(config));
-        }).then((config: InitConfig) => {
-            config.integrationType = getIntegrationType(config);
-            return config;
         });
     }
 
@@ -36,7 +44,7 @@ export class ConfigResolver {
 
     private static getOrigin(): string {
         const currentScript: any = document.currentScript || this.getCurrentScript();
-        const url = URL(currentScript.src);
+        const url = new URL(currentScript.src);
         return url.origin;
     }
 

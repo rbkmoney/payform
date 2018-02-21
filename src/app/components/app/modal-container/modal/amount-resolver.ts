@@ -1,5 +1,6 @@
 import { ModelState } from 'checkout/state';
 import {
+    CostType,
     InvoiceChangeType,
     InvoiceCreated,
     InvoiceTemplateLineCostFixed,
@@ -8,18 +9,25 @@ import {
 } from 'checkout/backend';
 import { Amount, findChange } from 'checkout/utils';
 
-const getAmountFromSingleLine = (model: ModelState): Amount | null => {
+const getAmountFromSingleLine = (model: ModelState, configAmount: number | null): Amount | null => {
     const details = model.invoiceTemplate.details as InvoiceTemplateSingleLine;
-    let result = null;
     const price = details.price;
-    if (price && price.costType === 'InvoiceTemplateLineCostFixed') {
-        const fixed = price as InvoiceTemplateLineCostFixed;
-        result = {
-            value: fixed.amount,
-            currencyCode: fixed.currency
-        };
+    if (price) {
+        switch (price.costType) {
+            case CostType.InvoiceTemplateLineCostFixed:
+                const fixed = price as InvoiceTemplateLineCostFixed;
+                return {
+                    value: fixed.amount,
+                    currencyCode: fixed.currency
+                };
+            case CostType.InvoiceTemplateLineCostRange:
+            case CostType.InvoiceTemplateLineCostUnlim:
+                return configAmount ? {
+                    value: configAmount,
+                    currencyCode: 'RUB' // TODO fix hardcoded currency
+                } : null;
+        }
     }
-    return result;
 };
 
 const getAmountFromMultiLine = (details: InvoiceTemplateMultiLine): Amount => ({
@@ -27,10 +35,10 @@ const getAmountFromMultiLine = (details: InvoiceTemplateMultiLine): Amount => ({
     currencyCode: details.currency
 });
 
-const getAmountFromInvoiceTemplate = (model: ModelState): Amount => {
+const getAmountFromInvoiceTemplate = (model: ModelState, configAmount: number | null): Amount => {
     switch (model.invoiceTemplate.details.templateType) {
         case 'InvoiceTemplateSingleLine':
-            return getAmountFromSingleLine(model);
+            return getAmountFromSingleLine(model, configAmount);
         case 'InvoiceTemplateMultiLine':
             return getAmountFromMultiLine(model.invoiceTemplate.details as InvoiceTemplateMultiLine);
     }
@@ -44,10 +52,12 @@ const getAmountFromInvoice = (invoiceCreated: InvoiceCreated): Amount => {
     };
 };
 
-export const getAmount = (m: ModelState): Amount | null => {
+export const getAmount = (m: ModelState, configAmount: number | null): Amount | null => {
     if (!m.invoiceEvents && !m.invoiceTemplate) {
         return;
     }
     const invoiceCreated = findChange(m.invoiceEvents, InvoiceChangeType.InvoiceCreated);
-    return invoiceCreated ? getAmountFromInvoice(invoiceCreated as InvoiceCreated) : getAmountFromInvoiceTemplate(m);
+    return invoiceCreated
+        ? getAmountFromInvoice(invoiceCreated as InvoiceCreated)
+        : getAmountFromInvoiceTemplate(m, configAmount);
 };

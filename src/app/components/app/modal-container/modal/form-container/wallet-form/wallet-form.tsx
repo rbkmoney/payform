@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import get from 'lodash-es/get';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
-import { get } from 'lodash';
 import { WalletFormProps } from './wallet-form-props';
 import * as formStyles from 'checkout/styles/forms.scss';
 import {

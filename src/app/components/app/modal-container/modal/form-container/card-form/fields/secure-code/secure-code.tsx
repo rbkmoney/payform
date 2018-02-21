@@ -1,41 +1,44 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { Input } from '../../../input';
 import { IconType } from 'checkout/components';
-import { secureCodeFormatter } from '../format';
-import { validateSecureCode } from '../validation';
+import { validateSecureCode } from './validate-secure-code';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
+import { formatCVC } from './format-cvc';
 
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
-
-export interface SecureCodeDefProps {
+export interface SecureCodeProps {
     locale: Locale;
+    obscureCardCvv: boolean;
 }
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & SecureCodeDefProps> = (props) => (
+const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
-        formatter={secureCodeFormatter}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         icon={IconType.lock}
         placeholder={props.locale['form.input.secure.placeholder']}
         mark={true}
-        type='tel'
+        type={props.obscureCardCvv ? 'password' : 'tel'}
         id='secure-code-input'
+        onInput={formatCVC}
     />
 );
 
-export const SecureCodeDef: React.SFC<SecureCodeDefProps> = (props) => (
-    <Field name='secureCode' component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
-           validate={validateSecureCode}/>
+export const SecureCodeDef: React.SFC<SecureCodeProps> = (props) => (
+    <Field
+        name='secureCode'
+        component={getCustomInput.bind(null, props)}
+        validate={validateSecureCode}
+    />
 );
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale,
+    obscureCardCvv: state.config.initConfig.obscureCardCvv
+});
 
 export const SecureCode = connect(mapStateToProps)(SecureCodeDef);

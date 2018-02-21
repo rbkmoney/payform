@@ -22,18 +22,20 @@ const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig =>
     return result;
 };
 
-const toTemplateAmountConfig = (t: InvoiceTemplate): AmountConfig => {
+const toTemplateAmountConfig = (c: InitConfig, t: InvoiceTemplate): AmountConfig => {
     switch (t.details.templateType) {
         case 'InvoiceTemplateSingleLine':
-            return toSingleLineAmountConfig(t.details as InvoiceTemplateSingleLine);
+            return c.amount
+                ? {visible: false}
+                : toSingleLineAmountConfig(t.details as InvoiceTemplateSingleLine);
     }
     return {visible: false};
 };
 
-const toAmountConfig = (type: IntegrationType, template: InvoiceTemplate): AmountConfig => {
-    switch (type) {
+const toAmountConfig = (c: InitConfig, template: InvoiceTemplate): AmountConfig => {
+    switch (c.integrationType) {
         case IntegrationType.invoiceTemplate:
-            return toTemplateAmountConfig(template);
+            return toTemplateAmountConfig(c, template);
     }
     return {visible: false};
 };
@@ -45,6 +47,6 @@ const toEmailConfig = (email: string): EmailConfig => {
 };
 
 export const toFieldsConfig = (c: InitConfig, t: InvoiceTemplate): FieldsConfig => ({
-    amount: toAmountConfig(c.integrationType, t),
+    amount: toAmountConfig(c, t),
     email: toEmailConfig(c.email)
 });

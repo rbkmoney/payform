@@ -1,4 +1,5 @@
-import { last, clone } from 'lodash';
+import last from 'lodash-es/last';
+import clone from 'lodash-es/clone';
 
 interface ChangeLike {
     changeType: any;

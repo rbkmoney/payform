@@ -1,28 +1,22 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldInputProps, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps } from 'redux-form';
 import { IconType } from 'checkout/components/ui';
 import { State } from 'checkout/state';
 import { Input } from '../../input';
 import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
-import { validateEmail } from '../validation/email';
-
-type FieldProps = WrappedFieldInputProps & WrappedFieldProps;
+import { validateEmail } from './validate-email';
 
 export interface EmailDefProps {
     locale: Locale;
 }
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale
-});
-
-const CustomInput: React.SFC<FieldProps & EmailDefProps> = (props) => (
+const getCustomInput = (props: EmailDefProps, fieldProps: WrappedFieldProps) => (
     <Input
-        {...props.input}
-        {...props.meta}
-        error={isError(props.meta)}
+        {...fieldProps.input}
+        {...fieldProps.meta}
+        error={isError(fieldProps.meta)}
         icon={IconType.letter}
         placeholder={props.locale['form.input.email.placeholder']}
         mark={true}
@@ -34,9 +28,13 @@ const CustomInput: React.SFC<FieldProps & EmailDefProps> = (props) => (
 export const EmailDef: React.SFC<EmailDefProps> = (props) => (
     <Field
         name='email'
-        component={(fieldProps: FieldProps) => CustomInput({...fieldProps, ...props})}
+        component={getCustomInput.bind(null, props)}
         validate={validateEmail}
     />
 );
+
+const mapStateToProps = (state: State) => ({
+    locale: state.config.locale
+});
 
 export const Email = connect(mapStateToProps)(EmailDef);
