@@ -1,9 +1,7 @@
-<svg width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="#FFFFFF" x="0.5" y="0" width="18" height="18"/>
-        <path d="M2,4 L8.2506099,9.00048792 L8.2506099,9.00048792 C8.98104721,9.58483777 10.0189528,9.58483777 10.7493901,9.00048792 L17,4"
-              id="Stroke-100" stroke="#181818"/>
-        <rect id="Rectangle-6" stroke="#181818" stroke-width="2" x="2" y="4" width="15" height="10" rx="2"/>
+<svg width="19" height="18" xmlns="http://www.w3.org/2000/svg">
+    <g id="icon" fill="none" fill-rule="evenodd">
+        <path fill="#FFF" d="M.5 0h18v18H.5z"/>
+        <path d="M2 4l6.3 5a2 2 0 0 0 2.4 0L17 4" stroke="#181818"/>
+        <rect stroke="#181818" stroke-width="2" x="2" y="4" width="15" height="10" rx="2"/>
     </g>
 </svg>

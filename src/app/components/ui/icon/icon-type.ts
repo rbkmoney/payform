@@ -1,5 +1,4 @@
 export enum IconType {
-    bankCard = 'bank-card',
     calendar = 'calendar',
     checkmark = 'checkmark',
     redCross = 'red-cross',
@@ -9,11 +8,8 @@ export enum IconType {
     card = 'card',
     letter = 'letter',
     lock = 'lock',
-    mcSecure = 'mc-secure',
-    pciDss = 'pci-dss',
     phone = 'phone',
     user = 'user',
-    verByVisa = 'ver-by-visa',
     visa = 'visa',
     mastercard = 'mastercard',
     eurosetLogo = 'euroset-logo'
