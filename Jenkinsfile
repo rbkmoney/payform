@@ -18,6 +18,9 @@ build('payform', 'docker-host') {
         sh 'make wc_init'
       }
     }
+    runStage('test') {
+      sh 'make wc_test'
+    }
     runStage('build') {
       sh 'make wc_build'
     }

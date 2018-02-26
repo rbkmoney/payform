@@ -35,6 +35,9 @@ submodules: $(SUBTARGETS)
 init:
 	npm install
 
+test:
+	npm test
+
 build:
 	npm run build
 
