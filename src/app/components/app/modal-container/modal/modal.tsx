@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 import * as styles from './modal.scss';
 import { Info } from './info';
 import { Footer } from '../footer';
@@ -7,16 +7,14 @@ import { MobileHeader } from './mobile-header';
 import { FormContainer } from './form-container';
 
 const ModalDef: React.SFC = () => (
-    <CSSTransitionGroup
+    <CSSTransition
         component='div'
-        transitionName={{
+        classNames={{
             appear: styles.appearFormContainer,
             enter: styles.enterFormContainer,
-            leave: styles.leaveFormContainer
+            exit: styles.leaveFormContainer
         }}
-        transitionEnterTimeout={1000}
-        transitionLeaveTimeout={1000}
-        transitionAppearTimeout={1000}
+        timeout={{enter: 1000, exit: 1000}}
         transitionAppear={true}
         transitionEnter={true}
         transitionLeave={true}
@@ -27,7 +25,7 @@ const ModalDef: React.SFC = () => (
             <FormContainer/>
             <Footer/>{/*For mobile*/}
         </div>
-    </CSSTransitionGroup>
+    </CSSTransition>
 );
 
 export const Modal = ModalDef;

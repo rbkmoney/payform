@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as TransitionGroup from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
 import { FormInfo, ModalState, ModelState, State } from 'checkout/state';
@@ -35,8 +35,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
-const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
-
 const renderMethods = (method: PaymentMethod, props: PaymentMethodsProps) => {
     const initConfig = props.initConfig;
     switch (method.method) {
@@ -66,23 +64,21 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
                             {this.props.locale['form.header.payment.methods.label']}
                         </div>
                     </div>
-                    <CSSTransitionGroup
+                    <CSSTransition
                         className={styles.list}
                         component='ul'
-                        transitionName={{
+                        classNames={{
                             appear: styles.appearItem,
                             enter: styles.enterItem,
-                            leave: styles.leaveItem
+                            exit: styles.leaveItem
                         }}
-                        transitionEnterTimeout={1000}
-                        transitionLeaveTimeout={1000}
-                        transitionAppearTimeout={1000}
+                        timeout={{enter: 1000, exit: 1000}}
                         transitionAppear={true}
                         transitionEnter={true}
                         transitionLeave={true}
                     >
                         {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
-                    </CSSTransitionGroup>
+                    </CSSTransition>
                 </div>
             </form>
         );
