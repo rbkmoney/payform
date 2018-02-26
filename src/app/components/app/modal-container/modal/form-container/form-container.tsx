@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import { CSSTransition } from 'react-transition-group';
 import * as cx from 'classnames';
 import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
@@ -31,19 +31,18 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 <div
                     className={cx(styles.form, {[styles._error]: viewInfo.error})}
                     style={{height: viewInfo.height}}>
-                    <CSSTransitionGroup
+                    <CSSTransition
                         component='div'
                         className={styles.animationFormContainer}
-                        transitionName={viewInfo.slideDirection}
-                        transitionEnterTimeout={550}
-                        transitionLeaveTimeout={550}>
+                        classNames={viewInfo.slideDirection}
+                        timeout={{enter: 550, exit: 550}}>
                         {name === FormName.paymentMethods ? <PaymentMethods/> : null}
                         {name === FormName.cardForm ? <CardForm/> : null}
                         {name === FormName.walletForm ? <WalletForm/> : null}
                         {name === FormName.terminalForm ? <TerminalForm/> : null}
                         {name === FormName.resultForm ? <ResultForm/> : null}
                         {name === FormName.interactionForm ? <InteractionForm/> : null}
-                    </CSSTransitionGroup>
+                    </CSSTransition>
                     {viewInfo.inProcess ? <FormLoader/> : null}
                 </div>
             </div>

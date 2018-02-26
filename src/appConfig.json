@@ -1,5 +1,5 @@
 {
-  "capiEndpoint": "<capi endpoint>",
+  "capiEndpoint": "http://api.rbk.test:8080",
   "applePayMerchantID": "<apple pay merchant id>",
   "applePayMerchantValidationEndpoint": "<apple pay merchant validation endpoint>"
 }
