@@ -6,8 +6,8 @@ interface IconProps {
     className?: string;
 }
 
-export const Icon: React.SFC<IconProps> = (props) => {
-    return (
-        <svg {...props} dangerouslySetInnerHTML={{__html: `<use xlink:href='assets/icons/${props.icon}.svg#icon' />`}}/>
-    );
-};
+export const Icon: React.SFC<IconProps> = (props) => (
+    <svg className={props.className}>
+        <use xlinkHref={`assets/icons/${props.icon}.svg#icon`}/>
+    </svg>
+);

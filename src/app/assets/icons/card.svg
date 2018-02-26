@@ -1,9 +1,7 @@
-<svg width="19px" height="18px" viewBox="0 0 19 18" version="1.1" xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <rect id="Rectangle" fill="#FFFFFF" x="0.5" y="0" width="18" height="18"/>
-        <rect id="Rectangle-6" stroke="#181818" stroke-width="2" x="2" y="4" width="15" height="10" rx="2"/>
-        <rect id="Rectangle" fill="#181818" x="1" y="7" width="16" height="1"/>
-        <rect id="Rectangle-Copy" fill="#181818" x="5" y="10" width="4" height="1"/>
+<svg width="19" height="18" xmlns="http://www.w3.org/2000/svg">
+    <g id="icon" fill="none" fill-rule="evenodd">
+        <path fill="#FFF" d="M.5 0h18v18H.5z"/>
+        <rect stroke="#181818" stroke-width="2" x="2" y="4" width="15" height="10" rx="2"/>
+        <path fill="#181818" d="M1 7h16v1H1zM5 10h4v1H5z"/>
     </g>
 </svg>
