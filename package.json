@@ -17,21 +17,22 @@
   "private": true,
   "jest": {
     "transform": {
-      "~.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.ts(x)?$": "ts-jest"
     },
     "testMatch": [
       "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
     ],
     "moduleFileExtensions": [
+      "ts",
+      "tsx",
       "js",
       "jsx",
       "json",
-      "ts",
-      "tsx"
+      "node"
     ],
     "moduleNameMapper": {
-      "~.+\\.scss$": "identity-obj-proxy",
-      "~checkout/(.*)": "<rootDir>/src/app/$1"
+      "^.+\\.scss$": "identity-obj-proxy",
+      "^checkout/(.*)": "<rootDir>/src/app/$1"
     }
   },
   "dependencies": {

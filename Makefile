@@ -17,7 +17,7 @@ BASE_IMAGE_TAG := 768cf0f40600e290060502e047dd2e86d4fd6020
 
 BUILD_IMAGE_TAG := 55e987e74e9457191a5b4a7c5dc9e3838ae82d2b
 
-CALL_W_CONTAINER := init build clean submodules
+CALL_W_CONTAINER := init test build clean submodules
 
 .PHONY: $(CALL_W_CONTAINER)
 
