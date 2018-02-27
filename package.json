@@ -16,6 +16,11 @@
   "license": "",
   "private": true,
   "jest": {
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
     "transform": {
       "^.+\\.ts(x)?$": "ts-jest"
     },
