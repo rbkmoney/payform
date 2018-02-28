@@ -16,5 +16,5 @@ export function* loadConfig(localeName: string): Iterator<SagaEffect> {
             appConfig,
             locale
         }
-    });
+    } as SetConfigChunk);
 }
