@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import { CSSTransition } from 'react-transition-group';
+import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
@@ -90,24 +90,27 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     render() {
         const {activeModal: {name}, config: {initConfig: {popupMode}}} = this.props;
         return (
-            <CSSTransition
+            <CSSTransitionGroup
                 component='div'
                 className={styles.animationContainer}
-                classNames={{
+                transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
-                    exit: styles.leaveContainer
+                    leave: styles.leaveContainer
                 }}
-                timeout={{enter: 950, exit: 950}}
+                transitionEnterTimeout={950}
+                transitionLeaveTimeout={950}
+                transitionAppearTimeout={950}
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}
             >
                 <div className={styles.container}>
-                    <CSSTransition
+                    <CSSTransitionGroup
                         component='div'
-                        classNames='interactionAnimation'
-                        timeout={{enter: 1000, exit: 500}}
+                        transitionName='interactionAnimation'
+                        transitionEnterTimeout={1000}
+                        transitionLeaveTimeout={500}
                     >
                         {name === ModalName.modalForms ?
                             <div>
@@ -120,10 +123,10 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                                 {popupMode ? null : <Close/>}
                                 <UserInteractionModal/>
                             </div> : null}
-                    </CSSTransition>
+                    </CSSTransitionGroup>
                     {isInteractionPolling(this.props.activeModal) ? <ModalLoader/> : null}
                 </div>
-            </CSSTransition>
+            </CSSTransitionGroup>
         );
     }
 }
