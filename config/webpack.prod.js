@@ -7,21 +7,8 @@ const prepareOutputConfig = require('./prepare-output-config');
 
 const commonProdConfig = {
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-                screw_ie8: true,
-                conditionals: true,
-                unused: true,
-                comparisons: true,
-                sequences: true,
-                dead_code: true,
-                evaluate: true,
-                if_return: true,
-                join_vars: true
-            },
-            comments: false
-        }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')

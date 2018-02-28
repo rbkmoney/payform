@@ -88,18 +88,12 @@ class InfoDef extends React.Component<InfoProps, InfoState> {
                 {recurrent ? <div>
                     <div className={styles.subscription} onClick={this.toggleHelp}>
                         <span>{locale['info.subscription.label']}</span>
-                        <svg width='15px' height='15px' viewBox='0 0 15 15'>
-                            <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-                                <g transform='translate(-201.000000, -205.000000)'>
-                                    <g transform='translate(25.000000, 30.000000)'>
-                                        <g transform='translate(177.000000, 176.000000)'>
-                                            <circle strokeWidth='2' cx='6.5' cy='6.5' r='6.5'/>
-                                            <text>
-                                                <tspan x='4' y='10'>?</tspan>
-                                            </text>
-                                        </g>
-                                    </g>
-                                </g>
+                        <svg width='15' height='15'>
+                            <g transform='translate(1 1)' fill='none'>
+                                <circle cx='7' cy='7' r='7'/>
+                                <text>
+                                    <tspan x='4' y='10'>?</tspan>
+                                </text>
                             </g>
                         </svg>
                     </div>
