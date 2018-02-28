@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { CSSTransition } from 'react-transition-group';
-import { appear, exit, loader } from './form-loader.scss';
+import { CSSTransitionGroup } from 'react-transition-group';
+import { appear, leave, loader } from './form-loader.scss';
 import { Loader } from 'checkout/components';
 
 export const FormLoader: React.SFC = () => (
-    <CSSTransition
-        classNames={{enter: null, appear, exit}}
+    <CSSTransitionGroup
+        transitionName={{enter: null, appear, leave}}
         transitionEnter={false}
         transitionAppear={true}
-        timeout={{enter: 500, exit: 200}}>
+        transitionAppearTimeout={500}
+        transitionLeaveTimeout={200}>
         <div key='form-loader' className={loader} id='form-loader'>
             <Loader/>
         </div>
-    </CSSTransition>
+    </CSSTransitionGroup>
 );
