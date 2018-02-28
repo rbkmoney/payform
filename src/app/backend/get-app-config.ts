@@ -1,8 +1,7 @@
 import { AppConfig } from './app-config';
-import { getNocacheValue } from 'checkout/utils';
 
 export const getAppConfig = (): Promise<AppConfig> => (
-    fetch(`../appConfig.json?nocache=${getNocacheValue()}`, {
+    fetch('../appConfig.json', {
         headers: {
             'Content-Type': 'application/json'
         },
