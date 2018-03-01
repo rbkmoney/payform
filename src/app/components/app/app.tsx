@@ -5,45 +5,15 @@ import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loader';
-import { ModelStatus, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { AppProps } from './app-props';
-import { initialize, initModal, checkInitConfigCapability, loadConfigAction, initializeApp } from 'checkout/actions';
-
-const mapStateToProps = (state: State) => ({
-    config: state.config,
-    error: state.error && state.error.error,
-    model: state.model,
-    modalReady: !!state.modals
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    loadConfig: bindActionCreators(loadConfigAction, dispatch),
-    initModel: bindActionCreators(initialize, dispatch),
-    initModal: bindActionCreators(initModal, dispatch),
-    checkInitConfigCapability: bindActionCreators(checkInitConfigCapability, dispatch),
-    initializeApp: bindActionCreators(initializeApp, dispatch)
-});
+import { initializeApp } from 'checkout/actions';
 
 class AppDef extends React.Component<AppProps> {
 
     componentWillMount() {
-        // this.props.loadConfig(this.props.config.initConfig.locale);
-        this.props.initializeApp(this.props.config.initConfig);
+        this.props.initApp(this.props.initConfig);
     }
-
-    // componentWillReceiveProps(props: AppProps) {
-    //     const {config, model, error} = props;
-    //     if (config.ready && model.status === ModelStatus.none && !error) {
-    //         props.initModel(config);
-    //     }
-    //     const {config: {initConfig}, modalReady} = props;
-    //     if (model.status === ModelStatus.initialized && !initConfig.checked) {
-    //         props.checkInitConfigCapability(initConfig, model);
-    //     }
-    //     if (!modalReady && initConfig.checked) {
-    //         props.initModal(initConfig, model);
-    //     }
-    // }
 
     render() {
         const {modalReady, error} = this.props;
@@ -57,5 +27,15 @@ class AppDef extends React.Component<AppProps> {
         );
     }
 }
+
+const mapStateToProps = (state: State) => ({
+    initConfig: state.config.initConfig,
+    error: state.error && state.error.error,
+    modalReady: !!state.modals
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    initApp: bindActionCreators(initializeApp, dispatch)
+});
 
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppDef);

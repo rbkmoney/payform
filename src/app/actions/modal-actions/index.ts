@@ -1,4 +1,3 @@
-export * from './init-modal-action';
 export * from './set-modal-state';
 export * from './view-info-actions';
 export * from './set-modal-from-events';
