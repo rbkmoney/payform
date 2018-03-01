@@ -23,7 +23,14 @@
     "testMatch": [
       "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
     ],
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "moduleNameMapper": {
       "^.+\\.scss$": "identity-obj-proxy",
       "^checkout/(.*)": "<rootDir>/src/app/$1"
@@ -64,6 +71,7 @@
     "@types/react-test-renderer": "~16.0.1",
     "@types/react-transition-group": "~1.1.0",
     "@types/redux-form": "~7.0.13",
+    "@types/redux-saga": "~0.10.5",
     "@types/url-parse": "~1.1.0",
     "babel-jest": "~22.4.1",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.26.0",

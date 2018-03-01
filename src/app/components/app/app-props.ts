@@ -11,4 +11,5 @@ export interface AppProps {
     initModel: (config: ConfigState) => any;
     initModal: (config: InitConfig, model: ModelState) => any;
     checkInitConfigCapability: (config: InitConfig, model: ModelState) => any;
+    initializeApp: (config: InitConfig) => any;
 }

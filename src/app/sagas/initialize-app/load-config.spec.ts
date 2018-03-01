@@ -1,16 +1,13 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { loadConfig, loadConfigSaga } from './load-config-saga';
+import { all, call, put } from 'redux-saga/effects';
 import { getAppConfig, getLocale } from 'checkout/backend';
 import { TypeKeys } from 'checkout/actions';
+import { loadConfig } from './load-config';
 
 describe('loadConfig', () => {
     const localeName = 'ru';
-    const iterator = loadConfig({
-        type: TypeKeys.LOAD_CONFIG_REQUESTED,
-        payload: localeName
-    });
+    const iterator = loadConfig(localeName);
 
-    it('should call app and locale fetching', () => {
+    it('should fetch app config and locale', () => {
         const actual = iterator.next().value;
         const expected = all([
             call(getAppConfig),
@@ -19,7 +16,7 @@ describe('loadConfig', () => {
         expect(actual).toEqual(expected);
     });
 
-    it('should put action', () => {
+    it('should put config', () => {
         const appConfig = {};
         const locale = {};
         const actual = iterator.next([appConfig, locale]).value;
@@ -29,11 +26,14 @@ describe('loadConfig', () => {
         });
         expect(actual).toEqual(expected);
     });
-});
 
-it('loadConfigSaga should takeLatest loadConfig', () => {
-    const iterator = loadConfigSaga();
-    const actual = iterator.next().value;
-    const expected = takeLatest(TypeKeys.LOAD_CONFIG_REQUESTED, loadConfig);
-    expect(actual).toEqual(expected);
+    it('should put error', () => {
+        const error = {};
+        const actual = iterator.throw(error).value;
+        const expected = put({
+            type: TypeKeys.SET_ERROR,
+            payload: error
+        });
+        expect(actual).toEqual(expected);
+    });
 });

@@ -7,7 +7,7 @@ import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loader';
 import { ModelStatus, State } from 'checkout/state';
 import { AppProps } from './app-props';
-import { loadConfig, initialize, initModal, checkInitConfigCapability } from 'checkout/actions';
+import { initialize, initModal, checkInitConfigCapability, loadConfigAction, initializeApp } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
@@ -17,31 +17,33 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    loadConfig: bindActionCreators(loadConfig, dispatch),
+    loadConfig: bindActionCreators(loadConfigAction, dispatch),
     initModel: bindActionCreators(initialize, dispatch),
     initModal: bindActionCreators(initModal, dispatch),
-    checkInitConfigCapability: bindActionCreators(checkInitConfigCapability, dispatch)
+    checkInitConfigCapability: bindActionCreators(checkInitConfigCapability, dispatch),
+    initializeApp: bindActionCreators(initializeApp, dispatch)
 });
 
 class AppDef extends React.Component<AppProps> {
 
     componentWillMount() {
-        this.props.loadConfig(this.props.config.initConfig.locale);
+        // this.props.loadConfig(this.props.config.initConfig.locale);
+        this.props.initializeApp(this.props.config.initConfig);
     }
 
-    componentWillReceiveProps(props: AppProps) {
-        const {config, model, error} = props;
-        if (config.ready && model.status === ModelStatus.none && !error) {
-            props.initModel(config);
-        }
-        const {config: {initConfig}, modalReady} = props;
-        if (model.status === ModelStatus.initialized && !initConfig.checked) {
-            props.checkInitConfigCapability(initConfig, model);
-        }
-        if (!modalReady && initConfig.checked) {
-            props.initModal(initConfig, model);
-        }
-    }
+    // componentWillReceiveProps(props: AppProps) {
+    //     const {config, model, error} = props;
+    //     if (config.ready && model.status === ModelStatus.none && !error) {
+    //         props.initModel(config);
+    //     }
+    //     const {config: {initConfig}, modalReady} = props;
+    //     if (model.status === ModelStatus.initialized && !initConfig.checked) {
+    //         props.checkInitConfigCapability(initConfig, model);
+    //     }
+    //     if (!modalReady && initConfig.checked) {
+    //         props.initModal(initConfig, model);
+    //     }
+    // }
 
     render() {
         const {modalReady, error} = this.props;
