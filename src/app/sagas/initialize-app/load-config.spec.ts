@@ -21,18 +21,8 @@ describe('loadConfig', () => {
         const locale = {};
         const actual = iterator.next([appConfig, locale]).value;
         const expected = put({
-            type: TypeKeys.SET_CONFIG_CHUNK,
+            type: TypeKeys.CONFIG_CHUNK_RECEIVED,
             payload: {appConfig, locale}
-        });
-        expect(actual).toEqual(expected);
-    });
-
-    it('should put error', () => {
-        const error = {};
-        const actual = iterator.throw(error).value;
-        const expected = put({
-            type: TypeKeys.SET_ERROR,
-            payload: error
         });
         expect(actual).toEqual(expected);
     });

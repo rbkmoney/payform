@@ -20,7 +20,8 @@ import {
     SetModalInteractionPolling,
     Direction,
     SetViewInfoHeight,
-    ForgetPaymentAttempt
+    ForgetPaymentAttempt,
+    InitializeModalCompleted
 } from 'checkout/actions';
 
 type ModalReducerAction =
@@ -31,7 +32,8 @@ type ModalReducerAction =
     PrepareToRetry |
     SetModalInteractionPolling |
     SetViewInfoHeight |
-    ForgetPaymentAttempt;
+    ForgetPaymentAttempt |
+    InitializeModalCompleted;
 
 const deactivate = (items: Named[]): Named[] => items.map((item) => {
     item.active = false;
@@ -176,6 +178,7 @@ const setPollingEvents = (s: ModalState[], status: boolean): ModalState[] => {
 export function modalReducer(s: ModalState[] = null, action: ModalReducerAction): ModalState[] {
     switch (action.type) {
         case TypeKeys.SET_MODAL_STATE:
+        case TypeKeys.INITIALIZE_MODAL_COMPLETED:
             return addOrUpdate(s, action.payload);
         case TypeKeys.SET_VIEW_INFO_ERROR:
             return updateViewInfo(s, 'error', action.payload);

@@ -1,9 +1,8 @@
 import { InitConfig } from 'checkout/config';
-import { LogicError } from 'checkout/backend';
+import { InitializeAppState } from 'checkout/state';
 
 export interface AppProps {
     initConfig: InitConfig;
-    error: LogicError;
-    modalReady: boolean;
+    initializeApp: InitializeAppState;
     initApp: (config: InitConfig) => any;
 }

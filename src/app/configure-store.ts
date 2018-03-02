@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { State } from './state';
 import {
+    initializeAppReducer,
     resultReducer,
     configReducer,
     modelReducer,
@@ -16,6 +17,7 @@ import rootSaga from 'checkout/sagas/root-saga';
 export function configureStore(initState: any): Store<State> {
     const sagaMiddleware = createSagaMiddleware();
     const store = createStore(combineReducers({
+        initializeApp: initializeAppReducer,
         result: resultReducer,
         config: configReducer,
         model: modelReducer,

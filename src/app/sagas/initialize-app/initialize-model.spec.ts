@@ -44,7 +44,7 @@ describe('initializeModel', () => {
     const iterator = initializeModel(endpoint, initConfigInvoiceTemplate);
 
     it('should call resolveIntegrationType', () => {
-        const actual = iterator.next([endpoint, initConfigInvoiceTemplate]).value;
+        const actual = iterator.next().value;
         const expected = call(resolveIntegrationType, endpoint, initConfigInvoiceTemplate);
         expect(actual).toEqual(expected);
     });
@@ -52,17 +52,7 @@ describe('initializeModel', () => {
     it('should put model', () => {
         const model = {};
         const actual = iterator.next(model).value;
-        const expected = put({type: TypeKeys.INIT_MODEL, payload: model});
-        expect(actual).toEqual(expected);
-    });
-
-    it('should put error', () => {
-        const error = {};
-        const actual = iterator.throw(error).value;
-        const expected = put({
-            type: TypeKeys.SET_ERROR,
-            payload: error
-        });
+        const expected = put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: model});
         expect(actual).toEqual(expected);
     });
 });

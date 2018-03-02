@@ -16,13 +16,13 @@ class AppDef extends React.Component<AppProps> {
     }
 
     render() {
-        const {modalReady, error} = this.props;
+        const {initialized, error} = this.props.initializeApp;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {!modalReady && error ? <div>{error.message}</div> : false}
-                {!modalReady && !error ? <LayoutLoader/> : false}
-                {modalReady ? <ModalContainer/> : false}
+                {!initialized && !error ? <LayoutLoader/> : false}
+                {error ? <div>{error.message}</div> : false}
+                {initialized ? <ModalContainer/> : false}
             </div>
         );
     }
@@ -30,8 +30,7 @@ class AppDef extends React.Component<AppProps> {
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    error: state.error && state.error.error,
-    modalReady: !!state.modals
+    initializeApp: state.initializeApp
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({

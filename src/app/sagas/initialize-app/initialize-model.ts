@@ -2,11 +2,13 @@ import { all, AllEffect, call, CallEffect, put, PutEffect } from 'redux-saga/eff
 import {
     CustomerEvent,
     Event,
+    InvoiceTemplate,
+    PaymentMethod,
     getCustomerEvents,
     getInvoiceEvents,
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
-    getInvoiceTemplateByID, InvoiceTemplate, PaymentMethod
+    getInvoiceTemplateByID
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -15,7 +17,7 @@ import {
     InvoiceInitConfig,
     InvoiceTemplateInitConfig
 } from 'checkout/config';
-import { Initialize, TypeKeys, SetErrorAction } from 'checkout/actions';
+import { InitializeModelCompleted, TypeKeys } from 'checkout/actions';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
@@ -68,13 +70,9 @@ export function* resolveIntegrationType(endpoint: string, config: InitConfig): I
     return chunk;
 }
 
-export type InitializeEffect = CallEffect | PutEffect<Initialize> | PutEffect<SetErrorAction>;
+export type InitializeEffect = CallEffect | PutEffect<InitializeModelCompleted>;
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
-    try {
-        const modelChunk = yield call(resolveIntegrationType, endpoint, config);
-        yield put({type: TypeKeys.INIT_MODEL, payload: modelChunk} as Initialize);
-    } catch (error) {
-        yield put({type: TypeKeys.SET_ERROR, payload: error} as SetErrorAction);
-    }
+    const modelChunk = yield call(resolveIntegrationType, endpoint, config);
+    yield put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk} as InitializeModelCompleted);
 }
