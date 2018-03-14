@@ -1,6 +1,4 @@
-const ieHack = {
-    src: 'https://checkout.rbk.money/checkout.js'
-};
+import { ieHack } from '../utils/ie-hack';
 
 const getCurrentScript = (): HTMLScriptElement => {
     return (document.currentScript || ieHack) as HTMLScriptElement;
