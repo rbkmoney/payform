@@ -1,9 +1,7 @@
-const ieHack = {
-    src: 'https://checkout.rbk.money/checkout.js'
-};
+import { ieCurrentScriptStub } from '../ie-current-script-stub';
 
 const getCurrentScript = (): HTMLScriptElement => {
-    return (document.currentScript || ieHack) as HTMLScriptElement;
+    return (document.currentScript || ieCurrentScriptStub) as HTMLScriptElement;
 };
 
 export const domReady = (): Promise<string> => {
