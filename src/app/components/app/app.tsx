@@ -5,55 +5,36 @@ import * as styles from './layout.scss';
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
 import { LayoutLoader } from './layout-loader';
-import { ModelStatus, State } from 'checkout/state';
+import { State } from 'checkout/state';
 import { AppProps } from './app-props';
-import { loadConfig, initialize, initModal, checkInitConfigCapability } from 'checkout/actions';
-
-const mapStateToProps = (state: State) => ({
-    config: state.config,
-    error: state.error && state.error.error,
-    model: state.model,
-    modalReady: !!state.modals
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    loadConfig: bindActionCreators(loadConfig, dispatch),
-    initModel: bindActionCreators(initialize, dispatch),
-    initModal: bindActionCreators(initModal, dispatch),
-    checkInitConfigCapability: bindActionCreators(checkInitConfigCapability, dispatch)
-});
+import { initializeApp } from 'checkout/actions';
 
 class AppDef extends React.Component<AppProps> {
 
     componentWillMount() {
-        this.props.loadConfig(this.props.config.initConfig.locale);
-    }
-
-    componentWillReceiveProps(props: AppProps) {
-        const {config, model, error} = props;
-        if (config.ready && model.status === ModelStatus.none && !error) {
-            props.initModel(config);
-        }
-        const {config: {initConfig}, modalReady} = props;
-        if (model.status === ModelStatus.initialized && !initConfig.checked) {
-            props.checkInitConfigCapability(initConfig, model);
-        }
-        if (!modalReady && initConfig.checked) {
-            props.initModal(initConfig, model);
-        }
+        this.props.initApp(this.props.initConfig);
     }
 
     render() {
-        const {modalReady, error} = this.props;
+        const {initialized, error} = this.props.initializeApp;
         return (
             <div className={styles.layout}>
                 <Overlay/>
-                {!modalReady && error ? <div>{error.message}</div> : false}
-                {!modalReady && !error ? <LayoutLoader/> : false}
-                {modalReady ? <ModalContainer/> : false}
+                {!initialized && !error ? <LayoutLoader/> : false}
+                {error ? <div>{error.message}</div> : false}
+                {initialized ? <ModalContainer/> : false}
             </div>
         );
     }
 }
+
+const mapStateToProps = (state: State) => ({
+    initConfig: state.config.initConfig,
+    initializeApp: state.initializeApp
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    initApp: bindActionCreators(initializeApp, dispatch)
+});
 
 export const App = connect(mapStateToProps, mapDispatchToProps)(AppDef);

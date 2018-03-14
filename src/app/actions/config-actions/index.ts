@@ -1,3 +1,2 @@
-export * from './config-chunk';
-export * from './load-config-action';
-export * from './check-init-config-capability';
+export * from './config-chunk-received';
+export * from './init-config-checked';

@@ -1,4 +1,3 @@
-export * from './init-modal-action';
 export * from './set-modal-state';
 export * from './view-info-actions';
 export * from './set-modal-from-events';
@@ -7,3 +6,4 @@ export * from './go-to-form-info-action';
 export * from './modal-interaction-polling-status-action';
 export * from './forget-payment-attempt';
 export * from './converters';
+export * from './initialize-modal-completed';
