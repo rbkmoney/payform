@@ -1,14 +1,8 @@
-import { ConfigState, ModelState } from 'checkout/state';
 import { InitConfig } from 'checkout/config';
-import { LogicError } from 'checkout/backend';
+import { InitializeAppState } from 'checkout/state';
 
 export interface AppProps {
-    config: ConfigState;
-    model: ModelState;
-    error: LogicError;
-    modalReady: boolean;
-    loadConfig: (locale: string) => any;
-    initModel: (config: ConfigState) => any;
-    initModal: (config: InitConfig, model: ModelState) => any;
-    checkInitConfigCapability: (config: InitConfig, model: ModelState) => any;
+    initConfig: InitConfig;
+    initializeApp: InitializeAppState;
+    initApp: (config: InitConfig) => any;
 }

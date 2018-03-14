@@ -1,22 +1,20 @@
-import { TypeKeys, SetConfigChunk, SetCheckedInitConfig } from 'checkout/actions';
+import { TypeKeys, ConfigChunkReceived, InitConfigChecked } from 'checkout/actions';
 import { ConfigState } from 'checkout/state';
 
-type ConfigReducerAction = SetConfigChunk | SetCheckedInitConfig;
+type ConfigReducerAction = ConfigChunkReceived | InitConfigChecked;
 
 export function configReducer(s: ConfigState = null, action: ConfigReducerAction): ConfigState {
     switch (action.type) {
-        case TypeKeys.SET_CONFIG_CHUNK:
+        case TypeKeys.CONFIG_CHUNK_RECEIVED:
             return {
                 ...s,
-                ...action.payload,
-                ready: true
+                ...action.payload
             };
-        case TypeKeys.SET_CHECKED_INIT_CONFIG:
+        case TypeKeys.INIT_CONFIG_CHECKED:
             return {
                 ...s,
                 initConfig: {
-                    ...action.payload,
-                    checked: true
+                    ...action.payload
                 }
             };
 
