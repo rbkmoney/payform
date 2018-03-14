@@ -1,7 +1,7 @@
-import { ieHack } from '../utils/ie-hack';
+import { ieCurrentScriptStub } from '../ie-current-script-stub';
 
 const getCurrentScript = (): HTMLScriptElement => {
-    return (document.currentScript || ieHack) as HTMLScriptElement;
+    return (document.currentScript || ieCurrentScriptStub) as HTMLScriptElement;
 };
 
 export const domReady = (): Promise<string> => {

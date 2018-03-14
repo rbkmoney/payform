@@ -2,7 +2,7 @@ import { Transport, PossibleEvents } from '../../communication';
 import { Config, InitConfig } from '.';
 import { deserialize } from 'checkout/utils';
 import { resolveInteger, resolveIntegrationType, resolveBoolean } from './param-resolvers';
-import { ieHack } from '../../utils/ie-hack';
+import { ieCurrentScriptStub } from '../../ie-current-script-stub';
 
 const resolveInitConfig = (userConfig: any): InitConfig => {
     const integrationType = resolveIntegrationType(userConfig);
@@ -44,7 +44,7 @@ export class ConfigResolver {
     }
 
     private static getOrigin(): string {
-        const currentScript = (document.currentScript || ieHack) as HTMLScriptElement;
+        const currentScript = (document.currentScript || ieCurrentScriptStub) as HTMLScriptElement;
         const url = new URL(currentScript.src);
         return url.origin;
     }
