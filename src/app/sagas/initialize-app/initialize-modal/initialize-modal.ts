@@ -1,4 +1,3 @@
-import { CustomerChangeType, InvoiceChangeType } from 'checkout/backend';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -9,11 +8,10 @@ import {
     CardFormInfo,
     FormInfo
 } from 'checkout/state';
-import { TypeKeys } from 'checkout/actions';
-import { SetModalState } from './set-modal-state';
 import { InitConfig, IntegrationType } from 'checkout/config';
-import { toInteraction } from './converters';
+import { CustomerChangeType, InvoiceChangeType } from 'checkout/backend';
 import { getLastChange } from 'checkout/utils';
+import { toInteraction } from './to-interaction';
 import { isMultiMethods } from './is-multi-methods';
 
 const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
@@ -63,7 +61,7 @@ const initFromCustomerIntegration = (c: InitConfig, m: ModelState): ModalState =
     }
 };
 
-const toInitPayload = (c: InitConfig, m: ModelState): ModalState => {
+export const initializeModal = (c: InitConfig, m: ModelState): ModalState => {
     switch (c.integrationType) {
         case IntegrationType.invoice:
         case IntegrationType.invoiceTemplate:
@@ -72,8 +70,3 @@ const toInitPayload = (c: InitConfig, m: ModelState): ModalState => {
             return initFromCustomerIntegration(c, m);
     }
 };
-
-export const initModal = (config: InitConfig, model: ModelState): SetModalState => ({
-    type: TypeKeys.SET_MODAL_STATE,
-    payload: toInitPayload(config, model)
-});

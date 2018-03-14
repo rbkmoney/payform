@@ -4,8 +4,9 @@ import {
     PayAction,
     Accept,
     PollInvoiceEvents,
-    Initialize,
-    Subscribe, PollCustomerEvents
+    InitializeModelCompleted,
+    Subscribe,
+    PollCustomerEvents
 } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend';
@@ -15,7 +16,7 @@ type ModelReducerAction =
     Accept |
     PollInvoiceEvents |
     PollCustomerEvents |
-    Initialize |
+    InitializeModelCompleted |
     Subscribe;
 
 const initialState = {
@@ -24,7 +25,7 @@ const initialState = {
 
 export function modelReducer(s: ModelState = initialState, action: ModelReducerAction): ModelState {
     switch (action.type) {
-        case TypeKeys.INIT_MODEL:
+        case TypeKeys.INITIALIZE_MODEL_COMPLETED:
             return {
                 ...s,
                 ...action.payload,
