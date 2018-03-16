@@ -46,7 +46,12 @@ const toEmailConfig = (email: string): EmailConfig => {
         : {visible: true};
 };
 
+const toCardHolderConfig = (requireCardHolder: boolean | null) => ({
+    visible: requireCardHolder === null ? true : requireCardHolder
+});
+
 export const toFieldsConfig = (c: InitConfig, t: InvoiceTemplate): FieldsConfig => ({
     amount: toAmountConfig(c, t),
-    email: toEmailConfig(c.email)
+    email: toEmailConfig(c.email),
+    cardHolder: toCardHolderConfig(c.requireCardHolder)
 });
