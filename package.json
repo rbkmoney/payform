@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "clear": "rimraf dist && rimraf .cache-loader && rimraf ./src/app/components/app/modal-container/modal/form-container/common-fields/phone/metadata.min.json",
-    "build": "npm run clear && npm run create-metadata && webpack --colors --progress --config config/webpack.prod.js",
-    "start": "npm run clear && npm run create-metadata && webpack-dev-server --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
-    "create-metadata": "libphonenumber-generate-metadata ./src/app/components/app/modal-container/modal/form-container/common-fields/phone/metadata.min.json --countries RU --extended",
+    "clear": "rimraf dist && rimraf .cache-loader",
+    "build": "npm run clear && webpack --colors --progress --config config/webpack.prod.js",
+    "start": "npm run clear && webpack-dev-server --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
     "test": "jest"
   },
   "repository": {

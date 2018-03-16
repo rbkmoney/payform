@@ -5,4 +5,3 @@ Dockerfile
 .DS_Store
 package-lock.json
 /.cache-loader/
-metadata.min.json
