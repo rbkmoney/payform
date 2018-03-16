@@ -1,13 +1,13 @@
 import { all, call, put } from 'redux-saga/effects';
-import { loadConfig } from './load-config-saga';
 import { getAppConfig, getLocale } from 'checkout/backend';
 import { TypeKeys } from 'checkout/actions';
+import { loadConfig } from './load-config';
 
-describe('should load config', () => {
+describe('loadConfig', () => {
     const localeName = 'ru';
     const iterator = loadConfig(localeName);
 
-    it('should call app and locale fetching', () => {
+    it('should fetch app config and locale', () => {
         const actual = iterator.next().value;
         const expected = all([
             call(getAppConfig),
@@ -16,12 +16,12 @@ describe('should load config', () => {
         expect(actual).toEqual(expected);
     });
 
-    it('should put action', () => {
+    it('should put config', () => {
         const appConfig = {};
         const locale = {};
         const actual = iterator.next([appConfig, locale]).value;
         const expected = put({
-            type: TypeKeys.SET_CONFIG_CHUNK,
+            type: TypeKeys.CONFIG_CHUNK_RECEIVED,
             payload: {appConfig, locale}
         });
         expect(actual).toEqual(expected);

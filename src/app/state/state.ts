@@ -1,4 +1,12 @@
-import { ResultState, ConfigState, ModelState, ErrorState, FormsState, ModalState } from '.';
+import {
+    ResultState,
+    ConfigState,
+    ModelState,
+    ErrorState,
+    FormsState,
+    ModalState,
+    InitializeAppState
+} from '.';
 
 export interface State {
     readonly result: ResultState;
@@ -7,4 +15,5 @@ export interface State {
     readonly error: ErrorState;
     readonly form: FormsState;
     readonly modals: ModalState[];
+    readonly initializeApp: InitializeAppState;
 }

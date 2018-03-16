@@ -1,10 +1,7 @@
-const searchCurrentScript = (): HTMLScriptElement => {
-    const scripts = document.getElementsByTagName('script');
-    return scripts[scripts.length - 1];
-};
+import { ieCurrentScriptStub } from '../ie-current-script-stub';
 
 const getCurrentScript = (): HTMLScriptElement => {
-    return document.currentScript as HTMLScriptElement || searchCurrentScript();
+    return (document.currentScript || ieCurrentScriptStub) as HTMLScriptElement;
 };
 
 export const domReady = (): Promise<string> => {
@@ -41,7 +38,7 @@ export const domReady = (): Promise<string> => {
             let top: any = false;
             try {
                 top = window.frameElement === null && document.documentElement;
-            /* tslint:disable: no-empty */
+                /* tslint:disable: no-empty */
             } catch (e) {
             }
             if (top && top.doScroll) {
