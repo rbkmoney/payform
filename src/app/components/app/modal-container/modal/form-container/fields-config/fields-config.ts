@@ -15,4 +15,5 @@ export interface EmailConfig extends ItemConfig {
 export interface FieldsConfig {
     amount: AmountConfig;
     email: EmailConfig;
+    cardHolder: ItemConfig;
 }

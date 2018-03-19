@@ -16,7 +16,7 @@ export class InitConfig {
     email?: string;
     amount?: number;
     obscureCardCvv?: boolean;
-    checked?: boolean;
+    requireCardHolder?: boolean;
 
     constructor() {
         this.terminals = true;
@@ -25,6 +25,5 @@ export class InitConfig {
         this.holdExpiration = HoldExpirationType.cancel;
         this.locale = 'auto';
         this.popupMode = isMobile.any;
-        this.checked = false;
     }
 }
