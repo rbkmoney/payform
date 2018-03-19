@@ -1,7 +1,7 @@
-import {CountryCallingCode, CountryCode, TelephoneNumber} from 'libphonenumber-js';
+import {AsYouType, CountryCallingCode, CountryCode, TelephoneNumber} from 'libphonenumber-js';
 
-declare module 'custom-libphonenumberjs' {
-    export class AsYouType {
+declare module 'libphonenumber-js' {
+    export class CustomAsYouType implements AsYouType{
         country: CountryCode;
         template: string;
 

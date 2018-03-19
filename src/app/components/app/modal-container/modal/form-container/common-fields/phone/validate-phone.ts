@@ -1,4 +1,4 @@
-import { isValidNumber } from 'libphonenumber-js/custom';
+import { isValidNumber } from 'libphonenumber-js';
 
 import * as metadata from './metadata.json';
 
