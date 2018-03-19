@@ -45,7 +45,7 @@
     "date-fns": "~1.28.5",
     "fingerprintjs2": "~1.6.1",
     "ismobilejs": "~0.4.1",
-    "libphonenumber-js": "git+ssh://git@github.com/rbkmoney/libphonenumber-js.git#7fc8c70fd00e361796339816177493a7b4f0e33f",
+    "libphonenumber-js": "~1.1.4",
     "lodash-es": "~4.17.5",
     "npm": "^5.7.1",
     "react": "~16.2.0",
