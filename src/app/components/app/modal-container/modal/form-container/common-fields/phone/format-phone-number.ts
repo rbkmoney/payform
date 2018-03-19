@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { AsYouType, getPhoneCode } from 'libphonenumber-js/custom';
+import { AsYouType, getPhoneCode } from 'custom-libphonenumberjs';
 
 import * as metadata from './metadata.json';
 
