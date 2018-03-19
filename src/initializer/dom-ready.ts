@@ -1,11 +1,7 @@
-import { ieCurrentScriptStub } from '../ie-current-script-stub';
-
-const getCurrentScript = (): HTMLScriptElement => {
-    return (document.currentScript || ieCurrentScriptStub) as HTMLScriptElement;
-};
+import { getOrigin } from '../get-origin';
 
 export const domReady = (): Promise<string> => {
-    const url = new URL(getCurrentScript().src);
+    const origin  = getOrigin();
     return new Promise((resolve) => {
         let ready = false;
 
@@ -23,12 +19,12 @@ export const domReady = (): Promise<string> => {
             if (!ready && (document.addEventListener || event.type === 'load' || document.readyState === 'complete')) {
                 ready = true;
                 detach();
-                resolve(url.origin);
+                resolve(origin);
             }
         };
 
         if (document.readyState === 'complete') {
-            resolve(url.origin);
+            resolve(origin);
         } else if (document.addEventListener) {
             document.addEventListener('DOMContentLoaded', completed);
             window.addEventListener('load', completed);
@@ -53,7 +49,7 @@ export const domReady = (): Promise<string> => {
                     }
                     ready = true;
                     detach();
-                    resolve(url.origin);
+                    resolve(origin);
                 })();
             }
         }
