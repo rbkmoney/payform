@@ -1,20 +1,22 @@
 import {AsYouType, CountryCallingCode, CountryCode, TelephoneNumber} from 'libphonenumber-js';
 
 declare module 'libphonenumber-js' {
-    export class CustomAsYouType implements AsYouType{
-        country: CountryCode;
-        template: string;
+    export namespace custom {
+        export class CustomAsYouType implements AsYouType {
+            country: CountryCode;
+            template: string;
 
-        constructor(defaultCountryCode: CountryCode, metadata: object);
+            constructor(defaultCountryCode: CountryCode, metadata: object);
 
-        getNationalNumber(): string;
+            getNationalNumber(): string;
 
-        input(text: string): string;
+            input(text: string): string;
 
-        reset(): void;
+            reset(): void;
+        }
+
+        export function getPhoneCode(countryCode: CountryCode, metadata: object): CountryCallingCode;
+
+        export function isValidNumber(phone: TelephoneNumber, country: CountryCode, metadata: object): boolean;
     }
-
-    export function getPhoneCode(countryCode: CountryCode, metadata: object): CountryCallingCode;
-
-    export function isValidNumber(phone: TelephoneNumber, country: CountryCode, metadata: object): boolean;
 }
