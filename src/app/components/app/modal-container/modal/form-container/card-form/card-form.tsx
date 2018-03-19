@@ -19,7 +19,7 @@ import { findNamed } from 'checkout/utils';
 import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
-import { calcFormHeight } from '../calc-form-height';
+import { calcFormHeight } from './calc-form-height';
 import { toFieldsConfig } from '../fields-config';
 import { Email, Amount } from '../common-fields';
 import { IntegrationType } from 'checkout/config';
@@ -69,7 +69,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     componentDidMount() {
-        this.props.setViewInfoHeight(calcFormHeight(288, this.props.fieldsConfig));
+        this.props.setViewInfoHeight(calcFormHeight(this.props.fieldsConfig));
     }
 
     componentWillReceiveProps(props: Props) {
@@ -79,7 +79,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
+        const {handleSubmit, fieldsConfig: {email, amount, cardHolder}} = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)} id='card-form'>
                 <div>
@@ -91,9 +91,11 @@ class CardFormDef extends React.Component<Props> {
                         <ExpireDate/>
                         <SecureCode/>
                     </div>
-                    <div className={formStyles.formGroup}>
-                        <CardHolder/>
-                    </div>
+                    {cardHolder.visible ?
+                        <div className={formStyles.formGroup}>
+                            <CardHolder/>
+                        </div> : false
+                    }
                     {email.visible ?
                         <div className={formStyles.formGroup}>
                             <Email/>
