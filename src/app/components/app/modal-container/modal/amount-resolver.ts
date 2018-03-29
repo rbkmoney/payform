@@ -4,6 +4,7 @@ import {
     InvoiceChangeType,
     InvoiceCreated,
     InvoiceTemplateLineCostFixed,
+    InvoiceTemplateLineCostRange,
     InvoiceTemplateMultiLine,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
@@ -12,21 +13,26 @@ import { Amount, findChange } from 'checkout/utils';
 const getAmountFromSingleLine = (model: ModelState, configAmount: number | null): Amount | null => {
     const details = model.invoiceTemplate.details as InvoiceTemplateSingleLine;
     const price = details.price;
-    if (price) {
-        switch (price.costType) {
-            case CostType.InvoiceTemplateLineCostFixed:
-                const fixed = price as InvoiceTemplateLineCostFixed;
-                return {
-                    value: fixed.amount,
-                    currencyCode: fixed.currency
-                };
-            case CostType.InvoiceTemplateLineCostRange:
-            case CostType.InvoiceTemplateLineCostUnlim:
-                return configAmount ? {
-                    value: configAmount,
-                    currencyCode: 'RUB' // TODO fix hardcoded currency
-                } : null;
-        }
+    if (!price) {
+        return null;
+    }
+    switch (price.costType) {
+        case CostType.InvoiceTemplateLineCostFixed:
+            const fixed = price as InvoiceTemplateLineCostFixed;
+            return {
+                value: fixed.amount,
+                currencyCode: fixed.currency
+            };
+        case CostType.InvoiceTemplateLineCostRange:
+            return configAmount ? {
+                value: configAmount,
+                currencyCode: (price as InvoiceTemplateLineCostRange).currency
+            } : null;
+        case CostType.InvoiceTemplateLineCostUnlim:
+            return configAmount ? {
+                value: configAmount,
+                currencyCode: 'RUB' // TODO unlim cost type does't support currency
+            } : null;
     }
 };
 
