@@ -12,7 +12,7 @@ declare module 'libphonenumber-js/custom' {
     export class AsYouType {
         country: CountryCode;
         template: string;
-        constructor(defaultCountryCode: CountryCode);
+        constructor(defaultCountryCode: CountryCode, metadata: object);
         getNationalNumber(): string;
         input(text: string): string;
         reset(): void;
