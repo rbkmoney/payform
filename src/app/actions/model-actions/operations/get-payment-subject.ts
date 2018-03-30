@@ -1,18 +1,17 @@
 import toNumber from 'lodash-es/toNumber';
 import { IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
-import { getAmount } from 'checkout/components/app/modal-container/modal/amount-resolver';
 import { ConfigState, ModelState } from 'checkout/state';
 import { createInvoiceWithTemplate } from 'checkout/backend';
 import { PaymentSubject } from './payment-subject';
-import { Amount } from 'checkout/utils';
+import { Amount, resolveAmount } from 'checkout/utils';
 
-const resolveAmount = (amountInfo: Amount, formAmount: string): number =>
+const infoToAmount = (amountInfo: Amount, formAmount: string): number =>
     formAmount ? toNumber(formAmount) * 100 : amountInfo.value;
 
 const resolveInvoiceTemplate = (c: ConfigState, m: ModelState, formAmount: string): Promise<PaymentSubject> => {
     const endpoint = c.appConfig.capiEndpoint;
-    const amountInfo = getAmount(m, c.initConfig.amount);
-    const amount = resolveAmount(amountInfo, formAmount);
+    const amountInfo = resolveAmount(m, c.initConfig.amount);
+    const amount = infoToAmount(amountInfo, formAmount);
     const metadata = m.invoiceTemplate.metadata;
     const params = {amount, metadata, currency: amountInfo.currencyCode};
     const {invoiceTemplateAccessToken, invoiceTemplateID} = c.initConfig as InvoiceTemplateInitConfig;
