@@ -21,8 +21,7 @@ import { toFieldsConfig } from '../fields-config';
 import { payTerminalEuroset, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
-import { getAmount } from '../../amount-resolver';
-import { findNamed, formatAmount } from 'checkout/utils';
+import { findNamed, formatAmount, resolveAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
 
 const toTerminalFormInfo = (modals: ModalState[]) => {
@@ -37,7 +36,7 @@ const mapStateToProps = (state: State) => ({
     formValues: get(state.form, 'terminalForm.values'),
     config: state.config,
     model: state.model,
-    amount: formatAmount(getAmount(state.model, state.config.initConfig.amount))
+    amount: formatAmount(resolveAmount(state.model, state.config.initConfig.amount))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

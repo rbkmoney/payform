@@ -1,9 +1,8 @@
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { formatAmount, getSymbol } from 'checkout/utils';
 
-const toUnlimPlaceholder = (localeString: string): string => {
-    return `${localeString} ${getSymbol('RUB')}`;
-};
+const toUnlimPlaceholder = (localeString: string, currency: string): string =>
+    `${localeString} ${getSymbol(currency)}`;
 
 const toRangePlaceholder = (cost: InvoiceTemplateLineCostRange): string => {
     const range = cost.range;
@@ -18,7 +17,7 @@ export const getPlaceholder = (cost: InvoiceTemplateLineCostRange | InvoiceTempl
     }
     switch (cost.costType) {
         case 'InvoiceTemplateLineCostUnlim':
-            return toUnlimPlaceholder(localeString);
+            return toUnlimPlaceholder(localeString, 'RUB'); // TODO unlim cost type does't support currency
         case 'InvoiceTemplateLineCostRange':
             return toRangePlaceholder(cost as InvoiceTemplateLineCostRange);
     }

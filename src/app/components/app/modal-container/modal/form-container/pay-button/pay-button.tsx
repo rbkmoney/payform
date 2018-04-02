@@ -2,8 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ModelState, State } from 'checkout/state';
 import { InitConfig, IntegrationType } from 'checkout/config';
-import { getAmount } from '../../amount-resolver';
-import { formatAmount } from 'checkout/utils';
+import { formatAmount, resolveAmount } from 'checkout/utils';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 
@@ -21,7 +20,7 @@ const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
 );
 
 const toInvoiceLabel = (locale: Locale, initConfig: InitConfig, model: ModelState): string => {
-    const amount = formatAmount(getAmount(model, initConfig.amount));
+    const amount = formatAmount(resolveAmount(model, initConfig.amount));
     const amountLabel = amount ? ` ${amount.value} ${amount.symbol}` : '';
     return `${locale['form.button.pay.label']}${amountLabel}`;
 };
