@@ -60,8 +60,8 @@ const resolveInvoice = (invoiceCreated: InvoiceCreated): Amount => {
 };
 
 export const resolveAmount = (m: ModelState, configAmount: number, invoiceEventsFirst: boolean = false): Amount => {
-    if (!m.invoiceEvents && !m.invoiceTemplate) {
-        return;
+    if (!m || (!m.invoiceEvents && !m.invoiceTemplate)) {
+        return null;
     }
     return m.invoiceTemplate && !invoiceEventsFirst
         ? resolveInvoiceTemplate(m.invoiceTemplate, configAmount)
