@@ -27,7 +27,6 @@ const rules = [
                 {
                     loader: 'css-loader',
                     options: {
-                        url: false,
                         minimize: true,
                         modules: true,
                         namedExport: true,
@@ -38,6 +37,17 @@ const rules = [
             ],
             fallback: 'style-loader'
         })
+    },
+    {
+        test: /\.(jpeg|jpg)$/,
+        use: [{
+            loader: 'file-loader',
+            options: {
+                outputPath: './assets/',
+                mimetype: 'mimetype=image/jpeg',
+
+            }
+        }]
     },
     {
         test: /\.(woff|woff2)$/,
