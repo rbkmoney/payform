@@ -45,7 +45,6 @@ const rules = [
             options: {
                 outputPath: './assets/',
                 mimetype: 'mimetype=image/jpeg',
-
             }
         }]
     },
