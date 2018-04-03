@@ -24,7 +24,6 @@
     min-height: 100%;
     width: 100%;
     background-image: linear-gradient(70deg, $light-purple 0%, $deep-blue 29%, $blue 59%, $lightest-blue 100%);
-    box-shadow: 0 15px 49px 0 $very-deep-blue;
 
     footer {
         display: block;
@@ -45,5 +44,9 @@
         footer {
             display: none;
         }
+    }
+
+    &.with_shadow {
+        box-shadow: 0 15px 49px 0 $very-deep-blue;
     }
 }
