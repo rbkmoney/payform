@@ -5,6 +5,7 @@ import {
     StubTransport,
     TransportInfo
 } from '.';
+import { isInIframe } from '../app/utils/is-in-iframe';
 
 export class Child {
 
@@ -14,7 +15,7 @@ export class Child {
                 const target = window.opener;
                 const context = ContextResolver.get();
                 return resolve(new RealTransport(target, context.parentOrigin, window));
-            } else if (!this.inIframe() && !window.opener) {
+            } else if (isInIframe() && !window.opener) {
                 return resolve(new StubTransport());
             } else {
                 const shake = (e: MessageEvent) => {
@@ -30,13 +31,5 @@ export class Child {
                 window.addEventListener('message', shake, false);
             }
         });
-    }
-
-    private static inIframe(): boolean {
-        try {
-            return window.self !== window.top;
-        } catch (e) {
-            return true;
-        }
     }
 }

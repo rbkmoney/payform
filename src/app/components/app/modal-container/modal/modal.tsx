@@ -10,7 +10,7 @@ import {State} from 'checkout/state';
 import {connect} from 'react-redux';
 
 interface ModalDefProps {
-    popupMode: boolean;
+    inIframe: boolean;
 }
 
 const ModalDef: React.SFC<ModalDefProps> = (props) => (
@@ -29,7 +29,7 @@ const ModalDef: React.SFC<ModalDefProps> = (props) => (
         transitionLeave={true}
     >
         <div className={cx(styles.form_container, {
-            [styles.with_shadow]: props.popupMode
+            [styles.with_shadow]: props.inIframe
         })} id='form-container'>
             <MobileHeader/>
             <Info/>
@@ -40,7 +40,7 @@ const ModalDef: React.SFC<ModalDefProps> = (props) => (
 );
 
 const mapStateToProps = (state: State) => ({
-    popupMode: state.config.initConfig.popupMode
+    inIframe: state.config.inIframe
 });
 
 export const Modal = connect(mapStateToProps)(ModalDef);

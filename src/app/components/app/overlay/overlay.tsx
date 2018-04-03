@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { State } from 'checkout/state';
 
 interface OverlayDefProps {
-    popupMode: boolean;
+    inIframe: boolean;
 }
 
 const OverlayDef: React.SFC<OverlayDefProps> = (props) => (
@@ -17,13 +17,13 @@ const OverlayDef: React.SFC<OverlayDefProps> = (props) => (
         transitionAppearTimeout={500}
         transitionLeaveTimeout={500}>
         <div key='overlay' className={cx(overlay, {
-            [img]: props.popupMode
+            [img]: props.inIframe
         })}/>
     </CSSTransitionGroup>
 );
 
 const mapStateToProps = (state: State) => ({
-    popupMode: state.config.initConfig.popupMode
+    inIframe: state.config.inIframe
 });
 
 export const Overlay = connect(mapStateToProps)(OverlayDef);
