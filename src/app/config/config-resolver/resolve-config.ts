@@ -4,7 +4,7 @@ import { deserialize } from 'checkout/utils';
 import { getOrigin } from '../../../get-origin';
 import { UserConfig } from './user-config';
 import { resolveInitConfig } from './resolve-init-config';
-import {isInIframe} from 'checkout/utils/is-in-iframe';
+import { isInFrame } from '../../../is-in-iframe';
 
 const isUriContext = !!location.search;
 
@@ -17,6 +17,6 @@ const resolveUserConfig = (transport: Transport): Promise<UserConfig> =>
 export const resolveConfig = (transport: Transport): Promise<Config> =>
     resolveUserConfig(transport).then((userConfig) => ({
         origin: getOrigin(),
-        inIframe: isInIframe(),
+        inFrame: isInFrame(),
         initConfig: resolveInitConfig(userConfig)
     }));

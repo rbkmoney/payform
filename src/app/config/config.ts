@@ -4,7 +4,7 @@ import { Locale } from 'checkout/locale';
 
 export class Config {
     origin: string;
-    inIframe: boolean;
+    inFrame: boolean;
     initConfig: InitConfig;
     appConfig?: AppConfig;
     locale?: Locale;

@@ -25,7 +25,8 @@ describe('resolveConfig', () => {
         it('should return transport resolved user config', () => {
             const expected = {
                 initConfig: 'mockConfig',
-                origin: 'https://checkout.rbk.money'
+                origin: 'https://checkout.rbk.money',
+                inFrame: true
             };
             resolveInitConfigMocked.mockReturnValueOnce(expected.initConfig);
             getOriginMocked.mockReturnValueOnce(expected.origin);
