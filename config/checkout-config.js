@@ -46,7 +46,7 @@ module.exports = {
                 {from: './src/app/finish-interaction.html'},
                 {from: './src/appConfig.json', to: '..'},
                 {from: './src/locale/*.json', to: './locale', flatten: true},
-                {from: './src/app/assets', to: './assets'}
+                {from: './src/app/assets/icons', to: './assets/icons'}
             ],
             {debug: 'warning'}
         )
