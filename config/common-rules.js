@@ -27,6 +27,7 @@ const rules = [
                 {
                     loader: 'css-loader',
                     options: {
+                        url: false,
                         minimize: true,
                         modules: true,
                         namedExport: true,

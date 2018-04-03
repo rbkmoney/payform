@@ -17,4 +17,10 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, .7);
+
+    &.img {
+        background-color: transparent;
+        background-image: url("./assets/background.jpg");
+        background-size: cover;
+    }
 }
