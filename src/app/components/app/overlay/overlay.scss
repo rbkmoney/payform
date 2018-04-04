@@ -20,7 +20,39 @@
 
     &.img {
         background-color: transparent;
-        background-image: url("./background.jpg");
         background-size: cover;
+        background-position: bottom center;
+    }
+
+    &.bg1 {
+        background-image: url("./backgrounds/1.jpg");
+    }
+
+    &.bg2 {
+        background-image: url("./backgrounds/2.jpg");
+    }
+
+    &.bg3 {
+        background-image: url("./backgrounds/3.jpg");
+    }
+
+    &.bg4 {
+        background-image: url("./backgrounds/4.jpg");
+    }
+
+    &.bg5 {
+        background-image: url("./backgrounds/5.jpg");
+    }
+
+    &.bg6 {
+        background-image: url("./backgrounds/6.jpg");
+    }
+
+    &.bg7 {
+        background-image: url("./backgrounds/7.jpg");
+    }
+
+    &.bg8 {
+        background-image: url("./backgrounds/8.jpg");
     }
 }

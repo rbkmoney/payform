@@ -15,12 +15,12 @@ class AppFinalizer {
         this.transport.destroy();
     }
 
-    done(redirectUrl: string, popupMode: boolean) {
+    done(redirectUrl: string, inFrame: boolean) {
         setTimeout(() => {
             ReactDOM.unmountComponentAtNode(this.checkoutEl);
             this.transport.emit(PossibleEvents.done);
             this.transport.destroy();
-            if (popupMode) {
+            if (inFrame) {
                 redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
             }
         }, 4000);
@@ -34,8 +34,9 @@ export function finalize(state: State, transport: Transport, checkoutEl: HTMLEle
             finalizer.close();
             break;
         case ResultState.done:
-            const initConfig = state.config.initConfig;
-            finalizer.done(initConfig.redirectUrl, initConfig.popupMode);
+            const config = state.config;
+            const initConfig = config.initConfig;
+            finalizer.done(initConfig.redirectUrl, config.inFrame);
             break;
     }
 }
