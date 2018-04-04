@@ -45,4 +45,8 @@
             display: none;
         }
     }
+
+    &.with_shadow {
+        box-shadow: 0 15px 49px 0 $very-deep-blue;
+    }
 }

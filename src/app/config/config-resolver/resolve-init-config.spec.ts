@@ -35,7 +35,6 @@ it('should return resolved init config', () => {
         paymentFlowHold: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',
-        popupMode: false,
         ...param
     };
     expect(resolveIntegrationTypeMocked).toBeCalledWith(param);

@@ -1,9 +1,11 @@
 import { resolveConfig } from './resolve-config';
 import { resolveInitConfig } from './resolve-init-config';
 import { getOrigin } from '../../../get-origin';
+import { isInFrame } from '../../../is-in-iframe';
 
 jest.mock('./resolve-init-config');
 jest.mock('../../../get-origin');
+jest.mock('../../../is-in-iframe');
 
 describe('resolveConfig', () => {
 
@@ -21,19 +23,23 @@ describe('resolveConfig', () => {
         };
         const resolveInitConfigMocked = resolveInitConfig as any;
         const getOriginMocked = getOrigin as any;
+        const isInFrameMocked = isInFrame as any;
 
         it('should return transport resolved user config', () => {
             const expected = {
                 initConfig: 'mockConfig',
-                origin: 'https://checkout.rbk.money'
+                origin: 'https://checkout.rbk.money',
+                inFrame: true
             };
             resolveInitConfigMocked.mockReturnValueOnce(expected.initConfig);
             getOriginMocked.mockReturnValueOnce(expected.origin);
+            isInFrameMocked.mockReturnValueOnce(expected.inFrame);
 
             resolveConfig(mockTransport).then((actual) => {
                 expect(actual).toEqual(expected);
                 expect(resolveInitConfigMocked).toBeCalledWith(userConfig);
                 expect(getOriginMocked).toBeCalled();
+                expect(isInFrameMocked).toBeCalled();
             });
         });
 

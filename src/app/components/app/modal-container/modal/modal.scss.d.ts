@@ -4,6 +4,7 @@ export const enterFormContainer: string;
 export const leaveFormContainer: string;
 export const rotateout: string;
 export const form_container: string;
+export const with_shadow: string;
 export const fadein: string;
 export const fadeout: string;
 export const slidedown: string;

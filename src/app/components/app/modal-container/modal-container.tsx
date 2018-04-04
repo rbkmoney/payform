@@ -88,7 +88,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {activeModal: {name}, config: {initConfig: {popupMode}}} = this.props;
+        const {activeModal: {name}, config: {inFrame}} = this.props;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -114,13 +114,13 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                     >
                         {name === ModalName.modalForms ?
                             <div>
-                                {popupMode ? null : <Close/>}
+                                {inFrame ? null : <Close/>}
                                 <Modal/>
                                 <Footer/>
                             </div> : null}
                         {name === ModalName.modalInteraction ?
                             <div>
-                                {popupMode ? null : <Close/>}
+                                {inFrame ? null : <Close/>}
                                 <UserInteractionModal/>
                             </div> : null}
                     </CSSTransitionGroup>
