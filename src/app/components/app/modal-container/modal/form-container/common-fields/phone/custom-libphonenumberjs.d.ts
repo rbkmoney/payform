@@ -9,6 +9,8 @@ declare module 'libphonenumber-js/custom' {
 
     export function isValidNumber(phone: TelephoneNumber, metadata: object): boolean;
 
+    export function format(phone: TelephoneNumber, format: string, metadata: object): string;
+
     export class AsYouType {
         country: CountryCode;
         template: string;
