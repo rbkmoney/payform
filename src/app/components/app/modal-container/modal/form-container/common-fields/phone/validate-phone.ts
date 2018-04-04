@@ -5,5 +5,5 @@ export function validatePhone(value: string): boolean {
     if (!value) {
         return true;
     }
-    return !isValidNumber(value, 'RU', metadata);
+    return !isValidNumber(value, metadata);
 }
