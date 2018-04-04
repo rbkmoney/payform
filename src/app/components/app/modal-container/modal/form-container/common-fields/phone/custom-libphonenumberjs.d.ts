@@ -7,7 +7,7 @@ declare module 'libphonenumber-js/custom' {
 
     export function getPhoneCode(countryCode: CountryCode, metadata: object): CountryCallingCode;
 
-    export function isValidNumber(phone: TelephoneNumber, country: CountryCode, metadata: object): boolean;
+    export function isValidNumber(phone: TelephoneNumber, metadata: object): boolean;
 
     export class AsYouType {
         country: CountryCode;
