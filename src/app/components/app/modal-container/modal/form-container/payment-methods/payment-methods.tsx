@@ -5,12 +5,11 @@ import * as formStyles from '../form-container.scss';
 import * as styles from './payment-methods.scss';
 import { FormInfo, ModalState, ModelState, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
-import { BankCard, Wallets } from './methods';
+import { BankCard, Wallets, ApplePay, Terminals } from './methods';
 import { PaymentMethod, PaymentMethodName } from 'checkout/backend/model';
 import { bindActionCreators, Dispatch } from 'redux';
 import { InitConfig } from 'checkout/config';
 import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
-import { Terminals } from './methods';
 
 export interface PaymentMethodsProps {
     locale: Locale;
@@ -81,6 +80,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
                         transitionEnter={true}
                         transitionLeave={true}
                     >
+                        <ApplePay/>
                         {this.props.methods.map((method: PaymentMethod) => renderMethods(method, this.props))}
                     </CSSTransitionGroup>
                 </div>

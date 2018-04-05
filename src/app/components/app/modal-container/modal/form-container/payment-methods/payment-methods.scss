@@ -28,6 +28,11 @@
     }
 }
 
+.method_center {
+    @extend .method;
+    justify-content: center;
+}
+
 .icon {
     height: 40px;
     width: 40px;

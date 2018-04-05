@@ -1,6 +1,7 @@
 export const form: string;
 export const list: string;
 export const method: string;
+export const method_center: string;
 export const icon: string;
 export const text: string;
 export const title: string;

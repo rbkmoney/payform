@@ -8,3 +8,4 @@ export * from './state';
 export * from './forms';
 export * from './modal';
 export * from './initialize-app-state';
+export * from './payment-method';
