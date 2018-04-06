@@ -1,17 +1,12 @@
 import * as React from 'react';
 import * as styles from '../payment-methods.scss';
-import {Locale} from 'checkout/locale';
 import {TerminalsIcon} from './icons/terminals-icon';
-import { FormInfo, FormName, TerminalFormInfo } from 'checkout/state';
+import { FormName, TerminalFormInfo } from 'checkout/state';
+import { MethodProps } from './method-props';
 
-interface TerminalsProps {
-    locale: Locale;
-    setFormInfo: (formInfo: FormInfo) => any;
-}
+const toTerminals = (props: MethodProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
 
-const toTerminals = (props: TerminalsProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
-
-export const Terminals: React.SFC<TerminalsProps> = (props) => (
+export const Terminals: React.SFC<MethodProps> = (props) => (
     <li className={styles.method} onClick={toTerminals.bind(null, props)} id='terminal-payment-method'>
         <TerminalsIcon />
         <div className={styles.text}>

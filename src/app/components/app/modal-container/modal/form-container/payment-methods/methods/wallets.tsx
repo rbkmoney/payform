@@ -1,19 +1,14 @@
 import * as React from 'react';
 import * as styles from '../payment-methods.scss';
-import {Locale} from 'checkout/locale';
-import {WalletsIcon} from './icons/wallets-icon';
-import { FormInfo, FormName, WalletFormInfo } from 'checkout/state';
+import { WalletsIcon } from './icons/wallets-icon';
+import { FormName, WalletFormInfo } from 'checkout/state';
+import { MethodProps } from './method-props';
 
-interface WalletsProps {
-    locale: Locale;
-    setFormInfo: (formInfo: FormInfo) => any;
-}
+const toWallets = (props: MethodProps) => props.setFormInfo(new WalletFormInfo(FormName.paymentMethods));
 
-const toWallets = (props: WalletsProps) => props.setFormInfo(new WalletFormInfo(FormName.paymentMethods));
-
-export const Wallets: React.SFC<WalletsProps> = (props) => (
+export const Wallets: React.SFC<MethodProps> = (props) => (
     <li className={styles.method} onClick={toWallets.bind(null, props)} id='wallets-payment-method'>
-        <WalletsIcon />
+        <WalletsIcon/>
         <div className={styles.text}>
             <h5 className={styles.title}>
                 {props.locale['form.payment.method.name.wallet.label']}

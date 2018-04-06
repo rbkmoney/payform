@@ -1,5 +1,12 @@
 import { Dispatch } from 'redux';
-import { CardFormValues, ConfigState, ModelState, WalletFormValues, TerminalFormValues } from 'checkout/state';
+import {
+    CardFormValues,
+    ConfigState,
+    ModelState,
+    WalletFormValues,
+    TerminalFormValues,
+    TokenProviderFormValues
+} from 'checkout/state';
 import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import {
@@ -52,3 +59,8 @@ export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFor
             type: TypeKeys.SET_ERROR,
             payload: error
         }));
+
+export const payTokenProvider = (c: ConfigState, m: ModelState, v: TokenProviderFormValues): PayDispatch => {
+    // TODO implement here
+    return null;
+};
