@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as TransitionGroup from 'react-transition-group';
 import * as formStyles from '../form-container.scss';
-import * as styles from './payment-methods.scss';
 import { FormInfo, PaymentMethod, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
-import { getMethods } from './methods';
+import { Methods } from './methods';
+import { OtherPaymentMethodsLink } from './other-payment-methods-link';
+import { calcHeight } from './calc-height';
 
 export interface PaymentMethodsProps {
     locale: Locale;
@@ -16,9 +16,13 @@ export interface PaymentMethodsProps {
     setViewInfoHeight: (height: number) => any;
 }
 
+export interface PaymentMethodsState {
+    visibleMethods: PaymentMethod[];
+}
+
 const mapStateToProps = (s: State) => ({
     locale: s.config.locale,
-    methods: s.availablePaymentMethods
+    methods: s.availablePaymentMethods.sort((m1, m2) => m1.priority > m2.priority ? 1 : -1)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -26,16 +30,29 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
-const CSSTransitionGroup = TransitionGroup.CSSTransitionGroup;
-
-class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
+class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMethodsState> {
 
     componentWillMount() {
-        this.props.setViewInfoHeight(306);
+        const {methods} = this.props;
+        const visibilityThreshold = 3;
+        const visibleMethods = methods.filter((m, i) => i < visibilityThreshold);
+        this.state = {
+            visibleMethods
+        };
+        this.props.setViewInfoHeight(calcHeight(methods.length, visibleMethods.length, visibilityThreshold));
+        this.showAllMethods = this.showAllMethods.bind(this);
+    }
+
+    showAllMethods() {
+        this.setState({
+            visibleMethods: this.props.methods
+        });
+        this.props.setViewInfoHeight(400);
     }
 
     render() {
-        const {methods, locale, setFormInfo} = this.props;
+        const {locale, setFormInfo, methods} = this.props;
+        const {visibleMethods} = this.state;
         return (
             <form>
                 <div>
@@ -44,22 +61,9 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps> {
                             {locale['form.header.payment.methods.label']}
                         </div>
                     </div>
-                    <CSSTransitionGroup
-                        className={styles.list}
-                        component='ul'
-                        transitionName={{
-                            appear: styles.appearItem,
-                            enter: styles.enterItem,
-                            leave: styles.leaveItem
-                        }}
-                        transitionEnterTimeout={1000}
-                        transitionLeaveTimeout={1000}
-                        transitionAppearTimeout={1000}
-                        transitionAppear={true}
-                        transitionEnter={true}
-                        transitionLeave={true}>
-                        {getMethods(methods, {locale, setFormInfo})}
-                    </CSSTransitionGroup>
+                    <Methods methods={visibleMethods} locale={locale} setFormInfo={setFormInfo}/>
+                    {methods > visibleMethods ?
+                        <OtherPaymentMethodsLink onClick={this.showAllMethods} locale={locale}/> : null}
                 </div>
             </form>
         );

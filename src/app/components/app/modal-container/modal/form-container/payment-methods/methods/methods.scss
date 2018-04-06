@@ -1,10 +1,18 @@
-@import '../../../../../../styles/variables';
-@import '../../../../../../styles/animations';
+@import '../../../../../../../styles/variables';
+@import '../../../../../../../styles/animations';
 
 .list {
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+.appear {
+    animation: slidedown .75s;
+}
+
+.leave {
+    animation: slideup .75s;
 }
 
 .method {
@@ -77,14 +85,16 @@
     margin: 0;
 }
 
-.appearItem {
-    animation: slidedown .75s;
-}
+.link_container {
+    display: inline-block;
+    margin: auto;
+    margin-top: 25px;
 
-.enterItem {
-    background: green;
-}
-
-.leaveItem {
-    animation: slideup .75s;
+    hr {
+        border-color: $light-blue;
+        border-bottom: 0;
+        opacity: 0.37;
+        padding: 0;
+        margin: 0 0 3px;
+    }
 }

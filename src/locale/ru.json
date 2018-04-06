@@ -65,6 +65,7 @@
     "form.button.pay.label": "Оплатить",
     "form.button.bind.label": "Привязать",
     "form.payment.method.name.card.label": "Банковская карта",
+    "form.payment.method.name.apple.pay.label": "Apple pay",
     "form.payment.method.name.cash.label": "Наличные",
     "form.payment.method.name.euroset.label": "Терминалы Евросеть",
     "form.payment.method.name.wallet.label": "Электронные кошельки",

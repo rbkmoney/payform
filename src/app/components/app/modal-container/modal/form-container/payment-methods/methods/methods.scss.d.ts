@@ -6,6 +6,5 @@ export const icon: string;
 export const text: string;
 export const title: string;
 export const description: string;
-export const appearItem: string;
-export const enterItem: string;
-export const leaveItem: string;
+export const appear: string;
+export const leave: string;

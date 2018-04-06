@@ -28,14 +28,7 @@ export function* applePayAvailable(merchantIdentifier: string): Iterator<CallEff
 export function* bankCardToMethods(bankCard: BankCard, applePayMerchantID: string): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
     result.push({name: PaymentMethodNameState.BankCard});
-
-    const bankCardMock = { // TODO remove after backend implementation
-        ...bankCard,
-        tokenProviders: ['applepay']
-    };
-
-    // const {tokenProviders} = bankCard;
-    const {tokenProviders} = bankCardMock;
+    const {tokenProviders} = bankCard;
     if (tokenProviders && tokenProviders.length > 0) {
         for (const provider of tokenProviders) {
             switch (provider) {
@@ -104,7 +97,23 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
 export type InitializeEffect = CallEffect | PutEffect<InitializeAvailablePaymentMethodsCompleted>;
 
 export function* initializeAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config): Iterator<InitializeEffect> {
-    const methods = yield call(toAvailablePaymentMethods, paymentMethods, config);
+    const paymentMethodsMock = [ // TODO remove after backend implementation
+        {
+            method: 'BankCard',
+            paymentSystems: ['mastercard', 'nspkmir', 'visa'],
+            tokenProviders: ['applepay']
+        },
+        {
+            method: 'DigitalWallet',
+            providers: ['qiwi']
+        },
+        {
+            method: 'PaymentTerminal',
+            providers: ['euroset']
+        } as any
+    ] as PaymentMethod[];
+
+    const methods = yield call(toAvailablePaymentMethods, paymentMethodsMock, config);
     const prioritizedMethods = yield call(setPriority, methods);
     yield put({
         type: TypeKeys.INITIALIZE_AVAILABLE_PAYMENT_METHODS_COMPLETED,

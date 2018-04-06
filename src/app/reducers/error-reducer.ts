@@ -4,6 +4,7 @@ import { ErrorStatus, ErrorState } from 'checkout/state';
 type ErrorReducerAction = SetErrorAction | AcceptError | InitializeAppFailed;
 
 export function errorReducer(s: ErrorState = null, action: ErrorReducerAction): ErrorState {
+    console.log(action.type);
     switch (action.type) {
         case TypeKeys.SET_ERROR:
         case TypeKeys.INITIALIZE_APP_FAILED:
