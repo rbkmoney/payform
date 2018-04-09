@@ -43,6 +43,7 @@ const rules = [
         use: [{
             loader: 'file-loader',
             options: {
+                name: '[hash:8].[ext]',
                 outputPath: './assets/',
                 mimetype: 'mimetype=image/jpeg',
             }
