@@ -1,6 +1,6 @@
 import { Locale } from 'checkout/locale';
 import { ModelState, ResultState, ResultFormInfo } from 'checkout/state';
-import { LogicError } from 'checkout/backend';
+import { LogicError, PaymentError } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
 
 export interface ResultFormProps {

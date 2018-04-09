@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Locale } from 'checkout/locale';
-import { Event, LogicError, PaymentStatusChanged, PaymentStatuses } from 'checkout/backend';
+import { Event, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getFailedDescription } from './get-failed-description';
 import { getSuccessDescription } from './get-success-description';
 import { Checkmark, Cross } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 
-export const failed = (l: Locale, e: LogicError): ResultFormContent => ({
+export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormContent => ({
     hasActions: true,
     hasDone: false,
     header: l['form.header.final.failed.label'],
