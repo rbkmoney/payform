@@ -1,6 +1,6 @@
 import { InvoiceChange } from './invoice-change';
-import { LogicError } from '../logic-error';
 import { InvoiceChangeType } from './invoice-change-type';
+import { PaymentError } from 'checkout/backend';
 
 export enum PaymentStatuses {
     processed = 'processed',
@@ -15,5 +15,5 @@ export class PaymentStatusChanged extends InvoiceChange {
     changeType = InvoiceChangeType.PaymentStatusChanged;
     status: PaymentStatuses;
     paymentID: string;
-    error: LogicError;
+    error: PaymentError;
 }

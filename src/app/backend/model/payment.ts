@@ -1,7 +1,7 @@
 import { PaymentFlow } from './payment-flow';
 import { Payer } from './payer';
-import { LogicError } from './logic-error';
 import { PaymentStatus } from './payment-status';
+import { PaymentError } from 'checkout/backend';
 
 export class Payment {
     id: string;
@@ -12,5 +12,5 @@ export class Payment {
     flow: PaymentFlow;
     payer: Payer;
     status: PaymentStatus;
-    error: LogicError;
+    error: PaymentError;
 }
