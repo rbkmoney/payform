@@ -92,5 +92,5 @@
     "InsufficientFunds": "Недостаточно средств",
     "PreauthorizationFailed": "Неудачная преавторизиция",
     "RejectedByIssuer": "Отклонено эмитентом",
-    "PaymentRejected": "Платёж отклонён"
+    "PaymentRejected": "Платёж отклонен"
 }
