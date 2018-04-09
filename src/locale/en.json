@@ -86,5 +86,11 @@
     "form.pay.terminals.step.four.text": "Pay with cash",
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
-    "brand.euroset": "Euroset"
+    "brand.euroset": "Euroset",
+    "InvalidPaymentTool": "Invalid payment tool",
+    "AccountLimitsExceeded": "Account limits exceeded",
+    "InsufficientFunds": "Insufficient funds",
+    "PreauthorizationFailed": "Preauthorization failed",
+    "RejectedByIssuer": "Rejected by issuer",
+    "PaymentRejected": "Payment rejected"
 }

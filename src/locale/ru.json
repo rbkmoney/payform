@@ -86,5 +86,11 @@
     "form.pay.terminals.step.four.text": "Внесите наличные",
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
-    "brand.euroset": "Евросеть"
+    "brand.euroset": "Евросеть",
+    "InvalidPaymentTool": "Недопустимое средство оплаты",
+    "AccountLimitsExceeded": "Превышен лимит",
+    "InsufficientFunds": "Недостаточно средств",
+    "PreauthorizationFailed": "Неудачная преавторизиция",
+    "RejectedByIssuer": "Отклонено эмитентом",
+    "PaymentRejected": "Платёж отклонён"
 }
