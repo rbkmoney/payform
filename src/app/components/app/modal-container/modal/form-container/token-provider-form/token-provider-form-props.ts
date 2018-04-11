@@ -6,6 +6,7 @@ import {
     TokenProviderFormValues
 } from 'checkout/state';
 import { FieldsConfig } from '../fields-config';
+import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface TokenProviderFormProps {
     tokenProviderFormInfo: TokenProviderFormInfo;
@@ -17,5 +18,5 @@ export interface TokenProviderFormProps {
     setViewInfoError: (hasError: boolean) => any;
     setViewInfoHeight: (height: number) => any;
     prepareToPay: () => any;
-    pay: (c: ConfigState, m: ModelState, v: TokenProviderFormValues) => any;
+    pay: (payload: PaymentRequestedPayload) => any;
 }

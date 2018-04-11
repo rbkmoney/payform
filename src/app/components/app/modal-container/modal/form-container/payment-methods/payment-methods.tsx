@@ -36,9 +36,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
         const {methods} = this.props;
         const visibilityThreshold = 3;
         const visibleMethods = methods.filter((m, i) => i < visibilityThreshold);
-        this.state = {
-            visibleMethods
-        };
+        this.setState({visibleMethods});
         this.props.setViewInfoHeight(calcHeight(methods.length, visibleMethods.length, visibilityThreshold));
         this.showAllMethods = this.showAllMethods.bind(this);
     }

@@ -5,7 +5,6 @@ import {
     ModelState,
     WalletFormValues,
     TerminalFormValues,
-    TokenProviderFormValues
 } from 'checkout/state';
 import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
@@ -59,8 +58,3 @@ export const payDigitalWalletQiwi = (c: ConfigState, m: ModelState, v: WalletFor
             type: TypeKeys.SET_ERROR,
             payload: error
         }));
-
-export const payTokenProvider = (c: ConfigState, m: ModelState, v: TokenProviderFormValues): PayDispatch => {
-    // TODO implement here
-    return null;
-};

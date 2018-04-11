@@ -17,6 +17,10 @@ interface ApplePayPaymentRequest {
 
 declare class ApplePaySession {
 
+    static STATUS_FAILURE: number;
+
+    static STATUS_SUCCESS: number;
+
     static canMakePayments(): boolean;
 
     static canMakePaymentsWithActiveCard(merchantIdentifier: string): boolean;
@@ -68,3 +72,9 @@ interface ApplePayPayload {
     domainName: string;
     displayName: string;
 }
+
+interface ApplePayPayment {
+    token: ApplePayPaymentToken;
+}
+
+type ApplePayPaymentToken = any;

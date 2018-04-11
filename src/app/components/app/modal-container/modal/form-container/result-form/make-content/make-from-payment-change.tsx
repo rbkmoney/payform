@@ -29,9 +29,9 @@ export const makeFromPaymentChange = (l: Locale, e: Event[]) => {
         case PaymentStatuses.failed:
             return failed(l, change.error);
         case PaymentStatuses.processed:
+        case PaymentStatuses.captured:
             return processed(l, e);
         case PaymentStatuses.cancelled:
-        case PaymentStatuses.captured:
         case PaymentStatuses.refunded:
         case PaymentStatuses.pending:
             throw new Error('Unhandled PaymentStatusChanged');

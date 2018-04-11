@@ -14,10 +14,11 @@ import {
     State,
     TokenProviderFormInfo,
     PaymentStatus,
-    TokenProviderFormValues
+    TokenProviderFormValues,
+    PaymentMethodName
 } from 'checkout/state';
 import {
-    payTokenProvider,
+    pay,
     prepareToPay,
     setViewInfoError,
     setViewInfoHeight
@@ -44,7 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
-    pay: bindActionCreators(payTokenProvider, dispatch),
+    pay: bindActionCreators(pay, dispatch),
 });
 
 type Props = InjectedFormProps & TokenProviderFormProps;
@@ -116,7 +117,7 @@ export class TokenProviderFormDef extends React.Component<Props> {
     private doPaymentAction(values: TokenProviderFormValues) {
         const {config, model} = this.props;
         this.props.prepareToPay();
-        this.props.pay(config, model, values);
+        this.props.pay({method: PaymentMethodName.ApplePay, config, model, values});
     }
 }
 

@@ -88,6 +88,8 @@
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
     "brand.euroset": "Euroset",
+    "error.apple.pay.unknown": "Unknown Apple Pay error",
+    "error.apple.pay.cancel": "Apple Pay payment UI is dismissed",
     "InvalidPaymentTool": "Invalid payment tool",
     "AccountLimitsExceeded": "Account limits exceeded",
     "InsufficientFunds": "Insufficient funds",
