@@ -1,8 +1,7 @@
 import { call, CallEffect, ForkEffect, put, PutEffect, takeLatest } from 'redux-saga/effects';
-import { TypeKeys, PaymentRequested } from 'checkout/actions';
+import { TypeKeys, PaymentRequested, PaymentFailed } from 'checkout/actions';
 import { PaymentMethodName } from 'checkout/state';
 import { payWithApplePay } from './apple-pay';
-import { PaymentFailed } from 'checkout/actions/model-actions/payment-actions';
 
 type PayPutEffect = PaymentFailed;
 
@@ -23,7 +22,6 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
             payload: error
         } as PaymentFailed);
     }
-
 }
 
 export function* watchPayment(): Iterator<ForkEffect> {

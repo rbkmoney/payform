@@ -6,7 +6,8 @@ import {
     PollInvoiceEvents,
     InitializeModelCompleted,
     Subscribe,
-    PollCustomerEvents
+    PollCustomerEvents,
+    InvoiceCreated
 } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend';
@@ -17,7 +18,8 @@ type ModelReducerAction =
     PollInvoiceEvents |
     PollCustomerEvents |
     InitializeModelCompleted |
-    Subscribe;
+    Subscribe |
+    InvoiceCreated;
 
 const initialState = {
     status: ModelStatus.none
@@ -35,7 +37,7 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
             return {
                 ...s,
                 invoiceEvents: mergeEvents(s.invoiceEvents, action.payload.invoiceEvents) as Event[],
-                invoiceAccessToken: action.payload.invoiceAccessToken,
+                invoiceAccessToken: action.payload.invoiceAccessToken, // TODO remove after saga migration
                 status: ModelStatus.refreshed
 
             };
@@ -61,6 +63,13 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
             return {
                 ...s,
                 status: ModelStatus.accepted
+            };
+        case TypeKeys.INVOICE_CREATED:
+            return {
+                ...s,
+                invoice: action.payload.invoice,
+                invoiceAccessToken: action.payload.invoiceAccessToken,
+                invoiceEvents: null
             };
     }
     return s;

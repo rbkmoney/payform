@@ -39,6 +39,7 @@ const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
+    formValues: get(state.form, 'tokenProviderForm.values')
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
