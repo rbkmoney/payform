@@ -12,6 +12,7 @@ import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
 import { TerminalForm } from './terminal-form';
 import { InteractionForm } from './interaction-form';
+import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
 
 const mapStateToProps = (state: State) => {
@@ -43,6 +44,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         {name === FormName.terminalForm ? <TerminalForm/> : null}
                         {name === FormName.resultForm ? <ResultForm/> : null}
                         {name === FormName.interactionForm ? <InteractionForm/> : null}
+                        {name === FormName.tokenProviderForm ? <TokenProviderForm/> : null}
                     </CSSTransitionGroup>
                     {viewInfo.inProcess ? <FormLoader/> : null}
                 </div>

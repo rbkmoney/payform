@@ -10,7 +10,8 @@ import {
     configReducer,
     modelReducer,
     errorReducer,
-    modalReducer
+    modalReducer,
+    availablePaymentMethodsReducer
 } from './reducers';
 import rootSaga from 'checkout/sagas/root-saga';
 
@@ -23,7 +24,8 @@ export function configureStore(initState: any): Store<State> {
         model: modelReducer,
         error: errorReducer,
         form: formReducer,
-        modals: modalReducer
+        modals: modalReducer,
+        availablePaymentMethods: availablePaymentMethodsReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk, sagaMiddleware)));
     sagaMiddleware.run(rootSaga);
     return store;

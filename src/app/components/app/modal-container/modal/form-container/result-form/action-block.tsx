@@ -19,7 +19,7 @@ import {
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 
-const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
+const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
     switch (startedInfo.name) {
         case FormName.cardForm:
             return locale['form.button.use.other.card.label'];
@@ -31,7 +31,9 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
     throw new Error('Unsupported form type');
 };
 
-const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo && startedInfo.name !== FormName.terminalForm;
+const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo &&
+    startedInfo.name !== FormName.terminalForm &&
+    startedInfo.name !== FormName.tokenProviderForm;
 
 export interface ActionBlockProps {
     locale: Locale;

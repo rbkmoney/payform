@@ -7,6 +7,7 @@ import {
     ModalState,
     InitializeAppState
 } from '.';
+import { PaymentMethod } from './payment-method';
 
 export interface State {
     readonly result: ResultState;
@@ -16,4 +17,5 @@ export interface State {
     readonly form: FormsState;
     readonly modals: ModalState[];
     readonly initializeApp: InitializeAppState;
+    readonly availablePaymentMethods: PaymentMethod[];
 }

@@ -1,20 +1,15 @@
 import * as React from 'react';
-import * as styles from '../payment-methods.scss';
-import { Locale } from 'checkout/locale';
-import { CardFormInfo, FormInfo, FormName } from 'checkout/state';
+import { method, title } from './methods.scss';
+import { CardFormInfo, FormName } from 'checkout/state';
 import { BankCardIcon } from './icons/bank-card-icon';
+import { MethodProps } from './method-props';
 
-interface BankCardProps {
-    locale: Locale;
-    setFormInfo: (formInfo: FormInfo) => any;
-}
+const toBankCard = (props: MethodProps) => props.setFormInfo(new CardFormInfo(FormName.paymentMethods));
 
-const toBankCard = (props: BankCardProps) => props.setFormInfo(new CardFormInfo(FormName.paymentMethods));
-
-export const BankCard: React.SFC<BankCardProps> = (props) => (
-    <li className={styles.method} onClick={toBankCard.bind(null, props)} id='bank-card-payment-method'>
+export const BankCard: React.SFC<MethodProps> = (props) => (
+    <li className={method} onClick={toBankCard.bind(null, props)} id='bank-card-payment-method'>
         <BankCardIcon/>
-        <div className={styles.title}>
+        <div className={title}>
             {props.locale['form.payment.method.name.card.label']}
             <hr/>
         </div>

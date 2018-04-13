@@ -1,5 +1,11 @@
 import { Dispatch } from 'redux';
-import { CardFormValues, ConfigState, ModelState, WalletFormValues, TerminalFormValues } from 'checkout/state';
+import {
+    CardFormValues,
+    ConfigState,
+    ModelState,
+    WalletFormValues,
+    TerminalFormValues,
+} from 'checkout/state';
 import { Event } from 'checkout/backend';
 import { AbstractAction, SetErrorAction, TypeKeys } from 'checkout/actions';
 import {

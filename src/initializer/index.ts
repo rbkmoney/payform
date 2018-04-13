@@ -6,16 +6,12 @@ import { Initializer } from './initializer';
 import { HtmlIntegration } from './html-integration';
 import { PopupInitializer } from './popup-initializer';
 import { IframeInitializer } from './iframe-initializer';
+import { environment, Configurator } from '../environment';
 
-interface InitializedWindow extends Window {
-    RbkmoneyCheckout: Configurator;
-}
-
-interface Configurator {
-    configure: (userConfig: any) => Initializer;
-}
-
-const isPopupMode = (userConfig: any): boolean => isMobile.any || userConfig.popupMode === true;
+const isPopupMode = (userConfig: any): boolean =>
+    isMobile.any ||
+    userConfig.popupMode === true ||
+    (environment.ApplePaySession && ApplePaySession.canMakePayments());
 
 const getInstance = (origin: string, userConfig: any): Initializer =>
     isPopupMode(userConfig)
@@ -27,7 +23,7 @@ const init = (origin: string): Configurator => ({
 });
 
 domReady().then((origin) => {
-    const RbkmoneyCheckout = (window as InitializedWindow).RbkmoneyCheckout = init(origin);
+    const RbkmoneyCheckout = environment.RbkmoneyCheckout = init(origin);
     const htmlIntegration = new HtmlIntegration(origin);
     if (htmlIntegration.isAvailable) {
         const userConfig = htmlIntegration.getUserConfig();

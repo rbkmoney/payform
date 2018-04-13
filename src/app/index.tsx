@@ -21,6 +21,7 @@ Child.resolve()
         const store = configureStore({config});
         store.subscribe(() => {
             const state = store.getState();
+            console.log(state);
             if (state.result) {
                 finalize(state, transport, app);
             }
