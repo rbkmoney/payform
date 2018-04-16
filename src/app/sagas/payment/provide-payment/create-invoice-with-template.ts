@@ -1,7 +1,7 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { InvoiceTemplate } from 'checkout/backend';
 import { createInvoiceWithTemplate as request } from 'checkout/backend';
-import { Amount } from '../../utils';
+import { Amount } from '../../../utils';
 import { InvoiceCreated, TypeKeys } from 'checkout/actions';
 
 export type Effects = CallEffect | PutEffect<InvoiceCreated>;
