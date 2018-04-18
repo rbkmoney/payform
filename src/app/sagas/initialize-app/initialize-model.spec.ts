@@ -15,10 +15,12 @@ import {
 } from 'checkout/sagas/initialize-app/initialize-model';
 import {
     getCustomerEvents,
-    getInvoiceEvents, getInvoicePaymentMethods,
+    getInvoiceEvents,
+    getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
     getInvoiceTemplateByID
 } from 'checkout/backend';
+import { findChange } from '../../utils/event-utils';
 
 const endpoint = 'http://test.endpoint';
 
@@ -39,6 +41,8 @@ const initConfigCustomer = {
     customerID: 'customerIDTest',
     customerAccessToken: 'testTokenCustomer'
 } as CustomerInitConfig;
+
+jest.mock('../../utils/event-utils');
 
 describe('initializeModel', () => {
     const iterator = initializeModel(endpoint, initConfigInvoiceTemplate);
@@ -107,6 +111,7 @@ describe('resolveInvoiceTemplate', () => {
 
 describe('resolveInvoice', () => {
     const iterator = resolveInvoice(endpoint, initConfigInvoice);
+    const findChangeMocked = findChange as any;
 
     it('should fetch invoice events and invoice payment methods', () => {
         const actual = iterator.next().value;
@@ -122,11 +127,14 @@ describe('resolveInvoice', () => {
     it('should return model chunk', () => {
         const invoiceEvents = 'events mock';
         const paymentMethods = 'methods mock';
+        const invoice = 'mock invoice';
+        findChangeMocked.mockReturnValueOnce(invoice);
         const actual = iterator.next([invoiceEvents, paymentMethods]);
         const expected = {
             invoiceEvents,
             paymentMethods,
-            invoiceAccessToken: initConfigInvoice.invoiceAccessToken
+            invoiceAccessToken: initConfigInvoice.invoiceAccessToken,
+            invoice
         };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);

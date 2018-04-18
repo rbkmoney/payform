@@ -4,11 +4,12 @@ import {
     Event,
     InvoiceTemplate,
     PaymentMethod,
+    Invoice,
     getCustomerEvents,
     getInvoiceEvents,
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
-    getInvoiceTemplateByID
+    getInvoiceTemplateByID, InvoiceChangeType,
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -18,6 +19,7 @@ import {
     InvoiceTemplateInitConfig
 } from 'checkout/config';
 import { InitializeModelCompleted, TypeKeys } from 'checkout/actions';
+import { findChange } from '../../utils/event-utils';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
@@ -25,6 +27,7 @@ export interface ModelChunk {
     paymentMethods?: PaymentMethod[];
     invoiceAccessToken?: string;
     customerEvents?: CustomerEvent[];
+    invoice?: Invoice;
 }
 
 export function* resolveInvoiceTemplate(endpoint: string, config: InvoiceTemplateInitConfig): Iterator<AllEffect | ModelChunk> {
@@ -44,7 +47,8 @@ export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): It
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken};
+    const invoice = findChange(invoiceEvents, InvoiceChangeType.InvoiceCreated);
+    return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice};
 }
 
 export function* resolveCustomer(endpoint: string, config: CustomerInitConfig): Iterator<CallEffect | ModelChunk> {

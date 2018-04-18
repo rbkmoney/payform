@@ -11,5 +11,5 @@ export const resolveAmount = (m: ModelState, configAmount: number, invoiceEvents
     }
     return m.invoiceTemplate && !invoiceEventsFirst
         ? resolveInvoiceTemplate(m.invoiceTemplate, configAmount)
-        : resolveInvoice(findChange(m.invoiceEvents, InvoiceChangeType.InvoiceCreated) as InvoiceCreated);
+        : resolveInvoice(findChange(m.invoiceEvents, InvoiceChangeType.InvoiceCreated) as InvoiceCreated); // TODO get from invoice in model
 };
