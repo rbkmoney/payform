@@ -31,5 +31,5 @@ export function* getPayableInvoice(initConfig: InitConfig, endpoint: string, mod
             invoiceAccessToken: s.model.invoiceAccessToken
         }));
     }
-    throw new Error('Incorrect model state');
+    throw {code: 'error.inconsistent.model'};
 }

@@ -14,7 +14,7 @@ const toPayload = (event: Event): GoToPayload => {
                 direction: Direction.forward
             };
         default:
-            throw {code: 'unsupported.invoice.change.type'};
+            throw {code: 'error.unsupported.invoice.change.type'};
     }
 };
 

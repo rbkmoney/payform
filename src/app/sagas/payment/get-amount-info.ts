@@ -2,15 +2,24 @@ import toNumber from 'lodash-es/toNumber';
 import { ModelState } from 'checkout/state';
 import {
     Amount,
-    resolveAmount,
+    resolveInvoice,
+    resolveInvoiceTemplate,
 } from 'checkout/utils';
 
 const toMinor = (formAmount: string): number => toNumber(formAmount) * 100;
 
 export const getAmountInfo = (model: ModelState, configAmount: number, formAmount: string): Amount => {
-    const amountInfo = resolveAmount(model, configAmount);
+    let info;
+    const {invoiceTemplate, invoice} = model;
+    if (invoiceTemplate) {
+        info = resolveInvoiceTemplate(invoiceTemplate, configAmount);
+    } else if (invoice) {
+        info = resolveInvoice(invoice);
+    } else {
+        throw {code: 'error.inconsistent.model'};
+    }
     return {
-        ...amountInfo,
-        value: formAmount ? toMinor(formAmount) : amountInfo.value
+        ...info,
+        value: formAmount ? toMinor(formAmount) : info.value
     };
 };
