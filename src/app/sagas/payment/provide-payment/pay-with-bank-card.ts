@@ -2,7 +2,7 @@ import { call } from 'redux-saga/effects';
 import { CardFormValues, ModelState } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { createCardData } from './create-payment-resource';
-import { makeAbstractPayment } from './abstract-payment';
+import { makePayment } from './make-payment';
 import { Amount } from 'checkout/utils';
 import { ProvidePaymentEffects } from './provide-payment';
 
@@ -11,7 +11,7 @@ const createPaymentResource = (endpoint: string, formValues: CardFormValues) => 
     return createCardData.bind(null, endpoint, {cardNumber, expireDate, secureCode, cardHolder});
 };
 
-export function* payWithBankCard(config: Config, model: ModelState, formValues: CardFormValues, amountInfo: Amount): Iterator<ProvidePaymentEffects> {
-    const fn = createPaymentResource(config.appConfig.capiEndpoint, formValues);
-    return yield call(makeAbstractPayment, config, model, formValues.email, amountInfo, fn);
+export function* payWithBankCard(c: Config, m: ModelState, v: CardFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
+    const fn = createPaymentResource(c.appConfig.capiEndpoint, v);
+    return yield call(makePayment, c, m, v.email, amount, fn);
 }

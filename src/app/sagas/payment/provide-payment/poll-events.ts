@@ -1,12 +1,13 @@
 import last from 'lodash-es/last';
 import { delay } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import {
     InvoiceChangeType,
     Event,
     getInvoiceEvents
 } from 'checkout/backend';
 import { getLastChange } from 'checkout/utils';
+import { EventPolled, TypeKeys } from 'checkout/actions';
 
 const isStop = (events: Event[]): boolean => {
     const change = getLastChange(events);
@@ -23,7 +24,7 @@ const isStop = (events: Event[]): boolean => {
     }
 };
 
-export function* pollEvents(endpoint: string, token: string, invoiceID: string, lastEvents?: Event[]) {
+function* poll(endpoint: string, token: string, invoiceID: string, lastEvents?: Event[]): Iterator<CallEffect | Event[]> {
     let events = [];
     let retryCount = 0;
     const maxRetries = 60;
@@ -37,4 +38,15 @@ export function* pollEvents(endpoint: string, token: string, invoiceID: string, 
         }
     }
     return events;
+}
+
+type Effects = CallEffect | PutEffect<EventPolled> | Event;
+
+export function* pollEvents(endpoint: string, token: string, invoiceID: string, lastEvents?: Event[]): Iterator<Effects> {
+    const events = yield call(poll, endpoint, token, invoiceID, lastEvents);
+    yield put({
+        type: TypeKeys.EVENT_POLLED,
+        payload: events
+    } as EventPolled);
+    return last(events);
 }

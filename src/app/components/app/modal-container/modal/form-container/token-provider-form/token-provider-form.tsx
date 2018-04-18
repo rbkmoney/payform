@@ -36,8 +36,6 @@ const toFormInfo = (modals: ModalState[]): TokenProviderFormInfo => {
 const mapStateToProps = (state: State) => ({
     tokenProviderFormInfo: toFormInfo(state.modals),
     locale: state.config.locale,
-    config: state.config,
-    model: state.model,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
     formValues: get(state.form, 'tokenProviderForm.values')
 });
@@ -116,9 +114,8 @@ export class TokenProviderFormDef extends React.Component<Props> {
     }
 
     private doPaymentAction(values: TokenProviderFormValues) {
-        const {config, model} = this.props;
         this.props.prepareToPay();
-        this.props.pay({method: PaymentMethodName.ApplePay, config, model, values});
+        this.props.pay({method: PaymentMethodName.ApplePay, values});
     }
 }
 

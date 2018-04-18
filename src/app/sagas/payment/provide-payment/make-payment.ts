@@ -9,9 +9,9 @@ import { pollEvents } from './poll-events';
 
 type CreatePaymentResourceFn = () => Iterator<PaymentResource>;
 
-type Effects = CallEffect | Event[];
+type Effects = CallEffect | Event;
 
-export function* makeAbstractPayment(config: Config, model: ModelState, email: string, amountInfo: Amount, fn: CreatePaymentResourceFn): Iterator<Effects> {
+export function* makePayment(config: Config, model: ModelState, email: string, amountInfo: Amount, fn: CreatePaymentResourceFn): Iterator<Effects> {
     const {initConfig, appConfig} = config;
     const {capiEndpoint} = appConfig;
     const {invoice: {id}, invoiceAccessToken} = yield call(getPayableInvoice, initConfig, capiEndpoint, model, amountInfo);

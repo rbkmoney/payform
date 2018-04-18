@@ -1,6 +1,10 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import { PaymentMethodName } from 'checkout/state';
-import { PaymentRequestedPayload } from 'checkout/actions';
+import {
+    ConfigState,
+    ModelState,
+    PayableFormValues,
+    PaymentMethodName
+} from 'checkout/state';
 import { payWithApplePay } from './pay-with-apple-pay';
 import { payWithBankCard } from './pay-with-bank-card';
 import { Amount } from 'checkout/utils';
@@ -14,11 +18,11 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithApplePay);
         case PaymentMethodName.BankCard:
             return call.bind(null, payWithBankCard);
+        default:
+            throw {code: 'unsupported.payment.method'};
     }
 };
 
-export function* providePayment(payload: PaymentRequestedPayload, amountInfo: Amount): Iterator<ProvidePaymentEffects> {
-    const {method, config, model, values} = payload;
-    const pay = getPayFn(method);
-    return yield pay(config, model, values, amountInfo);
+export function* providePayment(method: PaymentMethodName, c: ConfigState, m: ModelState, v: PayableFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
+    return yield getPayFn(method)(c, m, v, amount);
 }

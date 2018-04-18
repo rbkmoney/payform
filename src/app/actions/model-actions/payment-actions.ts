@@ -1,7 +1,5 @@
 import { AbstractAction, TypeKeys } from 'checkout/actions';
-import { Config } from 'checkout/config';
 import {
-    ModelState,
     PayableFormValues,
     PaymentMethodName
 } from 'checkout/state';
@@ -9,8 +7,6 @@ import { LogicError } from 'checkout/backend';
 
 export interface PaymentRequestedPayload {
     method: PaymentMethodName;
-    config: Config;
-    model: ModelState;
     values: PayableFormValues;
 }
 

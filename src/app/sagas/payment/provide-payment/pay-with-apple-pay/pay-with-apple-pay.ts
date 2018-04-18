@@ -1,7 +1,8 @@
 import { call } from 'redux-saga/effects';
+import last from 'lodash-es/last';
 import { ModelState, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { Amount, getLastChange } from 'checkout/utils';
+import { Amount } from 'checkout/utils';
 import { beginSession } from './begin-session';
 import { createSession } from './create-session';
 import { createApplePay, createCardData } from '../create-payment-resource';
@@ -13,7 +14,7 @@ import {
     PaymentStatuses
 } from 'checkout/backend';
 import { InvoiceStatuses } from 'checkout/backend/model';
-import { makeAbstractPayment } from '../abstract-payment';
+import { makePayment } from '../make-payment';
 import { ProvidePaymentEffects } from '../provide-payment';
 
 // TODO return after backend implementation
@@ -22,7 +23,8 @@ import { ProvidePaymentEffects } from '../provide-payment';
 
 const createPaymentResource = (endpoint: string, merchantID: string, paymentToken: ApplePayPayment) =>
     createCardData.bind(null, endpoint, {
-        cardNumber: '4242 4242 4242 4242',
+        // cardNumber: '4242 4242 4242 4242',
+        cardNumber: '4000 0000 0000 0002',
         expireDate: '12 / 20',
         secureCode: '123',
         cardHolder: 'LEXA SVOTIN'
@@ -48,8 +50,8 @@ const fromInvoiceStatusChanged = (change: InvoiceStatusChanged): boolean => {
     }
 };
 
-const isSuccess = (events: Event[]): boolean => {
-    const change = getLastChange(events);
+const isSuccess = (event: Event): boolean => {
+    const change = last(event.changes);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
             return fromPaymentStatusChanged(change as PaymentStatusChanged);
@@ -60,20 +62,20 @@ const isSuccess = (events: Event[]): boolean => {
     }
 };
 
-const getSessionStatus = (events: Event[]): number => isSuccess(events)
+const getSessionStatus = (event: Event): number => isSuccess(event)
     ? ApplePaySession.STATUS_SUCCESS
     : ApplePaySession.STATUS_FAILURE;
 
-export function* payWithApplePay(config: Config, model: ModelState, formValues: TokenProviderFormValues, amountInfo: Amount): Iterator<ProvidePaymentEffects> {
-    const {initConfig, appConfig} = config;
-    const session = createSession(initConfig.description, amountInfo);
+export function* payWithApplePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
+    const {initConfig, appConfig} = c;
+    const session = createSession(initConfig.description, amount);
+    const paymentToken = yield call(beginSession, c, session);
+    const {capiEndpoint, applePayMerchantID} = appConfig;
     try {
-        const paymentToken = yield call(beginSession, config, session);
-        const {capiEndpoint, applePayMerchantID} = appConfig;
         const fn = createPaymentResource(capiEndpoint, applePayMerchantID, paymentToken);
-        const events = yield call(makeAbstractPayment, config, model, formValues.email, amountInfo, fn);
-        session.completePayment(getSessionStatus(events));
-        return events;
+        const event = yield call(makePayment, c, m, v.email, amount, fn);
+        session.completePayment(getSessionStatus(event));
+        return event;
     } catch (error) {
         session.completePayment(ApplePaySession.STATUS_FAILURE);
         throw error;
