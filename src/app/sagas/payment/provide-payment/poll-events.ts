@@ -1,16 +1,25 @@
 import last from 'lodash-es/last';
+import uniqWith from 'lodash-es/uniqWith';
 import { delay } from 'redux-saga';
-import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import {
-    InvoiceChangeType,
-    Event,
-    getInvoiceEvents
-} from 'checkout/backend';
-import { getLastChange } from 'checkout/utils';
+    call,
+    select,
+    put,
+    race,
+    CallEffect,
+    PutEffect,
+    RaceEffect,
+    SelectEffect
+} from 'redux-saga/effects';
+import { InvoiceChangeType, Event, getInvoiceEvents } from 'checkout/backend';
 import { EventPolled, TypeKeys } from 'checkout/actions';
+import { State } from 'checkout/state';
 
-const isStop = (events: Event[]): boolean => {
-    const change = getLastChange(events);
+const isStop = (event: Event): boolean => {
+    if (!event || !event.changes) {
+        return false;
+    }
+    const change = last(event.changes);
     if (!change) {
         return false;
     }
@@ -24,29 +33,53 @@ const isStop = (events: Event[]): boolean => {
     }
 };
 
-function* poll(endpoint: string, token: string, invoiceID: string, lastEvents?: Event[]): Iterator<CallEffect | Event[]> {
-    let events = [];
-    let retryCount = 0;
-    const maxRetries = 60;
-    while (!isStop(events)) {
-        yield call(delay, 300);
-        const lastEventID = lastEvents ? last(lastEvents).id : 0;
-        events = yield call(getInvoiceEvents, endpoint, token, invoiceID, 10, lastEventID);
-        retryCount++;
-        if (retryCount >= maxRetries) {
-            throw {code: 'error.events.timeout'};
-        }
+interface PollResult {
+    events: Event[];
+    last: Event;
+}
+
+function* getLastEventID(): Iterator<SelectEffect | number> {
+    return yield select((s: State) => {
+        const events = s.model.invoiceEvents;
+        return events ? last(events).id : 0;
+    });
+}
+
+function* poll(endpoint: string, token: string, invoiceID: string): Iterator<CallEffect | PollResult> {
+    let lastEventID = yield call(getLastEventID);
+    let events: Event[] = [];
+    let lastEvent = null;
+    while (!isStop(lastEvent)) {
+        yield call(delay, 1000);
+        const chunk = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
+        events = events.concat(chunk);
+        lastEvent = last(events);
+        lastEventID = lastEvent.id;
     }
-    return events;
+    return {
+        events: uniqWith(events, (f, s) => f.id === s.id),
+        last: lastEvent
+    };
+}
+
+function* pollWithDelay(endpoint: string, token: string, invoiceID: string): Iterator<RaceEffect | PollResult> {
+    const [result, timeout] = yield race<any>([
+        call(poll, endpoint, token, invoiceID),
+        call(delay, 60000)
+    ]);
+    if (timeout) {
+        throw {code: 'error.events.timeout'};
+    }
+    return result;
 }
 
 type Effects = CallEffect | PutEffect<EventPolled> | Event;
 
-export function* pollEvents(endpoint: string, token: string, invoiceID: string, lastEvents?: Event[]): Iterator<Effects> {
-    const events = yield call(poll, endpoint, token, invoiceID, lastEvents);
+export function* pollEvents(endpoint: string, token: string, invoiceID: string): Iterator<Effects> {
+    const result = yield call(pollWithDelay, endpoint, token, invoiceID);
     yield put({
         type: TypeKeys.EVENT_POLLED,
-        payload: events
+        payload: result.events
     } as EventPolled);
-    return last(events);
+    return result.last;
 }

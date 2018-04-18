@@ -14,7 +14,7 @@ interface InvoiceAndToken {
 
 export function* getPayableInvoice(initConfig: InitConfig, endpoint: string, model: ModelState, amountInfo: Amount): Iterator<Effects> {
     const {invoice, invoiceTemplate, invoiceAccessToken} = model;
-    if (invoice && model.invoice.amount === amountInfo.value) {
+    if (invoice && invoice.amount === amountInfo.value) {
         return {invoice, invoiceAccessToken};
     }
     if (invoiceTemplate) {
