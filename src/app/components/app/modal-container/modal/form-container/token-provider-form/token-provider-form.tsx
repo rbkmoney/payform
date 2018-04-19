@@ -19,7 +19,6 @@ import {
 } from 'checkout/state';
 import {
     pay,
-    prepareToPay,
     setViewInfoError,
     setViewInfoHeight
 } from 'checkout/actions';
@@ -43,7 +42,6 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch),
     pay: bindActionCreators(pay, dispatch),
 });
 
@@ -75,7 +73,7 @@ export class TokenProviderFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.doPaymentAction(formValues);
+                this.submit(formValues);
                 break;
         }
     }
@@ -110,11 +108,6 @@ export class TokenProviderFormDef extends React.Component<Props> {
 
     private submit(values: TokenProviderFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.doPaymentAction(values);
-    }
-
-    private doPaymentAction(values: TokenProviderFormValues) {
-        this.props.prepareToPay();
         this.props.pay({method: PaymentMethodName.ApplePay, values});
     }
 }

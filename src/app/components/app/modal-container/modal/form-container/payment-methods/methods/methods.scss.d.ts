@@ -8,3 +8,4 @@ export const title: string;
 export const description: string;
 export const appear: string;
 export const leave: string;
+export const apple_pay_button: string;

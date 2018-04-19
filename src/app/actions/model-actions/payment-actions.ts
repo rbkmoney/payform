@@ -7,7 +7,7 @@ import { LogicError } from 'checkout/backend';
 
 export interface PaymentRequestedPayload {
     method: PaymentMethodName;
-    values: PayableFormValues;
+    values?: PayableFormValues;
 }
 
 export interface PaymentRequested extends AbstractAction<PaymentRequestedPayload> {

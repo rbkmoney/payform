@@ -4,16 +4,24 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as formStyles from '../form-container.scss';
 import { FormInfo, PaymentMethod, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
-import { goToFormInfo, setViewInfoHeight } from 'checkout/actions';
+import {
+    goToFormInfo,
+    pay as payAction,
+    PaymentRequestedPayload,
+    setViewInfoHeight
+} from 'checkout/actions';
 import { Methods } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
 import { calcHeight } from './calc-height';
+import { isPrefilled } from './is-payment-values-prefilled';
 
 export interface PaymentMethodsProps {
     locale: Locale;
     methods: PaymentMethod[];
+    paymentValuesPrefilled: boolean;
     setFormInfo: (formInfo: FormInfo) => any;
     setViewInfoHeight: (height: number) => any;
+    pay: (payload: PaymentRequestedPayload) => any;
 }
 
 export interface PaymentMethodsState {
@@ -22,12 +30,14 @@ export interface PaymentMethodsState {
 
 const mapStateToProps = (s: State) => ({
     locale: s.config.locale,
-    methods: s.availablePaymentMethods.sort((m1, m2) => m1.priority > m2.priority ? 1 : -1)
+    methods: s.availablePaymentMethods.sort((m1, m2) => m1.priority > m2.priority ? 1 : -1),
+    paymentValuesPrefilled: isPrefilled(s.config.initConfig, s.model)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setFormInfo: bindActionCreators(goToFormInfo, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
+    pay: bindActionCreators(payAction, dispatch)
 });
 
 class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMethodsState> {
@@ -49,7 +59,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
     }
 
     render() {
-        const {locale, setFormInfo, methods} = this.props;
+        const {locale, setFormInfo, methods, pay, paymentValuesPrefilled} = this.props;
         const {visibleMethods} = this.state;
         return (
             <form>
@@ -59,7 +69,13 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                             {locale['form.header.payment.methods.label']}
                         </div>
                     </div>
-                    <Methods methods={visibleMethods} locale={locale} setFormInfo={setFormInfo}/>
+                    <Methods
+                        methods={visibleMethods}
+                        locale={locale}
+                        setFormInfo={setFormInfo}
+                        pay={pay}
+                        paymentValuesPrefilled={paymentValuesPrefilled}
+                    />
                     {methods > visibleMethods ?
                         <OtherPaymentMethodsLink onClick={this.showAllMethods} locale={locale}/> : null}
                 </div>

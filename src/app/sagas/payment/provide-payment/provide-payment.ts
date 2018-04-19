@@ -23,7 +23,8 @@ const getPayFn = (method: PaymentMethodName) => {
     }
 };
 
-export function* providePayment(method: PaymentMethodName, c: ConfigState, m: ModelState, v: PayableFormValues): Iterator<ProvidePaymentEffects> {
-    const amountInfo = getAmountInfo(m, c.initConfig.amount, v.amount);
-    return yield getPayFn(method)(c, m, v, amountInfo);
+export function* providePayment(method: PaymentMethodName, c: ConfigState, m: ModelState, v?: PayableFormValues): Iterator<ProvidePaymentEffects> {
+    const values = v ? v : {amount: null, email: null};
+    const amountInfo = getAmountInfo(m, c.initConfig.amount, values.amount);
+    return yield getPayFn(method)(c, m, values, amountInfo);
 }

@@ -12,13 +12,14 @@ import {
     TypeKeys,
     PaymentRequested,
     PaymentFailed,
-    PaymentCompleted
+    PaymentCompleted,
+    PrepareToPay
 } from 'checkout/actions';
 import { providePayment } from './provide-payment';
 import { State } from 'checkout/state';
 import { provideModal } from './provide-modal';
 
-type PayPutEffect = PaymentFailed | PaymentCompleted;
+type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted;
 
 type PayEffect =
     SelectEffect |
@@ -27,16 +28,12 @@ type PayEffect =
 
 export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     try {
-        const {config, model} = yield select((s: State) => ({
-            config: s.config,
-            model: s.model
-        }));
+        const {config, model} = yield select((s: State) => ({config: s.config, model: s.model}));
         const {values, method} = action.payload;
+        yield put({type: TypeKeys.PREPARE_TO_PAY} as PrepareToPay);
         const event = yield call(providePayment, method, config, model, values);
         yield call(provideModal, event);
-        yield put({
-            type: TypeKeys.PAYMENT_COMPLETED
-        } as PaymentCompleted);
+        yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
     } catch (error) {
         yield put({
             type: TypeKeys.PAYMENT_FAILED,
