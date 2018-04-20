@@ -36,7 +36,8 @@ describe('resolveInvoiceTemplate', () => {
 describe('resolveInvoice', () => {
     const findChangeMocked = findChange as any;
     const resolveInvoiceMocked = resolveInvoice as any;
-    const findChangeResult = 'findChangeMocked result';
+    const invoice = 'mock invoice';
+    const findChangeResult = {invoice};
 
     beforeEach(() => {
         findChangeMocked.mockReturnValueOnce(findChangeResult);
@@ -47,7 +48,7 @@ describe('resolveInvoice', () => {
         resolveAmount({
             invoiceEvents: []
         } as any, 111);
-        expect(resolveInvoiceMocked).toBeCalledWith(findChangeResult);
+        expect(resolveInvoiceMocked).toBeCalledWith(invoice);
     });
 
     it('setting invoiceEventsFirst flag to true should call resolveInvoice', () => {
@@ -55,6 +56,6 @@ describe('resolveInvoice', () => {
             invoiceTemplate: {},
             invoiceEvents: []
         } as any, 111, true);
-        expect(resolveInvoiceMocked).toBeCalledWith(findChangeResult);
+        expect(resolveInvoiceMocked).toBeCalledWith(invoice);
     });
 });

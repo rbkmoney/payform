@@ -1,44 +1,39 @@
 import {
-    call,
     CallEffect,
     ForkEffect,
-    put,
     PutEffect,
-    select,
     SelectEffect,
+    call,
+    put,
+    select,
     takeLatest
 } from 'redux-saga/effects';
 import {
     TypeKeys,
     PaymentRequested,
     PaymentFailed,
-    PaymentCompleted
+    PaymentCompleted,
+    PrepareToPay
 } from 'checkout/actions';
-import { getAmountInfo } from './get-amount-info';
 import { providePayment } from './provide-payment';
 import { State } from 'checkout/state';
 import { provideModal } from './provide-modal';
 
-type PayPutEffect = PaymentFailed;
+type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted;
 
 type PayEffect =
     SelectEffect |
     CallEffect |
-    PutEffect<PayPutEffect | PaymentCompleted>;
+    PutEffect<PayPutEffect>;
 
 export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     try {
-        const {config, model} = yield select((s: State) => ({
-            config: s.config,
-            model: s.model
-        }));
+        const {config, model} = yield select((s: State) => ({config: s.config, model: s.model}));
         const {values, method} = action.payload;
-        const amountInfo = getAmountInfo(model, config.initConfig.amount, values.amount);
-        const event = yield call(providePayment, method, config, model, values, amountInfo);
+        yield put({type: TypeKeys.PREPARE_TO_PAY} as PrepareToPay);
+        const event = yield call(providePayment, method, config, model, values);
         yield call(provideModal, event);
-        yield put({
-            type: TypeKeys.PAYMENT_COMPLETED
-        } as PaymentCompleted);
+        yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
     } catch (error) {
         yield put({
             type: TypeKeys.PAYMENT_FAILED,

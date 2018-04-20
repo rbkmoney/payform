@@ -10,6 +10,7 @@ interface EventLike {
     changes: ChangeLike[];
 }
 
+// TODO fix it
 export const mergeEvents = (stateEvents: EventLike[], actionEvents: EventLike[]): EventLike[] => {
     const first = actionEvents[0];
     const sliced = stateEvents ? stateEvents.slice(0, first ? first.id : undefined) : [];

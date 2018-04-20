@@ -17,5 +17,5 @@ export function* makePayment(config: Config, model: ModelState, email: string, a
     const {invoice: {id}, invoiceAccessToken} = yield call(getPayableInvoice, initConfig, capiEndpoint, model, amountInfo);
     const paymentResource = yield call(fn, invoiceAccessToken);
     yield call(createPayment, capiEndpoint, invoiceAccessToken, id, email, paymentResource, initConfig);
-    return yield call(pollEvents, capiEndpoint, invoiceAccessToken, id, model.invoiceEvents);
+    return yield call(pollEvents, capiEndpoint, invoiceAccessToken, id);
 }
