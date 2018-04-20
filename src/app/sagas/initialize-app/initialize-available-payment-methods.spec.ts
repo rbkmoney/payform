@@ -10,13 +10,16 @@ import {
     PaymentMethodName,
     PaymentSystem,
     BankCard,
-    PaymentMethod
+    PaymentMethod, AppConfig
 } from 'checkout/backend';
 import { Config } from 'checkout/config';
 import { PaymentMethod as PaymentMethodState } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
 
 const merchantID = 'merchant.money.rbk.checkout';
+const appConfig = {
+    applePayMerchantID: merchantID
+} as AppConfig;
 const bankCard = {
     method: 'BankCard',
     paymentSystems: ['mastercard', 'nspkmir', 'visa'],
@@ -29,7 +32,7 @@ describe('bankCardToMethods', () => {
             method: PaymentMethodName.BankCard,
             paymentSystems: [PaymentSystem.visa]
         } as BankCard;
-        const iterator = bankCardToMethods(bankCardWithoutTokenProviders, merchantID);
+        const iterator = bankCardToMethods(bankCardWithoutTokenProviders, appConfig, false);
 
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
@@ -42,11 +45,13 @@ describe('bankCardToMethods', () => {
     });
 
     describe('with apple pay', () => {
-        const iterator = bankCardToMethods(bankCard, merchantID);
+        const iterator = bankCardToMethods(bankCard, {
+            applePayMerchantID: merchantID
+        } as AppConfig, false);
 
         it('should call applePayAvailable', () => {
             const actual = iterator.next().value;
-            const expected = call(applePayAvailable, merchantID);
+            const expected = call(applePayAvailable, merchantID, false);
             expect(actual).toEqual(expected);
         });
 
@@ -74,9 +79,6 @@ describe('toAvailablePaymentMethods', () => {
             providers: ['euroset']
         }
     ] as PaymentMethod[];
-    const appConfig = {
-        applePayMerchantID: merchantID
-    };
 
     describe('truthy wallets and terminals flags', () => {
         const config = {
@@ -84,6 +86,7 @@ describe('toAvailablePaymentMethods', () => {
                 wallets: true,
                 terminals: true
             },
+            inFrame: false,
             appConfig
         } as Config;
 
@@ -91,7 +94,7 @@ describe('toAvailablePaymentMethods', () => {
 
         it('should call bankCardToMethods', () => {
             const actual = iterator.next().value;
-            const expected = call(bankCardToMethods, bankCard, merchantID);
+            const expected = call(bankCardToMethods, bankCard, appConfig, false);
             expect(actual).toEqual(expected);
         });
 
@@ -117,6 +120,7 @@ describe('toAvailablePaymentMethods', () => {
                 wallets: false,
                 terminals: false
             },
+            inFrame: false,
             appConfig
         } as Config;
 
@@ -124,7 +128,7 @@ describe('toAvailablePaymentMethods', () => {
 
         it('should call bankCardToMethods', () => {
             const actual = iterator.next().value;
-            const expected = call(bankCardToMethods, bankCard, merchantID);
+            const expected = call(bankCardToMethods, bankCard, appConfig, false);
             expect(actual).toEqual(expected);
         });
 

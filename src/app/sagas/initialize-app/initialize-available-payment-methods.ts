@@ -1,5 +1,5 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
-import { BankCard, PaymentMethod, PaymentMethodName } from 'checkout/backend';
+import { AppConfig, BankCard, PaymentMethod, PaymentMethodName } from 'checkout/backend';
 import { Config } from 'checkout/config';
 import { InitializeAvailablePaymentMethodsCompleted, TypeKeys } from 'checkout/actions';
 import {
@@ -10,22 +10,24 @@ import { BankCardTokenProvider } from 'checkout/backend/model';
 import { environment } from '../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 
-// TODO require apple pay inFrame check
-export function* applePayAvailable(merchantIdentifier: string): Iterator<CallEffect | boolean> {
+export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {
     const available = environment.ApplePaySession && ApplePaySession.canMakePayments();
-    if (available) {
-        try {
-            return yield call(ApplePaySession.canMakePaymentsWithActiveCard, merchantIdentifier);
-        } catch (error) {
-            console.error(`${logPrefix} ApplePaySession.canMakePaymentsWithActiveCard`, error);
-            return false;
+    if (!available) {
+        return false;
+    }
+    try {
+        const canMakePayments = yield call(ApplePaySession.canMakePaymentsWithActiveCard, applePayMerchantID);
+        if (inFrame) {
+            console.error(`${logPrefix} Apple Pay is not available in frame`);
         }
-    } else {
+        return canMakePayments;
+    } catch (error) {
+        console.error(`${logPrefix} ApplePaySession.canMakePaymentsWithActiveCard`, error);
         return false;
     }
 }
 
-export function* bankCardToMethods(bankCard: BankCard, applePayMerchantID: string): Iterator<CallEffect | PaymentMethodState[]> {
+export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inFrame: boolean): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
     result.push({name: PaymentMethodNameState.BankCard});
     const {tokenProviders} = bankCard;
@@ -33,7 +35,7 @@ export function* bankCardToMethods(bankCard: BankCard, applePayMerchantID: strin
         for (const provider of tokenProviders) {
             switch (provider) {
                 case BankCardTokenProvider.applepay:
-                    const isAvailable = yield call(applePayAvailable, applePayMerchantID);
+                    const isAvailable = yield call(applePayAvailable, appConfig.applePayMerchantID, inFrame);
                     if (isAvailable) {
                         result.push({name: PaymentMethodNameState.ApplePay});
                     }
@@ -50,7 +52,7 @@ export function* toAvailablePaymentMethods(paymentMethods: PaymentMethod[], conf
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
-                const bankCard = yield call(bankCardToMethods, method, config.appConfig.applePayMerchantID);
+                const bankCard = yield call(bankCardToMethods, method, config.appConfig, config.inFrame);
                 result = result.concat(bankCard);
                 break;
             case PaymentMethodName.DigitalWallet:

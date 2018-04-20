@@ -67,8 +67,9 @@ const getSessionStatus = (event: Event): number => isSuccess(event)
     : ApplePaySession.STATUS_FAILURE;
 
 export function* payWithApplePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
-    const {initConfig, appConfig} = c;
-    const session = createSession(initConfig.description, amount);
+    const {initConfig: {description, name}, appConfig} = c;
+    const label = description || name || 'RBKmoney';
+    const session = createSession(label, amount);
     const paymentToken = yield call(beginSession, c, session);
     const {capiEndpoint, applePayMerchantID} = appConfig;
     try {

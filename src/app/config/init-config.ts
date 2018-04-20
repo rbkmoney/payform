@@ -15,12 +15,4 @@ export class InitConfig {
     amount?: number;
     obscureCardCvv?: boolean;
     requireCardHolder?: boolean;
-
-    constructor() {
-        this.terminals = true;
-        this.wallets = true;
-        this.paymentFlowHold = false;
-        this.holdExpiration = HoldExpirationType.cancel;
-        this.locale = 'auto';
-    }
 }
