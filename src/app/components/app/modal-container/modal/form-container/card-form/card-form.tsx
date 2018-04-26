@@ -12,11 +12,12 @@ import {
     ModalForms,
     ModalName,
     ModalState,
+    PaymentMethodName,
     PaymentStatus,
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import { payCardData, prepareToPay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
+import { pay, prepareToPay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 import { calcFormHeight } from './calc-form-height';
@@ -39,7 +40,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    pay: bindActionCreators(payCardData, dispatch),
+    pay: bindActionCreators(pay, dispatch),
     subscribe: bindActionCreators(subscribe, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
@@ -123,7 +124,7 @@ class CardFormDef extends React.Component<Props> {
         switch (this.props.config.initConfig.integrationType) {
             case IntegrationType.invoice:
             case IntegrationType.invoiceTemplate:
-                this.props.pay(config, model, values);
+                this.props.pay({method: PaymentMethodName.BankCard, values});
                 break;
             case IntegrationType.customer:
                 this.props.subscribe(config, model, values);

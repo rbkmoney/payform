@@ -1,26 +1,65 @@
 import { put, PutEffect } from 'redux-saga/effects';
 import last from 'lodash-es/last';
-import { Event, InvoiceChangeType } from 'checkout/backend';
-import { Direction, GoToFormInfo, GoToPayload, TypeKeys } from 'checkout/actions';
-import { ResultFormInfo, ResultType } from 'checkout/state';
+import {
+    Event,
+    InvoiceChangeType,
+    PaymentInteractionRequested,
+    InteractionType,
+    Redirect,
+    PaymentTerminalReceipt
+} from 'checkout/backend';
+import {
+    Direction,
+    GoToFormInfo,
+    TypeKeys,
+    SetModalState
+} from 'checkout/actions';
+import {
+    InteractionFormInfo,
+    ModalForms,
+    ModalInteraction,
+    ModalState,
+    ResultFormInfo,
+    ResultType
+} from 'checkout/state';
 
-const toPayload = (event: Event): GoToPayload => {
+const interactionToModalState = (change: PaymentInteractionRequested): ModalState => {
+    const {userInteraction} = change;
+    switch (userInteraction.interactionType) {
+        case InteractionType.Redirect:
+            return new ModalInteraction((userInteraction as Redirect).request, true);
+        case InteractionType.PaymentTerminalReceipt:
+            const formInfo = new InteractionFormInfo(userInteraction as PaymentTerminalReceipt);
+            return new ModalForms([formInfo], true);
+        default:
+            throw {code: 'error.unsupported.user.interaction.type'};
+    }
+};
+
+export type SetStateFromEvents = GoToFormInfo | SetModalState;
+
+const toPayload = (event: Event): SetStateFromEvents => {
     const change = last(event.changes);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
         case InvoiceChangeType.InvoiceStatusChanged:
             return {
-                formInfo: new ResultFormInfo(ResultType.processed),
-                direction: Direction.forward
+                type: TypeKeys.GO_TO_FORM_INFO,
+                payload: {
+                    formInfo: new ResultFormInfo(ResultType.processed),
+                    direction: Direction.forward
+                }
+            };
+        case InvoiceChangeType.PaymentInteractionRequested:
+            return {
+                type: TypeKeys.SET_MODAL_STATE,
+                payload: interactionToModalState(change as PaymentInteractionRequested)
             };
         default:
             throw {code: 'error.unsupported.invoice.change.type'};
     }
 };
 
-export function* provideModal(event: Event): Iterator<PutEffect<GoToFormInfo>> {
-    return yield put({
-        type: TypeKeys.GO_TO_FORM_INFO,
-        payload: toPayload(event)
-    } as GoToFormInfo);
+export function* provideModal(event: Event): Iterator<PutEffect<SetStateFromEvents>> {
+    return yield put(toPayload(event));
 }

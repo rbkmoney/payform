@@ -1,19 +1,23 @@
+import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
     ModalState,
-    ModelState,
     ResultFormInfo,
     ResultType,
     CardFormInfo,
     FormInfo,
-    PaymentMethod
+    PaymentMethod,
+    ModelState,
+    State, ConfigState
 } from 'checkout/state';
-import { InitConfig, IntegrationType } from 'checkout/config';
 import { CustomerChangeType, InvoiceChangeType } from 'checkout/backend';
 import { getLastChange } from 'checkout/utils';
 import { toInteraction } from './to-interaction';
 import { CustomerEvent, Event } from 'checkout/backend/model';
+import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
+import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
+import { IntegrationType } from 'checkout/config';
 
 const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
 
@@ -35,14 +39,14 @@ const initFromInvoiceIntegration = (e: Event[], methods: PaymentMethod[]): Modal
         case InvoiceChangeType.PaymentInteractionRequested:
             return toInteraction(e);
         case InvoiceChangeType.InvoiceStatusChanged:
-            return toInitialModalResult();
         case InvoiceChangeType.PaymentStatusChanged:
-        case InvoiceChangeType.InvoiceCreated:
-            return toInitialInvoiceState(methods);
         case InvoiceChangeType.PaymentStarted:
             return toInitialModalResult();
+        case InvoiceChangeType.InvoiceCreated:
+            return toInitialInvoiceState(methods);
+        default:
+            throw {code: 'error.unhandled.invoice.change.type'};
     }
-    throw new Error('Unhandled invoice changeType');
 };
 
 const initFromCustomerIntegration = (e: CustomerEvent[]): ModalState => {
@@ -60,12 +64,25 @@ const initFromCustomerIntegration = (e: CustomerEvent[]): ModalState => {
     }
 };
 
-export const initializeModal = (c: InitConfig, m: ModelState, methods: PaymentMethod[]): ModalState => {
-    switch (c.integrationType) {
+type Effects = SelectEffect | CallEffect | PutEffect<InitializeModalCompleted>;
+
+export function* initializeModal(config: ConfigState, model: ModelState): Iterator<Effects> {
+    let initializedModals;
+    switch (config.initConfig.integrationType) {
         case IntegrationType.invoice:
         case IntegrationType.invoiceTemplate:
-            return initFromInvoiceIntegration(m.invoiceEvents, methods);
+            yield call(initializeAvailablePaymentMethods, model.paymentMethods, config);
+            const methods = yield select((state: State) => state.availablePaymentMethods);
+            initializedModals = initFromInvoiceIntegration(model.invoiceEvents, methods);
+            break;
         case IntegrationType.customer:
-            return initFromCustomerIntegration(m.customerEvents);
+            initializedModals = initFromCustomerIntegration(model.customerEvents);
+            break;
+        default:
+            throw {code: 'error.unsupported.integration.type'};
     }
-};
+    yield put({
+        type: TypeKeys.INITIALIZE_MODAL_COMPLETED,
+        payload: initializedModals
+    } as InitializeModalCompleted);
+}

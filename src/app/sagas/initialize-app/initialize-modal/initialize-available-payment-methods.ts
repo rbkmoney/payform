@@ -7,7 +7,7 @@ import {
     PaymentMethod as PaymentMethodState
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
-import { environment } from '../../../environment';
+import { environment } from '../../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 
 export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {
@@ -99,23 +99,23 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
 export type InitializeEffect = CallEffect | PutEffect<InitializeAvailablePaymentMethodsCompleted>;
 
 export function* initializeAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config): Iterator<InitializeEffect> {
-    const paymentMethodsMock = [ // TODO remove after backend implementation
-        {
-            method: 'BankCard',
-            paymentSystems: ['mastercard', 'nspkmir', 'visa'],
-            tokenProviders: ['applepay']
-        },
-        {
-            method: 'DigitalWallet',
-            providers: ['qiwi']
-        },
-        {
-            method: 'PaymentTerminal',
-            providers: ['euroset']
-        } as any
-    ] as PaymentMethod[];
+    // const paymentMethodsMock = [ // TODO remove after backend implementation
+    //     {
+    //         method: 'BankCard',
+    //         paymentSystems: ['mastercard', 'nspkmir', 'visa'],
+    //         tokenProviders: ['applepay']
+    //     },
+    //     {
+    //         method: 'DigitalWallet',
+    //         providers: ['qiwi']
+    //     },
+    //     {
+    //         method: 'PaymentTerminal',
+    //         providers: ['euroset']
+    //     } as any
+    // ] as PaymentMethod[];
 
-    const methods = yield call(toAvailablePaymentMethods, paymentMethodsMock, config);
+    const methods = yield call(toAvailablePaymentMethods, paymentMethods, config);
     const prioritizedMethods = yield call(setPriority, methods);
     yield put({
         type: TypeKeys.INITIALIZE_AVAILABLE_PAYMENT_METHODS_COMPLETED,

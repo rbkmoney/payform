@@ -6,6 +6,7 @@ import {
 } from 'checkout/state';
 import {Locale} from 'checkout/locale';
 import { FieldsConfig } from '../fields-config';
+import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface CardFormProps {
     locale: Locale;
@@ -14,7 +15,7 @@ export interface CardFormProps {
     cardFormInfo: CardFormInfo;
     formValues: CardFormValues;
     fieldsConfig: FieldsConfig;
-    pay: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
+    pay: (payload: PaymentRequestedPayload) => any;
     subscribe: (c: ConfigState, m: ModelState, v: CardFormValues) => any;
     setViewInfoError: (hasError: boolean) => any;
     prepareToPay: () => any;

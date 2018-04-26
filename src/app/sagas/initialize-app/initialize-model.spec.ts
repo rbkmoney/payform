@@ -127,14 +127,16 @@ describe('resolveInvoice', () => {
     it('should return model chunk', () => {
         const invoiceEvents = 'events mock';
         const paymentMethods = 'methods mock';
-        const invoice = 'mock invoice';
-        findChangeMocked.mockReturnValueOnce(invoice);
+        const invoiceCreated = {
+            invoice: 'mock invoice'
+        };
+        findChangeMocked.mockReturnValueOnce(invoiceCreated);
         const actual = iterator.next([invoiceEvents, paymentMethods]);
         const expected = {
             invoiceEvents,
             paymentMethods,
             invoiceAccessToken: initConfigInvoice.invoiceAccessToken,
-            invoice
+            invoice: invoiceCreated.invoice
         };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);

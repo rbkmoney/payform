@@ -1,5 +1,5 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';

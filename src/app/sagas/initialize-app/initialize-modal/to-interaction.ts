@@ -14,6 +14,7 @@ import {
 } from 'checkout/state';
 import { getLastChange } from 'checkout/utils';
 
+// TODO duplicate provide-modal.ts
 export const toInteraction = (events: Event[] | CustomerEvent[]): ModalState => {
     const change = getLastChange(events) as PaymentInteractionRequested;
     const interaction = change.userInteraction;

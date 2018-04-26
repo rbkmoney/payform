@@ -3,9 +3,8 @@ import { TypeKeys, InitializeAppRequested } from 'checkout/actions';
 import { watchInitializeApp, initializeApp } from './initialize-app';
 import { loadConfig } from './load-config';
 import { initializeModel } from './initialize-model';
-import { checkInitConfigCapability } from './check-init-config';
+import { checkInitConfig } from './check-init-config';
 import { initializeModal } from './initialize-modal';
-import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 
 it('watchInitializeApp should takeLatest initializeApp', () => {
     const iterator = watchInitializeApp();
@@ -22,9 +21,7 @@ describe('initializeApp', () => {
         type: TypeKeys.INITIALIZE_APP_REQUESTED,
         payload: initConfig
     } as InitializeAppRequested;
-    const model = {
-        paymentMethods: 'paymentMethods mock'
-    } as any;
+    const model = 'modelMock' as any;
 
     const iterator = initializeApp(action);
 
@@ -53,19 +50,9 @@ describe('initializeApp', () => {
         expect(actual.toString()).toEqual(expected.toString());
     });
 
-    it('should call checkInitConfigCapability', () => {
+    it('should call checkInitConfig', () => {
         const actual = iterator.next(model).value;
-        const expected = call(checkInitConfigCapability, initConfig, model);
-        expect(actual).toEqual(expected);
-    });
-
-    it('should put checked init config', () => {
-        const checkedInitConfig = {};
-        const actual = iterator.next(checkedInitConfig).value;
-        const expected = put({
-            type: TypeKeys.INIT_CONFIG_CHECKED,
-            payload: checkedInitConfig
-        });
+        const expected = call(checkInitConfig, initConfig, model);
         expect(actual).toEqual(expected);
     });
 
@@ -75,33 +62,10 @@ describe('initializeApp', () => {
         expect(actual.toString()).toEqual(expected.toString());
     });
 
-    it('should call initializeAvailablePaymentMethods', () => {
+    it('should call initializeModal', () => {
         const config = 'configMock' as any;
         const actual = iterator.next(config).value;
-        const expected = call(initializeAvailablePaymentMethods, model.paymentMethods, config);
-        expect(actual).toEqual(expected);
-    });
-
-    it('should select availablePaymentMethods', () => {
-        const actual = iterator.next().value;
-        const expected = select();
-        expect(actual.toString()).toEqual(expected.toString());
-    });
-
-    it('should call initializeModal', () => {
-        const availablePaymentMethods = 'availablePaymentMethodsMock' as any;
-        const actual = iterator.next(availablePaymentMethods).value;
-        const expected = call(initializeModal, initConfig, model, availablePaymentMethods);
-        expect(actual).toEqual(expected);
-    });
-
-    it('should put modal', () => {
-        const modal = {};
-        const actual = iterator.next(modal).value;
-        const expected = put({
-            type: TypeKeys.INITIALIZE_MODAL_COMPLETED,
-            payload: modal
-        });
+        const expected = call(initializeModal, config, model);
         expect(actual).toEqual(expected);
     });
 

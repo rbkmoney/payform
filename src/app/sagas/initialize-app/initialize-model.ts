@@ -9,7 +9,9 @@ import {
     getInvoiceEvents,
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
-    getInvoiceTemplateByID, InvoiceChangeType,
+    getInvoiceTemplateByID,
+    InvoiceChangeType,
+    InvoiceCreated,
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -47,7 +49,7 @@ export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): It
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    const invoice = findChange(invoiceEvents, InvoiceChangeType.InvoiceCreated);
+    const {invoice} = findChange(invoiceEvents, InvoiceChangeType.InvoiceCreated) as InvoiceCreated;
     return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice};
 }
 
