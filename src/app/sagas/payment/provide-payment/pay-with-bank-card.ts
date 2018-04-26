@@ -6,10 +6,8 @@ import { makePayment } from './make-payment';
 import { Amount } from 'checkout/utils';
 import { ProvidePaymentEffects } from './provide-payment';
 
-const createPaymentResource = (endpoint: string, formValues: CardFormValues) => {
-    const {cardNumber, expireDate, secureCode, cardHolder} = formValues;
-    return createCardData.bind(null, endpoint, {cardNumber, expireDate, secureCode, cardHolder});
-};
+const createPaymentResource = (endpoint: string, formValues: CardFormValues) =>
+    createCardData.bind(null, endpoint, formValues);
 
 export function* payWithBankCard(c: Config, m: ModelState, v: CardFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
     const fn = createPaymentResource(c.appConfig.capiEndpoint, v);

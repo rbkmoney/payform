@@ -9,6 +9,8 @@ import { payWithApplePay } from './pay-with-apple-pay';
 import { payWithBankCard } from './pay-with-bank-card';
 import { Event } from 'checkout/backend';
 import { getAmountInfo } from '../get-amount-info';
+import { payWithDigitalWalletQiwi } from './pay-with-digital-wallet-qiwi';
+import { payWithTerminalEuroset } from './pay-with-terminal-euroset';
 
 export type ProvidePaymentEffects = CallEffect | Event;
 
@@ -18,6 +20,10 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithApplePay);
         case PaymentMethodName.BankCard:
             return call.bind(null, payWithBankCard);
+        case PaymentMethodName.DigitalWallet:
+            return call.bind(null, payWithDigitalWalletQiwi);
+        case PaymentMethodName.PaymentTerminal:
+            return call.bind(null, payWithTerminalEuroset);
         default:
             throw {code: 'error.unsupported.payment.method'};
     }

@@ -5,8 +5,7 @@ import {
     PaymentToolType,
     createPaymentResource,
 } from 'checkout/backend';
-
-const replaceSpaces = (str: string): string => str.replace(/\s+/g, '');
+import { replaceSpaces } from './replace-spaces';
 
 export function* createCardData(endpoint: string, formValues: CardFormValues, token: string): Iterator<CallEffect | PaymentResource> {
     const cardNumber = replaceSpaces(formValues.cardNumber);

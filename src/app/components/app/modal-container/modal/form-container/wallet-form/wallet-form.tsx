@@ -10,6 +10,7 @@ import {
     ModalForms,
     ModalName,
     ModalState,
+    PaymentMethodName,
     PaymentStatus,
     State,
     WalletFormValues
@@ -19,7 +20,7 @@ import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
-import { payDigitalWalletQiwi, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -39,7 +40,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
-    pay: bindActionCreators(payDigitalWalletQiwi, dispatch)
+    pay: bindActionCreators(pay, dispatch)
 });
 
 type Props = WalletFormProps & InjectedFormProps;
@@ -52,9 +53,8 @@ class WalletFormDef extends React.Component<Props> {
     }
 
     pay(values: WalletFormValues) {
-        const {config, model} = this.props;
         this.props.prepareToPay();
-        this.props.pay(config, model, values);
+        this.props.pay({method: PaymentMethodName.DigitalWallet, values});
     }
 
     componentDidMount() {

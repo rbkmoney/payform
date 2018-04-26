@@ -119,7 +119,6 @@ class CardFormDef extends React.Component<Props> {
     }
 
     private doPaymentAction(values: CardFormValues) {
-        const {config, model} = this.props;
         this.props.prepareToPay();
         switch (this.props.config.initConfig.integrationType) {
             case IntegrationType.invoice:
@@ -127,6 +126,7 @@ class CardFormDef extends React.Component<Props> {
                 this.props.pay({method: PaymentMethodName.BankCard, values});
                 break;
             case IntegrationType.customer:
+                const {config, model} = this.props;
                 this.props.subscribe(config, model, values);
                 break;
         }

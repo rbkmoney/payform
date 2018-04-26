@@ -1,10 +1,9 @@
-import { ConfigState, ModelState, WalletFormInfo, WalletFormValues } from 'checkout/state';
+import { WalletFormInfo, WalletFormValues } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { FieldsConfig } from '../fields-config';
+import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface WalletFormProps {
-    config: ConfigState;
-    model: ModelState;
     walletFormInfo: WalletFormInfo;
     locale: Locale;
     fieldsConfig: FieldsConfig;
@@ -12,5 +11,5 @@ export interface WalletFormProps {
     setViewInfoHeight: (height: number) => any;
     setViewInfoError: (hasError: boolean) => any;
     prepareToPay: () => any;
-    pay: (c: ConfigState, m: ModelState, v: WalletFormValues) => any;
+    pay: (payload: PaymentRequestedPayload) => any;
 }
