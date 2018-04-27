@@ -31,7 +31,15 @@ function* resolve(config: ConfigState, model: ModelState): Iterator<CallEffect> 
 export function* finishInteraction() {
     try {
         const {config, model} = yield select((s: State) => ({config: s.config, model: s.model}));
+        yield put({
+            type: TypeKeys.SET_MODAL_INTERACTION_POLLING,
+            payload: true
+        });
         yield call(resolve, config, model);
+        yield put({
+            type: TypeKeys.SET_MODAL_INTERACTION_POLLING,
+            payload: false
+        });
         yield put({
             type: TypeKeys.FINISH_INTERACTION_COMPLETED
         });
@@ -44,7 +52,6 @@ export function* finishInteraction() {
 
 }
 
-// TODO need setModalInteractionPollingStatus
 export function* watchFinishInteraction(): Iterator<ForkEffect> {
     yield takeLatest(TypeKeys.FINISH_INTERACTION_REQUESTED, finishInteraction);
 }
