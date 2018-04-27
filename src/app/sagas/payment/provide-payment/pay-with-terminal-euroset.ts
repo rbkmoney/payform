@@ -1,5 +1,5 @@
 import { call } from 'redux-saga/effects';
-import { createTerminalEuroset } from './create-payment-resource';
+import { createTerminalEuroset } from '../../create-payment-resource';
 import { ProvidePaymentEffects } from './provide-payment';
 import { ModelState, PayableFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';

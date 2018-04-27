@@ -35,6 +35,7 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
         yield call(provideModal, event);
         yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
     } catch (error) {
+        console.error(error);
         yield put({
             type: TypeKeys.PAYMENT_FAILED,
             payload: error

@@ -8,7 +8,8 @@ import {
     Subscribe,
     PollCustomerEvents,
     InvoiceCreated,
-    EventPolled
+    EventPolled,
+    CustomerEventPolled
 } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend';
@@ -21,7 +22,8 @@ type ModelReducerAction =
     InitializeModelCompleted |
     Subscribe |
     InvoiceCreated |
-    EventPolled;
+    EventPolled |
+    CustomerEventPolled;
 
 const initialState = {
     status: ModelStatus.none
@@ -73,10 +75,15 @@ export function modelReducer(s: ModelState = initialState, action: ModelReducerA
                 invoiceAccessToken: action.payload.invoiceAccessToken,
                 invoiceEvents: null
             };
-        case TypeKeys.EVENT_POLLED:
+        case TypeKeys.EVENTS_POLLED:
             return {
                 ...s,
                 invoiceEvents: mergeEvents(s.invoiceEvents, action.payload) as Event[]
+            };
+        case TypeKeys.CUSTOMER_EVENTS_POLLED:
+            return {
+                ...s,
+                customerEvents: mergeEvents(s.customerEvents, action.payload) as CustomerEvent[]
             };
     }
     return s;

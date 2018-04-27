@@ -11,7 +11,7 @@ export interface Subscribe extends AbstractAction<CustomerEvent[]> {
 
 export type SubscribeDispatch = (dispatch: Dispatch<Subscribe | SetErrorAction>) => void;
 
-export const subscribe = (c: ConfigState, m: ModelState, v: CardFormValues): SubscribeDispatch =>
+export const subscribeOld = (c: ConfigState, m: ModelState, v: CardFormValues): SubscribeDispatch =>
     (dispatch) => subscribeOperation(c, m, v)
         .then((payload) => dispatch({
             type: TypeKeys.SUBSCRIBE,

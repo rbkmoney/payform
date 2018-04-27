@@ -36,7 +36,8 @@ const mapStateToProps = (state: State) => ({
     model: state.model,
     formValues: get(state.form, 'cardForm.values'),
     locale: state.config.locale,
-    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate)
+    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
+    integrationType: state.config.initConfig.integrationType
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -120,14 +121,13 @@ class CardFormDef extends React.Component<Props> {
 
     private doPaymentAction(values: CardFormValues) {
         this.props.prepareToPay();
-        switch (this.props.config.initConfig.integrationType) {
+        switch (this.props.integrationType) {
             case IntegrationType.invoice:
             case IntegrationType.invoiceTemplate:
                 this.props.pay({method: PaymentMethodName.BankCard, values});
                 break;
             case IntegrationType.customer:
-                const {config, model} = this.props;
-                this.props.subscribe(config, model, values);
+                this.props.subscribe(values);
                 break;
         }
     }
@@ -140,7 +140,7 @@ class CardFormDef extends React.Component<Props> {
     }
 
     private getHeaderTitle(): string {
-        switch (this.props.config.initConfig.integrationType) {
+        switch (this.props.integrationType) {
             case IntegrationType.invoice:
             case IntegrationType.invoiceTemplate:
                 return this.props.locale['form.header.pay.card.label'];

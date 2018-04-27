@@ -1,7 +1,7 @@
 import { call } from 'redux-saga/effects';
 import { CardFormValues, ModelState } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { createCardData } from './create-payment-resource';
+import { createCardData } from '../../create-payment-resource';
 import { makePayment } from './make-payment';
 import { Amount } from 'checkout/utils';
 import { ProvidePaymentEffects } from './provide-payment';
