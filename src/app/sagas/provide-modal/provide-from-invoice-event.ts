@@ -1,37 +1,48 @@
 import { put, PutEffect } from 'redux-saga/effects';
 import last from 'lodash-es/last';
 import {
-    CustomerEvent,
-    CustomerChangeType,
+    Event,
+    InvoiceChangeType,
+    PaymentInteractionRequested,
     InteractionType,
     Redirect,
-    CustomerBindingInteractionRequested
+    PaymentTerminalReceipt
 } from 'checkout/backend';
-import { Direction, GoToFormInfo, SetModalState, TypeKeys } from 'checkout/actions';
 import {
+    Direction,
+    GoToFormInfo,
+    TypeKeys,
+    SetModalState
+} from 'checkout/actions';
+import {
+    InteractionFormInfo,
+    ModalForms,
     ModalInteraction,
     ModalState,
     ResultFormInfo,
     ResultType
 } from 'checkout/state';
 
-export type SetStateFromEvents = GoToFormInfo | SetModalState;
-
-const interactionToModalState = (change: CustomerBindingInteractionRequested): ModalState => {
+const interactionToModalState = (change: PaymentInteractionRequested): ModalState => {
     const {userInteraction} = change;
     switch (userInteraction.interactionType) {
         case InteractionType.Redirect:
             return new ModalInteraction((userInteraction as Redirect).request, true);
+        case InteractionType.PaymentTerminalReceipt:
+            const formInfo = new InteractionFormInfo(userInteraction as PaymentTerminalReceipt);
+            return new ModalForms([formInfo], true);
         default:
             throw {code: 'error.unsupported.user.interaction.type'};
     }
 };
 
-const toPayload = (event: CustomerEvent): SetStateFromEvents => {
+type SetStateFromEvents = GoToFormInfo | SetModalState;
+
+const toPayload = (event: Event): SetStateFromEvents => {
     const change = last(event.changes);
     switch (change.changeType) {
-        case CustomerChangeType.CustomerBindingStatusChanged:
-        case CustomerChangeType.CustomerBindingStarted:
+        case InvoiceChangeType.PaymentStatusChanged:
+        case InvoiceChangeType.InvoiceStatusChanged:
             return {
                 type: TypeKeys.GO_TO_FORM_INFO,
                 payload: {
@@ -39,16 +50,16 @@ const toPayload = (event: CustomerEvent): SetStateFromEvents => {
                     direction: Direction.forward
                 }
             };
-        case CustomerChangeType.CustomerBindingInteractionRequested:
+        case InvoiceChangeType.PaymentInteractionRequested:
             return {
                 type: TypeKeys.SET_MODAL_STATE,
-                payload: interactionToModalState(change as CustomerBindingInteractionRequested)
+                payload: interactionToModalState(change as PaymentInteractionRequested)
             };
         default:
             throw {code: 'error.unsupported.invoice.change.type'};
     }
 };
 
-export function* provideModal(event: CustomerEvent): Iterator<PutEffect<SetStateFromEvents>> {
+export function* provideFromInvoiceEvent(event: Event): Iterator<PutEffect<SetStateFromEvents>> {
     return yield put(toPayload(event));
 }

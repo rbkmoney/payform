@@ -17,7 +17,7 @@ import {
 } from 'checkout/actions';
 import { providePayment } from './provide-payment';
 import { State } from 'checkout/state';
-import { provideModal } from './provide-modal';
+import { provideFromInvoiceEvent } from '../provide-modal';
 
 type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted;
 
@@ -32,10 +32,9 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
         const {values, method} = action.payload;
         yield put({type: TypeKeys.PREPARE_TO_PAY} as PrepareToPay);
         const event = yield call(providePayment, method, config, model, values);
-        yield call(provideModal, event);
+        yield call(provideFromInvoiceEvent, event);
         yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
     } catch (error) {
-        console.error(error);
         yield put({
             type: TypeKeys.PAYMENT_FAILED,
             payload: error

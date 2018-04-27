@@ -10,6 +10,5 @@ export interface WalletFormProps {
     formValues: WalletFormValues;
     setViewInfoHeight: (height: number) => any;
     setViewInfoError: (hasError: boolean) => any;
-    prepareToPay: () => any;
     pay: (payload: PaymentRequestedPayload) => any;
 }

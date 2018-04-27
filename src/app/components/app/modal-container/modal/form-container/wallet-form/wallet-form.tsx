@@ -20,7 +20,7 @@ import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
-import { pay, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -39,7 +39,6 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch),
     pay: bindActionCreators(pay, dispatch)
 });
 
@@ -50,11 +49,6 @@ class WalletFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
-    }
-
-    pay(values: WalletFormValues) {
-        this.props.prepareToPay();
-        this.props.pay({method: PaymentMethodName.DigitalWallet, values});
     }
 
     componentDidMount() {
@@ -70,7 +64,7 @@ class WalletFormDef extends React.Component<Props> {
 
     submit(values: WalletFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.pay(values);
+        this.props.pay({method: PaymentMethodName.DigitalWallet, values});
     }
 
     componentWillMount() {
@@ -81,7 +75,7 @@ class WalletFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.pay(formValues);
+                this.submit(formValues);
                 break;
         }
     }

@@ -73,7 +73,7 @@ export class TerminalFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.doPaymentAction(formValues);
+                this.submit(formValues);
                 break;
         }
     }
@@ -114,11 +114,6 @@ export class TerminalFormDef extends React.Component<Props> {
 
     private submit(values: CardFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.doPaymentAction(values);
-    }
-
-    private doPaymentAction(values: TerminalFormValues) {
-        this.props.prepareToPay();
         this.props.pay({method: PaymentMethodName.PaymentTerminal, values});
     }
 }

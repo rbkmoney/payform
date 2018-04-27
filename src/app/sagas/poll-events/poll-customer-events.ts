@@ -74,7 +74,7 @@ function* pollWithDelay(endpoint: string, token: string, customerID: string): It
 
 type Effects = CallEffect | PutEffect<CustomerEventPolled> | CustomerEvent;
 
-export function* pollEvents(endpoint: string, token: string, customerID: string): Iterator<Effects> {
+export function* pollCustomerEvents(endpoint: string, token: string, customerID: string): Iterator<Effects> {
     const result = yield call(pollWithDelay, endpoint, token, customerID);
     yield put({
         type: TypeKeys.CUSTOMER_EVENTS_POLLED,

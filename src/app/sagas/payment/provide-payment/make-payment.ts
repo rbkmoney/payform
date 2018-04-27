@@ -5,7 +5,7 @@ import { Event, PaymentResource } from 'checkout/backend';
 import { Config } from 'checkout/config';
 import { Amount } from 'checkout/utils';
 import { createPayment } from './create-payment';
-import { pollEvents } from './poll-events';
+import { pollInvoiceEvents } from '../../poll-events';
 
 type CreatePaymentResourceFn = () => Iterator<PaymentResource>;
 
@@ -17,5 +17,5 @@ export function* makePayment(config: Config, model: ModelState, email: string, a
     const {invoice: {id}, invoiceAccessToken} = yield call(getPayableInvoice, initConfig, capiEndpoint, model, amountInfo);
     const paymentResource = yield call(fn, invoiceAccessToken);
     yield call(createPayment, capiEndpoint, invoiceAccessToken, id, email, paymentResource, initConfig);
-    return yield call(pollEvents, capiEndpoint, invoiceAccessToken, id);
+    return yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
 }

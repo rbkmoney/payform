@@ -10,7 +10,6 @@ export interface TerminalFormProps {
     fieldsConfig: FieldsConfig;
     pay: (payload: PaymentRequestedPayload) => any;
     setViewInfoError: (hasError: boolean) => any;
-    prepareToPay: () => any;
     setViewInfoHeight: (height: number) => any;
     amount: FormattedAmount;
     formValues: TerminalFormValues;

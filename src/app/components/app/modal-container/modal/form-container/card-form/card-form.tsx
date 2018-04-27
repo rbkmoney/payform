@@ -17,7 +17,7 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import { pay, prepareToPay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
+import {pay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 import { calcFormHeight } from './calc-form-height';
@@ -32,8 +32,6 @@ const toCardFormInfo = (modals: ModalState[]) => {
 
 const mapStateToProps = (state: State) => ({
     cardFormInfo: toCardFormInfo(state.modals),
-    config: state.config,
-    model: state.model,
     formValues: get(state.form, 'cardForm.values'),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
@@ -44,7 +42,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     subscribe: bindActionCreators(subscribe, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
@@ -65,7 +62,7 @@ class CardFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.doPaymentAction(formValues);
+                this.submit(formValues);
                 break;
         }
     }
@@ -116,11 +113,6 @@ class CardFormDef extends React.Component<Props> {
 
     private submit(values: CardFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.doPaymentAction(values);
-    }
-
-    private doPaymentAction(values: CardFormValues) {
-        this.props.prepareToPay();
         switch (this.props.integrationType) {
             case IntegrationType.invoice:
             case IntegrationType.invoiceTemplate:

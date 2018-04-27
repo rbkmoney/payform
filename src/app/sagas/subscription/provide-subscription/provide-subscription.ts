@@ -3,7 +3,7 @@ import { createCardData } from '../../create-payment-resource';
 import { CardFormValues, ConfigState, ModelState } from 'checkout/state';
 import { CustomerInitConfig } from 'checkout/config';
 import { createBinding, CustomerEvent } from 'checkout/backend';
-import { pollEvents } from './poll-events';
+import { pollCustomerEvents } from '../../poll-events';
 
 type Effects = CallEffect | CustomerEvent;
 
@@ -12,5 +12,5 @@ export function* provideSubscription(c: ConfigState, m: ModelState, v: CardFormV
     const {capiEndpoint} = c.appConfig;
     const paymentResource = yield call(createCardData, capiEndpoint, v, customerAccessToken);
     yield call(createBinding, capiEndpoint, customerAccessToken, customerID, paymentResource);
-    return yield call(pollEvents, capiEndpoint, customerAccessToken, customerID);
+    return yield call(pollCustomerEvents, capiEndpoint, customerAccessToken, customerID);
 }
