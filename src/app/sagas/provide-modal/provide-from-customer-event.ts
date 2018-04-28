@@ -3,29 +3,13 @@ import last from 'lodash-es/last';
 import {
     CustomerEvent,
     CustomerChangeType,
-    InteractionType,
-    Redirect,
     CustomerBindingInteractionRequested
 } from 'checkout/backend';
 import { Direction, GoToFormInfo, SetModalState, TypeKeys } from 'checkout/actions';
-import {
-    ModalInteraction,
-    ModalState,
-    ResultFormInfo,
-    ResultType
-} from 'checkout/state';
+import { ResultFormInfo, ResultType } from 'checkout/state';
+import { provideCustomerInteraction } from './provide-interaction';
 
 type SetStateFromEvents = GoToFormInfo | SetModalState;
-
-const interactionToModalState = (change: CustomerBindingInteractionRequested): ModalState => {
-    const {userInteraction} = change;
-    switch (userInteraction.interactionType) {
-        case InteractionType.Redirect:
-            return new ModalInteraction((userInteraction as Redirect).request, true);
-        default:
-            throw {code: 'error.unsupported.user.interaction.type'};
-    }
-};
 
 const toPayload = (event: CustomerEvent): SetStateFromEvents => {
     const change = last(event.changes);
@@ -42,7 +26,7 @@ const toPayload = (event: CustomerEvent): SetStateFromEvents => {
         case CustomerChangeType.CustomerBindingInteractionRequested:
             return {
                 type: TypeKeys.SET_MODAL_STATE,
-                payload: interactionToModalState(change as CustomerBindingInteractionRequested)
+                payload: provideCustomerInteraction(change as CustomerBindingInteractionRequested)
             };
         default:
             throw {code: 'error.unsupported.invoice.change.type'};

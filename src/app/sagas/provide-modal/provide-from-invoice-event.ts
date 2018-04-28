@@ -4,9 +4,6 @@ import {
     Event,
     InvoiceChangeType,
     PaymentInteractionRequested,
-    InteractionType,
-    Redirect,
-    PaymentTerminalReceipt
 } from 'checkout/backend';
 import {
     Direction,
@@ -15,26 +12,10 @@ import {
     SetModalState
 } from 'checkout/actions';
 import {
-    InteractionFormInfo,
-    ModalForms,
-    ModalInteraction,
-    ModalState,
     ResultFormInfo,
     ResultType
 } from 'checkout/state';
-
-const interactionToModalState = (change: PaymentInteractionRequested): ModalState => {
-    const {userInteraction} = change;
-    switch (userInteraction.interactionType) {
-        case InteractionType.Redirect:
-            return new ModalInteraction((userInteraction as Redirect).request, true);
-        case InteractionType.PaymentTerminalReceipt:
-            const formInfo = new InteractionFormInfo(userInteraction as PaymentTerminalReceipt);
-            return new ModalForms([formInfo], true);
-        default:
-            throw {code: 'error.unsupported.user.interaction.type'};
-    }
-};
+import { providePaymentInteraction } from './provide-interaction';
 
 type SetStateFromEvents = GoToFormInfo | SetModalState;
 
@@ -53,7 +34,7 @@ const toPayload = (event: Event): SetStateFromEvents => {
         case InvoiceChangeType.PaymentInteractionRequested:
             return {
                 type: TypeKeys.SET_MODAL_STATE,
-                payload: interactionToModalState(change as PaymentInteractionRequested)
+                payload: providePaymentInteraction(change as PaymentInteractionRequested)
             };
         default:
             throw {code: 'error.unsupported.invoice.change.type'};

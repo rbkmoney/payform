@@ -9,15 +9,22 @@ import {
     FormInfo,
     PaymentMethod,
     ModelState,
-    State, ConfigState
+    State,
+    ConfigState
 } from 'checkout/state';
-import { CustomerChangeType, InvoiceChangeType } from 'checkout/backend';
+import {
+    CustomerBindingInteractionRequested,
+    CustomerChangeType,
+    InvoiceChangeType,
+    PaymentInteractionRequested
+} from 'checkout/backend';
 import { getLastChange } from 'checkout/utils';
-import { toInteraction } from './to-interaction';
 import { CustomerEvent, Event } from 'checkout/backend/model';
 import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
 import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 import { IntegrationType } from 'checkout/config';
+import { providePaymentInteraction } from '../../provide-modal';
+import { provideCustomerInteraction } from 'checkout/sagas/provide-modal';
 
 const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
 
@@ -37,7 +44,7 @@ const initFromInvoiceIntegration = (e: Event[], methods: PaymentMethod[]): Modal
     const change = getLastChange(e);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentInteractionRequested:
-            return toInteraction(e);
+            return providePaymentInteraction(change as PaymentInteractionRequested);
         case InvoiceChangeType.InvoiceStatusChanged:
         case InvoiceChangeType.PaymentStatusChanged:
         case InvoiceChangeType.PaymentStarted:
@@ -56,7 +63,7 @@ const initFromCustomerIntegration = (e: CustomerEvent[]): ModalState => {
     const change = getLastChange(e);
     switch (change.changeType) {
         case CustomerChangeType.CustomerBindingInteractionRequested:
-            return toInteraction(e);
+            return provideCustomerInteraction(change as CustomerBindingInteractionRequested);
         case CustomerChangeType.CustomerBindingStatusChanged:
             return toInitialCustomerState();
         case CustomerChangeType.CustomerBindingStarted:

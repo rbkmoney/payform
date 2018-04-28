@@ -3,17 +3,17 @@ import {
     ForkEffect,
     PutEffect,
     SelectEffect,
-    call,
     put,
+    call,
     select,
     takeLatest
 } from 'redux-saga/effects';
 import {
     TypeKeys,
+    PrepareToPay,
     PaymentRequested,
     PaymentFailed,
-    PaymentCompleted,
-    PrepareToPay
+    PaymentCompleted
 } from 'checkout/actions';
 import { providePayment } from './provide-payment';
 import { State } from 'checkout/state';

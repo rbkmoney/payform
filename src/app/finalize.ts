@@ -23,7 +23,7 @@ class AppFinalizer {
             if (inFrame) {
                 redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
             }
-        }, 4000);
+        }, 8000);
     }
 }
 

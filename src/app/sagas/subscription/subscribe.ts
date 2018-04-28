@@ -1,9 +1,19 @@
-import { call, CallEffect, ForkEffect, put, PutEffect, select, SelectEffect, takeLatest } from 'redux-saga/effects';
+import {
+    CallEffect,
+    ForkEffect,
+    PutEffect,
+    SelectEffect,
+    put,
+    call,
+    select,
+    takeLatest
+} from 'redux-saga/effects';
 import {
     PrepareToPay,
-    SubscriptionCompleted, SubscriptionFailed,
+    TypeKeys,
     SubscriptionRequested,
-    TypeKeys
+    SubscriptionCompleted,
+    SubscriptionFailed
 } from 'checkout/actions';
 import { State } from 'checkout/state';
 import { provideSubscription } from './provide-subscription';

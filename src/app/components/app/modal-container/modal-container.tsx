@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { connect } from 'react-redux';
+import { CSSTransitionGroup } from 'react-transition-group';
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
@@ -67,15 +67,13 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionAppearTimeout={950}
                 transitionAppear={true}
                 transitionEnter={true}
-                transitionLeave={true}
-            >
+                transitionLeave={true}>
                 <div className={styles.container}>
                     <CSSTransitionGroup
                         component='div'
                         transitionName='interactionAnimation'
                         transitionEnterTimeout={1000}
-                        transitionLeaveTimeout={500}
-                    >
+                        transitionLeaveTimeout={500}>
                         {name === ModalName.modalForms ?
                             <div>
                                 {inFrame ? null : <Close/>}
