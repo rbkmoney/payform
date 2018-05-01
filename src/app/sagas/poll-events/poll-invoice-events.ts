@@ -54,7 +54,7 @@ function* poll(endpoint: string, token: string, invoiceID: string): Iterator<Cal
         const chunk = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
         events = events.concat(chunk);
         lastEvent = last(events);
-        lastEventID = lastEvent.id;
+        lastEventID = lastEvent ? lastEvent.id : lastEventID;
     }
     return {
         events: uniqWith(events, (f, s) => f.id === s.id),

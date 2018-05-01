@@ -46,9 +46,9 @@ const initFromInvoiceIntegration = (e: Event[], methods: PaymentMethod[]): Modal
         case InvoiceChangeType.PaymentInteractionRequested:
             return providePaymentInteraction(change as PaymentInteractionRequested);
         case InvoiceChangeType.InvoiceStatusChanged:
-        case InvoiceChangeType.PaymentStatusChanged:
         case InvoiceChangeType.PaymentStarted:
             return toInitialModalResult();
+        case InvoiceChangeType.PaymentStatusChanged:
         case InvoiceChangeType.InvoiceCreated:
             return toInitialInvoiceState(methods);
         default:

@@ -53,7 +53,7 @@ function* poll(endpoint: string, token: string, customerID: string): Iterator<Ca
         const chunk = yield call(getCustomerEvents, endpoint, token, customerID, 5, lastEventID);
         events = events.concat(chunk);
         lastEvent = last(events);
-        lastEventID = lastEvent.id;
+        lastEventID = lastEvent ? lastEvent.id : lastEventID;
     }
     return {
         events: uniqWith(events, (f, s) => f.id === s.id),
