@@ -4,8 +4,29 @@ import { Event, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses 
 import { ResultFormContent } from './result-form-content';
 import { getFailedDescription } from './get-failed-description';
 import { getSuccessDescription } from './get-success-description';
-import { Checkmark, Cross } from '../result-icons';
+import { Checkmark, Cross, Warning } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
+
+export const refunded = (l: Locale): ResultFormContent => ({
+    hasActions: false,
+    hasDone: true,
+    header: l['form.header.final.refunded.label'],
+    icon: <Warning/>
+});
+
+export const pending = (l: Locale): ResultFormContent => ({
+    hasActions: false,
+    hasDone: false,
+    header: l['form.header.final.pending.label'],
+    icon: <Warning/>
+});
+
+export const cancelled = (l: Locale): ResultFormContent => ({
+    hasActions: true,
+    hasDone: false,
+    header: l['form.header.final.cancelled.label'],
+    icon: <Warning/>
+});
 
 export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormContent => ({
     hasActions: true,
@@ -32,9 +53,11 @@ export const makeFromPaymentChange = (l: Locale, e: Event[]) => {
         case PaymentStatuses.captured:
             return processed(l, e);
         case PaymentStatuses.cancelled:
-        case PaymentStatuses.refunded:
+            return cancelled(l);
         case PaymentStatuses.pending:
-            throw new Error('Unhandled PaymentStatusChanged');
+            return pending(l);
+        case PaymentStatuses.refunded:
+            return refunded(l);
     }
     throw new Error('Unsupported PaymentStatusChanged');
 };
