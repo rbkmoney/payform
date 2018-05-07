@@ -22,8 +22,8 @@ const toLogicError = (errorEvent: any): LogicError => {
 
 const begin = (session: ApplePaySession, endpoint: string, payload: ApplePayPayload): Promise<ApplePayPayment> =>
     new Promise((resolve, reject) => {
-        session.onvalidatemerchant = () =>
-            validateMerchant(endpoint, payload)
+        session.onvalidatemerchant = (event) =>
+            validateMerchant(endpoint, payload, event.validationURL)
                 .then((response: any) => session.completeMerchantValidation(response))
                 .catch((error) => {
                     session.abort();
@@ -39,7 +39,7 @@ export function* beginSession(config: Config, session: ApplePaySession): Iterato
     const payload = {
         merchantIdentifier: applePayMerchantID,
         domainName: new URL(config.origin).hostname,
-        displayName: 'RBKmoney Checkout' // TODO check it
+        displayName: 'RBKmoney Checkout'
     };
     return yield call(begin, session, applePayMerchantValidationEndpoint, payload);
 }
