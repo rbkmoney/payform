@@ -20,15 +20,6 @@ import { ProvidePaymentEffects } from '../provide-payment';
 const createPaymentResource = (endpoint: string, merchantID: string, paymentToken: ApplePayPayment) =>
     createApplePay.bind(null, endpoint, merchantID, paymentToken);
 
-// const createPaymentResource = (endpoint: string, merchantID: string, paymentToken: ApplePayPayment) =>
-//     createCardData.bind(null, endpoint, {
-//         // cardNumber: '4242 4242 4242 4242',
-//         cardNumber: '4000 0000 0000 0002',
-//         expireDate: '12 / 20',
-//         secureCode: '123',
-//         cardHolder: 'LEXA SVOTIN'
-//     });
-
 const fromPaymentStatusChanged = (change: PaymentStatusChanged): boolean => {
     switch (change.status) {
         case PaymentStatuses.processed:

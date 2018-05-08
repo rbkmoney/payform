@@ -7,8 +7,6 @@ import {
     initializeAvailablePaymentMethods
 } from './initialize-available-payment-methods';
 import {
-    PaymentMethodName,
-    PaymentSystem,
     BankCard,
     PaymentMethod, AppConfig
 } from 'checkout/backend';
@@ -17,22 +15,25 @@ import { PaymentMethod as PaymentMethodState } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
 
 const merchantID = 'merchant.money.rbk.checkout';
+
 const appConfig = {
     applePayMerchantID: merchantID
 } as AppConfig;
+
 const bankCard = {
     method: 'BankCard',
-    paymentSystems: ['mastercard', 'nspkmir', 'visa'],
+    paymentSystems: ['mastercard', 'nspkmir', 'visa', 'visaelectron']
+} as BankCard;
+
+const applePay = {
+    method: 'BankCard',
+    paymentSystems: ['mastercard', 'visa'],
     tokenProviders: ['applepay']
 } as BankCard;
 
 describe('bankCardToMethods', () => {
     describe('without token providers', () => {
-        const bankCardWithoutTokenProviders = {
-            method: PaymentMethodName.BankCard,
-            paymentSystems: [PaymentSystem.visa]
-        } as BankCard;
-        const iterator = bankCardToMethods(bankCardWithoutTokenProviders, appConfig, false);
+        const iterator = bankCardToMethods(bankCard, appConfig, false);
 
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
@@ -45,7 +46,7 @@ describe('bankCardToMethods', () => {
     });
 
     describe('with apple pay', () => {
-        const iterator = bankCardToMethods(bankCard, {
+        const iterator = bankCardToMethods(applePay, {
             applePayMerchantID: merchantID
         } as AppConfig, false);
 
@@ -58,7 +59,6 @@ describe('bankCardToMethods', () => {
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
             const expected = [
-                {name: 'BankCard'},
                 {name: 'ApplePay'}
             ];
             expect(actual.value).toEqual(expected);
@@ -70,6 +70,7 @@ describe('bankCardToMethods', () => {
 describe('toAvailablePaymentMethods', () => {
     const paymentMethods = [
         bankCard,
+        applePay,
         {
             method: 'DigitalWallet',
             providers: ['qiwi']
@@ -92,17 +93,20 @@ describe('toAvailablePaymentMethods', () => {
 
         const iterator = toAvailablePaymentMethods(paymentMethods, config);
 
-        it('should call bankCardToMethods', () => {
+        it('should call bankCardToMethods with bankCard', () => {
             const actual = iterator.next().value;
             const expected = call(bankCardToMethods, bankCard, appConfig, false);
             expect(actual).toEqual(expected);
         });
 
+        it('should call bankCardToMethods with applePay', () => {
+            const actual = iterator.next([{name: 'BankCard'}]).value;
+            const expected = call(bankCardToMethods, applePay, appConfig, false);
+            expect(actual).toEqual(expected);
+        });
+
         it('should return PaymentMethodState[]', () => {
-            const actual = iterator.next([
-                {name: 'BankCard'},
-                {name: 'ApplePay'}
-            ]);
+            const actual = iterator.next([{name: 'ApplePay'}]);
             const expected = [
                 {name: 'BankCard'},
                 {name: 'ApplePay'},
@@ -120,23 +124,26 @@ describe('toAvailablePaymentMethods', () => {
                 wallets: false,
                 terminals: false
             },
-            inFrame: false,
+            inFrame: true,
             appConfig
         } as Config;
 
         const iterator = toAvailablePaymentMethods(paymentMethods, config);
 
-        it('should call bankCardToMethods', () => {
+        it('should call bankCardToMethods with bankCard', () => {
             const actual = iterator.next().value;
-            const expected = call(bankCardToMethods, bankCard, appConfig, false);
+            const expected = call(bankCardToMethods, bankCard, appConfig, true);
+            expect(actual).toEqual(expected);
+        });
+
+        it('should call bankCardToMethods', () => {
+            const actual = iterator.next([{name: 'BankCard'}]).value;
+            const expected = call(bankCardToMethods, applePay, appConfig, true);
             expect(actual).toEqual(expected);
         });
 
         it('should return PaymentMethodState[]', () => {
-            const actual = iterator.next([
-                {name: 'BankCard'},
-                {name: 'ApplePay'}
-            ]);
+            const actual = iterator.next([{name: 'ApplePay'}]);
             const expected = [
                 {name: 'BankCard'},
                 {name: 'ApplePay'}

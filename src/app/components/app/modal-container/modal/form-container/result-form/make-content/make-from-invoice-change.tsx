@@ -5,6 +5,14 @@ import { ResultFormContent } from './result-form-content';
 import { Checkmark, Cross } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 import { getSuccessDescription } from './get-success-description';
+import { Warning } from '../result-icons';
+
+const refunded = (l: Locale): ResultFormContent => ({
+    hasActions: false,
+    hasDone: false,
+    header: l['form.header.final.invoice.refunded.label'],
+    icon: <Warning/>
+});
 
 const paid = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
@@ -38,6 +46,8 @@ export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {
             return cancelled(l);
         case InvoiceStatuses.fulfilled:
             return fulfilled(l, e);
+        case InvoiceStatuses.refunded:
+            return refunded(l);
     }
     throw new Error('Unsupported InvoiceStatusChange');
 };
