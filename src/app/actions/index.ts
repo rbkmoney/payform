@@ -6,3 +6,4 @@ export * from './modal-actions';
 export * from './config-actions';
 export * from './error-actions';
 export * from './initialize-actions';
+export * from './initialize-available-payment-methods';

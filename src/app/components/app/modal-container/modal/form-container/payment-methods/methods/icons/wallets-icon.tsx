@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as styles from '../../payment-methods.scss';
+import * as styles from '../methods.scss';
 
 export const WalletsIcon: React.SFC = () => (
     <div className={styles.icon}>

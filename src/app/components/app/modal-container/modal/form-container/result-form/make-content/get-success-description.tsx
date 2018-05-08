@@ -6,6 +6,7 @@ import {
 } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { getInvoicePaymentDetails } from './payment-details';
+import { logPrefix } from 'checkout/log-messages';
 
 const getPaymentMethodDescription = (l: Locale, e: Event[]): string => {
     const details = getInvoicePaymentDetails(e);
@@ -16,8 +17,10 @@ const getPaymentMethodDescription = (l: Locale, e: Event[]): string => {
             return `${l['form.final.success.wallet.text']} ${details.info}`;
         case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
             return `${l['form.final.success.terminal.text']} ${details.info}`;
+        default:
+            console.warn(`${logPrefix} Unsupported PaymentToolDetailsType`, details);
+            return '';
     }
-    throw new Error('Unsupported PaymentToolDetailsType');
 };
 
 export const getSuccessDescription = (l: Locale, e: Event[]): JSX.Element => (

@@ -15,7 +15,9 @@ import {
 } from 'checkout/sagas/initialize-app/initialize-model';
 import {
     getCustomerEvents,
-    getInvoiceEvents, getInvoicePaymentMethods,
+    getInvoiceByID,
+    getInvoiceEvents,
+    getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
     getInvoiceTemplateByID
 } from 'checkout/backend';
@@ -39,6 +41,8 @@ const initConfigCustomer = {
     customerID: 'customerIDTest',
     customerAccessToken: 'testTokenCustomer'
 } as CustomerInitConfig;
+
+jest.mock('../../utils/event-utils');
 
 describe('initializeModel', () => {
     const iterator = initializeModel(endpoint, initConfigInvoiceTemplate);
@@ -108,11 +112,12 @@ describe('resolveInvoiceTemplate', () => {
 describe('resolveInvoice', () => {
     const iterator = resolveInvoice(endpoint, initConfigInvoice);
 
-    it('should fetch invoice events and invoice payment methods', () => {
+    it('should fetch invoice, invoice events, invoice payment methods', () => {
         const actual = iterator.next().value;
         const token = initConfigInvoice.invoiceAccessToken;
         const id = initConfigInvoice.invoiceID;
         const expected = all([
+            call(getInvoiceByID, endpoint, token, id),
             call(getInvoiceEvents, endpoint, token, id),
             call(getInvoicePaymentMethods, endpoint, token, id)
         ]);
@@ -122,11 +127,13 @@ describe('resolveInvoice', () => {
     it('should return model chunk', () => {
         const invoiceEvents = 'events mock';
         const paymentMethods = 'methods mock';
-        const actual = iterator.next([invoiceEvents, paymentMethods]);
+        const invoice = 'mock invoice';
+        const actual = iterator.next([invoice, invoiceEvents, paymentMethods]);
         const expected = {
             invoiceEvents,
             paymentMethods,
-            invoiceAccessToken: initConfigInvoice.invoiceAccessToken
+            invoiceAccessToken: initConfigInvoice.invoiceAccessToken,
+            invoice
         };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);

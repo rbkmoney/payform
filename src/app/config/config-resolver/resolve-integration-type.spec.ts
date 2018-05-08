@@ -19,7 +19,12 @@ it('should return invoice integration type', () => {
         invoiceAccessToken: 'mock token',
         someField: 'someValue'
     });
-    expect(result).toEqual(IntegrationType.invoice);
+    const expected = {
+        integrationType: IntegrationType.invoice,
+        invoiceID: 'mock invoiceID',
+        invoiceAccessToken: 'mock token'
+    };
+    expect(result).toEqual(expected);
 });
 
 it('should return invoiceTemplate integration type', () => {
@@ -28,7 +33,12 @@ it('should return invoiceTemplate integration type', () => {
         invoiceTemplateAccessToken: 'mock token',
         someField: 'someValue'
     });
-    expect(result).toEqual(IntegrationType.invoiceTemplate);
+    const expected = {
+        integrationType: IntegrationType.invoiceTemplate,
+        invoiceTemplateID: 'mock invoiceTemplateID',
+        invoiceTemplateAccessToken: 'mock token',
+    };
+    expect(result).toEqual(expected);
 });
 
 it('should return customer integration type', () => {
@@ -37,5 +47,10 @@ it('should return customer integration type', () => {
         customerAccessToken: 'mock token',
         someField: 'someValue'
     });
-    expect(result).toEqual(IntegrationType.customer);
+    const expected = {
+        integrationType: IntegrationType.customer,
+        customerID: 'mock customer',
+        customerAccessToken: 'mock token',
+    };
+    expect(result).toEqual(expected);
 });

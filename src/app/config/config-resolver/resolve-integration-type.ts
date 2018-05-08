@@ -17,13 +17,22 @@ const typesDef = [
     }
 ];
 
-export const resolveIntegrationType = (userConfig: UserConfig): IntegrationType | null => {
+interface Resolved {
+    integrationType: IntegrationType;
+    [key: string]: string;
+}
+
+export const resolveIntegrationType = (userConfig: UserConfig): Resolved => {
     if (!userConfig) {
         return null;
     }
     const configFields = Object.keys(userConfig);
-    const requiredFieldsCount = 2;
-    const found = typesDef.find((typeDef) =>
-        intersection(typeDef.requiredFields, configFields).length === requiredFieldsCount);
-    return found ? found.type : null;
+    const found = typesDef.find((typeDef) => intersection(typeDef.requiredFields, configFields).length === 2);
+    if (!found) {
+        return null;
+    }
+    return found.requiredFields.reduce((acc, current) => ({
+        ...acc,
+        [current]: userConfig[current]
+    }), {integrationType: found.type});
 };

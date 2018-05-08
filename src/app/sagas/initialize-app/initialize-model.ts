@@ -4,11 +4,13 @@ import {
     Event,
     InvoiceTemplate,
     PaymentMethod,
+    Invoice,
     getCustomerEvents,
     getInvoiceEvents,
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
-    getInvoiceTemplateByID
+    getInvoiceTemplateByID,
+    getInvoiceByID,
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -25,6 +27,7 @@ export interface ModelChunk {
     paymentMethods?: PaymentMethod[];
     invoiceAccessToken?: string;
     customerEvents?: CustomerEvent[];
+    invoice?: Invoice;
 }
 
 export function* resolveInvoiceTemplate(endpoint: string, config: InvoiceTemplateInitConfig): Iterator<AllEffect | ModelChunk> {
@@ -40,11 +43,12 @@ export function* resolveInvoiceTemplate(endpoint: string, config: InvoiceTemplat
 export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): Iterator<AllEffect | ModelChunk> {
     const token = config.invoiceAccessToken;
     const id = config.invoiceID;
-    const [invoiceEvents, paymentMethods] = yield all([
+    const [invoice, invoiceEvents, paymentMethods] = yield all([
+        call(getInvoiceByID, endpoint, token, id),
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken};
+    return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice};
 }
 
 export function* resolveCustomer(endpoint: string, config: CustomerInitConfig): Iterator<CallEffect | ModelChunk> {

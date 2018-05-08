@@ -1,5 +1,5 @@
 import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
@@ -10,7 +10,8 @@ import {
     configReducer,
     modelReducer,
     errorReducer,
-    modalReducer
+    modalReducer,
+    availablePaymentMethodsReducer
 } from './reducers';
 import rootSaga from 'checkout/sagas/root-saga';
 
@@ -23,7 +24,8 @@ export function configureStore(initState: any): Store<State> {
         model: modelReducer,
         error: errorReducer,
         form: formReducer,
-        modals: modalReducer
+        modals: modalReducer,
+        availablePaymentMethods: availablePaymentMethodsReducer
     }), initState, composeWithDevTools(applyMiddleware(thunk, sagaMiddleware)));
     sagaMiddleware.run(rootSaga);
     return store;

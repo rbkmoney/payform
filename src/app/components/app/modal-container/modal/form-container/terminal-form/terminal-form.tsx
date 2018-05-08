@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
 import * as formStyles from 'checkout/styles/forms.scss';
 import * as styles from '../form-container.scss';
@@ -10,15 +11,15 @@ import {
     ModalForms,
     ModalName,
     ModalState,
+    PaymentMethodName,
     PaymentStatus,
     State,
     TerminalFormValues
 } from 'checkout/state';
-import { bindActionCreators, Dispatch } from 'redux';
 import { Header } from '../header';
 import { Amount, Email } from '../';
 import { toFieldsConfig } from '../fields-config';
-import { payTerminalEuroset, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
 import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
 import { findNamed, formatAmount, resolveAmount } from 'checkout/utils';
@@ -34,13 +35,11 @@ const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
     formValues: get(state.form, 'terminalForm.values'),
-    config: state.config,
-    model: state.model,
     amount: formatAmount(resolveAmount(state.model, state.config.initConfig.amount))
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    pay: bindActionCreators(payTerminalEuroset, dispatch),
+    pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     prepareToPay: bindActionCreators(prepareToPay, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
@@ -74,7 +73,7 @@ export class TerminalFormDef extends React.Component<Props> {
                 this.init(formValues);
                 break;
             case PaymentStatus.needRetry:
-                this.doPaymentAction(formValues);
+                this.submit(formValues);
                 break;
         }
     }
@@ -115,13 +114,7 @@ export class TerminalFormDef extends React.Component<Props> {
 
     private submit(values: CardFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.doPaymentAction(values);
-    }
-
-    private doPaymentAction(values: TerminalFormValues) {
-        const {config, model} = this.props;
-        this.props.prepareToPay();
-        this.props.pay(config, model, values);
+        this.props.pay({method: PaymentMethodName.PaymentTerminal, values});
     }
 }
 

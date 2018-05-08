@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionPlugin = require('compression-webpack-plugin');
 const checkoutConfig = require('./checkout-config');
 const initializerConfig = require('./initializer-config');
 const prepareOutputConfig = require('./prepare-output-config');
@@ -16,6 +17,13 @@ const commonProdConfig = {
         }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'disabled'
+        }),
+        new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.js$|\.css$|\.html$|\.json$/,
+            threshold: 10240,
+            minRatio: 0.8
         })
     ]
 };

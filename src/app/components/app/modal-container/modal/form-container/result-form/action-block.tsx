@@ -19,7 +19,7 @@ import {
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 
-const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
+const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
     switch (startedInfo.name) {
         case FormName.cardForm:
             return locale['form.button.use.other.card.label'];
@@ -31,7 +31,13 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale) => {
     throw new Error('Unsupported form type');
 };
 
-const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo && startedInfo.name !== FormName.terminalForm;
+const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo &&
+    startedInfo.name !== FormName.terminalForm &&
+    startedInfo.name !== FormName.tokenProviderForm &&
+    startedInfo.name !== FormName.paymentMethods;
+
+const retryCapability = (startedInfo: FormInfo): boolean => startedInfo &&
+    startedInfo.name !== FormName.paymentMethods;
 
 export interface ActionBlockProps {
     locale: Locale;
@@ -56,7 +62,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
         const {locale, startedInfo, hasMultiMethods} = this.props;
         return (
             <div className={styles.errorBlock}>
-                {startedInfo ? <Button
+                {retryCapability(startedInfo) ? <Button
                     style='primary'
                     onClick={(e) => this.retry(e)}
                     id='retry-btn'>

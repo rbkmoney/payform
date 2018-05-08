@@ -1,4 +1,5 @@
 import { InvoiceLine } from './invoice-cart/invoice-line';
+import { InvoiceStatus } from './invoice-status';
 
 export class Invoice {
     id: string;
@@ -11,7 +12,7 @@ export class Invoice {
     metadata: object;
     product: string;
     description: string;
-    status: string;
+    status: InvoiceStatus;
     reason: string;
     cart: InvoiceLine[];
 }

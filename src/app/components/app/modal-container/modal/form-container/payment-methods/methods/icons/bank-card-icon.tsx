@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as styles from '../../payment-methods.scss';
+import { icon } from '../methods.scss';
 
 export const BankCardIcon: React.SFC = () => (
-    <div className={styles.icon}>
+    <div className={icon}>
         {/* tslint:disable:max-line-length */}
         <svg width='40' height='40'>
             <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>

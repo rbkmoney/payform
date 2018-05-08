@@ -2,9 +2,9 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { TypeKeys, InitializeAppRequested } from 'checkout/actions';
 import { watchInitializeApp, initializeApp } from './initialize-app';
 import { loadConfig } from './load-config';
-import { initializeModel } from 'checkout/sagas/initialize-app/initialize-model';
-import { checkInitConfigCapability } from 'checkout/sagas/initialize-app/check-init-config';
-import { initializeModal } from 'checkout/sagas/initialize-app/initialize-modal';
+import { initializeModel } from './initialize-model';
+import { checkInitConfig } from './check-init-config';
+import { initializeModal } from './initialize-modal';
 
 it('watchInitializeApp should takeLatest initializeApp', () => {
     const iterator = watchInitializeApp();
@@ -14,16 +14,20 @@ it('watchInitializeApp should takeLatest initializeApp', () => {
 });
 
 describe('initializeApp', () => {
-    const initConfigMock = {locale: 'localeMock'};
+    const initConfig = {
+        locale: 'localeMock'
+    };
     const action = {
         type: TypeKeys.INITIALIZE_APP_REQUESTED,
-        payload: initConfigMock
+        payload: initConfig
     } as InitializeAppRequested;
+    const model = 'modelMock' as any;
+
     const iterator = initializeApp(action);
 
     it('should call loadConfig', () => {
         const actual = iterator.next().value;
-        const expected = call(loadConfig, initConfigMock.locale);
+        const expected = call(loadConfig, initConfig.locale);
         expect(actual).toEqual(expected);
     });
 
@@ -36,7 +40,7 @@ describe('initializeApp', () => {
     it('should call initializeModel', () => {
         const endpoint = 'mockEndpoint';
         const actual = iterator.next(endpoint).value;
-        const expected = call(initializeModel, endpoint, initConfigMock);
+        const expected = call(initializeModel, endpoint, initConfig);
         expect(actual).toEqual(expected);
     });
 
@@ -46,37 +50,22 @@ describe('initializeApp', () => {
         expect(actual.toString()).toEqual(expected.toString());
     });
 
-    it('should call checkInitConfigCapability', () => {
-        const model = {};
+    it('should call checkInitConfig', () => {
         const actual = iterator.next(model).value;
-        const expected = call(checkInitConfigCapability, initConfigMock, model);
+        const expected = call(checkInitConfig, initConfig, model);
         expect(actual).toEqual(expected);
     });
 
-    it('should put checked init config', () => {
-        const checkedInitConfig = {};
-        const actual = iterator.next(checkedInitConfig).value;
-        const expected = put({
-            type: TypeKeys.INIT_CONFIG_CHECKED,
-            payload: checkedInitConfig
-        });
-        expect(actual).toEqual(expected);
+    it('should select config', () => {
+        const actual = iterator.next().value;
+        const expected = select();
+        expect(actual.toString()).toEqual(expected.toString());
     });
 
     it('should call initializeModal', () => {
-        const modal = {};
-        const actual = iterator.next(modal).value;
-        const expected = call(initializeModal, initConfigMock, modal);
-        expect(actual).toEqual(expected);
-    });
-
-    it('should put modal', () => {
-        const modal = {};
-        const actual = iterator.next(modal).value;
-        const expected = put({
-            type: TypeKeys.INITIALIZE_MODAL_COMPLETED,
-            payload: modal
-        });
+        const config = 'configMock' as any;
+        const actual = iterator.next(config).value;
+        const expected = call(initializeModal, config, model);
         expect(actual).toEqual(expected);
     });
 

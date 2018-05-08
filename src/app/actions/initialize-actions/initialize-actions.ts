@@ -16,7 +16,7 @@ export interface InitializeAppFailed extends AbstractAction<LogicError> {
     payload: LogicError;
 }
 
-export const initializeApp = (config: InitConfig) => ({
+export const initializeApp = (config: InitConfig): InitializeAppRequested => ({
     type: TypeKeys.INITIALIZE_APP_REQUESTED,
     payload: config
 });

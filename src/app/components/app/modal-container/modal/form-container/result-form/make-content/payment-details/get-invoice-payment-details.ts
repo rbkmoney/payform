@@ -15,6 +15,7 @@ import {
 import { findChange } from 'checkout/utils';
 import { toDigitalWalletInfo, toCardInfo, toTerminalInfo } from './details-to-info';
 import { PaymentDetailsInfo } from './payment-details-info';
+import { logPrefix } from 'checkout/log-messages';
 
 const toDetailsInfo = (details: PaymentToolDetails): string => {
     switch (details.detailsType) {
@@ -24,8 +25,10 @@ const toDetailsInfo = (details: PaymentToolDetails): string => {
             return toDigitalWalletInfo(details as PaymentToolDetailsDigitalWallet);
         case PaymentToolDetailsType.PaymentToolDetailsPaymentTerminal:
             return toTerminalInfo(details as PaymentToolDetailsPaymentTerminal);
+        default:
+            console.warn(`${logPrefix} Unsupported PaymentToolDetailsType`, details);
+            return '';
     }
-    throw new Error('Unsupported PaymentToolDetailsType');
 };
 
 const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
