@@ -1,6 +1,6 @@
 export const validateMerchant = (endpoint: string, payload: ApplePayPayload, validationURL: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-        fetch(`${endpoint}/applepay/api/v1/session`, {
+        fetch(`${endpoint}/api/v1/session`, {
             method: 'POST',
             body: JSON.stringify({
                 merchantId: payload.merchantIdentifier,
