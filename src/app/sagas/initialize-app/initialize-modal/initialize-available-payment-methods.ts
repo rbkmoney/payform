@@ -7,11 +7,11 @@ import {
     PaymentMethod as PaymentMethodState
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
-import { environment } from '../../../../environment';
+import { isApplePayAvailable } from '../../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 
 export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {
-    const available = environment.ApplePaySession && ApplePaySession.canMakePayments();
+    const available = isApplePayAvailable();
     if (!available) {
         return false;
     }

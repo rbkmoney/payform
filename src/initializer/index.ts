@@ -6,12 +6,12 @@ import { Initializer } from './initializer';
 import { HtmlIntegration } from './html-integration';
 import { PopupInitializer } from './popup-initializer';
 import { IframeInitializer } from './iframe-initializer';
-import { environment, Configurator } from '../environment';
+import { environment, Configurator, isApplePayAvailable } from '../environment';
 
 const isPopupMode = (userConfig: any): boolean =>
     isMobile.any ||
     userConfig.popupMode === true ||
-    (environment.ApplePaySession && ApplePaySession.canMakePayments());
+    isApplePayAvailable();
 
 const getInstance = (origin: string, userConfig: any): Initializer =>
     isPopupMode(userConfig)
