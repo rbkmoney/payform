@@ -1,10 +1,12 @@
 import {
-    DigitalWalletDetailsQiwi, DigitalWalletDetailsType, PaymentToolDetailsDigitalWallet,
+    DigitalWalletDetailsQiwi,
+    DigitalWalletDetailsType,
+    PaymentToolDetailsDigitalWallet,
     PaymentToolDetailsPaymentTerminal
 } from 'checkout/backend/model';
 import { PaymentToolDetailsBankCard } from 'checkout/backend';
 
-export const toCardInfo = (details: PaymentToolDetailsBankCard): string => `${details.paymentSystem} *${details.cardNumberMask}`;
+export const toCardInfo = (details: PaymentToolDetailsBankCard): string => `${details.paymentSystem} *${details.lastDigits}`;
 
 const toDigitalWalletQiwiInfo = (details: DigitalWalletDetailsQiwi): string => `qiwi ${details.phoneNumberMask}`;
 
