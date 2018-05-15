@@ -27,8 +27,7 @@ export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean)
     }
 }
 
-export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inFrame: boolean): Iterator<CallEffect | PaymentMethodState[]> {
-    const result = [];
+export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inFrame: boolean): Iterator<CallEffect | PaymentMethodState> {
     const {tokenProviders} = bankCard;
     if (tokenProviders && tokenProviders.length > 0) {
         for (const provider of tokenProviders) {
@@ -36,25 +35,26 @@ export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inF
                 case BankCardTokenProvider.applepay:
                     const isAvailable = yield call(applePayAvailable, appConfig.applePayMerchantID, inFrame);
                     if (isAvailable) {
-                        result.push({name: PaymentMethodNameState.ApplePay});
+                        return {name: PaymentMethodNameState.ApplePay};
                     }
                     break;
             }
         }
     } else {
-        result.push({name: PaymentMethodNameState.BankCard});
+        return {name: PaymentMethodNameState.BankCard};
     }
-    return result;
 }
 
 export function* toAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config): Iterator<CallEffect | PaymentMethodState[]> {
-    let result: PaymentMethodState[] = [];
+    const result: PaymentMethodState[] = [];
     const {wallets, terminals} = config.initConfig;
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
-                const bankCard = yield call(bankCardToMethods, method, config.appConfig, config.inFrame);
-                result = result.concat(bankCard);
+                const bankCardMethod = yield call(bankCardToMethods, method, config.appConfig, config.inFrame);
+                if (bankCardMethod) {
+                    result.push(bankCardMethod);
+                }
                 break;
             case PaymentMethodName.DigitalWallet:
                 if (wallets) {

@@ -1,65 +1,32 @@
 import { call } from 'redux-saga/effects';
-import last from 'lodash-es/last';
 import { ModelState, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { Amount } from 'checkout/utils';
 import { beginSession } from './begin-session';
 import { createSession } from './create-session';
 import { createApplePay } from '../../../create-payment-resource';
-import {
-    Event,
-    InvoiceChangeType,
-    InvoiceStatusChanged,
-    PaymentStatusChanged,
-    PaymentStatuses
-} from 'checkout/backend';
-import { InvoiceStatuses } from 'checkout/backend/model';
+import { PaymentMethod, BankCard } from 'checkout/backend/model';
 import { makePayment } from '../make-payment';
 import { ProvidePaymentEffects } from '../provide-payment';
+import { PaymentMethodName } from 'checkout/backend/model/payment-method';
+import { PaymentSystem } from 'checkout/backend/model/payment-system';
+import { getSessionStatus } from './get-session-status';
 
 const createPaymentResource = (endpoint: string, merchantID: string, paymentToken: ApplePayPayment) =>
     createApplePay.bind(null, endpoint, merchantID, paymentToken);
 
-const fromPaymentStatusChanged = (change: PaymentStatusChanged): boolean => {
-    switch (change.status) {
-        case PaymentStatuses.processed:
-        case PaymentStatuses.captured:
-            return true;
-        default:
-            return false;
-    }
+const findPaymentSystems = (paymentMethods: PaymentMethod[]): PaymentSystem[] => {
+    const found = paymentMethods.find((method) =>
+        method.method === PaymentMethodName.BankCard &&
+        !!(method as BankCard).tokenProviders) as BankCard;
+    return found.paymentSystems;
 };
-
-const fromInvoiceStatusChanged = (change: InvoiceStatusChanged): boolean => {
-    switch (change.status) {
-        case InvoiceStatuses.paid:
-        case InvoiceStatuses.fulfilled:
-            return true;
-        default:
-            return false;
-    }
-};
-
-const isSuccess = (event: Event): boolean => {
-    const change = last(event.changes);
-    switch (change.changeType) {
-        case InvoiceChangeType.PaymentStatusChanged:
-            return fromPaymentStatusChanged(change as PaymentStatusChanged);
-        case InvoiceChangeType.InvoiceStatusChanged:
-            return fromInvoiceStatusChanged(change as InvoiceStatusChanged);
-        default:
-            return false;
-    }
-};
-
-const getSessionStatus = (event: Event): number => isSuccess(event)
-    ? ApplePaySession.STATUS_SUCCESS
-    : ApplePaySession.STATUS_FAILURE;
 
 export function* payWithApplePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
     const {initConfig: {description, name}, appConfig} = c;
     const label = description || name || 'RBKmoney';
-    const session = createSession(label, amount);
+    const paymentSystems = findPaymentSystems(m.paymentMethods);
+    const session = createSession(label, amount, paymentSystems);
     const paymentToken = yield call(beginSession, c, session);
     const {capiEndpoint, applePayMerchantID} = appConfig;
     try {
