@@ -94,6 +94,7 @@
     "brand.euroset": "Евросеть",
     "error.apple.pay.unknown": "Неизвестная ошибка Apple Pay",
     "error.apple.pay.cancel": "Интерфейс оплаты Apple Pay отклонен",
+    "error.apple.pay.session.create": "Не удалось создать сессию Apple Pay",
     "InvalidPaymentTool": "Недопустимое средство оплаты",
     "AccountLimitsExceeded": "Превышен лимит",
     "InsufficientFunds": "Недостаточно средств",

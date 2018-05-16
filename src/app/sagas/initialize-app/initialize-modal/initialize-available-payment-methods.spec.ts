@@ -37,9 +37,7 @@ describe('bankCardToMethods', () => {
 
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
-            const expected = [
-                {name: 'BankCard'}
-            ];
+            const expected = {name: 'BankCard'};
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -58,9 +56,7 @@ describe('bankCardToMethods', () => {
 
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
-            const expected = [
-                {name: 'ApplePay'}
-            ];
+            const expected = {name: 'ApplePay'};
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -100,13 +96,13 @@ describe('toAvailablePaymentMethods', () => {
         });
 
         it('should call bankCardToMethods with applePay', () => {
-            const actual = iterator.next([{name: 'BankCard'}]).value;
+            const actual = iterator.next({name: 'BankCard'}).value;
             const expected = call(bankCardToMethods, applePay, appConfig, false);
             expect(actual).toEqual(expected);
         });
 
         it('should return PaymentMethodState[]', () => {
-            const actual = iterator.next([{name: 'ApplePay'}]);
+            const actual = iterator.next({name: 'ApplePay'});
             const expected = [
                 {name: 'BankCard'},
                 {name: 'ApplePay'},
@@ -137,13 +133,13 @@ describe('toAvailablePaymentMethods', () => {
         });
 
         it('should call bankCardToMethods', () => {
-            const actual = iterator.next([{name: 'BankCard'}]).value;
+            const actual = iterator.next({name: 'BankCard'}).value;
             const expected = call(bankCardToMethods, applePay, appConfig, true);
             expect(actual).toEqual(expected);
         });
 
         it('should return PaymentMethodState[]', () => {
-            const actual = iterator.next([{name: 'ApplePay'}]);
+            const actual = iterator.next({name: 'ApplePay'});
             const expected = [
                 {name: 'BankCard'},
                 {name: 'ApplePay'}
