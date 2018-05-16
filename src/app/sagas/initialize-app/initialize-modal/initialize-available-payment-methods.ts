@@ -7,7 +7,7 @@ import {
     PaymentMethod as PaymentMethodState
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
-import { isApplePayAvailable } from '../../../../environment';
+import { isApplePayAvailable, isGooglePayAvailable } from '../../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 
 export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {
@@ -38,6 +38,10 @@ export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inF
                         return {name: PaymentMethodNameState.ApplePay};
                     }
                     break;
+                case BankCardTokenProvider.googlepay:
+                    if (isGooglePayAvailable()) {
+                        return {name: PaymentMethodNameState.GooglePay};
+                    }
             }
         }
     } else {
@@ -79,17 +83,22 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
                     ...method,
                     priority: 1
                 };
-            case PaymentMethodName.BankCard:
+            case PaymentMethodNameState.GooglePay:
+                return {
+                    ...method,
+                    priority: 1
+                };
+            case PaymentMethodNameState.BankCard:
                 return {
                     ...method,
                     priority: 2
                 };
-            case PaymentMethodName.DigitalWallet:
+            case PaymentMethodNameState.DigitalWallet:
                 return {
                     ...method,
                     priority: 3
                 };
-            case PaymentMethodName.PaymentTerminal:
+            case PaymentMethodNameState.PaymentTerminal:
                 return {
                     ...method,
                     priority: 4
@@ -100,7 +109,14 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
 export type InitializeEffect = CallEffect | PutEffect<InitializeAvailablePaymentMethodsCompleted>;
 
 export function* initializeAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config): Iterator<InitializeEffect> {
-    const methods = yield call(toAvailablePaymentMethods, paymentMethods, config);
+    const mock = [
+        {'method': 'PaymentTerminal', 'providers': ['euroset']},
+        {'method': 'DigitalWallet', 'providers': ['qiwi']},
+        {'method': 'BankCard', 'paymentSystems': ['mastercard', 'nspkmir', 'visa']},
+        {'method': 'BankCard', 'paymentSystems': ['mastercard', 'visa'], tokenProviders: ['googlepay']}
+    ] as PaymentMethod[];
+
+    const methods = yield call(toAvailablePaymentMethods, mock, config);
     const prioritizedMethods = yield call(setPriority, methods);
     yield put({
         type: TypeKeys.INITIALIZE_AVAILABLE_PAYMENT_METHODS_COMPLETED,

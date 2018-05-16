@@ -10,9 +10,10 @@ import {
     BankCard,
     PaymentMethod, AppConfig
 } from 'checkout/backend';
-import { Config } from 'checkout/config';
+import { Config, IntegrationType } from 'checkout/config';
 import { PaymentMethod as PaymentMethodState } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
+import { isGooglePayAvailable } from '../../../../environment';
 
 const merchantID = 'merchant.money.rbk.checkout';
 
@@ -30,6 +31,14 @@ const applePay = {
     paymentSystems: ['mastercard', 'visa'],
     tokenProviders: ['applepay']
 } as BankCard;
+
+const googlePay = {
+    method: 'BankCard',
+    paymentSystems: ['mastercard', 'visa'],
+    tokenProviders: ['googlepay']
+} as BankCard;
+
+jest.mock('../../../../environment');
 
 describe('bankCardToMethods', () => {
     describe('without token providers', () => {
@@ -57,6 +66,19 @@ describe('bankCardToMethods', () => {
         it('should return card payment methods', () => {
             const actual = iterator.next(true);
             const expected = {name: 'ApplePay'};
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+
+    describe('with google pay', () => {
+        const isGooglePayAvailableMock = isGooglePayAvailable as any;
+        const iterator = bankCardToMethods(googlePay, null, false);
+
+        it('should return card payment methods', () => {
+            isGooglePayAvailableMock.mockReturnValueOnce(true);
+            const actual = iterator.next();
+            const expected = {name: 'GooglePay'};
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });

@@ -42,8 +42,6 @@ const initConfigCustomer = {
     customerAccessToken: 'testTokenCustomer'
 } as CustomerInitConfig;
 
-jest.mock('../../utils/event-utils');
-
 describe('initializeModel', () => {
     const iterator = initializeModel(endpoint, initConfigInvoiceTemplate);
 

@@ -14,16 +14,11 @@ import {
     State,
     TokenProviderFormInfo,
     PaymentStatus,
-    TokenProviderFormValues,
-    PaymentMethodName
+    TokenProviderFormValues
 } from 'checkout/state';
-import {
-    pay,
-    setViewInfoError,
-    setViewInfoHeight
-} from 'checkout/actions';
+import { pay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { getPayButton, getPaymentMethodName, getTitle } from './provider-specific';
 import { findNamed } from 'checkout/utils';
-import { ApplePayButton } from './apple-pay-button';
 import { toFieldsConfig } from '../fields-config';
 import { Amount, Email } from '../';
 
@@ -85,11 +80,15 @@ export class TokenProviderFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {fieldsConfig: {email, amount}, handleSubmit} = this.props;
+        const {
+            fieldsConfig: {email, amount},
+            handleSubmit,
+            tokenProviderFormInfo: {provider}
+        } = this.props;
         return (
             <form id='token-provider-form'>
                 <div>
-                    <Header title='Apple Pay'/>
+                    <Header title={getTitle(provider)}/>
                     {email.visible ?
                         <div className={formStyles.formGroup}>
                             <Email/>
@@ -101,14 +100,15 @@ export class TokenProviderFormDef extends React.Component<Props> {
                         </div> : false
                     }
                 </div>
-                <ApplePayButton onClick={handleSubmit(this.submit)}/>
+                {getPayButton(provider, handleSubmit(this.submit))}
             </form>
         );
     }
 
     private submit(values: TokenProviderFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({method: PaymentMethodName.ApplePay, values});
+        const {provider} = this.props.tokenProviderFormInfo;
+        this.props.pay({method: getPaymentMethodName(provider), values});
     }
 }
 
