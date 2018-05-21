@@ -10,7 +10,7 @@ import { environment, Configurator, isApplePayAvailable } from '../environment';
 
 const isPopupMode = (userConfig: any): boolean =>
     isMobile.any ||
-    userConfig.popupMode === true ||
+    (userConfig.popupMode === true || userConfig.popupMode === 'true') ||
     isApplePayAvailable();
 
 const getInstance = (origin: string, userConfig: any): Initializer =>
