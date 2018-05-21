@@ -7,25 +7,8 @@ import {
     PaymentMethod as PaymentMethodState
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
-import { isApplePayAvailable, isGooglePayAvailable } from '../../../../environment';
-import { logPrefix } from 'checkout/log-messages';
-
-export function* applePayAvailable(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {
-    const available = isApplePayAvailable();
-    if (!available) {
-        return false;
-    }
-    try {
-        const canMakePayments = yield call(ApplePaySession.canMakePaymentsWithActiveCard, applePayMerchantID);
-        if (!inFrame) {
-            console.error(`${logPrefix} Apple Pay is not available in frame`);
-        }
-        return canMakePayments;
-    } catch (error) {
-        console.error(`${logPrefix} ApplePaySession.canMakePaymentsWithActiveCard`, error);
-        return false;
-    }
-}
+import { isReadyToGooglePay } from './is-ready-to-google-pay';
+import { isReadyToApplePay } from './is-ready-to-apple-pay';
 
 export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inFrame: boolean): Iterator<CallEffect | PaymentMethodState> {
     const {tokenProviders} = bankCard;
@@ -33,13 +16,14 @@ export function* bankCardToMethods(bankCard: BankCard, appConfig: AppConfig, inF
         for (const provider of tokenProviders) {
             switch (provider) {
                 case BankCardTokenProvider.applepay:
-                    const isAvailable = yield call(applePayAvailable, appConfig.applePayMerchantID, inFrame);
-                    if (isAvailable) {
+                    const isReadyApplePay = yield call(isReadyToApplePay, appConfig.applePayMerchantID, inFrame);
+                    if (isReadyApplePay) {
                         return {name: PaymentMethodNameState.ApplePay};
                     }
                     break;
                 case BankCardTokenProvider.googlepay:
-                    if (isGooglePayAvailable()) {
+                    const isReadyGooglePay = yield call(isReadyToGooglePay);
+                    if (isReadyGooglePay) {
                         return {name: PaymentMethodNameState.GooglePay};
                     }
             }
@@ -110,10 +94,23 @@ export type InitializeEffect = CallEffect | PutEffect<InitializeAvailablePayment
 
 export function* initializeAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config): Iterator<InitializeEffect> {
     const mock = [
-        {'method': 'PaymentTerminal', 'providers': ['euroset']},
-        {'method': 'DigitalWallet', 'providers': ['qiwi']},
-        {'method': 'BankCard', 'paymentSystems': ['mastercard', 'nspkmir', 'visa']},
-        {'method': 'BankCard', 'paymentSystems': ['mastercard', 'visa'], tokenProviders: ['googlepay']}
+        {
+            method: 'PaymentTerminal',
+            providers: ['euroset']
+        },
+        {
+            method: 'DigitalWallet',
+            providers: ['qiwi']
+        },
+        {
+            method: 'BankCard',
+            paymentSystems: ['mastercard', 'nspkmir', 'visa']
+        },
+        {
+            method: 'BankCard',
+            paymentSystems: ['mastercard', 'visa'],
+            tokenProviders: ['googlepay', 'applepay']
+        } as PaymentMethod,
     ] as PaymentMethod[];
 
     const methods = yield call(toAvailablePaymentMethods, mock, config);

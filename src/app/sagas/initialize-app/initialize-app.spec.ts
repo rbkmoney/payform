@@ -5,6 +5,7 @@ import { loadConfig } from './load-config';
 import { initializeModel } from './initialize-model';
 import { checkInitConfig } from './check-init-config';
 import { initializeModal } from './initialize-modal';
+import { initializeAmountConfig } from './initialize-amount-config';
 
 it('watchInitializeApp should takeLatest initializeApp', () => {
     const iterator = watchInitializeApp();
@@ -22,6 +23,9 @@ describe('initializeApp', () => {
         payload: initConfig
     } as InitializeAppRequested;
     const model = 'modelMock' as any;
+    const config = {
+        initConfig: 'initConfigMock'
+    } as any;
 
     const iterator = initializeApp(action);
 
@@ -62,9 +66,15 @@ describe('initializeApp', () => {
         expect(actual.toString()).toEqual(expected.toString());
     });
 
-    it('should call initializeModal', () => {
-        const config = 'configMock' as any;
+    it('should call initializeAmountConfig', () => {
         const actual = iterator.next(config).value;
+        const expected = call(initializeAmountConfig, config.initConfig, model);
+        expect(actual).toEqual(expected);
+    });
+
+    it('should call initializeModal', () => {
+        // const config = 'configMock' as any;
+        const actual = iterator.next().value;
         const expected = call(initializeModal, config, model);
         expect(actual).toEqual(expected);
     });

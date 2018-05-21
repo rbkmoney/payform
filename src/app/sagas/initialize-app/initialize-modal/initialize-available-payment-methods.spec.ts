@@ -1,7 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import {
     bankCardToMethods,
-    applePayAvailable,
     toAvailablePaymentMethods,
     setPriority,
     initializeAvailablePaymentMethods
@@ -10,10 +9,11 @@ import {
     BankCard,
     PaymentMethod, AppConfig
 } from 'checkout/backend';
-import { Config, IntegrationType } from 'checkout/config';
+import { Config } from 'checkout/config';
 import { PaymentMethod as PaymentMethodState } from 'checkout/state';
 import { TypeKeys } from 'checkout/actions';
-import { isGooglePayAvailable } from '../../../../environment';
+import { isPaymentRequestAvailable } from '../../../../environment';
+import { isReadyToApplePay } from './is-ready-to-apple-pay';
 
 const merchantID = 'merchant.money.rbk.checkout';
 
@@ -57,9 +57,9 @@ describe('bankCardToMethods', () => {
             applePayMerchantID: merchantID
         } as AppConfig, false);
 
-        it('should call applePayAvailable', () => {
+        it('should call isReadyToApplePay', () => {
             const actual = iterator.next().value;
-            const expected = call(applePayAvailable, merchantID, false);
+            const expected = call(isReadyToApplePay, merchantID, false);
             expect(actual).toEqual(expected);
         });
 
@@ -72,7 +72,7 @@ describe('bankCardToMethods', () => {
     });
 
     describe('with google pay', () => {
-        const isGooglePayAvailableMock = isGooglePayAvailable as any;
+        const isGooglePayAvailableMock = isPaymentRequestAvailable as any;
         const iterator = bankCardToMethods(googlePay, null, false);
 
         it('should return card payment methods', () => {

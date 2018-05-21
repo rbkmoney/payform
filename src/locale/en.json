@@ -96,6 +96,7 @@
     "error.apple.pay.unknown": "Unknown Apple Pay error",
     "error.apple.pay.cancel": "Apple Pay payment UI is dismissed",
     "error.apple.pay.session.create": "Apple Pay session is not created",
+    "error.payment.request.cancel": "Payment request UI is dismissed",
     "InvalidPaymentTool": "Invalid payment tool",
     "AccountLimitsExceeded": "Account limits exceeded",
     "InsufficientFunds": "Insufficient funds",

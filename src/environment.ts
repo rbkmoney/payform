@@ -4,6 +4,7 @@ export interface Environment extends Window {
     RbkmoneyCheckout?: Configurator;
     ApplePaySession?: ApplePaySession;
     PaymentRequest?: PaymentRequest;
+    google?: any;
 }
 
 export interface Configurator {
@@ -21,4 +22,6 @@ export const isApplePayAvailable = (): boolean => {
     }
 };
 
-export const isGooglePayAvailable = () => !!environment.PaymentRequest;
+export const isGooglePaymentClientAvailable = () => !!environment.google && !!environment.google.payments.api.PaymentsClient;
+
+export const isPaymentRequestAvailable = () => !!environment.PaymentRequest;
