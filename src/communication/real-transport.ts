@@ -27,6 +27,7 @@ export class RealTransport implements Transport {
 
     destroy() {
         window.removeEventListener('message', this.listener.bind(this), false);
+        this.events = {};
     }
 
     private listener(e: MessageEvent) {
