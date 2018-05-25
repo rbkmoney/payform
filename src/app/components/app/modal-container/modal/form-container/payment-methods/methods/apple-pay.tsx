@@ -25,7 +25,7 @@ const ApplePayButton: React.SFC<MethodProps> = (props) => (
 );
 
 export const ApplePay: React.SFC<MethodProps> = (props) => {
-    return props.paymentValuesPrefilled
+    return props.amountPrefilled && props.emailPrefilled
         ? <ApplePayButton {...props}/>
         : <TokenProviderFormLink {...props}/>;
 };

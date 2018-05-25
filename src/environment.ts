@@ -1,4 +1,5 @@
 import { Initializer } from './initializer/initializer';
+import * as isMobile from 'ismobilejs';
 
 export interface Environment extends Window {
     RbkmoneyCheckout?: Configurator;
@@ -22,6 +23,15 @@ export const isApplePayAvailable = (): boolean => {
     }
 };
 
-export const isGooglePaymentClientAvailable = () => !!environment.google && !!environment.google.payments.api.PaymentsClient;
+// @ts-ignore
+export const isSafari = /constructor/i.test(window.HTMLElement) || ((p) => p.toString() === '[object SafariRemoteNotification]')(!window.safari || (typeof safari !== 'undefined' && safari.pushNotification));
 
-export const isPaymentRequestAvailable = () => !!environment.PaymentRequest;
+export const isGooglePaymentClientAvailable = (): boolean =>
+    !!environment.google &&
+    !!environment.google.payments.api.PaymentsClient;
+
+export const isPaymentRequestAvailable = (): boolean =>
+    !!environment.PaymentRequest;
+
+export const isAppleEnvironment = (): boolean =>
+    !isSafari && !isMobile.apple.device;

@@ -11,11 +11,19 @@ export interface MethodsProps {
     locale: Locale;
     setFormInfo: (formInfo: FormInfo) => any;
     pay: (payload: PaymentRequestedPayload) => any;
-    paymentValuesPrefilled: boolean;
+    amountPrefilled: boolean;
+    emailPrefilled: boolean;
 }
 
 export const Methods: React.SFC<MethodsProps> = (props) => {
-    const {methods, locale, setFormInfo, pay, paymentValuesPrefilled} = props;
+    const {
+        methods,
+        locale,
+        setFormInfo,
+        pay,
+        amountPrefilled,
+        emailPrefilled
+    } = props;
     return (
         <CSSTransitionGroup
             component='ul'
@@ -25,7 +33,7 @@ export const Methods: React.SFC<MethodsProps> = (props) => {
             transitionAppear={true}
             transitionAppearTimeout={1000}
             transitionLeaveTimeout={1000}>
-            {getMethods(methods, {locale, setFormInfo, pay, paymentValuesPrefilled})}
+            {getMethods(methods, {locale, setFormInfo, pay, amountPrefilled, emailPrefilled})}
         </CSSTransitionGroup>
     );
 };

@@ -4,6 +4,8 @@ import { Config } from 'checkout/config';
 import { Amount } from 'checkout/utils';
 import { createCardData } from '../../../create-payment-resource';
 import { makePayment } from '../make-payment';
+import { getPaymentData } from './get-payment-data';
+import { ProvidePaymentEffects } from '../provide-payment';
 
 const createPaymentResource = (endpoint: string) =>
     createCardData.bind(null, endpoint, {
@@ -13,37 +15,9 @@ const createPaymentResource = (endpoint: string) =>
         cardHolder: 'LEXA SVOTIN'
     });
 
-const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPriceMinor: number) => {
-    return {
-        merchantId,
-        paymentMethodTokenizationParameters: {
-            tokenizationType: 'PAYMENT_GATEWAY',
-            parameters: {
-                gateway: 'example',
-                gatewayMerchantId: 'abc123'
-            }
-        },
-        allowedPaymentMethods: ['CARD', 'TOKENIZED_CARD'],
-        cardRequirements: {
-            allowedCardNetworks: ['MASTERCARD', 'VISA']
-        },
-        transactionInfo: {
-            currencyCode,
-            totalPriceStatus: 'FINAL',
-            totalPrice: (totalPriceMinor / 100) + ''
-        }
-    };
-};
-
-const loadPaymentData = (request: any) => {
-    const paymentClient = new google.payments.api.PaymentsClient({environment: 'TEST'});
-    return paymentClient.loadPaymentData(request);
-};
-
-export function* payWithGooglePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): any {
+export function* payWithGooglePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
     const {appConfig: {googlePayMerchantID, capiEndpoint}} = c;
-    const request = getPaymentDataRequest(googlePayMerchantID, amount.currencyCode, amount.value);
-    const paymentData = yield call(loadPaymentData, request);
+    const paymentData = yield call(getPaymentData, googlePayMerchantID, amount.currencyCode, amount.value);
     console.info('PaymentData', paymentData);
     const fn = createPaymentResource(capiEndpoint);
     return yield call(makePayment, c, m, v.email, amount, fn);

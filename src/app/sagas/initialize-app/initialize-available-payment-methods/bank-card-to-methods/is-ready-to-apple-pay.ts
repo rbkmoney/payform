@@ -1,5 +1,5 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import { isApplePayAvailable } from '../../../../environment';
+import { isApplePayAvailable } from '../../../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 
 export function* isReadyToApplePay(applePayMerchantID: string, inFrame: boolean): Iterator<CallEffect | boolean> {

@@ -1,11 +1,12 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { TypeKeys, InitializeAppRequested } from 'checkout/actions';
-import { watchInitializeApp, initializeApp } from './initialize-app';
+import { watchInitializeApp, initializeApp, initialize } from './initialize-app';
 import { loadConfig } from './load-config';
 import { initializeModel } from './initialize-model';
 import { checkInitConfig } from './check-init-config';
 import { initializeModal } from './initialize-modal';
 import { initializeAmountConfig } from './initialize-amount-config';
+import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 
 it('watchInitializeApp should takeLatest initializeApp', () => {
     const iterator = watchInitializeApp();
@@ -14,68 +15,73 @@ it('watchInitializeApp should takeLatest initializeApp', () => {
     expect(actual).toEqual(expected);
 });
 
-describe('initializeApp', () => {
-    const initConfig = {
+describe('initialize', () => {
+    const userInitConfig = {
         locale: 'localeMock'
-    };
-    const action = {
-        type: TypeKeys.INITIALIZE_APP_REQUESTED,
-        payload: initConfig
-    } as InitializeAppRequested;
-    const model = 'modelMock' as any;
-    const config = {
-        initConfig: 'initConfigMock'
+    } as any;
+    const initConfig = 'initConfigMock' as any;
+    const model = {
+        paymentMethods: 'paymentMethodsMock'
+    } as any;
+    const configChunk = {
+        appConfig: {
+            capiEndpoint: 'capiEndpointMock'
+        }
     } as any;
 
-    const iterator = initializeApp(action);
+    const iterator = initialize(userInitConfig);
 
     it('should call loadConfig', () => {
         const actual = iterator.next().value;
-        const expected = call(loadConfig, initConfig.locale);
+        const expected = call(loadConfig, userInitConfig.locale);
         expect(actual).toEqual(expected);
-    });
-
-    it('should select endpoint', () => {
-        const actual = iterator.next().value;
-        const expected = select();
-        expect(actual.toString()).toEqual(expected.toString());
     });
 
     it('should call initializeModel', () => {
-        const endpoint = 'mockEndpoint';
-        const actual = iterator.next(endpoint).value;
-        const expected = call(initializeModel, endpoint, initConfig);
+        const actual = iterator.next(configChunk).value;
+        const expected = call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
         expect(actual).toEqual(expected);
-    });
-
-    it('should select model', () => {
-        const actual = iterator.next().value;
-        const expected = select();
-        expect(actual.toString()).toEqual(expected.toString());
     });
 
     it('should call checkInitConfig', () => {
         const actual = iterator.next(model).value;
-        const expected = call(checkInitConfig, initConfig, model);
+        const expected = call(checkInitConfig, userInitConfig, model);
         expect(actual).toEqual(expected);
     });
 
-    it('should select config', () => {
-        const actual = iterator.next().value;
-        const expected = select();
-        expect(actual.toString()).toEqual(expected.toString());
+    it('should call initializeAmountConfig', () => {
+        const actual = iterator.next(initConfig).value;
+        const expected = call(initializeAmountConfig, initConfig, model);
+        expect(actual).toEqual(expected);
     });
 
-    it('should call initializeAmountConfig', () => {
-        const actual = iterator.next(config).value;
-        const expected = call(initializeAmountConfig, config.initConfig, model);
+    it('should call initializeAvailablePaymentMethods', () => {
+        const amountInfo = 'amountInfoMock' as any;
+        const actual = iterator.next(amountInfo).value;
+        const expected = call(initializeAvailablePaymentMethods, {...configChunk, initConfig}, model.paymentMethods, amountInfo);
         expect(actual).toEqual(expected);
     });
 
     it('should call initializeModal', () => {
-        // const config = 'configMock' as any;
+        const methods = 'methodsMock' as any;
+        const actual = iterator.next(methods).value;
+        const expected = call(initializeModal, initConfig, model, methods);
+        expect(actual).toEqual(expected);
+    });
+});
+
+describe('initializeApp', () => {
+    const action = {
+        type: TypeKeys.INITIALIZE_APP_REQUESTED,
+        payload: {
+            locale: 'localeMock'
+        }
+    } as InitializeAppRequested;
+    const iterator = initializeApp(action);
+
+    it('should call initialize', () => {
         const actual = iterator.next().value;
-        const expected = call(initializeModal, config, model);
+        const expected = call(initialize, action.payload);
         expect(actual).toEqual(expected);
     });
 

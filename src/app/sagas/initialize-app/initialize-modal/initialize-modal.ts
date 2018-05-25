@@ -1,4 +1,4 @@
-import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
+import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -8,9 +8,7 @@ import {
     CardFormInfo,
     FormInfo,
     PaymentMethod,
-    ModelState,
-    State,
-    ConfigState
+    ModelState
 } from 'checkout/state';
 import {
     CustomerBindingInteractionRequested,
@@ -23,8 +21,7 @@ import {
 import { getLastChange } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend/model';
 import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
-import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
-import { IntegrationType } from 'checkout/config';
+import { InitConfig, IntegrationType } from 'checkout/config';
 import { providePaymentInteraction } from '../../provide-modal';
 import { provideCustomerInteraction } from 'checkout/sagas/provide-modal';
 
@@ -86,31 +83,16 @@ const initFromCustomerEvents = (events: CustomerEvent[]): ModalState => {
     }
 };
 
-function* initAvailableMethods(config: ConfigState, model: ModelState): Iterator<CallEffect | SelectEffect> {
-    yield call(initializeAvailablePaymentMethods, model.paymentMethods, config);
-    return yield select((state: State) => state.availablePaymentMethods);
-}
-
-function* initInvoiceTemplate(config: ConfigState, model: ModelState): Iterator<CallEffect | ModalState> {
-    const methods = yield call(initAvailableMethods, config, model);
-    return toInitialState(methods);
-}
-
-function* initInvoice(config: ConfigState, model: ModelState): Iterator<CallEffect | ModalState> {
-    const methods = yield call(initAvailableMethods, config, model);
-    return initFromInvoiceEvents(model.invoiceEvents, methods);
-}
-
 type Effects = CallEffect | PutEffect<InitializeModalCompleted>;
 
-export function* initializeModal(config: ConfigState, model: ModelState): Iterator<Effects> {
+export function* initializeModal(initConfig: InitConfig, model: ModelState, methods: PaymentMethod[]): Iterator<Effects> {
     let initializedModals;
-    switch (config.initConfig.integrationType) {
+    switch (initConfig.integrationType) {
         case IntegrationType.invoiceTemplate:
-            initializedModals = yield call(initInvoiceTemplate, config, model);
+            initializedModals = yield call(toInitialState, methods);
             break;
         case IntegrationType.invoice:
-            initializedModals = yield call(initInvoice, config, model);
+            initializedModals = yield call(initFromInvoiceEvents, model.invoiceEvents, methods);
             break;
         case IntegrationType.customer:
             initializedModals = initFromCustomerEvents(model.customerEvents);
