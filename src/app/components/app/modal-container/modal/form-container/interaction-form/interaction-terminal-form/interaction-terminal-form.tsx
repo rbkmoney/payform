@@ -4,18 +4,17 @@ import * as formStyles from '../../form-container.scss';
 import * as styles from './interaction-terminal-form.scss';
 import { State } from 'checkout/state';
 import { Header } from '../../header';
-import { formatAmount, resolveAmount } from 'checkout/utils';
+import { formatAmount, FormattedAmount } from 'checkout/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { setViewInfoHeight } from 'checkout/actions';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import { FormattedAmount } from 'checkout/utils/amount-formatter';
 import { Icon, IconType } from 'checkout/components';
 import { ReceiptInfo } from './receipt-info';
 
-const mapStateToProps = (state: State) => ({
-    locale: state.config.locale,
-    amount: formatAmount(resolveAmount(state.model, state.config.initConfig.amount, true))
+const mapStateToProps = (s: State) => ({
+    locale: s.config.locale,
+    amount: formatAmount(s.amountInfo) // TODO fix it
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

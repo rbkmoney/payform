@@ -1,13 +1,14 @@
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { formatAmount, getSymbol } from 'checkout/utils';
+import { AmountInfoStatus } from 'checkout/state';
 
 const toUnlimPlaceholder = (localeString: string, currency: string): string =>
     `${localeString} ${getSymbol(currency)}`;
 
 const toRangePlaceholder = (cost: InvoiceTemplateLineCostRange): string => {
     const range = cost.range;
-    const lower = formatAmount({value: range.lowerBound, currencyCode: cost.currency});
-    const upper = formatAmount({value: range.upperBound, currencyCode: cost.currency});
+    const lower = formatAmount({minorValue: range.lowerBound, currencyCode: cost.currency, status: AmountInfoStatus.final});
+    const upper = formatAmount({minorValue: range.upperBound, currencyCode: cost.currency, status: AmountInfoStatus.final});
     return `${lower.value} ${lower.symbol} - ${upper.value} ${upper.symbol}`;
 };
 

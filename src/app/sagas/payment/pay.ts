@@ -28,10 +28,14 @@ type PayEffect =
 
 export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     try {
-        const {config, model} = yield select((s: State) => ({config: s.config, model: s.model}));
+        const {config, model, amountInfo} = yield select((s: State) => ({
+            config: s.config,
+            model: s.model,
+            amountInfo: s.amountInfo
+        }));
         const {values, method} = action.payload;
         yield put({type: TypeKeys.PREPARE_TO_PAY} as PrepareToPay);
-        const event = yield call(providePayment, method, config, model, values);
+        const event = yield call(providePayment, method, config, model, amountInfo, values);
         yield call(provideFromInvoiceEvent, event);
         yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
     } catch (error) {

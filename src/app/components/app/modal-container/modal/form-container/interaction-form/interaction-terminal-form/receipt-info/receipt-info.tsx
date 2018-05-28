@@ -7,7 +7,7 @@ import {
 } from './numerable-list';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import { FormattedAmount } from 'checkout/utils/amount-formatter';
+import { FormattedAmount } from 'checkout/utils';
 
 interface ReceiptInfo {
     locale: Locale;

@@ -1,9 +1,10 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { logPrefix } from 'checkout/log-messages';
+import { AmountInfoState } from 'checkout/state';
 
 const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPriceMinor: number): PaymentDataRequest => (
     {
-        merchantId,
+        // merchantId,
         paymentMethodTokenizationParameters: {
             tokenizationType: 'PAYMENT_GATEWAY',
             parameters: {
@@ -43,10 +44,10 @@ const handleLoadPaymentDataError = (e: PaymentsError) => {
     throw {code: 'error.google.pay.unknown'};
 };
 
-export function* getPaymentData(merchantId: string, currencyCode: string, totalPriceMinor: number): Iterator<CallEffect | PaymentData> {
+export function* getPaymentData(merchantId: string, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentData> {
     try {
         const paymentClient = new google.payments.api.PaymentsClient({environment: 'TEST'});
-        const request = getPaymentDataRequest(merchantId, currencyCode, totalPriceMinor);
+        const request = getPaymentDataRequest(merchantId, amountInfo.currencyCode, amountInfo.minorValue);
         return yield call(loadPaymentData, paymentClient, request);
     } catch (e) {
         yield call(handleLoadPaymentDataError, e);

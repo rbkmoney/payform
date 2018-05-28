@@ -1,16 +1,26 @@
+import toNumber from 'lodash-es/toNumber';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { InvoiceTemplate } from 'checkout/backend';
 import { createInvoiceWithTemplate as request } from 'checkout/backend';
-import { Amount } from '../../../utils';
 import { InvoiceCreated, TypeKeys } from 'checkout/actions';
+import { AmountInfoState, AmountInfoStatus } from 'checkout/state';
 
 export type Effects = CallEffect | PutEffect<InvoiceCreated>;
 
-export function* createInvoiceWithTemplate(endpoint: string, token: string, template: InvoiceTemplate, amount: Amount): Iterator<Effects> {
+const getAmount = (amountInfo: AmountInfoState, formAmount: string) => {
+    switch (amountInfo.status) {
+        case AmountInfoStatus.final:
+            return amountInfo.minorValue;
+        case AmountInfoStatus.notKnown:
+            return toNumber(formAmount) * 100;
+    }
+};
+
+export function* createInvoiceWithTemplate(endpoint: string, token: string, template: InvoiceTemplate, amountInfo: AmountInfoState, formAmount: string): Iterator<Effects> {
     const params = {
-        amount: amount.value,
+        amount: getAmount(amountInfo, formAmount),
         metadata: template.metadata,
-        currency: amount.currencyCode
+        currency: amountInfo.currencyCode
     };
     const invoiceAndToken = yield call(request, endpoint, token, template.id, params);
     return yield put({

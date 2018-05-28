@@ -5,7 +5,7 @@ import { loadConfig } from './load-config';
 import { initializeModel } from './initialize-model';
 import { checkInitConfig } from './check-init-config';
 import { initializeModal } from './initialize-modal';
-import { initializeAmountConfig } from './initialize-amount-config';
+import { initializeAmountInfo } from './initialize-amount-info';
 import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 
 it('watchInitializeApp should takeLatest initializeApp', () => {
@@ -49,9 +49,9 @@ describe('initialize', () => {
         expect(actual).toEqual(expected);
     });
 
-    it('should call initializeAmountConfig', () => {
+    it('should call initializeAmountInfo', () => {
         const actual = iterator.next(initConfig).value;
-        const expected = call(initializeAmountConfig, initConfig, model);
+        const expected = call(initializeAmountInfo, initConfig, model);
         expect(actual).toEqual(expected);
     });
 

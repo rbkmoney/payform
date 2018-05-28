@@ -1,16 +1,16 @@
 import { TypeKeys } from 'checkout/actions';
 import { put } from 'redux-saga/effects';
-import { initializeAmountConfig } from './initialize-amount-config';
-import { getAmountInfo } from './get-amount-info';
+import { initializeAmountInfo } from './initialize-amount-info';
+import { getAmountInfo } from '../../amount-info';
 
-jest.mock('./get-amount-info');
+jest.mock('../../amount-info');
 
 const getAmountInfoMock = getAmountInfo as any;
 
-describe('initializeAmountConfig', () => {
+describe('initializeAmountInfo', () => {
     const initConfig = 'initConfigMock' as any;
     const model = 'modelMock' as any;
-    const iterator = initializeAmountConfig(initConfig, model);
+    const iterator = initializeAmountInfo(initConfig, model);
 
     it('should call getAmountInfo and put to action', () => {
         const amountConfigMock = 'prioritizedMethodsMock';

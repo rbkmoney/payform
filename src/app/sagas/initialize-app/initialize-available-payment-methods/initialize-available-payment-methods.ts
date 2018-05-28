@@ -1,5 +1,5 @@
 import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
-import { BankCard, PaymentMethod } from 'checkout/backend';
+import { PaymentMethod } from 'checkout/backend';
 import { Config, IntegrationType } from 'checkout/config';
 import { InitializeAvailablePaymentMethodsCompleted, TypeKeys } from 'checkout/actions';
 import {

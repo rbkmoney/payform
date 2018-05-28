@@ -1,7 +1,6 @@
 import { call } from 'redux-saga/effects';
-import { ModelState, TokenProviderFormValues } from 'checkout/state';
+import { AmountInfoState, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { Amount } from 'checkout/utils';
 import { createCardData } from '../../../create-payment-resource';
 import { makePayment } from '../make-payment';
 import { getPaymentData } from './get-payment-data';
@@ -15,10 +14,10 @@ const createPaymentResource = (endpoint: string) =>
         cardHolder: 'LEXA SVOTIN'
     });
 
-export function* payWithGooglePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
+export function* payWithGooglePay(c: Config, m: ModelState, a: AmountInfoState, v: TokenProviderFormValues): Iterator<ProvidePaymentEffects> {
     const {appConfig: {googlePayMerchantID, capiEndpoint}} = c;
-    const paymentData = yield call(getPaymentData, googlePayMerchantID, amount.currencyCode, amount.value);
+    const paymentData = yield call(getPaymentData, googlePayMerchantID, a);
     console.info('PaymentData', paymentData);
     const fn = createPaymentResource(capiEndpoint);
-    return yield call(makePayment, c, m, v.email, amount, fn);
+    return yield call(makePayment, c, m, v, a, fn);
 }
