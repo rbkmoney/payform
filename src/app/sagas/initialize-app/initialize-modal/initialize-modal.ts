@@ -8,7 +8,10 @@ import {
     CardFormInfo,
     FormInfo,
     PaymentMethod,
-    ModelState
+    ModelState,
+    PaymentMethodName,
+    TerminalFormInfo,
+    WalletFormInfo
 } from 'checkout/state';
 import {
     CustomerBindingInteractionRequested,
@@ -24,11 +27,26 @@ import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { providePaymentInteraction } from '../../provide-modal';
 import { provideCustomerInteraction } from 'checkout/sagas/provide-modal';
+import { logPrefix } from 'checkout/log-messages';
 
-const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
+const toInitialModal = (formInfo: FormInfo): ModalForms => new ModalForms([formInfo], true);
+
+const toInitialForm = (method: PaymentMethod): FormInfo => {
+    switch (method.name) {
+        case PaymentMethodName.BankCard:
+            return new CardFormInfo();
+        case PaymentMethodName.PaymentTerminal:
+            return new TerminalFormInfo();
+        case PaymentMethodName.DigitalWallet:
+            return new WalletFormInfo();
+        default:
+            console.error(`${logPrefix} Unsupported initial form for method ${method}`);
+            return new CardFormInfo();
+    }
+};
 
 const toInitialState = (methods: PaymentMethod[]): ModalState => {
-    const formInfo = methods.length > 1 ? new PaymentMethodsFormInfo() : new CardFormInfo();
+    const formInfo = methods.length > 1 ? new PaymentMethodsFormInfo() : toInitialForm(methods[0]);
     return toInitialModal(formInfo);
 };
 

@@ -23,6 +23,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         redirectUrl,
         terminals,
         wallets,
+        bankCard,
         paymentFlowHold,
         holdExpiration,
         locale
@@ -38,6 +39,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         redirectUrl: resolveString(redirectUrl, 'redirectUrl'),
         terminals: setDefault(resolveBoolean(terminals, 'terminals'), true),
         wallets: setDefault(resolveBoolean(wallets, 'wallets'), true),
+        bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
         paymentFlowHold: setDefault(resolveBoolean(paymentFlowHold, 'paymentFlowHold'), false),
         holdExpiration: setDefault(resolveString(holdExpiration, 'holdExpiration'), HoldExpirationType.cancel),
         locale: setDefault(resolveString(locale, 'locale'), 'auto')

@@ -39,6 +39,7 @@ it('should return resolved init config', () => {
         .mockReturnValueOnce(param.requireCardHolder)
         .mockReturnValueOnce(null)
         .mockReturnValueOnce(null)
+        .mockReturnValueOnce(null)
         .mockReturnValueOnce(null);
     resolveStringMocked
         .mockReturnValueOnce(param.name)
@@ -55,6 +56,7 @@ it('should return resolved init config', () => {
         invoiceAccessToken: 'some token',
         terminals: true,
         wallets: true,
+        bankCard: true,
         paymentFlowHold: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',

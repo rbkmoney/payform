@@ -10,13 +10,15 @@ import { bankCardToMethods } from './bank-card-to-methods';
 
 export function* toAvailablePaymentMethods(paymentMethods: PaymentMethod[], config: Config, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentMethodState[]> {
     let result: PaymentMethodState[] = [];
-    const {wallets, terminals} = config.initConfig;
+    const {wallets, terminals, bankCard} = config.initConfig;
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
-                const bankCardMethods = yield call(bankCardToMethods, method, config, amountInfo);
-                if (bankCardMethods) {
-                    result = result.concat(bankCardMethods);
+                if (bankCard) {
+                    const bankCardMethods = yield call(bankCardToMethods, method, config, amountInfo);
+                    if (bankCardMethods) {
+                        result = result.concat(bankCardMethods);
+                    }
                 }
                 break;
             case PaymentMethodName.DigitalWallet:
