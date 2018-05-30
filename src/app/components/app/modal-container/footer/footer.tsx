@@ -7,6 +7,7 @@ import { SecureIcon } from './secure-icon';
 import { VisaIcon } from './visa-icon';
 import { McIcon } from './mc-icon';
 import { PciDssIcon } from './pci-dss-icon';
+import { Logo } from './logo';
 
 export interface FooterProps {
     locale: Locale;
@@ -22,6 +23,7 @@ const FooterDef: React.SFC<FooterProps> = (props) => (
             <div className={styles.safe_payment}>
                 <SecureIcon className={styles.secure_icon}/>
                 <p className={styles.label}>{props.locale['footer.pay.label']}</p>
+                <Logo/>
             </div>
             <div className={styles.safe_logos}>
                 <VisaIcon fillStyle={styles.fill_icons}/>

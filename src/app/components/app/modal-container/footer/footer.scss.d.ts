@@ -8,3 +8,5 @@ export const offer: string;
 export const fill_icons: string;
 export const align_fix: string;
 export const secure_icon: string;
+export const logo: string;
+export const fill_logo: string;
