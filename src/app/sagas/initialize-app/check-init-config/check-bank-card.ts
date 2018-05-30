@@ -12,7 +12,7 @@ const checkForInvoiceAndTemplate = (paymentMethods: PaymentMethod[]): CheckResul
 };
 
 export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const {bankCard, wallets, terminals} = initConfig;
+    const {bankCard, wallets, terminals, integrationType} = initConfig;
     if (bankCard) {
         return {available: true};
     }
@@ -23,7 +23,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
             message: 'You can not disable all payment methods.'
         };
     }
-    switch (initConfig.integrationType) {
+    switch (integrationType) {
         case IntegrationType.invoiceTemplate:
         case IntegrationType.invoice:
             return checkForInvoiceAndTemplate(paymentMethods);

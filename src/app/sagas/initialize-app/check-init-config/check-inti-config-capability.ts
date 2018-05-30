@@ -5,6 +5,7 @@ import { logPrefix, sadnessMessage } from 'checkout/log-messages';
 import { CheckResult, UnavailableReason } from './check-result';
 import { checkAmount } from './check-amount';
 import { checkBankCard } from './check-bank-card';
+import { checkInitialPaymentMethod } from './check-initial-payment-method';
 
 const logUnavailableResult = (param: string, result: CheckResult) => {
     if (result.available) {
@@ -35,8 +36,16 @@ const checkAndLog = (paramName: string, initConfig: InitConfig, checkFn: CheckFn
     return result;
 };
 
-export const checkInitConfigCapability = (c: InitConfig, m: ModelState): InitConfig => ({
-    ...c,
-    amount: checkAndLog('amount', c, checkAmount.bind(null, c.integrationType, m, c.amount)) ? c.amount : null,
-    bankCard: checkAndLog('bankCard', c, checkBankCard.bind(null, c, m.paymentMethods)) ? c.bankCard : true
+const firstCheck = (userConfig: InitConfig, m: ModelState): InitConfig => ({
+    ...userConfig,
+    amount: checkAndLog('amount', userConfig, checkAmount.bind(null, userConfig.integrationType, m, userConfig.amount)) ? userConfig.amount : null,
+    bankCard: checkAndLog('bankCard', userConfig, checkBankCard.bind(null, userConfig, m.paymentMethods)) ? userConfig.bankCard : true,
 });
+
+export const checkInitConfigCapability = (c: InitConfig, m: ModelState): InitConfig => {
+    const checked = firstCheck(c, m);
+    return {
+        ...checked,
+        initialPaymentMethod: checkAndLog('initialPaymentMethod', checked, checkInitialPaymentMethod.bind(null, checked, m.paymentMethods)) ? checked.initialPaymentMethod : null
+    };
+};

@@ -1,6 +1,6 @@
 import { resolveIntegrationType } from './resolve-integration-type';
 import { resolveInitConfig } from './resolve-init-config';
-import { IntegrationType } from 'checkout/config';
+import { IntegrationType, PaymentMethodName } from 'checkout/config';
 import { resolveInteger } from './resolve-integer';
 import { resolveBoolean } from './resolve-boolean';
 import { resolveString } from './resolve-string';
@@ -25,7 +25,8 @@ it('should return resolved init config', () => {
         name: 'some name',
         description: 'some description',
         email: 'test@test.com',
-        redirectUrl: 'some url'
+        redirectUrl: 'some url',
+        initialPaymentMethod: 'bankCard'
     };
     resolveIntegrationTypeMocked.mockReturnValueOnce({
         integrationType: IntegrationType.invoice,
@@ -47,7 +48,8 @@ it('should return resolved init config', () => {
         .mockReturnValueOnce(param.email)
         .mockReturnValueOnce(param.redirectUrl)
         .mockReturnValueOnce(null)
-        .mockReturnValueOnce(null);
+        .mockReturnValueOnce(null)
+        .mockReturnValueOnce(param.initialPaymentMethod);
 
     const actual = resolveInitConfig(param);
     const expected = {
@@ -60,6 +62,7 @@ it('should return resolved init config', () => {
         paymentFlowHold: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',
+        initialPaymentMethod: PaymentMethodName.bankCard,
         ...param
     };
     expect(actual).toEqual(expected);

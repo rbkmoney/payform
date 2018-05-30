@@ -5,6 +5,7 @@ import { resolveIntegrationType } from './resolve-integration-type';
 import { UserConfig } from './user-config';
 import { resolveString } from './resolve-string';
 import { HoldExpirationType } from 'checkout/backend';
+import { PaymentMethodName } from 'checkout/config/payment-method-name';
 
 const setDefault = (userParam: any, defaultValue: any) => userParam === null ? defaultValue : userParam;
 
@@ -26,7 +27,8 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         bankCard,
         paymentFlowHold,
         holdExpiration,
-        locale
+        locale,
+        initialPaymentMethod
     } = userConfig;
     return {
         ...resolvedIntegrationType,
@@ -42,6 +44,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
         paymentFlowHold: setDefault(resolveBoolean(paymentFlowHold, 'paymentFlowHold'), false),
         holdExpiration: setDefault(resolveString(holdExpiration, 'holdExpiration'), HoldExpirationType.cancel),
-        locale: setDefault(resolveString(locale, 'locale'), 'auto')
+        locale: setDefault(resolveString(locale, 'locale'), 'auto'),
+        initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName
     };
 };
