@@ -20,8 +20,7 @@ const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPr
             currencyCode,
             totalPriceStatus: 'FINAL',
             totalPrice: (totalPriceMinor / 100) + ''
-        },
-        emailRequired: true
+        }
     } as any
 );
 
