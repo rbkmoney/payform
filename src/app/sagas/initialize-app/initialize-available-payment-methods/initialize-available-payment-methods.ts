@@ -18,26 +18,6 @@ export type InitializeEffect =
     | PaymentMethodState;
 
 export function* init(config: Config, paymentMethods: PaymentMethod[], amountInfo: AmountInfoState): Iterator<InitializeEffect> {
-    // const mock = [
-    //     {
-    //         method: 'PaymentTerminal',
-    //         providers: ['euroset']
-    //     },
-    //     {
-    //         method: 'DigitalWallet',
-    //         providers: ['qiwi']
-    //     },
-    //     {
-    //         method: 'BankCard',
-    //         paymentSystems: ['mastercard', 'nspkmir', 'visa']
-    //     },
-    //     {
-    //         method: 'BankCard',
-    //         paymentSystems: ['mastercard', 'visa'],
-    //         tokenProviders: ['googlepay', 'applepay']
-    //     } as PaymentMethod,
-    // ] as PaymentMethod[];
-    // const methods = yield call(toAvailablePaymentMethods, mock, config, amountInfo);
     const methods = yield call(toAvailablePaymentMethods, paymentMethods, config, amountInfo);
     const prioritizedMethods = yield call(setPriority, methods);
     yield put({
