@@ -1,8 +1,10 @@
 import { HoldExpirationType } from 'checkout/backend';
 import { IntegrationType } from './integration-type';
+import { PaymentMethodName } from './payment-method-name';
 
 export class InitConfig {
     integrationType: IntegrationType;
+    bankCard: boolean;
     terminals: boolean;
     wallets: boolean;
     paymentFlowHold: boolean;
@@ -15,4 +17,5 @@ export class InitConfig {
     amount?: number;
     obscureCardCvv?: boolean;
     requireCardHolder?: boolean;
+    initialPaymentMethod?: PaymentMethodName;
 }

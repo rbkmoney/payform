@@ -1,48 +1,45 @@
 import {
+    put,
     call,
     CallEffect,
     ForkEffect,
-    put,
     PutEffect,
-    select,
-    SelectEffect,
     takeLatest
 } from 'redux-saga/effects';
 import {
-    InitConfigChecked,
+    TypeKeys,
     InitializeAppFailed,
     InitializeAppRequested,
-    InitializeModalCompleted,
-    TypeKeys,
     InitializeAppCompleted
 } from 'checkout/actions';
+import { InitConfig } from 'checkout/config';
 import { loadConfig } from './load-config';
-import { State } from 'checkout/state';
-import { initializeModel } from './initialize-model';
 import { checkInitConfig } from './check-init-config';
+import { initializeModel } from './initialize-model';
 import { initializeModal } from './initialize-modal';
+import { initializeAmountInfo } from './initialize-amount-info';
+import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 
 type InitializeAppPutEffect =
-    InitConfigChecked |
-    InitializeModalCompleted |
     InitializeAppCompleted |
     InitializeAppFailed;
 
 export type InitializeAppEffect =
     CallEffect |
-    SelectEffect |
     PutEffect<InitializeAppPutEffect>;
+
+export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
+    const configChunk = yield call(loadConfig, userInitConfig.locale);
+    const model = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
+    const initConfig = yield call(checkInitConfig, userInitConfig, model);
+    const amountInfo = yield call(initializeAmountInfo, initConfig, model);
+    const methods = yield call(initializeAvailablePaymentMethods, {...configChunk, initConfig}, model.paymentMethods, amountInfo);
+    yield call(initializeModal, initConfig, model, methods);
+}
 
 export function* initializeApp(action: InitializeAppRequested): Iterator<InitializeAppEffect> {
     try {
-        const initConfig = action.payload;
-        yield call(loadConfig, initConfig.locale);
-        const endpoint = yield select((state: State) => state.config.appConfig.capiEndpoint);
-        yield call(initializeModel, endpoint, initConfig);
-        const model = yield select((state: State) => state.model);
-        yield call(checkInitConfig, initConfig, model);
-        const config = yield select((state: State) => state.config);
-        yield call(initializeModal, config, model);
+        yield call(initialize, action.payload);
         yield put({
             type: TypeKeys.INITIALIZE_APP_COMPLETED
         } as InitializeAppCompleted);

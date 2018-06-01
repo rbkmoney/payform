@@ -118,3 +118,11 @@ $local-white: rgba(255, 255, 255, .6);
         }
     }
 }
+
+.logo {
+    padding-left: 6px;
+    fill: $lightest-purple2;
+    @include responsive(sm) {
+        fill: $local-white;
+    }
+}

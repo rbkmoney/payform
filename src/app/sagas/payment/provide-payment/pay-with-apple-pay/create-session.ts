@@ -1,12 +1,12 @@
-import { Amount } from 'checkout/utils';
 import { PaymentSystem } from 'checkout/backend';
+import { AmountInfoState } from 'checkout/state';
 
-const toPaymentRequest = (label: string, currencyCode: string, amount: number, supportedNetworks: string[]): ApplePayPaymentRequest => ({
+const toPaymentRequest = (label: string, amount: AmountInfoState, supportedNetworks: string[]): ApplePayPaymentRequest => ({
     countryCode: 'RU',
-    currencyCode,
+    currencyCode: amount.currencyCode,
     total: {
         label,
-        amount: (amount / 100) + ''
+        amount: (amount.minorValue / 100) + ''
     },
     supportedNetworks,
     merchantCapabilities: ['supports3DS']
@@ -24,10 +24,10 @@ const toSupportedNetworks = (paymentSystems: PaymentSystem[]): string[] =>
             }
         });
 
-export const createSession = (product: string, amount: Amount, paymentSystems: PaymentSystem[]): ApplePaySession => {
+export const createSession = (product: string, amount: AmountInfoState, paymentSystems: PaymentSystem[]): ApplePaySession => {
     try {
         const supportedNetworks = toSupportedNetworks(paymentSystems);
-        const paymentRequest = toPaymentRequest(product, amount.currencyCode, amount.value, supportedNetworks);
+        const paymentRequest = toPaymentRequest(product, amount, supportedNetworks);
         return new ApplePaySession(2, paymentRequest);
     } catch (e) {
         throw {

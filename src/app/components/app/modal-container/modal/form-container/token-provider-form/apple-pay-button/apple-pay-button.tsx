@@ -7,5 +7,5 @@ export interface ApplePayButtonProps {
 }
 
 export const ApplePayButton: React.SFC<ApplePayButtonProps> = (props) => (
-    <button type='button' className={apple_pay_button} onClick={props.onClick}/>
+    <button type='button' id='apple-pay-button' className={apple_pay_button} onClick={props.onClick}/>
 );

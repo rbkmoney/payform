@@ -13,12 +13,13 @@ import {
 import { Methods } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
 import { calcHeight } from './calc-height';
-import { isPrefilled } from './is-payment-values-prefilled';
+import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
 
 export interface PaymentMethodsProps {
     locale: Locale;
     methods: PaymentMethod[];
-    paymentValuesPrefilled: boolean;
+    amountPrefilled: boolean;
+    emailPrefilled: boolean;
     setFormInfo: (formInfo: FormInfo) => any;
     setViewInfoHeight: (height: number) => any;
     pay: (payload: PaymentRequestedPayload) => any;
@@ -31,7 +32,8 @@ export interface PaymentMethodsState {
 const mapStateToProps = (s: State) => ({
     locale: s.config.locale,
     methods: s.availablePaymentMethods.sort((m1, m2) => m1.priority > m2.priority ? 1 : -1),
-    paymentValuesPrefilled: isPrefilled(s.config.initConfig, s.model)
+    amountPrefilled: s.amountInfo.status === AmountInfoStatus.final,
+    emailPrefilled: !!s.config.initConfig.email
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -55,11 +57,19 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
         this.setState({
             visibleMethods: this.props.methods
         });
-        this.props.setViewInfoHeight(400);
+        const methodsCount = this.props.methods.length;
+        this.props.setViewInfoHeight(methodsCount === 4 ? 400 : 494);
     }
 
     render() {
-        const {locale, setFormInfo, methods, pay, paymentValuesPrefilled} = this.props;
+        const {
+            locale,
+            setFormInfo,
+            methods,
+            pay,
+            amountPrefilled,
+            emailPrefilled
+        } = this.props;
         const {visibleMethods} = this.state;
         return (
             <form>
@@ -74,7 +84,8 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                         locale={locale}
                         setFormInfo={setFormInfo}
                         pay={pay}
-                        paymentValuesPrefilled={paymentValuesPrefilled}
+                        amountPrefilled={amountPrefilled}
+                        emailPrefilled={emailPrefilled}
                     />
                     {methods > visibleMethods ?
                         <OtherPaymentMethodsLink onClick={this.showAllMethods} locale={locale}/> : null}

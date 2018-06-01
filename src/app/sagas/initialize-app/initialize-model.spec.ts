@@ -1,4 +1,4 @@
-import { all, call, put } from 'redux-saga/effects';
+import { all, call, put, select } from 'redux-saga/effects';
 import { initializeModel } from './initialize-model';
 import { TypeKeys } from 'checkout/actions';
 import {
@@ -42,8 +42,6 @@ const initConfigCustomer = {
     customerAccessToken: 'testTokenCustomer'
 } as CustomerInitConfig;
 
-jest.mock('../../utils/event-utils');
-
 describe('initializeModel', () => {
     const iterator = initializeModel(endpoint, initConfigInvoiceTemplate);
 
@@ -58,6 +56,12 @@ describe('initializeModel', () => {
         const actual = iterator.next(model).value;
         const expected = put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: model});
         expect(actual).toEqual(expected);
+    });
+
+    it('should select model', () => {
+        const actual = iterator.next().value;
+        const expected = select();
+        expect(actual.toString()).toEqual(expected.toString());
     });
 });
 

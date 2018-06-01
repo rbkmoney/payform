@@ -27,6 +27,7 @@ const create = (origin: string): HTMLIFrameElement => {
     iframe.setAttribute('class', 'rbkmoney-payframe');
     iframe.setAttribute('allowtransparency', 'true');
     iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allowpaymentrequest', '');
     assign(iframe.style, styles);
     return iframe;
 };

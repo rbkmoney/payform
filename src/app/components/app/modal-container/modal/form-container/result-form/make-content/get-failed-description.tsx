@@ -3,10 +3,13 @@ import { Locale } from 'checkout/locale';
 import { text } from '../result-form.scss';
 import { LogicError } from 'checkout/backend';
 
-const getDescription = (l: Locale, e: LogicError) => {
-    const localized = l[e.code];
-    const result = localized ? localized : e.code;
-    return e.message ? result.concat(`.\n${e.message}`) : result;
+const getDescription = (l: Locale, e: LogicError): string => {
+    const result = l[e.code] ? l[e.code] : e.code;
+    if (e.message) {
+        return result ? result.concat(`.\n${e.message}`) : e.message;
+    } else {
+        return result;
+    }
 };
 
 export const getFailedDescription = (l: Locale, e: LogicError): JSX.Element => {

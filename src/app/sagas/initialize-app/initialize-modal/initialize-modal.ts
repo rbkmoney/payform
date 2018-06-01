@@ -1,4 +1,4 @@
-import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
+import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import {
     PaymentMethodsFormInfo,
     ModalForms,
@@ -9,8 +9,9 @@ import {
     FormInfo,
     PaymentMethod,
     ModelState,
-    State,
-    ConfigState
+    PaymentMethodName,
+    TerminalFormInfo,
+    WalletFormInfo
 } from 'checkout/state';
 import {
     CustomerBindingInteractionRequested,
@@ -20,18 +21,35 @@ import {
     PaymentStatusChanged,
     PaymentStatuses
 } from 'checkout/backend';
+import { PaymentMethodName as PaymentMethodNameConfig } from 'checkout/config';
 import { getLastChange } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend/model';
 import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
-import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
-import { IntegrationType } from 'checkout/config';
+import { InitConfig, IntegrationType } from 'checkout/config';
 import { providePaymentInteraction } from '../../provide-modal';
 import { provideCustomerInteraction } from 'checkout/sagas/provide-modal';
+import { logPrefix } from 'checkout/log-messages';
 
-const toInitialModal = (formInfo: FormInfo) => new ModalForms([formInfo], true);
+const toInitialModal = (formInfo: FormInfo): ModalForms => new ModalForms([formInfo], true);
 
-const toInitialState = (methods: PaymentMethod[]): ModalState => {
-    const formInfo = methods.length > 1 ? new PaymentMethodsFormInfo() : new CardFormInfo();
+const toInitialForm = (method: PaymentMethod): FormInfo => {
+    switch (method.name) {
+        case PaymentMethodName.BankCard:
+            return new CardFormInfo();
+        case PaymentMethodName.PaymentTerminal:
+            return new TerminalFormInfo();
+        case PaymentMethodName.DigitalWallet:
+            return new WalletFormInfo();
+        default:
+            console.error(`${logPrefix} Unsupported initial form for method ${method}`);
+            return new CardFormInfo();
+    }
+};
+
+const toInitialState = (methods: PaymentMethod[], initialPaymentMethod: PaymentMethodNameConfig): ModalState => {
+    // TODO need to implement initialPaymentMethod
+    const isMultiMethods = methods.length > 1;
+    const formInfo = isMultiMethods ? new PaymentMethodsFormInfo() : toInitialForm(methods[0]);
     return toInitialModal(formInfo);
 };
 
@@ -39,7 +57,7 @@ const toInitialCustomerState = () => toInitialModal(new CardFormInfo());
 
 const toModalResult = (): ModalState => toInitialModal(new ResultFormInfo(ResultType.processed));
 
-const initFormPaymentStatusChanged = (change: PaymentStatusChanged, methods: PaymentMethod[]): ModalState => {
+const initFormPaymentStatusChanged = (change: PaymentStatusChanged, methods: PaymentMethod[], initialPaymentMethod: PaymentMethodNameConfig): ModalState => {
     switch (change.status) {
         case PaymentStatuses.captured:
         case PaymentStatuses.processed:
@@ -48,13 +66,13 @@ const initFormPaymentStatusChanged = (change: PaymentStatusChanged, methods: Pay
             return toModalResult();
         case PaymentStatuses.cancelled:
         case PaymentStatuses.failed:
-            return toInitialState(methods);
+            return toInitialState(methods, initialPaymentMethod);
         default:
             throw {code: 'error.unsupported.payment.status'};
     }
 };
 
-const initFromInvoiceEvents = (events: Event[], methods: PaymentMethod[]): ModalState => {
+const initFromInvoiceEvents = (events: Event[], methods: PaymentMethod[], initialPaymentMethod: PaymentMethodNameConfig): ModalState => {
     const change = getLastChange(events);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentInteractionRequested:
@@ -63,9 +81,9 @@ const initFromInvoiceEvents = (events: Event[], methods: PaymentMethod[]): Modal
         case InvoiceChangeType.InvoiceStatusChanged:
             return toModalResult();
         case InvoiceChangeType.PaymentStatusChanged:
-            return initFormPaymentStatusChanged(change as PaymentStatusChanged, methods);
+            return initFormPaymentStatusChanged(change as PaymentStatusChanged, methods, initialPaymentMethod);
         case InvoiceChangeType.InvoiceCreated:
-            return toInitialState(methods);
+            return toInitialState(methods, initialPaymentMethod);
         default:
             throw {code: 'error.unsupported.invoice.change.type'};
     }
@@ -86,31 +104,17 @@ const initFromCustomerEvents = (events: CustomerEvent[]): ModalState => {
     }
 };
 
-function* initAvailableMethods(config: ConfigState, model: ModelState): Iterator<CallEffect | SelectEffect> {
-    yield call(initializeAvailablePaymentMethods, model.paymentMethods, config);
-    return yield select((state: State) => state.availablePaymentMethods);
-}
-
-function* initInvoiceTemplate(config: ConfigState, model: ModelState): Iterator<CallEffect | ModalState> {
-    const methods = yield call(initAvailableMethods, config, model);
-    return toInitialState(methods);
-}
-
-function* initInvoice(config: ConfigState, model: ModelState): Iterator<CallEffect | ModalState> {
-    const methods = yield call(initAvailableMethods, config, model);
-    return initFromInvoiceEvents(model.invoiceEvents, methods);
-}
-
 type Effects = CallEffect | PutEffect<InitializeModalCompleted>;
 
-export function* initializeModal(config: ConfigState, model: ModelState): Iterator<Effects> {
+export function* initializeModal(initConfig: InitConfig, model: ModelState, methods: PaymentMethod[]): Iterator<Effects> {
     let initializedModals;
-    switch (config.initConfig.integrationType) {
+    const {integrationType, initialPaymentMethod} = initConfig;
+    switch (integrationType) {
         case IntegrationType.invoiceTemplate:
-            initializedModals = yield call(initInvoiceTemplate, config, model);
+            initializedModals = yield call(toInitialState, methods, initialPaymentMethod);
             break;
         case IntegrationType.invoice:
-            initializedModals = yield call(initInvoice, config, model);
+            initializedModals = yield call(initFromInvoiceEvents, model.invoiceEvents, methods, initialPaymentMethod);
             break;
         case IntegrationType.customer:
             initializedModals = initFromCustomerEvents(model.customerEvents);

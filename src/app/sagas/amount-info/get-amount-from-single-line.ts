@@ -1,12 +1,15 @@
+import isNumber from 'lodash-es/isNumber';
 import {
     CostType,
     InvoiceTemplateLineCostFixed,
     InvoiceTemplateLineCostRange,
     InvoiceTemplateSingleLine
 } from 'checkout/backend';
-import { Amount } from '../amount';
+import { AmountInfoState, AmountInfoStatus } from 'checkout/state';
 
-export const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine, configAmount: number): Amount => {
+const getStatus = (configAmount: number) => isNumber(configAmount) ? AmountInfoStatus.final : AmountInfoStatus.notKnown;
+
+export const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine, configAmount: number): AmountInfoState => {
     const price = details.price;
     if (!price) {
         return null;
@@ -15,17 +18,20 @@ export const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine, conf
         case CostType.InvoiceTemplateLineCostFixed:
             const fixed = price as InvoiceTemplateLineCostFixed;
             return {
-                value: fixed.amount,
+                status: AmountInfoStatus.final,
+                minorValue: fixed.amount,
                 currencyCode: fixed.currency
             };
         case CostType.InvoiceTemplateLineCostRange:
             return {
-                value: configAmount,
+                status: getStatus(configAmount),
+                minorValue: configAmount || undefined,
                 currencyCode: (price as InvoiceTemplateLineCostRange).currency
             };
         case CostType.InvoiceTemplateLineCostUnlim:
             return {
-                value: configAmount,
+                status: getStatus(configAmount),
+                minorValue: configAmount || undefined,
                 currencyCode: 'RUB' // TODO unlim cost type does't support currency
             };
     }

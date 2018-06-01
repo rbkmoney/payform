@@ -1,8 +1,9 @@
-import { all, AllEffect, call, put, PutEffect } from 'redux-saga/effects';
+import { all, AllEffect, call, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
 import { getAppConfig, getLocale } from '../../backend';
-import { ConfigChunkReceived, TypeKeys } from 'checkout/actions';
+import { ConfigChunk, ConfigChunkReceived, TypeKeys } from 'checkout/actions';
+import { State } from 'checkout/state';
 
-type LoadConfigEffect = AllEffect | PutEffect<ConfigChunkReceived>;
+type LoadConfigEffect = AllEffect | PutEffect<ConfigChunkReceived> | SelectEffect | ConfigChunk;
 
 export function* loadConfig(localeName: string): IterableIterator<LoadConfigEffect> {
     const [appConfig, locale] = yield all([
@@ -16,4 +17,5 @@ export function* loadConfig(localeName: string): IterableIterator<LoadConfigEffe
             locale
         }
     } as ConfigChunkReceived);
+    return yield select((state: State) => state.config);
 }

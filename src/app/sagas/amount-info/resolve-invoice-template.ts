@@ -4,11 +4,11 @@ import {
     InvoiceTemplateSingleLine,
     TemplateType
 } from 'checkout/backend';
-import { Amount } from '../amount';
 import { getAmountFromSingleLine } from './get-amount-from-single-line';
 import { getAmountFromMultiLine } from './get-amount-from-multi-line';
+import { AmountInfoState } from 'checkout/state';
 
-export const resolveInvoiceTemplate = (invoiceTemplate: InvoiceTemplate, configAmount: number): Amount => {
+export const resolveInvoiceTemplate = (invoiceTemplate: InvoiceTemplate, configAmount: number): AmountInfoState => {
     switch (invoiceTemplate.details.templateType) {
         case TemplateType.InvoiceTemplateSingleLine:
             return getAmountFromSingleLine(invoiceTemplate.details as InvoiceTemplateSingleLine, configAmount);

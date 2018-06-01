@@ -1,4 +1,5 @@
 export enum ProviderType {
     ApplePay = 'ApplePay',
-    SamsungPay = 'SamsungPay'
+    SamsungPay = 'SamsungPay',
+    GooglePay = 'GooglePay'
 }

@@ -4,6 +4,7 @@ import { PaymentMethod, PaymentMethodName } from 'checkout/state';
 import { Wallets } from './wallets';
 import { ApplePay } from './apple-pay';
 import { BankCard } from './bank-card';
+import { GooglePay } from './google-pay';
 import { MethodProps } from './method-props';
 
 export const getMethods = (methods: PaymentMethod[], props: MethodProps): JSX.Element[] =>
@@ -17,6 +18,8 @@ export const getMethods = (methods: PaymentMethod[], props: MethodProps): JSX.El
                 return <BankCard key={method.name} {...props}/>;
             case PaymentMethodName.ApplePay:
                 return <ApplePay key={method.name} {...props}/>;
+            case PaymentMethodName.GooglePay:
+                return <GooglePay key={method.name} {...props}/>;
             default:
                 return null;
         }

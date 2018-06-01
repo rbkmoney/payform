@@ -8,6 +8,7 @@ import {
     InitializeAppState
 } from '.';
 import { PaymentMethod } from './payment-method';
+import { AmountInfoState } from './amount-info';
 
 export interface State {
     readonly result: ResultState;
@@ -17,5 +18,6 @@ export interface State {
     readonly form: FormsState;
     readonly modals: ModalState[];
     readonly initializeApp: InitializeAppState;
-    readonly availablePaymentMethods: PaymentMethod[];
+    readonly availablePaymentMethods: PaymentMethod[]; // TODO rename to PaymentMethodState
+    readonly amountInfo: AmountInfoState;
 }

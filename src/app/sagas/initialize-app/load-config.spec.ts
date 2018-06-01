@@ -1,4 +1,4 @@
-import { all, call, put } from 'redux-saga/effects';
+import { all, call, put, select } from 'redux-saga/effects';
 import { getAppConfig, getLocale } from 'checkout/backend';
 import { TypeKeys } from 'checkout/actions';
 import { loadConfig } from './load-config';
@@ -25,5 +25,11 @@ describe('loadConfig', () => {
             payload: {appConfig, locale}
         });
         expect(actual).toEqual(expected);
+    });
+
+    it('should select config', () => {
+        const actual = iterator.next().value;
+        const expected = select();
+        expect(actual.toString()).toEqual(expected.toString());
     });
 });

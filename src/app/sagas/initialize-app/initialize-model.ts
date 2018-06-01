@@ -1,4 +1,4 @@
-import { all, AllEffect, call, CallEffect, put, PutEffect } from 'redux-saga/effects';
+import { all, AllEffect, call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
 import {
     CustomerEvent,
     Event,
@@ -20,6 +20,7 @@ import {
     InvoiceTemplateInitConfig
 } from 'checkout/config';
 import { InitializeModelCompleted, TypeKeys } from 'checkout/actions';
+import { ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
@@ -74,9 +75,10 @@ export function* resolveIntegrationType(endpoint: string, config: InitConfig): I
     return chunk;
 }
 
-export type InitializeEffect = CallEffect | PutEffect<InitializeModelCompleted>;
+export type InitializeEffect = CallEffect | PutEffect<InitializeModelCompleted> | SelectEffect | ModelState;
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
     const modelChunk = yield call(resolveIntegrationType, endpoint, config);
     yield put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk} as InitializeModelCompleted);
+    return yield select((state: State) => state.model);
 }

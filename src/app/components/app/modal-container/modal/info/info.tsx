@@ -4,8 +4,7 @@ import * as styles from './info.scss';
 import { State } from 'checkout/state';
 import {
     formatAmount,
-    FormattedAmount,
-    resolveAmount
+    FormattedAmount
 } from 'checkout/utils';
 import { Locale } from 'checkout/locale';
 
@@ -24,7 +23,7 @@ const mapStateToProps = (s: State) => {
         name: initConfig.name,
         description: initConfig.description,
         email: initConfig.email,
-        formattedAmount: formatAmount(resolveAmount(s.model, initConfig.amount))
+        formattedAmount: formatAmount(s.amountInfo)
     };
 };
 

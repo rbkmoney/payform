@@ -1,7 +1,6 @@
 import { call } from 'redux-saga/effects';
-import { ModelState, TokenProviderFormValues } from 'checkout/state';
+import { AmountInfoState, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { Amount } from 'checkout/utils';
 import { beginSession } from './begin-session';
 import { createSession } from './create-session';
 import { createApplePay } from '../../../create-payment-resource';
@@ -22,16 +21,16 @@ const findPaymentSystems = (paymentMethods: PaymentMethod[]): PaymentSystem[] =>
     return found.paymentSystems;
 };
 
-export function* payWithApplePay(c: Config, m: ModelState, v: TokenProviderFormValues, amount: Amount): Iterator<ProvidePaymentEffects> {
+export function* payWithApplePay(c: Config, m: ModelState, a: AmountInfoState, v: TokenProviderFormValues): Iterator<ProvidePaymentEffects> {
     const {initConfig: {description, name}, appConfig} = c;
     const label = description || name || 'RBKmoney';
     const paymentSystems = findPaymentSystems(m.paymentMethods);
-    const session = createSession(label, amount, paymentSystems);
+    const session = createSession(label, a, paymentSystems);
     const paymentToken = yield call(beginSession, c, session);
     const {capiEndpoint, applePayMerchantID} = appConfig;
     try {
         const fn = createPaymentResource(capiEndpoint, applePayMerchantID, paymentToken);
-        const event = yield call(makePayment, c, m, v.email, amount, fn);
+        const event = yield call(makePayment, c, m, v, a, fn);
         session.completePayment(getSessionStatus(event));
         return event;
     } catch (error) {
