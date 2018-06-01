@@ -86,7 +86,7 @@ export class TokenProviderFormDef extends React.Component<Props> {
             tokenProviderFormInfo: {provider}
         } = this.props;
         return (
-            <form id='token-provider-form'>
+            <form onSubmit={handleSubmit(this.submit)} id='token-provider-form'>
                 <div>
                     <Header title={getTitle(provider)}/>
                     {email.visible ?
