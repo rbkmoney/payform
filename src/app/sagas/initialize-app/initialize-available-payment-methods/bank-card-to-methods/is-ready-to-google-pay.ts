@@ -1,6 +1,12 @@
-import { isAppleEnvironment, isGooglePaymentClientAvailable } from '../../../../../environment';
+import { call, race } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import {
+    isAppleEnvironment,
+    isGooglePaymentClientAvailable
+} from '../../../../../environment';
 import { logPrefix } from 'checkout/log-messages';
 import { AmountInfoState } from 'checkout/state';
+import { getScript } from 'checkout/utils';
 
 const methodData = [
     {
@@ -23,7 +29,19 @@ const methodData = [
     }
 ];
 
-export function isReadyToGooglePay(amountInfo: AmountInfoState): Promise<boolean> {
+function* loadPaymentsClient() {
+    const endpoint = 'https://pay.google.com/gp/p/js/pay.js';
+    const [timeout] = yield race<any>([
+        call(delay, 2000),
+        call(getScript, endpoint)
+    ]);
+    if (timeout) {
+        console.warn(`${logPrefix} Load timeout ${endpoint}`);
+    }
+    return !timeout;
+}
+
+function isReadyToPay(): Promise<boolean> {
     if (!isAppleEnvironment() && isGooglePaymentClientAvailable()) {
         return Promise.resolve(false);
     }
@@ -35,4 +53,11 @@ export function isReadyToGooglePay(amountInfo: AmountInfoState): Promise<boolean
             console.error(`${logPrefix} isReadyToGooglePay`, ex);
             return false;
         });
+}
+
+export function* isReadyToGooglePay(amountInfo: AmountInfoState) {
+    if (yield call(loadPaymentsClient)) {
+        return yield call(isReadyToPay);
+    }
+    return false;
 }
