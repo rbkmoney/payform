@@ -89,7 +89,7 @@ class WalletFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
+            <form onSubmit={handleSubmit(this.submit)} id='wallet-form'>
                 <div>
                     <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
                     <div className={formStyles.formGroup}>
