@@ -87,7 +87,7 @@ export class TerminalFormDef extends React.Component<Props> {
     render() {
         const {handleSubmit, locale, fieldsConfig: {email, amount}} = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)}>
+            <form onSubmit={handleSubmit(this.submit)} id='terminal-form'>
                 <div>
                     <Header title={locale['form.header.pay.euroset.label']}/>
                     <p className={styles.text}>
