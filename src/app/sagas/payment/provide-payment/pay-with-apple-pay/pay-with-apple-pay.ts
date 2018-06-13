@@ -25,7 +25,7 @@ export function* payWithApplePay(c: Config, m: ModelState, a: AmountInfoState, v
     const {initConfig: {description, name}, appConfig} = c;
     const label = description || name || 'RBKmoney';
     const paymentSystems = findPaymentSystems(m.paymentMethods);
-    const session = createSession(label, a, paymentSystems);
+    const session = createSession(label, a, paymentSystems, v.amount);
     const paymentToken = yield call(beginSession, c, session);
     const {capiEndpoint, applePayMerchantID} = appConfig;
     try {
