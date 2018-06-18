@@ -4,7 +4,7 @@ import { AmountInfoState } from 'checkout/state';
 
 const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPriceMinor: number): PaymentDataRequest => (
     {
-        // merchantId,
+        merchantId,
         paymentMethodTokenizationParameters: {
             tokenizationType: 'PAYMENT_GATEWAY',
             parameters: {
@@ -45,7 +45,7 @@ const handleLoadPaymentDataError = (e: PaymentsError) => {
 
 export function* getPaymentData(merchantId: string, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentData> {
     try {
-        const paymentClient = new google.payments.api.PaymentsClient({environment: 'TEST'});
+        const paymentClient = new google.payments.api.PaymentsClient({environment: 'PRODUCTION'});
         const request = getPaymentDataRequest(merchantId, amountInfo.currencyCode, amountInfo.minorValue);
         return yield call(loadPaymentData, paymentClient, request);
     } catch (e) {
