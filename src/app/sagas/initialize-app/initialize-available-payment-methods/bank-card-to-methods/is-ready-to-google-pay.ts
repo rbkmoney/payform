@@ -45,7 +45,7 @@ function isReadyToPay(): Promise<boolean> {
     if (!isAppleEnvironment() && isGooglePaymentClientAvailable()) {
         return Promise.resolve(false);
     }
-    const paymentsClient = new google.payments.api.PaymentsClient({environment: 'TEST'});
+    const paymentsClient = new google.payments.api.PaymentsClient({environment: 'PRODUCTION'});
     const allowedPaymentMethods = ['CARD', 'TOKENIZED_CARD'];
     return paymentsClient.isReadyToPay({allowedPaymentMethods})
         .then((res) => res.result)
