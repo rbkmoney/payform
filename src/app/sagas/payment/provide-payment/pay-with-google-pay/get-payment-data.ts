@@ -5,6 +5,10 @@ import { AmountInfoState } from 'checkout/state';
 const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPriceMinor: number): PaymentDataRequest => (
     {
         merchantId,
+        merchantInfo: {
+            merchantName: 'RBKmoney',
+            merchantOrigin: 'checkout.rbk.money'
+        },
         paymentMethodTokenizationParameters: {
             tokenizationType: 'PAYMENT_GATEWAY',
             parameters: {
@@ -21,7 +25,7 @@ const getPaymentDataRequest = (merchantId: string, currencyCode: string, totalPr
             totalPriceStatus: 'FINAL',
             totalPrice: (totalPriceMinor / 100) + ''
         }
-    } as any
+    }
 );
 
 const loadPaymentData = (client: google.payments.api.PaymentsClient, request: PaymentDataRequest): Promise<PaymentData> =>
