@@ -22,6 +22,7 @@ interface ReadyToPayResponse {
 
 interface PaymentDataRequest {
     merchantId: string;
+    merchantInfo: MerchantInfo;
     paymentMethodTokenizationParameters: PaymentMethodTokenizationParameters;
     allowedPaymentMethods: string[];
     cardRequirements: CardRequirements;
@@ -30,6 +31,11 @@ interface PaymentDataRequest {
     emailRequired?: boolean;
     shippingAddressRequired?: boolean;
     shippingAddressRequirements?: ShippingAddressRequirements;
+}
+
+interface MerchantInfo {
+    merchantName: string;
+    merchantOrigin: string;
 }
 
 interface TransactionInfo {
