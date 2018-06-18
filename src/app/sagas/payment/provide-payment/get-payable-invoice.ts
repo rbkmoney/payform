@@ -1,10 +1,8 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects';
+import { call, CallEffect, select } from 'redux-saga/effects';
 import { InitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import { AmountInfoState, ModelState, State } from 'checkout/state';
 import { createInvoiceWithTemplate } from './create-invoice-with-template';
 import { Invoice, InvoiceTemplate } from 'checkout/backend';
-import { TypeKeys } from 'checkout/actions';
-import { resolveInvoice } from '../../amount-info';
 
 type Effects = CallEffect | InvoiceAndToken;
 
@@ -27,10 +25,6 @@ function* createInvoice(initConfig: InvoiceTemplateInitConfig, endpoint: string,
         invoice: s.model.invoice,
         invoiceAccessToken: s.model.invoiceAccessToken
     }));
-    yield put({
-        type: TypeKeys.AMOUNT_INFO_UPDATED,
-        payload: resolveInvoice(invoice)
-    });
     return {invoice, invoiceAccessToken};
 }
 
