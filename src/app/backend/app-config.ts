@@ -3,4 +3,5 @@ export class AppConfig {
     applePayMerchantID: string;
     applePayMerchantValidationEndpoint: string;
     googlePayMerchantID: string;
+    googlePayGatewayMerchantID: string;
 }
