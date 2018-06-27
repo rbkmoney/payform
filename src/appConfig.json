@@ -2,5 +2,6 @@
   "capiEndpoint": "<capi endpoint>",
   "applePayMerchantID": "<apple pay merchant id>",
   "applePayMerchantValidationEndpoint": "<apple pay merchant validation endpoint>",
-  "googlePayMerchantID": "<google pay merchant id>"
+  "googlePayMerchantID": "<google pay merchant id>",
+  "googlePayGatewayMerchantID": "<google pay gateway merchant id>"
 }
