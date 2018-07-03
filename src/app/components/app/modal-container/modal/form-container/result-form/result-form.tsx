@@ -19,7 +19,7 @@ class ResultFormDef extends React.Component<ResultFormProps> {
     }
 
     render() {
-        const { header, description, icon, hasActions, needHelp, hasDone } = this.makeContent();
+        const { header, description, icon, hasActions, hasDone } = this.makeContent();
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }

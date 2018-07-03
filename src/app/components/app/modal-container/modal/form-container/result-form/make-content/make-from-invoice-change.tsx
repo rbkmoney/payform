@@ -9,7 +9,6 @@ import { Warning } from '../result-icons';
 
 const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.invoice.refunded.label'],
     icon: <Warning/>
@@ -17,7 +16,6 @@ const refunded = (l: Locale): ResultFormContent => ({
 
 const paid = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.invoice.paid.label'],
     description: getSuccessDescription(l, e),
@@ -26,7 +24,6 @@ const paid = (l: Locale, e: Event[]): ResultFormContent => ({
 
 const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: false,
-    needHelp: true,
     hasDone: false,
     header: l['form.header.final.invoice.cancelled.label'],
     icon: <Cross/>
@@ -34,7 +31,6 @@ const cancelled = (l: Locale): ResultFormContent => ({
 
 const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.invoice.fulfilled.label'],
     description: getSuccessDescription(l, e),

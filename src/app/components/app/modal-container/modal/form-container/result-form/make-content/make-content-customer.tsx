@@ -22,7 +22,6 @@ const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
 
 const failed = (l: Locale, e: CustomerBindingStatusChanged) => ({
     hasActions: true,
-    needHelp: true,
     hasDone: false,
     description: getFailedDescription(l, e.error),
     header: l['form.header.final.customer.binding.failed.label'],
@@ -31,7 +30,6 @@ const failed = (l: Locale, e: CustomerBindingStatusChanged) => ({
 
 const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: true,
     header: l['form.header.final.customer.binding.success.label'],
     description: getDescription(l['form.final.success.binding.text'], e),
@@ -40,7 +38,6 @@ const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
 
 const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.binding.text'], e),

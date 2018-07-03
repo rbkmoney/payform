@@ -9,7 +9,6 @@ import { getLastChange } from 'checkout/utils';
 
 export const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: true,
     header: l['form.header.final.refunded.label'],
     icon: <Warning/>
@@ -17,7 +16,6 @@ export const refunded = (l: Locale): ResultFormContent => ({
 
 export const pending = (l: Locale): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.pending.label'],
     icon: <Warning/>
@@ -25,7 +23,6 @@ export const pending = (l: Locale): ResultFormContent => ({
 
 export const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: true,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.cancelled.label'],
     icon: <Warning/>
@@ -33,7 +30,6 @@ export const cancelled = (l: Locale): ResultFormContent => ({
 
 export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormContent => ({
     hasActions: true,
-    needHelp: true,
     hasDone: false,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),
@@ -42,7 +38,6 @@ export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormConte
 
 const processed = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: true,
     header: l['form.header.final.success.label'],
     description: getSuccessDescription(l, e),

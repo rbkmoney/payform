@@ -14,7 +14,6 @@ const getDescription = (description: string, e: Event[]): JSX.Element => (
 
 const started = (l: Locale, e: Event[]): ResultFormContent => ({
     hasActions: false,
-    needHelp: false,
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.pay.text'], e),
