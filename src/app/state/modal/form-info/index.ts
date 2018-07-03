@@ -8,3 +8,4 @@ export * from './wallet-form-info';
 export * from './interaction-form-info';
 export * from './terminal-form-info';
 export * from './token-provider-form-info';
+export * from './help-form-info';

@@ -1,47 +1,61 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import * as styles from './help.scss';
+import { ModelState, State } from 'checkout/state';
+import { Header } from '../header';
+import { Locale } from 'checkout/locale';
+import { getErrorFromEvents } from '../get-error-from-changes';
 import * as formStyles from '../form-container.scss';
-import { Icon, IconType } from 'checkout/components';
 
-export class Help extends React.Component {
+interface HelpDefProps {
+    model: ModelState;
+    locale: Locale;
+}
+
+export class HelpDef extends React.Component<HelpDefProps> {
     render() {
         return (
             <form>
-                <div className={formStyles.header}>
-                    <div className={formStyles.back_btn}>
-                        <Icon icon={IconType.chevronLeft}/>
-                    </div>
-                    <div className={formStyles.title}>
-                        Как решить проблему?
-                    </div>
+                <div>
+                    <Header title={this.props.locale['form.help.header']}/>
+                    <p className={formStyles.text}>
+                        {this.getSteps()[0]}
+                    </p>
+                    <ul className={styles.list}>
+                        {this.getSteps().map(this.renderStep)}
+                    </ul>
                 </div>
-                <ul className={styles.list}>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            1
-                        </div>
-                        <div className={styles.list_item_text}>
-                            Обратитесь в банк, в котором выпущена ваша карта по телефону 8 (800) 555-35-35.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            2
-                        </div>
-                        <div className={styles.list_item_text}>
-                            Сообщите сотруднику банка паспортные данные, кодовое слово, сумму и номер заказа.
-                        </div>
-                    </li>
-                    <li className={styles.list_item}>
-                        <div className={styles.list_item_number}>
-                            3
-                        </div>
-                        <div className={styles.list_item_text}>
-                            Банк решит вашу проблему в течение 2 дней и вы сможете оплатить заказ.
-                        </div>
-                    </li>
-                </ul>
             </form>
         );
     }
+
+    private renderStep(step: string, i: number) {
+        if (i > 0) {
+            return (
+                <li className={styles.list_item} key={i}>
+                    <div className={styles.list_item_number}>
+                        {i}
+                    </div>
+                    <div className={styles.list_item_text}>
+                        {step}
+                    </div>
+                </li>
+            );
+        } else {
+            return false;
+        }
+    }
+
+    private getSteps() {
+        const { model, locale } = this.props;
+        const errorCode = model.customerEvents ? getErrorFromEvents(model.customerEvents) : getErrorFromEvents(model.invoiceEvents);
+        return locale['form.help'][errorCode];
+    }
 }
+
+const mapStateToProps = (state: State) => ({
+    model: state.model,
+    locale: state.config.locale
+});
+
+export const Help = connect(mapStateToProps)(HelpDef);

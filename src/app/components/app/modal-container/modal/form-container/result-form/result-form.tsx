@@ -2,13 +2,15 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './result-form.scss';
-import { FormName, ModalForms, ModalName, State, ResultFormInfo, ResultState, ResultType } from 'checkout/state';
+import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
 import { setResult, setViewInfoHeight } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
-import { makeContentInvoice, ResultFormContent, makeContentError, makeContentCustomer } from './make-content';
+import { makeContentCustomer, makeContentError, makeContentInvoice, ResultFormContent } from './make-content';
 import { ActionBlock } from './action-block';
 import { IntegrationType } from 'checkout/config';
+import { getErrorFromEvents } from '../get-error-from-changes';
+import { isHelpAvailable } from './is-help-available';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
 
@@ -17,7 +19,7 @@ class ResultFormDef extends React.Component<ResultFormProps> {
     }
 
     render() {
-        const {header, description, icon, hasActions, hasDone} = this.makeContent();
+        const { header, description, icon, hasActions, needHelp, hasDone } = this.makeContent();
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
@@ -34,13 +36,16 @@ class ResultFormDef extends React.Component<ResultFormProps> {
     }
 
     private setHeight() {
-        this.props.hasMultiMethods
-            ? this.props.setViewInfoHeight(425)
-            : this.props.setViewInfoHeight(392);
+        let height = 392;
+        const { model } = this.props;
+        const errorCode = model.customerEvents ? getErrorFromEvents(model.customerEvents) : getErrorFromEvents(model.invoiceEvents);
+        height = this.props.hasMultiMethods ? height + 33 : height;
+        height = isHelpAvailable(errorCode) ? height + 62 : height;
+        this.props.setViewInfoHeight(height);
     }
 
     private makeContent(): ResultFormContent {
-        const {locale, model, error, resultFormInfo, integrationType} = this.props;
+        const { locale, model, error, resultFormInfo, integrationType } = this.props;
         switch (resultFormInfo.resultType) {
             case ResultType.error:
                 return makeContentError(locale, error);

@@ -13,5 +13,6 @@ export const appearLoader: string;
 export const enterLoader: string;
 export const leaveLoader: string;
 export const animationFormContainer: string;
+export const links: string;
 export const link_container: string;
 export const link: string;

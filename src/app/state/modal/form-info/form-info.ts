@@ -8,7 +8,8 @@ export enum FormName {
     walletForm = 'walletForm',
     terminalForm = 'terminalForm',
     interactionForm = 'interactionForm',
-    tokenProviderForm = 'tokenProviderForm'
+    tokenProviderForm = 'tokenProviderForm',
+    helpForm = 'helpForm'
 }
 
 export abstract class FormInfo implements Named {

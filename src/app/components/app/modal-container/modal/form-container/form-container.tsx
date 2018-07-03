@@ -14,6 +14,7 @@ import { TerminalForm } from './terminal-form';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
+import { Help } from './help';
 
 const mapStateToProps = (state: State) => {
     const modalForms = (findNamed(state.modals, ModalName.modalForms) as ModalForms);
@@ -43,6 +44,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                         {name === FormName.walletForm ? <WalletForm/> : null}
                         {name === FormName.terminalForm ? <TerminalForm/> : null}
                         {name === FormName.resultForm ? <ResultForm/> : null}
+                        {name === FormName.helpForm ? <Help/> : null}
                         {name === FormName.interactionForm ? <InteractionForm/> : null}
                         {name === FormName.tokenProviderForm ? <TokenProviderForm/> : null}
                     </CSSTransitionGroup>
