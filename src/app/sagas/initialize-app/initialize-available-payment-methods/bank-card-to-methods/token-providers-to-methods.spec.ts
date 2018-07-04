@@ -1,9 +1,10 @@
 import { call } from 'redux-saga/effects';
 import { tokenProvidersToMethods } from './token-providers-to-methods';
 import { BankCardTokenProvider } from 'checkout/backend';
-import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
+import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { isReadyToGooglePay } from './is-ready-to-google-pay';
+import { isReadyToSamsungPay } from './is-ready-to-samsung-pay';
 
 const amountInfo = 'amountInfoMock' as any;
 
@@ -76,6 +77,43 @@ describe('Google Pay provider', () => {
         it('should call isReadyToGooglePay', () => {
             const actual = iterator.next().value;
             const expected = call(isReadyToGooglePay, amountInfo);
+            expect(actual).toEqual(expected);
+        });
+
+        it('should return []', () => {
+            const actual = iterator.next(false);
+            expect(actual.value).toEqual([]);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+});
+
+describe('Samsung Pay provider', () => {
+    const providers = [BankCardTokenProvider.samsungpay];
+
+    describe('samsung pay available', () => {
+        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+
+        it('should call isReadyToSamsungPay', () => {
+            const actual = iterator.next().value;
+            const expected = call(isReadyToSamsungPay, amountInfo);
+            expect(actual).toEqual(expected);
+        });
+
+        it('should return PaymentMethodNameState SamsungPay', () => {
+            const actual = iterator.next(true);
+            const expected = [{name: PaymentMethodNameState.SamsungPay}];
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+
+    describe('samsung pay unavailable', () => {
+        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+
+        it('should call isReadyToSamsungPay', () => {
+            const actual = iterator.next().value;
+            const expected = call(isReadyToSamsungPay, amountInfo);
             expect(actual).toEqual(expected);
         });
 
