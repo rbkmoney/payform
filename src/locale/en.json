@@ -93,7 +93,7 @@
     "form.pay.terminals.step.four.text": "Pay with cash",
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
-    "form.help.header": "",
+    "form.help.header": "How to solve a problem?",
     "form.help": {
         "InvalidPaymentTool": {
             "text": "Payment failed: invalid payment data entered.",
