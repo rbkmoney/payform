@@ -1,3 +1,5 @@
+import includes from 'lodash-es/includes';
+
 const describedErrors = [
     'InvalidPaymentTool',
     'AccountLimitsExceeded',
@@ -8,4 +10,4 @@ const describedErrors = [
     '500', '502', '504'
 ];
 
-export const isHelpAvailable = (errorCode: string): boolean => describedErrors.indexOf(errorCode) > -1;
+export const isHelpAvailable = (errorCode: string): boolean => includes(describedErrors, errorCode);

@@ -14,15 +14,16 @@ interface HelpDefProps {
 
 export class HelpDef extends React.Component<HelpDefProps> {
     render() {
+        const { text, steps } = this.getError();
         return (
             <form>
                 <div>
                     <Header title={this.props.locale['form.help.header']}/>
                     <p className={formStyles.text}>
-                        {this.getSteps()[0]}
+                        {text}
                     </p>
                     <ul className={styles.list}>
-                        {this.getSteps().map(this.renderStep)}
+                        {steps.map(this.renderStep)}
                     </ul>
                 </div>
             </form>
@@ -30,23 +31,19 @@ export class HelpDef extends React.Component<HelpDefProps> {
     }
 
     private renderStep(step: string, i: number) {
-        if (i > 0) {
-            return (
-                <li className={styles.list_item} key={i}>
-                    <div className={styles.list_item_number}>
-                        {i}
-                    </div>
-                    <div className={styles.list_item_text}>
-                        {step}
-                    </div>
-                </li>
-            );
-        } else {
-            return false;
-        }
+        return (
+            <li className={styles.list_item} key={i}>
+                <div className={styles.list_item_number}>
+                    {i + 1}
+                </div>
+                <div className={styles.list_item_text}>
+                    {step}
+                </div>
+            </li>
+        );
     }
 
-    private getSteps() {
+    private getError() {
         const { model, locale } = this.props;
         const errorCode = model.customerEvents ? getErrorFromEvents(model.customerEvents) : getErrorFromEvents(model.invoiceEvents);
         return locale['form.help'][errorCode];
