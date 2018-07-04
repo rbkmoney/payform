@@ -4,8 +4,8 @@ import { setPriority } from './set-priority';
 it('should set priority', () => {
     const methodsState = [
         {name: 'ApplePay'},
-        {name: 'SamsungPay'},
         {name: 'GooglePay'},
+        {name: 'SamsungPay'},
         {name: 'BankCard'},
         {name: 'DigitalWallet'},
         {name: 'PaymentTerminal'}
@@ -13,11 +13,11 @@ it('should set priority', () => {
     const actual = setPriority(methodsState);
     const expected = [
         {name: 'ApplePay', priority: 1},
-        {name: 'SamsungPay', priority: 1},
         {name: 'GooglePay', priority: 2},
-        {name: 'BankCard', priority: 3},
-        {name: 'DigitalWallet', priority: 4},
-        {name: 'PaymentTerminal', priority: 5}
+        {name: 'SamsungPay', priority: 3},
+        {name: 'BankCard', priority: 4},
+        {name: 'DigitalWallet', priority: 5},
+        {name: 'PaymentTerminal', priority: 6}
     ];
     expect(actual).toEqual(expected);
 });

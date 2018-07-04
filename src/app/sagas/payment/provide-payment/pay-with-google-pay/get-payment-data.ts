@@ -1,8 +1,18 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { logPrefix } from 'checkout/log-messages';
 import { AmountInfoState } from 'checkout/state';
+import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
 
-const getPaymentDataRequest = (merchantId: string, googlePayGatewayMerchantID: string, currencyCode: string, totalPriceMinor: number): PaymentDataRequest => (
+const toTotalPrice = (amountInfo: AmountInfoState, formAmount: string) => {
+    switch (amountInfo.status) {
+        case AmountInfoStatus.final:
+            return (amountInfo.minorValue / 100) + '';
+        case AmountInfoStatus.notKnown:
+            return formAmount;
+    }
+};
+
+const getPaymentDataRequest = (merchantId: string, googlePayGatewayMerchantID: string, amountInfo: AmountInfoState, formAmount: string): PaymentDataRequest => (
     {
         merchantId,
         merchantInfo: {
@@ -21,9 +31,9 @@ const getPaymentDataRequest = (merchantId: string, googlePayGatewayMerchantID: s
             allowedCardNetworks: ['MASTERCARD', 'VISA']
         },
         transactionInfo: {
-            currencyCode,
+            currencyCode: amountInfo.currencyCode,
             totalPriceStatus: 'FINAL',
-            totalPrice: (totalPriceMinor / 100) + ''
+            totalPrice: toTotalPrice(amountInfo, formAmount)
         }
     }
 );
@@ -47,10 +57,10 @@ const handleLoadPaymentDataError = (e: PaymentsError) => {
     throw {code: 'error.google.pay.unknown'};
 };
 
-export function* getPaymentData(merchantId: string, googlePayGatewayMerchantID: string, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentData> {
+export function* getPaymentData(merchantId: string, googlePayGatewayMerchantID: string, amountInfo: AmountInfoState, formAmount: string): Iterator<CallEffect | PaymentData> {
     try {
         const paymentClient = new google.payments.api.PaymentsClient({environment: 'PRODUCTION'});
-        const request = getPaymentDataRequest(merchantId, googlePayGatewayMerchantID, amountInfo.currencyCode, amountInfo.minorValue);
+        const request = getPaymentDataRequest(merchantId, googlePayGatewayMerchantID, amountInfo, formAmount);
         return yield call(loadPaymentData, paymentClient, request);
     } catch (e) {
         yield call(handleLoadPaymentDataError, e);
