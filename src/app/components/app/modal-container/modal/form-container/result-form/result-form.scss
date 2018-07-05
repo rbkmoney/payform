@@ -17,6 +17,11 @@
     }
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
 .title {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -52,10 +57,8 @@
     margin-bottom: 60px;
 }
 
-.or_paragraph {
-    margin: 0 0 10px 0;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+.helpBlock {
+    margin: 0 auto 25px auto;
 }
 
 .errorBlock {

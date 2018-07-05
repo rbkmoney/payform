@@ -45,7 +45,7 @@
     "form.final.success.wallet.text": "Оплачено кошельком",
     "form.final.success.terminal.text": "Оплачено через терминал",
     "form.final.success.check.text": " Чек отправлен вам на email",
-    "form.final.need.help": "Нужна помощь?",
+    "form.final.need.help": "Как решить проблему?",
     "form.input.delivery.repeat": "Повторить адрес доставки",
     "form.input.name.placeholder": "Имя",
     "form.input.phone.placeholder": "Телефон",
@@ -95,8 +95,7 @@
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
     "form.help.header": "Как решить проблему?",
-    "form.final.or": "или",
-    "form.help": {
+    "form.help.codes": {
         "InvalidPaymentTool": {
             "text": "Оплата не прошла: вы ввели неверные платежные данные.",
             "steps": [

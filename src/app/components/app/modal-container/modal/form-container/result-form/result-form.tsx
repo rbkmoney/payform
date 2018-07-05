@@ -1,9 +1,20 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import * as cx from 'classnames';
 import * as styles from './result-form.scss';
-import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
-import { setResult, setViewInfoHeight } from 'checkout/actions';
+import * as formStyles from '../form-container.scss';
+import {
+    FormName,
+    HelpFormInfo,
+    ModalForms,
+    ModalName,
+    ResultFormInfo,
+    ResultState,
+    ResultType,
+    State
+} from 'checkout/state';
+import { goToFormInfo, setResult, setViewInfoHeight } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
 import { makeContentCustomer, makeContentError, makeContentInvoice, ResultFormContent } from './make-content';
@@ -20,27 +31,36 @@ class ResultFormDef extends React.Component<ResultFormProps> {
 
     render() {
         const { header, description, icon, hasActions, hasDone } = this.makeContent();
+        const { hasErrorDescription, locale } = this.props;
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
         return (
             <form className={styles.form}>
-                <div>
+                <div className={styles.container}>
                     <h2 className={styles.title}>{header}</h2>
                     {icon}
                     {description ? description : false}
+                    {hasErrorDescription ? <div className={cx(formStyles.link_container, styles.helpBlock)}>
+                        <a className={formStyles.link} onClick={() => this.goToHelp()}>
+                            {locale['form.final.need.help']}
+                        </a>
+                        <hr/>
+                    </div> : false}
                     {hasActions ? <ActionBlock/> : false}
                 </div>
             </form>
         );
     }
 
+    private goToHelp() {
+        this.props.goToFormInfo(new HelpFormInfo(FormName.resultForm));
+    }
+
     private setHeight() {
         let height = 392;
-        const { model } = this.props;
-        const errorCode = model.customerEvents ? getErrorFromEvents(model.customerEvents) : getErrorFromEvents(model.invoiceEvents);
         height = this.props.hasMultiMethods ? height + 33 : height;
-        height = isHelpAvailable(errorCode) ? height + 62 : height;
+        height = this.props.hasErrorDescription ? height + 46 : height;
         this.props.setViewInfoHeight(height);
     }
 
@@ -69,13 +89,15 @@ const mapStateToProps = (state: State) => {
         locale: state.config.locale,
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
+        hasErrorDescription: isHelpAvailable(getErrorFromEvents(state.model, state.config.initConfig.integrationType)),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods)
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setResult: bindActionCreators(setResult, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
+    goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
 export const ResultForm = connect(mapStateToProps, mapDispatchToProps)(ResultFormDef);
