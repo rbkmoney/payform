@@ -3,6 +3,7 @@ import { PaymentMethodName } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
 import { ApplePayButton } from './apple-pay-button';
 import { GooglePayButton } from './google-pay-button';
+import { SamsungPayButton } from './samsung-pay-button';
 
 export const getTitle = (provider: BankCardTokenProvider): string => {
     switch (provider) {
@@ -22,7 +23,7 @@ export const getPayButton = (provider: BankCardTokenProvider, payHandler: () => 
         case BankCardTokenProvider.googlepay:
             return <GooglePayButton onClick={payHandler}/>;
         case BankCardTokenProvider.samsungpay:
-            return null;
+            return <SamsungPayButton onClick={payHandler}/>;
     }
 };
 

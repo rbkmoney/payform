@@ -8,30 +8,30 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
                     ...method,
                     priority: 1
                 };
-            case PaymentMethodNameState.SamsungPay:
-                return {
-                    ...method,
-                    priority: 1
-                };
             case PaymentMethodNameState.GooglePay:
                 return {
                     ...method,
                     priority: 2
                 };
-            case PaymentMethodNameState.BankCard:
+            case PaymentMethodNameState.SamsungPay:
                 return {
                     ...method,
                     priority: 3
                 };
-            case PaymentMethodNameState.DigitalWallet:
+            case PaymentMethodNameState.BankCard:
                 return {
                     ...method,
                     priority: 4
                 };
-            case PaymentMethodNameState.PaymentTerminal:
+            case PaymentMethodNameState.DigitalWallet:
                 return {
                     ...method,
                     priority: 5
+                };
+            case PaymentMethodNameState.PaymentTerminal:
+                return {
+                    ...method,
+                    priority: 6
                 };
         }
     });

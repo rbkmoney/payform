@@ -72,6 +72,7 @@
     "form.payment.method.name.card.label": "Bank card",
     "form.payment.method.name.apple.pay.label": "Apple pay",
     "form.payment.method.name.google.pay.label": "Google pay",
+    "form.payment.method.name.samsung.pay.label": "Samsung pay",
     "form.payment.method.name.cash.label": "Cash",
     "form.payment.method.name.euroset.label": "Euroset",
     "form.payment.method.name.wallet.label": "E-Wallets",

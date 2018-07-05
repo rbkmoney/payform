@@ -11,7 +11,7 @@ const createPaymentResource = (endpoint: string, googlePayMerchantID: string, pa
 
 export function* payWithGooglePay(c: Config, m: ModelState, a: AmountInfoState, v: TokenProviderFormValues): Iterator<ProvidePaymentEffects> {
     const {appConfig: {googlePayMerchantID, googlePayGatewayMerchantID, capiEndpoint}} = c;
-    const paymentData = yield call(getPaymentData, googlePayMerchantID, googlePayGatewayMerchantID, a);
-    const fn = createPaymentResource(capiEndpoint, googlePayMerchantID, paymentData);
+    const paymentData = yield call(getPaymentData, googlePayMerchantID, googlePayGatewayMerchantID, a, v.amount);
+    const fn = createPaymentResource(capiEndpoint, googlePayGatewayMerchantID, paymentData);
     return yield call(makePayment, c, m, v, a, fn);
 }
