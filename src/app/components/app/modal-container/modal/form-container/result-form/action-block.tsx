@@ -16,7 +16,7 @@ import {
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 import { isHelpAvailable } from './is-help-available';
-import { getErrorFromEvents } from '../get-error-from-changes';
+import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { IntegrationType } from 'checkout/config';
 
 const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
@@ -97,7 +97,7 @@ const mapStateToProps = (state: State) => {
         locale: state.config.locale,
         startedInfo: info.find((item) => item.paymentStatus === PaymentStatus.started),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods),
-        hasErrorDescription: isHelpAvailable(getErrorFromEvents(state.model, state.config.initConfig.integrationType)),
+        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType)),
         integrationType: state.config.initConfig.integrationType
     };
 };

@@ -4,7 +4,7 @@ import * as styles from './help.scss';
 import { State } from 'checkout/state';
 import { Header } from '../header';
 import { Locale } from 'checkout/locale';
-import { getErrorFromEvents } from '../get-error-from-changes';
+import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import * as formStyles from '../form-container.scss';
 import { helpStep } from './help-step';
 
@@ -39,7 +39,7 @@ export class HelpDef extends React.Component<HelpDefProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    errorCode: getErrorFromEvents(state.model, state.config.initConfig.integrationType),
+    errorCode: getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType),
     locale: state.config.locale
 });
 

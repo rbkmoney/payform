@@ -20,7 +20,7 @@ import { findNamed } from 'checkout/utils';
 import { makeContentCustomer, makeContentError, makeContentInvoice, ResultFormContent } from './make-content';
 import { ActionBlock } from './action-block';
 import { IntegrationType } from 'checkout/config';
-import { getErrorFromEvents } from '../get-error-from-changes';
+import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { isHelpAvailable } from './is-help-available';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
@@ -89,7 +89,7 @@ const mapStateToProps = (state: State) => {
         locale: state.config.locale,
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
-        hasErrorDescription: isHelpAvailable(getErrorFromEvents(state.model, state.config.initConfig.integrationType)),
+        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType)),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods)
     };
 };
