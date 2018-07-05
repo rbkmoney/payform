@@ -95,7 +95,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
             return (
                 <div className={formStyles.link_container}>
                     <p className={styles.or_paragraph}>
-                        или
+                        {locale['form.final.or']}
                     </p>
                     <a className={formStyles.link} onClick={() => this.goToHelp()}>
                         {locale['form.final.need.help']}

@@ -94,6 +94,7 @@
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
     "form.help.header": "Как решить проблему?",
+    "form.final.or": "или",
     "form.help": {
         "InvalidPaymentTool": {
             "text": "Оплата не прошла: вы ввели неверные платежные данные.",

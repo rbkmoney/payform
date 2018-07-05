@@ -94,6 +94,7 @@
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
     "form.help.header": "How to solve a problem?",
+    "form.final.or": "or",
     "form.help": {
         "InvalidPaymentTool": {
             "text": "Payment failed: invalid payment data entered.",
