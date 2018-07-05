@@ -8,6 +8,7 @@ import {
 import { BankCardTokenProvider } from 'checkout/backend';
 import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { isReadyToGooglePay } from './is-ready-to-google-pay';
+import { isReadyToSamsungPay } from './is-ready-to-samsung-pay';
 
 export function* tokenProvidersToMethods(providers: BankCardTokenProvider[], config: ConfigState, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
@@ -26,6 +27,11 @@ export function* tokenProvidersToMethods(providers: BankCardTokenProvider[], con
                     result.push({name: PaymentMethodNameState.GooglePay});
                 }
                 break;
+            case BankCardTokenProvider.samsungpay:
+                const isSamsungPay = yield call(isReadyToSamsungPay, amountInfo);
+                if (isSamsungPay) {
+                    result.push({name: PaymentMethodNameState.SamsungPay});
+                }
         }
     }
     return result;

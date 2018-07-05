@@ -12,6 +12,7 @@ import { payWithBankCard } from './pay-with-bank-card';
 import { payWithDigitalWalletQiwi } from './pay-with-digital-wallet-qiwi';
 import { payWithTerminalEuroset } from './pay-with-terminal-euroset';
 import { payWithGooglePay } from './pay-with-google-pay';
+import { payWithSamsungPay } from './pay-with-samsung-pay';
 
 export type ProvidePaymentEffects = CallEffect | Event;
 
@@ -21,6 +22,8 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithApplePay);
         case PaymentMethodName.GooglePay:
             return call.bind(null, payWithGooglePay);
+        case PaymentMethodName.SamsungPay:
+            return call.bind(null, payWithSamsungPay);
         case PaymentMethodName.BankCard:
             return call.bind(null, payWithBankCard);
         case PaymentMethodName.DigitalWallet:
