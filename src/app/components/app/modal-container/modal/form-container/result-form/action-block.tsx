@@ -6,18 +6,10 @@ import * as formStyles from '../form-container.scss';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 import { forgetPaymentAttempt, prepareToRetry } from 'checkout/actions';
-import {
-    FormInfo,
-    FormName,
-    ModalForms,
-    ModalName,
-    PaymentStatus,
-    State
-} from 'checkout/state';
+import { FormInfo, FormName, ModalForms, ModalName, PaymentStatus, State } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 import { isHelpAvailable } from './is-help-available';
 import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
-import { IntegrationType } from 'checkout/config';
 
 const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
     switch (startedInfo.name) {
@@ -44,7 +36,6 @@ export interface ActionBlockProps {
     startedInfo: FormInfo;
     hasMultiMethods: boolean;
     hasErrorDescription: boolean;
-    integrationType: IntegrationType;
     prepareToRetry: (resetFormData: boolean) => any;
     forgetPaymentAttempt: () => any;
 }
@@ -90,15 +81,13 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
     }
 }
 
-const mapStateToProps = (state: State) => {
-    const info = (findNamed(state.modals, ModalName.modalForms) as ModalForms).formsInfo;
-
+const mapStateToProps = (s: State) => {
+    const info = (findNamed(s.modals, ModalName.modalForms) as ModalForms).formsInfo;
     return {
-        locale: state.config.locale,
+        locale: s.config.locale,
         startedInfo: info.find((item) => item.paymentStatus === PaymentStatus.started),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods),
-        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType)),
-        integrationType: state.config.initConfig.integrationType
+        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(s.model, s.config.initConfig.integrationType))
     };
 };
 

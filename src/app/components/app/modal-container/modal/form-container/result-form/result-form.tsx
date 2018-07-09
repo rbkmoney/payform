@@ -1,19 +1,8 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as cx from 'classnames';
 import * as styles from './result-form.scss';
-import * as formStyles from '../form-container.scss';
-import {
-    FormName,
-    HelpFormInfo,
-    ModalForms,
-    ModalName,
-    ResultFormInfo,
-    ResultState,
-    ResultType,
-    State
-} from 'checkout/state';
+import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
 import { goToFormInfo, setResult, setViewInfoHeight } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
@@ -22,6 +11,7 @@ import { ActionBlock } from './action-block';
 import { IntegrationType } from 'checkout/config';
 import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { isHelpAvailable } from './is-help-available';
+import { ErrorDescriptionBlock } from './error-description-block';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
 
@@ -41,20 +31,11 @@ class ResultFormDef extends React.Component<ResultFormProps> {
                     <h2 className={styles.title}>{header}</h2>
                     {icon}
                     {description ? description : false}
-                    {hasErrorDescription ? <div className={cx(formStyles.link_container, styles.helpBlock)}>
-                        <a className={formStyles.link} onClick={() => this.goToHelp()}>
-                            {locale['form.final.need.help']}
-                        </a>
-                        <hr/>
-                    </div> : false}
+                    {hasErrorDescription ? <ErrorDescriptionBlock/> : false}
                     {hasActions ? <ActionBlock/> : false}
                 </div>
             </form>
         );
-    }
-
-    private goToHelp() {
-        this.props.goToFormInfo(new HelpFormInfo(FormName.resultForm));
     }
 
     private setHeight() {

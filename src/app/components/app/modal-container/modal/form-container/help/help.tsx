@@ -13,7 +13,7 @@ interface HelpDefProps {
     locale: Locale;
 }
 
-export class HelpDef extends React.Component<HelpDefProps> {
+class HelpDef extends React.Component<HelpDefProps> {
 
     render() {
         const { text, steps } = this.getError();
@@ -38,9 +38,9 @@ export class HelpDef extends React.Component<HelpDefProps> {
     }
 }
 
-const mapStateToProps = (state: State) => ({
-    errorCode: getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType),
-    locale: state.config.locale
+const mapStateToProps = (s: State) => ({
+    errorCode: getErrorCodeFromEvents(s.model, s.config.initConfig.integrationType),
+    locale: s.config.locale
 });
 
 export const Help = connect(mapStateToProps)(HelpDef);
