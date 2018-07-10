@@ -6,7 +6,7 @@ import {
     InvoiceTemplateSingleLine,
     TemplateType
 } from 'checkout/backend';
-import { CheckResult, UnavailableReason } from './check-result';
+import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
 import { IntegrationType } from 'checkout/config';
 import { ModelState } from 'checkout/state';
 
