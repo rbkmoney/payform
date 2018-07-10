@@ -6,37 +6,35 @@ import { Header } from '../header';
 import { Locale } from 'checkout/locale';
 import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import * as formStyles from '../form-container.scss';
-import { helpStep } from './help-step';
+import { getHelpStep } from './get-help-step';
 
 interface HelpDefProps {
     errorCode: string;
     locale: Locale;
 }
 
-class HelpDef extends React.Component<HelpDefProps> {
+const getError = (props: HelpDefProps) => {
+    const { errorCode, locale } = props;
+    return locale['form.help.codes'][errorCode];
+};
 
-    render() {
-        const { text, steps } = this.getError();
-        return (
-            <form>
-                <div>
-                    <Header title={this.props.locale['form.help.header']}/>
-                    <p className={formStyles.text}>
-                        {text}
-                    </p>
-                    <ul className={styles.list}>
-                        {steps.map(helpStep)}
-                    </ul>
-                </div>
-            </form>
-        );
-    }
+const HelpDef: React.SFC<HelpDefProps> = (props) => {
+    const { text, steps } = getError(props);
 
-    private getError() {
-        const { errorCode, locale } = this.props;
-        return locale['form.help.codes'][errorCode];
-    }
-}
+    return (
+        <form>
+            <div>
+                <Header title={this.props.locale['form.help.header']}/>
+                <p className={formStyles.text}>
+                    {text}
+                </p>
+                <ul className={styles.list}>
+                    {steps.map(getHelpStep)}
+                </ul>
+            </div>
+        </form>
+    );
+};
 
 const mapStateToProps = (s: State) => ({
     errorCode: getErrorCodeFromEvents(s.model, s.config.initConfig.integrationType),

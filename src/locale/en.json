@@ -147,27 +147,6 @@
                 "Try using another card or account.",
                 "Contact RBKmoney support."
             ]
-        },
-        "500": {
-            "text": "Payment failed: RBKmoney internal error",
-            "steps": [
-                "Your payments are protected from double charges. Press “Try again” several times.",
-                "If error persists within 1 minute contact RBKmoney support."
-            ]
-        },
-        "502": {
-            "text": "Payment failed: RBKmoney internal error",
-            "steps": [
-                "Your payments are protected from double charges. Press “Try again” several times.",
-                "If error persists within 1 minute contact RBKmoney support."
-            ]
-        },
-        "504": {
-            "text": "Payment failed: RBKmoney internal error",
-            "steps": [
-                "Your payments are protected from double charges. Press “Try again” several times.",
-                "If error persists within 1 minute contact RBKmoney support."
-            ]
         }
     },
     "brand.euroset": "Euroset",

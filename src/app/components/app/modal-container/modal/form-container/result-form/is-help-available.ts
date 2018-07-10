@@ -6,8 +6,7 @@ const describedErrors = [
     'InsufficientFunds',
     'PreauthorizationFailed',
     'RejectedByIssuer',
-    'PaymentRejected',
-    '500', '502', '504'
+    'PaymentRejected'
 ];
 
 export const isHelpAvailable = (errorCode: string): boolean => includes(describedErrors, errorCode);
