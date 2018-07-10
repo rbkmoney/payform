@@ -18,7 +18,7 @@ class ErrorDescriptionBlockDef extends React.Component<ErrorDescriptionBlockProp
     render() {
         return (
             <div className={cx(formStyles.link_container, styles.helpBlock)}>
-                <a className={formStyles.link} onClick={() => this.goToHelp()}>
+                <a className={formStyles.link} onClick={() => this.goToHelp()} id='help-btn'>
                     {this.props.locale['form.final.need.help']}
                 </a>
                 <hr/>
