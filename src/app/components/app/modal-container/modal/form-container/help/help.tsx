@@ -24,7 +24,7 @@ const HelpDef: React.SFC<HelpDefProps> = (props) => {
     return (
         <form>
             <div>
-                <Header title={this.props.locale['form.help.header']}/>
+                <Header title={props.locale['form.help.header']}/>
                 <p className={formStyles.text}>
                     {text}
                 </p>
