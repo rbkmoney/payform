@@ -31,7 +31,7 @@ export function* toAvailablePaymentMethods(paymentMethods: PaymentMethod[], conf
                 if (config.initConfig.paymentFlowHold) {
                     logUnavailableResult('terminals', {
                         available: false,
-                        message: 'The terminals payment method do not work with enabled paymentFlowHold.',
+                        message: 'The \'terminals\' payment method do not work with enabled \'paymentFlowHold\'.',
                         reason: UnavailableReason.validation
                     });
                     break;
