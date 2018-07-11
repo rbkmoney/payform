@@ -1,4 +1,4 @@
-import { logUnavailableResult } from './log-unavailable-app';
+import { logUnavailableResult } from './log-unavailable-result';
 import { UnavailableReason } from 'checkout/sagas/log-unavailable-result/check-result';
 
 describe('Result available truthy', () => {

@@ -1,2 +1,2 @@
-export * from './log-unavailable-app';
+export * from './log-unavailable-result';
 export * from './check-result';
