@@ -121,6 +121,23 @@ describe('PaymentTerminal', () => {
         });
     });
 
+    describe('config with truthy terminals and truthy paymentFlowHold', () => {
+        const config = {
+            initConfig: {
+                terminals: true,
+                paymentFlowHold: true
+            }
+        } as any;
+        const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+        it('should return PaymentMethodState without PaymentTerminal', () => {
+            const actual = iterator.next();
+            const expected: PaymentMethodNameState[] = [];
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+
     describe('config with falsy terminals', () => {
         const config = {
             initConfig: {
