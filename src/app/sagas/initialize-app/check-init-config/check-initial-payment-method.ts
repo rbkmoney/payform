@@ -1,7 +1,6 @@
-import { CheckResult } from './check-result';
+import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
 import { InitConfig, IntegrationType, PaymentMethodName as PaymentMethodNameConfig } from 'checkout/config';
 import { PaymentMethod, PaymentMethodName } from 'checkout/backend';
-import { UnavailableReason } from './check-result';
 
 const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
     if (!bankCard) {
