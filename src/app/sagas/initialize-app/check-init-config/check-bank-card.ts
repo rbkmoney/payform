@@ -1,6 +1,6 @@
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { PaymentMethod, PaymentMethodName } from 'checkout/backend';
-import { CheckResult, UnavailableReason } from './check-result';
+import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
 
 const checkForInvoiceAndTemplate = (paymentMethods: PaymentMethod[]): CheckResult => {
     const bankCardOnly = paymentMethods.length === 1 && paymentMethods[0].method === PaymentMethodName.BankCard;
