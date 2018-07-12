@@ -35,7 +35,7 @@ const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
         {props.destination ?
             <ChevronBack
                 className={styles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}/> : null}
+                back={props.goToFormInfo.bind(null, props.destination, Direction.back)} id='mobile-back-btn'/> : null}
         <div className={cx(styles.text, {[styles._center]: true})}>
             {props.initConfig.name}
         </div>

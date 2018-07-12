@@ -32,7 +32,7 @@ const HeaderDef: React.SFC<HeaderProps> = (props) => (
         {props.destination ?
             <ChevronBack
                 className={formStyles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}/> : null
+                back={props.goToFormInfo.bind(null, props.destination, Direction.back)} id='desktop-back-btn'/> : null
         }
         <div className={formStyles.title}>
             {props.title}
