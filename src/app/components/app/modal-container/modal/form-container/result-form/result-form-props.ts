@@ -1,6 +1,6 @@
 import { Locale } from 'checkout/locale';
-import { ModelState, ResultState, ResultFormInfo } from 'checkout/state';
-import { LogicError, PaymentError } from 'checkout/backend';
+import { ModelState, ResultState, ResultFormInfo, FormInfo } from 'checkout/state';
+import { LogicError } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
 
 export interface ResultFormProps {
@@ -10,6 +10,8 @@ export interface ResultFormProps {
     resultFormInfo: ResultFormInfo;
     error: LogicError;
     hasMultiMethods: boolean;
+    hasErrorDescription: boolean;
     setResult: (resultState: ResultState) => any;
     setViewInfoHeight: (height: number) => any;
+    goToFormInfo: (formInfo: FormInfo) => any;
 }

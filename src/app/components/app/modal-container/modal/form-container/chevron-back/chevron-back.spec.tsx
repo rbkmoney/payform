@@ -4,7 +4,7 @@ import { ChevronBack } from './chevron-back';
 
 it('renders correctly', () => {
     const tree = renderer
-        .create(<ChevronBack className={'test-class'} back={() => null}/>)
+        .create(<ChevronBack className={'test-class'} back={() => null} id={'test-id'}/>)
         .toJSON();
     expect(tree).toMatchSnapshot();
 });

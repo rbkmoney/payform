@@ -17,6 +17,11 @@
     }
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
 .title {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -50,6 +55,10 @@
 
 .help {
     margin-bottom: 60px;
+}
+
+.helpBlock {
+    margin: 0 auto 25px auto;
 }
 
 .errorBlock {

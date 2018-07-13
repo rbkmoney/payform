@@ -45,6 +45,7 @@
     "form.final.success.wallet.text": "Paid with wallet",
     "form.final.success.terminal.text": "Paid with terminal",
     "form.final.success.check.text": "Receipt sent to email",
+    "form.final.need.help": "How to solve a problem?",
     "form.input.delivery.repeat": "Repeat shipping address",
     "form.input.name.placeholder": "Name",
     "form.input.phone.placeholder": "Phone",
@@ -93,6 +94,61 @@
     "form.pay.terminals.step.four.text": "Pay with cash",
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
+    "form.help.header": "How to solve a problem?",
+    "form.help.codes": {
+        "InvalidPaymentTool": {
+            "text": "Payment failed: invalid payment data entered.",
+            "steps": [
+                "Go back.",
+                "Make sure you have entered valid card or account number.",
+                "Press “Pay” again.",
+                "If error persists try using another card or account."
+            ]
+        },
+        "AccountLimitsExceeded": {
+            "text": "Payment failed: limits set by you exceeded.",
+            "steps": [
+                "Login into your internet bank or account.",
+                "Check and modify your payment or country limits.",
+                "Return to checkout and press “Try again”.",
+                "If error persists contact your bank or payment institution."
+            ]
+        },
+        "InsufficientFunds": {
+            "text": "Payment failed: insufficient funds.",
+            "steps": [
+                "Check your card or account balance.",
+                "Top up your account.",
+                "Return to checkout and press “Try again”.",
+                "If error persists try using another card or account."
+            ]
+        },
+        "PreauthorizationFailed": {
+            "text": "Payment failed: can’t verify confirmation code.",
+            "steps": [
+                "Press “Try again”.",
+                "Check if you are entering correct payment password or SMS authentication code.",
+                "Check if you don’t cancel payment on your payment institution confirmation page.",
+                "If error persists contact your bank or payment institution."
+            ]
+        },
+        "RejectedByIssuer": {
+            "text": "Payment failed: your payment institution has rejected your payment.",
+            "steps": [
+                "Check your payment and country limits in your payment institution account.",
+                "Check if your card or account is enabled for internet payments.",
+                "Contact your bank or payment institution.",
+                "Try using another card or account."
+            ]
+        },
+        "PaymentRejected": {
+            "text": "Payment failed: your payment has been rejected.",
+            "steps": [
+                "Try using another card or account.",
+                "Contact RBKmoney support."
+            ]
+        }
+    },
     "brand.euroset": "Euroset",
     "error.apple.pay.unknown": "Unknown Apple Pay error",
     "error.apple.pay.cancel": "Apple Pay payment UI is dismissed",
