@@ -30,33 +30,10 @@ export function* init(config: Config, paymentMethods: PaymentMethod[], amountInf
 type Effects = CallEffect | SelectEffect | PaymentMethod[];
 
 export function* initializeAvailablePaymentMethods(config: ConfigState, paymentMethods: PaymentMethod[], amountInfo: AmountInfoState): Iterator<Effects> {
-    const mock = [
-        {method: 'PaymentTerminal'},
-        {method: 'DigitalWallet'},
-        {
-            method: 'BankCard',
-            paymentSystems: ['mastercard', 'visa'],
-            tokenProviders: ['samsungpay']
-        },
-        {
-            method: 'BankCard',
-            paymentSystems: ['mastercard', 'visa'],
-            tokenProviders: ['applepay']
-        },
-        {
-            method: 'BankCard',
-            paymentSystems: ['mastercard', 'visa'],
-            tokenProviders: ['googlepay']
-        },
-        {
-            method: 'BankCard',
-            paymentSystems: ['maestro', 'mastercard', 'nspkmir', 'visa']
-        }
-    ] as any;
     switch (config.initConfig.integrationType) {
         case IntegrationType.customer:
             return null;
         default:
-            return yield call(init, config, mock, amountInfo);
+            return yield call(init, config, paymentMethods, amountInfo);
     }
 }
