@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { icon } from '../methods.scss';
+import {icon} from '../methods.scss';
 
 export const TerminalsIcon: React.SFC = () => (
     <div className={icon}>
         {/* tslint:disable:max-line-length */}
-        <svg width='40' height='40'>
-            <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-                <path fill='#FFF' d='M0 0h40v40H0z'/>
-                <path d='M32 36H8V5.367A2.364 2.364 0 0 1 10.36 3h19.28C30.942 3 32 4.06 32 5.367V36z' stroke='#07F'
-                      strokeWidth='2' fill='#FFF'/>
-                <path d='M11 19h18V6H11v13zm1-1h16V7H12v11zm-4 4h24v-1H8zm15 5h6v-1h-6z' fill='#07F'/>
+        <svg width='40' height='40' viewBox='0 0 32 22' xmlns='http://www.w3.org/2000/svg'>
+            <g fill='none' fillRule='evenodd'>
+                <path d='M29 0H3C1.35 0 0 1.35 0 3v14c0 1.65 1.35 3 3 3h26c1.65 0 3-1.35 3-3V3c0-1.65-1.35-3-3-3z'
+                      fill='#685BFF'/>
+                <path d='M16.5 6a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9' fill='#FFF'/>
+                <path stroke='#FFF' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'
+                      d='M6 3H3v3M26 17h3v-3M3 14v3h3M29 6V3h-3'/>
             </g>
         </svg>
         {/* tslint:enable:max-line-length */}

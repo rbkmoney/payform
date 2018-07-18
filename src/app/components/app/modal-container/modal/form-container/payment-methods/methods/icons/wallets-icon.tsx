@@ -4,21 +4,10 @@ import * as styles from '../methods.scss';
 export const WalletsIcon: React.SFC = () => (
     <div className={styles.icon}>
         {/* tslint:disable:max-line-length */}
-        <svg width='40' height='40' version='1.1'>
-            <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
-                <path fill='#FFF' d='M0 0h40v40H0z'/>
-                <g strokeWidth='1'>
-                    <path d='M35 17.565v14.15C35 32.979 33.99 34 32.743 34H8.257C7.01 34 6 32.978 6 31.716V8.139'
-                          fill='#FFF'/>
-                    <path d='M35 17.565v14.15C35 32.979 33.99 34 32.743 34H7.257C6.01 34 5 32.978 5 31.716V8.139'
-                          stroke='#07F' strokeWidth='2'/>
-                    <path
-                        d='M35 18v-2.422C35 13.602 33.451 12 32.68 12H8.424C6.024 12 5 10.942 5 9.636V8.364C5 7.058 6.023 6 7.285 6h19.546c1.937 0 3.508 1.625 3.508 3.629V12'
-                        stroke='#07F' strokeWidth='2'/>
-                    <path fill='#FFF' d='M12.567 26.875L20.5 19v9l7.933-7.875'/>
-                    <path stroke='#07F' d='M12.567 26.875L20.5 19v9l7.933-7.875'/>
-                </g>
-            </g>
+        <svg width='40' height='40' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'>
+            <path transform='translate(2.5, 2.5)'
+                  d='M23.242 13.5a1.496 1.496 0 1 0-2.993.001 1.496 1.496 0 0 0 2.993-.001zM27 10.508v5.984h-7.518a1.01 1.01 0 0 1-.997-.998v-3.988c0-.54.457-.998.997-.998H27zm0 7.978v5.522A2.991 2.991 0 0 1 24.009 27H2.99A2.991 2.991 0 0 1 0 24.008V2.992A2.991 2.991 0 0 1 2.991 0H24.01A2.991 2.991 0 0 1 27 2.992v5.522h-7.518a3.001 3.001 0 0 0-2.991 2.992v3.988a3.001 3.001 0 0 0 2.991 2.992H27z'
+                  fill='#685BFF' fillRule='evenodd'/>
         </svg>
         {/* tslint:enable:max-line-length */}
     </div>
