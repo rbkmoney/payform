@@ -47,6 +47,11 @@
             fill: $white;
         }
     }
+
+    &:active {
+        border-color: $green-v2-dark;
+        background-color: $green-v2-dark;
+    }
 }
 
 .method_center {
