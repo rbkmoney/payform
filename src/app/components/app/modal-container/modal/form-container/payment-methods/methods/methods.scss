@@ -31,8 +31,21 @@
     }
 
     &:hover {
-        border: 1px solid $light-blue;
+        border-color: $green-v2;
+        background-color: $green-v2;
         cursor: pointer;
+
+        .title {
+            color: $white;
+        }
+
+        .description {
+            color: $white;
+        }
+
+        .icon svg path {
+            fill: $white;
+        }
     }
 }
 
@@ -58,19 +71,12 @@
     font-weight: 900;
     text-transform: uppercase;
     font-size: 11px;
-    color: $light-blue;
+    color: $purple-v2-2;
     letter-spacing: 2px;
     line-height: 15px;
     padding: 0;
     margin: 0;
     display: inline-table;
-
-    hr {
-        border: 1px solid $lightest-blue2;
-        border-bottom-width: 0;
-        padding: 0;
-        margin: 0 0 3px;
-    }
 }
 
 .description {
@@ -78,10 +84,10 @@
     font-weight: 400;
     font-size: 13px;
     font-style: italic;
-    color: $black;
+    color: $gray-v2;
     letter-spacing: 0.1px;
     line-height: 17px;
-    padding: 0;
+    padding: 4px 0 0;
     margin: 0;
 }
 

@@ -3,16 +3,12 @@ import {icon} from '../methods.scss';
 
 export const TerminalsIcon: React.SFC = () => (
     <div className={icon}>
-        {/* tslint:disable:max-line-length */}
         <svg width='40' height='40' viewBox='0 0 32 22' xmlns='http://www.w3.org/2000/svg'>
-            <g fill='none' fillRule='evenodd'>
-                <path d='M29 0H3C1.35 0 0 1.35 0 3v14c0 1.65 1.35 3 3 3h26c1.65 0 3-1.35 3-3V3c0-1.65-1.35-3-3-3z'
-                      fill='#685BFF'/>
-                <path d='M16.5 6a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9' fill='#FFF'/>
-                <path stroke='#FFF' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'
-                      d='M6 3H3v3M26 17h3v-3M3 14v3h3M29 6V3h-3'/>
+            <g>
+                <path fill='#685BFF'
+                      transform='translate(-4, -9)'
+                      d='M33.05,10h-26a3,3,0,0,0-3,3V27a3,3,0,0,0,3,3h26a3,3,0,0,0,3-3V13A3,3,0,0,0,33.05,10Zm-23,18h-3a1,1,0,0,1-1-1V24a1,1,0,0,1,2,0v2h2a1,1,0,0,1,0,2Zm0-14h-2v2a1,1,0,0,1-2,0V13a1,1,0,0,1,1-1h3a1,1,0,0,1,0,2Zm10.5,11a4.5,4.5,0,1,1,4.5-4.5A4.5,4.5,0,0,1,20.55,25Zm13.5,2a1,1,0,0,1-1,1h-3a1,1,0,1,1,0-2h2V24a1,1,0,0,1,2,0Zm0-11a1,1,0,0,1-2,0V14h-2a1,1,0,1,1,0-2h3a1,1,0,0,1,1,1Z'/>
             </g>
         </svg>
-        {/* tslint:enable:max-line-length */}
     </div>
 );
