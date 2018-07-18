@@ -1,6 +1,6 @@
 import { IframeContainer } from './iframe-container';
-import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
+import { initialize } from '../communicator';
 
 export class IframeInitializer extends Initializer {
 
@@ -14,15 +14,15 @@ export class IframeInitializer extends Initializer {
     open() {
         const target = (window.frames as any)[this.container.getName()];
         this.container.show();
-        const parent = new Parent(target, this.origin);
-        parent.sendHandshake().then((transport) => {
+        initialize(target, this.origin, 'checkout-initializer').then((transport) => {
             this.opened();
-            transport.emit(PossibleEvents.init, this.config);
-            transport.on(PossibleEvents.done, () => {
-                this.close();
+            transport.emit('checkout-init', this.config);
+            transport.on('checkout-finished', () => {
+                transport.destroy();
+                this.container.reinitialize();
                 this.finished();
             });
-            transport.on(PossibleEvents.close, () => {
+            transport.on('checkout-close', () => {
                 transport.destroy();
                 this.close();
             });

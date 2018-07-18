@@ -1,5 +1,5 @@
-import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
+import { initialize } from '../communicator';
 
 const serialize = (params: any): string => {
     let urlParams = '';
@@ -23,14 +23,13 @@ export class PopupInitializer extends Initializer {
     open() {
         const url = `${this.origin}/v1/checkout.html?${serialize(this.config)}`;
         const target = window.open(url);
-        const parent = new Parent(target, this.origin);
-        parent.sendHandshake().then((transport) => {
+        initialize(target, this.origin, 'checkout-initializer').then((transport) => {
             this.opened();
-            transport.on(PossibleEvents.done, () => {
-                this.close();
+            transport.on('checkout-finished', () => {
+                transport.destroy();
                 this.finished();
             });
-            transport.on(PossibleEvents.close, () => {
+            transport.on('checkout-close', () => {
                 transport.destroy();
                 this.close();
             });

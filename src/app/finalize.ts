@@ -1,8 +1,8 @@
 import * as ReactDOM from 'react-dom';
-import { Transport, PossibleEvents } from '../communication';
 import { State } from './state';
 import { ResultState } from 'checkout/state';
 import { isSafetyUrl } from 'checkout/utils';
+import { Transport } from '../communicator';
 
 class AppFinalizer {
 
@@ -11,19 +11,19 @@ class AppFinalizer {
 
     close() {
         ReactDOM.unmountComponentAtNode(this.checkoutEl);
-        this.transport.emit(PossibleEvents.close);
+        this.transport.emit('checkout-close');
         this.transport.destroy();
     }
 
     done(redirectUrl: string, inFrame: boolean) {
         setTimeout(() => {
             ReactDOM.unmountComponentAtNode(this.checkoutEl);
-            this.transport.emit(PossibleEvents.done);
+            this.transport.emit('checkout-finished');
             this.transport.destroy();
             if (inFrame) {
                 redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
             }
-        }, 8000);
+        }, 6000);
     }
 }
 
