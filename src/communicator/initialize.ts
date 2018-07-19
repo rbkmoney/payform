@@ -1,16 +1,17 @@
 import { RealTransport } from './real-transport';
 import { Transport } from './transport';
 import { log } from './log';
+import { Constants } from './constants';
 
 export const initialize = (target: Window, origin: string, transportName: string, isLog: boolean = false): Promise<Transport> => {
-    let interval: NodeJS.Timer;
+    let interval: number;
     return new Promise((resolve, reject) => {
         const reply = (e: any) => {
-            if (e.data === 'communicator-listener-hand') {
+            if (e.data === Constants.listenerHandName) {
                 if (isLog) {
                     log('initializer receive listener hand');
                 }
-                clearInterval(interval);
+                window.clearInterval(interval);
                 window.removeEventListener('message', reply, false);
                 return resolve(new RealTransport(target, origin, transportName));
             }
@@ -19,7 +20,7 @@ export const initialize = (target: Window, origin: string, transportName: string
         let attempt = 0;
         const doSend = () => {
             attempt++;
-            target.postMessage('communicator-initializer-hand', origin);
+            target.postMessage(Constants.initializerHandName, origin);
             if (isLog) {
                 log('initializer send handshake attempt');
             }
@@ -28,6 +29,6 @@ export const initialize = (target: Window, origin: string, transportName: string
                 return reject('communicator handshake failed');
             }
         };
-        interval = setInterval(doSend, 500);
+        interval = window.setInterval(doSend, 500);
     });
 };

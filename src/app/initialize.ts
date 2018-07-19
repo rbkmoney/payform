@@ -4,18 +4,19 @@ import { isInFrame } from '../is-in-iframe';
 import { getOrigin } from '../get-origin';
 import { StubTransport } from './stub-transport';
 import { Config, resolveInitConfig } from 'checkout/config';
+import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 const isUriContext = !!location.search;
 
 const handleInit = (transport: Transport) => new Promise((resolve) =>
-    transport.on('checkout-init', (config) => resolve(config)));
+    transport.on(CommunicatorEvents.init, (config) => resolve(config)));
 
 const listenAndCatch = () =>
-    listen('checkout-initializer', window.opener ? 2000 : 0)
+    listen(communicatorInstanceName, window.opener ? 2000 : 0)
         .catch(() => new StubTransport());
 
 const resolveCommunicatorParams = () =>
-    listen('checkout-initializer')
+    listen(communicatorInstanceName)
         .then((transport) => Promise.all([
             transport,
             handleInit(transport)

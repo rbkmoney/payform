@@ -1,6 +1,7 @@
 import { RealTransport } from './real-transport';
 import { Transport } from './transport';
 import { log } from './log';
+import { Constants } from './constants';
 
 const timeout = (ms: number): Promise<Transport> =>
     new Promise((resolve, reject) => {
@@ -13,9 +14,9 @@ const timeout = (ms: number): Promise<Transport> =>
 const handleHandshake = (transportName: string, isLog: boolean = false): Promise<Transport> =>
     new Promise((resolve) => {
         const shake = (e: MessageEvent) => {
-            if (e && e.data === 'communicator-initializer-hand') {
+            if (e && e.data === Constants.initializerHandName) {
                 const target = e.source;
-                target.postMessage('communicator-listener-hand', e.origin);
+                target.postMessage(Constants.listenerHandName, e.origin);
                 if (isLog) {
                     log('listener receive initializer hand');
                 }

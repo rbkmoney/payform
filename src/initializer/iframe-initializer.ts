@@ -1,6 +1,7 @@
 import { IframeContainer } from './iframe-container';
 import { Initializer } from './initializer';
 import { initialize } from '../communicator';
+import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 export class IframeInitializer extends Initializer {
 
@@ -14,15 +15,15 @@ export class IframeInitializer extends Initializer {
     open() {
         const target = (window.frames as any)[this.container.getName()];
         this.container.show();
-        initialize(target, this.origin, 'checkout-initializer').then((transport) => {
+        initialize(target, this.origin, communicatorInstanceName).then((transport) => {
             this.opened();
-            transport.emit('checkout-init', this.config);
-            transport.on('checkout-finished', () => {
+            transport.emit(CommunicatorEvents.init, this.config);
+            transport.on(CommunicatorEvents.finished, () => {
                 transport.destroy();
                 this.container.reinitialize();
                 this.finished();
             });
-            transport.on('checkout-close', () => {
+            transport.on(CommunicatorEvents.close, () => {
                 transport.destroy();
                 this.close();
             });

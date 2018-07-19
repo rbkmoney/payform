@@ -1,5 +1,6 @@
 import { Initializer } from './initializer';
 import { initialize } from '../communicator';
+import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 const serialize = (params: any): string => {
     let urlParams = '';
@@ -23,13 +24,13 @@ export class PopupInitializer extends Initializer {
     open() {
         const url = `${this.origin}/v1/checkout.html?${serialize(this.config)}`;
         const target = window.open(url);
-        initialize(target, this.origin, 'checkout-initializer').then((transport) => {
+        initialize(target, this.origin, communicatorInstanceName).then((transport) => {
             this.opened();
-            transport.on('checkout-finished', () => {
+            transport.on(CommunicatorEvents.finished, () => {
                 transport.destroy();
                 this.finished();
             });
-            transport.on('checkout-close', () => {
+            transport.on(CommunicatorEvents.close, () => {
                 transport.destroy();
                 this.close();
             });
