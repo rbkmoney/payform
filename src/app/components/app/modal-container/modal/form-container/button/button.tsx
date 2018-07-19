@@ -3,7 +3,7 @@ import { MouseEventHandler } from 'react';
 import * as styles from './button.scss';
 import * as cx from 'classnames';
 
-type ButtonType = 'primary' | 'default';
+type ButtonType = 'primary' | 'default' | 'secondary';
 
 export interface ButtonProps {
     style: ButtonType;
@@ -14,10 +14,21 @@ export interface ButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const getClass = (type: ButtonType) => type === 'primary' ? styles._primary : styles._default;
+const getClass = (type: ButtonType) => {
+    switch (type) {
+        case 'primary':
+            return styles._primary;
+        case 'secondary':
+            return styles._secondary;
+        default:
+            return '';
+    }
+};
 
 export const Button: React.SFC<ButtonProps> = (props) => (
-    <button type={props.type} onClick={props.onClick} className={cx(styles.button, getClass(props.style), props.className)} id={props.id}>
-        {props.children}
+    <button type={props.type} onClick={props.onClick}
+            className={cx(styles.button, getClass(props.style), props.className)} id={props.id}>
+        {props.style === 'secondary' ? <span>{props.children}
+            <hr className={styles.line}/></span> : props.children}
     </button>
 );

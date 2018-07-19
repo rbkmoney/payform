@@ -1,49 +1,66 @@
 @import '../../../../../../styles/variables';
 
 .button {
-    text-align: center;
-    border-radius: 32px;
-    padding: 12px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 20px;
-    transition: all .3s;
-    cursor: pointer;
-    width: 100%;
+  color: $purple;
+  background: $white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 20px;
+  transition: all .3s;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  border: 2px solid $green-v2;
+
+  &:hover {
+    border-color: $green-v2-dark;
+  }
+
+  &:active {
+    border-color: $green-v2-dark-2;
     outline: none;
-    border: 2px solid;
+  }
 
-    &._default {
-        color: $purple;
-        background: $white;
-        border-color: $purple;
+  &._primary {
+    border-radius: 32px;
+    color: $white;
+    background: $green-v2;
 
-        &:hover {
-            border-color: $deep-purple;
-        }
-
-        &:active {
-            border-color: $deepest-purple;
-            outline: none;
-        }
+    &:hover {
+      background: $green-v2-dark;
+      border-color: $green-v2-dark;
     }
 
-    &._primary {
-        color: $white;
-        background: $green-v2;
-        border-color: $green-v2;
-
-        &:hover {
-            background: $green-v2-dark;
-            border-color: $green-v2-dark;
-        }
-
-        &:active {
-            background: $green-v2-dark-2;
-            border-color: $green-v2-dark-2;
-            outline: none;
-        }
+    &:active {
+      background: $green-v2-dark-2;
+      border-color: $green-v2-dark-2;
     }
+  }
+
+  &._secondary {
+    border: none;
+    color: $purple-v2;
+
+    & > * {
+      display: inline-block;
+    }
+
+    .line {
+      border: none;
+      border-bottom: 1px solid $blue-v2-light;
+      padding: 0;
+      margin: 0 0 3px;
+    }
+
+    &:hover, &:active {
+      .line {
+        border-bottom-color: $purple-v2;
+      }
+    }
+  }
 }
