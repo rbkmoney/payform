@@ -1,6 +1,7 @@
 import { IframeContainer } from './iframe-container';
-import { PossibleEvents, Parent } from '../communication';
 import { Initializer } from './initializer';
+import { initialize } from '../communicator';
+import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 export class IframeInitializer extends Initializer {
 
@@ -14,15 +15,15 @@ export class IframeInitializer extends Initializer {
     open() {
         const target = (window.frames as any)[this.container.getName()];
         this.container.show();
-        const parent = new Parent(target, this.origin);
-        parent.sendHandshake().then((transport) => {
+        initialize(target, this.origin, communicatorInstanceName).then((transport) => {
             this.opened();
-            transport.emit(PossibleEvents.init, this.config);
-            transport.on(PossibleEvents.done, () => {
-                this.close();
+            transport.emit(CommunicatorEvents.init, this.config);
+            transport.on(CommunicatorEvents.finished, () => {
+                transport.destroy();
+                this.container.reinitialize();
                 this.finished();
             });
-            transport.on(PossibleEvents.close, () => {
+            transport.on(CommunicatorEvents.close, () => {
                 transport.destroy();
                 this.close();
             });

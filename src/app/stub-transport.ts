@@ -1,12 +1,12 @@
-import { Transport, PossibleEvents } from '.';
+import { Transport } from '../communicator';
 
 export class StubTransport implements Transport {
 
-    emit(name: PossibleEvents, data: any) {
+    emit(eventName: string, data?: object) {
         console.info('transport stub emit: ', name, data);
     }
 
-    on(eventName: PossibleEvents, callback: (data: any) => any) {
+    on(eventName: string, callback: (data: object) => void): void {
         callback({});
         console.info('transport stub on: ', eventName, callback);
     }

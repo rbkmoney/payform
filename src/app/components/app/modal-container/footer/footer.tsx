@@ -31,13 +31,6 @@ const FooterDef: React.SFC<FooterProps> = (props) => (
                 <PciDssIcon className={styles.align_fix} fillStyle={styles.fill_icons}/>
             </div>
         </div>
-        <p className={styles.copyright}>
-            {props.locale['footer.copyright.text']}
-        </p>
-        {/*<a href='' className={styles.offer}>*/}
-            {/*{props.locale['footer.offer.label']}*/}
-            {/*<hr/>*/}
-        {/*</a>*/}
     </footer>
 );
 
