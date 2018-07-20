@@ -69,7 +69,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                 {hasMultiMethods && <Button
                     style='secondary'
                     onClick={() => this.goToPaymentMethods()}>
-                    {toReenterButtonText(startedInfo, locale)}
+                    {locale['form.payment.method.name.others.label']}
                 </Button>}
             </div>
         );
