@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { Transport } from 'cross-origin-communicator';
 import './styles/main.scss';
 import './styles/forms.scss';
 import { configureStore } from './configure-store';
 import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
-import { Transport } from '../communicator';
 
 initialize().then((res) => {
     const [transport, config] = res;

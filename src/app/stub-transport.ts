@@ -1,4 +1,4 @@
-import { Transport } from '../communicator';
+import { Transport } from 'cross-origin-communicator';
 
 export class StubTransport implements Transport {
 

@@ -1,8 +1,8 @@
 import * as ReactDOM from 'react-dom';
+import { Transport } from 'cross-origin-communicator';
 import { State } from './state';
 import { ResultState } from 'checkout/state';
 import { isSafetyUrl } from 'checkout/utils';
-import { Transport } from '../communicator';
 import { CommunicatorEvents } from '../communicator-constants';
 
 class AppFinalizer {

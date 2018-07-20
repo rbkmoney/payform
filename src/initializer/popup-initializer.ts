@@ -1,5 +1,5 @@
+import { initialize } from 'cross-origin-communicator';
 import { Initializer } from './initializer';
-import { initialize } from '../communicator';
 import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 const serialize = (params: any): string => {
