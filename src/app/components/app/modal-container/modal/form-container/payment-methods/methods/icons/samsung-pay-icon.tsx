@@ -6,8 +6,8 @@ export const SamsungPayIcon: React.SFC = () => (
         <svg viewBox='0 0 32 32'>
             <defs>
                 <linearGradient id='a' x1='16' y1='.07' x2='16' y2='30.97' gradientUnits='userSpaceOnUse'>
-                    <stop offset='0' stopColor='#0077ff'/>
-                    <stop offset='1' stopColor='#0077ff'/>
+                    <stop offset='0' stopColor='#685BFF'/>
+                    <stop offset='1' stopColor='#685BFF'/>
                 </linearGradient>
             </defs>
             <g>

@@ -13,7 +13,6 @@ const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
         <ApplePayIcon/>
         <div className={title}>
             {props.locale['form.payment.method.name.apple.pay.label']}
-            <hr/>
         </div>
     </li>
 );
