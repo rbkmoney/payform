@@ -12,7 +12,6 @@ import {
 } from 'checkout/actions';
 import { Methods } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
-import { calcHeight } from './calc-height';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
 
 export interface PaymentMethodsProps {
@@ -43,22 +42,26 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 });
 
 class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMethodsState> {
+    private formElement: HTMLFormElement;
 
     componentWillMount() {
         const {methods} = this.props;
         const visibilityThreshold = 3;
         const visibleMethods = methods.filter((m, i) => i < visibilityThreshold);
         this.setState({visibleMethods});
-        this.props.setViewInfoHeight(calcHeight(methods.length, visibleMethods.length, visibilityThreshold));
         this.showAllMethods = this.showAllMethods.bind(this);
+    }
+
+    componentDidUpdate(prevProps: PaymentMethodsProps, prevState: PaymentMethodsState) {
+        if (prevState.visibleMethods !== this.state.visibleMethods) {
+            this.props.setViewInfoHeight(this.formElement.clientHeight);
+        }
     }
 
     showAllMethods() {
         this.setState({
             visibleMethods: this.props.methods
         });
-        const methodsCount = this.props.methods.length;
-        this.props.setViewInfoHeight(methodsCount === 4 ? 400 : 494);
     }
 
     render() {
@@ -72,7 +75,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
         } = this.props;
         const {visibleMethods} = this.state;
         return (
-            <form>
+            <form ref={this.setFormElement}>
                 <div>
                     <div className={formStyles.header}>
                         <div className={formStyles.title}>
@@ -92,6 +95,10 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                 </div>
             </form>
         );
+    }
+
+    private setFormElement = (element: HTMLFormElement) => {
+        this.formElement = element;
     }
 }
 

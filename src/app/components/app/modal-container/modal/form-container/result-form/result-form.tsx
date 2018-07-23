@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import * as styles from './result-form.scss';
 import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
-import { goToFormInfo, setResult, setViewInfoHeight } from 'checkout/actions';
+import { goToFormInfo, setResult } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
 import { makeContentCustomer, makeContentError, makeContentInvoice, ResultFormContent } from './make-content';
@@ -14,14 +14,9 @@ import { isHelpAvailable } from './is-help-available';
 import { ErrorDescriptionBlock } from './error-description-block';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
-
-    componentDidMount() {
-        this.setHeight();
-    }
-
     render() {
         const { header, description, icon, hasActions, hasDone } = this.makeContent();
-        const { hasErrorDescription, locale } = this.props;
+        const { hasErrorDescription } = this.props;
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
@@ -36,13 +31,6 @@ class ResultFormDef extends React.Component<ResultFormProps> {
                 </div>
             </form>
         );
-    }
-
-    private setHeight() {
-        let height = 392;
-        height = this.props.hasMultiMethods ? height + 33 : height;
-        height = this.props.hasErrorDescription ? height + 46 : height;
-        this.props.setViewInfoHeight(height);
     }
 
     private makeContent(): ResultFormContent {
@@ -77,7 +65,6 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setResult: bindActionCreators(setResult, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 

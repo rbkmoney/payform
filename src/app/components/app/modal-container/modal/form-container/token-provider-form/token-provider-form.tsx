@@ -16,7 +16,7 @@ import {
     PaymentStatus,
     TokenProviderFormValues
 } from 'checkout/state';
-import { pay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, setViewInfoError } from 'checkout/actions';
 import { getPayButton, getPaymentMethodName, getTitle } from './provider-specific';
 import { findNamed } from 'checkout/utils';
 import { toFieldsConfig } from '../fields-config';
@@ -36,7 +36,6 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     pay: bindActionCreators(pay, dispatch),
 });
 
@@ -47,10 +46,6 @@ export class TokenProviderFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.setViewInfoHeight(236);
     }
 
     init(values: TokenProviderFormValues) {

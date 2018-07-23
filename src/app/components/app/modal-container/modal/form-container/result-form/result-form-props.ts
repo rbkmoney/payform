@@ -12,6 +12,5 @@ export interface ResultFormProps {
     hasMultiMethods: boolean;
     hasErrorDescription: boolean;
     setResult: (resultState: ResultState) => any;
-    setViewInfoHeight: (height: number) => any;
     goToFormInfo: (formInfo: FormInfo) => any;
 }

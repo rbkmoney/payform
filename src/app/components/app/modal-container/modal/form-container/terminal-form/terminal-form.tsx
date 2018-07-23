@@ -19,7 +19,7 @@ import {
 import { Header } from '../header';
 import { Amount, Email } from '../';
 import { toFieldsConfig } from '../fields-config';
-import { pay, prepareToPay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
 import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
 import { findNamed, formatAmount } from 'checkout/utils';
@@ -41,8 +41,7 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
+    prepareToPay: bindActionCreators(prepareToPay, dispatch)
 });
 
 type Props = TerminalFormProps & InjectedFormProps;
@@ -52,10 +51,6 @@ export class TerminalFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.setViewInfoHeight(288);
     }
 
     init(values: TerminalFormValues) {

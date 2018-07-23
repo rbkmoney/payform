@@ -20,7 +20,7 @@ import { Header } from '../header';
 import { Amount, Email, Phone } from '../common-fields';
 import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
-import { pay, setViewInfoError, setViewInfoHeight } from 'checkout/actions';
+import { pay, setViewInfoError } from 'checkout/actions';
 
 const toWalletFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
@@ -37,7 +37,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
     pay: bindActionCreators(pay, dispatch)
 });
@@ -49,10 +48,6 @@ class WalletFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.setViewInfoHeight(288);
     }
 
     init(values: WalletFormValues) {
