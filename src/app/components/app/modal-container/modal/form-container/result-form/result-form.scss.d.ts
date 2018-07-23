@@ -6,5 +6,3 @@ export const text: string;
 export const errorBlock: string;
 export const helpBlock: string;
 export const othersButton: string;
-export const othersButtonContent: string;
-export const line: string;

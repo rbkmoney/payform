@@ -120,13 +120,20 @@
 .link_container {
     display: inline-block;
     margin: 15px auto auto;
+    position: relative;
 
     hr {
-        color: $light-blue;
+        left: 0;
         border: none;
-        border-bottom: 1px solid $light-blue;
+        border-bottom: 1px solid $blue-v2-light;
         padding: 0;
         margin: 0 0 3px;
+        position: absolute;
+        width: 100%;
+    }
+
+    &:hover hr, &:active hr {
+        border-color: $purple-v2-2;
     }
 }
 
@@ -134,7 +141,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $light-blue;
+    color: $purple-v2-2;
     letter-spacing: 2px;
     line-height: 15px;
     text-transform: uppercase;

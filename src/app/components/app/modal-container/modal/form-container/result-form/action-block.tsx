@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import * as cx from 'classnames';
 import * as styles from './result-form.scss';
+import * as formStyles from '../form-container.scss';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
 import { forgetPaymentAttempt, prepareToRetry } from 'checkout/actions';
@@ -67,15 +69,12 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                     id='reenter-btn'>
                     {toReenterButtonText(startedInfo, locale)}
                 </Button>}
-                {hasMultiMethods &&
-                <button onClick={this.goToPaymentMethods}
-                        className={styles.othersButton}>
-                  <span className={styles.othersButtonContent}>
-                      {locale['form.payment.method.name.others.label']}
-                      <hr className={styles.line}/>
-                  </span>
-                </button>
-                }
+                {hasMultiMethods && <div className={cx(formStyles.link_container, styles.othersButton)}>
+                    <a className={formStyles.link} onClick={this.goToPaymentMethods}>
+                        {locale['form.payment.method.name.others.label']}
+                    </a>
+                    <hr/>
+                </div>}
             </div>
         );
     }
