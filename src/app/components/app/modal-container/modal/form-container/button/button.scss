@@ -1,7 +1,7 @@
 @import '../../../../../../styles/variables';
 
 .button {
-  color: $purple;
+  color: $purple-v2-2;
   background: $white;
   text-align: center;
   border-radius: 4px;
@@ -44,7 +44,7 @@
 
   &._secondary {
     border: none;
-    color: $purple-v2;
+    color: $purple-v2-2;
 
     & > * {
       display: inline-block;
@@ -59,7 +59,7 @@
 
     &:hover, &:active {
       .line {
-        border-bottom-color: $purple-v2;
+        border-bottom-color: $purple-v2-2;
       }
     }
   }

@@ -75,3 +75,39 @@
         }
     }
 }
+
+.othersButton {
+    color: $purple-v2-2;
+    background: $white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 12px 12px 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    transition: all .3s;
+    cursor: pointer;
+    width: 100%;
+    outline: none;
+    border: none;
+
+    .othersButtonContent {
+        position: relative;
+    }
+
+    .line {
+        left: 0;
+        border: none;
+        border-bottom: 1px solid $blue-v2-light;
+        padding: 0;
+        margin: 0 0 3px;
+        position: absolute;
+        width: 100%;
+    }
+
+    &:hover .line, &:active .line {
+        border-bottom-color: $purple-v2-2;
+    }
+}

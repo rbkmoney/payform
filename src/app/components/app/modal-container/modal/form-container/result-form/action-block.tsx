@@ -46,7 +46,8 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
         this.props.prepareToRetry(resetFormData);
     }
 
-    goToPaymentMethods() {
+    goToPaymentMethods = (e: any) => {
+        e.preventDefault();
         this.props.forgetPaymentAttempt();
     }
 
@@ -66,11 +67,15 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
                     id='reenter-btn'>
                     {toReenterButtonText(startedInfo, locale)}
                 </Button>}
-                {hasMultiMethods && <Button
-                    style='secondary'
-                    onClick={() => this.goToPaymentMethods()}>
-                    {locale['form.payment.method.name.others.label']}
-                </Button>}
+                {hasMultiMethods &&
+                <button onClick={this.goToPaymentMethods}
+                        className={styles.othersButton}>
+                  <span className={styles.othersButtonContent}>
+                      {locale['form.payment.method.name.others.label']}
+                      <hr className={styles.line}/>
+                  </span>
+                </button>
+                }
             </div>
         );
     }
