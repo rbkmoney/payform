@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {icon} from '../methods.scss';
+import { icon } from '../methods.scss';
 
 export const TerminalsIcon: React.SFC = () => (
     <div className={icon}>

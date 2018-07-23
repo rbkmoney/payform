@@ -51,7 +51,7 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
     }
 
     render() {
-        const {locale, startedInfo, hasMultiMethods} = this.props;
+        const { locale, startedInfo, hasMultiMethods } = this.props;
         return (
             <div className={styles.errorBlock}>
                 {retryCapability(startedInfo) && <Button

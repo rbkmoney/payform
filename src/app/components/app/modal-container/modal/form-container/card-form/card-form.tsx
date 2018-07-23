@@ -17,7 +17,7 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import {pay, setViewInfoError, subscribe } from 'checkout/actions';
+import { pay, setViewInfoError, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 import { toFieldsConfig } from '../fields-config';
