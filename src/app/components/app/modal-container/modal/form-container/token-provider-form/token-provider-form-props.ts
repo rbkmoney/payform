@@ -12,6 +12,5 @@ export interface TokenProviderFormProps {
     fieldsConfig: FieldsConfig;
     formValues: TokenProviderFormValues;
     setViewInfoError: (hasError: boolean) => any;
-    setViewInfoHeight: (height: number) => any;
     pay: (payload: PaymentRequestedPayload) => any;
 }

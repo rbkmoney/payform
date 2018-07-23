@@ -5,8 +5,6 @@ import * as styles from './interaction-terminal-form.scss';
 import { State } from 'checkout/state';
 import { Header } from '../../header';
 import { formatInvoiceAmount, FormattedAmount } from 'checkout/utils';
-import { bindActionCreators, Dispatch } from 'redux';
-import { setViewInfoHeight } from 'checkout/actions';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { Icon, IconType } from 'checkout/components';
@@ -17,22 +15,13 @@ const mapStateToProps = (s: State) => ({
     amount: formatInvoiceAmount(s.model.invoice)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
-});
-
 export interface InteractionTerminalFormProps {
     receipt: PaymentTerminalReceipt;
     locale: Locale;
     amount: FormattedAmount;
-    setViewInfoHeight: (height: number) => any;
 }
 
 class InteractionTerminalFormDef extends React.Component<InteractionTerminalFormProps> {
-    componentDidMount() {
-        this.props.setViewInfoHeight(445);
-    }
-
     render() {
         const {locale, receipt, amount} = this.props;
         return (
@@ -45,4 +34,4 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
     }
 }
 
-export const InteractionTerminalForm = connect(mapStateToProps, mapDispatchToProps)(InteractionTerminalFormDef);
+export const InteractionTerminalForm = connect(mapStateToProps)(InteractionTerminalFormDef);

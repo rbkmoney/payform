@@ -8,7 +8,6 @@ export interface WalletFormProps {
     locale: Locale;
     fieldsConfig: FieldsConfig;
     formValues: WalletFormValues;
-    setViewInfoHeight: (height: number) => any;
     setViewInfoError: (hasError: boolean) => any;
     pay: (payload: PaymentRequestedPayload) => any;
 }
