@@ -15,7 +15,7 @@
     animation: slideup .75s;
 }
 
-.method {
+.method_simple {
     border-radius: 3px;
     border: 1px solid $gray;
     padding: 20px;
@@ -25,6 +25,11 @@
     align-items: center;
     margin-bottom: 10px;
     transition: all .3s;
+    cursor: pointer;
+}
+
+.method {
+    @extend .method_simple;
 
     &:last-child {
         margin-bottom: 0;
@@ -33,7 +38,6 @@
     &:hover {
         border-color: $green-v2;
         background-color: $green-v2;
-        cursor: pointer;
 
         .title {
             color: $white;

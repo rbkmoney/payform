@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MethodProps } from './method-props';
-import { method, title } from './methods.scss';
+import { method, method_simple, title } from './methods.scss';
 import { GooglePayIcon } from './icons/google-pay-icon';
 import { FormName, PaymentMethodName, TokenProviderFormInfo } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
@@ -20,7 +20,7 @@ const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
 const pay = (props: MethodProps) => props.pay({method: PaymentMethodName.GooglePay});
 
 const GooglePayLink: React.SFC<MethodProps> = (props) => (
-    <li className={method} onClick={pay.bind(null, props)} id='google-pay-payment-method'>
+    <li className={method_simple} onClick={pay.bind(null, props)} id='google-pay-payment-method'>
         <svg viewBox='0 -20 435 195' width='100%' height='40'>
             <g fill='none'>
                 <path
