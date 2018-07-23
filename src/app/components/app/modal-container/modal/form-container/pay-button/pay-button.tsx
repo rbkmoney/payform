@@ -5,6 +5,7 @@ import { IntegrationType } from 'checkout/config';
 import { formatAmount } from 'checkout/utils';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
+import { pay_button } from './pay-button.scss';
 
 export interface PayButtonProps {
     label: string;
@@ -14,7 +15,8 @@ const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
     <Button
         type='submit'
         style='primary'
-        id='pay-btn'>
+        id='pay-btn'
+        className={pay_button}>
         {props.label}
     </Button>
 );
