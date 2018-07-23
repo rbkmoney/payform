@@ -67,11 +67,16 @@
     color: $deep-gray;
     letter-spacing: 0;
     line-height: 20px;
-    padding: 14px 13px 12px 40px;
+    $padding-top: 14px;
+    $padding-right: 13px;
+    $padding-bottom: 12px;
+    $padding-left: 40px;
+    padding: $padding-top $padding-right $padding-bottom $padding-left;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
     transition: border-color .3s;
+    outline: none;
 
     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
         color: $light-gray;
@@ -91,14 +96,22 @@
     }
 
     &:focus {
-        border-color: $light-blue;
-        box-shadow: 0 0 4px 0 $light-blue;
-        outline: $light-blue solid 2px;
-        outline-offset: -1px;
+        border-color: $purple-v2-2 !important;
+        border-width: 2px !important;
+        box-shadow: 0 0 4px 0 $purple-v2-2 !important;
+        padding: ($padding-top - 1px) ($padding-right - 1px) ($padding-bottom - 1px) ($padding-left - 1px);
     }
 
     &.mark {
-        padding: 13px 30px 13px 40px;
+        padding-top: 13px;
+        padding-right: 30px;
+        padding-bottom: 13px;
+
+        &:focus {
+            padding-top: 12px;
+            padding-right: 29px;
+            padding-bottom: 12px;
+        }
     }
 }
 
