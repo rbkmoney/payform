@@ -1,5 +1,5 @@
+import { listen, Transport } from 'cross-origin-communicator';
 import { deserialize } from 'checkout/utils';
-import { listen, Transport } from '../communicator';
 import { isInFrame } from '../is-in-iframe';
 import { getOrigin } from '../get-origin';
 import { StubTransport } from './stub-transport';

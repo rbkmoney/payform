@@ -79,6 +79,7 @@
     "compression-webpack-plugin": "~1.1.11",
     "copy-webpack-plugin": "~4.4.1",
     "css-loader": "~0.28.9",
+    "cross-origin-communicator": "git+ssh://git@github.com/rbkmoney/cross-origin-communicator.git#9ae9e9b85517e2abc0a8c8ea60c35d4c6b1f5aff",
     "extract-text-webpack-plugin": "~3.0.2",
     "file-loader": "~1.1.6",
     "fork-ts-checker-webpack-plugin": "~0.3.0",
