@@ -1,48 +1,66 @@
 @import '../../../../../../styles/variables';
 
 .button {
-    text-align: center;
-    border-radius: 4px;
-    padding: 12px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 20px;
-    transition: all .3s;
-    cursor: pointer;
-    width: 100%;
+  color: $purple-v2-2;
+  background: $white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 20px;
+  transition: all .3s;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  border: 2px solid $green-v2;
+
+  &:hover {
+    border-color: $green-v2-dark;
+  }
+
+  &:active {
+    border-color: $green-v2-dark-2;
     outline: none;
+  }
 
-    &._default {
-        color: $purple;
-        background: $white;
-        border: 2px solid $purple;
+  &._primary {
+    border-radius: 32px;
+    color: $white;
+    background: $green-v2;
 
-        &:hover {
-            border-color: $deep-purple;
-        }
-
-        &:active {
-            border-color: $deepest-purple;
-            outline: none;
-        }
+    &:hover {
+      background: $green-v2-dark;
+      border-color: $green-v2-dark;
     }
 
-    &._primary {
-        color: $white;
-        background: $purple;
-        border: 2px solid $purple;
-
-        &:hover {
-            background: $deep-purple;
-            border-color: $deep-purple;
-        }
-
-        &:active {
-            background: $deepest-purple;
-            border-color: $deepest-purple;
-            outline: none;
-        }
+    &:active {
+      background: $green-v2-dark-2;
+      border-color: $green-v2-dark-2;
     }
+  }
+
+  &._secondary {
+    border: none;
+    color: $purple-v2-2;
+
+    & > * {
+      display: inline-block;
+    }
+
+    .line {
+      border: none;
+      border-bottom: 1px solid $blue-v2-light;
+      padding: 0;
+      margin: 0 0 3px;
+    }
+
+    &:hover, &:active {
+      .line {
+        border-bottom-color: $purple-v2-2;
+      }
+    }
+  }
 }

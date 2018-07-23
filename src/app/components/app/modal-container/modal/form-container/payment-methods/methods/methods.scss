@@ -15,7 +15,7 @@
     animation: slideup .75s;
 }
 
-.method {
+.method_simple {
     border-radius: 3px;
     border: 1px solid $gray;
     padding: 20px;
@@ -25,14 +25,36 @@
     align-items: center;
     margin-bottom: 10px;
     transition: all .3s;
+    cursor: pointer;
+}
+
+.method {
+    @extend .method_simple;
 
     &:last-child {
         margin-bottom: 0;
     }
 
     &:hover {
-        border: 1px solid $light-blue;
-        cursor: pointer;
+        border-color: $green-v2;
+        background-color: $green-v2;
+
+        .title {
+            color: $white;
+        }
+
+        .description {
+            color: $white;
+        }
+
+        .icon svg path {
+            fill: $white;
+        }
+    }
+
+    &:active {
+        border-color: $green-v2-dark;
+        background-color: $green-v2-dark;
     }
 }
 
@@ -58,19 +80,12 @@
     font-weight: 900;
     text-transform: uppercase;
     font-size: 11px;
-    color: $light-blue;
+    color: $purple-v2-2;
     letter-spacing: 2px;
     line-height: 15px;
     padding: 0;
     margin: 0;
     display: inline-table;
-
-    hr {
-        border: 1px solid $lightest-blue2;
-        border-bottom-width: 0;
-        padding: 0;
-        margin: 0 0 3px;
-    }
 }
 
 .description {
@@ -78,25 +93,11 @@
     font-weight: 400;
     font-size: 13px;
     font-style: italic;
-    color: $black;
+    color: $gray-v2;
     letter-spacing: 0.1px;
     line-height: 17px;
-    padding: 0;
+    padding: 4px 0 0;
     margin: 0;
-}
-
-.link_container {
-    display: inline-block;
-    margin: auto;
-    margin-top: 25px;
-
-    hr {
-        border-color: $light-blue;
-        border-bottom: 0;
-        opacity: 0.37;
-        padding: 0;
-        margin: 0 0 3px;
-    }
 }
 
 .apple_pay_button {

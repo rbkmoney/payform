@@ -11,7 +11,6 @@ export const BankCard: React.SFC<MethodProps> = (props) => (
         <BankCardIcon/>
         <div className={title}>
             {props.locale['form.payment.method.name.card.label']}
-            <hr/>
         </div>
     </li>
 );

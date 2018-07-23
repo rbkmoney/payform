@@ -17,10 +17,9 @@ import {
     State
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
-import {pay, setViewInfoError, setViewInfoHeight, subscribe } from 'checkout/actions';
+import { pay, setViewInfoError, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
-import { calcFormHeight } from './calc-form-height';
 import { toFieldsConfig } from '../fields-config';
 import { Email, Amount } from '../common-fields';
 import { IntegrationType } from 'checkout/config';
@@ -41,8 +40,7 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch),
     subscribe: bindActionCreators(subscribe, dispatch),
-    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
 });
 
 type Props = InjectedFormProps & CardFormProps;
@@ -65,10 +63,6 @@ class CardFormDef extends React.Component<Props> {
                 this.submit(formValues);
                 break;
         }
-    }
-
-    componentDidMount() {
-        this.props.setViewInfoHeight(calcFormHeight(this.props.fieldsConfig));
     }
 
     componentWillReceiveProps(props: Props) {

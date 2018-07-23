@@ -5,6 +5,7 @@ $local-white: rgba(255, 255, 255, .6);
 
 .footer {
     padding: 30px 25px;
+    position: relative;
     @include responsive(sm) {
         padding: 15px 0;
     }
@@ -28,32 +29,21 @@ $local-white: rgba(255, 255, 255, .6);
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
         font-weight: 900;
-        color: $lightest-purple;
+        color: $white;
         letter-spacing: 2px;
         line-height: 15px;
         text-transform: uppercase;
         margin: 0;
-        @include responsive(sm) {
-            color: $local-white;
-        }
     }
     .secure_icon {
         margin-right: 8px;
         position: relative;
         top: -2px;
         path {
-            stroke: $lightest-purple2;
+            stroke: $white;
         }
         rect {
-            fill: $lightest-purple2;
-        }
-        @include responsive(sm) {
-            path {
-                stroke: $local-white;
-            }
-            rect {
-                fill: $local-white;
-            }
+            fill: $white;
         }
     }
 }
@@ -71,10 +61,7 @@ $local-white: rgba(255, 255, 255, .6);
         top: 4px;
     }
     .fill_icons {
-        fill: $lightest-purple2;
-        @include responsive(sm) {
-            fill: $local-white;
-        }
+        fill: $white;
     }
 }
 
@@ -83,12 +70,11 @@ $local-white: rgba(255, 255, 255, .6);
     font-size: 13px;
     font-weight: 400;
     font-style: italic;
-    color: $lightest-purple2;
+    color: $white;
     letter-spacing: 0;
     line-height: 18px;
     margin: 0 0 20px;
     @include responsive(sm) {
-        color: $local-white;
         max-width: 680px;
     }
 }
@@ -121,8 +107,5 @@ $local-white: rgba(255, 255, 255, .6);
 
 .logo {
     padding-left: 6px;
-    fill: $lightest-purple2;
-    @include responsive(sm) {
-        fill: $local-white;
-    }
+    fill: $white;
 }

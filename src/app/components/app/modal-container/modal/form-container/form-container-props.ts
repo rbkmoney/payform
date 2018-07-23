@@ -4,4 +4,5 @@ import { FormViewInfo } from 'checkout/state';
 export interface FormContainerProps {
     activeFormInfo: FormInfo;
     viewInfo: FormViewInfo;
+    setViewInfoHeight: (height: number) => any;
 }

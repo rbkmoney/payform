@@ -23,7 +23,7 @@
     height: 100%;
     min-height: 100%;
     width: 100%;
-    background-image: linear-gradient(70deg, $light-purple 0%, $deep-blue 29%, $blue 59%, $lightest-blue 100%);
+    background-image: linear-gradient(45deg, $purple-v2 0%, $purple-v2-2 100%);
 
     footer {
         display: block;
@@ -39,7 +39,7 @@
         flex-direction: row;
         padding: 30px;
         box-sizing: border-box;
-        background-image: linear-gradient(90deg, $deep-blue 0%, $blue 39%, $lightest-blue 100%);
+        background-image: linear-gradient(45deg, $purple-v2 -20%, $purple-v2-2 90%);
 
         footer {
             display: none;

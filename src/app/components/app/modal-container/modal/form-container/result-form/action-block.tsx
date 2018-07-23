@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import * as cx from 'classnames';
 import * as styles from './result-form.scss';
 import * as formStyles from '../form-container.scss';
 import { Button } from 'checkout/components';
@@ -47,7 +48,8 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
         this.props.prepareToRetry(resetFormData);
     }
 
-    goToPaymentMethods() {
+    goToPaymentMethods = (e: any) => {
+        e.preventDefault();
         this.props.forgetPaymentAttempt();
     }
 
@@ -55,27 +57,24 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
         const { locale, startedInfo, hasMultiMethods } = this.props;
         return (
             <div className={styles.errorBlock}>
-                {retryCapability(startedInfo) ? <Button
+                {retryCapability(startedInfo) && <Button
                     style='primary'
                     onClick={(e) => this.retry(e)}
                     id='retry-btn'>
                     {locale['form.button.pay.again.label']}
-                </Button> : null}
-                {payOtherCapability(startedInfo) ? <Button
+                </Button>}
+                {payOtherCapability(startedInfo) && <Button
                     style='default'
-                    className={styles.pay_with_other}
                     onClick={(e) => this.retry(e, true)}
                     id='reenter-btn'>
                     {toReenterButtonText(startedInfo, locale)}
-                </Button> : null}
-                <div className={formStyles.links}>
-                    {hasMultiMethods ? <div className={formStyles.link_container}>
-                        <a className={formStyles.link} onClick={() => this.goToPaymentMethods()}>
-                            {locale['form.payment.method.name.others.label']}
-                        </a>
-                        <hr/>
-                    </div> : false}
-                </div>
+                </Button>}
+                {hasMultiMethods && <div className={cx(formStyles.link_container, styles.othersButton)}>
+                    <a className={formStyles.link} onClick={this.goToPaymentMethods}>
+                        {locale['form.payment.method.name.others.label']}
+                    </a>
+                    <hr/>
+                </div>}
             </div>
         );
     }

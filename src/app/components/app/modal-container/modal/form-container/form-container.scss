@@ -35,7 +35,6 @@
     position: relative;
 
     form {
-        height: 100%;
         width: 100%;
         display: flex;
         flex-wrap: nowrap;
@@ -121,13 +120,20 @@
 .link_container {
     display: inline-block;
     margin: 15px auto auto;
+    position: relative;
 
     hr {
-        border-color: $light-blue;
-        border-bottom: 0;
-        opacity: 0.37;
+        left: 0;
+        border: none;
+        border-bottom: 1px solid $blue-v2-light;
         padding: 0;
         margin: 0 0 3px;
+        position: absolute;
+        width: 100%;
+    }
+
+    &:hover hr, &:active hr {
+        border-color: $purple-v2-2;
     }
 }
 
@@ -135,7 +141,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $light-blue;
+    color: $purple-v2-2;
     letter-spacing: 2px;
     line-height: 15px;
     text-transform: uppercase;

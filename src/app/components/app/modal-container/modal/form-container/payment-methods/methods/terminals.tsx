@@ -12,7 +12,6 @@ export const Terminals: React.SFC<MethodProps> = (props) => (
         <div className={text}>
             <h5 className={title}>
                 {props.locale['form.payment.method.name.cash.label']}
-                <hr/>
             </h5>
             <p className={description}>
                 {props.locale['form.payment.method.description.euroset.text']}
