@@ -1,10 +1,11 @@
 export const deserialize = (url: string): any => {
-    const split = (typeof url === 'string' && url !== '') && url.split('?');
-    if (!split) {
+    if (url.indexOf('=') === -1 || typeof url !== 'string' || !url.length) {
         return {};
     }
+    const split = url.split('?');
     const params = split.length > 1 ? split[1] : split[0];
-    const result = JSON.parse(`{"${decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"')}"}`);
+    const preparedParams = decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"');
+    const result = JSON.parse(`{"${preparedParams}"}`);
     for (const prop in result) {
         if (result.hasOwnProperty(prop)) {
             const value = decodeURIComponent(result[prop]);

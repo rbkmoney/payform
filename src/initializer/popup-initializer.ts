@@ -2,7 +2,7 @@ import { initialize } from 'cross-origin-communicator';
 import { Initializer } from './initializer';
 import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
-const serialize = (params: any): string => {
+export const serialize = (params: any): string => {
     let urlParams = '';
     for (const prop in params) {
         if (params.hasOwnProperty(prop)) {

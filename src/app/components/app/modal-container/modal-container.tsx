@@ -52,7 +52,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {activeModal: {name}, config: {inFrame}} = this.props;
+        const {config: {inFrame}, activeModal} = this.props;
         return (
             <CSSTransitionGroup
                 component='div'
@@ -74,22 +74,29 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                         transitionName='interactionAnimation'
                         transitionEnterTimeout={1000}
                         transitionLeaveTimeout={500}>
-                        {name === ModalName.modalForms ?
-                            <div>
-                                {inFrame ? null : <Close/>}
-                                <Modal/>
-                                <Footer/>
-                            </div> : null}
-                        {name === ModalName.modalInteraction ?
-                            <div>
-                                {inFrame ? null : <Close/>}
-                                <UserInteractionModal/>
-                            </div> : null}
+                        {!inFrame && <Close/>}
+                        {this.renderModal()}
                     </CSSTransitionGroup>
-                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader/> : null}
+                    {isInteractionPolling(activeModal) && <ModalLoader/>}
                 </div>
             </CSSTransitionGroup>
         );
+    }
+
+    private renderModal() {
+        switch (this.props.activeModal.name) {
+            case ModalName.modalForms:
+                return (
+                    <>
+                        <Modal/>
+                        <Footer/>
+                    </>
+                );
+            case ModalName.modalInteraction:
+                return <UserInteractionModal/>;
+            default:
+                return null;
+        }
     }
 }
 
