@@ -29,5 +29,5 @@ export type ResultData = {
     refId: string;
 } | {
     type: Type.ERROR;
-    message?: string;
+    code?: string;
 };

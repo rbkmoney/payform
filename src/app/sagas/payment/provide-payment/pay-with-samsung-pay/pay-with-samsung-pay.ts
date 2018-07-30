@@ -48,7 +48,7 @@ async function createTransaction(totalAmount: number, currency: string, merchant
             mode: 'cors'
         })).json();
     } catch (e) {
-        throw new Error('Service not available');
+        throw {code: 'error.samsung.pay.not.available'};
     }
 }
 
@@ -95,6 +95,6 @@ export function* payWithSamsungPay(c: Config, m: ModelState, a: AmountInfoState,
         const fn = createPaymentResource(c.appConfig.capiEndpoint, paymentData);
         return yield call(makePayment, c, m, v, a, fn);
     } else {
-        throw new Error(resultData.message || 'Failed');
+        throw {code: resultData.code || 'error.samsung.pay.cancel'};
     }
 }

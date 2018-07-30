@@ -22,7 +22,7 @@ class App {
             if (params.refId) {
                 this.success(params.refId);
             } else if (params.type === Type.ERROR) {
-                this.error('Cancelled');
+                this.error('error.samsung.pay.cancel');
             } else {
                 this.connect();
             }
@@ -46,7 +46,7 @@ class App {
                     data.keyId
                 );
             } catch (e) {
-                this.error(e.message);
+                this.error('error.samsung.pay.not.available');
             }
         });
         this.transport.emit(Event.CONNECT);
@@ -57,8 +57,8 @@ class App {
         this.transport.emit(Event.RESULT, resultData);
     }
 
-    private error(message: string = 'Bad request') {
-        const resultData: ResultData = {type: Type.ERROR, message};
+    private error(code: string = 'error.samsung.pay.cancel') {
+        const resultData: ResultData = {type: Type.ERROR, code};
         this.transport.emit(Event.RESULT, resultData);
     }
 }
