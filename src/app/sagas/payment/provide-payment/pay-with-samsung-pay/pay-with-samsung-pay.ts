@@ -2,7 +2,8 @@ import { Config } from 'checkout/config';
 import { AmountInfoState, ModalInteraction, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { call, put } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
-import { RequestType, Transaction } from 'checkout/backend';
+import { RequestType } from 'checkout/backend';
+import { Transaction } from 'checkout/backend/model';
 import { serialize } from '../../../../../initializer/popup-initializer';
 import { listen } from 'cross-origin-communicator';
 import {

@@ -5,11 +5,11 @@ export interface SamsungPayPaymentData {
     refId: string;
 }
 
-export function* createSamsungPay(endpoint: string, paymentData: SamsungPayPaymentData) {
+export function* createSamsungPay(endpoint: string, paymentData: SamsungPayPaymentData, token: string) {
     const paymentTool = {
         paymentToolType: PaymentToolType.TokenizedCardData,
         provider: ProviderType.SamsungPay,
         paymentData
     };
-    return yield call(createPaymentResource, endpoint, paymentData.refId, paymentTool);
+    return yield call(createPaymentResource, endpoint, token, paymentTool);
 }
