@@ -2,7 +2,7 @@ import { Config } from 'checkout/config';
 import { AmountInfoState, ModalInteraction, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { call, put } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
-import { RequestType } from 'checkout/backend';
+import { fetchWrapper, RequestType } from 'checkout/backend';
 import { Transaction } from 'checkout/backend/model';
 import { serialize } from '../../../../../initializer/popup-initializer';
 import { listen } from 'cross-origin-communicator';
@@ -15,14 +15,14 @@ import {
 } from '../../../../../constants/samsung-pay-communicator';
 import { makePayment } from 'checkout/sagas/payment/provide-payment/make-payment';
 import { createSamsungPay } from 'checkout/sagas/create-payment-resource/create-samsung-pay';
-import { guid } from 'checkout/utils';
 import { detectLocale } from '../../../../../locale/detect-locale';
 
 async function createTransaction(totalAmount: number, currency: string, merchantName: string, serviceID: string, wrapperEndpoint: string): Promise<Transaction> {
     try {
-        return await (await fetch(`${wrapperEndpoint}/samsungpay/api/v1/transaction`, {
+        return await fetchWrapper<Transaction>({
+            endpoint: `${wrapperEndpoint}/samsungpay/api/v1/transaction`,
             method: 'POST',
-            body: JSON.stringify({
+            body: {
                 callback: '0',
                 paymentDetails: {
                     service: {
@@ -41,13 +41,8 @@ async function createTransaction(totalAmount: number, currency: string, merchant
                         name: merchantName
                     }
                 }
-            }),
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'X-Request-Id': guid()
-            },
-            mode: 'cors'
-        })).json();
+            }
+        });
     } catch (e) {
         throw {code: 'error.samsung.pay.not.available'};
     }
