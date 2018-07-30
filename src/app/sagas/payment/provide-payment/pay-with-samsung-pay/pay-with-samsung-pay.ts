@@ -2,7 +2,7 @@ import { Config } from 'checkout/config';
 import { AmountInfoState, ModalInteraction, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { call, put } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
-import { RequestType } from 'checkout/backend';
+import { RequestType, Transaction } from 'checkout/backend';
 import { serialize } from '../../../../../initializer/popup-initializer';
 import { listen } from 'cross-origin-communicator';
 import {
@@ -17,7 +17,7 @@ import { createSamsungPay, SamsungPayPaymentData } from 'checkout/sagas/create-p
 import { guid } from 'checkout/utils';
 import { detectLocale } from '../../../../../locale/detect-locale';
 
-async function createTransaction(totalAmount: number, currency: string, merchantName: string, serviceID: string, wrapperEndpoint: string): Promise<any> {
+async function createTransaction(totalAmount: number, currency: string, merchantName: string, serviceID: string, wrapperEndpoint: string): Promise<Transaction> {
     try {
         return await (await fetch(`${wrapperEndpoint}/samsungpay/api/v1/transaction`, {
             method: 'POST',
@@ -52,7 +52,7 @@ async function createTransaction(totalAmount: number, currency: string, merchant
     }
 }
 
-async function getResultData(transaction: { id: string, href: string, encInfo: { mod: string, exp: string, keyId: string } }, serviceId: string, locale: string): Promise<ResultData> {
+async function getResultData(transaction: Transaction, serviceId: string, locale: string): Promise<ResultData> {
     let transport = await listen(communicatorInstanceName, 5000);
     return await new Promise<ResultData>((res) => {
         const URL = window.location.origin + URIPath;
