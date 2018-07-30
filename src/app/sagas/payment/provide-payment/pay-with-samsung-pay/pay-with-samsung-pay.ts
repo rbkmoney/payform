@@ -10,8 +10,8 @@ import {
 } from '../../../../../constants/samsung-pay-communicator';
 import { makePayment } from 'checkout/sagas/payment/provide-payment/make-payment';
 import { createSamsungPay } from 'checkout/sagas/create-payment-resource/create-samsung-pay';
-import { createTransaction } from 'checkout/sagas/payment/provide-payment/pay-with-samsung-pay/create-transaction';
-import { getResultData } from 'checkout/sagas/payment/provide-payment/pay-with-samsung-pay/get-result-data';
+import { createTransaction } from './create-transaction';
+import { getResultData } from './get-result-data';
 import { ProvidePaymentEffects } from 'checkout/sagas/payment/provide-payment/provide-payment';
 import { SetModalState } from 'checkout/actions/modal-actions/set-modal-state';
 

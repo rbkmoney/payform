@@ -7,7 +7,7 @@ import {
 } from '../../../../../constants/samsung-pay-communicator';
 import { Transaction } from 'checkout/backend/model';
 import { listen } from 'cross-origin-communicator';
-import { detectLocale } from 'checkout/detect-locale';
+import { detectLocale } from '../../../../../locale/detect-locale';
 import { serialize } from '../../../../../initializer/popup-initializer';
 
 export async function getResultData(transaction: Transaction, serviceId: string, locale: string): Promise<ResultData> {
