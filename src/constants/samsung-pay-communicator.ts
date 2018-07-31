@@ -1,6 +1,6 @@
 export const communicatorInstanceName = 'samsung-pay-transport';
 
-export const URIPath = '/v1/samsung-pay.html';
+export const URIPath = '/v1/samsung-pay-interaction.html';
 
 export enum Event {
     CONNECT = 'connect',

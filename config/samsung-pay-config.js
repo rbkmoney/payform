@@ -6,14 +6,14 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const rules = require('./common-rules');
 
 module.exports = {
-    name: 'samsung-pay',
+    name: 'samsung-pay-interaction',
     stats: {
         children: false,
         moduleTrace: false,
         modules: false
     },
     entry: {
-        'samsung-pay': './src/samsung-pay-interaction/index.ts',
+        'samsung-pay-interaction': './src/samsung-pay-interaction/index.ts',
     },
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/samsung-pay-interaction')],
@@ -33,7 +33,7 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/samsung-pay-interaction/index.html',
-            filename: 'samsung-pay.html'
+            filename: 'samsung-pay-interaction.html'
         }),
         new CopyWebpackPlugin(
             [
