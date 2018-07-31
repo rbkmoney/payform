@@ -25,3 +25,4 @@ export * from './logic-error';
 export * from './bank-card-token-provider';
 export * from './payment-error';
 export * from './invoice-status';
+export * from './samsungpay';

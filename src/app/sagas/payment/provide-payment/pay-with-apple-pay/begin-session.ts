@@ -35,7 +35,8 @@ const begin = (session: ApplePaySession, endpoint: string, payload: ApplePayPayl
     });
 
 export function* beginSession(config: Config, session: ApplePaySession): Iterator<CallEffect> {
-    const {applePayMerchantID, applePayMerchantValidationEndpoint} = config.appConfig;
+    const {applePayMerchantID, wrapperEndpoint} = config.appConfig;
+    const applePayMerchantValidationEndpoint = wrapperEndpoint + '/applepay';
     const payload = {
         merchantIdentifier: applePayMerchantID,
         domainName: new URL(config.origin).hostname,

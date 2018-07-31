@@ -1,4 +1,11 @@
-import { InteractionFormInfo, ModalForms, ModalInteraction, ModalState } from 'checkout/state';
+import {
+    EventInteractionObject,
+    InteractionFormInfo,
+    ModalForms,
+    ModalInteraction,
+    ModalInteractionType,
+    ModalState
+} from 'checkout/state';
 import {
     CustomerBindingInteractionRequested,
     InteractionType,
@@ -11,7 +18,7 @@ export const providePaymentInteraction = (change: PaymentInteractionRequested): 
     const {userInteraction} = change;
     switch (userInteraction.interactionType) {
         case InteractionType.Redirect:
-            return new ModalInteraction((userInteraction as Redirect).request, true);
+            return new ModalInteraction({type: ModalInteractionType.EventInteraction, request: (userInteraction as Redirect).request} as EventInteractionObject, true);
         case InteractionType.PaymentTerminalReceipt:
             const formInfo = new InteractionFormInfo(userInteraction as PaymentTerminalReceipt);
             return new ModalForms([formInfo], true);
@@ -24,7 +31,7 @@ export const provideCustomerInteraction = (change: CustomerBindingInteractionReq
     const {userInteraction} = change;
     switch (userInteraction.interactionType) {
         case InteractionType.Redirect:
-            return new ModalInteraction((userInteraction as Redirect).request, true);
+            return new ModalInteraction({type: ModalInteractionType.EventInteraction, request: (userInteraction as Redirect).request} as EventInteractionObject, true);
         default:
             throw {code: 'error.unsupported.user.interaction.type'};
     }

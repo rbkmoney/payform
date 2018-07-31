@@ -156,6 +156,8 @@
     "error.payment.request.cancel": "Интерфейс оплаты отклонен",
     "error.google.pay.cancel": "Интерфейс оплаты Google Pay отклонен",
     "error.google.pay.unknown": "Неизвестная ошибка Google Pay",
+    "error.samsung.pay.cancel": "Интерфейс оплаты Samsung Pay отклонен",
+    "error.samsung.pay.not.available": "Интерфейс оплаты Samsung Pay payment не доступен",
     "InvalidPaymentTool": "Недопустимое средство оплаты",
     "AccountLimitsExceeded": "Превышен лимит",
     "InsufficientFunds": "Недостаточно средств",

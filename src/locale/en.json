@@ -156,6 +156,8 @@
     "error.payment.request.cancel": "Payment UI is dismissed",
     "error.google.pay.cancel": "Google Pay payment UI is dismissed",
     "error.google.pay.unknown": "Unknown Google Pay error",
+    "error.samsung.pay.cancel": "Samsung Pay payment UI is dismissed",
+    "error.samsung.pay.not.available": "Samsung Pay payment UI is not available",
     "InvalidPaymentTool": "Invalid payment tool",
     "AccountLimitsExceeded": "Account limits exceeded",
     "InsufficientFunds": "Insufficient funds",
