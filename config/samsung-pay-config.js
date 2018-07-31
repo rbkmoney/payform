@@ -13,7 +13,7 @@ module.exports = {
         modules: false
     },
     entry: {
-        'samsung-pay': './src/samsung-pay-interaction/index.tsx',
+        'samsung-pay': './src/samsung-pay-interaction/index.ts',
     },
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/samsung-pay-interaction')],
