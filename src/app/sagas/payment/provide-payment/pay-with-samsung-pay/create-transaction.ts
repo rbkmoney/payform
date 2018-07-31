@@ -3,28 +3,26 @@ import { guid } from 'checkout/utils';
 import { AmountInfoState } from 'checkout/state';
 import { AppConfig } from 'checkout/backend';
 
-function getTransactionRequestBody(totalAmount: number, currency: string, merchantName: string, serviceID: string) {
-    return {
-        callback: '0',
-        paymentDetails: {
-            service: {
-                id: serviceID
-            },
-            orderNumber: guid(),
-            protocol: {
-                type: '3DS',
-                version: '80'
-            },
-            amount: {
-                currency,
-                total: totalAmount
-            },
-            merchant: {
-                name: merchantName
-            }
+const getTransactionRequestBody = (totalAmount: number, currency: string, merchantName: string, serviceID: string) => ({
+    callback: '0',
+    paymentDetails: {
+        service: {
+            id: serviceID
+        },
+        orderNumber: guid(),
+        protocol: {
+            type: '3DS',
+            version: '80'
+        },
+        amount: {
+            currency,
+            total: totalAmount
+        },
+        merchant: {
+            name: merchantName
         }
-    };
-}
+    }
+});
 
 export async function createTransaction(appConfig: AppConfig, a: AmountInfoState): Promise<Transaction> {
     const {minorValue, currencyCode} = a;
