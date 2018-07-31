@@ -17,7 +17,7 @@ BASE_IMAGE_TAG := 768cf0f40600e290060502e047dd2e86d4fd6020
 
 BUILD_IMAGE_TAG := 1862224e600e34a9bd04327db7b3186fa4d31ceb
 
-CALL_W_CONTAINER := init test build clean submodules
+CALL_W_CONTAINER := init check test build clean submodules
 
 .PHONY: $(CALL_W_CONTAINER)
 
@@ -34,6 +34,9 @@ submodules: $(SUBTARGETS)
 
 init:
 	npm install
+
+check:
+    npm check
 
 test:
 	npm test
