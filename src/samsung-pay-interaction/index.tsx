@@ -27,7 +27,7 @@ class App {
                 this.connect();
             }
         } catch (e) {
-            // await this.start();
+            console.error(e);
         }
     }
 

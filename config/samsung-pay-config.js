@@ -13,10 +13,10 @@ module.exports = {
         modules: false
     },
     entry: {
-        'samsung-pay': './src/samsung-pay/index.tsx',
+        'samsung-pay': './src/samsung-pay-interaction/index.tsx',
     },
     resolve: {
-        modules: ['node_modules', path.join(__dirname, 'src/samsung-pay')],
+        modules: ['node_modules', path.join(__dirname, 'src/samsung-pay-interaction')],
         extensions: ['.ts', '.tsx', '.js'],
     },
     module: {
@@ -32,12 +32,12 @@ module.exports = {
             tslint: true
         }),
         new HtmlWebpackPlugin({
-            template: './src/samsung-pay/index.html',
+            template: './src/samsung-pay-interaction/index.html',
             filename: 'samsung-pay.html'
         }),
         new CopyWebpackPlugin(
             [
-                {from: './src/samsung-pay/assets/js', to: './assets/samsung-pay/js'},
+                {from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay/js'},
             ],
             {debug: 'warning'}
         )
