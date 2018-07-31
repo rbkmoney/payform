@@ -11,24 +11,24 @@ import { detectLocale } from '../../../../../locale/detect-locale';
 import { serialize } from '../../../../../initializer/popup-initializer';
 
 export async function getResultData(transaction: Transaction, serviceId: string, locale: string): Promise<ResultData> {
-    let transport = await listen(communicatorInstanceName, 5000);
+    const connectTransport = await listen(communicatorInstanceName, 5000);
     return await new Promise<ResultData>((res) => {
-        const URL = window.location.origin + URIPath;
-        transport.on(Event.CONNECT, async () => {
-            transport.emit('connect', {
+        const URL = `${window.location.origin}${URIPath}`;
+        connectTransport.on(Event.CONNECT, async () => {
+            const resultTransport = await listen(communicatorInstanceName);
+            connectTransport.emit(Event.CONNECT, {
                 transactionId: transaction.id,
                 href: transaction.href,
                 serviceId,
                 callbackURL: URL,
-                cancelURL: URL + '?' + serialize({type: Type.ERROR}),
+                cancelURL: `${URL}?${serialize({type: Type.ERROR})}`,
                 countryCode: detectLocale(locale),
                 publicKeyMod: transaction.encInfo.mod,
                 publicKeyExp: transaction.encInfo.exp,
                 keyId: transaction.encInfo.keyId
             });
-            transport.destroy();
-            transport = await listen(communicatorInstanceName);
-            transport.on(Event.RESULT, (data: ResultData) => {
+            connectTransport.destroy();
+            resultTransport.on(Event.RESULT, (data: ResultData) => {
                 res(data);
             });
         });
