@@ -102,10 +102,10 @@ describe('Samsung Pay provider', () => {
     });
 
     describe('samsung pay unavailable', () => {
-        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+        const iterator = tokenProvidersToMethods([], null, amountInfo);
 
         it('should return []', () => {
-            const actual = iterator.next(false);
+            const actual = iterator.next(true);
             expect(actual.value).toEqual([]);
             expect(actual.done).toBeTruthy();
         });
