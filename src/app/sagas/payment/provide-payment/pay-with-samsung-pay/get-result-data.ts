@@ -15,7 +15,6 @@ export async function getResultData(transaction: Transaction, serviceId: string,
     return await new Promise<ResultData>((res) => {
         const URL = `${window.location.origin}${URIPath}`;
         connectTransport.on(Event.CONNECT, async () => {
-            const resultTransport = await listen(communicatorInstanceName);
             connectTransport.emit(Event.CONNECT, {
                 transactionId: transaction.id,
                 href: transaction.href,
@@ -28,6 +27,7 @@ export async function getResultData(transaction: Transaction, serviceId: string,
                 keyId: transaction.encInfo.keyId
             });
             connectTransport.destroy();
+            const resultTransport = await listen(communicatorInstanceName);
             resultTransport.on(Event.RESULT, (data: ResultData) => {
                 res(data);
             });
