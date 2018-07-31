@@ -11,18 +11,20 @@ interface InteractionObject {
 }
 
 export interface TokenizedInteractionObject extends InteractionObject {
+    type: ModalInteractionType.TokenizedInteraction;
     uri: string;
 }
 
 export interface EventInteractionObject extends InteractionObject {
+    type: ModalInteractionType.EventInteraction;
     request: BrowserRequest;
 }
 
 export class ModalInteraction extends ModalState {
-    interactionObject: TokenizedInteractionObject | EventInteractionObject;
+    interactionObject: InteractionObject;
     pollingEvents: boolean;
 
-    constructor(interactionObject: TokenizedInteractionObject | EventInteractionObject, active: boolean) {
+    constructor(interactionObject: InteractionObject, active: boolean) {
         super();
         this.name = ModalName.modalInteraction;
         this.interactionObject = interactionObject;

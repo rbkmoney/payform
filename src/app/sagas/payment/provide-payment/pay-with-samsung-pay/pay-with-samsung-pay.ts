@@ -20,6 +20,7 @@ import { createTransaction } from './create-transaction';
 import { getResultData } from './get-result-data';
 import { ProvidePaymentEffects } from 'checkout/sagas/payment/provide-payment/provide-payment';
 import { SetModalState } from 'checkout/actions/modal-actions/set-modal-state';
+import { TokenizedInteractionObject } from 'checkout/state/modal/modal-interaction';
 
 const createPaymentResource = (endpoint: string, referenceID: string, serviceID: string) =>
     createSamsungPay.bind(null, endpoint, referenceID, serviceID);
@@ -32,7 +33,7 @@ export function* payWithSamsungPay(c: Config, m: ModelState, a: AmountInfoState,
         payload: new ModalInteraction({
             type: ModalInteractionType.TokenizedInteraction,
             uri: URIPath
-        }, true)
+        } as TokenizedInteractionObject, true)
     });
     const resultData: ResultData = yield getResultData(transaction, samsungPayServiceID, locale);
     if (resultData.type === Type.SUCCESS) {
