@@ -1,7 +1,35 @@
 import { Transaction } from 'checkout/backend/model';
 import { guid } from 'checkout/utils';
+import { AmountInfoState } from 'checkout/state';
+import { AppConfig } from 'checkout/backend';
 
-export async function createTransaction(totalAmount: number, currency: string, merchantName: string, serviceID: string, wrapperEndpoint: string): Promise<Transaction> {
+function getTransactionRequestBody(totalAmount: number, currency: string, merchantName: string, serviceID: string) {
+    return {
+        callback: '0',
+        paymentDetails: {
+            service: {
+                id: serviceID
+            },
+            orderNumber: guid(),
+            protocol: {
+                type: '3DS',
+                version: '80'
+            },
+            amount: {
+                currency,
+                total: totalAmount
+            },
+            merchant: {
+                name: merchantName
+            }
+        }
+    };
+}
+
+export async function createTransaction(appConfig: AppConfig, a: AmountInfoState): Promise<Transaction> {
+    const {minorValue, currencyCode} = a;
+    const {samsungPayMerchantName, samsungPayServiceID, wrapperEndpoint} = appConfig;
+    const body = getTransactionRequestBody(minorValue / 100, currencyCode, samsungPayMerchantName, samsungPayServiceID);
     try {
         const res = await fetch(`${wrapperEndpoint}/samsungpay/api/v1/transaction`, {
             method: 'POST',
@@ -9,26 +37,7 @@ export async function createTransaction(totalAmount: number, currency: string, m
                 'Content-Type': 'application/json;charset=utf-8',
                 'X-Request-ID': guid()
             },
-            body: JSON.stringify({
-                callback: '0',
-                paymentDetails: {
-                    service: {
-                        id: serviceID
-                    },
-                    orderNumber: '123',
-                    protocol: {
-                        type: '3DS',
-                        version: '80'
-                    },
-                    amount: {
-                        currency,
-                        total: totalAmount
-                    },
-                    merchant: {
-                        name: merchantName
-                    }
-                }
-            })
+            body: JSON.stringify(body)
         });
         if (res.status >= 200 && res.status <= 300) {
             return await res.json();

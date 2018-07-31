@@ -19,7 +19,8 @@ const createPaymentResource = (endpoint: string, referenceID: string, serviceID:
     createSamsungPay.bind(null, endpoint, referenceID, serviceID);
 
 export function* payWithSamsungPay(c: Config, m: ModelState, a: AmountInfoState, v: TokenProviderFormValues): Iterator<Promise<Transaction> | PutEffect<SetModalState> | Promise<ResultData> | ProvidePaymentEffects> {
-    const transaction = yield createTransaction(a.minorValue / 100, a.currencyCode, c.appConfig.samsungPayMerchantName, c.appConfig.samsungPayServiceID, c.appConfig.wrapperEndpoint);
+    const {appConfig, appConfig: {samsungPayServiceID, capiEndpoint}, initConfig: {locale}} = c;
+    const transaction = yield createTransaction(appConfig, a);
     yield put<SetModalState>({
         type: TypeKeys.SET_MODAL_STATE,
         payload: new ModalInteraction({
@@ -27,9 +28,9 @@ export function* payWithSamsungPay(c: Config, m: ModelState, a: AmountInfoState,
             uriTemplate: URIPath
         }, true)
     });
-    const resultData: ResultData = yield getResultData(transaction, c.appConfig.samsungPayServiceID, c.initConfig.locale);
+    const resultData: ResultData = yield getResultData(transaction, samsungPayServiceID, locale);
     if (resultData.type === Type.SUCCESS) {
-        const fn = createPaymentResource(c.appConfig.capiEndpoint, resultData.refId, c.appConfig.samsungPayServiceID);
+        const fn = createPaymentResource(capiEndpoint, resultData.refId, samsungPayServiceID);
         return yield call(makePayment, c, m, v, a, fn);
     } else {
         throw {code: resultData.code || 'error.samsung.pay.cancel'};
