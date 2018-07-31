@@ -8,7 +8,7 @@ import {
 } from 'checkout/state';
 import { call, put, PutEffect } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
-import { RequestType, Transaction } from 'checkout/backend';
+import { Transaction } from 'checkout/backend';
 import {
     ResultData,
     Type,
