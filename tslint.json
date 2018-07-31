@@ -1,7 +1,6 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-immutable"],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-immutable", "tslint-config-prettier"],
   "rules": {
-    "quotemark": [true, "single"],
     "member-access": [true, "no-public"],
     "trailing-comma": false,
     "ordered-imports": false,
