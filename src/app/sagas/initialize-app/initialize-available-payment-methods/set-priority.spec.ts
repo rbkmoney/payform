@@ -13,11 +13,11 @@ it('should set priority', () => {
     const actual = setPriority(methodsState);
     const expected = [
         {name: 'ApplePay', priority: 1},
-        {name: 'GooglePay', priority: 2},
-        {name: 'SamsungPay', priority: 3},
-        {name: 'BankCard', priority: 4},
-        {name: 'DigitalWallet', priority: 5},
-        {name: 'PaymentTerminal', priority: 6}
+        {name: 'GooglePay', priority: 5},
+        {name: 'SamsungPay', priority: 6},
+        {name: 'BankCard', priority: 2},
+        {name: 'DigitalWallet', priority: 3},
+        {name: 'PaymentTerminal', priority: 4}
     ];
     expect(actual).toEqual(expected);
 });
