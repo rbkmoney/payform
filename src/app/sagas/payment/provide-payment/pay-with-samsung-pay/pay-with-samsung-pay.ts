@@ -1,5 +1,11 @@
 import { Config } from 'checkout/config';
-import { AmountInfoState, ModalInteraction, ModelState, TokenProviderFormValues } from 'checkout/state';
+import {
+    AmountInfoState,
+    ModalInteraction,
+    ModalInteractionType,
+    ModelState,
+    TokenProviderFormValues
+} from 'checkout/state';
 import { call, put, PutEffect } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
 import { RequestType, Transaction } from 'checkout/backend';
@@ -24,8 +30,8 @@ export function* payWithSamsungPay(c: Config, m: ModelState, a: AmountInfoState,
     yield put<SetModalState>({
         type: TypeKeys.SET_MODAL_STATE,
         payload: new ModalInteraction({
-            requestType: RequestType.BrowserGetRequest,
-            uriTemplate: URIPath
+            type: ModalInteractionType.TokenizedInteraction,
+            uri: URIPath
         }, true)
     });
     const resultData: ResultData = yield getResultData(transaction, samsungPayServiceID, locale);

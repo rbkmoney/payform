@@ -1,9 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as styles from './user-interaction-modal.scss';
-import { ModalInteraction, ModalName, State } from 'checkout/state';
+import {
+    EventInteractionObject,
+    ModalInteraction,
+    ModalInteractionType,
+    ModalName,
+    State,
+    TokenizedInteractionObject
+} from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 import { prepareForm } from './interaction-form';
+import { RequestType } from 'checkout/backend/model/event/user-interaction/request-type';
+import { BrowserRequest } from 'checkout/backend';
 
 export interface UserInteractionModalProps {
     modal: ModalInteraction;
@@ -19,7 +28,19 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
 
     componentDidMount() {
         const frameDocument = getContentDocument();
-        const {origin, modal: {request}} = this.props;
+        const { origin, modal: { interactionObject } } = this.props;
+        let request: BrowserRequest;
+        switch (interactionObject.type) {
+            case ModalInteractionType.EventInteraction:
+                request = (interactionObject as EventInteractionObject).request;
+                break;
+            case ModalInteractionType.TokenizedInteraction:
+                request = {
+                    uriTemplate: (interactionObject as TokenizedInteractionObject).uri,
+                    requestType: RequestType.BrowserGetRequest
+                };
+                break;
+        }
         const form = prepareForm(origin, request);
         frameDocument.body.appendChild(form);
         form.submit();

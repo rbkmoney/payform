@@ -24,7 +24,7 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['samsung-pay']
+            name: ['samsung-pay-interaction']
         }),
         new ForkTsCheckerWebpackPlugin({
             checkSyntacticErrors: true,
@@ -37,7 +37,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin(
             [
-                {from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay/js'},
+                {from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay-interaction/js'},
             ],
             {debug: 'warning'}
         )
