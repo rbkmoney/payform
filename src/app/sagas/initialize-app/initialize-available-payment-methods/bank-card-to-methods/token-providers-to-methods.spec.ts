@@ -4,7 +4,6 @@ import { BankCardTokenProvider } from 'checkout/backend';
 import { PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
 import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { isReadyToGooglePay } from './is-ready-to-google-pay';
-import { isReadyToSamsungPay } from './is-ready-to-samsung-pay';
 
 const amountInfo = 'amountInfoMock' as any;
 
@@ -94,12 +93,6 @@ describe('Samsung Pay provider', () => {
     describe('samsung pay available', () => {
         const iterator = tokenProvidersToMethods(providers, null, amountInfo);
 
-        it('should call isReadyToSamsungPay', () => {
-            const actual = iterator.next().value;
-            const expected = call(isReadyToSamsungPay, amountInfo);
-            expect(actual).toEqual(expected);
-        });
-
         it('should return PaymentMethodNameState SamsungPay', () => {
             const actual = iterator.next(true);
             const expected = [{name: PaymentMethodNameState.SamsungPay}];
@@ -110,12 +103,6 @@ describe('Samsung Pay provider', () => {
 
     describe('samsung pay unavailable', () => {
         const iterator = tokenProvidersToMethods(providers, null, amountInfo);
-
-        it('should call isReadyToSamsungPay', () => {
-            const actual = iterator.next().value;
-            const expected = call(isReadyToSamsungPay, amountInfo);
-            expect(actual).toEqual(expected);
-        });
 
         it('should return []', () => {
             const actual = iterator.next(false);
