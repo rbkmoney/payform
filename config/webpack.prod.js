@@ -4,6 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const CompressionPlugin = require('compression-webpack-plugin');
 const checkoutConfig = require('./checkout-config');
 const initializerConfig = require('./initializer-config');
+const samsungPayConfig = require('./samsung-pay-config');
 const prepareOutputConfig = require('./prepare-output-config');
 
 const commonProdConfig = {
@@ -35,5 +36,6 @@ const prepareModule = (baseConfig, outputPath, jsPattern, cssPattern) =>
 
 module.exports = [
     prepareModule(checkoutConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
+    prepareModule(samsungPayConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
     prepareModule(initializerConfig, baseOutput)
 ];
