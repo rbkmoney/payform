@@ -36,7 +36,7 @@ init:
 	npm install
 
 check:
-    npm run check
+	npm run check
 
 test:
 	npm test
