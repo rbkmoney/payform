@@ -1,7 +1,6 @@
 import { InvoiceLineTaxMode } from './invoice-line-tax-mode';
 
 export class InvoiceLineTaxVAT extends InvoiceLineTaxMode {
-
     rate: string;
 
     constructor(rate: string) {

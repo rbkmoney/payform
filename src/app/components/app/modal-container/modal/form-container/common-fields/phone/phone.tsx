@@ -21,19 +21,15 @@ const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
         icon={IconType.phone}
         placeholder={props.locale['form.input.phone.placeholder']}
         mark={true}
-        type='tel'
-        id='phone-input'
+        type="tel"
+        id="phone-input"
         onInput={formatPhoneNumber}
         onFocus={formatPhoneNumber}
     />
 );
 
 export const PhoneDef: React.SFC<PhoneProps> = (props) => (
-    <Field
-        name='phone'
-        component={getCustomInput.bind(null, props)}
-        validate={validatePhone}
-    />
+    <Field name="phone" component={getCustomInput.bind(null, props)} validate={validatePhone} />
 );
 
 const mapStateToProps = (state: State) => ({

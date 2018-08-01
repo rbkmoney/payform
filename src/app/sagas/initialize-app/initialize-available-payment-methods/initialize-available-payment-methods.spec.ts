@@ -7,7 +7,6 @@ import { setPriority } from './set-priority';
 import { TypeKeys } from 'checkout/actions';
 
 describe('initializeAvailablePaymentMethods', () => {
-
     const paymentMethods = 'paymentMethodsMock' as any;
     const amountInfo = 'amountInfoMock' as any;
 

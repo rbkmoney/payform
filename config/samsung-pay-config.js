@@ -13,11 +13,11 @@ module.exports = {
         modules: false
     },
     entry: {
-        'samsung-pay-interaction': './src/samsung-pay-interaction/index.ts',
+        'samsung-pay-interaction': './src/samsung-pay-interaction/index.ts'
     },
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/samsung-pay-interaction')],
-        extensions: ['.ts', '.tsx', '.js'],
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules
@@ -36,10 +36,8 @@ module.exports = {
             filename: 'samsung-pay-interaction.html'
         }),
         new CopyWebpackPlugin(
-            [
-                {from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay-interaction/js'},
-            ],
-            {debug: 'warning'}
+            [{ from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay-interaction/js' }],
+            { debug: 'warning' }
         )
     ]
 };

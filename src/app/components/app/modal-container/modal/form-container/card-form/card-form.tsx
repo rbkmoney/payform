@@ -46,14 +46,16 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 type Props = InjectedFormProps & CardFormProps;
 
 class CardFormDef extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
     }
 
     componentWillMount() {
-        const {cardFormInfo: {paymentStatus}, formValues} = this.props;
+        const {
+            cardFormInfo: { paymentStatus },
+            formValues
+        } = this.props;
         this.props.setViewInfoError(false);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
@@ -72,35 +74,44 @@ class CardFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount, cardHolder}} = this.props;
+        const {
+            handleSubmit,
+            fieldsConfig: { email, amount, cardHolder }
+        } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id='card-form'>
+            <form onSubmit={handleSubmit(this.submit)} id="card-form">
                 <div>
-                    <Header title={this.getHeaderTitle()}/>
+                    <Header title={this.getHeaderTitle()} />
                     <div className={formStyles.formGroup}>
-                        <CardNumber/>
+                        <CardNumber />
                     </div>
                     <div className={formStyles.formGroup}>
-                        <ExpireDate/>
-                        <SecureCode/>
+                        <ExpireDate />
+                        <SecureCode />
                     </div>
-                    {cardHolder.visible ?
+                    {cardHolder.visible ? (
                         <div className={formStyles.formGroup}>
-                            <CardHolder/>
-                        </div> : false
-                    }
-                    {email.visible ?
+                            <CardHolder />
+                        </div>
+                    ) : (
+                        false
+                    )}
+                    {email.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Email/>
-                        </div> : false
-                    }
-                    {amount.visible ?
+                            <Email />
+                        </div>
+                    ) : (
+                        false
+                    )}
+                    {amount.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost}/>
-                        </div> : false
-                    }
+                            <Amount cost={amount.cost} />
+                        </div>
+                    ) : (
+                        false
+                    )}
                 </div>
-                <PayButton/>
+                <PayButton />
             </form>
         );
     }
@@ -110,7 +121,7 @@ class CardFormDef extends React.Component<Props> {
         switch (this.props.integrationType) {
             case IntegrationType.invoice:
             case IntegrationType.invoiceTemplate:
-                this.props.pay({method: PaymentMethodName.BankCard, values});
+                this.props.pay({ method: PaymentMethodName.BankCard, values });
                 break;
             case IntegrationType.customer:
                 this.props.subscribe(values);
@@ -141,4 +152,7 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(CardFormDef);
 
-export const CardForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const CardForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReduxForm as any);

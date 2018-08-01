@@ -33,8 +33,7 @@ it('should return resolved init config', () => {
         invoiceID: 'someID',
         invoiceAccessToken: 'some token'
     });
-    resolveIntegerMocked
-        .mockReturnValueOnce(param.amount);
+    resolveIntegerMocked.mockReturnValueOnce(param.amount);
     resolveBooleanMocked
         .mockReturnValueOnce(param.obscureCardCvv)
         .mockReturnValueOnce(param.requireCardHolder)

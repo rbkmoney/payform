@@ -17,8 +17,11 @@ const mapDispatchToProps = (dispatch: Dispatch<ResultAction>) => ({
 
 const CloseDef: React.SFC<CloseProps> = (props) => (
     <div className={styles.close} onClick={props.setResult.bind(null, ResultState.close)}>
-        <Icon icon={IconType.cross}/>
+        <Icon icon={IconType.cross} />
     </div>
 );
 
-export const Close = connect(null, mapDispatchToProps)(CloseDef);
+export const Close = connect(
+    null,
+    mapDispatchToProps
+)(CloseDef);

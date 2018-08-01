@@ -7,7 +7,7 @@ export const serialize = (params: any): string => {
     for (const prop in params) {
         if (params.hasOwnProperty(prop)) {
             const value = params[prop];
-            if ((typeof value === 'function') || (value === undefined) || (value === null)) {
+            if (typeof value === 'function' || value === undefined || value === null) {
                 continue;
             }
             if (urlParams !== '') {
@@ -20,7 +20,6 @@ export const serialize = (params: any): string => {
 };
 
 export class PopupInitializer extends Initializer {
-
     open() {
         const url = `${this.origin}/v1/checkout.html?${serialize(this.config)}`;
         const target = window.open(url);

@@ -6,10 +6,7 @@ import { State } from 'checkout/state';
 type LoadConfigEffect = AllEffect | PutEffect<ConfigChunkReceived> | SelectEffect | ConfigChunk;
 
 export function* loadConfig(localeName: string): IterableIterator<LoadConfigEffect> {
-    const [appConfig, locale] = yield all([
-        call(getAppConfig),
-        call(getLocale, localeName)
-    ]);
+    const [appConfig, locale] = yield all([call(getAppConfig), call(getLocale, localeName)]);
     yield put({
         type: TypeKeys.CONFIG_CHUNK_RECEIVED,
         payload: {

@@ -10,19 +10,18 @@ import { AppProps } from './app-props';
 import { initializeApp } from 'checkout/actions';
 
 class AppDef extends React.Component<AppProps> {
-
     componentWillMount() {
         this.props.initApp(this.props.initConfig);
     }
 
     render() {
-        const {initialized, error} = this.props.initializeApp;
+        const { initialized, error } = this.props.initializeApp;
         return (
             <div className={styles.layout}>
-                <Overlay/>
-                {!initialized && !error ? <LayoutLoader/> : false}
+                <Overlay />
+                {!initialized && !error ? <LayoutLoader /> : false}
                 {error ? <div>{error.message}</div> : false}
-                {initialized ? <ModalContainer/> : false}
+                {initialized ? <ModalContainer /> : false}
             </div>
         );
     }
@@ -37,4 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     initApp: bindActionCreators(initializeApp, dispatch)
 });
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppDef);
+export const App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AppDef);

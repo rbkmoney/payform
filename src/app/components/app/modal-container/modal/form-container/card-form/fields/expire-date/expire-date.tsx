@@ -21,18 +21,14 @@ const getCustomInput = (props: ExpireDateProps, fieldProps: WrappedFieldProps) =
         icon={IconType.calendar}
         placeholder={props.locale['form.input.expiry.placeholder']}
         mark={true}
-        type='tel'
-        id='expire-date-input'
+        type="tel"
+        id="expire-date-input"
         onInput={formatExpiry}
     />
 );
 
 export const ExpireDateDef: React.SFC<ExpireDateProps> = (props) => (
-    <Field
-        name='expireDate'
-        component={getCustomInput.bind(null, props)}
-        validate={validateExpireDate}
-    />
+    <Field name="expireDate" component={getCustomInput.bind(null, props)} validate={validateExpireDate} />
 );
 
 const mapStateToProps = (state: State) => ({

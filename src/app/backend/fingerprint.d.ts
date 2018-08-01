@@ -1,10 +1,9 @@
 declare module 'fingerprintjs2' {
-
     export default class Fingerprint2 {
         static VERSION: string;
         constructor(options?: Fingerprint2Options);
 
-        get(callback: (result: string, components: [{ key: string, value: string }]) => void): number;
+        get(callback: (result: string, components: [{ key: string; value: string }]) => void): number;
     }
 
     export interface Fingerprint2Options {

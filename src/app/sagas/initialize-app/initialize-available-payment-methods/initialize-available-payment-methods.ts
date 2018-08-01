@@ -2,22 +2,21 @@ import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-sa
 import { PaymentMethod } from 'checkout/backend';
 import { Config, IntegrationType } from 'checkout/config';
 import { InitializeAvailablePaymentMethodsCompleted, TypeKeys } from 'checkout/actions';
-import {
-    PaymentMethod as PaymentMethodState,
-    ConfigState,
-    State,
-    AmountInfoState
-} from 'checkout/state';
+import { PaymentMethod as PaymentMethodState, ConfigState, State, AmountInfoState } from 'checkout/state';
 import { setPriority } from './set-priority';
 import { toAvailablePaymentMethods } from './to-available-payment-methods';
 
 export type InitializeEffect =
-    CallEffect
+    | CallEffect
     | PutEffect<InitializeAvailablePaymentMethodsCompleted>
     | SelectEffect
     | PaymentMethodState;
 
-export function* init(config: Config, paymentMethods: PaymentMethod[], amountInfo: AmountInfoState): Iterator<InitializeEffect> {
+export function* init(
+    config: Config,
+    paymentMethods: PaymentMethod[],
+    amountInfo: AmountInfoState
+): Iterator<InitializeEffect> {
     const methods = yield call(toAvailablePaymentMethods, paymentMethods, config, amountInfo);
     const prioritizedMethods = yield call(setPriority, methods);
     yield put({
@@ -29,7 +28,11 @@ export function* init(config: Config, paymentMethods: PaymentMethod[], amountInf
 
 type Effects = CallEffect | SelectEffect | PaymentMethod[];
 
-export function* initializeAvailablePaymentMethods(config: ConfigState, paymentMethods: PaymentMethod[], amountInfo: AmountInfoState): Iterator<Effects> {
+export function* initializeAvailablePaymentMethods(
+    config: ConfigState,
+    paymentMethods: PaymentMethod[],
+    amountInfo: AmountInfoState
+): Iterator<Effects> {
     switch (config.initConfig.integrationType) {
         case IntegrationType.customer:
             return null;

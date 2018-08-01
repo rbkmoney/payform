@@ -4,6 +4,6 @@ import { Loader } from 'checkout/components';
 
 export const ModalLoader: React.SFC = () => (
     <div className={styles.loader}>
-        <Loader/>
+        <Loader />
     </div>
 );

@@ -12,11 +12,7 @@ export interface PayButtonProps {
 }
 
 const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
-    <Button
-        type='submit'
-        style='primary'
-        id='pay-btn'
-        className={pay_button}>
+    <Button type="submit" style="primary" id="pay-btn" className={pay_button}>
         {props.label}
     </Button>
 );
@@ -30,7 +26,7 @@ const toInvoiceLabel = (locale: Locale, amountInfo: AmountInfoState): string => 
 const toCustomerLabel = (locale: Locale): string => locale['form.button.bind.label'];
 
 const toLabel = (config: ConfigState, amountInfo: AmountInfoState): string => {
-    const {locale, initConfig} = config;
+    const { locale, initConfig } = config;
     switch (initConfig.integrationType) {
         case IntegrationType.invoice:
         case IntegrationType.invoiceTemplate:
@@ -41,7 +37,7 @@ const toLabel = (config: ConfigState, amountInfo: AmountInfoState): string => {
 };
 
 const mapStateToProps = (s: State) => ({
-    label: toLabel(s.config, s.amountInfo),
+    label: toLabel(s.config, s.amountInfo)
 });
 
 export const PayButton = connect(mapStateToProps)(PayButtonDef);

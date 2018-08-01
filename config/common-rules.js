@@ -17,7 +17,8 @@ const rules = [
                     transpileOnly: true,
                     happyPackMode: true
                 }
-            }],
+            }
+        ],
         exclude: '/node_modules/'
     },
     {
@@ -40,25 +41,29 @@ const rules = [
     },
     {
         test: /\.(jpeg|jpg)$/,
-        use: [{
-            loader: 'file-loader',
-            options: {
-                name: '[hash:8].[ext]',
-                outputPath: './assets/',
-                mimetype: 'mimetype=image/jpeg',
+        use: [
+            {
+                loader: 'file-loader',
+                options: {
+                    name: '[hash:8].[ext]',
+                    outputPath: './assets/',
+                    mimetype: 'mimetype=image/jpeg'
+                }
             }
-        }]
+        ]
     },
     {
         test: /\.(woff|woff2)$/,
-        use: [{
-            loader: 'file-loader',
-            options: {
-                name: '[hash:8].[ext]',
-                mimetype: 'mimetype=application/font-woff',
-                outputPath: './fonts/'
+        use: [
+            {
+                loader: 'file-loader',
+                options: {
+                    name: '[hash:8].[ext]',
+                    mimetype: 'mimetype=application/font-woff',
+                    outputPath: './fonts/'
+                }
             }
-        }]
+        ]
     }
 ];
 

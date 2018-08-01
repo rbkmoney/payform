@@ -6,7 +6,5 @@ interface NumerableListProps {
 }
 
 export const NumerableList: React.SFC<NumerableListProps> = (props) => (
-    <ul className={styles.list}>
-        {props.children}
-    </ul>
+    <ul className={styles.list}>{props.children}</ul>
 );

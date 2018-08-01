@@ -1,10 +1,6 @@
 import { getLastChange } from 'checkout/utils';
 import { ModalState } from 'checkout/state';
-import {
-    CustomerBindingInteractionRequested,
-    CustomerChangeType,
-    CustomerEvent
-} from 'checkout/backend';
+import { CustomerBindingInteractionRequested, CustomerChangeType, CustomerEvent } from 'checkout/backend';
 import { toInitialCustomerState } from './to-initial-customer-state';
 import { toModalResult } from './to-modal-result';
 import { provideCustomerInteraction } from '../../provide-modal';

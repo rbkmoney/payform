@@ -1,19 +1,9 @@
 import { ModelState } from 'checkout/state';
-import {
-    TypeKeys,
-    InitializeModelCompleted,
-    InvoiceCreated,
-    EventPolled,
-    CustomerEventPolled
-} from 'checkout/actions';
+import { TypeKeys, InitializeModelCompleted, InvoiceCreated, EventPolled, CustomerEventPolled } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
 import { CustomerEvent, Event } from 'checkout/backend';
 
-type ModelReducerAction =
-    InitializeModelCompleted |
-    InvoiceCreated |
-    EventPolled |
-    CustomerEventPolled;
+type ModelReducerAction = InitializeModelCompleted | InvoiceCreated | EventPolled | CustomerEventPolled;
 
 export function modelReducer(s: ModelState = null, action: ModelReducerAction): ModelState {
     switch (action.type) {

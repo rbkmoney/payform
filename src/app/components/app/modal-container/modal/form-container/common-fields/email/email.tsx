@@ -20,17 +20,13 @@ const getCustomInput = (props: EmailDefProps, fieldProps: WrappedFieldProps) => 
         icon={IconType.letter}
         placeholder={props.locale['form.input.email.placeholder']}
         mark={true}
-        type='email'
-        id='email-input'
+        type="email"
+        id="email-input"
     />
 );
 
 export const EmailDef: React.SFC<EmailDefProps> = (props) => (
-    <Field
-        name='email'
-        component={getCustomInput.bind(null, props)}
-        validate={validateEmail}
-    />
+    <Field name="email" component={getCustomInput.bind(null, props)} validate={validateEmail} />
 );
 
 const mapStateToProps = (state: State) => ({

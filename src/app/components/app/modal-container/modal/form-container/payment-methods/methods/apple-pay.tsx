@@ -9,22 +9,22 @@ const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.applepay, FormName.paymentMethods));
 
 const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
-    <li className={method} onClick={toTokenProvider.bind(null, props)} id='apple-pay-payment-method'>
-        <ApplePayIcon/>
-        <div className={title}>
-            {props.locale['form.payment.method.name.apple.pay.label']}
-        </div>
+    <li className={method} onClick={toTokenProvider.bind(null, props)} id="apple-pay-payment-method">
+        <ApplePayIcon />
+        <div className={title}>{props.locale['form.payment.method.name.apple.pay.label']}</div>
     </li>
 );
 
-const pay = (props: MethodProps) => props.pay({method: PaymentMethodName.ApplePay});
+const pay = (props: MethodProps) => props.pay({ method: PaymentMethodName.ApplePay });
 
 const ApplePayButton: React.SFC<MethodProps> = (props) => (
-    <button type='button' className={apple_pay_button} onClick={pay.bind(null, props)}/>
+    <button type="button" className={apple_pay_button} onClick={pay.bind(null, props)} />
 );
 
 export const ApplePay: React.SFC<MethodProps> = (props) => {
-    return props.amountPrefilled && props.emailPrefilled
-        ? <ApplePayButton {...props}/>
-        : <TokenProviderFormLink {...props}/>;
+    return props.amountPrefilled && props.emailPrefilled ? (
+        <ApplePayButton {...props} />
+    ) : (
+        <TokenProviderFormLink {...props} />
+    );
 };

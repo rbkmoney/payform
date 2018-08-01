@@ -1,12 +1,12 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import {
-    PaymentToolType,
-    ProviderType,
-    createPaymentResource,
-    PaymentResource,
-} from 'checkout/backend';
+import { PaymentToolType, ProviderType, createPaymentResource, PaymentResource } from 'checkout/backend';
 
-export function* createApplePay(endpoint: string, merchantID: string, paymentToken: ApplePayPayment, token: string): Iterator<CallEffect | PaymentResource> {
+export function* createApplePay(
+    endpoint: string,
+    merchantID: string,
+    paymentToken: ApplePayPayment,
+    token: string
+): Iterator<CallEffect | PaymentResource> {
     const paymentTool = {
         paymentToolType: PaymentToolType.TokenizedCardData,
         provider: ProviderType.ApplePay,

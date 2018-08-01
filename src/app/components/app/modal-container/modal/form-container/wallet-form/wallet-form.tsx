@@ -44,7 +44,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 type Props = WalletFormProps & InjectedFormProps;
 
 class WalletFormDef extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -59,11 +58,14 @@ class WalletFormDef extends React.Component<Props> {
 
     submit(values: WalletFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({method: PaymentMethodName.DigitalWallet, values});
+        this.props.pay({ method: PaymentMethodName.DigitalWallet, values });
     }
 
     componentWillMount() {
-        const {walletFormInfo: {paymentStatus}, formValues} = this.props;
+        const {
+            walletFormInfo: { paymentStatus },
+            formValues
+        } = this.props;
         this.props.setViewInfoError(false);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
@@ -82,26 +84,33 @@ class WalletFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, fieldsConfig: {email, amount}} = this.props;
+        const {
+            handleSubmit,
+            fieldsConfig: { email, amount }
+        } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id='wallet-form'>
+            <form onSubmit={handleSubmit(this.submit)} id="wallet-form">
                 <div>
-                    <Header title={this.props.locale['form.header.pay.qiwi.label']}/>
+                    <Header title={this.props.locale['form.header.pay.qiwi.label']} />
                     <div className={formStyles.formGroup}>
-                        <Phone/>
+                        <Phone />
                     </div>
-                    {email.visible ?
+                    {email.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Email/>
-                        </div> : false
-                    }
-                    {amount.visible ?
+                            <Email />
+                        </div>
+                    ) : (
+                        false
+                    )}
+                    {amount.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost}/>
-                        </div> : false
-                    }
+                            <Amount cost={amount.cost} />
+                        </div>
+                    ) : (
+                        false
+                    )}
                 </div>
-                <PayButton/>
+                <PayButton />
             </form>
         );
     }
@@ -112,4 +121,7 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(WalletFormDef);
 
-export const WalletForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const WalletForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReduxForm as any);

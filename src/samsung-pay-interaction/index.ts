@@ -3,8 +3,17 @@ import { communicatorInstanceName, ConnectData, Event, ResultData, Type } from '
 import { deserialize } from '../app/utils/uri-serializer';
 
 declare const SamsungPay: {
-    connect: (transactionId: string, href: string, serviceId: string, callbackURL: string, cancelURL: string, countryCode: 'br' | 'ru' | 'se' | 'uk' | 'us' | 'kr', publicKeyMod: string,
-              publicKeyExp: string, keyId: string) => {}
+    connect: (
+        transactionId: string,
+        href: string,
+        serviceId: string,
+        callbackURL: string,
+        cancelURL: string,
+        countryCode: 'br' | 'ru' | 'se' | 'uk' | 'us' | 'kr',
+        publicKeyMod: string,
+        publicKeyExp: string,
+        keyId: string
+    ) => {};
 };
 
 class App {
@@ -12,7 +21,7 @@ class App {
 
     async start() {
         try {
-            let params: { type?: Type, refId?: string };
+            let params: { type?: Type; refId?: string };
             try {
                 params = deserialize(window.document.location.href);
             } catch (e) {
@@ -53,14 +62,14 @@ class App {
     }
 
     private success(refId: string) {
-        const resultData: ResultData = {type: Type.SUCCESS, refId};
+        const resultData: ResultData = { type: Type.SUCCESS, refId };
         this.transport.emit(Event.RESULT, resultData);
     }
 
     private error(code: string = 'error.samsung.pay.cancel') {
-        const resultData: ResultData = {type: Type.ERROR, code};
+        const resultData: ResultData = { type: Type.ERROR, code };
         this.transport.emit(Event.RESULT, resultData);
     }
 }
 
-(new App()).start();
+new App().start();

@@ -15,7 +15,7 @@ interface ModalDefProps {
 
 const ModalDef: React.SFC<ModalDefProps> = (props) => (
     <CSSTransitionGroup
-        component='div'
+        component="div"
         transitionName={{
             appear: styles.appearFormContainer,
             enter: styles.enterFormContainer,
@@ -26,15 +26,17 @@ const ModalDef: React.SFC<ModalDefProps> = (props) => (
         transitionAppearTimeout={1000}
         transitionAppear={true}
         transitionEnter={true}
-        transitionLeave={true}
-    >
-        <div className={cx(styles.form_container, {
-            [styles.with_shadow]: props.inFrame
-        })} id='form-container'>
-            <MobileHeader/>
-            <Info/>
-            <FormContainer/>
-            <Footer/>{/*For mobile*/}
+        transitionLeave={true}>
+        <div
+            className={cx(styles.form_container, {
+                [styles.with_shadow]: props.inFrame
+            })}
+            id="form-container">
+            <MobileHeader />
+            <Info />
+            <FormContainer />
+            <Footer />
+            {/*For mobile*/}
         </div>
     </CSSTransitionGroup>
 );

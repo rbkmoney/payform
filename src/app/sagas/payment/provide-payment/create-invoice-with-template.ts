@@ -15,13 +15,19 @@ const getAmount = (amountInfo: AmountInfoState, formAmount: string): number => {
     }
 };
 
-export function* createInvoiceWithTemplate(endpoint: string, token: string, template: InvoiceTemplate, amountInfo: AmountInfoState, formAmount: string): Iterator<Effects> {
+export function* createInvoiceWithTemplate(
+    endpoint: string,
+    token: string,
+    template: InvoiceTemplate,
+    amountInfo: AmountInfoState,
+    formAmount: string
+): Iterator<Effects> {
     const params = {
         amount: getAmount(amountInfo, formAmount),
         metadata: template.metadata,
         currency: amountInfo.currencyCode
     };
-    const {invoice, invoiceAccessToken} = yield call(request, endpoint, token, template.id, params);
+    const { invoice, invoiceAccessToken } = yield call(request, endpoint, token, template.id, params);
     return yield put({
         type: TypeKeys.INVOICE_CREATED,
         payload: {

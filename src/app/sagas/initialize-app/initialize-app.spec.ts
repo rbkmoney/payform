@@ -58,7 +58,12 @@ describe('initialize', () => {
     it('should call initializeAvailablePaymentMethods', () => {
         const amountInfo = 'amountInfoMock' as any;
         const actual = iterator.next(amountInfo).value;
-        const expected = call(initializeAvailablePaymentMethods, {...configChunk, initConfig}, model.paymentMethods, amountInfo);
+        const expected = call(
+            initializeAvailablePaymentMethods,
+            { ...configChunk, initConfig },
+            model.paymentMethods,
+            amountInfo
+        );
         expect(actual).toEqual(expected);
     });
 
@@ -88,7 +93,7 @@ describe('initializeApp', () => {
     it('should put initialize app completed', () => {
         const actual = iterator.next().value;
         const expected = put({
-            type: TypeKeys.INITIALIZE_APP_COMPLETED,
+            type: TypeKeys.INITIALIZE_APP_COMPLETED
         });
         expect(actual).toEqual(expected);
     });

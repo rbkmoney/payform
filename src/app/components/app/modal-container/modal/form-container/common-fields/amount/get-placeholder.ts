@@ -2,17 +2,27 @@ import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'chec
 import { formatAmount, getSymbol } from 'checkout/utils';
 import { AmountInfoStatus } from 'checkout/state';
 
-const toUnlimPlaceholder = (localeString: string, currency: string): string =>
-    `${localeString} ${getSymbol(currency)}`;
+const toUnlimPlaceholder = (localeString: string, currency: string): string => `${localeString} ${getSymbol(currency)}`;
 
 const toRangePlaceholder = (cost: InvoiceTemplateLineCostRange): string => {
     const range = cost.range;
-    const lower = formatAmount({minorValue: range.lowerBound, currencyCode: cost.currency, status: AmountInfoStatus.final});
-    const upper = formatAmount({minorValue: range.upperBound, currencyCode: cost.currency, status: AmountInfoStatus.final});
+    const lower = formatAmount({
+        minorValue: range.lowerBound,
+        currencyCode: cost.currency,
+        status: AmountInfoStatus.final
+    });
+    const upper = formatAmount({
+        minorValue: range.upperBound,
+        currencyCode: cost.currency,
+        status: AmountInfoStatus.final
+    });
     return `${lower.value} ${lower.symbol} - ${upper.value} ${upper.symbol}`;
 };
 
-export const getPlaceholder = (cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim, localeString: string): string => {
+export const getPlaceholder = (
+    cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim,
+    localeString: string
+): string => {
     if (!cost) {
         return;
     }

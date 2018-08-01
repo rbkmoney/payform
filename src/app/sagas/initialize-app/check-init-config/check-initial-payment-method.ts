@@ -7,15 +7,17 @@ const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): Chec
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: 'BankCard disabled (Integration param \'bankCard\':\'false\').'
+            message: "BankCard disabled (Integration param 'bankCard':'false')."
         };
     }
     const found = paymentMethods.find((method) => method.method === PaymentMethodName.BankCard);
-    return found ? {available: true} : {
-        available: false,
-        reason: UnavailableReason.capability,
-        message: 'Value \'bankCard\' can not applied. Payment method BankCard is not available for merchant.'
-    };
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message: "Value 'bankCard' can not applied. Payment method BankCard is not available for merchant."
+          };
 };
 
 const checkTerminalEuroset = (terminals: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
@@ -23,15 +25,18 @@ const checkTerminalEuroset = (terminals: boolean, paymentMethods: PaymentMethod[
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: 'Terminals disabled (Integration param \'terminals\':\'false\').'
+            message: "Terminals disabled (Integration param 'terminals':'false')."
         };
     }
     const found = paymentMethods.find((method) => method.method === PaymentMethodName.PaymentTerminal);
-    return found ? {available: true} : {
-        available: false,
-        reason: UnavailableReason.capability,
-        message: 'Value \'terminalEuroset\' can not applied. Payment method PaymentTerminal is not available for merchant.'
-    };
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message:
+                  "Value 'terminalEuroset' can not applied. Payment method PaymentTerminal is not available for merchant."
+          };
 };
 
 const checkWalletQiwi = (wallets: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
@@ -39,19 +44,21 @@ const checkWalletQiwi = (wallets: boolean, paymentMethods: PaymentMethod[]): Che
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: 'Digital wallets disabled (Integration param \'wallets\':\'false\').'
+            message: "Digital wallets disabled (Integration param 'wallets':'false')."
         };
     }
     const found = paymentMethods.find((method) => method.method === PaymentMethodName.DigitalWallet);
-    return found ? {available: true} : {
-        available: false,
-        reason: UnavailableReason.capability,
-        message: 'Value \'walletQiwi\' can not applied. Payment method DigitalWallet is not available for merchant.'
-    };
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message: "Value 'walletQiwi' can not applied. Payment method DigitalWallet is not available for merchant."
+          };
 };
 
 const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const {initialPaymentMethod, bankCard, terminals, wallets} = initConfig;
+    const { initialPaymentMethod, bankCard, terminals, wallets } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
             return checkBankCard(bankCard, paymentMethods);
@@ -69,9 +76,9 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
 };
 
 export const checkInitialPaymentMethod = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const {initialPaymentMethod, integrationType} = initConfig;
+    const { initialPaymentMethod, integrationType } = initConfig;
     if (initialPaymentMethod === null) {
-        return {available: true};
+        return { available: true };
     }
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:
@@ -81,7 +88,7 @@ export const checkInitialPaymentMethod = (initConfig: InitConfig, paymentMethods
             return {
                 available: false,
                 reason: UnavailableReason.capability,
-                message: 'Param \'initialPaymentMethod\' is only available for invoice and invoice template integration'
+                message: "Param 'initialPaymentMethod' is only available for invoice and invoice template integration"
             };
     }
 };

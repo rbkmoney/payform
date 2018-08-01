@@ -8,7 +8,7 @@ export const hasTerminationUriTemplate = (value: any): boolean => {
     if (!isString(value)) {
         return false;
     }
-    const {expressions} = parser.parse(decodeURIComponent(value));
+    const { expressions } = parser.parse(decodeURIComponent(value));
     let result = false;
     if (expressions && expressions.length === 1) {
         const hasTermUri = hasTerminationUriParam(expressions[0]);
@@ -24,6 +24,6 @@ export const expandWithRedirect = (origin: string, template: string, decode: boo
     const decoded = decodeURIComponent(template);
     const parsed = parser.parse(decoded);
     const redirectUrl = `${origin}/v1/finish-interaction.html`;
-    const expanded = parsed.expand({termination_uri: redirectUrl});
+    const expanded = parsed.expand({ termination_uri: redirectUrl });
     return decode ? decodeURIComponent(expanded) : expanded;
 };

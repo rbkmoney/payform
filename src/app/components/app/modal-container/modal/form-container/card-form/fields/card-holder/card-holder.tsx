@@ -21,17 +21,13 @@ const getCustomInput = (props: CardHolderProps, fieldProps: WrappedFieldProps) =
         icon={IconType.user}
         placeholder={props.locale['form.input.cardholder.placeholder']}
         mark={true}
-        id='card-holder-input'
+        id="card-holder-input"
         onInput={cardHolderUppercase}
     />
 );
 
 export const CardHolderDef: React.SFC<CardHolderProps> = (props) => (
-    <Field
-        name='cardHolder'
-        component={getCustomInput.bind(null, props)}
-        validate={validateCardHolder}
-    />
+    <Field name="cardHolder" component={getCustomInput.bind(null, props)} validate={validateCardHolder} />
 );
 
 const mapStateToProps = (state: State) => ({

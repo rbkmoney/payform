@@ -26,5 +26,5 @@ const toDetailsInfo = (details: PaymentToolDetails): string => {
 export const getCustomerPaymentDetails = (e: CustomerEvent[]): PaymentDetailsInfo => {
     const details = getPaymentToolDetails(e);
     const info = toDetailsInfo(details);
-    return {type: details.detailsType, info};
+    return { type: details.detailsType, info };
 };

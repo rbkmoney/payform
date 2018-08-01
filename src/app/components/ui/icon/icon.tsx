@@ -8,6 +8,6 @@ interface IconProps {
 
 export const Icon: React.SFC<IconProps> = (props) => (
     <svg className={props.className}>
-        <use xlinkHref={`assets/icons/${props.icon}.svg#icon`}/>
+        <use xlinkHref={`assets/icons/${props.icon}.svg#icon`} />
     </svg>
 );

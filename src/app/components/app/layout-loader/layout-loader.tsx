@@ -4,7 +4,7 @@ import { Loader } from '../../ui/loader';
 
 const LayoutLoaderDef: React.SFC = () => (
     <div className={styles.loader}>
-        <Loader/>
+        <Loader />
     </div>
 );
 

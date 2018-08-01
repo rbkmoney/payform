@@ -19,11 +19,11 @@ export const getTitle = (provider: BankCardTokenProvider): string => {
 export const getPayButton = (provider: BankCardTokenProvider, payHandler: () => void): JSX.Element => {
     switch (provider) {
         case BankCardTokenProvider.applepay:
-            return <ApplePayButton onClick={payHandler}/>;
+            return <ApplePayButton onClick={payHandler} />;
         case BankCardTokenProvider.googlepay:
-            return <GooglePayButton onClick={payHandler}/>;
+            return <GooglePayButton onClick={payHandler} />;
         case BankCardTokenProvider.samsungpay:
-            return <SamsungPayButton onClick={payHandler}/>;
+            return <SamsungPayButton onClick={payHandler} />;
     }
 };
 

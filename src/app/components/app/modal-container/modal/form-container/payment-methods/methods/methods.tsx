@@ -16,24 +16,17 @@ export interface MethodsProps {
 }
 
 export const Methods: React.SFC<MethodsProps> = (props) => {
-    const {
-        methods,
-        locale,
-        setFormInfo,
-        pay,
-        amountPrefilled,
-        emailPrefilled
-    } = props;
+    const { methods, locale, setFormInfo, pay, amountPrefilled, emailPrefilled } = props;
     return (
         <CSSTransitionGroup
-            component='ul'
+            component="ul"
             className={list}
-            transitionName={{enter: null, appear, leave}}
+            transitionName={{ enter: null, appear, leave }}
             transitionEnter={false}
             transitionAppear={true}
             transitionAppearTimeout={1000}
             transitionLeaveTimeout={1000}>
-            {getMethods(methods, {locale, setFormInfo, pay, amountPrefilled, emailPrefilled})}
+            {getMethods(methods, { locale, setFormInfo, pay, amountPrefilled, emailPrefilled })}
         </CSSTransitionGroup>
     );
 };

@@ -10,12 +10,12 @@ import {
 import { ErrorStatus, ErrorState } from 'checkout/state';
 
 type ErrorReducerAction =
-    SetErrorAction |
-    AcceptError |
-    InitializeAppFailed |
-    PaymentFailed |
-    SubscriptionFailed |
-    FinishInteractionFailed;
+    | SetErrorAction
+    | AcceptError
+    | InitializeAppFailed
+    | PaymentFailed
+    | SubscriptionFailed
+    | FinishInteractionFailed;
 
 export function errorReducer(s: ErrorState = null, action: ErrorReducerAction): ErrorState {
     switch (action.type) {

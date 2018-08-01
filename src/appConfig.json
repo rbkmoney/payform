@@ -1,9 +1,9 @@
 {
-  "capiEndpoint": "<capi endpoint>",
-  "wrapperEndpoint": "<wrapper endpoint>",
-  "applePayMerchantID": "<apple pay merchant id>",
-  "googlePayMerchantID": "<google pay merchant id>",
-  "googlePayGatewayMerchantID": "<google pay gateway merchant id>",
-  "samsungPayMerchantName": "<samsung pay merchant name>",
-  "samsungPayServiceID": "<samsung pay service id>"
+    "capiEndpoint": "http://api.rbk.test:8080",
+    "wrapperEndpoint": "http://wrapper.rbk.test:8080",
+    "applePayMerchantID": "merchant.money.rbk.checkout",
+    "googlePayMerchantID": "15442243338125315447",
+    "googlePayGatewayMerchantID": "rbkmoneycheckout",
+    "samsungPayMerchantName": "rbk_merch",
+    "samsungPayServiceID": "bb12a068ebca4916a7c3c1"
 }

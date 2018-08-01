@@ -8,7 +8,7 @@ import { InitConfig, IntegrationType } from 'checkout/config';
 import { AmountConfig, EmailConfig, FieldsConfig } from './fields-config';
 
 const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig => {
-    const result = {visible: false} as AmountConfig;
+    const result = { visible: false } as AmountConfig;
     switch (c.price.costType) {
         case 'InvoiceTemplateLineCostUnlim':
             result.visible = true;
@@ -25,11 +25,9 @@ const toSingleLineAmountConfig = (c: InvoiceTemplateSingleLine): AmountConfig =>
 const toTemplateAmountConfig = (c: InitConfig, t: InvoiceTemplate): AmountConfig => {
     switch (t.details.templateType) {
         case 'InvoiceTemplateSingleLine':
-            return c.amount
-                ? {visible: false}
-                : toSingleLineAmountConfig(t.details as InvoiceTemplateSingleLine);
+            return c.amount ? { visible: false } : toSingleLineAmountConfig(t.details as InvoiceTemplateSingleLine);
     }
-    return {visible: false};
+    return { visible: false };
 };
 
 const toAmountConfig = (c: InitConfig, template: InvoiceTemplate): AmountConfig => {
@@ -37,13 +35,11 @@ const toAmountConfig = (c: InitConfig, template: InvoiceTemplate): AmountConfig 
         case IntegrationType.invoiceTemplate:
             return toTemplateAmountConfig(c, template);
     }
-    return {visible: false};
+    return { visible: false };
 };
 
 const toEmailConfig = (email: string): EmailConfig => {
-    return email
-        ? {visible: false, value: email}
-        : {visible: true};
+    return email ? { visible: false, value: email } : { visible: true };
 };
 
 const toCardHolderConfig = (requireCardHolder: boolean | null) => ({

@@ -18,10 +18,11 @@ export interface CustomProps {
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
 export const Input: React.SFC<InputProps> = (props) => (
-    <div className={cx(styles.container, props.className, {
-        [styles._hasError]: props.error
-    })}>
-        {props.icon ? <Icon className={styles.icon} icon={props.icon}/> : false}
+    <div
+        className={cx(styles.container, props.className, {
+            [styles._hasError]: props.error
+        })}>
+        {props.icon ? <Icon className={styles.icon} icon={props.icon} /> : false}
         <input
             onChange={props.onChange}
             onBlur={props.onBlur}
@@ -29,12 +30,12 @@ export const Input: React.SFC<InputProps> = (props) => (
             onDrop={props.onDrop}
             onDragStart={props.onDragStart}
             onInput={props.onInput}
-            className={cx(styles.input, {[styles.mark]: props.mark})}
+            className={cx(styles.input, { [styles.mark]: props.mark })}
             placeholder={props.placeholder}
             type={props.type}
             value={props.value}
             id={props.id}
         />
-        {props.mark ? <Marks active={props.active} pristine={props.pristine} error={props.error}/> : false}
+        {props.mark ? <Marks active={props.active} pristine={props.pristine} error={props.error} /> : false}
     </div>
 );

@@ -17,7 +17,7 @@ const started = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.pay.text'], e),
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 export const makeFromPaymentStarted = (l: Locale, e: Event[]): ResultFormContent => {

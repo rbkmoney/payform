@@ -8,10 +8,7 @@ import {
     PaymentToolDetailsBankCard,
     PaymentToolDetailsType
 } from 'checkout/backend';
-import {
-    PaymentToolDetailsDigitalWallet,
-    PaymentToolDetailsPaymentTerminal
-} from 'checkout/backend/model';
+import { PaymentToolDetailsDigitalWallet, PaymentToolDetailsPaymentTerminal } from 'checkout/backend/model';
 import { findChange } from 'checkout/utils';
 import { toDigitalWalletInfo, toCardInfo, toTerminalInfo } from './details-to-info';
 import { PaymentDetailsInfo } from './payment-details-info';
@@ -46,5 +43,5 @@ const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
 export const getInvoicePaymentDetails = (e: Event[]): PaymentDetailsInfo => {
     const paymentToolDetails = getPaymentToolDetails(e);
     const info = toDetailsInfo(paymentToolDetails);
-    return {type: paymentToolDetails.detailsType, info};
+    return { type: paymentToolDetails.detailsType, info };
 };

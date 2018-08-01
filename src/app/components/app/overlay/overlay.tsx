@@ -15,15 +15,18 @@ const getRandom = (): number => Math.floor(Math.random() * 7);
 
 const OverlayDef: React.SFC<OverlayDefProps> = (props) => (
     <CSSTransitionGroup
-        transitionName={{enter: null, appear, leave}}
+        transitionName={{ enter: null, appear, leave }}
         transitionEnter={false}
         transitionAppear={true}
         transitionAppearTimeout={500}
         transitionLeaveTimeout={500}>
-        <div key='overlay' className={cx(overlay, {
-            [img]: props.inFrame,
-            [backgrounds[getRandom()]]: props.inFrame
-        })}/>
+        <div
+            key="overlay"
+            className={cx(overlay, {
+                [img]: props.inFrame,
+                [backgrounds[getRandom()]]: props.inFrame
+            })}
+        />
     </CSSTransitionGroup>
 );
 

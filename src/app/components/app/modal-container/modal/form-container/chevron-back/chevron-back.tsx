@@ -9,6 +9,6 @@ interface ChevronBackProps {
 
 export const ChevronBack: React.SFC<ChevronBackProps> = (props) => (
     <div className={props.className} onClick={props.back} id={props.id}>
-        <Icon icon={IconType.chevronLeft}/>
+        <Icon icon={IconType.chevronLeft} />
     </div>
 );

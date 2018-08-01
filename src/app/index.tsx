@@ -12,7 +12,7 @@ import { initialize } from './initialize';
 initialize().then((res) => {
     const [transport, config] = res;
     const app = document.getElementById('app');
-    const store = configureStore({config});
+    const store = configureStore({ config });
     store.subscribe(() => {
         const state = store.getState();
         if (state.result) {
@@ -21,7 +21,7 @@ initialize().then((res) => {
     });
     ReactDOM.render(
         <Provider store={store}>
-            <App/>
+            <App />
         </Provider>,
         app
     );

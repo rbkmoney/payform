@@ -38,7 +38,7 @@ describe('bankCard without tokenProviders', () => {
 
     it('should return PaymentMethodNameState BankCard', () => {
         const actual = iterator.next().value;
-        const expected = [{name: PaymentMethodNameState.BankCard}];
+        const expected = [{ name: PaymentMethodNameState.BankCard }];
         expect(actual).toEqual(expected);
     });
 

@@ -1,7 +1,6 @@
 import { Transport } from 'cross-origin-communicator';
 
 export class StubTransport implements Transport {
-
     emit(eventName: string, data?: object) {
         console.info('transport stub emit: ', name, data);
     }

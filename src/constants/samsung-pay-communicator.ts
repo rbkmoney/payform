@@ -4,7 +4,7 @@ export const URIPath = '/v1/samsung-pay-interaction.html';
 
 export enum Event {
     CONNECT = 'connect',
-    RESULT = 'result',
+    RESULT = 'result'
 }
 
 export interface ConnectData {
@@ -24,10 +24,12 @@ export enum Type {
     SUCCESS = 'success'
 }
 
-export type ResultData = {
-    type: Type.SUCCESS;
-    refId: string;
-} | {
-    type: Type.ERROR;
-    code?: string;
-};
+export type ResultData =
+    | {
+          type: Type.SUCCESS;
+          refId: string;
+      }
+    | {
+          type: Type.ERROR;
+          code?: string;
+      };

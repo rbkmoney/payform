@@ -17,7 +17,6 @@ export function configReducer(s: ConfigState = null, action: ConfigReducerAction
                     ...action.payload
                 }
             };
-
     }
     return s;
 }

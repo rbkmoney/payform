@@ -8,30 +8,19 @@ import { CommunicatorEvents, communicatorInstanceName } from '../communicator-co
 
 const isUriContext = !!location.search;
 
-const handleInit = (transport: Transport) => new Promise((resolve) =>
-    transport.on(CommunicatorEvents.init, (config) => resolve(config)));
+const handleInit = (transport: Transport) =>
+    new Promise((resolve) => transport.on(CommunicatorEvents.init, (config) => resolve(config)));
 
 const listenAndCatch = () =>
-    listen(communicatorInstanceName, window.opener ? 2000 : 0)
-        .catch(() => new StubTransport());
+    listen(communicatorInstanceName, window.opener ? 2000 : 0).catch(() => new StubTransport());
 
 const resolveCommunicatorParams = () =>
-    listen(communicatorInstanceName)
-        .then((transport) => Promise.all([
-            transport,
-            handleInit(transport)
-        ]));
+    listen(communicatorInstanceName).then((transport) => Promise.all([transport, handleInit(transport)]));
 
 const resolveUriParams = () =>
-    listenAndCatch().then((transport) => Promise.all([
-        transport,
-        deserialize(location.search)
-    ]));
+    listenAndCatch().then((transport) => Promise.all([transport, deserialize(location.search)]));
 
-const resolveInitParams = () =>
-    isUriContext
-        ? resolveUriParams()
-        : resolveCommunicatorParams();
+const resolveInitParams = () => (isUriContext ? resolveUriParams() : resolveCommunicatorParams());
 
 export const initialize = (): Promise<Array<Transport | Config>> =>
     resolveInitParams().then((res) => {

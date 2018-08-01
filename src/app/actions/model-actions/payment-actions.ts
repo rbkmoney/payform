@@ -1,8 +1,5 @@
 import { AbstractAction, TypeKeys } from 'checkout/actions';
-import {
-    PayableFormValues,
-    PaymentMethodName
-} from 'checkout/state';
+import { PayableFormValues, PaymentMethodName } from 'checkout/state';
 import { LogicError } from 'checkout/backend';
 
 export interface PaymentRequestedPayload {

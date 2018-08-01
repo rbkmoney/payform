@@ -1,8 +1,5 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
-import {
-    PaymentMethod,
-    ModelState
-} from 'checkout/state';
+import { PaymentMethod, ModelState } from 'checkout/state';
 import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { toInitialState } from './to-initial-state';
@@ -11,9 +8,13 @@ import { initFromCustomerEvents } from './init-from-customer-events';
 
 type Effects = CallEffect | PutEffect<InitializeModalCompleted>;
 
-export function* initializeModal(initConfig: InitConfig, model: ModelState, methods: PaymentMethod[]): Iterator<Effects> {
+export function* initializeModal(
+    initConfig: InitConfig,
+    model: ModelState,
+    methods: PaymentMethod[]
+): Iterator<Effects> {
     let initializedModals;
-    const {integrationType, initialPaymentMethod} = initConfig;
+    const { integrationType, initialPaymentMethod } = initConfig;
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:
             initializedModals = yield call(toInitialState, methods, initialPaymentMethod);
@@ -25,7 +26,7 @@ export function* initializeModal(initConfig: InitConfig, model: ModelState, meth
             initializedModals = initFromCustomerEvents(model.customerEvents);
             break;
         default:
-            throw {code: 'error.unsupported.integration.type'};
+            throw { code: 'error.unsupported.integration.type' };
     }
     yield put({
         type: TypeKeys.INITIALIZE_MODAL_COMPLETED,

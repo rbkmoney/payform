@@ -11,7 +11,7 @@ const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.refunded.label'],
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 const paid = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -19,14 +19,14 @@ const paid = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.invoice.paid.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark/>
+    icon: <Checkmark />
 });
 
 const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.cancelled.label'],
-    icon: <Cross/>
+    icon: <Cross />
 });
 
 const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -34,7 +34,7 @@ const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.invoice.fulfilled.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark/>
+    icon: <Checkmark />
 });
 
 export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {

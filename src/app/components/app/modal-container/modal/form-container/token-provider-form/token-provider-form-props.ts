@@ -1,8 +1,5 @@
 import { Locale } from 'checkout/locale';
-import {
-    TokenProviderFormInfo,
-    TokenProviderFormValues
-} from 'checkout/state';
+import { TokenProviderFormInfo, TokenProviderFormValues } from 'checkout/state';
 import { FieldsConfig } from '../fields-config';
 import { PaymentRequestedPayload } from 'checkout/actions';
 

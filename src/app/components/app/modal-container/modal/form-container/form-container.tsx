@@ -20,7 +20,7 @@ import { Help } from './help';
 import { setViewInfoHeight } from 'checkout/actions';
 
 const mapStateToProps = (state: State) => {
-    const modalForms = (findNamed(state.modals, ModalName.modalForms) as ModalForms);
+    const modalForms = findNamed(state.modals, ModalName.modalForms) as ModalForms;
     return {
         activeFormInfo: modalForms.formsInfo.find((item) => item.active),
         viewInfo: modalForms.viewInfo
@@ -28,7 +28,7 @@ const mapStateToProps = (state: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
+    setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
 class FormContainerDef extends React.Component<FormContainerProps> {
@@ -45,30 +45,33 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     }
 
     render() {
-        const {activeFormInfo: {name}, viewInfo} = this.props;
+        const {
+            activeFormInfo: { name },
+            viewInfo
+        } = this.props;
         return (
             <div className={styles.container}>
                 <div
-                    className={cx(styles.form, {[styles._error]: viewInfo.error})}
-                    style={{height: viewInfo.height || 'auto'}}>
+                    className={cx(styles.form, { [styles._error]: viewInfo.error })}
+                    style={{ height: viewInfo.height || 'auto' }}>
                     <CSSTransitionGroup
-                        component='div'
+                        component="div"
                         className={styles.animationFormContainer}
                         transitionName={viewInfo.slideDirection}
                         transitionEnterTimeout={550}
                         transitionLeaveTimeout={550}>
                         <div ref={this.setContentElement} key={name}>
-                            {name === FormName.paymentMethods ? <PaymentMethods/> : null}
-                            {name === FormName.cardForm ? <CardForm/> : null}
-                            {name === FormName.walletForm ? <WalletForm/> : null}
-                            {name === FormName.terminalForm ? <TerminalForm/> : null}
-                            {name === FormName.resultForm ? <ResultForm/> : null}
-                            {name === FormName.helpForm ? <Help/> : null}
-                            {name === FormName.interactionForm ? <InteractionForm/> : null}
-                            {name === FormName.tokenProviderForm ? <TokenProviderForm/> : null}
+                            {name === FormName.paymentMethods ? <PaymentMethods /> : null}
+                            {name === FormName.cardForm ? <CardForm /> : null}
+                            {name === FormName.walletForm ? <WalletForm /> : null}
+                            {name === FormName.terminalForm ? <TerminalForm /> : null}
+                            {name === FormName.resultForm ? <ResultForm /> : null}
+                            {name === FormName.helpForm ? <Help /> : null}
+                            {name === FormName.interactionForm ? <InteractionForm /> : null}
+                            {name === FormName.tokenProviderForm ? <TokenProviderForm /> : null}
                         </div>
                     </CSSTransitionGroup>
-                    {viewInfo.inProcess ? <FormLoader/> : null}
+                    {viewInfo.inProcess ? <FormLoader /> : null}
                 </div>
             </div>
         );
@@ -76,11 +79,14 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     private setContentElement = (element: HTMLDivElement) => {
         this.contentElement = element;
-    }
+    };
 
     private setHeight = () => {
         this.props.setViewInfoHeight(this.contentElement ? this.contentElement.clientHeight : 0);
-    }
+    };
 }
 
-export const FormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainerDef);
+export const FormContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FormContainerDef);

@@ -1,8 +1,5 @@
-import {
-    CardFormInfo,
-    CardFormValues
-} from 'checkout/state';
-import {Locale} from 'checkout/locale';
+import { CardFormInfo, CardFormValues } from 'checkout/state';
+import { Locale } from 'checkout/locale';
 import { FieldsConfig } from '../fields-config';
 import { PaymentRequestedPayload } from 'checkout/actions';
 import { IntegrationType } from 'checkout/config';

@@ -5,10 +5,5 @@ import { watchSubscription } from './subscription';
 import { watchFinishInteraction } from './finish-interaction';
 
 export default function* rootSaga() {
-    yield all([
-        watchInitializeApp(),
-        watchPayment(),
-        watchSubscription(),
-        watchFinishInteraction()
-    ]);
+    yield all([watchInitializeApp(), watchPayment(), watchSubscription(), watchFinishInteraction()]);
 }

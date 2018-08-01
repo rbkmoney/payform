@@ -2,7 +2,6 @@ import { FormInfo, FormName } from './form-info';
 import { PaymentStatus } from './payment-status';
 
 export class WalletFormInfo extends FormInfo {
-
     paymentStatus: PaymentStatus;
 
     constructor(previous?: FormName) {

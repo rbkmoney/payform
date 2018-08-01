@@ -24,11 +24,11 @@ const HelpDef: React.SFC<HelpDefProps> = (props) => {
     return (
         <form>
             <div>
-                <Header title={props.locale['form.help.header']}/>
-                <p className={formStyles.text} id='help-form-error'>
+                <Header title={props.locale['form.help.header']} />
+                <p className={formStyles.text} id="help-form-error">
                     {text}
                 </p>
-                <ul className={styles.list} id='help-form-steps'>
+                <ul className={styles.list} id="help-form-steps">
                     {steps.map(getHelpStep)}
                 </ul>
             </div>

@@ -18,7 +18,7 @@ export interface MobileHeaderProps {
 const getDestination = (modals: ModalState[]): FormInfo => {
     const modalForms = findNamed(modals, ModalName.modalForms) as ModalForms;
     const withPrevious = findInfoWithPrevious(modals);
-    return withPrevious ? findNamed(modalForms.formsInfo, withPrevious.previous) as FormInfo : null;
+    return withPrevious ? (findNamed(modalForms.formsInfo, withPrevious.previous) as FormInfo) : null;
 };
 
 const mapStateToProps = (state: State) => ({
@@ -32,14 +32,18 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
     <header className={styles.header}>
-        {props.destination ?
+        {props.destination ? (
             <ChevronBack
                 className={styles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)} id='mobile-back-btn'/> : null}
-        <div className={cx(styles.text, {[styles._center]: true})}>
-            {props.initConfig.name}
-        </div>
+                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}
+                id="mobile-back-btn"
+            />
+        ) : null}
+        <div className={cx(styles.text, { [styles._center]: true })}>{props.initConfig.name}</div>
     </header>
 );
 
-export const MobileHeader = connect(mapStateToProps, mapDispatchToProps)(MobileHeaderDef);
+export const MobileHeader = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MobileHeaderDef);

@@ -8,7 +8,12 @@ import { makePayment } from './make-payment';
 const createPaymentResource = (endpoint: string, formValues: WalletFormValues) =>
     createDigitalWalletQiwi.bind(null, endpoint, formValues);
 
-export function* payWithDigitalWalletQiwi(c: Config, m: ModelState, a: AmountInfoState, v: WalletFormValues): Iterator<ProvidePaymentEffects> {
+export function* payWithDigitalWalletQiwi(
+    c: Config,
+    m: ModelState,
+    a: AmountInfoState,
+    v: WalletFormValues
+): Iterator<ProvidePaymentEffects> {
     const fn = createPaymentResource(c.appConfig.capiEndpoint, v);
     return yield call(makePayment, c, m, v, a, fn);
 }

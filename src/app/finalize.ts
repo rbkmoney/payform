@@ -6,9 +6,7 @@ import { isSafetyUrl } from 'checkout/utils';
 import { CommunicatorEvents } from '../communicator-constants';
 
 class AppFinalizer {
-
-    constructor(private transport: Transport, private checkoutEl: HTMLElement) {
-    }
+    constructor(private transport: Transport, private checkoutEl: HTMLElement) {}
 
     close() {
         ReactDOM.unmountComponentAtNode(this.checkoutEl);

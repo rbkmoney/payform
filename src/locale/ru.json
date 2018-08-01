@@ -5,7 +5,7 @@
     "info.dueDate.text": "Оплатите до",
     "info.subscription.label": "Ежемесячный платёж",
     "info.subscription.help.text": "Деньги списываются ${day} числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на email.",
-    "footer.copyright.text": "© 2008-2018 RBKmoney | НКО \"ЭПС\" (ООО). Лицензия Банка России №3509-К, выдана 11 февраля 2013 г. Персональные данные защищены в соответствии с требованиями Федерального закона № 152-ФЗ «О персональных данных» от 27.07.2006 г.",
+    "footer.copyright.text": "© 2008-2018 RBKmoney | НКО \"ЭПС\" (ООО). Лицензия Банка России №3509-К, выдана 11 февраля 2013 г. Персональные данные защищены в соответствии с требованиями Федерального закона № 152-ФЗ«О персональных данных» от 27.07.2006 г.",
     "footer.pay.label": "Безопасная оплата с",
     "footer.offer.label": "Публичная оферта",
     "form.header.delivery.label": "Доставка",
@@ -36,7 +36,7 @@
     "form.header.final.refunded.label": "Возмещен",
     "form.header.final.pending.label": "В процессе",
     "form.header.final.cancelled.label": "Отменен",
-    "form.final.failed.dueTime.text": "Время на оплату  истекло",
+    "form.final.failed.dueTime.text": "Время на оплату истекло",
     "form.final.failed.cancelled.text": "Платеж был отменен",
     "form.final.success.card.text": "Оплачено картой",
     "form.final.success.binding.text": "Привязана карта",
@@ -44,7 +44,7 @@
     "form.final.started.pay.text": "Платёж в процессе",
     "form.final.success.wallet.text": "Оплачено кошельком",
     "form.final.success.terminal.text": "Оплачено через терминал",
-    "form.final.success.check.text": " Чек отправлен вам на email",
+    "form.final.success.check.text": "Чек отправлен вам на email",
     "form.final.need.help": "Как решить проблему?",
     "form.input.delivery.repeat": "Повторить адрес доставки",
     "form.input.name.placeholder": "Имя",
@@ -85,10 +85,10 @@
     "form.payment.method.description.euroset.text": "Оплата через терминал Евросеть",
     "form.payment.method.description.qiwi.text": "Оплата через QIWI Кошелек",
     "form.payment.method.description.bonus.text": "Сбербанк Спасибо, программа Аэрофлот Бонус",
-    "form.payment.terminal.email.label": "Укажите почту, чтобы получить  код для оплаты",
+    "form.payment.terminal.email.label": "Укажите почту, чтобы получить код для оплаты",
     "form.pay.terminals.instruction.to.pay": "К оплате",
     "form.pay.terminals.instruction.dueDate": "Оплату необходимо произвести до",
-    "form.pay.terminals.step.one.text": "Посетите любой удобный  для вас салон связи",
+    "form.pay.terminals.step.one.text": "Посетите любой удобный для вас салон связи",
     "form.pay.terminals.step.two.text": "Скажите кассиру, что платите через RBKmoney",
     "form.pay.terminals.step.three.text": "Скажите ваш код платежа",
     "form.pay.terminals.step.four.text": "Внесите наличные",
@@ -143,10 +143,7 @@
         },
         "PaymentRejected": {
             "text": "Оплата не прошла: проведение платежа запрещено.",
-            "steps": [
-                "Попробуйте использовать другую карту или счет.",
-                "Обратитесь в службу поддержки RBKmoney."
-            ]
+            "steps": ["Попробуйте использовать другую карту или счет.", "Обратитесь в службу поддержки RBKmoney."]
         }
     },
     "brand.euroset": "Евросеть",

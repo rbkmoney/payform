@@ -12,7 +12,11 @@ import { toModalResult } from './to-modal-result';
 import { toInitialState } from './to-initial-state';
 import { getLastChange } from 'checkout/utils';
 
-const initFormPaymentStatusChanged = (change: PaymentStatusChanged, methods: PaymentMethod[], initialPaymentMethod: PaymentMethodName): ModalState => {
+const initFormPaymentStatusChanged = (
+    change: PaymentStatusChanged,
+    methods: PaymentMethod[],
+    initialPaymentMethod: PaymentMethodName
+): ModalState => {
     switch (change.status) {
         case PaymentStatuses.captured:
         case PaymentStatuses.processed:
@@ -23,11 +27,15 @@ const initFormPaymentStatusChanged = (change: PaymentStatusChanged, methods: Pay
         case PaymentStatuses.failed:
             return toInitialState(methods, initialPaymentMethod);
         default:
-            throw {code: 'error.unsupported.payment.status'};
+            throw { code: 'error.unsupported.payment.status' };
     }
 };
 
-export const initFromInvoiceEvents = (events: Event[], methods: PaymentMethod[], initialPaymentMethod: PaymentMethodName): ModalState => {
+export const initFromInvoiceEvents = (
+    events: Event[],
+    methods: PaymentMethod[],
+    initialPaymentMethod: PaymentMethodName
+): ModalState => {
     const change = getLastChange(events);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentInteractionRequested:
@@ -40,6 +48,6 @@ export const initFromInvoiceEvents = (events: Event[], methods: PaymentMethod[],
         case InvoiceChangeType.InvoiceCreated:
             return toInitialState(methods, initialPaymentMethod);
         default:
-            throw {code: 'error.unsupported.invoice.change.type'};
+            throw { code: 'error.unsupported.invoice.change.type' };
     }
 };

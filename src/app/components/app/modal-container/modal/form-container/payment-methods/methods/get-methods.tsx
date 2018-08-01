@@ -12,17 +12,17 @@ export const getMethods = (methods: PaymentMethod[], props: MethodProps): JSX.El
     methods.map((method) => {
         switch (method.name) {
             case PaymentMethodName.PaymentTerminal:
-                return <Terminals key={method.name} {...props}/>;
+                return <Terminals key={method.name} {...props} />;
             case PaymentMethodName.DigitalWallet:
-                return <Wallets key={method.name} {...props}/>;
+                return <Wallets key={method.name} {...props} />;
             case PaymentMethodName.BankCard:
-                return <BankCard key={method.name} {...props}/>;
+                return <BankCard key={method.name} {...props} />;
             case PaymentMethodName.ApplePay:
-                return <ApplePay key={method.name} {...props}/>;
+                return <ApplePay key={method.name} {...props} />;
             case PaymentMethodName.GooglePay:
-                return <GooglePay key={method.name} {...props}/>;
+                return <GooglePay key={method.name} {...props} />;
             case PaymentMethodName.SamsungPay:
-                return <SamsungPay key={method.name} {...props}/>;
+                return <SamsungPay key={method.name} {...props} />;
             default:
                 return null;
         }

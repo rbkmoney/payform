@@ -1,7 +1,6 @@
 import { InvoiceLineTaxMode } from './invoice-line-tax-mode';
 
 export class InvoiceLine {
-
     product: string;
     quantity: number;
     price: number;

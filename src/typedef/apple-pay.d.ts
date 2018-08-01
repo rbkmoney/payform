@@ -16,7 +16,6 @@ interface ApplePayPaymentRequest {
 }
 
 declare class ApplePaySession {
-
     static STATUS_FAILURE: number;
 
     static STATUS_SUCCESS: number;
@@ -37,7 +36,12 @@ declare class ApplePaySession {
 
     completePaymentMethodSelection(newTotal: any, newLineItems: any): void;
 
-    completeShippingContactSelection(status: ApplePayStatusCodes, newShippingMethods: any, newTotal: any, newLineItems: any): void;
+    completeShippingContactSelection(
+        status: ApplePayStatusCodes,
+        newShippingMethods: any,
+        newTotal: any,
+        newLineItems: any
+    ): void;
 
     completeShippingMethodSelection(status: ApplePayStatusCodes, newTotal: any, newLineItems: any): void;
 

@@ -30,14 +30,16 @@ export const findChange = (e: EventLike[], foundType: string): ChangeLike => {
         return null;
     }
     let result = null;
-    const found = clone(e).reverse().find((event) => {
-        const changes = event.changes.reverse();
-        const foundChange = changes.find((change) => change.changeType === foundType);
-        if (foundChange) {
-            result = foundChange;
-            return true;
-        }
-        return false;
-    });
+    const found = clone(e)
+        .reverse()
+        .find((event) => {
+            const changes = event.changes.reverse();
+            const foundChange = changes.find((change) => change.changeType === foundType);
+            if (foundChange) {
+                result = foundChange;
+                return true;
+            }
+            return false;
+        });
     return found ? result : null;
 };

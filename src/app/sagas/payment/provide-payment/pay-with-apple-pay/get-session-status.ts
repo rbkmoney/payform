@@ -40,6 +40,5 @@ const isSuccess = (event: Event): boolean => {
     }
 };
 
-export const getSessionStatus = (event: Event): number => isSuccess(event)
-    ? ApplePaySession.STATUS_SUCCESS
-    : ApplePaySession.STATUS_FAILURE;
+export const getSessionStatus = (event: Event): number =>
+    isSuccess(event) ? ApplePaySession.STATUS_SUCCESS : ApplePaySession.STATUS_FAILURE;

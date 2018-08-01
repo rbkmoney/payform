@@ -5,7 +5,7 @@ export function luhnCheck(num: string): boolean {
     for (let i = 0, len = digits.length; i < len; i++) {
         let digit: any = digits[i];
         digit = parseInt(digit, 10);
-        const isOdd = odd = !odd;
+        const isOdd = (odd = !odd);
         if (isOdd) {
             digit *= 2;
         }

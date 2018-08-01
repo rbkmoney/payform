@@ -25,7 +25,7 @@ function findIcon(brand: CardTypes): IconType {
 const CardTypeIconDef: React.SFC<CardTypeIconProps> = (props) => {
     const cardType = getCardType(props.cardNumber);
     const icon = cardType ? findIcon(cardType.type) : null;
-    return (icon ? <Icon className={styles.cardTypeIcon} icon={icon}/> : null);
+    return icon ? <Icon className={styles.cardTypeIcon} icon={icon} /> : null;
 };
 
 const selector = formValueSelector(FormName.cardForm);

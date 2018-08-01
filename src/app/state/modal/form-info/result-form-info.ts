@@ -6,7 +6,6 @@ export enum ResultType {
 }
 
 export class ResultFormInfo extends FormInfo {
-
     resultType: ResultType;
 
     constructor(resultType: ResultType) {

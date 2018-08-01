@@ -16,7 +16,7 @@ export interface HeaderProps {
 const getDestination = (modals: ModalState[]): FormInfo => {
     const modalForms = findNamed(modals, ModalName.modalForms) as ModalForms;
     const withPrevious = findInfoWithPrevious(modals);
-    return withPrevious ? findNamed(modalForms.formsInfo, withPrevious.previous) as FormInfo : null;
+    return withPrevious ? (findNamed(modalForms.formsInfo, withPrevious.previous) as FormInfo) : null;
 };
 
 const mapStateToProps = (state: State) => ({
@@ -29,15 +29,18 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const HeaderDef: React.SFC<HeaderProps> = (props) => (
     <div className={formStyles.header}>
-        {props.destination ?
+        {props.destination ? (
             <ChevronBack
                 className={formStyles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)} id='desktop-back-btn'/> : null
-        }
-        <div className={formStyles.title}>
-            {props.title}
-        </div>
+                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}
+                id="desktop-back-btn"
+            />
+        ) : null}
+        <div className={formStyles.title}>{props.title}</div>
     </div>
 );
 
-export const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderDef);
+export const Header = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(HeaderDef);

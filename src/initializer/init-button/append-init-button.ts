@@ -1,9 +1,7 @@
 import { initButton } from './init-button.scss';
 import { detectLocale } from '../../locale';
 
-const getDefaultLabel = (): string => detectLocale() === 'ru'
-    ? 'Оплатить с помощью RBKmoney'
-    : 'Pay with RBKmoney';
+const getDefaultLabel = (): string => (detectLocale() === 'ru' ? 'Оплатить с помощью RBKmoney' : 'Pay with RBKmoney');
 
 const appendPayButtonStyles = (origin: string) => {
     const link = document.createElement('link');

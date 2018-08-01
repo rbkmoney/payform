@@ -1,9 +1,6 @@
 import * as React from 'react';
 import * as styles from '../result-form.scss';
-import {
-    Event,
-    PaymentToolDetailsType
-} from 'checkout/backend';
+import { Event, PaymentToolDetailsType } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { getInvoicePaymentDetails } from './payment-details';
 import { logPrefix } from 'checkout/log-messages';
@@ -26,7 +23,7 @@ const getPaymentMethodDescription = (l: Locale, e: Event[]): string => {
 export const getSuccessDescription = (l: Locale, e: Event[]): JSX.Element => (
     <p className={styles.text}>
         {getPaymentMethodDescription(l, e)}
-        <br/>
+        <br />
         {l['form.final.success.check.text']}.
     </p>
 );

@@ -7,5 +7,5 @@ export interface GooglePayButtonProps {
 }
 
 export const GooglePayButton: React.SFC<GooglePayButtonProps> = (props) => (
-    <button type='button' id='google-pay-button' className={google_pay_button} onClick={props.onClick}/>
+    <button type="button" id="google-pay-button" className={google_pay_button} onClick={props.onClick} />
 );

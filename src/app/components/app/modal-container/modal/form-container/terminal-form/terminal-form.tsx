@@ -47,7 +47,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 type Props = TerminalFormProps & InjectedFormProps;
 
 export class TerminalFormDef extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -61,7 +60,10 @@ export class TerminalFormDef extends React.Component<Props> {
     }
 
     componentWillMount() {
-        const {terminalFormInfo: {paymentStatus}, formValues} = this.props;
+        const {
+            terminalFormInfo: { paymentStatus },
+            formValues
+        } = this.props;
         this.props.setViewInfoError(false);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
@@ -80,36 +82,40 @@ export class TerminalFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {handleSubmit, locale, fieldsConfig: {email, amount}} = this.props;
+        const {
+            handleSubmit,
+            locale,
+            fieldsConfig: { email, amount }
+        } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id='terminal-form'>
+            <form onSubmit={handleSubmit(this.submit)} id="terminal-form">
                 <div>
-                    <Header title={locale['form.header.pay.euroset.label']}/>
-                    <p className={styles.text}>
-                        {locale['form.pay.terminals.info.text']}.
-                    </p>
-                    {!amount.visible ?
-                        <AmountInfo amount={this.props.amount} locale={locale}/> : false
-                    }
-                    {email.visible ?
+                    <Header title={locale['form.header.pay.euroset.label']} />
+                    <p className={styles.text}>{locale['form.pay.terminals.info.text']}.</p>
+                    {!amount.visible ? <AmountInfo amount={this.props.amount} locale={locale} /> : false}
+                    {email.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Email/>
-                        </div> : false
-                    }
-                    {amount.visible ?
+                            <Email />
+                        </div>
+                    ) : (
+                        false
+                    )}
+                    {amount.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost}/>
-                        </div> : false
-                    }
+                            <Amount cost={amount.cost} />
+                        </div>
+                    ) : (
+                        false
+                    )}
                 </div>
-                <NextButton locale={locale}/>
+                <NextButton locale={locale} />
             </form>
         );
     }
 
     private submit(values: CardFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({method: PaymentMethodName.PaymentTerminal, values});
+        this.props.pay({ method: PaymentMethodName.PaymentTerminal, values });
     }
 }
 
@@ -118,4 +124,7 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(TerminalFormDef);
 
-export const TerminalForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const TerminalForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReduxForm as any);
