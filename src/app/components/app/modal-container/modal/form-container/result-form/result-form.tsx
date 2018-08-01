@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import * as cx from 'classnames';
 import * as styles from './result-form.scss';
 import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
 import { goToFormInfo, setResult } from 'checkout/actions';
@@ -21,11 +22,11 @@ class ResultFormDef extends React.Component<ResultFormProps> {
             this.props.setResult(ResultState.done);
         }
         return (
-            <form className={styles.form}>
+            <form className={cx(styles.form, { [styles.form_withoutActions]: !hasActions })}>
                 <div className={styles.container}>
                     <h2 className={styles.title}>{header}</h2>
                     {icon}
-                    {description ? description : false}
+                    {description}
                     {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
                     {hasActions ? <ActionBlock /> : false}
                 </div>

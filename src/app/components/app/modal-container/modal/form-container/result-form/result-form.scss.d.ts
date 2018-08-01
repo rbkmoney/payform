@@ -1,4 +1,5 @@
 export const form: string;
+export const form_withoutActions: string;
 export const container: string;
 export const title: string;
 export const image: string;
