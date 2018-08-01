@@ -18,11 +18,12 @@
     border: 2px solid $purple-v2-2;
 
     &:hover {
-        border-color: $green-v2-dark;
+        border-color: $purple-v2-2-dark;
     }
 
     &:active {
-        border-color: $green-v2-dark-2;
+        border-color: $purple-v2-2-dark;
+        color: $purple-v2-2-dark;
         outline: none;
     }
 
@@ -40,29 +41,6 @@
         &:active {
             background: $green-v2-dark-2;
             border-color: $green-v2-dark-2;
-        }
-    }
-
-    &._secondary {
-        border: none;
-        color: $purple-v2-2;
-
-        & > * {
-            display: inline-block;
-        }
-
-        .line {
-            border: none;
-            border-bottom: 1px solid $blue-v2-light;
-            padding: 0;
-            margin: 0 0 3px;
-        }
-
-        &:hover,
-        &:active {
-            .line {
-                border-bottom-color: $purple-v2-2;
-            }
         }
     }
 }
