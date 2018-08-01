@@ -1,11 +1,11 @@
 @import '../../../styles/animations';
 
 .appear {
-    animation: fadein .5s;
+    animation: fadein 0.5s;
 }
 
 .leave {
-    animation: fadeout .5s;
+    animation: fadeout 0.5s;
 }
 
 .overlay {
@@ -16,7 +16,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .7);
+    background-color: rgba(0, 0, 0, 0.7);
 
     &.img {
         background-color: transparent;
@@ -25,34 +25,34 @@
     }
 
     &.bg1 {
-        background-image: url("./backgrounds/1.jpg");
+        background-image: url('./backgrounds/1.jpg');
     }
 
     &.bg2 {
-        background-image: url("./backgrounds/2.jpg");
+        background-image: url('./backgrounds/2.jpg');
     }
 
     &.bg3 {
-        background-image: url("./backgrounds/3.jpg");
+        background-image: url('./backgrounds/3.jpg');
     }
 
     &.bg4 {
-        background-image: url("./backgrounds/4.jpg");
+        background-image: url('./backgrounds/4.jpg');
     }
 
     &.bg5 {
-        background-image: url("./backgrounds/5.jpg");
+        background-image: url('./backgrounds/5.jpg');
     }
 
     &.bg6 {
-        background-image: url("./backgrounds/6.jpg");
+        background-image: url('./backgrounds/6.jpg');
     }
 
     &.bg7 {
-        background-image: url("./backgrounds/7.jpg");
+        background-image: url('./backgrounds/7.jpg');
     }
 
     &.bg8 {
-        background-image: url("./backgrounds/8.jpg");
+        background-image: url('./backgrounds/8.jpg');
     }
 }

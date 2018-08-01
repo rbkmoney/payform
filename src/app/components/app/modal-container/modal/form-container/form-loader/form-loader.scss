@@ -1,4 +1,4 @@
-@import "../../../../../../styles/animations";
+@import '../../../../../../styles/animations';
 
 .loader {
     position: absolute;
@@ -12,13 +12,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, .9);
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .appear {
-    animation: fadein .5s;
+    animation: fadein 0.5s;
 }
 
 .leave {
-    animation: fadeout .2s;
+    animation: fadeout 0.2s;
 }

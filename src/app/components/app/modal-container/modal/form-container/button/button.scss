@@ -1,66 +1,68 @@
 @import '../../../../../../styles/variables';
 
 .button {
-  color: $purple-v2-2;
-  background: $white;
-  text-align: center;
-  border-radius: 4px;
-  padding: 12px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 20px;
-  transition: all .3s;
-  cursor: pointer;
-  width: 100%;
-  outline: none;
-  border: 2px solid $green-v2;
-
-  &:hover {
-    border-color: $green-v2-dark;
-  }
-
-  &:active {
-    border-color: $green-v2-dark-2;
+    color: $purple-v2-2;
+    background: $white;
+    text-align: center;
+    border-radius: 4px;
+    padding: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+    width: 100%;
     outline: none;
-  }
-
-  &._primary {
-    border-radius: 32px;
-    color: $white;
-    background: $green-v2;
+    border: 2px solid $purple-v2-2;
 
     &:hover {
-      background: $green-v2-dark;
-      border-color: $green-v2-dark;
+        border-color: $green-v2-dark;
     }
 
     &:active {
-      background: $green-v2-dark-2;
-      border-color: $green-v2-dark-2;
-    }
-  }
-
-  &._secondary {
-    border: none;
-    color: $purple-v2-2;
-
-    & > * {
-      display: inline-block;
+        border-color: $green-v2-dark-2;
+        outline: none;
     }
 
-    .line {
-      border: none;
-      border-bottom: 1px solid $blue-v2-light;
-      padding: 0;
-      margin: 0 0 3px;
+    &._primary {
+        border-radius: 32px;
+        color: $white;
+        border-color: $green-v2;
+        background: $green-v2;
+
+        &:hover {
+            background: $green-v2-dark;
+            border-color: $green-v2-dark;
+        }
+
+        &:active {
+            background: $green-v2-dark-2;
+            border-color: $green-v2-dark-2;
+        }
     }
 
-    &:hover, &:active {
-      .line {
-        border-bottom-color: $purple-v2-2;
-      }
+    &._secondary {
+        border: none;
+        color: $purple-v2-2;
+
+        & > * {
+            display: inline-block;
+        }
+
+        .line {
+            border: none;
+            border-bottom: 1px solid $blue-v2-light;
+            padding: 0;
+            margin: 0 0 3px;
+        }
+
+        &:hover,
+        &:active {
+            .line {
+                border-bottom-color: $purple-v2-2;
+            }
+        }
     }
-  }
 }

@@ -28,7 +28,6 @@
 
     @include responsive(sm) {
         display: block;
-
     }
 }
 
@@ -48,7 +47,7 @@
     font-weight: 900;
     font-size: 11px;
     color: $white;
-    opacity: .4;
+    opacity: 0.4;
     letter-spacing: 2px;
     line-height: 15px;
     margin-bottom: 5px;
@@ -102,7 +101,7 @@
     }
 
     span {
-        opacity: .4;
+        opacity: 0.4;
     }
 
     svg {

@@ -8,11 +8,11 @@
 }
 
 .appear {
-    animation: slidedown .75s;
+    animation: slidedown 0.75s;
 }
 
 .leave {
-    animation: slideup .75s;
+    animation: slideup 0.75s;
 }
 
 .method_simple {
@@ -24,7 +24,7 @@
     flex-wrap: nowrap;
     align-items: center;
     margin-bottom: 10px;
-    transition: all .3s;
+    transition: all 0.3s;
     cursor: pointer;
 }
 
@@ -105,7 +105,7 @@
     width: 100%;
     padding: 38px;
     margin-bottom: 10px;
-    transition: all .3s;
+    transition: all 0.3s;
     -webkit-appearance: -apple-pay-button;
     -apple-pay-button-style: white-outline;
 }

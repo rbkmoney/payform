@@ -8,8 +8,8 @@
     "start": "npm run clear && webpack-dev-server --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
     "test": "jest --silent",
     "check": "npm run prettier:check",
-    "prettier": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json,prettierrc,babelrc}\" --write",
-    "prettier:check": "prettier \"**/*.{js,jsx,ts,tsx,css,md,json,prettierrc,babelrc}\" --list-different",
+    "prettier": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc}\" --write",
+    "prettier:check": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc}\" --list-different",
     "styleguidist": "styleguidist server --config styleguide.config.js"
   },
   "repository": {
