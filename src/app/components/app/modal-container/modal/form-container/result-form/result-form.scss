@@ -9,18 +9,14 @@
     align-items: center;
     padding: 25px 0;
 
-    &_withoutActions {
-        padding: 50px 0;
-    }
-
     @include responsive(sm) {
         // The amount of indentations from the top and bottom should be the same for different window sizes,
         // so that when the window size is changed, it does not break
         padding: 50px 0 0;
+    }
 
-        &_withoutActions {
-            padding-bottom: 50px;
-        }
+    &_withoutActions {
+        padding: 50px 0;
     }
 
     & > div {
