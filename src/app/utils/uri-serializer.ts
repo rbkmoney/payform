@@ -4,7 +4,10 @@ export const deserialize = (url: string): any => {
     }
     const split = url.split('?');
     const params = split.length > 1 ? split[1] : split[0];
-    const preparedParams = decodeURI(params).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"');
+    const preparedParams = decodeURI(params)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"');
     const result = JSON.parse(`{"${preparedParams}"}`);
     for (const prop in result) {
         if (result.hasOwnProperty(prop)) {

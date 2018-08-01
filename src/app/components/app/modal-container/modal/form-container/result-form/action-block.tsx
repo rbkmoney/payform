@@ -24,13 +24,13 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
     throw new Error('Unsupported form type');
 };
 
-const payOtherCapability = (startedInfo: FormInfo): boolean => startedInfo &&
+const payOtherCapability = (startedInfo: FormInfo): boolean =>
+    startedInfo &&
     startedInfo.name !== FormName.terminalForm &&
     startedInfo.name !== FormName.tokenProviderForm &&
     startedInfo.name !== FormName.paymentMethods;
 
-const retryCapability = (startedInfo: FormInfo): boolean => startedInfo &&
-    startedInfo.name !== FormName.paymentMethods;
+const retryCapability = (startedInfo: FormInfo): boolean => startedInfo && startedInfo.name !== FormName.paymentMethods;
 
 export interface ActionBlockProps {
     locale: Locale;
@@ -42,7 +42,6 @@ export interface ActionBlockProps {
 }
 
 class ActionBlockDef extends React.Component<ActionBlockProps> {
-
     retry(e: any, resetFormData: boolean = false) {
         e.preventDefault();
         this.props.prepareToRetry(resetFormData);
@@ -51,30 +50,30 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
     goToPaymentMethods = (e: any) => {
         e.preventDefault();
         this.props.forgetPaymentAttempt();
-    }
+    };
 
     render() {
         const { locale, startedInfo, hasMultiMethods } = this.props;
         return (
             <div className={styles.errorBlock}>
-                {retryCapability(startedInfo) && <Button
-                    style='primary'
-                    onClick={(e) => this.retry(e)}
-                    id='retry-btn'>
-                    {locale['form.button.pay.again.label']}
-                </Button>}
-                {payOtherCapability(startedInfo) && <Button
-                    style='default'
-                    onClick={(e) => this.retry(e, true)}
-                    id='reenter-btn'>
-                    {toReenterButtonText(startedInfo, locale)}
-                </Button>}
-                {hasMultiMethods && <div className={cx(formStyles.link_container, styles.othersButton)}>
-                    <a className={formStyles.link} onClick={this.goToPaymentMethods}>
-                        {locale['form.payment.method.name.others.label']}
-                    </a>
-                    <hr/>
-                </div>}
+                {retryCapability(startedInfo) && (
+                    <Button style="primary" onClick={(e) => this.retry(e)} id="retry-btn">
+                        {locale['form.button.pay.again.label']}
+                    </Button>
+                )}
+                {payOtherCapability(startedInfo) && (
+                    <Button style="default" onClick={(e) => this.retry(e, true)} id="reenter-btn">
+                        {toReenterButtonText(startedInfo, locale)}
+                    </Button>
+                )}
+                {hasMultiMethods && (
+                    <div className={cx(formStyles.link_container, styles.othersButton)}>
+                        <a className={formStyles.link} onClick={this.goToPaymentMethods}>
+                            {locale['form.payment.method.name.others.label']}
+                        </a>
+                        <hr />
+                    </div>
+                )}
             </div>
         );
     }
@@ -95,4 +94,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     forgetPaymentAttempt: bindActionCreators(forgetPaymentAttempt, dispatch)
 });
 
-export const ActionBlock = connect(mapStateToProps, mapDispatchToProps)(ActionBlockDef);
+export const ActionBlock = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ActionBlockDef);

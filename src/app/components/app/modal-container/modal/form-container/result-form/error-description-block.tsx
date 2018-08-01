@@ -14,14 +14,13 @@ export interface ErrorDescriptionBlockProps {
 }
 
 class ErrorDescriptionBlockDef extends React.Component<ErrorDescriptionBlockProps> {
-
     render() {
         return (
             <div className={cx(formStyles.link_container, styles.helpBlock)}>
-                <a className={formStyles.link} onClick={() => this.goToHelp()} id='help-btn'>
+                <a className={formStyles.link} onClick={() => this.goToHelp()} id="help-btn">
                     {this.props.locale['form.final.need.help']}
                 </a>
-                <hr/>
+                <hr />
             </div>
         );
     }
@@ -39,4 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-export const ErrorDescriptionBlock = connect(mapStateToProps, mapDispatchToProps)(ErrorDescriptionBlockDef);
+export const ErrorDescriptionBlock = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ErrorDescriptionBlockDef);

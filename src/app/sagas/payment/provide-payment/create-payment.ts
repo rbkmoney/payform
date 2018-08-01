@@ -6,14 +6,21 @@ import { InitConfig } from 'checkout/config';
 type Effects = CallEffect | Payment;
 
 const toPaymentFlow = (c: InitConfig): PaymentFlow => {
-    const instant = {type: FlowType.PaymentFlowInstant};
-    const hold = {type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration};
+    const instant = { type: FlowType.PaymentFlowInstant };
+    const hold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;
 };
 
-export function* createPayment(endpoint: string, token: string, invoiceID: string, formEmail: string, resource: PaymentResource, initConfig: InitConfig): Iterator<Effects> {
+export function* createPayment(
+    endpoint: string,
+    token: string,
+    invoiceID: string,
+    formEmail: string,
+    resource: PaymentResource,
+    initConfig: InitConfig
+): Iterator<Effects> {
     const email = initConfig.email || formEmail;
-    const {paymentToolToken, paymentSession} = resource;
+    const { paymentToolToken, paymentSession } = resource;
     const params = {
         flow: toPaymentFlow(initConfig),
         payer: {

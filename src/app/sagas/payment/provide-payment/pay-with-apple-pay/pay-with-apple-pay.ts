@@ -15,19 +15,27 @@ const createPaymentResource = (endpoint: string, merchantID: string, paymentToke
     createApplePay.bind(null, endpoint, merchantID, paymentToken);
 
 const findPaymentSystems = (paymentMethods: PaymentMethod[]): PaymentSystem[] => {
-    const found = paymentMethods.find((method) =>
-        method.method === PaymentMethodName.BankCard &&
-        !!(method as BankCard).tokenProviders) as BankCard;
+    const found = paymentMethods.find(
+        (method) => method.method === PaymentMethodName.BankCard && !!(method as BankCard).tokenProviders
+    ) as BankCard;
     return found.paymentSystems;
 };
 
-export function* payWithApplePay(c: Config, m: ModelState, a: AmountInfoState, v: TokenProviderFormValues): Iterator<ProvidePaymentEffects> {
-    const {initConfig: {description, name}, appConfig} = c;
+export function* payWithApplePay(
+    c: Config,
+    m: ModelState,
+    a: AmountInfoState,
+    v: TokenProviderFormValues
+): Iterator<ProvidePaymentEffects> {
+    const {
+        initConfig: { description, name },
+        appConfig
+    } = c;
     const label = description || name || 'RBKmoney';
     const paymentSystems = findPaymentSystems(m.paymentMethods);
     const session = createSession(label, a, paymentSystems, v.amount);
     const paymentToken = yield call(beginSession, c, session);
-    const {capiEndpoint, applePayMerchantID} = appConfig;
+    const { capiEndpoint, applePayMerchantID } = appConfig;
     try {
         const fn = createPaymentResource(capiEndpoint, applePayMerchantID, paymentToken);
         const event = yield call(makePayment, c, m, v, a, fn);

@@ -31,8 +31,11 @@ export const resolveIntegrationType = (userConfig: UserConfig): Resolved => {
     if (!found) {
         return null;
     }
-    return found.requiredFields.reduce((acc, current) => ({
-        ...acc,
-        [current]: userConfig[current]
-    }), {integrationType: found.type});
+    return found.requiredFields.reduce(
+        (acc, current) => ({
+            ...acc,
+            [current]: userConfig[current]
+        }),
+        { integrationType: found.type }
+    );
 };

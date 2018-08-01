@@ -17,17 +17,21 @@ import rootSaga from 'checkout/sagas/root-saga';
 
 export function configureStore(initState: any): Store<State> {
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(combineReducers({
-        initializeApp: initializeAppReducer,
-        result: resultReducer,
-        config: configReducer,
-        model: modelReducer,
-        error: errorReducer,
-        form: formReducer,
-        modals: modalReducer,
-        availablePaymentMethods: availablePaymentMethodsReducer,
-        amountInfo: amountInfoReducer
-    }), initState, composeWithDevTools(applyMiddleware(sagaMiddleware)));
+    const store = createStore(
+        combineReducers({
+            initializeApp: initializeAppReducer,
+            result: resultReducer,
+            config: configReducer,
+            model: modelReducer,
+            error: errorReducer,
+            form: formReducer,
+            modals: modalReducer,
+            availablePaymentMethods: availablePaymentMethodsReducer,
+            amountInfo: amountInfoReducer
+        }),
+        initState,
+        composeWithDevTools(applyMiddleware(sagaMiddleware))
+    );
     sagaMiddleware.run(rootSaga);
     return store;
 }

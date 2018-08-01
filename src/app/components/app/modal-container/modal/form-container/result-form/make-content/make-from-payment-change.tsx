@@ -11,21 +11,21 @@ export const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: true,
     header: l['form.header.final.refunded.label'],
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 export const pending = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.pending.label'],
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 export const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: true,
     hasDone: false,
     header: l['form.header.final.cancelled.label'],
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormContent => ({
@@ -33,7 +33,7 @@ export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormConte
     hasDone: false,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),
-    icon: <Cross/>
+    icon: <Cross />
 });
 
 const processed = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -41,7 +41,7 @@ const processed = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.success.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark/>
+    icon: <Checkmark />
 });
 
 export const makeFromPaymentChange = (l: Locale, e: Event[]) => {

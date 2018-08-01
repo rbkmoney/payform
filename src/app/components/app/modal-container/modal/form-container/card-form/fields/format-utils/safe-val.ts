@@ -18,11 +18,11 @@ export function safeVal(value: string, target: HTMLInputElement): number {
             prevPair = last.slice(cursor - 1, +cursor + 1 || 9e9);
             currPair = value.slice(cursor - 1, +cursor + 1 || 9e9);
             digit = value[cursor];
-            if (/\d/.test(digit) && prevPair === ('' + digit + ' ') && currPair === (' ' + digit)) {
+            if (/\d/.test(digit) && prevPair === '' + digit + ' ' && currPair === ' ' + digit) {
                 cursor = cursor + 1;
             }
         }
         target.selectionStart = cursor;
-        return target.selectionEnd = cursor;
+        return (target.selectionEnd = cursor);
     }
 }

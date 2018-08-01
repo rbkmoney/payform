@@ -8,11 +8,7 @@ export interface NextButtonProps {
 }
 
 const NextButtonDef: React.SFC<NextButtonProps> = (props) => (
-    <Button
-        type='submit'
-        style='primary'
-        id='next-btn'
-        className={next_button}>
+    <Button type="submit" style="primary" id="next-btn" className={next_button}>
         {props.locale['form.button.next.label']}
     </Button>
 );

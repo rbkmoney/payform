@@ -1,20 +1,18 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "module": "es2015",
-    "target": "es5",
-    "jsx": "react",
-    "lib": ["es2015", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "checkout/*": ["./src/app/*", "./src/locale/*"]
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "module": "es2015",
+        "target": "es5",
+        "jsx": "react",
+        "lib": ["es2015", "dom"],
+        "baseUrl": ".",
+        "paths": {
+            "checkout/*": ["./src/app/*", "./src/locale/*"]
+        },
+        "pretty": true
     },
-    "pretty": true
-  },
-  "include": [
-    "./src/**/*"
-  ]
+    "include": ["./src/**/*"]
 }

@@ -1,12 +1,4 @@
-import {
-    ResultState,
-    ConfigState,
-    ModelState,
-    ErrorState,
-    FormsState,
-    ModalState,
-    InitializeAppState
-} from '.';
+import { ResultState, ConfigState, ModelState, ErrorState, FormsState, ModalState, InitializeAppState } from '.';
 import { PaymentMethod } from './payment-method';
 import { AmountInfoState } from './amount-info';
 

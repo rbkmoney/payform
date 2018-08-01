@@ -10,10 +10,19 @@ type CreatePaymentResourceFn = () => Iterator<PaymentResource>;
 
 type Effects = CallEffect | Event;
 
-export function* makePayment(config: Config, model: ModelState, values: PayableFormValues, amountInfo: AmountInfoState, fn: CreatePaymentResourceFn): Iterator<Effects> {
-    const {initConfig, appConfig} = config;
-    const {capiEndpoint} = appConfig;
-    const {invoice: {id}, invoiceAccessToken} = yield call(getPayableInvoice, initConfig, capiEndpoint, model, amountInfo, values.amount);
+export function* makePayment(
+    config: Config,
+    model: ModelState,
+    values: PayableFormValues,
+    amountInfo: AmountInfoState,
+    fn: CreatePaymentResourceFn
+): Iterator<Effects> {
+    const { initConfig, appConfig } = config;
+    const { capiEndpoint } = appConfig;
+    const {
+        invoice: { id },
+        invoiceAccessToken
+    } = yield call(getPayableInvoice, initConfig, capiEndpoint, model, amountInfo, values.amount);
     const paymentResource = yield call(fn, invoiceAccessToken);
     yield call(createPayment, capiEndpoint, invoiceAccessToken, id, values.email, paymentResource, initConfig);
     return yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);

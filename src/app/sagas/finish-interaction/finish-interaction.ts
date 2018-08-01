@@ -16,21 +16,27 @@ function* finishCustomer(capiEndpoint: string, token: string, customerID: string
 }
 
 function* resolve(config: ConfigState, model: ModelState): Iterator<CallEffect> {
-    const {initConfig, appConfig: {capiEndpoint}} = config;
+    const {
+        initConfig,
+        appConfig: { capiEndpoint }
+    } = config;
     switch (initConfig.integrationType) {
         case IntegrationType.invoice:
         case IntegrationType.invoiceTemplate:
-            const {invoiceAccessToken, invoice: {id}} = model;
+            const {
+                invoiceAccessToken,
+                invoice: { id }
+            } = model;
             return yield call(finishInvoice, capiEndpoint, invoiceAccessToken, id);
         case IntegrationType.customer:
-            const {customerID, customerAccessToken} = initConfig as CustomerInitConfig;
+            const { customerID, customerAccessToken } = initConfig as CustomerInitConfig;
             return yield call(finishCustomer, capiEndpoint, customerAccessToken, customerID);
     }
 }
 
 export function* finishInteraction() {
     try {
-        const {config, model} = yield select((s: State) => ({config: s.config, model: s.model}));
+        const { config, model } = yield select((s: State) => ({ config: s.config, model: s.model }));
         yield put({
             type: TypeKeys.SET_MODAL_INTERACTION_POLLING,
             payload: true
@@ -49,7 +55,6 @@ export function* finishInteraction() {
             payload: error
         });
     }
-
 }
 
 export function* watchFinishInteraction(): Iterator<ForkEffect> {

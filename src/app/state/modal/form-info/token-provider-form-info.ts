@@ -3,7 +3,6 @@ import { PaymentStatus } from 'checkout/state/modal';
 import { BankCardTokenProvider } from 'checkout/backend/model';
 
 export class TokenProviderFormInfo extends FormInfo {
-
     paymentStatus: PaymentStatus;
     provider: BankCardTokenProvider;
 

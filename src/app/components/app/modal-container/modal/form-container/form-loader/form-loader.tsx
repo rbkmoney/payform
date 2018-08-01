@@ -5,13 +5,13 @@ import { Loader } from 'checkout/components';
 
 export const FormLoader: React.SFC = () => (
     <CSSTransitionGroup
-        transitionName={{enter: null, appear, leave}}
+        transitionName={{ enter: null, appear, leave }}
         transitionEnter={false}
         transitionAppear={true}
         transitionAppearTimeout={500}
         transitionLeaveTimeout={200}>
-        <div key='form-loader' className={loader} id='form-loader'>
-            <Loader/>
+        <div key="form-loader" className={loader} id="form-loader">
+            <Loader />
         </div>
     </CSSTransitionGroup>
 );

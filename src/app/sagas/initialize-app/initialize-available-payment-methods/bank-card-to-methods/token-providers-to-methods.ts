@@ -9,25 +9,32 @@ import { BankCardTokenProvider } from 'checkout/backend';
 import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { isReadyToGooglePay } from './is-ready-to-google-pay';
 
-export function* tokenProvidersToMethods(providers: BankCardTokenProvider[], config: ConfigState, amountInfo: AmountInfoState): Iterator<CallEffect | PaymentMethodState[]> {
+export function* tokenProvidersToMethods(
+    providers: BankCardTokenProvider[],
+    config: ConfigState,
+    amountInfo: AmountInfoState
+): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
     for (const provider of providers) {
         switch (provider) {
             case BankCardTokenProvider.applepay:
-                const {appConfig: {applePayMerchantID}, inFrame} = config;
+                const {
+                    appConfig: { applePayMerchantID },
+                    inFrame
+                } = config;
                 const isApplePay = yield call(isReadyToApplePay, applePayMerchantID, inFrame);
                 if (isApplePay) {
-                    result.push({name: PaymentMethodNameState.ApplePay});
+                    result.push({ name: PaymentMethodNameState.ApplePay });
                 }
                 break;
             case BankCardTokenProvider.googlepay:
                 const isGooglePay = yield call(isReadyToGooglePay, amountInfo);
                 if (isGooglePay) {
-                    result.push({name: PaymentMethodNameState.GooglePay});
+                    result.push({ name: PaymentMethodNameState.GooglePay });
                 }
                 break;
             case BankCardTokenProvider.samsungpay:
-                result.push({name: PaymentMethodNameState.SamsungPay});
+                result.push({ name: PaymentMethodNameState.SamsungPay });
                 break;
         }
     }

@@ -36,13 +36,12 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    pay: bindActionCreators(pay, dispatch),
+    pay: bindActionCreators(pay, dispatch)
 });
 
 type Props = InjectedFormProps & TokenProviderFormProps;
 
 export class TokenProviderFormDef extends React.Component<Props> {
-
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -56,7 +55,10 @@ export class TokenProviderFormDef extends React.Component<Props> {
     }
 
     componentWillMount() {
-        const {tokenProviderFormInfo: {paymentStatus}, formValues} = this.props;
+        const {
+            tokenProviderFormInfo: { paymentStatus },
+            formValues
+        } = this.props;
         this.props.setViewInfoError(false);
         switch (paymentStatus) {
             case PaymentStatus.pristine:
@@ -76,24 +78,28 @@ export class TokenProviderFormDef extends React.Component<Props> {
 
     render() {
         const {
-            fieldsConfig: {email, amount},
+            fieldsConfig: { email, amount },
             handleSubmit,
-            tokenProviderFormInfo: {provider}
+            tokenProviderFormInfo: { provider }
         } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id='token-provider-form'>
+            <form onSubmit={handleSubmit(this.submit)} id="token-provider-form">
                 <div>
-                    <Header title={getTitle(provider)}/>
-                    {email.visible ?
+                    <Header title={getTitle(provider)} />
+                    {email.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Email/>
-                        </div> : false
-                    }
-                    {amount.visible ?
+                            <Email />
+                        </div>
+                    ) : (
+                        false
+                    )}
+                    {amount.visible ? (
                         <div className={formStyles.formGroup}>
-                            <Amount cost={amount.cost}/>
-                        </div> : false
-                    }
+                            <Amount cost={amount.cost} />
+                        </div>
+                    ) : (
+                        false
+                    )}
                 </div>
                 {getPayButton(provider, handleSubmit(this.submit))}
             </form>
@@ -102,8 +108,8 @@ export class TokenProviderFormDef extends React.Component<Props> {
 
     private submit(values: TokenProviderFormValues) {
         (document.activeElement as HTMLElement).blur();
-        const {provider} = this.props.tokenProviderFormInfo;
-        this.props.pay({method: getPaymentMethodName(provider), values});
+        const { provider } = this.props.tokenProviderFormInfo;
+        this.props.pay({ method: getPaymentMethodName(provider), values });
     }
 }
 
@@ -112,4 +118,7 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(TokenProviderFormDef);
 
-export const TokenProviderForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const TokenProviderForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReduxForm as any);

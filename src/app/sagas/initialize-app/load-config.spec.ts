@@ -9,10 +9,7 @@ describe('loadConfig', () => {
 
     it('should fetch app config and locale', () => {
         const actual = iterator.next().value;
-        const expected = all([
-            call(getAppConfig),
-            call(getLocale, localeName)
-        ]);
+        const expected = all([call(getAppConfig), call(getLocale, localeName)]);
         expect(actual).toEqual(expected);
     });
 
@@ -22,7 +19,7 @@ describe('loadConfig', () => {
         const actual = iterator.next([appConfig, locale]).value;
         const expected = put({
             type: TypeKeys.CONFIG_CHUNK_RECEIVED,
-            payload: {appConfig, locale}
+            payload: { appConfig, locale }
         });
         expect(actual).toEqual(expected);
     });

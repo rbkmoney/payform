@@ -1,9 +1,4 @@
-import {
-    InvoiceTemplate,
-    InvoiceTemplateMultiLine,
-    InvoiceTemplateSingleLine,
-    TemplateType
-} from 'checkout/backend';
+import { InvoiceTemplate, InvoiceTemplateMultiLine, InvoiceTemplateSingleLine, TemplateType } from 'checkout/backend';
 import { getAmountFromSingleLine } from './get-amount-from-single-line';
 import { getAmountFromMultiLine } from './get-amount-from-multi-line';
 import { AmountInfoState } from 'checkout/state';

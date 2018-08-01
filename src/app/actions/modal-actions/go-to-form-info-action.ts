@@ -1,4 +1,4 @@
-import { FormInfo} from 'checkout/state';
+import { FormInfo } from 'checkout/state';
 import { AbstractAction, TypeKeys } from 'checkout/actions';
 
 export enum Direction {
@@ -18,5 +18,5 @@ export interface GoToFormInfo extends AbstractAction<GoToPayload> {
 
 export const goToFormInfo = (formInfo: FormInfo, direction: Direction = Direction.forward): GoToFormInfo => ({
     type: TypeKeys.GO_TO_FORM_INFO,
-    payload: {formInfo, direction}
+    payload: { formInfo, direction }
 });

@@ -26,9 +26,18 @@ const getClass = (type: ButtonType) => {
 };
 
 export const Button: React.SFC<ButtonProps> = (props) => (
-    <button type={props.type} onClick={props.onClick}
-            className={cx(styles.button, getClass(props.style), props.className)} id={props.id}>
-        {props.style === 'secondary' ? <span>{props.children}
-            <hr className={styles.line}/></span> : props.children}
+    <button
+        type={props.type}
+        onClick={props.onClick}
+        className={cx(styles.button, getClass(props.style), props.className)}
+        id={props.id}>
+        {props.style === 'secondary' ? (
+            <span>
+                {props.children}
+                <hr className={styles.line} />
+            </span>
+        ) : (
+            props.children
+        )}
     </button>
 );

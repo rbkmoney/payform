@@ -23,20 +23,16 @@ const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) =
         icon={IconType.card}
         placeholder={props.locale['form.input.card.placeholder']}
         mark={true}
-        type='tel'
-        id='card-number-input'
+        type="tel"
+        id="card-number-input"
         onInput={formatCardNumber}
     />
 );
 
 const CardNumberDef: React.SFC<CardNumberProps> = (props) => (
     <div className={styles.inputContainer}>
-        <Field
-            name='cardNumber'
-            component={getCustomInput.bind(null, props)}
-            validate={validateCardNumber}
-        />
-        <CardTypeIcon/>
+        <Field name="cardNumber" component={getCustomInput.bind(null, props)} validate={validateCardNumber} />
+        <CardTypeIcon />
     </div>
 );
 

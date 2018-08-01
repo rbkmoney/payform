@@ -10,7 +10,7 @@ import {
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
     getInvoiceTemplateByID,
-    getInvoiceByID,
+    getInvoiceByID
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -31,14 +31,17 @@ export interface ModelChunk {
     invoice?: Invoice;
 }
 
-export function* resolveInvoiceTemplate(endpoint: string, config: InvoiceTemplateInitConfig): Iterator<AllEffect | ModelChunk> {
+export function* resolveInvoiceTemplate(
+    endpoint: string,
+    config: InvoiceTemplateInitConfig
+): Iterator<AllEffect | ModelChunk> {
     const token = config.invoiceTemplateAccessToken;
     const id = config.invoiceTemplateID;
     const [invoiceTemplate, paymentMethods] = yield all([
         call(getInvoiceTemplateByID, endpoint, token, id),
         call(getInvoicePaymentMethodsByTemplateID, endpoint, token, id)
     ]);
-    return {paymentMethods, invoiceTemplate};
+    return { paymentMethods, invoiceTemplate };
 }
 
 export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): Iterator<AllEffect | ModelChunk> {
@@ -49,14 +52,14 @@ export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): It
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    return {paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice};
+    return { paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice };
 }
 
 export function* resolveCustomer(endpoint: string, config: CustomerInitConfig): Iterator<CallEffect | ModelChunk> {
     const token = config.customerAccessToken;
     const id = config.customerID;
     const customerEvents = yield call(getCustomerEvents, endpoint, token, id);
-    return {customerEvents};
+    return { customerEvents };
 }
 
 export function* resolveIntegrationType(endpoint: string, config: InitConfig): Iterator<CallEffect | ModelChunk> {
@@ -79,6 +82,6 @@ export type InitializeEffect = CallEffect | PutEffect<InitializeModelCompleted> 
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
     const modelChunk = yield call(resolveIntegrationType, endpoint, config);
-    yield put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk} as InitializeModelCompleted);
+    yield put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk } as InitializeModelCompleted);
     return yield select((state: State) => state.model);
 }

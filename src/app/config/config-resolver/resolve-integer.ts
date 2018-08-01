@@ -4,11 +4,9 @@ import isNumber from 'lodash-es/isNumber';
 import isString from 'lodash-es/isString';
 import { getMessageInvalidValue } from '../../log-messages';
 
-const getFromNumber = (userInteger: number): number | null =>
-    isInteger(userInteger) ? userInteger : undefined;
+const getFromNumber = (userInteger: number): number | null => (isInteger(userInteger) ? userInteger : undefined);
 
-const getFromString = (userInteger: string): number | null =>
-    getFromNumber(toNumber(userInteger));
+const getFromString = (userInteger: string): number | null => getFromNumber(toNumber(userInteger));
 
 const getInteger = (userInteger: any) => {
     if (!userInteger) {

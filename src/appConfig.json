@@ -1,9 +1,9 @@
 {
-  "capiEndpoint": "<capi endpoint>",
-  "wrapperEndpoint": "<wrapper endpoint>",
-  "applePayMerchantID": "<apple pay merchant id>",
-  "googlePayMerchantID": "<google pay merchant id>",
-  "googlePayGatewayMerchantID": "<google pay gateway merchant id>",
-  "samsungPayMerchantName": "<samsung pay merchant name>",
-  "samsungPayServiceID": "<samsung pay service id>"
+    "capiEndpoint": "<capi endpoint>",
+    "wrapperEndpoint": "<wrapper endpoint>",
+    "applePayMerchantID": "<apple pay merchant id>",
+    "googlePayMerchantID": "<google pay merchant id>",
+    "googlePayGatewayMerchantID": "<google pay gateway merchant id>",
+    "samsungPayMerchantName": "<samsung pay merchant name>",
+    "samsungPayServiceID": "<samsung pay service id>"
 }

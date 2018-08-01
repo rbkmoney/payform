@@ -12,7 +12,10 @@ function validate(amount: number, min?: number, max?: number): boolean {
     return false;
 }
 
-export const validateAmount = (value: string, cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim): boolean => {
+export const validateAmount = (
+    value: string,
+    cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim
+): boolean => {
     const binded = validate.bind(null, toNumber(value) * 100);
     switch (cost.costType) {
         case CostType.InvoiceTemplateLineCostRange:

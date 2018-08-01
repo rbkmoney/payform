@@ -24,11 +24,12 @@ const toInitialFormInfo = (isMultiMethods: boolean, initialPaymentMethod: Paymen
     }
 };
 
-export const toInitialPaymentMethod = (isMultiMethods: boolean, initialPaymentMethod: PaymentMethodName): FormInfo[] => {
+export const toInitialPaymentMethod = (
+    isMultiMethods: boolean,
+    initialPaymentMethod: PaymentMethodName
+): FormInfo[] => {
     const initialFormInfo = toInitialFormInfo(isMultiMethods, initialPaymentMethod);
     const initialPaymentMethods = new PaymentMethodsFormInfo();
     initialPaymentMethods.active = false;
-    return isMultiMethods
-        ? [initialPaymentMethods, initialFormInfo]
-        : [initialFormInfo];
+    return isMultiMethods ? [initialPaymentMethods, initialFormInfo] : [initialFormInfo];
 };

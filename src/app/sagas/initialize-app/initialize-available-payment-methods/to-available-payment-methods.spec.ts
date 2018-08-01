@@ -4,7 +4,7 @@ import { toAvailablePaymentMethods } from './to-available-payment-methods';
 import { BankCard, DigitalWallet, PaymentTerminal } from 'checkout/backend';
 import { bankCardToMethods } from './bank-card-to-methods';
 
-const bankCardState = {name: PaymentMethodNameState.BankCard};
+const bankCardState = { name: PaymentMethodNameState.BankCard };
 const amountInfo = 'amountInfoMock' as any;
 
 const bankCard = {
@@ -36,11 +36,11 @@ describe('All payment methods', () => {
     });
 
     it('should return PaymentMethodState with DigitalWallet, PaymentTerminal', () => {
-        const actual = iterator.next({name: PaymentMethodNameState.BankCard});
+        const actual = iterator.next({ name: PaymentMethodNameState.BankCard });
         const expected = [
-            {name: PaymentMethodNameState.BankCard},
-            {name: PaymentMethodNameState.DigitalWallet},
-            {name: PaymentMethodNameState.PaymentTerminal}
+            { name: PaymentMethodNameState.BankCard },
+            { name: PaymentMethodNameState.DigitalWallet },
+            { name: PaymentMethodNameState.PaymentTerminal }
         ];
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBeTruthy();
@@ -80,7 +80,7 @@ describe('DigitalWallet', () => {
 
         it('should return PaymentMethodState with DigitalWallet', () => {
             const actual = iterator.next();
-            const expected = [{name: PaymentMethodNameState.DigitalWallet}];
+            const expected = [{ name: PaymentMethodNameState.DigitalWallet }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -115,7 +115,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState with PaymentTerminal', () => {
             const actual = iterator.next();
-            const expected = [{name: PaymentMethodNameState.PaymentTerminal}];
+            const expected = [{ name: PaymentMethodNameState.PaymentTerminal }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });

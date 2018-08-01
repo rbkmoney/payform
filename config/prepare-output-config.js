@@ -7,9 +7,7 @@ const prepareOutputConfig = (outputPath, jsFilenamePattern = '[name]', cssFilena
         path: helpers.root(outputPath),
         publicPath: './'
     },
-    plugins: [
-        new ExtractTextPlugin({filename: `${cssFilenamePattern}.css`})
-    ]
+    plugins: [new ExtractTextPlugin({ filename: `${cssFilenamePattern}.css` })]
 });
 
 module.exports = prepareOutputConfig;

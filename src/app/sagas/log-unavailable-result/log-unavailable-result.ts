@@ -5,7 +5,8 @@ export const logUnavailableResult = (param: string, result: CheckResult) => {
     if (result.available) {
         return;
     }
-    const prepareMessage = (availability: string) => `${logPrefix} Param '${param}' is ${availability}. ${result.message} ${sadnessMessage}`;
+    const prepareMessage = (availability: string) =>
+        `${logPrefix} Param '${param}' is ${availability}. ${result.message} ${sadnessMessage}`;
     let message;
     switch (result.reason) {
         case UnavailableReason.capability:

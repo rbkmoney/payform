@@ -26,18 +26,17 @@ const getCustomInput = (props: AmountProps, fieldProps: WrappedFieldProps) => (
         error={isError(fieldProps.meta)}
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         mark={true}
-        type='tel'
-        id='amount-input'
+        type="tel"
+        id="amount-input"
     />
 );
 
 const AmountDef: React.SFC<AmountProps> = (props) => (
     <Field
-        name='amount'
+        name="amount"
         component={getCustomInput.bind(null, props)}
         validate={(value) => validateAmount(value, props.cost)}
     />
-
 );
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

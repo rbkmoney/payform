@@ -1,10 +1,4 @@
-import {
-    InvoiceTemplate,
-    PaymentMethod,
-    Event,
-    CustomerEvent,
-    Invoice
-} from 'checkout/backend/model';
+import { InvoiceTemplate, PaymentMethod, Event, CustomerEvent, Invoice } from 'checkout/backend/model';
 
 export interface ModelState {
     readonly invoiceTemplate?: InvoiceTemplate;

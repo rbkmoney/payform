@@ -7,7 +7,12 @@ import { makePayment } from './make-payment';
 
 const createPaymentResource = (endpoint: string) => createTerminalEuroset.bind(null, endpoint);
 
-export function* payWithTerminalEuroset(c: Config, m: ModelState, a: AmountInfoState, v: PayableFormValues): Iterator<ProvidePaymentEffects> {
+export function* payWithTerminalEuroset(
+    c: Config,
+    m: ModelState,
+    a: AmountInfoState,
+    v: PayableFormValues
+): Iterator<ProvidePaymentEffects> {
     const fn = createPaymentResource(c.appConfig.capiEndpoint);
     return yield call(makePayment, c, m, v, a, fn);
 }

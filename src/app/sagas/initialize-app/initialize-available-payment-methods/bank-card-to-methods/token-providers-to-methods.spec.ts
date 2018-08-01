@@ -27,7 +27,7 @@ describe('Apple Pay provider', () => {
 
         it('should return PaymentMethodNameState ApplePay', () => {
             const actual = iterator.next(true);
-            const expected = [{name: PaymentMethodNameState.ApplePay}];
+            const expected = [{ name: PaymentMethodNameState.ApplePay }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -64,7 +64,7 @@ describe('Google Pay provider', () => {
 
         it('should return PaymentMethodNameState GooglePay', () => {
             const actual = iterator.next(true);
-            const expected = [{name: PaymentMethodNameState.GooglePay}];
+            const expected = [{ name: PaymentMethodNameState.GooglePay }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -95,7 +95,7 @@ describe('Samsung Pay provider', () => {
 
         it('should return PaymentMethodNameState SamsungPay', () => {
             const actual = iterator.next(true);
-            const expected = [{name: PaymentMethodNameState.SamsungPay}];
+            const expected = [{ name: PaymentMethodNameState.SamsungPay }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });

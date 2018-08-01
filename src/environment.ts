@@ -23,8 +23,6 @@ export const isApplePayAvailable = (): boolean => {
 };
 
 export const isGooglePaymentClientAvailable = (): boolean =>
-    !!environment.google &&
-    !!environment.google.payments.api.PaymentsClient;
+    !!environment.google && !!environment.google.payments.api.PaymentsClient;
 
-export const isPaymentRequestAvailable = (): boolean =>
-    !!environment.PaymentRequest;
+export const isPaymentRequestAvailable = (): boolean => !!environment.PaymentRequest;

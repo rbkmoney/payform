@@ -13,5 +13,8 @@ export function validateCardNumber(value: string): boolean {
     if (!card) {
         return true;
     }
-    return !((ref = value.length, [].indexOf.call(card.length, ref) >= 0) && (card.luhn === false || luhnCheck(value)));
+    return !(
+        ((ref = value.length), [].indexOf.call(card.length, ref) >= 0) &&
+        (card.luhn === false || luhnCheck(value))
+    );
 }

@@ -23,14 +23,14 @@ interface InteractionFormProps {
 type Props = InteractionFormProps & InjectedFormProps;
 
 export class InteractionFormDef extends React.Component<Props> {
-
     render() {
         const { terminalReceipt } = this.props;
         return (
             <form>
                 <div>
-                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ?
-                        <InteractionTerminalForm receipt={terminalReceipt} /> : null}
+                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ? (
+                        <InteractionTerminalForm receipt={terminalReceipt} />
+                    ) : null}
                 </div>
             </form>
         );

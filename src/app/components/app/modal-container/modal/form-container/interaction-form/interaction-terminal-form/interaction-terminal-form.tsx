@@ -23,12 +23,12 @@ export interface InteractionTerminalFormProps {
 
 class InteractionTerminalFormDef extends React.Component<InteractionTerminalFormProps> {
     render() {
-        const {locale, receipt, amount} = this.props;
+        const { locale, receipt, amount } = this.props;
         return (
-            <div className={styles.container} id='terminal-interaction'>
-                <Header title={this.props.locale['form.header.pay.euroset.label']}/>
-                <Icon icon={IconType.eurosetLogo} className={formStyles.systemLogo}/>
-                <ReceiptInfo amount={amount} receipt={receipt} locale={locale}/>
+            <div className={styles.container} id="terminal-interaction">
+                <Header title={this.props.locale['form.header.pay.euroset.label']} />
+                <Icon icon={IconType.eurosetLogo} className={formStyles.systemLogo} />
+                <ReceiptInfo amount={amount} receipt={receipt} locale={locale} />
             </div>
         );
     }

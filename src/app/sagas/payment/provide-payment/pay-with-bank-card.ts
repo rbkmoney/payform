@@ -8,7 +8,12 @@ import { ProvidePaymentEffects } from './provide-payment';
 const createPaymentResource = (endpoint: string, formValues: CardFormValues) =>
     createCardData.bind(null, endpoint, formValues);
 
-export function* payWithBankCard(c: Config, m: ModelState, a: AmountInfoState, v: CardFormValues): Iterator<ProvidePaymentEffects> {
+export function* payWithBankCard(
+    c: Config,
+    m: ModelState,
+    a: AmountInfoState,
+    v: CardFormValues
+): Iterator<ProvidePaymentEffects> {
     const fn = createPaymentResource(c.appConfig.capiEndpoint, v);
     return yield call(makePayment, c, m, v, a, fn);
 }

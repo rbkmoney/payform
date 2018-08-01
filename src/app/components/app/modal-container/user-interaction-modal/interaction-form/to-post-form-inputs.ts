@@ -5,8 +5,8 @@ const createInput = (origin: string, formField: FormField): HTMLInputElement => 
     const formParam = document.createElement('input');
     formParam.name = formField.key;
     formField.key === 'TermUrl'
-        ? formParam.value = expandWithRedirect(origin, formField.template)
-        : formParam.value = formField.template;
+        ? (formParam.value = expandWithRedirect(origin, formField.template))
+        : (formParam.value = formField.template);
     return formParam;
 };
 

@@ -1,15 +1,7 @@
 import { InitializeAppState } from 'checkout/state';
-import {
-    InitializeAppCompleted,
-    InitializeAppFailed,
-    InitializeAppRequested,
-    TypeKeys
-} from 'checkout/actions';
+import { InitializeAppCompleted, InitializeAppFailed, InitializeAppRequested, TypeKeys } from 'checkout/actions';
 
-type InitializeAppAction =
-    InitializeAppFailed |
-    InitializeAppRequested |
-    InitializeAppCompleted;
+type InitializeAppAction = InitializeAppFailed | InitializeAppRequested | InitializeAppCompleted;
 
 const initState = {
     initialized: false

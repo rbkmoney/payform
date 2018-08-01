@@ -26,8 +26,8 @@ class ResultFormDef extends React.Component<ResultFormProps> {
                     <h2 className={styles.title}>{header}</h2>
                     {icon}
                     {description ? description : false}
-                    {hasErrorDescription ? <ErrorDescriptionBlock/> : false}
-                    {hasActions ? <ActionBlock/> : false}
+                    {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
+                    {hasActions ? <ActionBlock /> : false}
                 </div>
             </form>
         );
@@ -58,7 +58,9 @@ const mapStateToProps = (state: State) => {
         locale: state.config.locale,
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
-        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType)),
+        hasErrorDescription: isHelpAvailable(
+            getErrorCodeFromEvents(state.model, state.config.initConfig.integrationType)
+        ),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods)
     };
 };
@@ -68,4 +70,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-export const ResultForm = connect(mapStateToProps, mapDispatchToProps)(ResultFormDef);
+export const ResultForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ResultFormDef);

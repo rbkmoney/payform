@@ -1,10 +1,6 @@
 import { put, PutEffect } from 'redux-saga/effects';
 import last from 'lodash-es/last';
-import {
-    CustomerEvent,
-    CustomerChangeType,
-    CustomerBindingInteractionRequested
-} from 'checkout/backend';
+import { CustomerEvent, CustomerChangeType, CustomerBindingInteractionRequested } from 'checkout/backend';
 import { Direction, GoToFormInfo, SetModalState, TypeKeys } from 'checkout/actions';
 import { ResultFormInfo, ResultType } from 'checkout/state';
 import { provideCustomerInteraction } from './provide-interaction';
@@ -29,7 +25,7 @@ const toPayload = (event: CustomerEvent): SetStateFromEvents => {
                 payload: provideCustomerInteraction(change as CustomerBindingInteractionRequested)
             };
         default:
-            throw {code: 'error.unsupported.invoice.change.type'};
+            throw { code: 'error.unsupported.invoice.change.type' };
     }
 };
 

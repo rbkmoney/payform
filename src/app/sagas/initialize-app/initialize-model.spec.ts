@@ -1,12 +1,7 @@
 import { all, call, put, select } from 'redux-saga/effects';
 import { initializeModel } from './initialize-model';
 import { TypeKeys } from 'checkout/actions';
-import {
-    CustomerInitConfig,
-    IntegrationType,
-    InvoiceInitConfig,
-    InvoiceTemplateInitConfig
-} from 'checkout/config';
+import { CustomerInitConfig, IntegrationType, InvoiceInitConfig, InvoiceTemplateInitConfig } from 'checkout/config';
 import {
     resolveCustomer,
     resolveIntegrationType,
@@ -54,7 +49,7 @@ describe('initializeModel', () => {
     it('should put model', () => {
         const model = {};
         const actual = iterator.next(model).value;
-        const expected = put({type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: model});
+        const expected = put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: model });
         expect(actual).toEqual(expected);
     });
 
@@ -66,7 +61,6 @@ describe('initializeModel', () => {
 });
 
 describe('resolveIntegrationType', () => {
-
     it('should call resolveInvoiceTemplate', () => {
         const iterator = resolveIntegrationType(endpoint, initConfigInvoiceTemplate);
         const actual = iterator.next().value;
@@ -107,7 +101,7 @@ describe('resolveInvoiceTemplate', () => {
         const invoiceTemplate = 'template mock';
         const paymentMethods = 'methods mock';
         const actual = iterator.next([invoiceTemplate, paymentMethods]);
-        const expected = {invoiceTemplate, paymentMethods};
+        const expected = { invoiceTemplate, paymentMethods };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);
     });
@@ -158,7 +152,7 @@ describe('resolveCustomer', () => {
     it('should return model chunk', () => {
         const customerEvents = 'events mock';
         const actual = iterator.next(customerEvents);
-        const expected = {customerEvents};
+        const expected = { customerEvents };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);
     });

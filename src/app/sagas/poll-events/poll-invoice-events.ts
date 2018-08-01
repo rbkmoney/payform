@@ -1,16 +1,7 @@
 import last from 'lodash-es/last';
 import uniqWith from 'lodash-es/uniqWith';
 import { delay } from 'redux-saga';
-import {
-    call,
-    select,
-    put,
-    race,
-    CallEffect,
-    PutEffect,
-    RaceEffect,
-    SelectEffect
-} from 'redux-saga/effects';
+import { call, select, put, race, CallEffect, PutEffect, RaceEffect, SelectEffect } from 'redux-saga/effects';
 import { InvoiceChangeType, Event, getInvoiceEvents } from 'checkout/backend';
 import { EventPolled, TypeKeys } from 'checkout/actions';
 import { State } from 'checkout/state';
@@ -63,12 +54,9 @@ function* poll(endpoint: string, token: string, invoiceID: string): Iterator<Cal
 }
 
 function* pollWithDelay(endpoint: string, token: string, invoiceID: string): Iterator<RaceEffect | PollResult> {
-    const [result, timeout] = yield race<any>([
-        call(poll, endpoint, token, invoiceID),
-        call(delay, 60000)
-    ]);
+    const [result, timeout] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
     if (timeout) {
-        throw {code: 'error.events.timeout'};
+        throw { code: 'error.events.timeout' };
     }
     return result;
 }

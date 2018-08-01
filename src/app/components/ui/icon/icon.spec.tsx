@@ -4,8 +4,6 @@ import { Icon } from './icon';
 import { IconType } from './icon-type';
 
 it('renders correctly', () => {
-    const tree = renderer
-        .create(<Icon className={'test-class'} icon={IconType.amount}/>)
-        .toJSON();
+    const tree = renderer.create(<Icon className={'test-class'} icon={IconType.amount} />).toJSON();
     expect(tree).toMatchSnapshot();
 });

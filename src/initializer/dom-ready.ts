@@ -1,7 +1,7 @@
 import { getOrigin } from '../get-origin';
 
 export const domReady = (): Promise<string> => {
-    const origin  = getOrigin();
+    const origin = getOrigin();
     return new Promise((resolve) => {
         let ready = false;
 
@@ -35,8 +35,7 @@ export const domReady = (): Promise<string> => {
             try {
                 top = window.frameElement === null && document.documentElement;
                 /* tslint:disable: no-empty */
-            } catch (e) {
-            }
+            } catch (e) {}
             if (top && top.doScroll) {
                 (function scrollCheck() {
                     if (ready) {

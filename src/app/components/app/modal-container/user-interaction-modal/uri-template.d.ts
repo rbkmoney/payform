@@ -1,5 +1,4 @@
 declare module 'uri-template' {
-
     export interface ExpressionParam {
         name: string;
         extended: string;

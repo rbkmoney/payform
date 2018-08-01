@@ -1,43 +1,25 @@
-import {
-    CallEffect,
-    ForkEffect,
-    PutEffect,
-    SelectEffect,
-    put,
-    call,
-    select,
-    takeLatest
-} from 'redux-saga/effects';
-import {
-    TypeKeys,
-    PrepareToPay,
-    PaymentRequested,
-    PaymentFailed,
-    PaymentCompleted
-} from 'checkout/actions';
+import { CallEffect, ForkEffect, PutEffect, SelectEffect, put, call, select, takeLatest } from 'redux-saga/effects';
+import { TypeKeys, PrepareToPay, PaymentRequested, PaymentFailed, PaymentCompleted } from 'checkout/actions';
 import { providePayment } from './provide-payment';
 import { State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
 type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted;
 
-type PayEffect =
-    SelectEffect |
-    CallEffect |
-    PutEffect<PayPutEffect>;
+type PayEffect = SelectEffect | CallEffect | PutEffect<PayPutEffect>;
 
 export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     try {
-        const {config, model, amountInfo} = yield select((s: State) => ({
+        const { config, model, amountInfo } = yield select((s: State) => ({
             config: s.config,
             model: s.model,
             amountInfo: s.amountInfo
         }));
-        const {values, method} = action.payload;
-        yield put({type: TypeKeys.PREPARE_TO_PAY} as PrepareToPay);
+        const { values, method } = action.payload;
+        yield put({ type: TypeKeys.PREPARE_TO_PAY } as PrepareToPay);
         const event = yield call(providePayment, method, config, model, amountInfo, values);
         yield call(provideFromInvoiceEvent, event);
-        yield put({type: TypeKeys.PAYMENT_COMPLETED} as PaymentCompleted);
+        yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
     } catch (error) {
         yield put({
             type: TypeKeys.PAYMENT_FAILED,

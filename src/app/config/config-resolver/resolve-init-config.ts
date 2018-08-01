@@ -7,12 +7,12 @@ import { resolveString } from './resolve-string';
 import { HoldExpirationType } from 'checkout/backend';
 import { PaymentMethodName } from 'checkout/config/payment-method-name';
 
-const setDefault = (userParam: any, defaultValue: any) => userParam === null ? defaultValue : userParam;
+const setDefault = (userParam: any, defaultValue: any) => (userParam === null ? defaultValue : userParam);
 
 export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
     const resolvedIntegrationType = resolveIntegrationType(userConfig);
     if (!resolvedIntegrationType) {
-        throw {code: 'error.unrecognized.integration.type'};
+        throw { code: 'error.unrecognized.integration.type' };
     }
     const {
         name,

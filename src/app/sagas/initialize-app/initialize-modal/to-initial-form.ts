@@ -23,9 +23,6 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
     }
 };
 
-export const toInitialForm = (isMultiMethods: boolean, defaultMethod: PaymentMethod): FormInfo[] =>
-    [
-        isMultiMethods
-            ? new PaymentMethodsFormInfo()
-            : resolveDefaultMethod(defaultMethod)
-    ];
+export const toInitialForm = (isMultiMethods: boolean, defaultMethod: PaymentMethod): FormInfo[] => [
+    isMultiMethods ? new PaymentMethodsFormInfo() : resolveDefaultMethod(defaultMethod)
+];

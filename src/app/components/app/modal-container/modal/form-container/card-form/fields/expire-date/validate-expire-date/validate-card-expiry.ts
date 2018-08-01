@@ -1,6 +1,6 @@
 import { ExpiryDate } from './card-expiry-val';
 
-export function validateCardExpiry({month, year}: ExpiryDate): boolean {
+export function validateCardExpiry({ month, year }: ExpiryDate): boolean {
     if (!(month && year)) {
         return false;
     }
@@ -12,7 +12,7 @@ export function validateCardExpiry({month, year}: ExpiryDate): boolean {
     if (!/^\d+$/.test(newYear)) {
         return false;
     }
-    if (!((1 <= month && month <= 12))) {
+    if (!(1 <= month && month <= 12)) {
         return false;
     }
     if (newYear.length === 2) {

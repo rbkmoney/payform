@@ -36,7 +36,7 @@ it('should return invoiceTemplate integration type', () => {
     const expected = {
         integrationType: IntegrationType.invoiceTemplate,
         invoiceTemplateID: 'mock invoiceTemplateID',
-        invoiceTemplateAccessToken: 'mock token',
+        invoiceTemplateAccessToken: 'mock token'
     };
     expect(result).toEqual(expected);
 });
@@ -50,7 +50,7 @@ it('should return customer integration type', () => {
     const expected = {
         integrationType: IntegrationType.customer,
         customerID: 'mock customer',
-        customerAccessToken: 'mock token',
+        customerAccessToken: 'mock token'
     };
     expect(result).toEqual(expected);
 });

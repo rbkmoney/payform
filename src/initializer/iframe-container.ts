@@ -1,6 +1,9 @@
 import assign from 'lodash-es/assign';
 
-const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+const s4 = () =>
+    Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
 
 const generateId = () => `${s4()}${s4()}${s4()}${s4()}`;
 
@@ -33,7 +36,6 @@ const create = (origin: string): HTMLIFrameElement => {
 };
 
 export class IframeContainer {
-
     private container: HTMLIFrameElement;
 
     constructor(origin: string) {

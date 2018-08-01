@@ -4,7 +4,6 @@ import { Initializer } from './initializer';
 import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 
 export class IframeInitializer extends Initializer {
-
     private container: IframeContainer;
 
     constructor(origin: string, userConfig: any) {

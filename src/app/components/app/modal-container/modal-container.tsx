@@ -34,7 +34,6 @@ const isInteractionPolling = (modal: ModalState) =>
     modal.name === ModalName.modalInteraction && (modal as ModalInteraction).pollingEvents;
 
 class ModalContainerDef extends React.Component<ModalContainerProps> {
-
     componentWillMount() {
         window.addEventListener('message', (e) => {
             if (e.data === 'finish-interaction') {
@@ -52,10 +51,13 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     }
 
     render() {
-        const {activeModal: {name}, config: {inFrame}} = this.props;
+        const {
+            activeModal: { name },
+            config: { inFrame }
+        } = this.props;
         return (
             <CSSTransitionGroup
-                component='div'
+                component="div"
                 className={styles.animationContainer}
                 transitionName={{
                     appear: styles.appearContainer,
@@ -70,23 +72,25 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionLeave={true}>
                 <div className={styles.container}>
                     <CSSTransitionGroup
-                        component='div'
-                        transitionName='interactionAnimation'
+                        component="div"
+                        transitionName="interactionAnimation"
                         transitionEnterTimeout={1000}
                         transitionLeaveTimeout={500}>
-                        {name === ModalName.modalForms ?
+                        {name === ModalName.modalForms ? (
                             <div>
-                                {inFrame ? null : <Close/>}
-                                <Modal/>
-                                <Footer/>
-                            </div> : null}
-                        {name === ModalName.modalInteraction ?
+                                {inFrame ? null : <Close />}
+                                <Modal />
+                                <Footer />
+                            </div>
+                        ) : null}
+                        {name === ModalName.modalInteraction ? (
                             <div>
-                                {inFrame ? null : <Close/>}
-                                <UserInteractionModal/>
-                            </div> : null}
+                                {inFrame ? null : <Close />}
+                                <UserInteractionModal />
+                            </div>
+                        ) : null}
                     </CSSTransitionGroup>
-                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader/> : null}
+                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader /> : null}
                 </div>
             </CSSTransitionGroup>
         );
@@ -105,4 +109,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     finishInteraction: bindActionCreators(finishInteraction, dispatch)
 });
 
-export const ModalContainer = connect(mapStateToProps, mapDispatchToProps)(ModalContainerDef);
+export const ModalContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ModalContainerDef);

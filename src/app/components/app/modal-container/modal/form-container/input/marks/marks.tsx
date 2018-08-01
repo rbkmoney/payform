@@ -11,7 +11,7 @@ interface MarksProps {
 
 export const Marks: React.SFC<MarksProps> = (props) => (
     <CSSTransitionGroup
-        component='div'
+        component="div"
         transitionName={{
             appear: styles.appearMarks,
             enter: styles.enterMarks,
@@ -22,9 +22,12 @@ export const Marks: React.SFC<MarksProps> = (props) => (
         transitionAppearTimeout={450}
         transitionAppear={true}
         transitionEnter={true}
-        transitionLeave={true}
-    >
-        {!props.active && !props.error && !props.pristine ? <Icon className={styles.checkmark} icon={IconType.checkmark}/> : false}
-        {!props.active && props.error ? <Icon className={styles.errorCross} icon={IconType.redCross}/> : false}
+        transitionLeave={true}>
+        {!props.active && !props.error && !props.pristine ? (
+            <Icon className={styles.checkmark} icon={IconType.checkmark} />
+        ) : (
+            false
+        )}
+        {!props.active && props.error ? <Icon className={styles.errorCross} icon={IconType.redCross} /> : false}
     </CSSTransitionGroup>
 );

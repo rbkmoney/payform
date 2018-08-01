@@ -1,17 +1,16 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-immutable"],
-  "rules": {
-    "quotemark": [true, "single"],
-    "member-access": [true, "no-public"],
-    "trailing-comma": false,
-    "ordered-imports": false,
-    "no-console": [true, "log"],
-    "max-line-length": false,
-    "object-literal-sort-keys": false,
-    "interface-name": false,
-    "no-namespace": false,
-    "jsx-alignment": false,
-    "jsx-no-multiline-js": false,
-    "jsx-no-lambda": false
-  }
+    "extends": ["tslint:recommended", "tslint-react", "tslint-immutable", "tslint-config-prettier"],
+    "rules": {
+        "member-access": [true, "no-public"],
+        "trailing-comma": false,
+        "ordered-imports": false,
+        "no-console": [true, "log"],
+        "max-line-length": false,
+        "object-literal-sort-keys": false,
+        "interface-name": false,
+        "no-namespace": false,
+        "jsx-alignment": false,
+        "jsx-no-multiline-js": false,
+        "jsx-no-lambda": false
+    }
 }

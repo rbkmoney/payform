@@ -1,16 +1,17 @@
 import mapValues from 'lodash-es/mapValues';
 import isFunction from 'lodash-es/isFunction';
 
-const mapBoolean = (obj: object): object => mapValues(obj, (value: any) => {
-    switch (value) {
-        case 'true':
-            return true;
-        case 'false':
-            return false;
-        default:
-            return value;
-    }
-});
+const mapBoolean = (obj: object): object =>
+    mapValues(obj, (value: any) => {
+        switch (value) {
+            case 'true':
+                return true;
+            case 'false':
+                return false;
+            default:
+                return value;
+        }
+    });
 
 const getLocale = (userConfig: any) => userConfig.locale || 'auto';
 
@@ -24,10 +25,9 @@ const dummyFn: ActionCallback = () => {};
 
 type ActionCallback = () => void;
 
-const initCallback = (fn: any): ActionCallback => isFunction(fn) ? fn : dummyFn;
+const initCallback = (fn: any): ActionCallback => (isFunction(fn) ? fn : dummyFn);
 
 export abstract class Initializer {
-
     protected config: any;
     protected origin: string;
     protected opened: ActionCallback;

@@ -25,7 +25,7 @@ const failed = (l: Locale, e: CustomerBindingStatusChanged) => ({
     hasDone: false,
     description: getFailedDescription(l, e.error),
     header: l['form.header.final.customer.binding.failed.label'],
-    icon: <Cross/>
+    icon: <Cross />
 });
 
 const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
@@ -33,7 +33,7 @@ const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.customer.binding.success.label'],
     description: getDescription(l['form.final.success.binding.text'], e),
-    icon: <Checkmark/>
+    icon: <Checkmark />
 });
 
 const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
@@ -41,7 +41,7 @@ const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.binding.text'], e),
-    icon: <Warning/>
+    icon: <Warning />
 });
 
 const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFormContent => {

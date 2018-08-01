@@ -7,7 +7,8 @@ import {
 } from 'checkout/backend';
 import { AmountInfoState, AmountInfoStatus } from 'checkout/state';
 
-const getStatus = (configAmount: number) => isNumber(configAmount) ? AmountInfoStatus.final : AmountInfoStatus.notKnown;
+const getStatus = (configAmount: number) =>
+    isNumber(configAmount) ? AmountInfoStatus.final : AmountInfoStatus.notKnown;
 
 export const getAmountFromSingleLine = (details: InvoiceTemplateSingleLine, configAmount: number): AmountInfoState => {
     const price = details.price;

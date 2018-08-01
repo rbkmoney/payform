@@ -25,8 +25,8 @@ const getTransactionRequestBody = (totalAmount: number, currency: string, mercha
 });
 
 export async function createTransaction(appConfig: AppConfig, a: AmountInfoState): Promise<Transaction> {
-    const {minorValue, currencyCode} = a;
-    const {samsungPayMerchantName, samsungPayServiceID, wrapperEndpoint} = appConfig;
+    const { minorValue, currencyCode } = a;
+    const { samsungPayMerchantName, samsungPayServiceID, wrapperEndpoint } = appConfig;
     const body = getTransactionRequestBody(minorValue / 100, currencyCode, samsungPayMerchantName, samsungPayServiceID);
     try {
         const res = await fetch(`${wrapperEndpoint}/samsungpay/api/v1/transaction`, {
@@ -40,7 +40,7 @@ export async function createTransaction(appConfig: AppConfig, a: AmountInfoState
         if (res.status >= 200 && res.status <= 300) {
             return await res.json();
         } else {
-            throw {code: res.status};
+            throw { code: res.status };
         }
     } catch (e) {
         throw e;
