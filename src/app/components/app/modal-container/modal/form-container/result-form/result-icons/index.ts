@@ -1,3 +1,3 @@
 export * from './checkmark';
-export * from './cross';
+export * from './error-icon/error-icon';
 export * from './warning';

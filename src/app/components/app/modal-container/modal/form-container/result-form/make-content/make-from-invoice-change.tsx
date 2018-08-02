@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Event, InvoiceStatusChanged, InvoiceStatuses } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { ResultFormContent } from './result-form-content';
-import { Checkmark, Cross } from '../result-icons';
+import { Checkmark, ErrorIcon } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 import { getSuccessDescription } from './get-success-description';
 import { Warning } from '../result-icons';
@@ -26,7 +26,7 @@ const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.cancelled.label'],
-    icon: <Cross />
+    icon: <ErrorIcon />
 });
 
 const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
