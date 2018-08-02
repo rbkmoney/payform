@@ -9,7 +9,7 @@ import {
 } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
-import { Checkmark } from '../result-icons';
+import { SuccessIcon } from '../result-icons';
 import { getCustomerPaymentDetails } from './payment-details';
 import { ErrorIcon, Warning } from '../result-icons';
 import { getFailedDescription } from './get-failed-description';
@@ -33,7 +33,7 @@ const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.customer.binding.success.label'],
     description: getDescription(l['form.final.success.binding.text'], e),
-    icon: <Checkmark />
+    icon: <SuccessIcon />
 });
 
 const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({

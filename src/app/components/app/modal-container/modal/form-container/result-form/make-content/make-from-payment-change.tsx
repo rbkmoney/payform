@@ -4,7 +4,7 @@ import { Event, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses 
 import { ResultFormContent } from './result-form-content';
 import { getFailedDescription } from './get-failed-description';
 import { getSuccessDescription } from './get-success-description';
-import { Checkmark, ErrorIcon, Warning } from '../result-icons';
+import { SuccessIcon, ErrorIcon, Warning } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 
 export const refunded = (l: Locale): ResultFormContent => ({
@@ -41,7 +41,7 @@ const processed = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.success.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark />
+    icon: <SuccessIcon />
 });
 
 export const makeFromPaymentChange = (l: Locale, e: Event[]) => {
