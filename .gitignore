@@ -4,3 +4,4 @@
 Dockerfile
 .DS_Store
 /.cache-loader/
+styleguide

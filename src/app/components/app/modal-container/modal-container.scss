@@ -3,7 +3,7 @@
 
 .appearContainer {
     @include responsive(sm) {
-        animation: popup .75s;
+        animation: popup 0.75s;
     }
 }
 

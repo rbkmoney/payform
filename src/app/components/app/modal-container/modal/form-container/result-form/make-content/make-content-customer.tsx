@@ -9,10 +9,9 @@ import {
 } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
-import { Checkmark } from '../result-icons';
 import { getCustomerPaymentDetails } from './payment-details';
-import { Cross, Warning } from '../result-icons';
 import { getFailedDescription } from './get-failed-description';
+import { ResultFormType } from 'checkout/components/app/modal-container/modal/form-container/result-form/make-content/result-form-content';
 
 const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
     <p className={styles.text}>
@@ -25,7 +24,7 @@ const failed = (l: Locale, e: CustomerBindingStatusChanged) => ({
     hasDone: false,
     description: getFailedDescription(l, e.error),
     header: l['form.header.final.customer.binding.failed.label'],
-    icon: <Cross />
+    type: ResultFormType.ERROR
 });
 
 const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
@@ -33,7 +32,7 @@ const succeeded = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.customer.binding.success.label'],
     description: getDescription(l['form.final.success.binding.text'], e),
-    icon: <Checkmark />
+    type: ResultFormType.SUCCESS
 });
 
 const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
@@ -41,7 +40,7 @@ const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.started.label'],
     description: getDescription(l['form.final.started.binding.text'], e),
-    icon: <Warning />
+    type: ResultFormType.WARNING
 });
 
 const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFormContent => {
