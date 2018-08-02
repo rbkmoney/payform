@@ -4,28 +4,28 @@ import { Event, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses 
 import { ResultFormContent } from './result-form-content';
 import { getFailedDescription } from './get-failed-description';
 import { getSuccessDescription } from './get-success-description';
-import { SuccessIcon, ErrorIcon, WarningIcon } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
+import { ResultFormType } from 'checkout/components/app/modal-container/modal/form-container/result-form/make-content/result-form-content';
 
 export const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: true,
     header: l['form.header.final.refunded.label'],
-    icon: <WarningIcon />
+    type: ResultFormType.WARNING
 });
 
 export const pending = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.pending.label'],
-    icon: <WarningIcon />
+    type: ResultFormType.WARNING
 });
 
 export const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: true,
     hasDone: false,
     header: l['form.header.final.cancelled.label'],
-    icon: <WarningIcon />
+    type: ResultFormType.WARNING
 });
 
 export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormContent => ({
@@ -33,7 +33,7 @@ export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormConte
     hasDone: false,
     header: l['form.header.final.failed.label'],
     description: getFailedDescription(l, e),
-    icon: <ErrorIcon />
+    type: ResultFormType.ERROR
 });
 
 const processed = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -41,7 +41,7 @@ const processed = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: true,
     header: l['form.header.final.success.label'],
     description: getSuccessDescription(l, e),
-    icon: <SuccessIcon />
+    type: ResultFormType.SUCCESS
 });
 
 export const makeFromPaymentChange = (l: Locale, e: Event[]) => {

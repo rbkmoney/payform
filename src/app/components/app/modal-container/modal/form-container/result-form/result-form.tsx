@@ -7,30 +7,34 @@ import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultTyp
 import { goToFormInfo, setResult } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
 import { findNamed } from 'checkout/utils';
-import { makeContentCustomer, makeContentError, makeContentInvoice, ResultFormContent } from './make-content';
+import {
+    makeContentCustomer,
+    makeContentError,
+    makeContentInvoice,
+    ResultFormContent,
+    ResultFormType
+} from './make-content';
 import { ActionBlock } from './action-block';
 import { IntegrationType } from 'checkout/config';
 import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { isHelpAvailable } from './is-help-available';
 import { ErrorDescriptionBlock } from './error-description-block';
+import { ResultIcon } from 'checkout/components/app/modal-container/modal/form-container/result-form/result-icons';
 
 class ResultFormDef extends React.Component<ResultFormProps> {
     render() {
-        const { header, description, icon, hasActions, hasDone } = this.makeContent();
-        const {
-            hasErrorDescription,
-            resultFormInfo: { resultType }
-        } = this.props;
+        const { header, description, type, hasActions, hasDone } = this.makeContent();
+        const { hasErrorDescription } = this.props;
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
         return (
             <form className={cx(styles.form, { [styles.form_withoutActions]: !hasActions })}>
                 <div className={styles.container}>
-                    <h2 className={cx(styles.title, { [styles.title_error]: resultType === ResultType.error })}>
+                    <h2 className={cx(styles.title, { [styles.title_error]: type === ResultFormType.ERROR })}>
                         {header}
                     </h2>
-                    {icon}
+                    <ResultIcon type={type} />
                     {description}
                     {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
                     {hasActions ? <ActionBlock /> : false}
