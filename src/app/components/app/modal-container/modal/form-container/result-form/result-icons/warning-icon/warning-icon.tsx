@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as styles from './warning.scss';
+import * as styles from './warning-icon.scss';
 
-export const Warning: React.SFC = () => (
+export const WarningIcon: React.SFC = () => (
     <svg viewBox="0 0 50 50" className={styles.warning}>
         <g fill="none">
             <circle cx="25" cy="25" r="25" />

@@ -5,13 +5,13 @@ import { ResultFormContent } from './result-form-content';
 import { SuccessIcon, ErrorIcon } from '../result-icons';
 import { getLastChange } from 'checkout/utils';
 import { getSuccessDescription } from './get-success-description';
-import { Warning } from '../result-icons';
+import { WarningIcon } from '../result-icons';
 
 const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.refunded.label'],
-    icon: <Warning />
+    icon: <WarningIcon />
 });
 
 const paid = (l: Locale, e: Event[]): ResultFormContent => ({
