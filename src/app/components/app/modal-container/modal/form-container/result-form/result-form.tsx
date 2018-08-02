@@ -17,14 +17,19 @@ import { ErrorDescriptionBlock } from './error-description-block';
 class ResultFormDef extends React.Component<ResultFormProps> {
     render() {
         const { header, description, icon, hasActions, hasDone } = this.makeContent();
-        const { hasErrorDescription } = this.props;
+        const {
+            hasErrorDescription,
+            resultFormInfo: { resultType }
+        } = this.props;
         if (hasDone) {
             this.props.setResult(ResultState.done);
         }
         return (
             <form className={cx(styles.form, { [styles.form_withoutActions]: !hasActions })}>
                 <div className={styles.container}>
-                    <h2 className={styles.title}>{header}</h2>
+                    <h2 className={cx(styles.title, { [styles.title_error]: resultType === ResultType.error })}>
+                        {header}
+                    </h2>
                     {icon}
                     {description}
                     {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
