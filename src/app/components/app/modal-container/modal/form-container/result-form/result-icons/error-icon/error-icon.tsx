@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as styles from './error-icon.scss';
 
 export const ErrorIcon: React.SFC = () => (
-    <svg className={styles.error} viewBox="0 0 86 86">
+    <svg className={styles.error} viewBox="0 0 86 86" id="error-icon">
         <defs>
             <path
                 d="M13 16c7.18 0 13-2.327 13-6.333C26 5.662 20.18 0 13 0S0 5.662 0 9.667C0 13.673 5.82 16 13 16z"
