@@ -21,15 +21,15 @@ class App {
 
     async start() {
         try {
-            let params: { type?: Type; refId?: string };
+            let params: { type?: Type; ref_id?: string };
             try {
                 params = deserialize(window.document.location.href);
             } catch (e) {
                 params = {};
             }
             this.transport = await initialize(window.parent.window, window.location.origin, communicatorInstanceName);
-            if (params.refId) {
-                this.success(params.refId);
+            if (params.ref_id) {
+                this.success(params.ref_id);
             } else if (params.type === Type.ERROR) {
                 this.error('error.samsung.pay.cancel');
             } else {

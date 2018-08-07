@@ -1,4 +1,4 @@
-@import "../../../styles/animations";
+@import '../../../styles/animations';
 
 .loader {
     position: fixed;
@@ -18,6 +18,6 @@
         align-items: center;
         justify-content: center;
         transform: translate(0, 0);
-        animation: growth .75s;
+        animation: growth 0.75s;
     }
 }
