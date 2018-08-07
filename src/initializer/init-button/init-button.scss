@@ -5,7 +5,7 @@
     visibility: visible;
     padding: 8px 12px;
     outline: 0;
-    font: bold 14px/14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: bold 14px/14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-decoration: none;
     color: #fff;
     border: 1px solid #2384c1;
@@ -18,15 +18,17 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
 
-    &:not(:disabled):active, &.active {
+    &:not(:disabled):active,
+    &.active {
         color: #eee;
         border: 1px solid #1d73a4;
         background-image: linear-gradient(#008cdd, #008cdd 85%, #239adf);
-        box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1)
+        box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
     }
-    &:disabled, &.disabled {
+    &:disabled,
+    &.disabled {
         color: #999;
         background: #f8f9fa;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5)
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     }
 }

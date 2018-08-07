@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { Event, InvoiceStatusChanged, InvoiceStatuses } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
-import { ResultFormContent } from './result-form-content';
-import { Checkmark, Cross } from '../result-icons';
+import { ResultFormContent, ResultFormType } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
 import { getSuccessDescription } from './get-success-description';
-import { Warning } from '../result-icons';
 
 const refunded = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.refunded.label'],
-    icon: <Warning />
+    type: ResultFormType.WARNING
 });
 
 const paid = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -19,14 +17,14 @@ const paid = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.invoice.paid.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark />
+    type: ResultFormType.SUCCESS
 });
 
 const cancelled = (l: Locale): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.cancelled.label'],
-    icon: <Cross />
+    type: ResultFormType.ERROR
 });
 
 const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
@@ -34,7 +32,7 @@ const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.invoice.fulfilled.label'],
     description: getSuccessDescription(l, e),
-    icon: <Checkmark />
+    type: ResultFormType.SUCCESS
 });
 
 export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {

@@ -1,3 +1,1 @@
-export * from './checkmark';
-export * from './cross';
-export * from './warning';
+export * from './result-icon';
