@@ -11,7 +11,7 @@ const getAmount = (amountInfo: AmountInfoState, formAmount: string): number => {
         case AmountInfoStatus.final:
             return amountInfo.minorValue;
         case AmountInfoStatus.notKnown:
-            return toNumber(formAmount) * 100;
+            return toNumber(formAmount.replace(/\s/g, '')) * 100;
     }
 };
 
