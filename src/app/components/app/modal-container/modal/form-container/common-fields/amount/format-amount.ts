@@ -1,8 +1,5 @@
 import { FormEvent } from 'react';
-import {
-    replaceFullWidthChars,
-    safeVal
-} from '../format-utils';
+import { replaceFullWidthChars, safeVal } from '../format-utils';
 
 const format = (num: string): string => {
     let result = num.replace(/\s/g, '');
