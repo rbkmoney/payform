@@ -167,23 +167,27 @@
     $interaction-transition-time: 0.5s;
 
     .interactionAnimation-enter {
-        transform: rotateY(90deg);
+        @include responsive(sm) {
+            transform: rotateY(90deg);
 
-        &.interactionAnimation-enter-active {
-            transform: rotateY(0deg);
-            transition: all $interaction-transition-time;
-            transition-delay: $interaction-transition-time;
+            &.interactionAnimation-enter-active {
+                transform: rotateY(0deg);
+                transition: all $interaction-transition-time;
+                transition-delay: $interaction-transition-time;
+            }
         }
     }
     .interactionAnimation-leave {
-        transform: rotateY(0deg) translateY(-50%);
-        position: absolute;
-        top: 50%;
-
-        &.interactionAnimation-leave-active {
+        @include responsive(sm) {
+            transform: rotateY(0deg) translateY(-50%);
+            position: absolute;
             top: 50%;
-            transform: rotateY(-90deg) translateY(-50%);
-            transition: all $interaction-transition-time;
+
+            &.interactionAnimation-leave-active {
+                top: 50%;
+                transform: rotateY(-90deg) translateY(-50%);
+                transition: all $interaction-transition-time;
+            }
         }
     }
 

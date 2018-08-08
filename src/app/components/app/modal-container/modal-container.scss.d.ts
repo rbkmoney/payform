@@ -3,3 +3,4 @@ export const enterContainer: string;
 export const leaveContainer: string;
 export const container: string;
 export const animationContainer: string;
+export const modalInteractionLoader: string;

@@ -2,6 +2,8 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
+import * as cx from 'classnames';
+
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
@@ -81,7 +83,9 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                             {this.renderModal(name)}
                         </div>
                     </CSSTransitionGroup>
-                    {!!isInteractionPolling(this.props.activeModal) && <ModalLoader />}
+                    {!!isInteractionPolling(this.props.activeModal) && (
+                        <ModalLoader className={cx({ modalInteractionLoader: name === ModalName.modalInteraction })} />
+                    )}
                 </div>
             </CSSTransitionGroup>
         );
