@@ -16,7 +16,8 @@ import {
     ModalInteraction,
     FormInfo,
     ResultFormInfo,
-    ResultType
+    ResultType,
+    ResultState
 } from 'checkout/state';
 import { acceptError, goToFormInfo, finishInteraction } from 'checkout/actions';
 import { ModalLoader } from './modal-loader';
@@ -30,6 +31,7 @@ export interface ModalContainerProps {
     goToFormInfo: (formInfo: FormInfo) => any;
     acceptError: () => any;
     finishInteraction: () => any;
+    result: ResultState;
 }
 
 const isInteractionPolling = (modal: ModalState) =>
@@ -55,7 +57,8 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     render() {
         const {
             activeModal: { name },
-            config: { inFrame }
+            config: { inFrame },
+            result
         } = this.props;
         return (
             <CSSTransitionGroup
@@ -66,29 +69,31 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                     enter: styles.enterContainer,
                     leave: styles.leaveContainer
                 }}
-                transitionEnterTimeout={950}
-                transitionLeaveTimeout={950}
-                transitionAppearTimeout={950}
+                transitionEnterTimeout={750}
+                transitionLeaveTimeout={750}
+                transitionAppearTimeout={750}
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}>
-                <div className={styles.container}>
-                    <CSSTransitionGroup
-                        component="div"
-                        transitionName="interactionAnimation"
-                        transitionEnterTimeout={1000}
-                        transitionLeaveTimeout={500}>
-                        <div key={name}>
-                            {!inFrame && <Close />}
-                            {this.renderModal(name)}
-                        </div>
-                    </CSSTransitionGroup>
-                    {!!isInteractionPolling(this.props.activeModal) && (
-                        <ModalLoader
-                            className={cx({ [styles.modalInteractionLoader]: name === ModalName.modalInteraction })}
-                        />
-                    )}
-                </div>
+                {result === ResultState.close ? null : (
+                    <div className={styles.container}>
+                        <CSSTransitionGroup
+                            component="div"
+                            transitionName="interactionAnimation"
+                            transitionEnterTimeout={1000}
+                            transitionLeaveTimeout={500}>
+                            <div key={name}>
+                                {!inFrame && <Close />}
+                                {this.renderModal(name)}
+                            </div>
+                        </CSSTransitionGroup>
+                        {!!isInteractionPolling(this.props.activeModal) && (
+                            <ModalLoader
+                                className={cx({ [styles.modalInteractionLoader]: name === ModalName.modalInteraction })}
+                            />
+                        )}
+                    </div>
+                )}
             </CSSTransitionGroup>
         );
     }
@@ -113,7 +118,8 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
 const mapStateToProps = (state: State) => ({
     activeModal: state.modals.find((modal) => modal.active),
     config: state.config,
-    unhandledError: state.error && state.error.status === ErrorStatus.unhandled
+    unhandledError: state.error && state.error.status === ErrorStatus.unhandled,
+    result: state.result
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
