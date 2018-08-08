@@ -172,7 +172,7 @@
 
             &.interactionAnimation-enter-active {
                 transform: rotateY(0deg);
-                transition: all $interaction-transition-time;
+                transition: all $interaction-transition-time ease-out;
                 transition-delay: $interaction-transition-time;
             }
         }
@@ -186,7 +186,7 @@
             &.interactionAnimation-leave-active {
                 top: 50%;
                 transform: rotateY(-90deg) translateY(-50%);
-                transition: all $interaction-transition-time;
+                transition: all $interaction-transition-time ease-in;
             }
         }
     }
