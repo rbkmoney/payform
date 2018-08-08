@@ -76,25 +76,32 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                         transitionName="interactionAnimation"
                         transitionEnterTimeout={1000}
                         transitionLeaveTimeout={500}>
-                        {name === ModalName.modalForms ? (
-                            <div>
-                                {inFrame ? null : <Close />}
-                                <Modal />
-                                <Footer />
-                            </div>
-                        ) : null}
-                        {name === ModalName.modalInteraction ? (
-                            <div>
-                                {inFrame ? null : <Close />}
-                                <UserInteractionModal />
-                            </div>
-                        ) : null}
+                        <div key={name}>
+                            {!inFrame && <Close />}
+                            {this.renderModal(name)}
+                        </div>
                     </CSSTransitionGroup>
-                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader /> : null}
+                    {!!isInteractionPolling(this.props.activeModal) && <ModalLoader />}
                 </div>
             </CSSTransitionGroup>
         );
     }
+
+    private renderModal = (name: ModalName | string): React.ReactNode => {
+        switch (name) {
+            case ModalName.modalForms:
+                return (
+                    <>
+                        <Modal />
+                        <Footer />
+                    </>
+                );
+            case ModalName.modalInteraction:
+                return <UserInteractionModal />;
+            default:
+                return null;
+        }
+    };
 }
 
 const mapStateToProps = (state: State) => ({

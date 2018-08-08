@@ -162,23 +162,29 @@
         }
     }
 
-    /* ITERACTION ANIMATION */
+    /* INTERACTION ANIMATION */
+
+    $interaction-transition-time: 0.5s;
+
     .interactionAnimation-enter {
-        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
-        transition: all 0.5s;
-        transition-delay: 0.5s;
-    }
-    .interactionAnimation-enter.interactionAnimation-enter-active {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        transform: rotateY(90deg);
+
+        &.interactionAnimation-enter-active {
+            transform: rotateY(0deg);
+            transition: all $interaction-transition-time;
+            transition-delay: $interaction-transition-time;
+        }
     }
     .interactionAnimation-leave {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        transform: rotateY(0deg) translateY(-50%);
         position: absolute;
-        top: 0;
-        transition: all 0.5s;
-    }
-    .interactionAnimation-leave.interactionAnimation-leave-active {
-        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+        top: 50%;
+
+        &.interactionAnimation-leave-active {
+            top: 50%;
+            transform: rotateY(-90deg) translateY(-50%);
+            transition: all $interaction-transition-time;
+        }
     }
 
     /* FORMS ANIMATION */
