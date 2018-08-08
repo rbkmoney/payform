@@ -186,7 +186,7 @@
     $slide-transition-time: 0.5s;
 
     .slideRightAnimation-enter {
-        transform: translateX(360px);
+        transform: translateX(100%);
         opacity: 0;
         transition: all $slide-transition-time;
 
@@ -201,16 +201,17 @@
         position: absolute;
         top: 0;
         transition: all $slide-transition-time;
+        width: 100%;
 
         &.slideRightAnimation-leave-active {
-            transform: translateX(-360px);
+            transform: translateX(-100%);
             opacity: 0;
         }
     }
 
     /* REVERSE FORMS ANIMATION */
     .slideLeftAnimation-enter {
-        transform: translateX(-360px);
+        transform: translateX(-100%);
         opacity: 0;
         transition: all $slide-transition-time;
 
@@ -225,9 +226,10 @@
         position: absolute;
         top: 0;
         transition: all $slide-transition-time;
+        width: 100%;
 
         &.slideLeftAnimation-leave-active {
-            transform: translateX(360px);
+            transform: translateX(100%);
             opacity: 0;
         }
     }
