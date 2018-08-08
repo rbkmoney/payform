@@ -84,7 +84,9 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                         </div>
                     </CSSTransitionGroup>
                     {!!isInteractionPolling(this.props.activeModal) && (
-                        <ModalLoader className={cx({ modalInteractionLoader: name === ModalName.modalInteraction })} />
+                        <ModalLoader
+                            className={cx({ [styles.modalInteractionLoader]: name === ModalName.modalInteraction })}
+                        />
                     )}
                 </div>
             </CSSTransitionGroup>

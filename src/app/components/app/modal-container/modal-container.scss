@@ -23,12 +23,11 @@
     @include responsive(sm) {
         perspective: 1000px;
     }
-}
 
-.modalInteractionLoader {
-    position: fixed;
-
-    @include responsive(sm) {
-        position: absolute;
+    .modalInteractionLoader {
+        position: fixed;
+        @include responsive(sm) {
+            position: absolute;
+        }
     }
 }
