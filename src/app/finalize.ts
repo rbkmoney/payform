@@ -4,27 +4,34 @@ import { State } from './state';
 import { ResultState } from 'checkout/state';
 import { isSafetyUrl } from 'checkout/utils';
 import { CommunicatorEvents } from '../communicator-constants';
-import { ResultAction } from 'checkout/actions/result-action';
+import { ResultAction } from 'checkout/actions';
 
 class AppFinalizer {
+    static CLOSE_TIMEOUT = 750;
+    static DONE_TIMEOUT = 6000;
+
     constructor(private transport: Transport, private checkoutEl: HTMLElement) {}
 
+    destroy(communicatorEvent: CommunicatorEvents) {
+        ReactDOM.unmountComponentAtNode(this.checkoutEl);
+        this.transport.emit(communicatorEvent);
+        this.transport.destroy();
+    }
+
     close() {
-        setTimeout(() => {
-            ReactDOM.unmountComponentAtNode(this.checkoutEl);
-            this.transport.emit(CommunicatorEvents.close);
-            this.transport.destroy();
-        }, 750);
+        setTimeout(() => this.destroy(CommunicatorEvents.close), AppFinalizer.CLOSE_TIMEOUT);
     }
 
     done(redirectUrl: string, inFrame: boolean, setResult: (resultState: ResultState) => ResultAction) {
         setTimeout(() => {
-            setResult(ResultState.close);
-            this.close();
-            if (inFrame) {
-                redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
-            }
-        }, 6000);
+            setResult(ResultState.closeAfterDone);
+            setTimeout(() => {
+                this.destroy(CommunicatorEvents.finished);
+                if (inFrame) {
+                    redirectUrl && isSafetyUrl(redirectUrl) ? location.replace(redirectUrl) : window.close();
+                }
+            }, AppFinalizer.CLOSE_TIMEOUT);
+        }, AppFinalizer.DONE_TIMEOUT - AppFinalizer.CLOSE_TIMEOUT);
     }
 }
 
@@ -40,9 +47,13 @@ export function finalize(
             finalizer.close();
             break;
         case ResultState.done:
-            const config = state.config;
-            const initConfig = config.initConfig;
-            finalizer.done(initConfig.redirectUrl, config.inFrame, setResult);
+            const {
+                config: {
+                    initConfig: { redirectUrl },
+                    inFrame
+                }
+            } = state;
+            finalizer.done(redirectUrl, inFrame, setResult);
             break;
     }
 }

@@ -75,7 +75,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}>
-                {result === ResultState.close ? null : (
+                {result === ResultState.close || result === ResultState.closeAfterDone ? null : (
                     <div className={styles.container}>
                         <CSSTransitionGroup
                             component="div"

@@ -13,7 +13,7 @@
 
 .leaveContainer {
     @include responsive(sm) {
-        animation: popout 1s;
+        animation: popout 0.75s;
     }
 }
 

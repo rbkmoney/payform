@@ -1,4 +1,5 @@
 export enum ResultState {
     close = 'close',
-    done = 'done'
+    done = 'done',
+    closeAfterDone = 'closeAfterDone'
 }
