@@ -6,8 +6,10 @@ import {
     PaymentMethodName,
     PaymentMethodsFormInfo,
     TerminalFormInfo,
-    WalletFormInfo
+    WalletFormInfo,
+    TokenProviderFormInfo
 } from 'checkout/state';
+import { BankCardTokenProvider } from 'checkout/backend/model';
 
 const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
     switch (defaultMethod.name) {
@@ -17,6 +19,12 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new TerminalFormInfo();
         case PaymentMethodName.DigitalWallet:
             return new WalletFormInfo();
+        case PaymentMethodName.ApplePay:
+            return new TokenProviderFormInfo(BankCardTokenProvider.applepay);
+        case PaymentMethodName.GooglePay:
+            return new TokenProviderFormInfo(BankCardTokenProvider.googlepay);
+        case PaymentMethodName.SamsungPay:
+            return new TokenProviderFormInfo(BankCardTokenProvider.samsungpay);
         default:
             console.error(`${logPrefix} Unsupported initial form for method ${defaultMethod}`);
             return new CardFormInfo();
