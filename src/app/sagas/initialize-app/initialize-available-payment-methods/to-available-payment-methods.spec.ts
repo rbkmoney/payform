@@ -96,7 +96,7 @@ describe('DigitalWallet', () => {
 
         it('should return PaymentMethodState without DigitalWallet', () => {
             const actual = iterator.next([bankCardState]);
-            expect(actual.value).toEqual([]);
+            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
             expect(actual.done).toBeTruthy();
         });
     });
@@ -132,7 +132,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState without PaymentTerminal', () => {
             const actual = iterator.next();
-            const expected: PaymentMethodNameState[] = [];
+            const expected = [{ name: PaymentMethodNameState.BankCard }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -148,7 +148,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState without PaymentTerminal', () => {
             const actual = iterator.next();
-            expect(actual.value).toEqual([]);
+            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
             expect(actual.done).toBeTruthy();
         });
     });
