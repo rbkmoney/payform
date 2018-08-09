@@ -7,7 +7,8 @@ import { resolveString } from './resolve-string';
 import { HoldExpirationType } from 'checkout/backend';
 import { PaymentMethodName } from 'checkout/config/payment-method-name';
 
-const setDefault = <P, D>(userParam: P, defaultValue: D): P | D => (userParam === null ? defaultValue : userParam);
+const setDefault = <P, D>(userParam: P, defaultValue: D): P | D =>
+    userParam === null || userParam === undefined ? defaultValue : userParam;
 
 export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
     const resolvedIntegrationType = resolveIntegrationType(userConfig);
