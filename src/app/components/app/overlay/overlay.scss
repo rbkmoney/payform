@@ -8,6 +8,10 @@
     animation: fadeout 0.75s;
 }
 
+.leaveActive {
+    opacity: 0;
+}
+
 .overlay {
     position: fixed;
     width: 100%;

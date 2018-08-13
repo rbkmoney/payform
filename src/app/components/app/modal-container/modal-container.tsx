@@ -67,7 +67,8 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
-                    leave: styles.leaveContainer
+                    leave: styles.leaveContainer,
+                    leaveActive: styles.leaveActiveContainer
                 }}
                 transitionEnterTimeout={750}
                 transitionLeaveTimeout={750}
