@@ -19,9 +19,9 @@ it('should return resolved init config', () => {
     const param = {
         invoiceID: 'someID',
         invoiceAccessToken: 'some token',
-        amount: 1000,
-        obscureCardCvv: true,
-        requireCardHolder: false,
+        amount: '1000',
+        obscureCardCvv: 'true',
+        requireCardHolder: 'false',
         name: 'some name',
         description: 'some description',
         email: 'test@test.com',
