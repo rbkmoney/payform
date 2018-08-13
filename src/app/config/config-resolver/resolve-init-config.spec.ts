@@ -19,9 +19,9 @@ it('should return resolved init config', () => {
     const param = {
         invoiceID: 'someID',
         invoiceAccessToken: 'some token',
-        amount: '1000',
-        obscureCardCvv: 'true',
-        requireCardHolder: 'false',
+        amount: 1000,
+        obscureCardCvv: true,
+        requireCardHolder: false,
         name: 'some name',
         description: 'some description',
         email: 'test@test.com',
@@ -52,6 +52,7 @@ it('should return resolved init config', () => {
 
     const actual = resolveInitConfig(param);
     const expected = {
+        ...param,
         integrationType: IntegrationType.invoice,
         invoiceID: 'someID',
         invoiceAccessToken: 'some token',
@@ -64,8 +65,7 @@ it('should return resolved init config', () => {
         paymentFlowHold: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',
-        initialPaymentMethod: PaymentMethodName.bankCard,
-        ...param
+        initialPaymentMethod: PaymentMethodName.bankCard
     };
     expect(actual).toEqual(expected);
 });
