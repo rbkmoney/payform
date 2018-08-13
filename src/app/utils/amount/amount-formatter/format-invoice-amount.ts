@@ -1,5 +1,5 @@
 import { format } from 'currency-formatter';
-import { Invoice } from 'checkout/backend';
+import { Invoice } from 'src/app/backend/index';
 import { FormattedAmount } from './formatted-amount';
 import { getSymbol } from './get-symbol';
 

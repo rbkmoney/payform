@@ -1,7 +1,7 @@
 import { TerminalFormInfo, TerminalFormValues } from 'checkout/state';
 import { FieldsConfig } from '../fields-config';
 import { Locale } from 'checkout/locale';
-import { FormattedAmount } from 'checkout/utils/amount-formatter';
+import { FormattedAmount } from 'checkout/utils/amount/amount-formatter';
 import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface TerminalFormProps {
