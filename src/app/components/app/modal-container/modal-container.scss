@@ -2,8 +2,9 @@
 @import '../../../styles/animations';
 
 .appearContainer {
+    animation: fadein 0.75s;
     @include responsive(sm) {
-        animation: popup 0.75s;
+        animation-name: popup;
     }
 }
 
@@ -12,8 +13,9 @@
 }
 
 .leaveContainer {
+    animation: fadeout 0.75s;
     @include responsive(sm) {
-        animation: popout 0.75s;
+        animation-name: popout;
     }
 }
 

@@ -167,26 +167,38 @@
     $interaction-transition-time: 0.5s;
 
     .interactionAnimation-enter {
+        opacity: 0;
+
+        &.interactionAnimation-enter-active {
+            opacity: 1;
+            transition: all $interaction-transition-time ease-out;
+        }
         @include responsive(sm) {
+            opacity: 1;
             transform: rotateY(90deg);
 
             &.interactionAnimation-enter-active {
                 transform: rotateY(0deg);
-                transition: all $interaction-transition-time ease-out;
                 transition-delay: $interaction-transition-time;
             }
         }
     }
     .interactionAnimation-leave {
+        opacity: 1;
+
+        &.interactionAnimation-leave-active {
+            opacity: 0;
+            transition: all $interaction-transition-time ease-in;
+        }
         @include responsive(sm) {
             transform: rotateY(0deg) translateY(-50%);
             position: absolute;
             top: 50%;
 
             &.interactionAnimation-leave-active {
+                opacity: 1;
                 top: 50%;
                 transform: rotateY(-90deg) translateY(-50%);
-                transition: all $interaction-transition-time ease-in;
             }
         }
     }
