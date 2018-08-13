@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as styles from '../form-container.scss';
 import { Locale } from 'checkout/locale';
-import { FormattedAmount } from 'checkout/utils/amount/amount-formatter';
+import { FormattedAmount } from 'checkout/utils';
 
 export interface AmountInfoProps {
     locale: Locale;

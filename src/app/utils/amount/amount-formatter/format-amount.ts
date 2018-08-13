@@ -1,7 +1,7 @@
 import { format } from 'currency-formatter';
 import { FormattedAmount } from './formatted-amount';
 import { getSymbol } from './get-symbol';
-import { AmountInfoState } from 'src/app/state/index';
+import { AmountInfoState } from 'checkout/state';
 
 export const formatAmount = (amount: AmountInfoState): FormattedAmount =>
     amount && amount.minorValue
