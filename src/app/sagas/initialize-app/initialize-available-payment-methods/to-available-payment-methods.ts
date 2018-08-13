@@ -24,18 +24,28 @@ export function* toAvailablePaymentMethods(
                 break;
             case PaymentMethodName.DigitalWallet:
                 if (wallets) {
-                    result.push({ name: PaymentMethodNameState.DigitalWallet });
+                    if (config.initConfig.paymentFlowHold) {
+                        logUnavailableResult('wallets', {
+                            available: false,
+                            message: "The 'wallets' payment method do not work with enabled 'paymentFlowHold'.",
+                            reason: UnavailableReason.validation
+                        });
+                    } else {
+                        result.push({ name: PaymentMethodNameState.DigitalWallet });
+                    }
                 }
                 break;
             case PaymentMethodName.PaymentTerminal:
-                if (config.initConfig.paymentFlowHold) {
-                    logUnavailableResult('terminals', {
-                        available: false,
-                        message: "The 'terminals' payment method do not work with enabled 'paymentFlowHold'.",
-                        reason: UnavailableReason.validation
-                    });
-                } else if (terminals) {
-                    result.push({ name: PaymentMethodNameState.PaymentTerminal });
+                if (terminals) {
+                    if (config.initConfig.paymentFlowHold) {
+                        logUnavailableResult('terminals', {
+                            available: false,
+                            message: "The 'terminals' payment method do not work with enabled 'paymentFlowHold'.",
+                            reason: UnavailableReason.validation
+                        });
+                    } else {
+                        result.push({ name: PaymentMethodNameState.PaymentTerminal });
+                    }
                 }
                 break;
         }
