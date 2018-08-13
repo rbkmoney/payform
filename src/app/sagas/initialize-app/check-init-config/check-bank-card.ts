@@ -18,7 +18,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
     if (bankCard) {
         return { available: true };
     }
-    if (!bankCard && !wallets && !terminals && !googlePay && !samsungPay && !applePay) {
+    if (!(bankCard || wallets || terminals || googlePay || samsungPay || applePay)) {
         return {
             available: false,
             reason: UnavailableReason.capability,
