@@ -7,7 +7,7 @@ import {
 import { PaymentMethod, PaymentMethodName } from 'checkout/backend';
 import { Config } from 'checkout/config';
 import { bankCardToMethods } from './bank-card-to-methods';
-import { logUnavailableResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
+import { getDigitalWalletPaymentMethods, getTerminalsPaymentMethods } from './get-payment-methods';
 
 export function* toAvailablePaymentMethods(
     paymentMethods: PaymentMethod[],
@@ -15,7 +15,7 @@ export function* toAvailablePaymentMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     let result: PaymentMethodState[] = [];
-    const { wallets, terminals } = config.initConfig;
+    const { wallets, terminals, paymentFlowHold } = config.initConfig;
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
@@ -23,30 +23,10 @@ export function* toAvailablePaymentMethods(
                 result = result.concat(bankCardMethods);
                 break;
             case PaymentMethodName.DigitalWallet:
-                if (wallets) {
-                    if (config.initConfig.paymentFlowHold) {
-                        logUnavailableResult('wallets', {
-                            available: false,
-                            message: "The 'wallets' payment method do not work with enabled 'paymentFlowHold'.",
-                            reason: UnavailableReason.validation
-                        });
-                    } else {
-                        result.push({ name: PaymentMethodNameState.DigitalWallet });
-                    }
-                }
+                result = result.concat(getDigitalWalletPaymentMethods(wallets, paymentFlowHold));
                 break;
             case PaymentMethodName.PaymentTerminal:
-                if (terminals) {
-                    if (config.initConfig.paymentFlowHold) {
-                        logUnavailableResult('terminals', {
-                            available: false,
-                            message: "The 'terminals' payment method do not work with enabled 'paymentFlowHold'.",
-                            reason: UnavailableReason.validation
-                        });
-                    } else {
-                        result.push({ name: PaymentMethodNameState.PaymentTerminal });
-                    }
-                }
+                result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold));
                 break;
         }
     }
