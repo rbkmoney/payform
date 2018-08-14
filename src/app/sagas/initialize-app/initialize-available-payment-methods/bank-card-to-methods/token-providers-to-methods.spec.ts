@@ -13,7 +13,10 @@ describe('Apple Pay provider', () => {
         appConfig: {
             applePayMerchantID: 'merchantIdMock'
         },
-        inFrame: false
+        inFrame: false,
+        initConfig: {
+            applePay: true
+        }
     } as any;
 
     describe('apple pay available', () => {
@@ -52,9 +55,14 @@ describe('Apple Pay provider', () => {
 
 describe('Google Pay provider', () => {
     const providers = [BankCardTokenProvider.googlepay];
+    const config = {
+        initConfig: {
+            googlePay: true
+        }
+    } as any;
 
     describe('google pay available', () => {
-        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+        const iterator = tokenProvidersToMethods(providers, config, amountInfo);
 
         it('should call isReadyToGooglePay', () => {
             const actual = iterator.next().value;
@@ -71,7 +79,7 @@ describe('Google Pay provider', () => {
     });
 
     describe('google pay unavailable', () => {
-        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+        const iterator = tokenProvidersToMethods(providers, config, amountInfo);
 
         it('should call isReadyToGooglePay', () => {
             const actual = iterator.next().value;
@@ -89,9 +97,14 @@ describe('Google Pay provider', () => {
 
 describe('Samsung Pay provider', () => {
     const providers = [BankCardTokenProvider.samsungpay];
+    const config = {
+        initConfig: {
+            samsungPay: true
+        }
+    } as any;
 
     describe('samsung pay available', () => {
-        const iterator = tokenProvidersToMethods(providers, null, amountInfo);
+        const iterator = tokenProvidersToMethods(providers, config, amountInfo);
 
         it('should return PaymentMethodNameState SamsungPay', () => {
             const actual = iterator.next(true);
@@ -102,7 +115,7 @@ describe('Samsung Pay provider', () => {
     });
 
     describe('samsung pay unavailable', () => {
-        const iterator = tokenProvidersToMethods([], null, amountInfo);
+        const iterator = tokenProvidersToMethods([], config, amountInfo);
 
         it('should return []', () => {
             const actual = iterator.next(true);

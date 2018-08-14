@@ -1,5 +1,6 @@
 export const appear: string;
 export const leave: string;
+export const leaveActive: string;
 export const overlay: string;
 export const img: string;
 export const bg1: string;

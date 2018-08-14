@@ -2,6 +2,8 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
+import * as cx from 'classnames';
+
 import * as styles from './modal-container.scss';
 import { Modal } from './modal';
 import { Footer } from './footer';
@@ -14,7 +16,8 @@ import {
     ModalInteraction,
     FormInfo,
     ResultFormInfo,
-    ResultType
+    ResultType,
+    ResultState
 } from 'checkout/state';
 import { acceptError, goToFormInfo, finishInteraction } from 'checkout/actions';
 import { ModalLoader } from './modal-loader';
@@ -28,6 +31,7 @@ export interface ModalContainerProps {
     goToFormInfo: (formInfo: FormInfo) => any;
     acceptError: () => any;
     finishInteraction: () => any;
+    result: ResultState;
 }
 
 const isInteractionPolling = (modal: ModalState) =>
@@ -53,7 +57,8 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
     render() {
         const {
             activeModal: { name },
-            config: { inFrame }
+            config: { inFrame },
+            result
         } = this.props;
         return (
             <CSSTransitionGroup
@@ -62,45 +67,60 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
-                    leave: styles.leaveContainer
+                    leave: styles.leaveContainer,
+                    leaveActive: styles.leaveActiveContainer
                 }}
-                transitionEnterTimeout={950}
-                transitionLeaveTimeout={950}
-                transitionAppearTimeout={950}
+                transitionEnterTimeout={750}
+                transitionLeaveTimeout={750}
+                transitionAppearTimeout={750}
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}>
-                <div className={styles.container}>
-                    <CSSTransitionGroup
-                        component="div"
-                        transitionName="interactionAnimation"
-                        transitionEnterTimeout={1000}
-                        transitionLeaveTimeout={500}>
-                        {name === ModalName.modalForms ? (
-                            <div>
-                                {inFrame ? null : <Close />}
-                                <Modal />
-                                <Footer />
+                {result === ResultState.close || result === ResultState.closeAfterDone ? null : (
+                    <div className={styles.container}>
+                        <CSSTransitionGroup
+                            component="div"
+                            transitionName="interactionAnimation"
+                            transitionEnterTimeout={1000}
+                            transitionLeaveTimeout={500}>
+                            <div key={name}>
+                                {!inFrame && <Close />}
+                                {this.renderModal(name)}
                             </div>
-                        ) : null}
-                        {name === ModalName.modalInteraction ? (
-                            <div>
-                                {inFrame ? null : <Close />}
-                                <UserInteractionModal />
-                            </div>
-                        ) : null}
-                    </CSSTransitionGroup>
-                    {isInteractionPolling(this.props.activeModal) ? <ModalLoader /> : null}
-                </div>
+                        </CSSTransitionGroup>
+                        {!!isInteractionPolling(this.props.activeModal) && (
+                            <ModalLoader
+                                className={cx({ [styles.modalInteractionLoader]: name === ModalName.modalInteraction })}
+                            />
+                        )}
+                    </div>
+                )}
             </CSSTransitionGroup>
         );
     }
+
+    private renderModal = (name: ModalName | string): React.ReactNode => {
+        switch (name) {
+            case ModalName.modalForms:
+                return (
+                    <>
+                        <Modal />
+                        <Footer />
+                    </>
+                );
+            case ModalName.modalInteraction:
+                return <UserInteractionModal />;
+            default:
+                return null;
+        }
+    };
 }
 
 const mapStateToProps = (state: State) => ({
     activeModal: state.modals.find((modal) => modal.active),
     config: state.config,
-    unhandledError: state.error && state.error.status === ErrorStatus.unhandled
+    unhandledError: state.error && state.error.status === ErrorStatus.unhandled,
+    result: state.result
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({

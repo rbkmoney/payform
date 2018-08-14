@@ -15,26 +15,33 @@ export function* tokenProvidersToMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
+    const { applePay, googlePay, samsungPay } = config.initConfig;
     for (const provider of providers) {
         switch (provider) {
             case BankCardTokenProvider.applepay:
-                const {
-                    appConfig: { applePayMerchantID },
-                    inFrame
-                } = config;
-                const isApplePay = yield call(isReadyToApplePay, applePayMerchantID, inFrame);
-                if (isApplePay) {
-                    result.push({ name: PaymentMethodNameState.ApplePay });
+                if (applePay) {
+                    const {
+                        appConfig: { applePayMerchantID },
+                        inFrame
+                    } = config;
+                    const isApplePay = yield call(isReadyToApplePay, applePayMerchantID, inFrame);
+                    if (isApplePay) {
+                        result.push({ name: PaymentMethodNameState.ApplePay });
+                    }
                 }
                 break;
             case BankCardTokenProvider.googlepay:
-                const isGooglePay = yield call(isReadyToGooglePay, amountInfo);
-                if (isGooglePay) {
-                    result.push({ name: PaymentMethodNameState.GooglePay });
+                if (googlePay) {
+                    const isGooglePay = yield call(isReadyToGooglePay, amountInfo);
+                    if (isGooglePay) {
+                        result.push({ name: PaymentMethodNameState.GooglePay });
+                    }
                 }
                 break;
             case BankCardTokenProvider.samsungpay:
-                result.push({ name: PaymentMethodNameState.SamsungPay });
+                if (samsungPay) {
+                    result.push({ name: PaymentMethodNameState.SamsungPay });
+                }
                 break;
         }
     }

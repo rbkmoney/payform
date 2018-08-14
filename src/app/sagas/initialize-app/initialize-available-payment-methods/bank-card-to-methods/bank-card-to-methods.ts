@@ -17,7 +17,7 @@ export function* bankCardToMethods(
     let result: PaymentMethodState[] = [];
     if (tokenProviders && tokenProviders.length > 0) {
         result = result.concat(yield call(tokenProvidersToMethods, tokenProviders, config, amountInfo));
-    } else {
+    } else if (config.initConfig.bankCard) {
         result.push({ name: PaymentMethodNameState.BankCard });
     }
     return result;

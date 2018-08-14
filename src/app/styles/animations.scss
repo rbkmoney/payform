@@ -162,23 +162,45 @@
         }
     }
 
-    /* ITERACTION ANIMATION */
+    /* INTERACTION ANIMATION */
+
+    $interaction-transition-time: 0.5s;
+
     .interactionAnimation-enter {
-        transform: perspective(0) rotate3d(0, 1, 0, 90deg);
-        transition: all 0.5s;
-        transition-delay: 0.5s;
-    }
-    .interactionAnimation-enter.interactionAnimation-enter-active {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
+        opacity: 0;
+
+        &.interactionAnimation-enter-active {
+            opacity: 1;
+            transition: all $interaction-transition-time ease-out;
+        }
+        @include responsive(sm) {
+            opacity: 1;
+            transform: rotateY(90deg);
+
+            &.interactionAnimation-enter-active {
+                transform: rotateY(0deg);
+                transition-delay: $interaction-transition-time;
+            }
+        }
     }
     .interactionAnimation-leave {
-        transform: perspective(1000px) rotate3d(0, 0, 0, 0);
-        position: absolute;
-        top: 0;
-        transition: all 0.5s;
-    }
-    .interactionAnimation-leave.interactionAnimation-leave-active {
-        transform: perspective(0) rotate3d(0, 1, 0, -90deg);
+        opacity: 1;
+
+        &.interactionAnimation-leave-active {
+            opacity: 0;
+            transition: all $interaction-transition-time ease-in;
+        }
+        @include responsive(sm) {
+            transform: rotateY(0deg) translateY(-50%);
+            position: absolute;
+            top: 50%;
+
+            &.interactionAnimation-leave-active {
+                opacity: 1;
+                top: 50%;
+                transform: rotateY(-90deg) translateY(-50%);
+            }
+        }
     }
 
     /* FORMS ANIMATION */
@@ -186,7 +208,7 @@
     $slide-transition-time: 0.5s;
 
     .slideRightAnimation-enter {
-        transform: translateX(360px);
+        transform: translateX(100%);
         opacity: 0;
         transition: all $slide-transition-time;
 
@@ -201,16 +223,17 @@
         position: absolute;
         top: 0;
         transition: all $slide-transition-time;
+        width: 100%;
 
         &.slideRightAnimation-leave-active {
-            transform: translateX(-360px);
+            transform: translateX(-100%);
             opacity: 0;
         }
     }
 
     /* REVERSE FORMS ANIMATION */
     .slideLeftAnimation-enter {
-        transform: translateX(-360px);
+        transform: translateX(-100%);
         opacity: 0;
         transition: all $slide-transition-time;
 
@@ -225,9 +248,10 @@
         position: absolute;
         top: 0;
         transition: all $slide-transition-time;
+        width: 100%;
 
         &.slideLeftAnimation-leave-active {
-            transform: translateX(360px);
+            transform: translateX(100%);
             opacity: 0;
         }
     }

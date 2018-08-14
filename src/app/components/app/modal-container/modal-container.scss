@@ -2,8 +2,9 @@
 @import '../../../styles/animations';
 
 .appearContainer {
+    animation: fadein 0.75s;
     @include responsive(sm) {
-        animation: popup 0.75s;
+        animation-name: popup;
     }
 }
 
@@ -12,12 +13,27 @@
 }
 
 .leaveContainer {
+    animation: fadeout 0.75s;
     @include responsive(sm) {
-        animation: popout 1s;
+        animation-name: popout;
     }
+}
+
+.leaveActiveContainer {
+    opacity: 0;
 }
 
 .container {
     height: 100%;
     position: relative;
+    @include responsive(sm) {
+        perspective: 1000px;
+    }
+
+    .modalInteractionLoader {
+        position: fixed;
+        @include responsive(sm) {
+            position: absolute;
+        }
+    }
 }

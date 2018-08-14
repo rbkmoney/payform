@@ -4,7 +4,7 @@ import { BankCard } from 'checkout/backend';
 import { tokenProvidersToMethods } from './token-providers-to-methods';
 import { PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
 
-const config = 'configMock' as any;
+const config = { initConfig: { bankCard: true } } as any;
 const amountInfo = 'amountInfoMock' as any;
 
 describe('bankCard with tokenProviders', () => {

@@ -7,7 +7,8 @@ import { resolveString } from './resolve-string';
 import { HoldExpirationType } from 'checkout/backend';
 import { PaymentMethodName } from 'checkout/config/payment-method-name';
 
-const setDefault = (userParam: any, defaultValue: any) => (userParam === null ? defaultValue : userParam);
+const setDefault = <P, D>(userParam: P, defaultValue: D): P | D =>
+    userParam === null || userParam === undefined ? defaultValue : userParam;
 
 export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
     const resolvedIntegrationType = resolveIntegrationType(userConfig);
@@ -25,6 +26,9 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         terminals,
         wallets,
         bankCard,
+        applePay,
+        googlePay,
+        samsungPay,
         paymentFlowHold,
         holdExpiration,
         locale,
@@ -42,8 +46,14 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         terminals: setDefault(resolveBoolean(terminals, 'terminals'), true),
         wallets: setDefault(resolveBoolean(wallets, 'wallets'), true),
         bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
+        applePay: setDefault(resolveBoolean(applePay, 'applePay'), true),
+        googlePay: setDefault(resolveBoolean(googlePay, 'googlePay'), true),
+        samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
         paymentFlowHold: setDefault(resolveBoolean(paymentFlowHold, 'paymentFlowHold'), false),
-        holdExpiration: setDefault(resolveString(holdExpiration, 'holdExpiration'), HoldExpirationType.cancel),
+        holdExpiration: setDefault(
+            resolveString(holdExpiration, 'holdExpiration') as HoldExpirationType,
+            HoldExpirationType.cancel
+        ),
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
         initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName
     };
