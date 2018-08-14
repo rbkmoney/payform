@@ -1,5 +1,5 @@
 {
-    "capiEndpoint": "<capi enpdoint>",
+    "capiEndpoint": "<capi endpoint>",
     "wrapperEndpoint": "<wrapper endpoint>",
     "applePayMerchantID": "<apple pay merchant id>",
     "googlePayMerchantID": "<google pay merchant id>",
