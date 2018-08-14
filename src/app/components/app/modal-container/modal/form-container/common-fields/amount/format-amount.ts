@@ -1,6 +1,19 @@
 import { FormEvent } from 'react';
 import { replaceFullWidthChars, safeVal } from '../format-utils';
 
+const createNumArr = (num: string): string[] => {
+    let numTempArr;
+    if (/^\d+(\.\d+)?$/.test(num)) {
+        numTempArr = num.split('.');
+    } else {
+        numTempArr = num.split(',');
+    }
+    return numTempArr;
+};
+
+const getNumType = (num: string): string => /^\d+(\.\d+)?$/.test(num) ? '.' : ',';
+
+
 const format = (num: string): string => {
     let result = num.replace(/\s/g, '');
     const formatReg = /\B(?=(\d{3})+(?!\d))/g;
@@ -12,19 +25,12 @@ const format = (num: string): string => {
         const isLastCharSpace = lastChar === ' ';
         result = isLastCharDot || isLastCharComma || isLastCharSpace ? result + ' ' : result;
     } else if (/^\d+([.,]\d+)?$/.test(result)) {
-        let numTempArr;
-        let type;
-        if (/^\d+(\.\d+)?$/.test(result)) {
-            type = '.';
-            numTempArr = result.split('.');
-        } else {
-            type = ',';
-            numTempArr = result.split(',');
-        }
+        const numTempArr = createNumArr(result);
         numTempArr[1] = numTempArr[1].slice(0, 2);
-        result = numTempArr.join(type + ' ').replace(formatReg, ' ');
+        result = numTempArr.join(getNumType(result) + ' ').replace(formatReg, ' ');
     } else if (result.length > 1) {
         result = result.slice(0, -1).replace(formatReg, ' ');
+        result = createNumArr(result).join(getNumType(result) + ' ').replace(formatReg, ' ');
     } else {
         result = '';
     }
