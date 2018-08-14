@@ -5,6 +5,9 @@ import { PaymentMethodName } from './payment-method-name';
 export class InitConfig {
     integrationType: IntegrationType;
     bankCard: boolean;
+    applePay: boolean;
+    googlePay: boolean;
+    samsungPay: boolean;
     terminals: boolean;
     wallets: boolean;
     paymentFlowHold: boolean;
