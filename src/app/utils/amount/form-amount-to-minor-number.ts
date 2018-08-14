@@ -1,3 +1,3 @@
 import { toNumber } from 'lodash-es';
 
-export const formAmountToMinorNumver = (formAmount: string): number => toNumber(formAmount.replace(/\s/g, '')) * 100;
+export const formAmountToMinorNumver = (formAmount: string): number => toNumber(formAmount.replace(/\s/g, '').replace(/,/g, '.')) * 100;

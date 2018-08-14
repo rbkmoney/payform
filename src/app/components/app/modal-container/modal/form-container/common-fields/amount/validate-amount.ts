@@ -17,7 +17,7 @@ export const validateAmount = (
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim
 ): boolean => {
     if (value) {
-        value = value.replace(/\s/g, '');
+        value = value.replace(/\s/g, '').replace(/,/g, '.');
     }
     const binded = validate.bind(null, toNumber(value) * 100);
     switch (cost.costType) {
