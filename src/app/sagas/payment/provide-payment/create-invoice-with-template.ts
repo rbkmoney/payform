@@ -1,8 +1,8 @@
-import toNumber from 'lodash-es/toNumber';
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { InvoiceTemplate, createInvoiceWithTemplate as request } from 'checkout/backend';
 import { InvoiceCreated, TypeKeys } from 'checkout/actions';
 import { AmountInfoState, AmountInfoStatus } from 'checkout/state';
+import { formAmountToMinorNumver } from 'checkout/utils';
 
 export type Effects = CallEffect | PutEffect<InvoiceCreated>;
 
@@ -11,7 +11,7 @@ const getAmount = (amountInfo: AmountInfoState, formAmount: string): number => {
         case AmountInfoStatus.final:
             return amountInfo.minorValue;
         case AmountInfoStatus.notKnown:
-            return toNumber(formAmount) * 100;
+            return formAmountToMinorNumver(formAmount);
     }
 };
 

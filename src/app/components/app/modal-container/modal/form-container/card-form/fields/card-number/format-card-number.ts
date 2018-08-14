@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { replaceFullWidthChars, safeVal } from '../format-utils';
+import { replaceFullWidthChars, safeVal } from '../../../common-fields/format-utils';
 import { cardFromNumber } from '../card-info';
 
 function format(num: string): string {

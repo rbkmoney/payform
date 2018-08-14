@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { safeVal, replaceFullWidthChars } from '../format-utils';
+import { safeVal, replaceFullWidthChars } from '../../../common-fields/format-utils';
 
 export function formatCVC(e: FormEvent<HTMLInputElement>): number {
     const target = e.currentTarget as HTMLInputElement;

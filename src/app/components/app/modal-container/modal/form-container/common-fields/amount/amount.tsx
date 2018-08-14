@@ -8,6 +8,7 @@ import { isError } from '../error-predicate';
 import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { State } from 'checkout/state';
+import { formatAmount } from './format-amount';
 
 interface OwnProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -28,6 +29,7 @@ const getCustomInput = (props: AmountProps, fieldProps: WrappedFieldProps) => (
         mark={true}
         type="tel"
         id="amount-input"
+        onInput={formatAmount}
     />
 );
 
