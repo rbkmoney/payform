@@ -11,8 +11,7 @@ const createNumArr = (num: string): string[] => {
     return numTempArr;
 };
 
-const getNumType = (num: string): string => /^\d+(\.\d+)?$/.test(num) ? '.' : ',';
-
+const getNumType = (num: string): string => (/^\d+(\.\d+)?$/.test(num) ? '.' : ',');
 
 const format = (num: string): string => {
     let result = num.replace(/\s/g, '');
@@ -30,7 +29,9 @@ const format = (num: string): string => {
         result = numTempArr.join(getNumType(result) + ' ').replace(formatReg, ' ');
     } else if (result.length > 1) {
         result = result.slice(0, -1).replace(formatReg, ' ');
-        result = createNumArr(result).join(getNumType(result) + ' ').replace(formatReg, ' ');
+        result = createNumArr(result)
+            .join(getNumType(result) + ' ')
+            .replace(formatReg, ' ');
     } else {
         result = '';
     }
