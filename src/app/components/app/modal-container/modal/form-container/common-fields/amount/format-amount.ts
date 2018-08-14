@@ -17,7 +17,7 @@ const format = (num: string): string => {
             numTempArr = result.split(',');
         }
         numTempArr[1] = numTempArr[1].slice(0, 2);
-        result = numTempArr.join(type).replace(formatReg, ' ');
+        result = numTempArr.join(type + ' ').replace(formatReg, ' ');
     } else if (result.length > 1) {
         result = result.slice(0, -1).replace(formatReg, ' ');
     } else {
