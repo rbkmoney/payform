@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { get } from 'lodash-es';
 import * as styles from './user-interaction-modal.scss';
 import {
     EventInteractionObject,
@@ -33,11 +34,9 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
     }
 
     render() {
-        const {
-            modal: { interactionObject }
-        } = this.props;
+        const interactionObject = get(this.props.modal, 'interactionObject');
         let src: string;
-        if (interactionObject.type === ModalInteractionType.TokenizedInteraction) {
+        if (interactionObject && interactionObject.type === ModalInteractionType.TokenizedInteraction) {
             src = (interactionObject as TokenizedInteractionObject).uri;
         }
         return (
