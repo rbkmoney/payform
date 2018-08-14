@@ -1,6 +1,6 @@
 import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
 import { InitConfig, IntegrationType, PaymentMethodName as PaymentMethodNameConfig } from 'checkout/config';
-import { PaymentMethod, PaymentMethodName } from 'checkout/backend';
+import { BankCardTokenProvider, PaymentMethod, PaymentMethodName } from 'checkout/backend';
 
 const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
     if (!bankCard) {
@@ -10,7 +10,10 @@ const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): Chec
             message: "BankCard disabled (Integration param 'bankCard':'false')."
         };
     }
-    const found = paymentMethods.find((method) => method.method === PaymentMethodName.BankCard);
+    const found = paymentMethods.find(
+        (method: PaymentMethod & { tokenProviders?: BankCardTokenProvider[] }) =>
+            method.method === PaymentMethodName.BankCard && !Array.isArray(method.tokenProviders)
+    );
     return found
         ? { available: true }
         : {
@@ -57,8 +60,39 @@ const checkWalletQiwi = (wallets: boolean, paymentMethods: PaymentMethod[]): Che
           };
 };
 
+const checkTokenizedBankCard = (
+    isMethod: boolean,
+    paymentMethods: PaymentMethod[],
+    tokenProvider: BankCardTokenProvider,
+    humanReadableParamName: string,
+    paramName: string
+) => {
+    if (!isMethod) {
+        const humanReadableParamNameWithCapital = `${humanReadableParamName[0].toUpperCase() +
+            humanReadableParamName.slice(1)}`;
+        return {
+            available: false,
+            reason: UnavailableReason.capability,
+            message: `${humanReadableParamNameWithCapital} disabled (Integration param '${paramName}':'false').`
+        };
+    }
+    const tokenizedPaymentMethod = paymentMethods.find(
+        (method: PaymentMethod & { tokenProviders?: BankCardTokenProvider[] }) =>
+            method.method === PaymentMethodName.BankCard &&
+            Array.isArray(method.tokenProviders) &&
+            method.tokenProviders.findIndex((provider) => provider === tokenProvider) >= 0
+    );
+    return tokenizedPaymentMethod
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message: `Value '${paramName}' can not applied. Token provider '${tokenProvider}' for payment method 'BankCard' is not available for merchant.`
+          };
+};
+
 const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const { initialPaymentMethod, bankCard, terminals, wallets } = initConfig;
+    const { initialPaymentMethod, bankCard, terminals, wallets, applePay, googlePay, samsungPay } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
             return checkBankCard(bankCard, paymentMethods);
@@ -66,6 +100,30 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
             return checkTerminalEuroset(terminals, paymentMethods);
         case PaymentMethodNameConfig.walletQiwi:
             return checkWalletQiwi(wallets, paymentMethods);
+        case PaymentMethodNameConfig.applePay:
+            return checkTokenizedBankCard(
+                applePay,
+                paymentMethods,
+                BankCardTokenProvider.applepay,
+                'apple pay',
+                'applePay'
+            );
+        case PaymentMethodNameConfig.googlePay:
+            return checkTokenizedBankCard(
+                googlePay,
+                paymentMethods,
+                BankCardTokenProvider.googlepay,
+                'google pay',
+                'googlePay'
+            );
+        case PaymentMethodNameConfig.samsungPay:
+            return checkTokenizedBankCard(
+                samsungPay,
+                paymentMethods,
+                BankCardTokenProvider.samsungpay,
+                'samsung pay',
+                'samsungPay'
+            );
         default:
             return {
                 available: false,

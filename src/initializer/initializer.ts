@@ -20,8 +20,7 @@ const prepareConfig = (userConfig: any): any => ({
     locale: getLocale(userConfig)
 });
 
-/* tslint:disable: no-empty */
-const dummyFn: ActionCallback = () => {};
+const dummyFn: ActionCallback = () => undefined;
 
 type ActionCallback = () => void;
 
