@@ -6,7 +6,7 @@ import { AmountInfoState } from 'checkout/state';
 export const formatAmount = (amount: AmountInfoState): FormattedAmount =>
     amount && amount.minorValue
         ? {
-              value: format(amount.minorValue / 100, { decimal: '.', thousand: ' ' }),
+              value: format(amount.minorValue / 100, { decimal: ', ', thousand: ' ' }),
               symbol: getSymbol(amount.currencyCode)
           }
         : null;
