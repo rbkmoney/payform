@@ -4,8 +4,13 @@ import { replaceFullWidthChars, safeVal } from '../format-utils';
 const format = (num: string): string => {
     let result = num.replace(/\s/g, '');
     const formatReg = /\B(?=(\d{3})+(?!\d))/g;
-    if (/^\d+([.,]\d?\d)?$/.test(result) || result.charAt(result.length - 1) === '.' || result.charAt(result.length - 1) === ',') {
+    if (/^\d+([.,])?$/.test(result)) {
         result = result.replace(formatReg, ' ');
+        const lastChar = result.charAt(result.length - 1);
+        const isLastCharDot = lastChar === '.';
+        const isLastCharComma = lastChar === ',';
+        const isLastCharSpace = lastChar === ' ';
+        result = isLastCharDot || isLastCharComma || isLastCharSpace ? result + ' ' : result;
     } else if (/^\d+([.,]\d+)?$/.test(result)) {
         let numTempArr;
         let type;
@@ -29,7 +34,11 @@ const format = (num: string): string => {
 export function formatAmount(e: FormEvent<HTMLInputElement>): number {
     const target = e.currentTarget;
     let value = target.value;
+    const nativeEvent = e.nativeEvent as any;
     value = replaceFullWidthChars(value);
-    value = format(value);
-    return safeVal(value, target);
+    if (nativeEvent.inputType === 'deleteContentBackward') {
+        return safeVal(value, target);
+    } else {
+        return safeVal(format(value), target);
+    }
 }
