@@ -1,5 +1,5 @@
 {
-    "capiEndpoint": "http://api.rbk.test:8080",
+    "capiEndpoint": "<capi enpdoint>",
     "wrapperEndpoint": "<wrapper endpoint>",
     "applePayMerchantID": "<apple pay merchant id>",
     "googlePayMerchantID": "<google pay merchant id>",
