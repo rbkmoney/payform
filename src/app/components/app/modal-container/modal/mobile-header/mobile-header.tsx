@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import * as styles from './mobile-header.scss';
-import * as cx from 'classnames';
 import { InitConfig } from 'checkout/config';
 import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { Direction, goToFormInfo } from 'checkout/actions';
@@ -39,7 +38,7 @@ const MobileHeaderDef: React.SFC<MobileHeaderProps> = (props) => (
                 id="mobile-back-btn"
             />
         ) : null}
-        <div className={cx(styles.text, { [styles._center]: true })}>{props.initConfig.name}</div>
+        <div className={styles.text}>{props.initConfig.name}</div>
     </header>
 );
 

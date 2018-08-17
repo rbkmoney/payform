@@ -13,3 +13,8 @@ export const growth: string;
 export const popup: string;
 export const popout: string;
 export const shake: string;
+export const stroke: string;
+export const scale: string;
+export const fillGreen: string;
+export const fillRed: string;
+export const fillYellow: string;

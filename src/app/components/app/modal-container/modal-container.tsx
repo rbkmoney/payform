@@ -24,7 +24,6 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
         return (
             <CSSTransitionGroup
                 component="div"
-                className={styles.animationContainer}
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,

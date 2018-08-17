@@ -26,7 +26,7 @@ const rules = [
         use: ExtractTextPlugin.extract({
             use: [
                 {
-                    loader: 'css-loader',
+                    loader: 'typings-for-css-modules-loader',
                     options: {
                         minimize: true,
                         modules: true,

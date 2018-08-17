@@ -9,3 +9,8 @@ export const popout: string;
 export const rotatein: string;
 export const rotateout: string;
 export const shake: string;
+export const stroke: string;
+export const scale: string;
+export const fillGreen: string;
+export const fillRed: string;
+export const fillYellow: string;

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { logo, fill_logo } from './footer.scss';
+import { logo } from './footer.scss';
 
 export const Logo: React.SFC = () => (
     <div className={logo}>
-        <svg className={fill_logo} width="125" height="20" viewBox="0 0 365 60">
+        <svg width="125" height="20" viewBox="0 0 365 60">
             <g fillRule="evenodd">
                 <path d="M71.3 43.97s1.56-5 6.26-5h16.18c6 0 6.8-1.35 6.8-5.47 0-3.57-.6-5.25-6.4-5.25H77.18c-3.75 0-5.89 2.78-5.89 6.09v9.63zm0-19.57s1.66-4.45 5.72-4.45h17.12c3.04 0 4.59-2.35 4.59-5.45 0-2.83-1.55-4.65-4.65-4.65H76.7c-3.27 0-5.42 2.5-5.42 4.84v9.71zM70.9 1.02h22.9c10.38 0 16.1 3.1 16.1 11.72 0 7.55-2.02 9.17-5.8 10.38 4.66 1.56 7.63 3.58 7.63 10.92 0 10.05-5.06 13.75-15.64 13.75h-36V10.2c0-6.23 4.44-9.17 10.81-9.17z" />
                 <g transform="translate(119 .29)">
