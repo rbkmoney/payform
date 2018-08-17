@@ -41,7 +41,7 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                     result !== ResultState.closeAfterDone && (
                         <div className={styles.container}>
                             {error ? (
-                                <ModalError inFrame={inFrame}>{error.message}</ModalError>
+                                <ModalError inFrame={inFrame} error={error} />
                             ) : (
                                 <ModalContent inFrame={inFrame} />
                             )}
