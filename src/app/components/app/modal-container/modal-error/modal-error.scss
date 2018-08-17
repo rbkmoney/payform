@@ -1,0 +1,34 @@
+@import '../../../../styles/variables';
+@import '../../../../styles/responsive';
+
+.modalError {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: $white;
+    font-family: $font-family;
+    padding: 50px 60px 60px;
+    box-sizing: border-box;
+
+    @include responsive(sm) {
+        max-height: 690px;
+        width: 680px;
+        position: relative;
+        border-radius: 6px;
+    }
+
+    .title {
+        font-size: 16px;
+        text-align: center;
+        font-weight: 500;
+        margin: 0;
+        color: $red-v2;
+    }
+
+    .message {
+        margin: 0;
+        padding-top: 25px;
+        font-size: 16px;
+        color: $gray-v2-dark;
+    }
+}

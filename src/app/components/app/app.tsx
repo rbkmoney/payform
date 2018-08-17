@@ -19,9 +19,7 @@ class AppDef extends React.Component<AppProps> {
         return (
             <div className={styles.layout}>
                 <Overlay />
-                {!initialized && !error ? <LayoutLoader /> : false}
-                {error ? <div>{error.message}</div> : false}
-                {initialized ? <ModalContainer /> : false}
+                {initialized || error ? <ModalContainer /> : <LayoutLoader />}
             </div>
         );
     }
