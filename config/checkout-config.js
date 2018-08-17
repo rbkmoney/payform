@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WatchIgnorePlugin = require('webpack/lib/WatchIgnorePlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const rules = require('./common-rules');
 
@@ -49,6 +50,7 @@ module.exports = {
                 { from: './src/app/assets/icons', to: './assets/icons' }
             ],
             { debug: 'warning' }
-        )
+        ),
+        new WatchIgnorePlugin([/\.scss\.d\.ts$/])
     ]
 };

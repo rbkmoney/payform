@@ -26,8 +26,12 @@ const baseOutput = 'dist';
 const prepareModule = (baseConfig, outputPath) =>
     merge(merge(baseConfig, prepareOutputConfig(outputPath)), commonDevConfig);
 
+const checkoutDevConfig = {
+    entry: { development: './src/app/development' }
+};
+
 module.exports = [
-    prepareModule(checkoutConfig, `${baseOutput}/v1`),
+    prepareModule(merge(checkoutConfig, checkoutDevConfig), `${baseOutput}/v1`),
     prepareModule(samsungPayConfig, `${baseOutput}/v1`),
     prepareModule(initializerConfig, baseOutput)
 ];
