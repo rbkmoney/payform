@@ -12,7 +12,7 @@ export const ModalError: React.SFC<ModalErrorProps> = ({ error, inFrame }) => {
     return (
         <div className={styles.modalError}>
             {!inFrame && <Close />}
-            <h2 className={styles.title}>Платежная форма не была инициализирована</h2>
+            <h2 className={styles.title}>Платежная форма не может быть инициализирована</h2>
             {errorMessage && (
                 <p className={styles.message}>
                     {error.code && error.message ? (
