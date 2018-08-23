@@ -42,7 +42,7 @@ export function* getPayableInvoice(
     formAmount: string
 ): Iterator<Effects> {
     const { invoice, invoiceTemplate, invoiceAccessToken } = model;
-    if (invoice && invoice.amount === amountInfo.minorValue) {
+    if (invoice && (amountInfo.minorValue ? invoice.amount === amountInfo.minorValue : true)) {
         return { invoice, invoiceAccessToken };
     }
     if (invoiceTemplate) {
