@@ -1,10 +1,9 @@
-import last from 'lodash-es/last';
-import uniqWith from 'lodash-es/uniqWith';
+import { last, uniqWith } from 'lodash-es';
 import { delay } from 'redux-saga';
-import { call, select, put, race, CallEffect, PutEffect, RaceEffect, SelectEffect } from 'redux-saga/effects';
-import { InvoiceChangeType, Event, getInvoiceEvents } from 'checkout/backend';
-import { EventPolled, TypeKeys } from 'checkout/actions';
-import { State } from 'checkout/state';
+import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
+import { Event, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
+import { EventPolled, PaymentFlowResultAction, TypeKeys } from 'checkout/actions';
+import { PaymentFlowResultState, State } from 'checkout/state';
 
 const isStop = (event: Event): boolean => {
     if (!event || !event.changes) {
@@ -53,21 +52,20 @@ function* poll(endpoint: string, token: string, invoiceID: string): Iterator<Cal
     };
 }
 
-function* pollWithDelay(endpoint: string, token: string, invoiceID: string): Iterator<RaceEffect | PollResult> {
+export function* pollInvoiceEvents(
+    endpoint: string,
+    token: string,
+    invoiceID: string
+): Iterator<PutEffect<EventPolled | PaymentFlowResultAction> | PollResult | RaceEffect> {
     const [result, timeout] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
-    if (timeout) {
-        throw { code: 'error.events.timeout' };
-    }
-    return result;
-}
-
-type Effects = CallEffect | PutEffect<EventPolled> | Event;
-
-export function* pollInvoiceEvents(endpoint: string, token: string, invoiceID: string): Iterator<Effects> {
-    const result = yield call(pollWithDelay, endpoint, token, invoiceID);
     yield put({
-        type: TypeKeys.EVENTS_POLLED,
-        payload: result.events
-    } as EventPolled);
-    return result.last;
+        type: TypeKeys.SET_PAYMENT_FLOW_RESULT,
+        payload: timeout ? PaymentFlowResultState.unknown : PaymentFlowResultState.known
+    } as PaymentFlowResultAction);
+    if (result) {
+        yield put({
+            type: TypeKeys.EVENTS_POLLED,
+            payload: result.events
+        } as EventPolled);
+    }
 }

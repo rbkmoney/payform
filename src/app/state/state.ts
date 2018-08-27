@@ -1,6 +1,15 @@
-import { ResultState, ConfigState, ModelState, ErrorState, FormsState, ModalState, InitializeAppState } from '.';
-import { PaymentMethod } from './payment-method';
-import { AmountInfoState } from './amount-info';
+import {
+    ResultState,
+    ConfigState,
+    ModelState,
+    ErrorState,
+    FormsState,
+    ModalState,
+    InitializeAppState,
+    AmountInfoState,
+    PaymentMethod,
+    PaymentFlowResultState
+} from '.';
 
 export interface State {
     readonly result: ResultState;
@@ -12,4 +21,5 @@ export interface State {
     readonly initializeApp: InitializeAppState;
     readonly availablePaymentMethods: PaymentMethod[]; // TODO rename to PaymentMethodState
     readonly amountInfo: AmountInfoState;
+    readonly paymentFlowResult: PaymentFlowResultState;
 }

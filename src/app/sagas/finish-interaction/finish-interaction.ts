@@ -1,13 +1,23 @@
+import { last } from 'lodash-es';
 import { call, CallEffect, ForkEffect, put, select, takeLatest } from 'redux-saga/effects';
-import { TypeKeys } from 'checkout/actions';
-import { ConfigState, ModelState, State } from 'checkout/state';
+import { goToFormInfo, TypeKeys } from 'checkout/actions';
+import { ConfigState, ModelState, PaymentFlowResultState, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { pollCustomerEvents, pollInvoiceEvents } from '../poll-events';
 import { CustomerInitConfig, IntegrationType } from 'checkout/config';
 import { provideFromInvoiceEvent, provideFromCustomerEvent } from '../provide-modal';
 
 function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) {
-    const event = yield call(pollInvoiceEvents, capiEndpoint, token, invoiceID);
-    return yield call(provideFromInvoiceEvent, event);
+    yield call(pollInvoiceEvents, capiEndpoint, token, invoiceID);
+    const paymentFlowResult = yield select((state: State) => state.paymentFlowResult);
+    switch (paymentFlowResult) {
+        case PaymentFlowResultState.known:
+            const event = yield select((state: State) => last(state.model.invoiceEvents));
+            yield call(provideFromInvoiceEvent, event);
+            break;
+        case PaymentFlowResultState.unknown:
+            yield call(goToFormInfo, new ResultFormInfo(ResultType.processed));
+            break;
+    }
 }
 
 function* finishCustomer(capiEndpoint: string, token: string, customerID: string) {
