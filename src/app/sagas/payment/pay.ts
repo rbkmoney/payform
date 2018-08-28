@@ -1,6 +1,7 @@
 import { call, CallEffect, ForkEffect, put, PutEffect, select, SelectEffect, takeLatest } from 'redux-saga/effects';
 import { last } from 'lodash-es';
 import {
+    GoToFormInfo,
     goToFormInfo,
     PaymentCompleted,
     PaymentFailed,
@@ -12,11 +13,11 @@ import { providePayment } from './provide-payment';
 import { PaymentFlowResultState, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
-type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted;
+type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted | GoToFormInfo;
 
 type PayEffect = SelectEffect | CallEffect | PutEffect<PayPutEffect>;
 
-export function* pay(action: PaymentRequested): Iterator<PayEffect> | any {
+export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     try {
         const { config, model, amountInfo } = yield select((s: State) => ({
             config: s.config,
@@ -34,15 +35,15 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> | any {
                 yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
                 break;
             case PaymentFlowResultState.unknown:
-                yield call(goToFormInfo, new ResultFormInfo(ResultType.processed));
+                yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
                 break;
         }
     } catch (error) {
-        yield call(goToFormInfo, new ResultFormInfo(ResultType.error));
         yield put({
             type: TypeKeys.PAYMENT_FAILED,
             payload: error
         } as PaymentFailed);
+        yield put(goToFormInfo(new ResultFormInfo(ResultType.error)));
     }
 }
 
