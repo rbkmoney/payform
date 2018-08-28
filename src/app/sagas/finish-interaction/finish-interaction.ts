@@ -15,7 +15,7 @@ function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) 
             yield call(provideFromInvoiceEvent, event);
             break;
         case PaymentFlowResultState.unknown:
-            yield call(goToFormInfo, new ResultFormInfo(ResultType.processed));
+            yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
             break;
     }
 }
