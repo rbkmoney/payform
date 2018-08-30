@@ -10,4 +10,4 @@ export * from './modal';
 export * from './initialize-app-state';
 export * from './payment-method';
 export * from './amount-info';
-export * from './payment-flow-result-state';
+export * from './events-state';

@@ -1,4 +1,4 @@
-export enum PaymentFlowResultState {
+export enum EventsState {
     known = 'known',
     unknown = 'unknown'
 }

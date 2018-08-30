@@ -3,7 +3,7 @@ import { delay } from 'redux-saga';
 import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
 import { Event, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
 import { EventPolled, EventsAction, TypeKeys } from 'checkout/actions';
-import { PaymentFlowResultState, State } from 'checkout/state';
+import { EventsState, State } from 'checkout/state';
 
 const isStop = (event: Event): boolean => {
     if (!event || !event.changes) {
@@ -60,7 +60,7 @@ export function* pollInvoiceEvents(
     const [result, timeout] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
     yield put({
         type: TypeKeys.SET_PAYMENT_FLOW_RESULT,
-        payload: timeout ? PaymentFlowResultState.unknown : PaymentFlowResultState.known
+        payload: timeout ? EventsState.unknown : EventsState.known
     } as EventsAction);
     if (result) {
         yield put({

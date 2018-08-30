@@ -8,7 +8,7 @@ import {
     InitializeAppState,
     AmountInfoState,
     PaymentMethod,
-    PaymentFlowResultState
+    EventsState
 } from '.';
 
 export interface State {
@@ -21,5 +21,5 @@ export interface State {
     readonly initializeApp: InitializeAppState;
     readonly availablePaymentMethods: PaymentMethod[]; // TODO rename to PaymentMethodState
     readonly amountInfo: AmountInfoState;
-    readonly paymentFlowResult: PaymentFlowResultState;
+    readonly events: EventsState;
 }

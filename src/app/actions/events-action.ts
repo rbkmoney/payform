@@ -1,8 +1,8 @@
 import { TypeKeys } from './type-keys';
-import { PaymentFlowResultState } from '../state';
+import { EventsState } from '../state';
 import { AbstractAction } from './abstract-action';
 
-export interface EventsAction extends AbstractAction<PaymentFlowResultState> {
+export interface EventsAction extends AbstractAction<EventsState> {
     type: TypeKeys.SET_PAYMENT_FLOW_RESULT;
-    payload: PaymentFlowResultState;
+    payload: EventsState;
 }
