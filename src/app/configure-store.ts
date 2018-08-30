@@ -29,7 +29,7 @@ export function configureStore(initState: any): Store<State> {
             modals: modalReducer,
             availablePaymentMethods: availablePaymentMethodsReducer,
             amountInfo: amountInfoReducer,
-            paymentFlowResult: eventsReducer
+            events: eventsReducer
         }),
         initState,
         composeWithDevTools(applyMiddleware(sagaMiddleware))

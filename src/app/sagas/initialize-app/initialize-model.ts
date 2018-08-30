@@ -19,8 +19,8 @@ import {
     InvoiceInitConfig,
     InvoiceTemplateInitConfig
 } from 'checkout/config';
-import { InitializeModelCompleted, TypeKeys } from 'checkout/actions';
-import { ModelState, State } from 'checkout/state';
+import { InitializeModelCompleted, SetEventsAction, TypeKeys } from 'checkout/actions';
+import { EventsState, ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
@@ -78,10 +78,15 @@ export function* resolveIntegrationType(endpoint: string, config: InitConfig): I
     return chunk;
 }
 
-export type InitializeEffect = CallEffect | PutEffect<InitializeModelCompleted> | SelectEffect | ModelState;
+export type InitializeEffect =
+    | CallEffect
+    | PutEffect<InitializeModelCompleted | SetEventsAction>
+    | SelectEffect
+    | { model: ModelState; events: EventsState };
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
-    const modelChunk = yield call(resolveIntegrationType, endpoint, config);
+    const { invoiceEvents, ...modelChunk } = yield call(resolveIntegrationType, endpoint, config);
     yield put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk } as InitializeModelCompleted);
-    return yield select((state: State) => state.model);
+    yield put({ type: TypeKeys.EVENTS_INIT, payload: invoiceEvents } as SetEventsAction);
+    return yield select(({ model, events }: State) => ({ model, events }));
 }

@@ -8,4 +8,4 @@ export * from './error-actions';
 export * from './initialize-actions';
 export * from './initialize-available-payment-methods';
 export * from './initialize-amount-info';
-export * from './events-action';
+export * from './events-actions';

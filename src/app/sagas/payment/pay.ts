@@ -10,7 +10,7 @@ import {
     TypeKeys
 } from 'checkout/actions';
 import { providePayment } from './provide-payment';
-import { EventsState, ResultFormInfo, ResultType, State } from 'checkout/state';
+import { EventsStatus, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
 type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted | GoToFormInfo;
@@ -27,14 +27,14 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
         const { values, method } = action.payload;
         yield put({ type: TypeKeys.PREPARE_TO_PAY } as PrepareToPay);
         yield call(providePayment, method, config, model, amountInfo, values);
-        const paymentFlowResult = yield select((state: State) => state.events);
-        switch (paymentFlowResult) {
-            case EventsState.known:
-                const event = yield select((state: State) => last(state.model.invoiceEvents));
+        const invoiceEventsStatus = yield select((state: State) => state.events.invoiceEventsStatus);
+        switch (invoiceEventsStatus) {
+            case EventsStatus.polled:
+                const event = yield select((state: State) => last(state.events.invoiceEvents));
                 yield call(provideFromInvoiceEvent, event);
                 yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
                 break;
-            case EventsState.unknown:
+            case EventsStatus.timeout:
                 yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
                 break;
         }

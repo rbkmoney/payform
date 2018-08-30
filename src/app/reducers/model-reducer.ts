@@ -1,9 +1,9 @@
 import { ModelState } from 'checkout/state';
-import { TypeKeys, InitializeModelCompleted, InvoiceCreated, EventPolled, CustomerEventPolled } from 'checkout/actions';
+import { TypeKeys, InitializeModelCompleted, InvoiceCreated, CustomerEventPolled } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
-import { CustomerEvent, Event } from 'checkout/backend';
+import { CustomerEvent } from 'checkout/backend';
 
-type ModelReducerAction = InitializeModelCompleted | InvoiceCreated | EventPolled | CustomerEventPolled;
+type ModelReducerAction = InitializeModelCompleted | InvoiceCreated | CustomerEventPolled;
 
 export function modelReducer(s: ModelState = null, action: ModelReducerAction): ModelState {
     switch (action.type) {
@@ -16,13 +16,7 @@ export function modelReducer(s: ModelState = null, action: ModelReducerAction): 
             return {
                 ...s,
                 invoice: action.payload.invoice,
-                invoiceAccessToken: action.payload.invoiceAccessToken,
-                invoiceEvents: null
-            };
-        case TypeKeys.EVENTS_POLLED:
-            return {
-                ...s,
-                invoiceEvents: mergeEvents(s.invoiceEvents, action.payload) as Event[]
+                invoiceAccessToken: action.payload.invoiceAccessToken
             };
         case TypeKeys.CUSTOMER_EVENTS_POLLED:
             return {

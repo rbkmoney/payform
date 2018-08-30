@@ -2,8 +2,8 @@ import { last, uniqWith } from 'lodash-es';
 import { delay } from 'redux-saga';
 import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
 import { Event, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
-import { EventPolled, EventsAction, TypeKeys } from 'checkout/actions';
-import { EventsState, State } from 'checkout/state';
+import { SetEventsAction, TypeKeys } from 'checkout/actions';
+import { State } from 'checkout/state';
 
 const isStop = (event: Event): boolean => {
     if (!event || !event.changes) {
@@ -30,7 +30,7 @@ interface PollResult {
 
 function* getLastEventID(): Iterator<SelectEffect | number> {
     return yield select((s: State) => {
-        const events = s.model.invoiceEvents;
+        const events = s.events.invoiceEvents;
         return events && events.length > 0 ? last(events).id : 0;
     });
 }
@@ -56,16 +56,16 @@ export function* pollInvoiceEvents(
     endpoint: string,
     token: string,
     invoiceID: string
-): Iterator<PutEffect<EventPolled | EventsAction> | PollResult | RaceEffect> {
+): Iterator<PutEffect<SetEventsAction> | PollResult | RaceEffect> {
     const [result, timeout] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
-    yield put({
-        type: TypeKeys.SET_PAYMENT_FLOW_RESULT,
-        payload: timeout ? EventsState.unknown : EventsState.known
-    } as EventsAction);
-    if (result) {
+    if (timeout) {
+        yield put({
+            type: TypeKeys.EVENTS_POLLING_TIMEOUT
+        } as SetEventsAction);
+    } else {
         yield put({
             type: TypeKeys.EVENTS_POLLED,
             payload: result.events
-        } as EventPolled);
+        } as SetEventsAction);
     }
 }

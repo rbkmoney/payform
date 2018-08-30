@@ -14,7 +14,7 @@ export type InitializeAppEffect = CallEffect | PutEffect<InitializeAppPutEffect>
 
 export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
     const configChunk = yield call(loadConfig, userInitConfig.locale);
-    const model = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
+    const { model, events } = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
     const initConfig = yield call(checkInitConfig, userInitConfig, model);
     const amountInfo = yield call(initializeAmountInfo, initConfig, model);
     const methods = yield call(
@@ -23,7 +23,7 @@ export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
         model.paymentMethods,
         amountInfo
     );
-    yield call(initializeModal, initConfig, model, methods);
+    yield call(initializeModal, initConfig, model, events, methods);
 }
 
 export function* initializeApp(action: InitializeAppRequested): Iterator<InitializeAppEffect> {
