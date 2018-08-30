@@ -2,16 +2,12 @@ import { TypeKeys } from '../type-keys';
 import { AbstractAction } from '..';
 import { Event } from 'checkout/backend/model';
 
-interface SetEventsInitAction extends AbstractAction<Event[]> {
-    type: TypeKeys.EVENTS_INIT;
+interface SetEventsInitActions extends AbstractAction<Event[]> {
+    type: TypeKeys.EVENTS_INIT | TypeKeys.EVENTS_POLLING;
 }
 
-interface SetEventsPolledAction extends AbstractAction<Event[]> {
-    type: TypeKeys.EVENTS_POLLED;
+interface SetEventsResultActions extends AbstractAction {
+    type: TypeKeys.EVENTS_POLLED | TypeKeys.EVENTS_POLLING_TIMEOUT;
 }
 
-interface SetEventsTimeoutAction extends AbstractAction {
-    type: TypeKeys.EVENTS_POLLING_TIMEOUT;
-}
-
-export type SetEventsAction = SetEventsPolledAction | SetEventsTimeoutAction | SetEventsInitAction;
+export type SetEventsAction = SetEventsInitActions | SetEventsResultActions;

@@ -2,6 +2,7 @@ import { Event } from 'checkout/backend/model';
 
 export enum EventsStatus {
     init = 'init',
+    polling = 'polling',
     polled = 'polled',
     timeout = 'timeout'
 }

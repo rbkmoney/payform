@@ -14,7 +14,12 @@ export function eventsReducer(s: EventsState = {}, action: SetEventsAction): Eve
         case TypeKeys.EVENTS_POLLED:
             return {
                 ...s,
-                invoiceEventsStatus: EventsStatus.polled,
+                invoiceEventsStatus: EventsStatus.polled
+            };
+        case TypeKeys.EVENTS_POLLING:
+            return {
+                ...s,
+                invoiceEventsStatus: EventsStatus.polling,
                 invoiceEvents: mergeEvents(s.invoiceEvents, action.payload)
             };
         case TypeKeys.EVENTS_POLLING_TIMEOUT:
