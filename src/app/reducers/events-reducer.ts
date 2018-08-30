@@ -1,11 +1,8 @@
 import { TypeKeys } from '../actions';
 import { PaymentFlowResultState } from 'checkout/state';
-import { PaymentFlowResultAction } from 'checkout/actions/payment-flow-result-action';
+import { EventsAction } from 'checkout/actions/events-action';
 
-export function paymentFlowResultReducer(
-    s: PaymentFlowResultState = null,
-    action: PaymentFlowResultAction
-): PaymentFlowResultState {
+export function eventsReducer(s: PaymentFlowResultState = null, action: EventsAction): PaymentFlowResultState {
     switch (action.type) {
         case TypeKeys.SET_PAYMENT_FLOW_RESULT: {
             return action.payload;

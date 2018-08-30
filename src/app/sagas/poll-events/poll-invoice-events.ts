@@ -2,7 +2,7 @@ import { last, uniqWith } from 'lodash-es';
 import { delay } from 'redux-saga';
 import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
 import { Event, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
-import { EventPolled, PaymentFlowResultAction, TypeKeys } from 'checkout/actions';
+import { EventPolled, EventsAction, TypeKeys } from 'checkout/actions';
 import { PaymentFlowResultState, State } from 'checkout/state';
 
 const isStop = (event: Event): boolean => {
@@ -56,12 +56,12 @@ export function* pollInvoiceEvents(
     endpoint: string,
     token: string,
     invoiceID: string
-): Iterator<PutEffect<EventPolled | PaymentFlowResultAction> | PollResult | RaceEffect> {
+): Iterator<PutEffect<EventPolled | EventsAction> | PollResult | RaceEffect> {
     const [result, timeout] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
     yield put({
         type: TypeKeys.SET_PAYMENT_FLOW_RESULT,
         payload: timeout ? PaymentFlowResultState.unknown : PaymentFlowResultState.known
-    } as PaymentFlowResultAction);
+    } as EventsAction);
     if (result) {
         yield put({
             type: TypeKeys.EVENTS_POLLED,
