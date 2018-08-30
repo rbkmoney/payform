@@ -10,7 +10,6 @@ type Effects = CallEffect | PutEffect<InitializeModalCompleted>;
 
 export function* initializeModal(
     initConfig: InitConfig,
-    model: ModelState,
     events: EventsState,
     methods: PaymentMethod[]
 ): Iterator<Effects> {
@@ -24,7 +23,7 @@ export function* initializeModal(
             initializedModals = yield call(initFromInvoiceEvents, events.invoiceEvents, methods, initialPaymentMethod);
             break;
         case IntegrationType.customer:
-            initializedModals = initFromCustomerEvents(model.customerEvents);
+            initializedModals = initFromCustomerEvents(events.customerEvents);
             break;
         default:
             throw { code: 'error.unsupported.integration.type' };

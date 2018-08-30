@@ -44,7 +44,7 @@ class ResultFormDef extends React.Component<ResultFormProps> {
     }
 
     private makeContent(): ResultFormContent {
-        const { locale, model, events, error, resultFormInfo, integrationType } = this.props;
+        const { locale, events, error, resultFormInfo, integrationType } = this.props;
         switch (resultFormInfo.resultType) {
             case ResultType.error:
                 return makeContentError(locale, error);
@@ -54,7 +54,7 @@ class ResultFormDef extends React.Component<ResultFormProps> {
                     case IntegrationType.invoiceTemplate:
                         return makeContentInvoice(locale, events.invoiceEvents, events.invoiceEventsStatus);
                     case IntegrationType.customer:
-                        return makeContentCustomer(locale, model.customerEvents);
+                        return makeContentCustomer(locale, events.customerEvents, events.customerEventsStatus);
                 }
         }
     }
@@ -63,14 +63,13 @@ class ResultFormDef extends React.Component<ResultFormProps> {
 const mapStateToProps = (state: State) => {
     const info = (findNamed(state.modals, ModalName.modalForms) as ModalForms).formsInfo;
     return {
-        model: state.model,
         events: state.events,
         integrationType: state.config.initConfig.integrationType,
         locale: state.config.locale,
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
         hasErrorDescription: isHelpAvailable(
-            getErrorCodeFromEvents(state.model, state.events, state.config.initConfig.integrationType)
+            getErrorCodeFromEvents(state.events, state.config.initConfig.integrationType)
         ),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods)
     };

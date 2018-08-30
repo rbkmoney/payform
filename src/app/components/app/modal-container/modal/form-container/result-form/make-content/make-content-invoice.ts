@@ -8,8 +8,8 @@ import { makeFromPaymentStarted } from './make-from-payment-started';
 import { EventsStatus } from 'checkout/state';
 
 export const makeContentInvoice = (l: Locale, e: Event[], eventsStatus: EventsStatus): ResultFormContent => {
-    const change = getLastChange(e);
     if (eventsStatus === EventsStatus.polled) {
+        const change = getLastChange(e);
         switch (change.changeType) {
             case InvoiceChangeType.InvoiceStatusChanged:
                 return makeFromInvoiceChange(l, e);
@@ -17,9 +17,8 @@ export const makeContentInvoice = (l: Locale, e: Event[], eventsStatus: EventsSt
                 return makeFromPaymentChange(l, e);
             case InvoiceChangeType.PaymentStarted:
                 return makeFromPaymentStarted(l, e);
-            default:
-                throw new Error('Unsupported invoice ChangeType');
         }
+        throw new Error('Unsupported invoice ChangeType');
     }
     return pending(l);
 };

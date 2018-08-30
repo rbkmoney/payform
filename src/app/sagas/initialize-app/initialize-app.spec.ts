@@ -72,7 +72,7 @@ describe('initialize', () => {
     it('should call initializeModal', () => {
         const methods = 'methodsMock' as any;
         const actual = iterator.next(methods).value;
-        const expected = call(initializeModal, initConfig, model, events, methods);
+        const expected = call(initializeModal, initConfig, events, methods);
         expect(actual).toEqual(expected);
     });
 });

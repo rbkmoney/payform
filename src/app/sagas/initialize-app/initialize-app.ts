@@ -23,7 +23,7 @@ export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
         model.paymentMethods,
         amountInfo
     );
-    yield call(initializeModal, initConfig, model, events, methods);
+    yield call(initializeModal, initConfig, events, methods);
 }
 
 export function* initializeApp(action: InitializeAppRequested): Iterator<InitializeAppEffect> {

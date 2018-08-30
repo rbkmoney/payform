@@ -4,7 +4,6 @@ import { LogicError } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
 
 export interface ResultFormProps {
-    model: ModelState;
     events: EventsState;
     integrationType: IntegrationType;
     locale: Locale;

@@ -1,9 +1,8 @@
-import last from 'lodash-es/last';
-import uniqWith from 'lodash-es/uniqWith';
+import { last } from 'lodash-es';
 import { delay } from 'redux-saga';
-import { call, select, put, race, CallEffect, PutEffect, RaceEffect, SelectEffect } from 'redux-saga/effects';
-import { getCustomerEvents, CustomerEvent, CustomerChangeType } from 'checkout/backend';
-import { CustomerEventPolled, TypeKeys } from 'checkout/actions';
+import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
+import { CustomerChangeType, CustomerEvent, getCustomerEvents } from 'checkout/backend';
+import { SetCustomerEventsAction, TypeKeys } from 'checkout/actions';
 import { State } from 'checkout/state';
 
 const isStop = (event: CustomerEvent): boolean => {
@@ -23,50 +22,44 @@ const isStop = (event: CustomerEvent): boolean => {
     }
 };
 
-interface PollResult {
-    events: CustomerEvent[];
-    last: CustomerEvent;
-}
-
 function* getLastEventID(): Iterator<SelectEffect | number> {
-    return yield select((s: State) => {
-        const events = s.model.customerEvents;
-        return events && events.length > 0 ? last(events).id : 0;
-    });
+    return yield select(
+        ({ events: { customerEvents: events } }: State) => (events && events.length > 0 ? last(events).id : 0)
+    );
 }
 
-function* poll(endpoint: string, token: string, customerID: string): Iterator<CallEffect | PollResult> {
+function* poll(
+    endpoint: string,
+    token: string,
+    invoiceID: string
+): Iterator<CallEffect | CustomerEvent | PutEffect<SetCustomerEventsAction>> {
     let lastEventID = yield call(getLastEventID);
-    let events: CustomerEvent[] = [];
     let lastEvent = null;
     while (!isStop(lastEvent)) {
         yield call(delay, 1000);
-        const chunk = yield call(getCustomerEvents, endpoint, token, customerID, 5, lastEventID);
-        events = events.concat(chunk);
-        lastEvent = last(events);
+        const chunk: CustomerEvent[] = yield call(getCustomerEvents, endpoint, token, invoiceID, 5, lastEventID);
+        yield put({
+            type: TypeKeys.CUSTOMER_EVENTS_POLLING,
+            payload: chunk
+        } as SetCustomerEventsAction);
+        lastEvent = last(chunk);
         lastEventID = lastEvent ? lastEvent.id : lastEventID;
     }
-    return {
-        events: uniqWith(events, (f, s) => f.id === s.id),
-        last: lastEvent
-    };
+    return lastEvent;
 }
 
-function* pollWithDelay(endpoint: string, token: string, customerID: string): Iterator<RaceEffect | PollResult> {
-    const [result, timeout] = yield race<any>([call(poll, endpoint, token, customerID), call(delay, 60000)]);
-    if (timeout) {
-        throw { code: 'error.events.timeout' };
+export function* pollCustomerEvents(
+    endpoint: string,
+    token: string,
+    invoiceID: string
+): Iterator<PutEffect<SetCustomerEventsAction> | RaceEffect> {
+    const [result] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
+    if (result) {
+        return yield put({
+            type: TypeKeys.CUSTOMER_EVENTS_POLLED
+        } as SetCustomerEventsAction);
     }
-    return result;
-}
-
-type Effects = CallEffect | PutEffect<CustomerEventPolled> | CustomerEvent;
-
-export function* pollCustomerEvents(endpoint: string, token: string, customerID: string): Iterator<Effects> {
-    const result = yield call(pollWithDelay, endpoint, token, customerID);
-    yield put({
-        type: TypeKeys.CUSTOMER_EVENTS_POLLED,
-        payload: result.events
-    } as CustomerEventPolled);
-    return result.last;
+    return yield put({
+        type: TypeKeys.CUSTOMER_EVENTS_POLLING_TIMEOUT
+    } as SetCustomerEventsAction);
 }

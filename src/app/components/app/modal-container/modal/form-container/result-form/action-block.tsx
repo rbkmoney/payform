@@ -81,9 +81,7 @@ const mapStateToProps = (s: State) => {
         locale: s.config.locale,
         startedInfo: info.find((item) => item.paymentStatus === PaymentStatus.started),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods),
-        hasErrorDescription: isHelpAvailable(
-            getErrorCodeFromEvents(s.model, s.events, s.config.initConfig.integrationType)
-        )
+        hasErrorDescription: isHelpAvailable(getErrorCodeFromEvents(s.events, s.config.initConfig.integrationType))
     };
 };
 
