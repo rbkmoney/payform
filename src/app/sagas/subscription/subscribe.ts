@@ -1,4 +1,5 @@
 import { CallEffect, ForkEffect, PutEffect, SelectEffect, put, call, select, takeLatest } from 'redux-saga/effects';
+import { last } from 'lodash-es';
 import {
     PrepareToPay,
     TypeKeys,
@@ -18,7 +19,8 @@ export function* subscribe(action: SubscriptionRequested): Iterator<SubscribeEff
     try {
         const config = yield select((s: State) => s.config);
         yield put({ type: TypeKeys.PREPARE_TO_PAY } as PrepareToPay);
-        const event = yield call(provideSubscription, config, action.payload);
+        yield call(provideSubscription, config, action.payload);
+        const event = yield select((s: State) => last(s.events.customerEvents));
         yield call(provideFromCustomerEvent, event);
         yield put({ type: TypeKeys.SUBSCRIPTION_COMPLETED } as SubscriptionCompleted);
     } catch (error) {
