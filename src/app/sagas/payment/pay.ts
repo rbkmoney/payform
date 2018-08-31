@@ -13,6 +13,12 @@ import { providePayment } from './provide-payment';
 import { EventsStatus, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
+function* paymentComplete(): Iterator<SelectEffect | CallEffect | PutEffect<PaymentCompleted>> {
+    const event = yield select((state: State) => last(state.events.invoiceEvents));
+    yield call(provideFromInvoiceEvent, event);
+    yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
+}
+
 type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted | GoToFormInfo;
 
 type PayEffect = SelectEffect | CallEffect | PutEffect<PayPutEffect>;
@@ -30,9 +36,7 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
         const invoiceEventsStatus = yield select((state: State) => state.events.invoiceEventsStatus);
         switch (invoiceEventsStatus) {
             case EventsStatus.polled:
-                const event = yield select((state: State) => last(state.events.invoiceEvents));
-                yield call(provideFromInvoiceEvent, event);
-                yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
+                yield call(paymentComplete);
                 break;
             case EventsStatus.timeout:
                 yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
