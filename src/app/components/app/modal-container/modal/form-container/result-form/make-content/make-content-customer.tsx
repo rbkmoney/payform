@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Locale } from 'checkout/locale';
 import * as styles from '../result-form.scss';
 import {
-    CustomerChangeType,
-    CustomerEvent,
+    CustomerBindingStatus,
     CustomerBindingStatusChanged,
-    CustomerBindingStatus
+    CustomerChangeType,
+    CustomerEvent
 } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
@@ -64,15 +64,19 @@ const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFor
 };
 
 export const makeContentCustomer = (l: Locale, e: CustomerEvent[], eventsStatus: EventsStatus): ResultFormContent => {
-    if (eventsStatus === EventsStatus.polled || eventsStatus === EventsStatus.init) {
-        const change = getLastChange(e);
-        switch (change.changeType) {
-            case CustomerChangeType.CustomerBindingStatusChanged:
-                return makeFromCustomerBindingChange(l, e);
-            case CustomerChangeType.CustomerBindingStarted:
-                return started(l, e);
-        }
-        throw new Error('Unsupported CustomerChangeType');
+    switch (eventsStatus) {
+        case EventsStatus.init:
+        case EventsStatus.polled:
+            const change = getLastChange(e);
+            switch (change.changeType) {
+                case CustomerChangeType.CustomerBindingStatusChanged:
+                    return makeFromCustomerBindingChange(l, e);
+                case CustomerChangeType.CustomerBindingStarted:
+                    return started(l, e);
+            }
+            throw new Error('Unsupported CustomerChangeType');
+        case EventsStatus.timeout:
+            return pending(l);
     }
-    return pending(l);
+    throw new Error('Unsupported eventsStatus');
 };
