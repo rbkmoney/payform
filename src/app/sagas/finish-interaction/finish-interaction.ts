@@ -21,8 +21,17 @@ function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) 
 }
 
 function* finishCustomer(capiEndpoint: string, token: string, customerID: string) {
-    const event = yield call(pollCustomerEvents, capiEndpoint, token, customerID);
-    return yield call(provideFromCustomerEvent, event);
+    yield call(pollCustomerEvents, capiEndpoint, token, customerID);
+    const customerEventsStatus = yield select((state: State) => state.events.customerEventsStatus);
+    switch (customerEventsStatus) {
+        case EventsStatus.polled:
+            const event = yield select((state: State) => last(state.events.customerEvents));
+            yield call(provideFromCustomerEvent, event);
+            break;
+        case EventsStatus.timeout:
+            yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
+            break;
+    }
 }
 
 function* resolve(config: ConfigState, model: ModelState): Iterator<CallEffect> {

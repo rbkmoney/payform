@@ -19,7 +19,7 @@ import {
     InvoiceInitConfig,
     InvoiceTemplateInitConfig
 } from 'checkout/config';
-import { InitializeModelCompleted, SetEventsAction, TypeKeys } from 'checkout/actions';
+import { InitializeModelCompleted, SetCustomerEventsAction, SetEventsAction, TypeKeys } from 'checkout/actions';
 import { EventsState, ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
@@ -80,13 +80,14 @@ export function* resolveIntegrationType(endpoint: string, config: InitConfig): I
 
 export type InitializeEffect =
     | CallEffect
-    | PutEffect<InitializeModelCompleted | SetEventsAction>
+    | PutEffect<InitializeModelCompleted | SetEventsAction | SetCustomerEventsAction>
     | SelectEffect
     | { model: ModelState; events: EventsState };
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
-    const { invoiceEvents, ...modelChunk } = yield call(resolveIntegrationType, endpoint, config);
+    const { invoiceEvents, customerEvents, ...modelChunk } = yield call(resolveIntegrationType, endpoint, config);
     yield put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk } as InitializeModelCompleted);
     yield put({ type: TypeKeys.EVENTS_INIT, payload: invoiceEvents } as SetEventsAction);
+    yield put({ type: TypeKeys.CUSTOMER_EVENTS_INIT, payload: customerEvents } as SetCustomerEventsAction);
     return yield select(({ model, events }: State) => ({ model, events }));
 }
