@@ -64,7 +64,7 @@ const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFor
 };
 
 export const makeContentCustomer = (l: Locale, e: CustomerEvent[], eventsStatus: EventsStatus): ResultFormContent => {
-    if (eventsStatus === EventsStatus.polled) {
+    if (eventsStatus === EventsStatus.polled || eventsStatus === EventsStatus.init) {
         const change = getLastChange(e);
         switch (change.changeType) {
             case CustomerChangeType.CustomerBindingStatusChanged:

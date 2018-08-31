@@ -8,7 +8,7 @@ import { makeFromPaymentStarted } from './make-from-payment-started';
 import { EventsStatus } from 'checkout/state';
 
 export const makeContentInvoice = (l: Locale, e: Event[], eventsStatus: EventsStatus): ResultFormContent => {
-    if (eventsStatus === EventsStatus.polled) {
+    if (eventsStatus === EventsStatus.polled || eventsStatus === EventsStatus.init) {
         const change = getLastChange(e);
         switch (change.changeType) {
             case InvoiceChangeType.InvoiceStatusChanged:
