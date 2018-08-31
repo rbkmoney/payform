@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Event, InvoiceStatusChanged, InvoiceStatuses } from 'checkout/backend';
+import { InvoiceEvent, InvoiceStatusChanged, InvoiceStatuses } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { ResultFormContent, ResultFormType } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
@@ -12,7 +12,7 @@ const refunded = (l: Locale): ResultFormContent => ({
     type: ResultFormType.WARNING
 });
 
-const paid = (l: Locale, e: Event[]): ResultFormContent => ({
+const paid = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.paid.label'],
@@ -27,7 +27,7 @@ const cancelled = (l: Locale): ResultFormContent => ({
     type: ResultFormType.ERROR
 });
 
-const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
+const fulfilled = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
     hasActions: false,
     hasDone: false,
     header: l['form.header.final.invoice.fulfilled.label'],
@@ -35,7 +35,7 @@ const fulfilled = (l: Locale, e: Event[]): ResultFormContent => ({
     type: ResultFormType.SUCCESS
 });
 
-export const makeFromInvoiceChange = (l: Locale, e: Event[]) => {
+export const makeFromInvoiceChange = (l: Locale, e: InvoiceEvent[]) => {
     const change = getLastChange(e) as InvoiceStatusChanged;
     switch (change.status) {
         case InvoiceStatuses.paid:

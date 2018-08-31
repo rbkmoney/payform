@@ -1,6 +1,6 @@
 import last from 'lodash-es/last';
 import {
-    Event,
+    InvoiceEvent,
     InvoiceChangeType,
     InvoiceStatusChanged,
     PaymentStatusChanged,
@@ -28,7 +28,7 @@ const fromInvoiceStatusChanged = (change: InvoiceStatusChanged): boolean => {
     }
 };
 
-const isSuccess = (event: Event): boolean => {
+const isSuccess = (event: InvoiceEvent): boolean => {
     const change = last(event.changes);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
@@ -40,5 +40,5 @@ const isSuccess = (event: Event): boolean => {
     }
 };
 
-export const getSessionStatus = (event: Event): number =>
+export const getSessionStatus = (event: InvoiceEvent): number =>
     isSuccess(event) ? ApplePaySession.STATUS_SUCCESS : ApplePaySession.STATUS_FAILURE;

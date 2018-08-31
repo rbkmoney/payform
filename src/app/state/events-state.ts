@@ -1,5 +1,4 @@
-import { Event } from 'checkout/backend/model';
-import { CustomerEvent } from 'checkout/backend';
+import { CustomerEvent, InvoiceEvent } from 'checkout/backend';
 
 export enum EventsStatus {
     init = 'init',
@@ -9,7 +8,7 @@ export enum EventsStatus {
 }
 
 export interface EventsState {
-    readonly invoiceEvents?: Event[];
+    readonly invoiceEvents?: InvoiceEvent[];
     readonly invoiceEventsStatus?: EventsStatus;
     readonly customerEvents?: CustomerEvent[];
     readonly customerEventsStatus?: EventsStatus;

@@ -1,14 +1,14 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { AmountInfoState, ModelState, PayableFormValues } from 'checkout/state';
 import { getPayableInvoice } from './get-payable-invoice';
-import { Event, PaymentResource } from 'checkout/backend';
+import { InvoiceEvent, PaymentResource } from 'checkout/backend';
 import { Config } from 'checkout/config';
 import { createPayment } from './create-payment';
 import { pollInvoiceEvents } from '../../poll-events';
 
 type CreatePaymentResourceFn = () => Iterator<PaymentResource>;
 
-type Effects = CallEffect | Event;
+type Effects = CallEffect | InvoiceEvent;
 
 export function* makePayment(
     config: Config,

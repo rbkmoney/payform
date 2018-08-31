@@ -3,7 +3,7 @@ import {
     PaymentInteractionRequested,
     PaymentStatusChanged,
     PaymentStatuses,
-    Event
+    InvoiceEvent
 } from 'checkout/backend';
 import { ModalState, PaymentMethod } from 'checkout/state';
 import { PaymentMethodName } from 'checkout/config';
@@ -32,7 +32,7 @@ const initFormPaymentStatusChanged = (
 };
 
 export const initFromInvoiceEvents = (
-    events: Event[],
+    events: InvoiceEvent[],
     methods: PaymentMethod[],
     initialPaymentMethod: PaymentMethodName
 ): ModalState => {

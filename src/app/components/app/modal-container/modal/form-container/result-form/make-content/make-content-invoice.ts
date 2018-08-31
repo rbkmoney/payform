@@ -1,4 +1,4 @@
-import { Event, InvoiceChangeType } from 'checkout/backend';
+import { InvoiceEvent, InvoiceChangeType } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { getLastChange } from 'checkout/utils';
 import { ResultFormContent } from './result-form-content';
@@ -7,7 +7,7 @@ import { makeFromPaymentChange, pending } from './make-from-payment-change';
 import { makeFromPaymentStarted } from './make-from-payment-started';
 import { EventsStatus } from 'checkout/state';
 
-export const makeContentInvoice = (l: Locale, e: Event[], eventsStatus: EventsStatus): ResultFormContent => {
+export const makeContentInvoice = (l: Locale, e: InvoiceEvent[], eventsStatus: EventsStatus): ResultFormContent => {
     switch (eventsStatus) {
         case EventsStatus.init:
         case EventsStatus.polled:

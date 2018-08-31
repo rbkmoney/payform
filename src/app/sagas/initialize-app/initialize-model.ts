@@ -1,7 +1,7 @@
 import { all, AllEffect, call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
 import {
     CustomerEvent,
-    Event,
+    InvoiceEvent,
     InvoiceTemplate,
     PaymentMethod,
     Invoice,
@@ -24,7 +24,7 @@ import { EventsState, ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
-    invoiceEvents?: Event[];
+    invoiceEvents?: InvoiceEvent[];
     paymentMethods?: PaymentMethod[];
     invoiceAccessToken?: string;
     customerEvents?: CustomerEvent[];

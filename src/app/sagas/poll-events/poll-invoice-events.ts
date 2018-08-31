@@ -1,11 +1,11 @@
 import { last } from 'lodash-es';
 import { delay } from 'redux-saga';
 import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
-import { Event, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
+import { InvoiceEvent, getInvoiceEvents, InvoiceChangeType } from 'checkout/backend';
 import { SetEventsAction, TypeKeys } from 'checkout/actions';
 import { State } from 'checkout/state';
 
-const isStop = (event: Event): boolean => {
+const isStop = (event: InvoiceEvent): boolean => {
     if (!event || !event.changes) {
         return false;
     }
@@ -33,12 +33,12 @@ function* poll(
     endpoint: string,
     token: string,
     invoiceID: string
-): Iterator<CallEffect | Event | PutEffect<SetEventsAction>> {
+): Iterator<CallEffect | InvoiceEvent | PutEffect<SetEventsAction>> {
     let lastEventID = yield call(getLastEventID);
     let lastEvent = null;
     while (!isStop(lastEvent)) {
         yield call(delay, 1000);
-        const chunk: Event[] = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
+        const chunk: InvoiceEvent[] = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
         yield put({
             type: TypeKeys.EVENTS_POLLING,
             payload: chunk

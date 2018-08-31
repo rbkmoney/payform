@@ -1,7 +1,5 @@
-import { InvoiceChange } from './invoice-change';
-
-export class Event {
+export abstract class Event<T> {
     id: number;
     createdAt: string;
-    changes: InvoiceChange[];
+    changes: T[];
 }

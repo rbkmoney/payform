@@ -1,5 +1,5 @@
 import {
-    Event,
+    InvoiceEvent,
     InvoiceChangeType,
     PayerType,
     PaymentResourcePayer,
@@ -28,7 +28,7 @@ const toDetailsInfo = (details: PaymentToolDetails): string => {
     }
 };
 
-const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
+const getPaymentToolDetails = (e: InvoiceEvent[]): PaymentToolDetails => {
     const change = findChange(e, InvoiceChangeType.PaymentStarted) as PaymentStarted;
     const payer = change.payment.payer;
     switch (payer.payerType) {
@@ -40,7 +40,7 @@ const getPaymentToolDetails = (e: Event[]): PaymentToolDetails => {
     throw new Error('Unsupported PayerType');
 };
 
-export const getInvoicePaymentDetails = (e: Event[]): PaymentDetailsInfo => {
+export const getInvoicePaymentDetails = (e: InvoiceEvent[]): PaymentDetailsInfo => {
     const paymentToolDetails = getPaymentToolDetails(e);
     const info = toDetailsInfo(paymentToolDetails);
     return { type: paymentToolDetails.detailsType, info };

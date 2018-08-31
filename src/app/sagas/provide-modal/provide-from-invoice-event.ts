@@ -1,13 +1,13 @@
 import { put, PutEffect } from 'redux-saga/effects';
 import last from 'lodash-es/last';
-import { Event, InvoiceChangeType, PaymentInteractionRequested } from 'checkout/backend';
+import { InvoiceEvent, InvoiceChangeType, PaymentInteractionRequested } from 'checkout/backend';
 import { Direction, GoToFormInfo, TypeKeys, SetModalState } from 'checkout/actions';
 import { ResultFormInfo, ResultType } from 'checkout/state';
 import { providePaymentInteraction } from './provide-interaction';
 
 type SetStateFromEvents = GoToFormInfo | SetModalState;
 
-const toPayload = (event: Event): SetStateFromEvents => {
+const toPayload = (event: InvoiceEvent): SetStateFromEvents => {
     const change = last(event.changes);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
@@ -29,6 +29,6 @@ const toPayload = (event: Event): SetStateFromEvents => {
     }
 };
 
-export function* provideFromInvoiceEvent(event: Event): Iterator<PutEffect<SetStateFromEvents>> {
+export function* provideFromInvoiceEvent(event: InvoiceEvent): Iterator<PutEffect<SetStateFromEvents>> {
     return yield put(toPayload(event));
 }
