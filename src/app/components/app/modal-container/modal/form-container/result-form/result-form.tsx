@@ -52,9 +52,9 @@ class ResultFormDef extends React.Component<ResultFormProps> {
                 switch (integrationType) {
                     case IntegrationType.invoice:
                     case IntegrationType.invoiceTemplate:
-                        return makeContentInvoice(locale, events.invoiceEvents, events.invoiceEventsStatus);
+                        return makeContentInvoice(locale, events.events, events.status);
                     case IntegrationType.customer:
-                        return makeContentCustomer(locale, events.customerEvents, events.customerEventsStatus);
+                        return makeContentCustomer(locale, events.events, events.status);
                 }
         }
     }

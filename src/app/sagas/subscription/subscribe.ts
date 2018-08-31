@@ -22,10 +22,10 @@ export function* subscribe(action: SubscriptionRequested): Iterator<SubscribeEff
         const config = yield select((s: State) => s.config);
         yield put({ type: TypeKeys.PREPARE_TO_PAY } as PrepareToPay);
         yield call(provideSubscription, config, action.payload);
-        const customerEventsStatus = yield select((state: State) => state.events.customerEventsStatus);
+        const customerEventsStatus = yield select((state: State) => state.events.status);
         switch (customerEventsStatus) {
             case EventsStatus.polled:
-                const event = yield select((s: State) => last(s.events.customerEvents));
+                const event = yield select((s: State) => last(s.events.events));
                 yield call(provideFromCustomerEvent, event);
                 yield put({ type: TypeKeys.SUBSCRIPTION_COMPLETED } as SubscriptionCompleted);
                 break;

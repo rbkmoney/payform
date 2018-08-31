@@ -10,8 +10,8 @@ export const getErrorCodeFromEvents = (events: EventsState, integrationType: Int
     switch (integrationType) {
         case IntegrationType.invoice:
         case IntegrationType.invoiceTemplate:
-            return getCode(events.invoiceEvents);
+            return getCode(events.events);
         case IntegrationType.customer:
-            return getCode(events.customerEvents);
+            return getCode(events.events);
     }
 };

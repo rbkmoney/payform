@@ -8,10 +8,10 @@ import { provideFromInvoiceEvent, provideFromCustomerEvent } from '../provide-mo
 
 function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) {
     yield call(pollInvoiceEvents, capiEndpoint, token, invoiceID);
-    const invoiceEventsStatus = yield select((state: State) => state.events.invoiceEventsStatus);
+    const invoiceEventsStatus = yield select((state: State) => state.events.status);
     switch (invoiceEventsStatus) {
         case EventsStatus.polled:
-            const event = yield select((state: State) => last(state.events.invoiceEvents));
+            const event = yield select((state: State) => last(state.events.events));
             yield call(provideFromInvoiceEvent, event);
             break;
         case EventsStatus.timeout:
@@ -22,10 +22,10 @@ function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) 
 
 function* finishCustomer(capiEndpoint: string, token: string, customerID: string) {
     yield call(pollCustomerEvents, capiEndpoint, token, customerID);
-    const customerEventsStatus = yield select((state: State) => state.events.customerEventsStatus);
+    const customerEventsStatus = yield select((state: State) => state.events.status);
     switch (customerEventsStatus) {
         case EventsStatus.polled:
-            const event = yield select((state: State) => last(state.events.customerEvents));
+            const event = yield select((state: State) => last(state.events.events));
             yield call(provideFromCustomerEvent, event);
             break;
         case EventsStatus.timeout:

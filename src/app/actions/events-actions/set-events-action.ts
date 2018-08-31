@@ -1,8 +1,8 @@
 import { TypeKeys } from '../type-keys';
 import { AbstractAction } from '..';
-import { InvoiceEvent } from 'checkout/backend/model';
+import { CustomerEvent, InvoiceEvent } from 'checkout/backend/model';
 
-interface SetEventsInitActions extends AbstractAction<InvoiceEvent[]> {
+interface SetEventsInitActions extends AbstractAction<InvoiceEvent[] | CustomerEvent[]> {
     type: TypeKeys.EVENTS_INIT | TypeKeys.EVENTS_POLLING;
 }
 

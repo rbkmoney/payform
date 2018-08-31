@@ -24,9 +24,7 @@ const isStop = (event: InvoiceEvent): boolean => {
 };
 
 function* getLastEventID(): Iterator<SelectEffect | number> {
-    return yield select(
-        ({ events: { invoiceEvents: events } }: State) => (events && events.length > 0 ? last(events).id : 0)
-    );
+    return yield select(({ events: { events: events } }: State) => (events && events.length > 0 ? last(events).id : 0));
 }
 
 function* poll(

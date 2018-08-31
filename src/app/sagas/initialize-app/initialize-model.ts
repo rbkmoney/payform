@@ -19,7 +19,7 @@ import {
     InvoiceInitConfig,
     InvoiceTemplateInitConfig
 } from 'checkout/config';
-import { InitializeModelCompleted, SetCustomerEventsAction, SetEventsAction, TypeKeys } from 'checkout/actions';
+import { InitializeModelCompleted, SetEventsAction, TypeKeys } from 'checkout/actions';
 import { EventsState, ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
@@ -47,19 +47,19 @@ export function* resolveInvoiceTemplate(
 export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): Iterator<AllEffect | ModelChunk> {
     const token = config.invoiceAccessToken;
     const id = config.invoiceID;
-    const [invoice, invoiceEvents, paymentMethods] = yield all([
+    const [invoice, events, paymentMethods] = yield all([
         call(getInvoiceByID, endpoint, token, id),
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    return { paymentMethods, invoiceEvents, invoiceAccessToken: config.invoiceAccessToken, invoice };
+    return { paymentMethods, events, invoiceAccessToken: config.invoiceAccessToken, invoice };
 }
 
 export function* resolveCustomer(endpoint: string, config: CustomerInitConfig): Iterator<CallEffect | ModelChunk> {
     const token = config.customerAccessToken;
     const id = config.customerID;
-    const customerEvents = yield call(getCustomerEvents, endpoint, token, id);
-    return { customerEvents };
+    const events = yield call(getCustomerEvents, endpoint, token, id);
+    return { events };
 }
 
 export function* resolveIntegrationType(endpoint: string, config: InitConfig): Iterator<CallEffect | ModelChunk> {
@@ -80,14 +80,13 @@ export function* resolveIntegrationType(endpoint: string, config: InitConfig): I
 
 export type InitializeEffect =
     | CallEffect
-    | PutEffect<InitializeModelCompleted | SetEventsAction | SetCustomerEventsAction>
+    | PutEffect<InitializeModelCompleted | SetEventsAction | SetEventsAction>
     | SelectEffect
     | { model: ModelState; events: EventsState };
 
 export function* initializeModel(endpoint: string, config: InitConfig): Iterator<InitializeEffect> {
-    const { invoiceEvents, customerEvents, ...modelChunk } = yield call(resolveIntegrationType, endpoint, config);
+    const { events, ...modelChunk } = yield call(resolveIntegrationType, endpoint, config);
     yield put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: modelChunk } as InitializeModelCompleted);
-    yield put({ type: TypeKeys.EVENTS_INIT, payload: invoiceEvents } as SetEventsAction);
-    yield put({ type: TypeKeys.CUSTOMER_EVENTS_INIT, payload: customerEvents } as SetCustomerEventsAction);
-    return yield select(({ model, events }: State) => ({ model, events }));
+    yield put({ type: TypeKeys.EVENTS_INIT, payload: events } as SetEventsAction);
+    return yield select((s: State) => ({ model: s.model, events: s.events }));
 }

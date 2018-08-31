@@ -20,10 +20,10 @@ export function* initializeModal(
             initializedModals = yield call(toInitialState, methods, initialPaymentMethod);
             break;
         case IntegrationType.invoice:
-            initializedModals = yield call(initFromInvoiceEvents, events.invoiceEvents, methods, initialPaymentMethod);
+            initializedModals = yield call(initFromInvoiceEvents, events.events, methods, initialPaymentMethod);
             break;
         case IntegrationType.customer:
-            initializedModals = initFromCustomerEvents(events.customerEvents);
+            initializedModals = initFromCustomerEvents(events.events);
             break;
         default:
             throw { code: 'error.unsupported.integration.type' };
