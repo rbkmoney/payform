@@ -1,7 +1,9 @@
-import { InvoiceChange } from './invoice-change';
+interface Change {
+    changeType: any;
+}
 
-export class Event {
+export abstract class Event<T extends Change = Change> {
     id: number;
     createdAt: string;
-    changes: InvoiceChange[];
+    changes: T[];
 }

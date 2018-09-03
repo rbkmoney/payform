@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as styles from '../result-form.scss';
-import { Event, PaymentToolDetailsType } from 'checkout/backend';
+import { InvoiceEvent, PaymentToolDetailsType } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { getInvoicePaymentDetails } from './payment-details';
 import { logPrefix } from 'checkout/log-messages';
 
-const getPaymentMethodDescription = (l: Locale, e: Event[]): string => {
+const getPaymentMethodDescription = (l: Locale, e: InvoiceEvent[]): string => {
     const details = getInvoicePaymentDetails(e);
     switch (details.type) {
         case PaymentToolDetailsType.PaymentToolDetailsBankCard:
@@ -20,7 +20,7 @@ const getPaymentMethodDescription = (l: Locale, e: Event[]): string => {
     }
 };
 
-export const getSuccessDescription = (l: Locale, e: Event[]): JSX.Element => (
+export const getSuccessDescription = (l: Locale, e: InvoiceEvent[]): JSX.Element => (
     <p className={styles.text}>
         {getPaymentMethodDescription(l, e)}
         <br />

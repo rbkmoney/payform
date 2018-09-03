@@ -1,18 +1,37 @@
+import { last } from 'lodash-es';
 import { call, CallEffect, ForkEffect, put, select, takeLatest } from 'redux-saga/effects';
-import { TypeKeys } from 'checkout/actions';
-import { ConfigState, ModelState, State } from 'checkout/state';
+import { goToFormInfo, TypeKeys } from 'checkout/actions';
+import { ConfigState, ModelState, ResultFormInfo, ResultType, State, EventsStatus } from 'checkout/state';
 import { pollCustomerEvents, pollInvoiceEvents } from '../poll-events';
 import { CustomerInitConfig, IntegrationType } from 'checkout/config';
 import { provideFromInvoiceEvent, provideFromCustomerEvent } from '../provide-modal';
 
 function* finishInvoice(capiEndpoint: string, token: string, invoiceID: string) {
-    const event = yield call(pollInvoiceEvents, capiEndpoint, token, invoiceID);
-    return yield call(provideFromInvoiceEvent, event);
+    yield call(pollInvoiceEvents, capiEndpoint, token, invoiceID);
+    const invoiceEventsStatus = yield select((state: State) => state.events.status);
+    switch (invoiceEventsStatus) {
+        case EventsStatus.polled:
+            const event = yield select((state: State) => last(state.events.events));
+            yield call(provideFromInvoiceEvent, event);
+            break;
+        case EventsStatus.timeout:
+            yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
+            break;
+    }
 }
 
 function* finishCustomer(capiEndpoint: string, token: string, customerID: string) {
-    const event = yield call(pollCustomerEvents, capiEndpoint, token, customerID);
-    return yield call(provideFromCustomerEvent, event);
+    yield call(pollCustomerEvents, capiEndpoint, token, customerID);
+    const customerEventsStatus = yield select((state: State) => state.events.status);
+    switch (customerEventsStatus) {
+        case EventsStatus.polled:
+            const event = yield select((state: State) => last(state.events.events));
+            yield call(provideFromCustomerEvent, event);
+            break;
+        case EventsStatus.timeout:
+            yield put(goToFormInfo(new ResultFormInfo(ResultType.processed)));
+            break;
+    }
 }
 
 function* resolve(config: ConfigState, model: ModelState): Iterator<CallEffect> {

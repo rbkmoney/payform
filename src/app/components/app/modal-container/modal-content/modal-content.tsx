@@ -5,17 +5,8 @@ import { connect } from 'react-redux';
 import { Modal } from '../modal';
 import { Footer } from '../footer';
 import { UserInteractionModal } from '../user-interaction-modal';
-import {
-    ErrorStatus,
-    ModalName,
-    ModalState,
-    State,
-    FormInfo,
-    ResultFormInfo,
-    ResultType,
-    ModalInteraction
-} from 'checkout/state';
-import { acceptError, goToFormInfo, finishInteraction } from 'checkout/actions';
+import { ModalName, ModalState, State, ModalInteraction } from 'checkout/state';
+import { finishInteraction } from 'checkout/actions';
 import { ModalLoader } from 'checkout/components/app/modal-container/modal-loader';
 import * as styles from 'checkout/components/app/modal-container/modal-container.scss';
 import { CSSTransitionGroup } from 'react-transition-group';
@@ -23,9 +14,6 @@ import { Close } from 'checkout/components/app/modal-container/modal/close';
 
 export interface ModalContentProps {
     activeModal: ModalState;
-    unhandledError: boolean;
-    goToFormInfo: (formInfo: FormInfo) => any;
-    acceptError: () => any;
     finishInteraction: () => any;
     inFrame?: boolean;
 }
@@ -37,14 +25,6 @@ class ModalContentDef extends React.Component<ModalContentProps> {
                 this.props.finishInteraction();
             }
         });
-    }
-
-    componentWillReceiveProps(props: ModalContentProps) {
-        // TODO fix it
-        if (props.unhandledError) {
-            props.goToFormInfo(new ResultFormInfo(ResultType.error));
-            props.acceptError();
-        }
     }
 
     render() {
@@ -95,13 +75,10 @@ class ModalContentDef extends React.Component<ModalContentProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    activeModal: state.modals.find((modal) => modal.active),
-    unhandledError: state.error && state.error.status === ErrorStatus.unhandled
+    activeModal: state.modals.find((modal) => modal.active)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
-    goToFormInfo: bindActionCreators(goToFormInfo, dispatch),
-    acceptError: bindActionCreators(acceptError, dispatch),
     finishInteraction: bindActionCreators(finishInteraction, dispatch)
 });
 

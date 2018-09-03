@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum ResultFormType {
     ERROR = 'error',
     WARNING = 'warning',
@@ -8,6 +10,6 @@ export interface ResultFormContent {
     hasActions: boolean;
     hasDone: boolean;
     header: string;
-    description?: JSX.Element;
+    description?: ReactNode;
     type: ResultFormType;
 }

@@ -2,16 +2,17 @@ import * as React from 'react';
 import { Locale } from 'checkout/locale';
 import * as styles from '../result-form.scss';
 import {
-    CustomerChangeType,
-    CustomerEvent,
+    CustomerBindingStatus,
     CustomerBindingStatusChanged,
-    CustomerBindingStatus
+    CustomerChangeType,
+    CustomerEvent
 } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
 import { getCustomerPaymentDetails } from './payment-details';
 import { getFailedDescription } from './get-failed-description';
 import { ResultFormType } from 'checkout/components/app/modal-container/modal/form-container/result-form/make-content/result-form-content';
+import { EventsStatus } from 'checkout/state';
 
 const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
     <p className={styles.text}>
@@ -43,6 +44,13 @@ const started = (l: Locale, e: CustomerEvent[]): ResultFormContent => ({
     type: ResultFormType.WARNING
 });
 
+export const pending = (l: Locale): ResultFormContent => ({
+    hasActions: false,
+    hasDone: false,
+    header: l['form.header.final.pending.label'],
+    type: ResultFormType.WARNING
+});
+
 const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFormContent => {
     const change = getLastChange(e) as CustomerBindingStatusChanged;
     switch (change.status) {
@@ -55,13 +63,20 @@ const makeFromCustomerBindingChange = (l: Locale, e: CustomerEvent[]): ResultFor
     }
 };
 
-export const makeContentCustomer = (l: Locale, e: CustomerEvent[]): ResultFormContent => {
-    const change = getLastChange(e);
-    switch (change.changeType) {
-        case CustomerChangeType.CustomerBindingStatusChanged:
-            return makeFromCustomerBindingChange(l, e);
-        case CustomerChangeType.CustomerBindingStarted:
-            return started(l, e);
+export const makeContentCustomer = (l: Locale, e: CustomerEvent[], eventsStatus: EventsStatus): ResultFormContent => {
+    switch (eventsStatus) {
+        case EventsStatus.init:
+        case EventsStatus.polled:
+            const change = getLastChange(e);
+            switch (change.changeType) {
+                case CustomerChangeType.CustomerBindingStatusChanged:
+                    return makeFromCustomerBindingChange(l, e);
+                case CustomerChangeType.CustomerBindingStarted:
+                    return started(l, e);
+            }
+            throw new Error('Unsupported CustomerChangeType');
+        case EventsStatus.timeout:
+            return pending(l);
     }
-    throw new Error('Unsupported CustomerChangeType');
+    throw new Error('Unsupported eventsStatus');
 };

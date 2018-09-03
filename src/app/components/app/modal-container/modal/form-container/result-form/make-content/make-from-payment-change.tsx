@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Locale } from 'checkout/locale';
-import { Event, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses } from 'checkout/backend';
+import { InvoiceEvent, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';
 import { getFailedDescription } from './get-failed-description';
 import { getSuccessDescription } from './get-success-description';
@@ -36,7 +36,7 @@ export const failed = (l: Locale, e: PaymentError | LogicError): ResultFormConte
     type: ResultFormType.ERROR
 });
 
-const processed = (l: Locale, e: Event[]): ResultFormContent => ({
+const processed = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
     hasActions: false,
     hasDone: true,
     header: l['form.header.final.success.label'],
@@ -44,7 +44,7 @@ const processed = (l: Locale, e: Event[]): ResultFormContent => ({
     type: ResultFormType.SUCCESS
 });
 
-export const makeFromPaymentChange = (l: Locale, e: Event[]) => {
+export const makeFromPaymentChange = (l: Locale, e: InvoiceEvent[]) => {
     const change = getLastChange(e) as PaymentStatusChanged;
     switch (change.status) {
         case PaymentStatuses.failed:

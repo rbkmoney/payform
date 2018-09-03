@@ -23,6 +23,8 @@ describe('initialize', () => {
     const model = {
         paymentMethods: 'paymentMethodsMock'
     } as any;
+    const events = 'events' as any;
+    const fullModel = { model, events } as any;
     const configChunk = {
         appConfig: {
             capiEndpoint: 'capiEndpointMock'
@@ -44,7 +46,7 @@ describe('initialize', () => {
     });
 
     it('should call checkInitConfig', () => {
-        const actual = iterator.next(model).value;
+        const actual = iterator.next(fullModel).value;
         const expected = call(checkInitConfig, userInitConfig, model);
         expect(actual).toEqual(expected);
     });
@@ -70,7 +72,7 @@ describe('initialize', () => {
     it('should call initializeModal', () => {
         const methods = 'methodsMock' as any;
         const actual = iterator.next(methods).value;
-        const expected = call(initializeModal, initConfig, model, methods);
+        const expected = call(initializeModal, initConfig, events, methods);
         expect(actual).toEqual(expected);
     });
 });

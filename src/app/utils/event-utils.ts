@@ -11,7 +11,7 @@ interface EventLike {
 }
 
 // TODO fix it
-export const mergeEvents = (stateEvents: EventLike[], actionEvents: EventLike[]): EventLike[] => {
+export const mergeEvents = <T extends EventLike = EventLike>(stateEvents: T[], actionEvents: T[]): T[] => {
     const first = actionEvents[0];
     const sliced = stateEvents ? stateEvents.slice(0, first ? first.id : undefined) : [];
     return sliced.concat(actionEvents);

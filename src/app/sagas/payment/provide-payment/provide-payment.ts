@@ -1,6 +1,6 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { AmountInfoState, ConfigState, ModelState, PayableFormValues, PaymentMethodName } from 'checkout/state';
-import { Event } from 'checkout/backend';
+import { InvoiceEvent } from 'checkout/backend';
 import { payWithApplePay } from './pay-with-apple-pay';
 import { payWithBankCard } from './pay-with-bank-card';
 import { payWithDigitalWalletQiwi } from './pay-with-digital-wallet-qiwi';
@@ -8,7 +8,7 @@ import { payWithTerminalEuroset } from './pay-with-terminal-euroset';
 import { payWithGooglePay } from './pay-with-google-pay';
 import { payWithSamsungPay } from './pay-with-samsung-pay';
 
-export type ProvidePaymentEffects = CallEffect | Event;
+export type ProvidePaymentEffects = CallEffect | InvoiceEvent;
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
