@@ -8,10 +8,9 @@ import { checkInitialPaymentMethod } from './check-initial-payment-method';
 
 type CheckFn = () => CheckResult;
 
-const checkAndLog = (paramName: string, initConfig: InitConfig, checkFn: CheckFn): boolean => {
-    const usableByIndex = initConfig as any;
+const checkAndLog = (paramName: keyof InitConfig, initConfig: InitConfig, checkFn: CheckFn): boolean => {
     let result = false;
-    if (!isNil(usableByIndex[paramName])) {
+    if (!isNil(initConfig[paramName])) {
         const checkResult = checkFn();
         checkResult.available ? (result = true) : logUnavailableResult(paramName, checkResult);
     }
