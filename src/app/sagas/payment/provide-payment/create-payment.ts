@@ -1,13 +1,20 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import { PaymentResource, PaymentFlow, PayerType, createPayment as request, FlowType } from 'checkout/backend';
+import {
+    PaymentResource,
+    PaymentFlow,
+    PayerType,
+    createPayment as request,
+    FlowType,
+    PaymentFlowHold
+} from 'checkout/backend';
 import { Payment } from 'checkout/backend/model';
 import { InitConfig } from 'checkout/config';
 
 type Effects = CallEffect | Payment;
 
 const toPaymentFlow = (c: InitConfig): PaymentFlow => {
-    const instant = { type: FlowType.PaymentFlowInstant };
-    const hold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
+    const instant: PaymentFlow = { type: FlowType.PaymentFlowInstant, isRecurring: c.recurring };
+    const hold: PaymentFlowHold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;
 };
 
