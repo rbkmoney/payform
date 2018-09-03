@@ -128,7 +128,7 @@ describe('resolveInvoice', () => {
         const invoice = 'mock invoice';
         const actual = iterator.next([invoice, invoiceEvents, paymentMethods]);
         const expected = {
-            invoiceEvents,
+            events: invoiceEvents,
             paymentMethods,
             invoiceAccessToken: initConfigInvoice.invoiceAccessToken,
             invoice
@@ -152,7 +152,7 @@ describe('resolveCustomer', () => {
     it('should return model chunk', () => {
         const customerEvents = 'events mock';
         const actual = iterator.next(customerEvents);
-        const expected = { customerEvents };
+        const expected = { events: customerEvents };
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBe(true);
     });
