@@ -20,13 +20,14 @@ export function* createPayment(
     initConfig: InitConfig
 ): Iterator<Effects> {
     const email = initConfig.email || formEmail;
-    const { paymentToolToken, paymentSession } = resource;
+    const { paymentToolToken, paymentSession, recurringSession } = resource;
+    const sessionParams = initConfig.recurring ? { recurringSession } : { paymentSession };
     const params = {
         flow: toPaymentFlow(initConfig),
         payer: {
             payerType: PayerType.PaymentResourcePayer,
             paymentToolToken,
-            paymentSession,
+            ...sessionParams,
             contactInfo: {
                 email
             }
