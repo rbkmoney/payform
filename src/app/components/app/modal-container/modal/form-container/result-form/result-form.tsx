@@ -69,7 +69,7 @@ const mapStateToProps = (state: State) => {
         error: state.error ? state.error.error : null,
         resultFormInfo: findNamed(info, FormName.resultForm) as ResultFormInfo,
         hasErrorDescription: isHelpAvailable(
-            getErrorCodeFromEvents(state.events, state.config.initConfig.integrationType)
+            getErrorCodeFromEvents(state.events.events, state.config.initConfig.integrationType)
         ),
         hasMultiMethods: !!findNamed(info, FormName.paymentMethods)
     };

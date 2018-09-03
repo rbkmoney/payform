@@ -37,7 +37,7 @@ const HelpDef: React.SFC<HelpDefProps> = (props) => {
 };
 
 const mapStateToProps = (s: State) => ({
-    errorCode: getErrorCodeFromEvents(s.events, s.config.initConfig.integrationType),
+    errorCode: getErrorCodeFromEvents(s.events.events, s.config.initConfig.integrationType),
     locale: s.config.locale
 });
 
