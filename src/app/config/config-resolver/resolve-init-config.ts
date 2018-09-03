@@ -32,7 +32,8 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         paymentFlowHold,
         holdExpiration,
         locale,
-        initialPaymentMethod
+        initialPaymentMethod,
+        isRecurring
     } = userConfig;
     return {
         ...resolvedIntegrationType,
@@ -55,6 +56,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
             HoldExpirationType.cancel
         ),
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
-        initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName
+        initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
+        recurring: setDefault(resolveBoolean(isRecurring, 'isRecurring'), false)
     };
 };
