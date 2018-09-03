@@ -1,7 +1,5 @@
 import { all, AllEffect, call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects';
 import {
-    CustomerEvent,
-    InvoiceEvent,
     InvoiceTemplate,
     PaymentMethod,
     Invoice,
@@ -10,7 +8,8 @@ import {
     getInvoicePaymentMethods,
     getInvoicePaymentMethodsByTemplateID,
     getInvoiceTemplateByID,
-    getInvoiceByID
+    getInvoiceByID,
+    Event
 } from 'checkout/backend';
 import {
     CustomerInitConfig,
@@ -24,10 +23,9 @@ import { EventsState, ModelState, State } from 'checkout/state';
 
 export interface ModelChunk {
     invoiceTemplate?: InvoiceTemplate;
-    invoiceEvents?: InvoiceEvent[];
+    events?: Event[];
     paymentMethods?: PaymentMethod[];
     invoiceAccessToken?: string;
-    customerEvents?: CustomerEvent[];
     invoice?: Invoice;
 }
 
@@ -52,7 +50,7 @@ export function* resolveInvoice(endpoint: string, config: InvoiceInitConfig): It
         call(getInvoiceEvents, endpoint, token, id),
         call(getInvoicePaymentMethods, endpoint, token, id)
     ]);
-    return { paymentMethods, events, invoiceAccessToken: config.invoiceAccessToken, invoice };
+    return { paymentMethods, events, invoiceAccessToken: token, invoice };
 }
 
 export function* resolveCustomer(endpoint: string, config: CustomerInitConfig): Iterator<CallEffect | ModelChunk> {
