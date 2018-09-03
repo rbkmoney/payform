@@ -4,7 +4,7 @@ import { SetEventsAction } from 'checkout/actions';
 import { mergeEvents } from 'checkout/utils';
 import { Event } from 'checkout/backend';
 
-export function eventsReducer(s: EventsState, action: SetEventsAction): EventsState {
+export function eventsReducer(s: EventsState = {}, action: SetEventsAction): EventsState {
     switch (action.type) {
         case TypeKeys.EVENTS_INIT:
             return {
