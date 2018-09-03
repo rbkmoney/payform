@@ -63,6 +63,7 @@ it('should return resolved init config', () => {
         googlePay: true,
         samsungPay: true,
         paymentFlowHold: false,
+        recurring: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',
         initialPaymentMethod: PaymentMethodName.bankCard
