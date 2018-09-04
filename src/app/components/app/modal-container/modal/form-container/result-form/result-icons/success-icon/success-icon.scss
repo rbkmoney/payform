@@ -4,19 +4,6 @@
 .success {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
     display: block;
     margin: auto;
-    animation: fillGreen 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.6s both;
-
-    circle {
-        fill: $green-v2;
-    }
-
-    path {
-        transform-origin: 50% 50%;
-        stroke-dasharray: 61;
-        stroke-dashoffset: 61;
-        animation: stroke 0.3s $curve 0.5s forwards;
-    }
 }
