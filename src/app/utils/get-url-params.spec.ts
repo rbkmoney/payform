@@ -3,7 +3,7 @@ import { getUrlParams } from './get-url-params';
 it('URL with some params', () => {
     const url = 'http://test.ru/test/a/b?a=a&b=1&c=!@+';
     const actual = getUrlParams(url);
-    expect(actual).toEqual({ a: 'a', b: '1', c: '!@+' });
+    expect(actual).toEqual({ a: 'a', b: 1, c: '!@+' });
 });
 
 it('URL with "="', () => {
