@@ -1,6 +1,6 @@
 import { initialize, Transport } from 'cross-origin-communicator';
 import { communicatorInstanceName, ConnectData, Event, ResultData, Type } from '../constants/samsung-pay-communicator';
-import { deserialize } from '../app/utils/uri-serializer';
+import { getUrlParams } from '../app/utils/get-url-params';
 
 declare const SamsungPay: {
     connect: (
@@ -23,7 +23,7 @@ class App {
         try {
             let params: { type?: Type; ref_id?: string };
             try {
-                params = deserialize(window.document.location.href);
+                params = getUrlParams(window.document.location.href);
             } catch (e) {
                 params = {};
             }

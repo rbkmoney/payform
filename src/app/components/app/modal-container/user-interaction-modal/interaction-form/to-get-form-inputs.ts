@@ -1,5 +1,5 @@
 import { BrowserGetRequest } from 'checkout/backend';
-import { deserialize } from 'checkout/utils';
+import { getUrlParams } from 'checkout/utils';
 import { expandWithRedirect, hasTerminationUriTemplate } from './uri-template';
 
 const createInput = (name: string, value: any): HTMLInputElement => {
@@ -10,11 +10,11 @@ const createInput = (name: string, value: any): HTMLInputElement => {
 };
 
 export const toGetFormInputs = (origin: string, request: BrowserGetRequest): HTMLInputElement[] => {
-    const params = deserialize(request.uriTemplate);
+    const params = getUrlParams(request.uriTemplate);
     return Object.keys(params).map((fieldName) => {
         const value = params[fieldName];
         return hasTerminationUriTemplate(value)
-            ? createInput(fieldName, expandWithRedirect(origin, value, true))
+            ? createInput(fieldName, expandWithRedirect(origin, value as string, true))
             : createInput(fieldName, value);
     });
 };
