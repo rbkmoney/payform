@@ -1,5 +1,5 @@
 import { listen, Transport } from 'cross-origin-communicator';
-import { deserialize } from 'checkout/utils';
+import { getUrlParams } from 'checkout/utils';
 import { isInFrame } from '../is-in-iframe';
 import { getOrigin } from '../get-origin';
 import { StubTransport } from './stub-transport';
@@ -22,7 +22,7 @@ const resolveUriParams = async (): Promise<[Transport, UserConfig]> => {
     } catch (e) {
         transport = new StubTransport();
     }
-    const userConfig: UserConfig = deserialize(location.search);
+    const userConfig: UserConfig = getUrlParams(location.search);
     return [transport, userConfig];
 };
 
