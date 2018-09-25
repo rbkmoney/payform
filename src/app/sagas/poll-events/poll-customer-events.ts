@@ -1,6 +1,6 @@
-import { last } from 'lodash-es';
+import last from 'lodash-es/last';
 import { delay } from 'redux-saga';
-import { call, CallEffect, put, PutEffect, race, RaceEffect, select, SelectEffect } from 'redux-saga/effects';
+import { call, put, race, select, CallEffect, PutEffect, RaceEffect, SelectEffect } from 'redux-saga/effects';
 import { CustomerChangeType, CustomerEvent, getCustomerEvents } from 'checkout/backend';
 import { SetEventsAction, TypeKeys } from 'checkout/actions';
 import { State } from 'checkout/state';
@@ -50,7 +50,7 @@ export function* pollCustomerEvents(
     endpoint: string,
     token: string,
     invoiceID: string
-): Iterator<PutEffect<SetEventsAction> | RaceEffect> {
+): Iterator<RaceEffect | PutEffect<SetEventsAction>> {
     const [result] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
     if (result) {
         return yield put({

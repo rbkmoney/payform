@@ -1,7 +1,6 @@
-import { call } from 'redux-saga/effects';
+import { call, CallEffect } from 'redux-saga/effects';
 import { AmountInfoState, ModelState, WalletFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { ProvidePaymentEffects } from './provide-payment';
 import { createDigitalWalletQiwi } from '../../create-payment-resource';
 import { makePayment } from './make-payment';
 
@@ -13,7 +12,7 @@ export function* payWithDigitalWalletQiwi(
     m: ModelState,
     a: AmountInfoState,
     v: WalletFormValues
-): Iterator<ProvidePaymentEffects> {
+): Iterator<CallEffect> {
     const fn = createPaymentResource(c.appConfig.capiEndpoint, v);
-    return yield call(makePayment, c, m, v, a, fn);
+    yield call(makePayment, c, m, v, a, fn);
 }
