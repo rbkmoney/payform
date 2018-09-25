@@ -20,7 +20,11 @@ const toLogicError = (errorEvent: any): LogicError => {
     }
 };
 
-const begin = (session: ApplePaySession, validationEndpoint: string, payload: ApplePayPayload): Promise<ApplePayPayment> =>
+const begin = (
+    session: ApplePaySession,
+    validationEndpoint: string,
+    payload: ApplePayPayload
+): Promise<ApplePayPayment> =>
     new Promise((resolve, reject) => {
         session.onvalidatemerchant = (event) =>
             validateMerchant(validationEndpoint, payload, event.validationURL)
