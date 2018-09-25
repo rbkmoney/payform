@@ -19,7 +19,9 @@ export const getUrlParams = (url: string): URLParams => {
             const paramsStr = urlParts[1];
             const paramsPartsStr = paramsStr.split('&');
             for (const paramStr of paramsPartsStr) {
-                const [name, value] = splitByFirst(paramStr, '=') as [string, string | undefined];
+                const [encodedName, encodedValue] = splitByFirst(paramStr, '=') as [string, string | undefined];
+                const name = decodeURIComponent(encodedName);
+                const value = decodeURIComponent(encodedValue);
                 switch (value) {
                     case 'true':
                         params[name] = true;

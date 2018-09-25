@@ -79,3 +79,21 @@ it('Only URL params without first ?', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({});
 });
+
+it('Decoded param', () => {
+    const url = 'http://test.com/test?email=test@test.ru';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ email: 'test@test.ru' });
+});
+
+it('Encoded param', () => {
+    const url = 'http://test.com/test?email=test%40test.ru';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ email: 'test@test.ru' });
+});
+
+it('Encoded param name', () => {
+    const url = 'http://test.com/test?test%40test.ru=test%40test.ru';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ 'test@test.ru': 'test@test.ru' });
+});
