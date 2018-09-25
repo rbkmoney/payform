@@ -14,7 +14,7 @@ export const toGetFormInputs = (origin: string, request: BrowserGetRequest): HTM
     return Object.keys(params).map((fieldName) => {
         const value = params[fieldName];
         return hasTerminationUriTemplate(value)
-            ? createInput(fieldName, expandWithRedirect(origin, value, true))
+            ? createInput(fieldName, expandWithRedirect(origin, value as string, true))
             : createInput(fieldName, value);
     });
 };
