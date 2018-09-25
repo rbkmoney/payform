@@ -1,7 +1,7 @@
 import { splitByFirst } from './split-by-first';
 
 interface URLParams {
-    [param: string]: string;
+    [param: string]: boolean | string | number | null | undefined;
 }
 
 export const getUrlParams = (url: string): URLParams => {
@@ -19,7 +19,27 @@ export const getUrlParams = (url: string): URLParams => {
         const paramsPartsStr = paramsStr.split('&');
         for (const paramStr of paramsPartsStr) {
             const [name, value] = splitByFirst(paramStr, '=') as [string, string | undefined];
-            params[name] = value;
+            switch (value) {
+                case 'true':
+                    params[name] = true;
+                    break;
+                case 'false':
+                    params[name] = false;
+                    break;
+                case 'undefined':
+                    params[name] = undefined;
+                    break;
+                case 'null':
+                    params[name] = null;
+                    break;
+                default:
+                    if (value !== '' && !isNaN(value as any)) {
+                        params[name] = parseFloat(value);
+                        break;
+                    }
+                    params[name] = value;
+                    break;
+            }
         }
     }
     return params;

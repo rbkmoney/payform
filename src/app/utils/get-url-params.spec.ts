@@ -29,3 +29,29 @@ it('Empty params', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({});
 });
+
+it('Number, string, boolean, null, undefined params', () => {
+    const url = 'http://test.ru/test?float=24.5&integer=123&str=hello&bool=false&bool2=true&null=null&undef=undefined';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({
+        bool: false,
+        bool2: true,
+        float: 24.5,
+        integer: 123,
+        null: null,
+        str: 'hello',
+        undef: undefined
+    });
+});
+
+it('Bad number', () => {
+    const url = 'http://test.ru/test?badNum=24.5x';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ badNum: '24.5x' });
+});
+
+it('Last &', () => {
+    const url = 'http://test.ru/test?num=24.5&';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ num: 24.5, '': undefined });
+});
