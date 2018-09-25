@@ -13,12 +13,12 @@ const decodeURIWithLogError = (uri: string): string => {
     }
 };
 
-const decodeURIComponentWithLogError = (encodedValue: string): string => {
+const decodeURIComponentWithLogError = (value: string): string => {
     try {
-        return decodeURIComponent(encodedValue);
+        return decodeURIComponent(value);
     } catch (e) {
         console.error(e);
-        return encodedValue;
+        return value;
     }
 };
 
