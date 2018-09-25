@@ -67,3 +67,15 @@ it('Only URL like params', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({});
 });
+
+it('Only URL params', () => {
+    const url = '?a=111';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ a: 111 });
+});
+
+it('Only URL params without first ?', () => {
+    const url = 'a=111';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({});
+});
