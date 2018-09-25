@@ -4,36 +4,36 @@ interface URLParams {
     [param: string]: boolean | string | number | null | undefined;
 }
 
+const decodeURIWithLogError = (uri: string): string => {
+    try {
+        return decodeURI(uri);
+    } catch (e) {
+        console.error(e);
+        return uri;
+    }
+};
+
+const decodeURIComponentWithLogError = (encodedValue: string): string => {
+    try {
+        return decodeURIComponent(encodedValue);
+    } catch (e) {
+        console.error(e);
+        return encodedValue;
+    }
+};
+
 export const getUrlParams = (url: string): URLParams => {
     const params: URLParams = {};
     if (url && typeof url === 'string') {
-        let decodedUrl;
-        try {
-            decodedUrl = decodeURI(url);
-        } catch (e) {
-            console.error(e);
-            decodedUrl = url;
-        }
+        const decodedUrl = decodeURIWithLogError(url);
         const urlParts = splitByFirst(decodedUrl, '?');
         if (urlParts[1]) {
             const paramsStr = urlParts[1];
             const paramsPartsStr = paramsStr.split('&');
             for (const paramStr of paramsPartsStr) {
                 const [encodedName, encodedValue] = splitByFirst(paramStr, '=') as [string, string | undefined];
-                let name;
-                try {
-                    name = decodeURIComponent(encodedName);
-                } catch (e) {
-                    console.error(e);
-                    name = encodedName;
-                }
-                let value;
-                try {
-                    value = decodeURIComponent(encodedValue);
-                } catch (e) {
-                    console.error(e);
-                    value = encodedValue;
-                }
+                const name = decodeURIComponentWithLogError(encodedName);
+                const value = decodeURIComponentWithLogError(encodedValue);
                 switch (value) {
                     case 'true':
                         params[name] = true;
