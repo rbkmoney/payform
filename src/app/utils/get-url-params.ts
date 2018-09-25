@@ -1,4 +1,4 @@
-import { splitByFirst } from 'checkout/utils/split-by-first';
+import { splitByFirst } from './split-by-first';
 
 interface URLParams {
     [param: string]: string;
