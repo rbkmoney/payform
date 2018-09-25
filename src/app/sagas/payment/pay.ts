@@ -1,5 +1,5 @@
 import { call, CallEffect, ForkEffect, put, PutEffect, select, SelectEffect, takeLatest } from 'redux-saga/effects';
-import { last } from 'lodash-es';
+import last from 'lodash-es/last';
 import {
     GoToFormInfo,
     goToFormInfo,

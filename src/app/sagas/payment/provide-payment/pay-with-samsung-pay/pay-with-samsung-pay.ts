@@ -6,7 +6,7 @@ import {
     ModelState,
     TokenProviderFormValues
 } from 'checkout/state';
-import { call, put, PutEffect } from 'redux-saga/effects';
+import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
 import { TypeKeys } from 'checkout/actions';
 import { Transaction } from 'checkout/backend';
 import { ResultData, Type, URIPath } from '../../../../../constants/samsung-pay-communicator';
@@ -14,7 +14,6 @@ import { makePayment } from 'checkout/sagas/payment/provide-payment/make-payment
 import { createSamsungPay } from 'checkout/sagas/create-payment-resource/create-samsung-pay';
 import { createTransaction } from './create-transaction';
 import { getResultData } from './get-result-data';
-import { ProvidePaymentEffects } from 'checkout/sagas/payment/provide-payment/provide-payment';
 import { SetModalState } from 'checkout/actions/modal-actions/set-modal-state';
 import { TokenizedInteractionObject } from 'checkout/state/modal/modal-interaction';
 
@@ -26,7 +25,7 @@ export function* payWithSamsungPay(
     m: ModelState,
     a: AmountInfoState,
     v: TokenProviderFormValues
-): Iterator<Promise<Transaction> | PutEffect<SetModalState> | Promise<ResultData> | ProvidePaymentEffects> {
+): Iterator<Promise<Transaction> | PutEffect<SetModalState> | Promise<ResultData> | CallEffect> {
     const {
         appConfig,
         appConfig: { samsungPayServiceID, capiEndpoint },
@@ -46,7 +45,7 @@ export function* payWithSamsungPay(
     const resultData: ResultData = yield getResultData(transaction, samsungPayServiceID, locale);
     if (resultData.type === Type.SUCCESS) {
         const fn = createPaymentResource(capiEndpoint, resultData.refId, samsungPayServiceID);
-        return yield call(makePayment, c, m, v, a, fn);
+        yield call(makePayment, c, m, v, a, fn);
     } else {
         throw { code: resultData.code || 'error.samsung.pay.cancel' };
     }
