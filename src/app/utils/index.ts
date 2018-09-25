@@ -8,3 +8,4 @@ export * from './get-nocache-value';
 export * from './get-script';
 export * from './guid';
 export * from './amount';
+export * from './split-by-first';
