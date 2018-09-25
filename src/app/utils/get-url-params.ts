@@ -15,30 +15,32 @@ export const getUrlParams = (url: string): URLParams => {
             decodedUrl = url;
         }
         const urlParts = splitByFirst(decodedUrl, '?');
-        const paramsStr = urlParts[urlParts[1] === undefined ? 0 : 1];
-        const paramsPartsStr = paramsStr.split('&');
-        for (const paramStr of paramsPartsStr) {
-            const [name, value] = splitByFirst(paramStr, '=') as [string, string | undefined];
-            switch (value) {
-                case 'true':
-                    params[name] = true;
-                    break;
-                case 'false':
-                    params[name] = false;
-                    break;
-                case 'undefined':
-                    params[name] = undefined;
-                    break;
-                case 'null':
-                    params[name] = null;
-                    break;
-                default:
-                    if (value !== '' && !isNaN(value as any)) {
-                        params[name] = parseFloat(value);
+        if (urlParts[1]) {
+            const paramsStr = urlParts[1];
+            const paramsPartsStr = paramsStr.split('&');
+            for (const paramStr of paramsPartsStr) {
+                const [name, value] = splitByFirst(paramStr, '=') as [string, string | undefined];
+                switch (value) {
+                    case 'true':
+                        params[name] = true;
                         break;
-                    }
-                    params[name] = value;
-                    break;
+                    case 'false':
+                        params[name] = false;
+                        break;
+                    case 'undefined':
+                        params[name] = undefined;
+                        break;
+                    case 'null':
+                        params[name] = null;
+                        break;
+                    default:
+                        if (value !== '' && !isNaN(value as any)) {
+                            params[name] = parseFloat(value);
+                            break;
+                        }
+                        params[name] = value;
+                        break;
+                }
             }
         }
     }

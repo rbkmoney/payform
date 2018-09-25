@@ -61,3 +61,9 @@ it('Empty param', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({ empty: undefined });
 });
+
+it('Only URL like params', () => {
+    const url = 'http://test.ru/test&a=111';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({});
+});
