@@ -4,7 +4,7 @@ interface URLParams {
     [param: string]: boolean | string | number | null | undefined;
 }
 
-export const getUrlParams = (url: string, isOnlyParams: boolean = false): URLParams => {
+export const getUrlParams = (url: string): URLParams => {
     const params: URLParams = {};
     if (url && typeof url === 'string') {
         let decodedUrl;
@@ -15,8 +15,8 @@ export const getUrlParams = (url: string, isOnlyParams: boolean = false): URLPar
             decodedUrl = url;
         }
         const urlParts = splitByFirst(decodedUrl, '?');
-        const paramsStr = urlParts[isOnlyParams ? 0 : 1];
-        if (paramsStr) {
+        if (urlParts[1]) {
+            const paramsStr = urlParts[1];
             const paramsPartsStr = paramsStr.split('&');
             for (const paramStr of paramsPartsStr) {
                 const [name, value] = splitByFirst(paramStr, '=') as [string, string | undefined];
