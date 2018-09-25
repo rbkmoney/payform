@@ -55,3 +55,9 @@ it('Last &', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({ num: 24.5, '': undefined });
 });
+
+it('Empty param', () => {
+    const url = 'http://test.ru/test?empty';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ empty: undefined });
+});
