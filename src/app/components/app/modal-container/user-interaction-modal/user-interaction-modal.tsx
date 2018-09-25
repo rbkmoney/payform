@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { get } from 'lodash-es';
+import get from 'lodash-es/get';
 import * as styles from './user-interaction-modal.scss';
 import {
     EventInteractionObject,

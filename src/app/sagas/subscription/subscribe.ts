@@ -1,5 +1,5 @@
 import { CallEffect, ForkEffect, PutEffect, SelectEffect, put, call, select, takeLatest } from 'redux-saga/effects';
-import { last } from 'lodash-es';
+import last from 'lodash-es/last';
 import {
     PrepareToPay,
     TypeKeys,

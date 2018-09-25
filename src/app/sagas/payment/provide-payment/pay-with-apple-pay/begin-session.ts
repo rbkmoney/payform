@@ -1,5 +1,5 @@
-import { validateMerchant } from './validate-merchant';
 import { call, CallEffect } from 'redux-saga/effects';
+import { validateMerchant } from './validate-merchant';
 import { Config } from 'checkout/config';
 import { LogicError } from 'checkout/backend';
 
@@ -20,11 +20,15 @@ const toLogicError = (errorEvent: any): LogicError => {
     }
 };
 
-const begin = (session: ApplePaySession, endpoint: string, payload: ApplePayPayload): Promise<ApplePayPayment> =>
+const begin = (
+    session: ApplePaySession,
+    validationEndpoint: string,
+    payload: ApplePayPayload
+): Promise<ApplePayPayment> =>
     new Promise((resolve, reject) => {
         session.onvalidatemerchant = (event) =>
-            validateMerchant(endpoint, payload, event.validationURL)
-                .then((response: any) => session.completeMerchantValidation(response))
+            validateMerchant(validationEndpoint, payload, event.validationURL)
+                .then((response) => session.completeMerchantValidation(response))
                 .catch((error) => {
                     session.abort();
                     reject(toLogicError(error));
@@ -36,11 +40,10 @@ const begin = (session: ApplePaySession, endpoint: string, payload: ApplePayPayl
 
 export function* beginSession(config: Config, session: ApplePaySession): Iterator<CallEffect> {
     const { applePayMerchantID, wrapperEndpoint } = config.appConfig;
-    const applePayMerchantValidationEndpoint = wrapperEndpoint + '/applepay';
     const payload = {
         merchantIdentifier: applePayMerchantID,
-        domainName: new URL(config.origin).hostname,
+        domainName: location.hostname,
         displayName: 'RBKmoney Checkout'
     };
-    return yield call(begin, session, applePayMerchantValidationEndpoint, payload);
+    return yield call(begin, session, `${wrapperEndpoint}/applepay`, payload);
 }

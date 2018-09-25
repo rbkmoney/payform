@@ -1,4 +1,4 @@
-import { last } from 'lodash-es';
+import last from 'lodash-es/last';
 import { call, CallEffect, ForkEffect, put, select, takeLatest } from 'redux-saga/effects';
 import { goToFormInfo, TypeKeys } from 'checkout/actions';
 import { ConfigState, ModelState, ResultFormInfo, ResultType, State, EventsStatus } from 'checkout/state';

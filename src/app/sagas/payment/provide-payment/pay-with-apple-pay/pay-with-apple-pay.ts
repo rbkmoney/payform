@@ -1,12 +1,12 @@
-import { call } from 'redux-saga/effects';
-import { AmountInfoState, ModelState, TokenProviderFormValues } from 'checkout/state';
+import { call, CallEffect, select, SelectEffect } from 'redux-saga/effects';
+import last from 'lodash-es/last';
+import { AmountInfoState, ModelState, State, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { beginSession } from './begin-session';
 import { createSession } from './create-session';
 import { createApplePay } from '../../../create-payment-resource';
 import { PaymentMethod, BankCard } from 'checkout/backend/model';
 import { makePayment } from '../make-payment';
-import { ProvidePaymentEffects } from '../provide-payment';
 import { PaymentMethodName } from 'checkout/backend/model/payment-method';
 import { PaymentSystem } from 'checkout/backend/model/payment-system';
 import { getSessionStatus } from './get-session-status';
@@ -26,7 +26,7 @@ export function* payWithApplePay(
     m: ModelState,
     a: AmountInfoState,
     v: TokenProviderFormValues
-): Iterator<ProvidePaymentEffects> {
+): Iterator<SelectEffect | CallEffect> {
     const {
         initConfig: { description, name },
         appConfig
@@ -38,9 +38,9 @@ export function* payWithApplePay(
     const { capiEndpoint, applePayMerchantID } = appConfig;
     try {
         const fn = createPaymentResource(capiEndpoint, applePayMerchantID, paymentToken);
-        const event = yield call(makePayment, c, m, v, a, fn);
+        yield call(makePayment, c, m, v, a, fn);
+        const event = yield select((s: State) => last(s.events.events));
         session.completePayment(getSessionStatus(event));
-        return event;
     } catch (error) {
         session.completePayment(ApplePaySession.STATUS_FAILURE);
         throw error;

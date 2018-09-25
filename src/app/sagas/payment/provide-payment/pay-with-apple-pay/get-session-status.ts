@@ -30,6 +30,9 @@ const fromInvoiceStatusChanged = (change: InvoiceStatusChanged): boolean => {
 
 const isSuccess = (event: InvoiceEvent): boolean => {
     const change = last(event.changes);
+    if (!change) {
+        return false;
+    }
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
             return fromPaymentStatusChanged(change as PaymentStatusChanged);
