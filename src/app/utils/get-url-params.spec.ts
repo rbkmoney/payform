@@ -97,3 +97,9 @@ it('Encoded param name', () => {
     const actual = getUrlParams(url);
     expect(actual).toEqual({ 'test@test.ru': 'test@test.ru' });
 });
+
+it('Symbols without & in param', () => {
+    const url = 'http://test.com/test?symbols=!@#$%^*()_+~`/|\\';
+    const actual = getUrlParams(url);
+    expect(actual).toEqual({ symbols: '!@#$%^*()_+~`/|\\' });
+});
