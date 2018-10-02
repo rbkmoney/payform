@@ -33,8 +33,16 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         holdExpiration,
         locale,
         initialPaymentMethod,
-        isRecurring
+        recurring,
+        ...restParams
     } = userConfig;
+    const resolvedIntegrationTypeParams = Object.keys(resolvedIntegrationType);
+    const unknownParams = Object.keys(restParams).filter(
+        (param) => resolvedIntegrationTypeParams.findIndex((v) => v === param) === -1
+    );
+    if (unknownParams.length) {
+        console.warn(`Неизвестные параметры: ${unknownParams.join(', ')}`);
+    }
     return {
         ...resolvedIntegrationType,
         name: resolveString(name, 'name'),
@@ -57,6 +65,6 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         ),
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
         initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
-        recurring: setDefault(resolveBoolean(isRecurring, 'isRecurring'), false)
+        recurring: setDefault(resolveBoolean(recurring, 'recurring'), false)
     };
 };

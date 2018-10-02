@@ -4,6 +4,12 @@ import { PaymentMethodName } from './payment-method-name';
 
 export class InitConfig {
     integrationType: IntegrationType;
+    invoiceTemplateID?: string;
+    invoiceTemplateAccessToken?: string;
+    invoiceID?: string;
+    invoiceAccessToken?: string;
+    customerID?: string;
+    customerAccessToken?: string;
     bankCard: boolean;
     applePay: boolean;
     googlePay: boolean;
