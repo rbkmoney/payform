@@ -5,7 +5,9 @@ import {
     PayerType,
     createPayment as request,
     FlowType,
-    PaymentFlowHold
+    PaymentFlowHold,
+    PaymentParams,
+    Payer
 } from 'checkout/backend';
 import { Payment } from 'checkout/backend/model';
 import { InitConfig } from 'checkout/config';
@@ -27,18 +29,18 @@ export function* createPayment(
     initConfig: InitConfig
 ): Iterator<Effects> {
     const email = initConfig.email || formEmail;
-    const { paymentToolToken, paymentSession, recurringSession } = resource;
-    const sessionParams = initConfig.recurring ? { recurringSession } : { paymentSession };
-    const params = {
+    const { paymentToolToken, paymentSession } = resource;
+    const params: PaymentParams = {
         flow: toPaymentFlow(initConfig),
         payer: {
             payerType: PayerType.PaymentResourcePayer,
             paymentToolToken,
-            ...sessionParams,
+            paymentSession,
             contactInfo: {
                 email
             }
-        }
+        } as Payer,
+        makeRecurrent: initConfig.recurring
     };
     return yield call(request, endpoint, token, invoiceID, params);
 }
