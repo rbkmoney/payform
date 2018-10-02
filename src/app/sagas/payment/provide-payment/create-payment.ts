@@ -15,7 +15,7 @@ import { InitConfig } from 'checkout/config';
 type Effects = CallEffect | Payment;
 
 const toPaymentFlow = (c: InitConfig): PaymentFlow => {
-    const instant: PaymentFlow = { type: FlowType.PaymentFlowInstant, isRecurring: c.recurring };
+    const instant: PaymentFlow = { type: FlowType.PaymentFlowInstant };
     const hold: PaymentFlowHold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;
 };
