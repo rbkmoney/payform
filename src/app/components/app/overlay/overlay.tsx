@@ -14,6 +14,8 @@ const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8];
 
 const getRandomBg = (): string => backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
+const bg = getRandomBg();
+
 const OverlayDef: React.SFC<OverlayDefProps> = ({ result, inFrame }) => (
     <CSSTransitionGroup
         transitionName={{ enter: null, appear, leave, leaveActive }}
@@ -26,7 +28,7 @@ const OverlayDef: React.SFC<OverlayDefProps> = ({ result, inFrame }) => (
                 key="overlay"
                 className={cx(overlay, {
                     [img]: inFrame,
-                    [getRandomBg()]: inFrame
+                    [bg]: inFrame
                 })}
             />
         )}
