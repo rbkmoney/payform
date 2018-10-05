@@ -5,9 +5,7 @@ import {
     PayerType,
     createPayment as request,
     FlowType,
-    PaymentFlowHold,
-    PaymentParams,
-    Payer
+    PaymentFlowHold
 } from 'checkout/backend';
 import { Payment } from 'checkout/backend/model';
 import { InitConfig } from 'checkout/config';
@@ -15,7 +13,7 @@ import { InitConfig } from 'checkout/config';
 type Effects = CallEffect | Payment;
 
 const toPaymentFlow = (c: InitConfig): PaymentFlow => {
-    const instant: PaymentFlow = { type: FlowType.PaymentFlowInstant };
+    const instant = { type: FlowType.PaymentFlowInstant };
     const hold: PaymentFlowHold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;
 };
@@ -30,7 +28,7 @@ export function* createPayment(
 ): Iterator<Effects> {
     const email = initConfig.email || formEmail;
     const { paymentToolToken, paymentSession } = resource;
-    const params: PaymentParams = {
+    const params = {
         flow: toPaymentFlow(initConfig),
         payer: {
             payerType: PayerType.PaymentResourcePayer,
@@ -39,7 +37,7 @@ export function* createPayment(
             contactInfo: {
                 email
             }
-        } as Payer,
+        },
         makeRecurrent: initConfig.recurring
     };
     return yield call(request, endpoint, token, invoiceID, params);

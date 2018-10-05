@@ -10,6 +10,16 @@ import { PaymentMethodName } from 'checkout/config/payment-method-name';
 const setDefault = <P, D>(userParam: P, defaultValue: D): P | D =>
     userParam === null || userParam === undefined ? defaultValue : userParam;
 
+const checkUnknown = (resolvedParams: object, allParams: object): void => {
+    const resolvedParamsKeys = Object.keys(resolvedParams);
+    const unknownParams = Object.keys(allParams).filter(
+        (param) => resolvedParamsKeys.findIndex((v) => v === param) === -1
+    );
+    if (unknownParams.length) {
+        console.warn(`Unknown params: ${unknownParams.join(', ')}`);
+    }
+};
+
 export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
     const resolvedIntegrationType = resolveIntegrationType(userConfig);
     if (!resolvedIntegrationType) {
@@ -36,13 +46,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         recurring,
         ...restParams
     } = userConfig;
-    const resolvedIntegrationTypeParams = Object.keys(resolvedIntegrationType);
-    const unknownParams = Object.keys(restParams).filter(
-        (param) => resolvedIntegrationTypeParams.findIndex((v) => v === param) === -1
-    );
-    if (unknownParams.length) {
-        console.warn(`Неизвестные параметры: ${unknownParams.join(', ')}`);
-    }
+    checkUnknown(resolvedIntegrationType, restParams);
     return {
         ...resolvedIntegrationType,
         name: resolveString(name, 'name'),

@@ -1,8 +1,8 @@
-import { PaymentFlow, PaymentFlowHold } from './payment-flow';
+import { PaymentFlow } from './payment-flow';
 import { Payer } from './payer';
 
 export class PaymentParams {
-    flow: PaymentFlow | PaymentFlowHold;
+    flow: PaymentFlow;
     payer: Payer;
     makeRecurrent: boolean;
 }
