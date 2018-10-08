@@ -26,9 +26,6 @@
 .container {
     height: 100%;
     position: relative;
-    @include responsive(sm) {
-        perspective: 1000px;
-    }
 
     .modalInteractionLoader {
         position: fixed;

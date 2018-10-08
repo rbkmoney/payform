@@ -12,7 +12,9 @@ interface OverlayDefProps {
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8];
 
-const getRandom = (): number => Math.floor(Math.random() * 7);
+const getRandomBg = (): string => backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+const bg = getRandomBg();
 
 const OverlayDef: React.SFC<OverlayDefProps> = ({ result, inFrame }) => (
     <CSSTransitionGroup
@@ -26,7 +28,7 @@ const OverlayDef: React.SFC<OverlayDefProps> = ({ result, inFrame }) => (
                 key="overlay"
                 className={cx(overlay, {
                     [img]: inFrame,
-                    [backgrounds[getRandom()]]: inFrame
+                    [bg]: inFrame
                 })}
             />
         )}
