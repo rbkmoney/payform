@@ -1,10 +1,16 @@
 import { PaymentMethod as PaymentMethodState, PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
-import { logUnavailableWithPaymentFlowHold } from './log-unavailable-with-payment-flow-hold';
+import { logUnavailableWithConfig } from './log-unavailable-with-config';
 
-export const getTerminalsPaymentMethods = (isMethod: boolean, paymentFlowHold: boolean): PaymentMethodState[] => {
+export const getTerminalsPaymentMethods = (
+    isMethod: boolean,
+    paymentFlowHold: boolean,
+    recurring: boolean
+): PaymentMethodState[] => {
     if (isMethod) {
         if (paymentFlowHold) {
-            logUnavailableWithPaymentFlowHold('wallets');
+            logUnavailableWithConfig('terminals', 'paymentFlowHold');
+        } else if (recurring) {
+            logUnavailableWithConfig('terminals', 'recurring');
         } else {
             return [{ name: PaymentMethodNameState.PaymentTerminal }];
         }
