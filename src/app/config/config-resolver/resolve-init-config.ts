@@ -10,6 +10,16 @@ import { PaymentMethodName } from 'checkout/config/payment-method-name';
 const setDefault = <P, D>(userParam: P, defaultValue: D): P | D =>
     userParam === null || userParam === undefined ? defaultValue : userParam;
 
+const checkUnknown = (resolvedParams: object, allParams: object): void => {
+    const resolvedParamsKeys = Object.keys(resolvedParams);
+    const unknownParams = Object.keys(allParams).filter(
+        (param) => resolvedParamsKeys.findIndex((v) => v === param) === -1
+    );
+    if (unknownParams.length) {
+        console.warn(`Unknown params: ${unknownParams.join(', ')}`);
+    }
+};
+
 export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
     const resolvedIntegrationType = resolveIntegrationType(userConfig);
     if (!resolvedIntegrationType) {
@@ -32,8 +42,11 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         paymentFlowHold,
         holdExpiration,
         locale,
-        initialPaymentMethod
+        initialPaymentMethod,
+        recurring,
+        ...restParams
     } = userConfig;
+    checkUnknown(resolvedIntegrationType, restParams);
     return {
         ...resolvedIntegrationType,
         name: resolveString(name, 'name'),
@@ -55,6 +68,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
             HoldExpirationType.cancel
         ),
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
-        initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName
+        initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
+        recurring: setDefault(resolveBoolean(recurring, 'recurring'), false)
     };
 };

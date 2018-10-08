@@ -15,7 +15,7 @@ export function* toAvailablePaymentMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     let result: PaymentMethodState[] = [];
-    const { wallets, terminals, paymentFlowHold } = config.initConfig;
+    const { wallets, terminals, paymentFlowHold, recurring } = config.initConfig;
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
@@ -23,10 +23,10 @@ export function* toAvailablePaymentMethods(
                 result = result.concat(bankCardMethods);
                 break;
             case PaymentMethodName.DigitalWallet:
-                result = result.concat(getDigitalWalletPaymentMethods(wallets, paymentFlowHold));
+                result = result.concat(getDigitalWalletPaymentMethods(wallets, paymentFlowHold, recurring));
                 break;
             case PaymentMethodName.PaymentTerminal:
-                result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold));
+                result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold, recurring));
                 break;
         }
     }

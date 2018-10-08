@@ -21,4 +21,5 @@ export class InitConfig {
     obscureCardCvv?: boolean;
     requireCardHolder?: boolean;
     initialPaymentMethod?: PaymentMethodName;
+    recurring?: boolean;
 }

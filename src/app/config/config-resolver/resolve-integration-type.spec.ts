@@ -9,7 +9,7 @@ it('empty config should return null', () => {
 it('wrong config should return null', () => {
     const result = resolveIntegrationType({
         wrongField: 'some value'
-    });
+    } as any);
     expect(result).toEqual(null);
 });
 
@@ -18,7 +18,7 @@ it('should return invoice integration type', () => {
         invoiceID: 'mock invoiceID',
         invoiceAccessToken: 'mock token',
         someField: 'someValue'
-    });
+    } as any);
     const expected = {
         integrationType: IntegrationType.invoice,
         invoiceID: 'mock invoiceID',
@@ -32,7 +32,7 @@ it('should return invoiceTemplate integration type', () => {
         invoiceTemplateID: 'mock invoiceTemplateID',
         invoiceTemplateAccessToken: 'mock token',
         someField: 'someValue'
-    });
+    } as any);
     const expected = {
         integrationType: IntegrationType.invoiceTemplate,
         invoiceTemplateID: 'mock invoiceTemplateID',
@@ -46,7 +46,7 @@ it('should return customer integration type', () => {
         customerID: 'mock customer',
         customerAccessToken: 'mock token',
         someField: 'someValue'
-    });
+    } as any);
     const expected = {
         integrationType: IntegrationType.customer,
         customerID: 'mock customer',
