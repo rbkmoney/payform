@@ -91,7 +91,7 @@
     "html-webpack-plugin": "~2.30.1",
     "identity-obj-proxy": "~3.0.0",
     "jest": "~22.4.2",
-    "node-sass": "~4.7.2",
+    "node-sass": "~4.9.4",
     "prettier": "~1.14.0",
     "react-docgen": "~2.21.0",
     "react-docgen-typescript": "~1.6.2",
