@@ -26,6 +26,7 @@
     "form.header.terminal.cashbox.label": "Mobile shop",
     "form.header.final.success.label": "Successful payment",
     "form.header.final.invoice.paid.label": "Fully paid-up",
+    "form.header.final.invoice.paid.already.label": "Already fully paid-up",
     "form.header.final.invoice.cancelled.label": "Invoice cancelled",
     "form.header.final.invoice.fulfilled.label": "Invoice fulfilled",
     "form.header.final.invoice.refunded.label": "Invoice refunded",

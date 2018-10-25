@@ -8,6 +8,7 @@ import {
     FinishInteractionFailed
 } from 'checkout/actions';
 import { ErrorStatus, ErrorState } from 'checkout/state';
+import { SetAcceptedError } from 'checkout/actions/error-actions/set-accepted-error';
 
 type ErrorReducerAction =
     | SetErrorAction
@@ -15,7 +16,8 @@ type ErrorReducerAction =
     | InitializeAppFailed
     | PaymentFailed
     | SubscriptionFailed
-    | FinishInteractionFailed;
+    | FinishInteractionFailed
+    | SetAcceptedError;
 
 export function errorReducer(s: ErrorState = null, action: ErrorReducerAction): ErrorState {
     switch (action.type) {
@@ -27,6 +29,12 @@ export function errorReducer(s: ErrorState = null, action: ErrorReducerAction): 
             console.error(action.payload);
             return {
                 status: ErrorStatus.unhandled,
+                error: action.payload
+            };
+        case TypeKeys.SET_ACCEPTED_ERROR:
+            console.info(action.payload);
+            return {
+                status: ErrorStatus.accepted,
                 error: action.payload
             };
         case TypeKeys.ACCEPT_ERROR:
