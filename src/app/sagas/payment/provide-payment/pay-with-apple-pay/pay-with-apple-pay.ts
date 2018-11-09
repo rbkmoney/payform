@@ -31,7 +31,7 @@ export function* payWithApplePay(
         initConfig: { description, name },
         appConfig
     } = c;
-    const label = description || name || 'RBKmoney';
+    const label = description || name || '';
     const paymentSystems = findPaymentSystems(m.paymentMethods);
     const session = createSession(label, a, paymentSystems, v.amount);
     const paymentToken = yield call(beginSession, c, session);

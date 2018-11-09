@@ -5,7 +5,7 @@
     "info.dueDate.text": "Pay before",
     "info.subscription.label": "Monthly subscription",
     "info.subscription.help.text": "Payment charges at ${day} monthly applied. Cancellation link will be sent via email",
-    "footer.copyright.text": "© 2008-2018 RBKmoney | Direct Payments Ltd.",
+    "footer.copyright.text": "© 2008-2018",
     "footer.pay.label": "Secure payment with",
     "footer.offer.label": "Public offer",
     "form.header.delivery.label": "Delivery",
@@ -89,7 +89,7 @@
     "form.pay.terminals.instruction.to.pay": "To pay",
     "form.pay.terminals.instruction.dueDate": "Payment must be made before",
     "form.pay.terminals.step.one.text": "Choose nearest mobile shop",
-    "form.pay.terminals.step.two.text": "Tell the booking-clerk you’re paying with RBKmoney",
+    "form.pay.terminals.step.two.text": "Tell the booking-clerk you’re paying",
     "form.pay.terminals.step.three.text": "Tell your payment code",
     "form.pay.terminals.step.four.text": "Pay with cash",
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
@@ -143,7 +143,7 @@
         },
         "PaymentRejected": {
             "text": "Payment failed: your payment has been rejected.",
-            "steps": ["Try using another card or account.", "Contact RBKmoney support."]
+            "steps": ["Try using another card or account.", "Contact support."]
         }
     },
     "brand.euroset": "Euroset",
