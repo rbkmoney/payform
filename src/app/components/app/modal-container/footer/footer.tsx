@@ -23,7 +23,7 @@ const FooterDef: React.SFC<FooterProps> = (props) => (
             <div className={styles.safe_payment}>
                 <SecureIcon className={styles.secure_icon} />
                 <p className={styles.label}>{props.locale['footer.pay.label']}</p>
-                <Logo />
+                {/*<Logo />*/}
             </div>
             <div className={styles.safe_logos}>
                 <VisaIcon fillStyle={styles.fill_icons} />

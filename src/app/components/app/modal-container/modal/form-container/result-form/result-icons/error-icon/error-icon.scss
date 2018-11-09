@@ -1,14 +1,25 @@
 @import '../../../../../../../../styles/variables';
-@import '../../../../../../../../styles/animations';
 
 .error {
     width: 100px;
     height: 100px;
+    border-radius: 50%;
     display: block;
+    stroke-width: 4;
+    stroke: $white;
+    stroke-miterlimit: 10;
     margin: auto;
+    background: $red-v2;
 
-    .sweat {
-        transform-origin: 30% 0%;
-        animation: growth 0.5s linear 0.2s forwards;
+    circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 2;
+        stroke-miterlimit: 10;
+    }
+
+    path {
+        transform-origin: 50% 50%;
+        stroke: $white;
     }
 }
