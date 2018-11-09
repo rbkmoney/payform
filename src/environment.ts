@@ -17,7 +17,7 @@ export const isApplePayAvailable = (): boolean => {
     try {
         return environment.ApplePaySession && ApplePaySession.canMakePayments();
     } catch (e) {
-        console.warn('[RbkmoneyCheckout] apple pay availability', e);
+        console.warn('[Checkout] apple pay availability', e);
         return false;
     }
 };
