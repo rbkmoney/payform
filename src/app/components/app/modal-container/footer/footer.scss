@@ -14,7 +14,6 @@ $local-white: rgba(255, 255, 255, 0.6);
 .safe_payment_container {
     @include responsive(sm) {
         display: flex;
-        flex-direction: row-reverse;
         justify-content: space-between;
     }
 }
