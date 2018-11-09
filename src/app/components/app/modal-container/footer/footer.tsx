@@ -20,11 +20,11 @@ const mapStateToProps = (state: State) => ({
 const FooterDef: React.SFC<FooterProps> = (props) => (
     <footer className={styles.footer}>
         <div className={styles.safe_payment_container}>
-            <div className={styles.safe_payment}>
-                <SecureIcon className={styles.secure_icon} />
-                <p className={styles.label}>{props.locale['footer.pay.label']}</p>
-                {/*<Logo />*/}
-            </div>
+            {/*<div className={styles.safe_payment}>*/}
+            {/*<SecureIcon className={styles.secure_icon} />*/}
+            {/*<p className={styles.label}>{props.locale['footer.pay.label']}</p>*/}
+            {/*<Logo />*/}
+            {/*</div>*/}
             <div className={styles.safe_logos}>
                 <VisaIcon fillStyle={styles.fill_icons} />
                 <McIcon className={styles.align_fix} fillStyle={styles.fill_icons} />
