@@ -100,9 +100,9 @@
     }
 
     &:focus {
-        border-color: $purple-v2-2 !important;
+        border-color: $purple-v2-2-dark !important;
         border-width: 2px !important;
-        box-shadow: 0 0 4px 0 $purple-v2-2 !important;
+        box-shadow: 0 0 4px 0 $purple-v2-2-dark !important;
         padding: ($padding-top - 1px) ($padding-right - 1px) ($padding-bottom - 1px) ($padding-left - 1px);
     }
 

@@ -3,6 +3,7 @@ export const leave: string;
 export const leaveActive: string;
 export const overlay: string;
 export const img: string;
+export const bg0: string;
 export const bg1: string;
 export const bg2: string;
 export const bg3: string;
