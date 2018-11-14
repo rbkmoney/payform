@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { InvoiceEvent, InvoiceStatusChanged, InvoiceStatuses } from 'checkout/backend';
+import { InvoiceEvent, InvoiceStatusChanged, InvoiceStatuses, LogicError, LogicErrorCode } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { ResultFormContent, ResultFormType } from './result-form-content';
 import { getLastChange } from 'checkout/utils';
@@ -10,6 +10,14 @@ const refunded = (l: Locale): ResultFormContent => ({
     hasDone: false,
     header: l['form.header.final.invoice.refunded.label'],
     type: ResultFormType.WARNING
+});
+
+const alreadyPaid = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
+    hasActions: false,
+    hasDone: false,
+    header: l['form.header.final.invoice.paid.already.label'],
+    description: getSuccessDescription(l, e),
+    type: ResultFormType.SUCCESS
 });
 
 const paid = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
@@ -35,10 +43,13 @@ const fulfilled = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
     type: ResultFormType.SUCCESS
 });
 
-export const makeFromInvoiceChange = (l: Locale, e: InvoiceEvent[]) => {
+export const makeFromInvoiceChange = (l: Locale, e: InvoiceEvent[], error: LogicError) => {
     const change = getLastChange(e) as InvoiceStatusChanged;
     switch (change.status) {
         case InvoiceStatuses.paid:
+            if (error && error.code === LogicErrorCode.invalidInvoiceStatus) {
+                return alreadyPaid(l, e);
+            }
             return paid(l, e);
         case InvoiceStatuses.cancelled:
             return cancelled(l);

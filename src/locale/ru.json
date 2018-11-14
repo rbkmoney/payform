@@ -26,6 +26,7 @@
     "form.header.terminal.cashbox.label": "Касса в салоне связи",
     "form.header.final.success.label": "Успешная оплата",
     "form.header.final.invoice.paid.label": "Оплачено",
+    "form.header.final.invoice.paid.already.label": "Уже оплачено",
     "form.header.final.invoice.cancelled.label": "Инвойс отменен",
     "form.header.final.invoice.fulfilled.label": "Инвойс погашен",
     "form.header.final.invoice.refunded.label": "Инвойс возмещен",
