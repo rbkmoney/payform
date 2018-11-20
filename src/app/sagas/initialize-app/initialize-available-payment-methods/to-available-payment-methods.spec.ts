@@ -18,48 +18,54 @@ const paymentTerminal = {
     method: 'PaymentTerminal'
 } as PaymentTerminal;
 
-// describe('All payment methods', () => {
-//     const config = {
-//         initConfig: {
-//             bankCard: true,
-//             wallets: true,
-//             terminals: true
-//         }
-//     } as any;
-//     const paymentMethods = [bankCard, digitalWallet, paymentTerminal];
-//     const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
-//
-//     it('should call bankCardToMethods', () => {
-//         const actual = iterator.next().value;
-//         const expected = call(bankCardToMethods, bankCard, config, amountInfo);
-//         expect(actual).toEqual(expected);
-//     });
-//
-//     it('should return PaymentMethodState with DigitalWallet, PaymentTerminal', () => {
-//         const actual = iterator.next({ name: PaymentMethodNameState.BankCard });
-//         const expected = [
-//             { name: PaymentMethodNameState.BankCard },
-//             { name: PaymentMethodNameState.DigitalWallet },
-//             { name: PaymentMethodNameState.PaymentTerminal }
-//         ];
-//         expect(actual.value).toEqual(expected);
-//         expect(actual.done).toBeTruthy();
-//     });
-// });
+describe('All payment methods', () => {
+    const config = {
+        initConfig: {
+            bankCard: true,
+            wallets: true,
+            terminals: true
+        },
+        appConfig: {
+            brandless: false
+        }
+    } as any;
+    const paymentMethods = [bankCard, digitalWallet, paymentTerminal];
+    const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+    it('should call bankCardToMethods', () => {
+        const actual = iterator.next().value;
+        const expected = call(bankCardToMethods, bankCard, config, amountInfo);
+        expect(actual).toEqual(expected);
+    });
+
+    it('should return PaymentMethodState with DigitalWallet, PaymentTerminal', () => {
+        const actual = iterator.next({ name: PaymentMethodNameState.BankCard });
+        const expected = [
+            { name: PaymentMethodNameState.BankCard },
+            { name: PaymentMethodNameState.DigitalWallet },
+            { name: PaymentMethodNameState.PaymentTerminal }
+        ];
+        expect(actual.value).toEqual(expected);
+        expect(actual.done).toBeTruthy();
+    });
+});
 
 describe('BankCard', () => {
     const config = {
         initConfig: {
             bankCard: true
+        },
+        appConfig: {
+            brandless: false
         }
     } as any;
     const iterator = toAvailablePaymentMethods([bankCard], config, amountInfo);
 
-    // it('should call bankCardToMethods', () => {
-    //     const actual = iterator.next().value;
-    //     const expected = call(bankCardToMethods, bankCard, config, amountInfo);
-    //     expect(actual).toEqual(expected);
-    // });
+    it('should call bankCardToMethods', () => {
+        const actual = iterator.next().value;
+        const expected = call(bankCardToMethods, bankCard, config, amountInfo);
+        expect(actual).toEqual(expected);
+    });
 
     it('should iterator done', () => {
         const actual = iterator.next().done;
@@ -70,26 +76,32 @@ describe('BankCard', () => {
 describe('DigitalWallet', () => {
     const paymentMethods = [digitalWallet];
 
-    // describe('config with truthy wallets', () => {
-    //     const config = {
-    //         initConfig: {
-    //             wallets: true
-    //         }
-    //     } as any;
-    //     const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
-    //
-    //     it('should return PaymentMethodState with DigitalWallet', () => {
-    //         const actual = iterator.next();
-    //         const expected = [{ name: PaymentMethodNameState.DigitalWallet }];
-    //         expect(actual.value).toEqual(expected);
-    //         expect(actual.done).toBeTruthy();
-    //     });
-    // });
+    describe('config with truthy wallets', () => {
+        const config = {
+            initConfig: {
+                wallets: true
+            },
+            appConfig: {
+                brandless: false
+            }
+        } as any;
+        const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+        it('should return PaymentMethodState with DigitalWallet', () => {
+            const actual = iterator.next();
+            const expected = [{ name: PaymentMethodNameState.DigitalWallet }];
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
 
     describe('config with falsy wallets', () => {
         const config = {
             initConfig: {
                 wallets: false
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -105,27 +117,33 @@ describe('DigitalWallet', () => {
 describe('PaymentTerminal', () => {
     const paymentMethods = [paymentTerminal];
 
-    // describe('config with truthy terminals', () => {
-    //     const config = {
-    //         initConfig: {
-    //             terminals: true
-    //         }
-    //     } as any;
-    //     const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
-    //
-    //     it('should return PaymentMethodState with PaymentTerminal', () => {
-    //         const actual = iterator.next();
-    //         const expected = [{ name: PaymentMethodNameState.PaymentTerminal }];
-    //         expect(actual.value).toEqual(expected);
-    //         expect(actual.done).toBeTruthy();
-    //     });
-    // });
+    describe('config with truthy terminals', () => {
+        const config = {
+            initConfig: {
+                terminals: true
+            },
+            appConfig: {
+                brandless: false
+            }
+        } as any;
+        const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+        it('should return PaymentMethodState with PaymentTerminal', () => {
+            const actual = iterator.next();
+            const expected = [{ name: PaymentMethodNameState.PaymentTerminal }];
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
 
     describe('config with truthy terminals and truthy paymentFlowHold', () => {
         const config = {
             initConfig: {
                 terminals: true,
                 paymentFlowHold: true
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -142,6 +160,9 @@ describe('PaymentTerminal', () => {
         const config = {
             initConfig: {
                 terminals: false
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);

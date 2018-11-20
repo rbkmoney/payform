@@ -23,7 +23,7 @@ const mapStateToProps = (state: State) => ({
 const FooterDef: React.SFC<FooterProps> = (props) => (
     <footer className={styles.footer}>
         <div className={styles.safe_payment_container}>
-            {!props.config.appConfig.notBranded && (
+            {!props.config.appConfig.brandless && (
                 <div className={styles.safe_payment}>
                     <SecureIcon className={styles.secure_icon} />
                     <p className={styles.label}>{props.locale['footer.pay.label']}</p>
