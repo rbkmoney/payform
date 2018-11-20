@@ -58,6 +58,7 @@
     "redux": "~3.7.2",
     "redux-form": "~7.2.3",
     "redux-saga": "~0.16.0",
+    "styled-components": "^4.1.1",
     "uri-template": "~1.0.1",
     "url-polyfill": "~1.0.11",
     "whatwg-fetch": "~2.0.3"
@@ -75,6 +76,7 @@
     "@types/react-test-renderer": "~16.0.1",
     "@types/react-transition-group": "1.1.5",
     "@types/redux-form": "~7.2.6",
+    "@types/styled-components": "^4.1.0",
     "@types/url-parse": "~1.1.0",
     "babel-jest": "~22.4.1",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.26.0",

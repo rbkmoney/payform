@@ -3,13 +3,17 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Transport } from 'cross-origin-communicator';
-import './styles/main.scss';
-import './styles/forms.scss';
+
+import { setResult } from 'checkout/actions';
+import { ThemeProvider } from 'checkout/styled-components';
 import { configureStore } from './configure-store';
 import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
-import { setResult } from 'checkout/actions';
+import theme from 'checkout/themes/main';
+
+import './styles/main.scss';
+import './styles/forms.scss';
 
 initialize().then((res) => {
     const [transport, config] = res;
@@ -23,7 +27,9 @@ initialize().then((res) => {
     });
     ReactDOM.render(
         <Provider store={store}>
-            <App />
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
         </Provider>,
         app
     );
