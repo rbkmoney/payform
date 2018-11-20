@@ -9,8 +9,6 @@ import { configureStore } from './configure-store';
 import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
-import { ThemeProvider } from 'checkout/styled-components';
-import theme from 'checkout/themes/main';
 
 import './styles/main.scss';
 import './styles/forms.scss';
@@ -27,9 +25,7 @@ initialize().then((res) => {
     });
     ReactDOM.render(
         <Provider store={store}>
-            <ThemeProvider theme={theme}>
-                <App />
-            </ThemeProvider>
+            <App />
         </Provider>,
         app
     );
