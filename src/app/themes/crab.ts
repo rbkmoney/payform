@@ -1,7 +1,5 @@
 import Theme from './theme';
 
-const theme: Theme = {
-    primaryColor: 'red'
-};
+const theme: Theme = {} as Theme;
 
 export default theme;

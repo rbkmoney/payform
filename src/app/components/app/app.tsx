@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as styles from './layout.scss';
 
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
@@ -11,6 +10,26 @@ import { State } from 'checkout/state';
 import { initializeApp } from 'checkout/actions';
 import { ThemeProvider } from 'checkout/styled-components';
 import { DEFAULT_THEME } from 'checkout/themes';
+import styled from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
+
+const AppWrapper = styled.div`
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+
+    @media ${device.mobile} {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+        padding: 45px 0;
+        box-sizing: border-box;
+    }
+`;
 
 class AppDef extends React.Component<AppProps> {
     componentWillMount() {
@@ -21,10 +40,10 @@ class AppDef extends React.Component<AppProps> {
         const { initialized, error } = this.props.initializeApp;
         return (
             <ThemeProvider theme={this.props.theme || DEFAULT_THEME}>
-                <div className={styles.layout}>
+                <AppWrapper>
                     <Overlay />
                     {initialized || error ? <ModalContainer /> : <LayoutLoader />}
-                </div>
+                </AppWrapper>
             </ThemeProvider>
         );
     }
