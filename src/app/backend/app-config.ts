@@ -6,4 +6,6 @@ export class AppConfig {
     googlePayGatewayMerchantID: string;
     samsungPayMerchantName: string;
     samsungPayServiceID: string;
+    notBranded: boolean;
+    fixedTheme: string;
 }

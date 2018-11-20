@@ -5,5 +5,7 @@
     "googlePayMerchantID": "<google pay merchant id>",
     "googlePayGatewayMerchantID": "<google pay gateway merchant id>",
     "samsungPayMerchantName": "<samsung pay merchant name>",
-    "samsungPayServiceID": "<samsung pay service id>"
+    "samsungPayServiceID": "<samsung pay service id>",
+    "notBranded": false,
+    "fixedTheme": ""
 }
