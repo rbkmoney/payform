@@ -1,6 +1,7 @@
 import { AppConfig } from '../backend/app-config';
 import { InitConfig } from './init-config';
 import { Locale } from 'checkout/locale';
+import Theme from 'checkout/themes/theme';
 
 export class Config {
     origin: string;
@@ -8,4 +9,5 @@ export class Config {
     initConfig: InitConfig;
     appConfig?: AppConfig;
     locale?: Locale;
+    theme?: Theme;
 }
