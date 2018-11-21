@@ -101,34 +101,6 @@
     margin-bottom: 25px;
 }
 
-.links {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.link_container {
-    display: inline-block;
-    margin: 15px auto auto;
-    position: relative;
-
-    hr {
-        left: 0;
-        border: none;
-        border-bottom: 1px solid $blue-v2-light;
-        padding: 0;
-        margin: 0 0 3px;
-        position: absolute;
-        width: 100%;
-    }
-
-    &:hover hr,
-    &:active hr {
-        border-color: $purple-v2-2;
-    }
-}
-
 .link {
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
@@ -139,16 +111,4 @@
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
-}
-
-.appearLoader {
-    animation: fadein 0.5s;
-}
-
-.enterLoader {
-    animation: fadein 0.5s;
-}
-
-.leaveLoader {
-    animation: fadeout 0.25s;
 }
