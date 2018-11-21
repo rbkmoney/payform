@@ -6,7 +6,6 @@ export const back_btn: string;
 export const title: string;
 export const growth: string;
 export const popup: string;
-export const highlight: string;
 export const text: string;
 export const systemLogo: string;
 export const appearLoader: string;

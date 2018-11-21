@@ -5,6 +5,7 @@ import { ListItem, NumerableList } from './numerable-list';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { FormattedAmount } from 'checkout/utils';
+import { Highlight } from 'checkout/components/app/modal-container/modal/form-container/highlight';
 
 interface ReceiptInfo {
     locale: Locale;
@@ -20,10 +21,8 @@ const Instruction: React.SFC<ReceiptInfo> = (props) => {
     const amount = `${props.amount.value} ${props.amount.symbol}`;
     return (
         <p className={formStyles.text}>
-            {props.locale['form.pay.terminals.instruction.to.pay']}{' '}
-            <span className={formStyles.highlight}>{amount}</span>.
-            {props.locale['form.pay.terminals.instruction.dueDate']}
-            <span className={formStyles.highlight}>{formattedDate}</span>.
+            {props.locale['form.pay.terminals.instruction.to.pay']} <Highlight>{amount}</Highlight>.
+            {props.locale['form.pay.terminals.instruction.dueDate']} <Highlight>{formattedDate}</Highlight>.
         </p>
     );
 };
@@ -38,7 +37,7 @@ export const ReceiptInfo: React.SFC<ReceiptInfo> = (props) => (
             <ListItem number={2}>{props.locale['form.pay.terminals.step.two.text']}.</ListItem>
             <ListItem number={3}>
                 {props.locale['form.pay.terminals.step.three.text']}: <br />
-                <span className={formStyles.highlight}>{formatPaymentId(props.receipt.shortPaymentID)}</span>.
+                <Highlight>{formatPaymentId(props.receipt.shortPaymentID)}</Highlight>.
             </ListItem>
             <ListItem number={4}>{props.locale['form.pay.terminals.step.four.text']}.</ListItem>
             <ListItem number={5}>{props.locale['form.pay.terminals.step.five.text']}.</ListItem>
