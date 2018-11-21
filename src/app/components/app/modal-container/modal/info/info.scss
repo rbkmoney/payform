@@ -21,7 +21,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 20px;
     margin: 0 0 30px;
@@ -35,7 +35,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 30px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 35px;
     margin: 0 0 20px;
@@ -46,7 +46,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $white;
+    color: #fff;
     opacity: 0.4;
     letter-spacing: 2px;
     line-height: 15px;
@@ -58,7 +58,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 20px;
     margin-bottom: 20px;
@@ -68,7 +68,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 20px;
     margin-bottom: 20px;
@@ -78,7 +78,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     font-size: 16px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 20px;
     margin-bottom: 20px;
@@ -88,7 +88,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 11px;
-    color: $white;
+    color: #fff;
     letter-spacing: 2px;
     line-height: 15px;
     text-transform: uppercase;
@@ -113,11 +113,11 @@
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             font-size: 10px;
-            fill: $white;
+            fill: #fff;
         }
 
         circle {
-            stroke: $white;
+            stroke: #fff;
         }
 
         @include responsive(sm) {
@@ -131,7 +131,7 @@
     font-style: italic;
     font-weight: 400;
     font-size: 13px;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 18px;
     margin: 5px 0 0;

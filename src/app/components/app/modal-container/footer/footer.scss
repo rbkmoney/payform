@@ -29,7 +29,7 @@ $local-white: rgba(255, 255, 255, 0.6);
         font-family: 'Roboto', sans-serif;
         font-size: 11px;
         font-weight: 900;
-        color: $white;
+        color: #fff;
         letter-spacing: 2px;
         line-height: 15px;
         text-transform: uppercase;
@@ -40,10 +40,10 @@ $local-white: rgba(255, 255, 255, 0.6);
         position: relative;
         top: -2px;
         path {
-            stroke: $white;
+            stroke: #fff;
         }
         rect {
-            fill: $white;
+            fill: #fff;
         }
     }
 }
@@ -62,7 +62,7 @@ $local-white: rgba(255, 255, 255, 0.6);
         top: 4px;
     }
     .fill_icons {
-        fill: $white;
+        fill: #fff;
     }
 }
 
@@ -71,7 +71,7 @@ $local-white: rgba(255, 255, 255, 0.6);
     font-size: 13px;
     font-weight: 400;
     font-style: italic;
-    color: $white;
+    color: #fff;
     letter-spacing: 0;
     line-height: 18px;
     margin: 0 0 20px;
@@ -108,5 +108,5 @@ $local-white: rgba(255, 255, 255, 0.6);
 
 .logo {
     padding-left: 6px;
-    fill: $white;
+    fill: #fff;
 }

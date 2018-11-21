@@ -6,7 +6,7 @@
     border-radius: 50%;
     display: block;
     stroke-width: 4;
-    stroke: $white;
+    stroke: #fff;
     stroke-miterlimit: 10;
     margin: auto;
     background: $red-v2;
@@ -20,6 +20,6 @@
 
     path {
         transform-origin: 50% 50%;
-        stroke: $white;
+        stroke: #fff;
     }
 }

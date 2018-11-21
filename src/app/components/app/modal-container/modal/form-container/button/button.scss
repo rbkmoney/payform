@@ -2,7 +2,7 @@
 
 .button {
     color: $purple-v2-2;
-    background: $white;
+    background: #fff;
     text-align: center;
     border-radius: 4px;
     padding: 12px;
@@ -29,7 +29,7 @@
 
     &._primary {
         border-radius: 32px;
-        color: $white;
+        color: #fff;
         border-color: $green-v2;
         background: $green-v2;
 
