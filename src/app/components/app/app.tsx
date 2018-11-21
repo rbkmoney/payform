@@ -18,6 +18,7 @@ const AppWrapper = styled.div`
     height: 100%;
     min-height: 100%;
     width: 100%;
+    font-family: ${({ theme }) => theme.font.family};
 
     @media ${device.mobile} {
         display: flex;
