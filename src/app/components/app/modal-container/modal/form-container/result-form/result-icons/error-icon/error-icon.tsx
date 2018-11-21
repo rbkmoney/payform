@@ -10,6 +10,10 @@ export const ErrorIcon = styled((props) => <Icon {...props} id="error-icon" />)`
     display: block;
     margin: auto;
 
+    g circle {
+        // fill: ${({ theme }) => theme.color.primary[1]};
+    }
+
     g path {
         transform-origin: 30% 0%;
         animation: ${growth} 0.5s linear 0.2s forwards;

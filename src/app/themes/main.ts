@@ -8,7 +8,9 @@ const theme = {
             0.9: '#292929',
             1: '#000'
         },
-        primary: { 1: '#ff8454' },
+        primary: {
+            1: '#38cd8f'
+        },
         secondary: { 1: '#8330ec' },
         error: { 1: '#e75542' },
         warning: { 1: '#ffe05c' },
