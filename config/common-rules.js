@@ -64,6 +64,14 @@ const rules = [
                 }
             }
         ]
+    },
+    {
+        test: /\.svg$/,
+        use: [
+            {
+                loader: 'svg-react-loader'
+            }
+        ]
     }
 ];
 
