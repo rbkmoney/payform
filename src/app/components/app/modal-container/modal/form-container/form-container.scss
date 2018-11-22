@@ -75,19 +75,6 @@
     }
 }
 
-.title {
-    font-weight: 500;
-    font-size: 16px;
-    color: $deep-gray;
-    letter-spacing: 0;
-    line-height: 20px;
-    width: 100%;
-
-    @include responsive(sm) {
-        text-align: center;
-    }
-}
-
 .text {
     font-weight: 500;
     margin-top: 0;

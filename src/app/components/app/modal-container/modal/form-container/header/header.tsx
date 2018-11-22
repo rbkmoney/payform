@@ -1,11 +1,13 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import * as formStyles from '../form-container.scss';
 import { Direction, goToFormInfo } from 'checkout/actions';
 import { findInfoWithPrevious, findNamed } from 'checkout/utils';
 import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/title';
 
 export interface HeaderProps {
     title: string;
@@ -36,7 +38,7 @@ const HeaderDef: React.SFC<HeaderProps> = (props) => (
                 id="desktop-back-btn"
             />
         ) : null}
-        <div className={formStyles.title}>{props.title}</div>
+        <Title>{props.title}</Title>
     </div>
 );
 
