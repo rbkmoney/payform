@@ -12,7 +12,7 @@ export interface PayButtonProps {
 }
 
 const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
-    <Button type="submit" style="primary" id="pay-btn" className={pay_button}>
+    <Button type="submit" color="primary" id="pay-btn" className={pay_button}>
         {props.label}
     </Button>
 );
