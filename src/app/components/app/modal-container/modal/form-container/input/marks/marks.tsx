@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
-import { Checkmark, BoldCross } from 'checkout/components';
+import { Checkmark, BoldCross } from 'checkout/components/ui/icon';
 import * as styles from '../input.scss';
 import styled, { css } from 'checkout/styled-components';
 

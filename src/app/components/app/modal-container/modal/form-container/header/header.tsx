@@ -34,7 +34,7 @@ const HeaderDef: React.FC<HeaderProps> = (props) => (
         {props.destination ? (
             <ChevronBack
                 className={formStyles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}
+                onClick={props.goToFormInfo.bind(null, props.destination, Direction.back)}
                 id="desktop-back-btn"
             />
         ) : null}
