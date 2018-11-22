@@ -16,19 +16,6 @@
     animation: slideup 0.75s;
 }
 
-.method_simple {
-    border-radius: 3px;
-    border: 1px solid $gray;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-    margin-bottom: 10px;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
 .method {
     @extend .method_simple;
 
@@ -57,11 +44,6 @@
         border-color: $green-v2-dark;
         background-color: $green-v2-dark;
     }
-}
-
-.method_center {
-    @extend .method;
-    justify-content: center;
 }
 
 .icon {

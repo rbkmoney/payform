@@ -23,6 +23,6 @@ const theme: Theme = {
     font: {
         family: "'Roboto', sans-serif"
     }
-} as Theme;
+} as any;
 
 export default theme;
