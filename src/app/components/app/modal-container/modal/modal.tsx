@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import * as styles from './modal.scss';
 import * as cx from 'classnames';
+
+import * as styles from './modal.scss';
 import { Info } from './info';
 import { Footer } from '../footer';
 import { MobileHeader } from './mobile-header';

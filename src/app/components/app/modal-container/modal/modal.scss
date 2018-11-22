@@ -42,7 +42,7 @@
         background-image: linear-gradient(45deg, $purple-v2 -20%, $purple-v2-2 90%);
 
         footer {
-            display: none;
+            display: none !important;
         }
     }
 

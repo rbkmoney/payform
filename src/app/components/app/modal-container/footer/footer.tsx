@@ -1,6 +1,8 @@
 import * as React from 'react';
-import * as styles from './footer.scss';
 import { connect } from 'react-redux';
+import * as cx from 'classnames';
+
+import * as styles from './footer.scss';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { Config } from 'checkout/config';
@@ -13,6 +15,7 @@ import { Logo } from './logo';
 export interface FooterProps {
     locale: Locale;
     config: Config;
+    className?: string;
 }
 
 const mapStateToProps = (state: State) => ({
@@ -21,7 +24,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const FooterDef: React.SFC<FooterProps> = (props) => (
-    <footer className={styles.footer}>
+    <footer className={cx(styles.footer, props.className)}>
         <div className={styles.safe_payment_container}>
             {!props.config.appConfig.brandless && (
                 <div className={styles.safe_payment}>
