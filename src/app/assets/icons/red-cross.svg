@@ -1,3 +1,9 @@
 <svg width="17" height="17" xmlns="http://www.w3.org/2000/svg">
-    <path id="icon" d="M8.5 7.3l-6-6-1.2 1.2 6 6-6 6 1.2 1.2 6-6 6 6 1.2-1.2-6-6 6-6-1.2-1.2z" stroke="#e75542" fill-rule="nonzero" fill="#e75542"/>
+    <path
+        id="icon"
+        d="M8.5 7.3l-6-6-1.2 1.2 6 6-6 6 1.2 1.2 6-6 6 6 1.2-1.2-6-6 6-6-1.2-1.2z"
+        stroke="#e75542"
+        fill-rule="nonzero"
+        fill="#e75542"
+    />
 </svg>

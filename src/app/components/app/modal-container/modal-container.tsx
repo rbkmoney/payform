@@ -37,16 +37,11 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}>
-                {result !== ResultState.close &&
-                    result !== ResultState.closeAfterDone && (
-                        <div className={styles.container}>
-                            {error ? (
-                                <ModalError inFrame={inFrame} error={error} />
-                            ) : (
-                                <ModalContent inFrame={inFrame} />
-                            )}
-                        </div>
-                    )}
+                {result !== ResultState.close && result !== ResultState.closeAfterDone && (
+                    <div className={styles.container}>
+                        {error ? <ModalError inFrame={inFrame} error={error} /> : <ModalContent inFrame={inFrame} />}
+                    </div>
+                )}
             </CSSTransitionGroup>
         );
     }
