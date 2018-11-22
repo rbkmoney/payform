@@ -9,7 +9,7 @@ export const Title = styled.div`
     line-height: 20px;
     width: 100%;
 
-    @mediia ${device.mobile} {
+    @media ${device.mobile} {
         text-align: center;
     }
 `;
