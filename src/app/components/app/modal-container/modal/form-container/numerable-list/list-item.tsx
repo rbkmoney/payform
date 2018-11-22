@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const ListItem = styled.li`
+const Item = styled.li`
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -17,19 +17,23 @@ const ListItem = styled.li`
     }
 `;
 
-const ListItemNumber = styled.div`
+const Num = styled.div`
     display: inline-block;
     margin-right: 15px;
     color: ${({ theme }) => theme.color.secondary[1]};
 `;
 
-const ListItemText = styled.div`
+const Text = styled.div`
     display: inline-block;
 `;
 
-export const getHelpStep = (step: string, i: number): JSX.Element => (
-    <ListItem key={i}>
-        <ListItemNumber>{i + 1}</ListItemNumber>
-        <ListItemText>{step}</ListItemText>
-    </ListItem>
+interface ListItemProps {
+    number: number;
+}
+
+export const ListItem: React.SFC<ListItemProps> = (props) => (
+    <Item>
+        <Num>{props.number}</Num>
+        <Text>{props.children}</Text>
+    </Item>
 );

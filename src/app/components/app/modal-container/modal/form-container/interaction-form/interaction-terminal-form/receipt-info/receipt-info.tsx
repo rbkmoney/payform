@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as format from 'date-fns/format';
+
 import * as formStyles from '../../../form-container.scss';
-import { ListItem, NumerableList } from './numerable-list';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { FormattedAmount } from 'checkout/utils';
 import { Highlight } from 'checkout/components/app/modal-container/modal/form-container/highlight';
+import { ListItem, NumerableList } from 'checkout/components/app/modal-container/modal/form-container/numerable-list';
 
 interface ReceiptInfo {
     locale: Locale;
