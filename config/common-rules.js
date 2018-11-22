@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const rules = [
     {
@@ -23,21 +23,19 @@ const rules = [
     },
     {
         test: /\.(css|scss)$/,
-        use: ExtractTextPlugin.extract({
-            use: [
-                {
-                    loader: 'css-loader',
-                    options: {
-                        minimize: true,
-                        modules: true,
-                        namedExport: true,
-                        localIdentName: '[local]__[hash:5]'
-                    }
-                },
-                'sass-loader'
-            ],
-            fallback: 'style-loader'
-        })
+        use: [
+            MiniCssExtractPlugin.loader,
+            {
+                loader: 'css-loader',
+                options: {
+                    minimize: true,
+                    modules: true,
+                    namedExport: true,
+                    localIdentName: '[local]__[hash:5]'
+                }
+            },
+            'sass-loader'
+        ]
     },
     {
         test: /\.(jpeg|jpg)$/,
