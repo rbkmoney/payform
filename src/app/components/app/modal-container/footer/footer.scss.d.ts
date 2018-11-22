@@ -3,8 +3,6 @@ export const safe_payment_container: string;
 export const safe_payment: string;
 export const label: string;
 export const safe_logos: string;
-export const copyright: string;
-export const offer: string;
 export const fill_icons: string;
 export const align_fix: string;
 export const secure_icon: string;
