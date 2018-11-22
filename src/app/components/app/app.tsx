@@ -11,14 +11,47 @@ import { initializeApp } from 'checkout/actions';
 import { ThemeProvider } from 'checkout/styled-components';
 import { DEFAULT_THEME } from 'checkout/themes';
 import styled from 'checkout/styled-components';
+import { createGlobalStyle } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
+
+const GlobalStyle = createGlobalStyle`
+    body,
+    html,
+    #app {
+        margin: 0;
+        position: relative;
+        height: auto;
+        min-height: 100%;
+        width: 100%;
+        min-width: 320px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        &._loading {
+            height: 100%;
+        }
+
+        @media ${device.mobile} {
+            height: 100%;
+            min-width: 680px;
+        }
+
+        @media (min-height: 701px) and ${device.mobile} {
+            overflow-y: hidden;
+        }
+    }
+`;
 
 const AppWrapper = styled.div`
     position: relative;
     height: 100%;
     min-height: 100%;
     width: 100%;
-    font-family: ${({ theme }) => theme.font.family};
+
+    &,
+    * {
+        font-family: ${({ theme }) => theme.font.family};
+    }
 
     @media ${device.mobile} {
         display: flex;
@@ -41,10 +74,13 @@ class AppDef extends React.Component<AppProps> {
         const { initialized, error } = this.props.initializeApp;
         return (
             <ThemeProvider theme={this.props.theme || DEFAULT_THEME}>
-                <AppWrapper>
-                    <Overlay />
-                    {initialized || error ? <ModalContainer /> : <LayoutLoader />}
-                </AppWrapper>
+                <>
+                    <GlobalStyle />
+                    <AppWrapper>
+                        <Overlay />
+                        {initialized || error ? <ModalContainer /> : <LayoutLoader />}
+                    </AppWrapper>
+                </>
             </ThemeProvider>
         );
     }

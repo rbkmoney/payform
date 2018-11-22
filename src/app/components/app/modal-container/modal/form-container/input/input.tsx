@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
-import * as styles from './input.scss';
-import * as cx from 'classnames';
+
 import { Icon, IconType } from 'checkout/components/ui';
 import { Marks } from './marks';
-import styled from 'checkout/styled-components';
+import { default as styled, css } from 'checkout/styled-components';
 
 const StyledIcon = styled(Icon)`
     position: absolute;
@@ -20,6 +19,37 @@ const StyledIcon = styled(Icon)`
     opacity: 1;
 `;
 
+const StyledInput = styled.input`
+    margin: 0;
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid ${({ theme }) => theme.color.neutral[0.2]};
+    box-shadow: 0 0 0 0 #fff;
+    font-weight: 500;
+    font-size: 16px;
+    color: ${({ theme }) => theme.color.neutral[0.9]};
+    letter-spacing: 0;
+    padding-left: 40px;
+    padding-right: 13px;
+    appearance: none;
+    transition: border-color 0.3s;
+    outline: none;
+
+    ::placeholder {
+        color: ${({ theme }) => theme.color.neutral[0.3]};
+    }
+
+    :focus {
+        border-color: ${({ theme }) => theme.color.secondary[0.9]} !important;
+        border-width: 2px !important;
+        box-shadow: 0 0 4px 0 ${({ theme }) => theme.color.secondary[0.9]} !important;
+        padding-left: 39px;
+        padding-right: 12px;
+    }
+`;
+
 export interface CustomProps {
     icon?: IconType;
     placeholder?: string;
@@ -32,20 +62,16 @@ export interface CustomProps {
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
-export const Input: React.SFC<InputProps> = (props) => (
-    <div
-        className={cx(styles.container, props.className, {
-            [styles._hasError]: props.error
-        })}>
+export const Input = styled((props: InputProps) => (
+    <div className={props.className}>
         {!!props.icon && <StyledIcon icon={props.icon} />}
-        <input
+        <StyledInput
             onChange={props.onChange}
             onBlur={props.onBlur}
             onFocus={props.onFocus}
             onDrop={props.onDrop}
             onDragStart={props.onDragStart}
             onInput={props.onInput}
-            className={cx(styles.input, { [styles.mark]: props.mark })}
             placeholder={props.placeholder}
             type={props.type}
             value={props.value}
@@ -53,4 +79,31 @@ export const Input: React.SFC<InputProps> = (props) => (
         />
         {!!props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
     </div>
-);
+))`
+    position: relative;
+    width: 100%;
+
+    :nth-child(2) {
+        margin-left: 10px;
+    }
+
+    ${(props) =>
+        !!props.error &&
+        css`
+            ${StyledInput} {
+                border-color: ${props.theme.color.error[1]};
+            }
+        `};
+
+    ${(props) =>
+        !!props.mark &&
+        css`
+            ${StyledInput} {
+                padding-right: 30px;
+
+                :focus {
+                    padding-right: 29px;
+                }
+            }
+        `};
+`;

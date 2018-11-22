@@ -10,7 +10,6 @@ import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
 
-import './styles/main.scss';
 import './styles/forms.scss';
 
 initialize().then((res) => {
