@@ -1,11 +1,19 @@
 import * as React from 'react';
-import * as cx from 'classnames';
-import * as styles from './link.scss';
 
-interface LinkProps extends React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {}
+import styled from 'checkout/styled-components';
 
-export const Link: React.SFC<LinkProps> = ({ className, children, ...props }) => (
-    <a className={cx(styles.link, className)} {...props}>
-        {children}
-    </a>
-);
+export const Link = styled.a`
+    font-weight: 900;
+    font-size: 11px;
+    color: ${({ theme }) => theme.color.secondary[0.9]};
+    letter-spacing: 2px;
+    line-height: 15px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+
+    :hover,
+    :active {
+        color: ${({ theme }) => theme.color.secondary[0.8]};
+    }
+`;
