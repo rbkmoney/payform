@@ -6,4 +6,3 @@ export const back_btn: string;
 export const text: string;
 export const systemLogo: string;
 export const animationFormContainer: string;
-export const link: string;
