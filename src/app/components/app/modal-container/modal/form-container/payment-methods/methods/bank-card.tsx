@@ -2,10 +2,8 @@ import * as React from 'react';
 import { CardFormInfo, FormName } from 'checkout/state';
 import { BankCardIcon } from './icons/bank-card-icon';
 import { MethodProps } from './method-props';
-import {
-    Method,
-    Title
-} from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
 
 const toBankCard = (props: MethodProps) => props.setFormInfo(new CardFormInfo(FormName.paymentMethods));
 

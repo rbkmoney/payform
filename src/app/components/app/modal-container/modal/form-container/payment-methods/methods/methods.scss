@@ -1,4 +1,3 @@
-@import '../../../../../../../styles/variables';
 @import '../../../../../../../styles/animations';
 
 .list {
@@ -14,20 +13,4 @@
 
 .leave {
     animation: slideup 0.75s;
-}
-
-.text {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-
-.apple_pay_button {
-    cursor: pointer;
-    width: 100%;
-    padding: 38px;
-    margin-bottom: 10px;
-    transition: all 0.3s;
-    -webkit-appearance: -apple-pay-button;
-    -apple-pay-button-style: white-outline;
 }

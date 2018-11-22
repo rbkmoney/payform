@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { apple_pay_button } from './methods.scss';
+
 import { ApplePayIcon } from './icons/apple-pay-icon';
 import { MethodProps } from './method-props';
 import { TokenProviderFormInfo, FormName, PaymentMethodName } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
-import {
-    Method,
-    Title
-} from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
+import styled from 'checkout/styled-components';
 
 const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.applepay, FormName.paymentMethods));
@@ -21,9 +20,17 @@ const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
 
 const pay = (props: MethodProps) => props.pay({ method: PaymentMethodName.ApplePay });
 
-const ApplePayButton: React.SFC<MethodProps> = (props) => (
-    <button type="button" className={apple_pay_button} onClick={pay.bind(null, props)} />
-);
+export const ApplePayButton = styled((props) => (
+    <button type="button" className={props.className} onClick={pay.bind(null, props)} />
+))`
+    cursor: pointer;
+    width: 100%;
+    padding: 38px;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+    -webkit-appearance: -apple-pay-button;
+    -apple-pay-button-style: white-outline;
+`;
 
 export const ApplePay: React.SFC<MethodProps> = (props) => {
     return props.amountPrefilled && props.emailPrefilled ? (

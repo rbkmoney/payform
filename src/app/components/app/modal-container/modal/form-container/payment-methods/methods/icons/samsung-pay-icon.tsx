@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon';
 
 export const SamsungPayIcon: React.SFC = () => (
     <Icon>

@@ -4,10 +4,9 @@ import { FormName, PaymentMethodName, TokenProviderFormInfo } from 'checkout/sta
 import { BankCardTokenProvider } from 'checkout/backend/model';
 import { SamsungPayIcon } from './icons/samsung-pay-icon';
 import { MethodSimple } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/mthod-simple';
-import {
-    Method,
-    Title
-} from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
+import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
 
 const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.samsungpay, FormName.paymentMethods));
