@@ -11,7 +11,7 @@ import { Icon } from 'checkout/components/app/modal-container/modal/form-contain
 const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.applepay, FormName.paymentMethods));
 
-const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
+const TokenProviderFormLink: React.FC<MethodProps> = (props) => (
     <Method onClick={toTokenProvider.bind(null, props)} id="apple-pay-payment-method">
         <Icon name="apple-pay" />
         <Title>{props.locale['form.payment.method.name.apple.pay.label']}</Title>
@@ -32,7 +32,7 @@ export const ApplePayButton = styled((props) => (
     -apple-pay-button-style: white-outline;
 `;
 
-export const ApplePay: React.SFC<MethodProps> = (props) => {
+export const ApplePay: React.FC<MethodProps> = (props) => {
     return props.amountPrefilled && props.emailPrefilled ? (
         <ApplePayButton {...props} />
     ) : (

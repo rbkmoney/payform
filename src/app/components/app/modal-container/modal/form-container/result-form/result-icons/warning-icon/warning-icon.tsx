@@ -39,7 +39,7 @@ const Warning = styled.svg`
     }
 `;
 
-export const WarningIcon: React.SFC = () => (
+export const WarningIcon: React.FC = () => (
     <Warning viewBox="0 0 50 50" id="warning-icon">
         <g fill="none">
             <circle cx="25" cy="25" r="25" />

@@ -9,7 +9,7 @@ export interface AmountInfoProps {
     amount: FormattedAmount;
 }
 
-export const AmountInfo: React.SFC<AmountInfoProps> = (props) => (
+export const AmountInfo: React.FC<AmountInfoProps> = (props) => (
     <p className={styles.text}>
         {props.locale['form.pay.terminals.instruction.to.pay']}:{' '}
         <Highlight>{`${props.amount.value} ${props.amount.symbol}`}</Highlight>

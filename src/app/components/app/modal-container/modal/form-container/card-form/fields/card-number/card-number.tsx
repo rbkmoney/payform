@@ -29,7 +29,7 @@ const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) =
     />
 );
 
-const CardNumberDef: React.SFC<CardNumberProps> = (props) => (
+const CardNumberDef: React.FC<CardNumberProps> = (props) => (
     <div className={styles.inputContainer}>
         <Field name="cardNumber" component={getCustomInput.bind(null, props)} validate={validateCardNumber} />
         <CardTypeIcon />

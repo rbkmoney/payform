@@ -33,7 +33,7 @@ const getCustomInput = (props: AmountProps, fieldProps: WrappedFieldProps) => (
     />
 );
 
-const AmountDef: React.SFC<AmountProps> = (props) => (
+const AmountDef: React.FC<AmountProps> = (props) => (
     <Field
         name="amount"
         component={getCustomInput.bind(null, props)}

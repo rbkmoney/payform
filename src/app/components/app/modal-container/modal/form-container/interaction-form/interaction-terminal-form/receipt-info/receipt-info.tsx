@@ -17,7 +17,7 @@ interface ReceiptInfo {
 const formatPaymentId = (id: string): string =>
     `${id.slice(0, 2)} ${id.slice(2, 5)} ${id.slice(5, 8)} ${id.slice(8, 10)}`;
 
-const Instruction: React.SFC<ReceiptInfo> = (props) => {
+const Instruction: React.FC<ReceiptInfo> = (props) => {
     const formattedDate = format(props.receipt.dueDate, 'D.MM.YYYY HH:mm');
     const amount = `${props.amount.value} ${props.amount.symbol}`;
     return (
@@ -28,7 +28,7 @@ const Instruction: React.SFC<ReceiptInfo> = (props) => {
     );
 };
 
-export const ReceiptInfo: React.SFC<ReceiptInfo> = (props) => (
+export const ReceiptInfo: React.FC<ReceiptInfo> = (props) => (
     <div>
         <Instruction {...props} />
         <NumerableList>

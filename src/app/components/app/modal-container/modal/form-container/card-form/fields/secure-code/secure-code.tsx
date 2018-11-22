@@ -28,7 +28,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
     />
 );
 
-export const SecureCodeDef: React.SFC<SecureCodeProps> = (props) => (
+export const SecureCodeDef: React.FC<SecureCodeProps> = (props) => (
     <Field name="secureCode" component={getCustomInput.bind(null, props)} validate={validateSecureCode} />
 );
 

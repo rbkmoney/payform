@@ -23,7 +23,7 @@ const mapStateToProps = (state: State) => ({
     config: state.config
 });
 
-const FooterDef: React.SFC<FooterProps> = (props) => (
+const FooterDef: React.FC<FooterProps> = (props) => (
     <footer className={cx(styles.footer, props.className)}>
         <div className={styles.safe_payment_container}>
             {!props.config.appConfig.brandless && (

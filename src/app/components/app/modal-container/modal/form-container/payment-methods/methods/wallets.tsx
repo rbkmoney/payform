@@ -10,7 +10,7 @@ import { Icon } from 'checkout/components/app/modal-container/modal/form-contain
 
 const toWallets = (props: MethodProps) => props.setFormInfo(new WalletFormInfo(FormName.paymentMethods));
 
-export const Wallets: React.SFC<MethodProps> = (props) => (
+export const Wallets: React.FC<MethodProps> = (props) => (
     <Method onClick={toWallets.bind(null, props)} id="wallets-payment-method">
         <Icon name="wallets" />
         <Text>

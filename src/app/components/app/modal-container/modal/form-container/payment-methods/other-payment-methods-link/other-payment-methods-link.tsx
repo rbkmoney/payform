@@ -9,7 +9,7 @@ export interface OtherPaymentMethodsLinkProps {
     onClick: MouseEventHandler<any>;
 }
 
-export const OtherPaymentMethodsLink: React.SFC<OtherPaymentMethodsLinkProps> = (props) => (
+export const OtherPaymentMethodsLink: React.FC<OtherPaymentMethodsLinkProps> = (props) => (
     <div className={block}>
         <div className={container}>
             <Link onClick={props.onClick}>{props.locale['form.payment.method.name.others.label']}</Link>

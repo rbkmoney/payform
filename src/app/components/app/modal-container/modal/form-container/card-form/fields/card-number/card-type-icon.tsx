@@ -22,7 +22,7 @@ function findIcon(brand: CardTypes): IconType {
     return Object.keys(IconType).find((key) => key === brand) as IconType;
 }
 
-const CardTypeIconDef: React.SFC<CardTypeIconProps> = (props) => {
+const CardTypeIconDef: React.FC<CardTypeIconProps> = (props) => {
     const cardType = getCardType(props.cardNumber);
     const icon = cardType ? findIcon(cardType.type) : null;
     return icon ? <Icon className={styles.cardTypeIcon} icon={icon} /> : null;

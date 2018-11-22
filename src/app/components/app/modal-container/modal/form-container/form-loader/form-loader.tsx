@@ -3,7 +3,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import { appear, leave, loader } from './form-loader.scss';
 import { Loader } from 'checkout/components';
 
-export const FormLoader: React.SFC = () => (
+export const FormLoader: React.FC = () => (
     <CSSTransitionGroup
         transitionName={{ enter: null, appear, leave }}
         transitionEnter={false}

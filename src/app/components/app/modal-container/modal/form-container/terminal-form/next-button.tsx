@@ -7,7 +7,7 @@ export interface NextButtonProps {
     locale: Locale;
 }
 
-const NextButtonDef: React.SFC<NextButtonProps> = (props) => (
+const NextButtonDef: React.FC<NextButtonProps> = (props) => (
     <Button type="submit" color="primary" id="next-btn" className={next_button}>
         {props.locale['form.button.next.label']}
     </Button>

@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch: Dispatch<ResultAction>) => ({
     setResult: bindActionCreators(setResult, dispatch)
 });
 
-const CloseDef: React.SFC<CloseProps> = (props) => (
+const CloseDef: React.FC<CloseProps> = (props) => (
     <div className={styles.close} onClick={props.setResult.bind(null, ResultState.close)}>
         <Icon icon={IconType.cross} />
     </div>

@@ -27,7 +27,7 @@ const getCustomInput = (props: ExpireDateProps, fieldProps: WrappedFieldProps) =
     />
 );
 
-export const ExpireDateDef: React.SFC<ExpireDateProps> = (props) => (
+export const ExpireDateDef: React.FC<ExpireDateProps> = (props) => (
     <Field name="expireDate" component={getCustomInput.bind(null, props)} validate={validateExpireDate} />
 );
 

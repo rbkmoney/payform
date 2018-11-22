@@ -11,7 +11,7 @@ import { Icon } from 'checkout/components/app/modal-container/modal/form-contain
 const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.samsungpay, FormName.paymentMethods));
 
-const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
+const TokenProviderFormLink: React.FC<MethodProps> = (props) => (
     <Method onClick={toTokenProvider.bind(null, props)} id="samsung-pay-payment-method">
         <Icon name="samsung-pay" />
         <Title>{props.locale['form.payment.method.name.samsung.pay.label']}</Title>
@@ -20,7 +20,7 @@ const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
 
 const pay = (props: MethodProps) => props.pay({ method: PaymentMethodName.SamsungPay });
 
-const SamsungPayLink: React.SFC<MethodProps> = (props) => (
+const SamsungPayLink: React.FC<MethodProps> = (props) => (
     <MethodSimple onClick={pay.bind(null, props)} id="samsung-pay-payment-method">
         <svg width="100%" height="40" viewBox="-75 -13 600 80">
             <path
@@ -31,7 +31,7 @@ const SamsungPayLink: React.SFC<MethodProps> = (props) => (
     </MethodSimple>
 );
 
-export const SamsungPay: React.SFC<MethodProps> = (props) => {
+export const SamsungPay: React.FC<MethodProps> = (props) => {
     return props.amountPrefilled && props.emailPrefilled ? (
         <SamsungPayLink {...props} />
     ) : (

@@ -25,7 +25,7 @@ const getCustomInput = (props: EmailDefProps, fieldProps: WrappedFieldProps) => 
     />
 );
 
-export const EmailDef: React.SFC<EmailDefProps> = (props) => (
+export const EmailDef: React.FC<EmailDefProps> = (props) => (
     <Field name="email" component={getCustomInput.bind(null, props)} validate={validateEmail} />
 );
 

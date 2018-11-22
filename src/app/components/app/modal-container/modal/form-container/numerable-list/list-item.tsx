@@ -31,7 +31,7 @@ interface ListItemProps {
     number: number;
 }
 
-export const ListItem: React.SFC<ListItemProps> = (props) => (
+export const ListItem: React.FC<ListItemProps> = (props) => (
     <Item>
         <Num>{props.number}</Num>
         <Text>{props.children}</Text>

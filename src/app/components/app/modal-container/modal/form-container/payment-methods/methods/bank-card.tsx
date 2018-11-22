@@ -7,7 +7,7 @@ import { Icon } from 'checkout/components/app/modal-container/modal/form-contain
 
 const toBankCard = (props: MethodProps) => props.setFormInfo(new CardFormInfo(FormName.paymentMethods));
 
-export const BankCard: React.SFC<MethodProps> = (props) => (
+export const BankCard: React.FC<MethodProps> = (props) => (
     <Method onClick={toBankCard.bind(null, props)} id="bank-card-payment-method">
         <Icon name="bank-card" />
         <Title>{props.locale['form.payment.method.name.card.label']}</Title>

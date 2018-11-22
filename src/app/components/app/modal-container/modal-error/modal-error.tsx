@@ -39,7 +39,7 @@ interface ModalErrorProps {
     error?: { message?: string; code?: string };
 }
 
-export const ModalError: React.SFC<ModalErrorProps> = ({ error, inFrame }) => {
+export const ModalError: React.FC<ModalErrorProps> = ({ error, inFrame }) => {
     const errorMessage = error && (error.message || error.code);
     return (
         <ModalErrorWrapper>

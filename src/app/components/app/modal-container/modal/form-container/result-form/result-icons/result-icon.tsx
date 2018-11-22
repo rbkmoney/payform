@@ -8,7 +8,7 @@ interface ResultIconProps {
     type: ResultFormType;
 }
 
-export const ResultIcon: React.SFC<ResultIconProps> = ({ type }) => {
+export const ResultIcon: React.FC<ResultIconProps> = ({ type }) => {
     switch (type) {
         case ResultFormType.ERROR:
             return <ErrorIcon />;

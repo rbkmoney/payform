@@ -26,7 +26,7 @@ const getCustomInput = (props: CardHolderProps, fieldProps: WrappedFieldProps) =
     />
 );
 
-export const CardHolderDef: React.SFC<CardHolderProps> = (props) => (
+export const CardHolderDef: React.FC<CardHolderProps> = (props) => (
     <Field name="cardHolder" component={getCustomInput.bind(null, props)} validate={validateCardHolder} />
 );
 

@@ -28,7 +28,7 @@ const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
     />
 );
 
-export const PhoneDef: React.SFC<PhoneProps> = (props) => (
+export const PhoneDef: React.FC<PhoneProps> = (props) => (
     <Field name="phone" component={getCustomInput.bind(null, props)} validate={validatePhone} />
 );
 

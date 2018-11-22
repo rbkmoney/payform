@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-const HeaderDef: React.SFC<HeaderProps> = (props) => (
+const HeaderDef: React.FC<HeaderProps> = (props) => (
     <div className={formStyles.header}>
         {props.destination ? (
             <ChevronBack

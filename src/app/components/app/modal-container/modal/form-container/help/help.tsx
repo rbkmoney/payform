@@ -18,7 +18,7 @@ const getError = (props: HelpDefProps): { steps: string[]; text: string } => {
     return locale['form.help.codes'][errorCode];
 };
 
-const HelpDef: React.SFC<HelpDefProps> = (props) => {
+const HelpDef: React.FC<HelpDefProps> = (props) => {
     const { text, steps } = getError(props);
 
     return (

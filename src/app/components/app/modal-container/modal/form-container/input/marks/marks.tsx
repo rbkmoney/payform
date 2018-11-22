@@ -33,7 +33,7 @@ interface MarksProps {
     error: boolean;
 }
 
-export const Marks: React.SFC<MarksProps> = (props) => (
+export const Marks: React.FC<MarksProps> = (props) => (
     <CSSTransitionGroup
         component="div"
         transitionName={{

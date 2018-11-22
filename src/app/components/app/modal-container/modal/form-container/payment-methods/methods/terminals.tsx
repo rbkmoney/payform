@@ -10,7 +10,7 @@ import { Icon } from 'checkout/components/app/modal-container/modal/form-contain
 
 const toTerminals = (props: MethodProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
 
-export const Terminals: React.SFC<MethodProps> = (props) => (
+export const Terminals: React.FC<MethodProps> = (props) => (
     <Method onClick={toTerminals.bind(null, props)} id="terminal-payment-method">
         <Icon name="terminals" />
         <Text>

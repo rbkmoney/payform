@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { logo, fill_logo } from './footer.scss';
 
-export const Logo: React.SFC = () => (
+export const Logo: React.FC = () => (
     <div className={logo}>
         <svg className={fill_logo} width="125" height="20" viewBox="0 0 365 60">
             <g fillRule="evenodd">

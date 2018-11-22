@@ -16,7 +16,7 @@ const getRandomBg = (): string => backgrounds[Math.floor(Math.random() * backgro
 
 const bg = getRandomBg();
 
-const OverlayDef: React.SFC<OverlayDefProps> = ({ result, inFrame }) => (
+const OverlayDef: React.FC<OverlayDefProps> = ({ result, inFrame }) => (
     <CSSTransitionGroup
         transitionName={{ enter: null, appear, leave, leaveActive }}
         transitionEnter={false}

@@ -58,7 +58,7 @@ interface ModalDefProps {
     inFrame: boolean;
 }
 
-const ModalDef: React.SFC<ModalDefProps> = (props) => (
+const ModalDef: React.FC<ModalDefProps> = (props) => (
     <CSSTransitionGroup
         component="div"
         transitionName={{
