@@ -20,6 +20,18 @@ import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { isHelpAvailable } from './is-help-available';
 import { ErrorDescriptionBlock } from './error-description-block';
 import { ResultIcon } from 'checkout/components/app/modal-container/modal/form-container/result-form/result-icons';
+import styled from 'styled-components';
+
+const Title = styled.h2<{ type: ResultFormType }>`
+    font-weight: 500;
+    font-size: 30px;
+    color: ${({ theme, type }) => (type === ResultFormType.ERROR ? theme.color.error[1] : theme.color.neutral[0.9])};
+    letter-spacing: 0;
+    line-height: 35px;
+    text-align: center;
+    padding: 0;
+    margin: 0 0 30px;
+`;
 
 class ResultFormDef extends React.Component<ResultFormProps> {
     render() {
@@ -31,9 +43,7 @@ class ResultFormDef extends React.Component<ResultFormProps> {
         return (
             <form className={cx(styles.form, { [styles.form_withoutActions]: !hasActions })}>
                 <div className={styles.container}>
-                    <h2 className={cx(styles.title, { [styles.title_error]: type === ResultFormType.ERROR })}>
-                        {header}
-                    </h2>
+                    <Title type={type}>{header}</Title>
                     <ResultIcon type={type} />
                     {description}
                     {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
