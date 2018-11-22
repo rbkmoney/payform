@@ -103,7 +103,7 @@
     "rimraf": "~2.6.2",
     "sass-loader": "~6.0.3",
     "style-loader": "~0.20.1",
-    "svg-react-loader": "^0.4.6",
+    "svg-react-loader": "~0.4.6",
     "thread-loader": "~1.1.2",
     "ts-jest": "~22.4.0",
     "ts-loader": "~3.5.0",

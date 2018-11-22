@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldProps } from 'redux-form';
+
 import * as styles from './card-number.scss';
 import { State } from 'checkout/state';
 import { CardTypeIcon } from './card-type-icon';
 import { validateCardNumber } from './validate-card-number';
-import { IconType, Input } from 'checkout/components';
+import { Card, Input } from 'checkout/components';
 import { isError } from '../../../common-fields/error-predicate';
 import { Locale } from 'checkout/locale';
 import { formatCardNumber } from './format-card-number';
@@ -20,7 +21,7 @@ const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) =
         {...fieldProps.meta}
         error={isError(fieldProps.meta)}
         className={styles.cardNumberInput}
-        icon={IconType.card}
+        icon={<Card />}
         placeholder={props.locale['form.input.card.placeholder']}
         mark={true}
         type="tel"

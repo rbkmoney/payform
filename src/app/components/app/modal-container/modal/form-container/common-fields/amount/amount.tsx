@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldProps } from 'redux-form';
-import { IconType, Input } from 'checkout/components';
+
+import { Input } from 'checkout/components';
 import { getPlaceholder } from './get-placeholder';
 import { validateAmount } from './validate-amount';
 import { isError } from '../error-predicate';
@@ -9,6 +10,7 @@ import { Locale } from 'checkout/locale';
 import { InvoiceTemplateLineCostRange, InvoiceTemplateLineCostUnlim } from 'checkout/backend';
 import { State } from 'checkout/state';
 import { formatAmount } from './format-amount';
+import { Amount as AmountIcon } from 'checkout/components';
 
 interface OwnProps {
     cost: InvoiceTemplateLineCostRange | InvoiceTemplateLineCostUnlim;
@@ -23,7 +25,7 @@ const getCustomInput = (props: AmountProps, fieldProps: WrappedFieldProps) => (
     <Input
         {...fieldProps.input}
         {...fieldProps.meta}
-        icon={IconType.amount}
+        icon={<AmountIcon />}
         error={isError(fieldProps.meta)}
         placeholder={getPlaceholder(props.cost, props.locale['form.input.amount.placeholder'])}
         mark={true}

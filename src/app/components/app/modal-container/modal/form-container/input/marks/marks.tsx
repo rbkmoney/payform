@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import * as styles from '../input.scss';
-import { Icon, IconType } from 'checkout/components/ui';
-import styled from 'checkout/styled-components';
 
-const StyledIcon = styled(Icon)`
+import { Checkmark, BoldCross } from 'checkout/components/ui/icon';
+import * as styles from '../input.scss';
+import styled, { css } from 'checkout/styled-components';
+
+const iconStyle = css`
     display: flex;
     position: absolute;
     right: 0;
@@ -14,13 +15,15 @@ const StyledIcon = styled(Icon)`
     align-items: center;
 `;
 
-const CheckmarkIcon = styled(StyledIcon)`
+const CheckmarkIcon = styled(Checkmark)`
+    ${iconStyle};
     height: 9px;
     width: 13px;
     margin: 19px 15px 0 19px;
 `;
 
-const ErrorCrossIcon = styled(StyledIcon)`
+const ErrorCrossIcon = styled(BoldCross)`
+    ${iconStyle};
     height: 18px;
     width: 18px;
     margin: 15px 15px 0 19px;
@@ -47,7 +50,6 @@ export const Marks: React.FC<MarksProps> = (props) => (
         transitionAppear={true}
         transitionEnter={true}
         transitionLeave={true}>
-        {!props.active && !props.error && !props.pristine && <CheckmarkIcon icon={IconType.checkmark} />}
-        {!props.active && !!props.error && <ErrorCrossIcon icon={IconType.redCross} />}
+        {!props.active && (props.error ? <ErrorCrossIcon /> : !props.pristine && <CheckmarkIcon />)}
     </CSSTransitionGroup>
 );

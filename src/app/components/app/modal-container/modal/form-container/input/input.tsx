@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
 
-import { Icon, IconType } from 'checkout/components/ui';
 import { Marks } from './marks';
 import { default as styled, css } from 'checkout/styled-components';
+import { ReactNode } from 'react';
 
-const StyledIcon = styled(Icon)`
+const Icon = styled.div`
     position: absolute;
     top: 0;
     left: 0;
@@ -51,7 +51,7 @@ const StyledInput = styled.input`
 `;
 
 export interface CustomProps {
-    icon?: IconType;
+    icon?: ReactNode;
     placeholder?: string;
     mark?: boolean; // TODO mark always true
     className?: string;
@@ -62,9 +62,9 @@ export interface CustomProps {
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
-export const Input = styled((props: InputProps) => (
+export const Input = styled<React.FC<InputProps>>((props) => (
     <div className={props.className}>
-        {!!props.icon && <StyledIcon icon={props.icon} />}
+        {!!props.icon && <Icon>{props.icon}</Icon>}
         <StyledInput
             onChange={props.onChange}
             onBlur={props.onBlur}

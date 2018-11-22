@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldProps } from 'redux-form';
-import { IconType } from 'checkout/components';
+
 import { State } from 'checkout/state';
 import { Input } from '../../../input';
 import { validateExpireDate } from './validate-expire-date';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
 import { formatExpiry } from './format-expiry';
+import { Calendar } from 'checkout/components';
 
 export interface ExpireDateProps {
     locale: Locale;
@@ -18,7 +19,7 @@ const getCustomInput = (props: ExpireDateProps, fieldProps: WrappedFieldProps) =
         {...fieldProps.input}
         {...fieldProps.meta}
         error={isError(fieldProps.meta)}
-        icon={IconType.calendar}
+        icon={<Calendar />}
         placeholder={props.locale['form.input.expiry.placeholder']}
         mark={true}
         type="tel"

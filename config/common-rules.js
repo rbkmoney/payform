@@ -69,9 +69,14 @@ const rules = [
         test: /\.svg$/,
         use: [
             {
-                loader: 'svg-react-loader'
+                loader: 'svg-react-loader',
+                options: {
+                    classIdPrefix: '[name]-[hash:8]__',
+                    uniqueIdPrefix: true
+                }
             }
-        ]
+        ],
+        exclude: '/node_modules/'
     }
 ];
 
