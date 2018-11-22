@@ -8,9 +8,7 @@ import SamsungPay from './samsung-pay.svg';
 import Terminals from './terminals.svg';
 import Wallets from './wallets.svg';
 
-type name = 'apple-pay' | 'bank-card' | 'google-pay' | 'samsung-pay' | 'terminals' | 'wallets';
-
-const IconClasses: { [key in name]: React.ComponentType } = {
+const IconClasses = {
     'apple-pay': ApplePay,
     'google-pay': GooglePay,
     'samsung-pay': SamsungPay,
@@ -18,6 +16,8 @@ const IconClasses: { [key in name]: React.ComponentType } = {
     terminals: Terminals,
     wallets: Wallets
 };
+
+type name = keyof typeof IconClasses;
 
 export const Icon = styled<React.FC<{ name: name; className?: string }>>((props) => {
     const IconClass = IconClasses[props.name];
