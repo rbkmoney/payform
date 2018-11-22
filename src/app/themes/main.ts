@@ -17,7 +17,8 @@ const theme = {
         secondary: {
             1: '#8330ec', // $purple-v2
             0.9: '#685bff', // $purple-v2-2
-            0.8: '#5248c9' // $purple-v2-2-dark
+            0.8: '#5248c9', // $purple-v2-2-dark
+            0.7: '#9088dd' // $very-deep-blue
         },
         error: {
             1: '#e75542'

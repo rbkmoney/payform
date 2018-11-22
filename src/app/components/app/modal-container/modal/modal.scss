@@ -17,36 +17,3 @@
         animation: rotateout 0s;
     }
 }
-
-.form_container {
-    position: relative;
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
-    background-image: linear-gradient(45deg, $purple-v2 0%, $purple-v2-2 100%);
-
-    footer {
-        display: block;
-    }
-
-    @include responsive(sm) {
-        height: auto;
-        min-height: auto;
-        width: 680px;
-        border-radius: 6px;
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        padding: 30px;
-        box-sizing: border-box;
-        background-image: linear-gradient(45deg, $purple-v2 -20%, $purple-v2-2 90%);
-
-        footer {
-            display: none !important;
-        }
-    }
-
-    &.with_shadow {
-        box-shadow: 0 15px 49px 0 $very-deep-blue;
-    }
-}
