@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { icon } from '../methods.scss';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
 
 export const TerminalsIcon: React.SFC = () => (
-    <div className={icon}>
+    <Icon>
         <svg width="40" height="40" viewBox="0 0 32 22" xmlns="http://www.w3.org/2000/svg">
             <g>
                 <path
@@ -12,5 +12,5 @@ export const TerminalsIcon: React.SFC = () => (
                 />
             </g>
         </svg>
-    </div>
+    </Icon>
 );

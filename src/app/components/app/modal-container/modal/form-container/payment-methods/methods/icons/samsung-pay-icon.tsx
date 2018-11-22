@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { icon } from '../methods.scss';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
 
 export const SamsungPayIcon: React.SFC = () => (
-    <div className={icon}>
+    <Icon>
         <svg viewBox="0 0 32 32">
             <defs>
                 <linearGradient id="a" x1="16" y1=".07" x2="16" y2="30.97" gradientUnits="userSpaceOnUse">
@@ -17,5 +17,5 @@ export const SamsungPayIcon: React.SFC = () => (
                 />
             </g>
         </svg>
-    </div>
+    </Icon>
 );

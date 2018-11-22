@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as styles from '../methods.scss';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
 
 export const WalletsIcon: React.SFC = () => (
-    <div className={styles.icon}>
+    <Icon>
         {/* tslint:disable:max-line-length */}
         <svg width="40" height="40" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -13,5 +13,5 @@ export const WalletsIcon: React.SFC = () => (
             />
         </svg>
         {/* tslint:enable:max-line-length */}
-    </div>
+    </Icon>
 );

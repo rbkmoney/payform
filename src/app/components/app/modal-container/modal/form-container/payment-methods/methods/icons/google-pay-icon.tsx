@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { icon } from '../methods.scss';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
 
 export const GooglePayIcon: React.SFC = () => (
-    <div className={icon}>
+    <Icon>
         <svg width="40" height="40" viewBox="-20 0 1085 1000">
             <path
                 fill="#685BFF"
@@ -11,5 +11,5 @@ export const GooglePayIcon: React.SFC = () => (
                 fillRule="evenodd"
             />
         </svg>
-    </div>
+    </Icon>
 );

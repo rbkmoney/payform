@@ -16,71 +16,10 @@
     animation: slideup 0.75s;
 }
 
-.method {
-    @extend .method_simple;
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-
-    &:hover {
-        border-color: $green-v2;
-        background-color: $green-v2;
-
-        .title {
-            color: #fff;
-        }
-
-        .description {
-            color: #fff;
-        }
-
-        .icon svg path {
-            fill: #fff;
-        }
-    }
-
-    &:active {
-        border-color: $green-v2-dark;
-        background-color: $green-v2-dark;
-    }
-}
-
-.icon {
-    height: 40px;
-    width: 40px;
-    margin-right: 15px;
-}
-
 .text {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-}
-
-.title {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    text-transform: uppercase;
-    font-size: 11px;
-    color: $purple-v2-2;
-    letter-spacing: 2px;
-    line-height: 15px;
-    padding: 0;
-    margin: 0;
-    display: inline-table;
-}
-
-.description {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    font-style: italic;
-    color: $gray-v2;
-    letter-spacing: 0.1px;
-    line-height: 17px;
-    padding: 4px 0 0;
-    margin: 0;
 }
 
 .apple_pay_button {

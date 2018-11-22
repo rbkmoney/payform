@@ -9,6 +9,9 @@ const theme = {
             1: '#000'
         },
         primary: {
+            0.1: '#c3f0dd', // $green-v2-light
+            0.8: '#30b37c', // $green-v2-dark
+            0.9: '#29996a', // $green-v2-dark-2
             1: '#38cd8f' // $green-v2
         },
         secondary: {
