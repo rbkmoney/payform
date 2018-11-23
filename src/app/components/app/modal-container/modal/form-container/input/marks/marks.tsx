@@ -20,6 +20,9 @@ const CheckmarkIcon = styled(Checkmark)`
     height: 9px;
     width: 13px;
     margin: 19px 15px 0 19px;
+    g {
+        stroke: ${({ theme }) => theme.color.primary[1]};
+    }
 `;
 
 const ErrorCrossIcon = styled(BoldCross)`
