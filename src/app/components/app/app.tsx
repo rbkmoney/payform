@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import get from 'lodash-es/get';
 
 import { Overlay } from './overlay';
 import { ModalContainer } from './modal-container';
@@ -9,10 +10,10 @@ import { AppProps } from './app-props';
 import { State } from 'checkout/state';
 import { initializeApp } from 'checkout/actions';
 import { ThemeProvider } from 'checkout/styled-components';
-import { DEFAULT_THEME } from 'checkout/themes';
 import styled from 'checkout/styled-components';
 import { createGlobalStyle } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
+import { themes } from 'checkout/themes';
 
 const GlobalStyle = createGlobalStyle`
     body,
@@ -73,7 +74,7 @@ class AppDef extends React.Component<AppProps> {
     render() {
         const { initialized, error } = this.props.initializeApp;
         return (
-            <ThemeProvider theme={this.props.theme || DEFAULT_THEME}>
+            <ThemeProvider theme={this.props.fixedTheme ? themes[this.props.fixedTheme] : themes[this.props.theme]}>
                 <>
                     <GlobalStyle />
                     <AppWrapper>
@@ -88,7 +89,8 @@ class AppDef extends React.Component<AppProps> {
 
 const mapStateToProps = (state: State) => ({
     initConfig: state.config.initConfig,
-    theme: state.config.theme,
+    theme: state.config.initConfig.theme,
+    fixedTheme: get(state.config, 'appConfig.fixedTheme'),
     initializeApp: state.initializeApp
 });
 

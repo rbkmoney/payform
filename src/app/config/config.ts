@@ -9,5 +9,4 @@ export class Config {
     initConfig: InitConfig;
     appConfig?: AppConfig;
     locale?: Locale;
-    theme?: Theme;
 }

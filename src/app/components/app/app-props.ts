@@ -6,5 +6,6 @@ export interface AppProps {
     initConfig: InitConfig;
     initializeApp: InitializeAppState;
     initApp: (config: InitConfig) => any;
-    theme: Theme;
+    theme: string;
+    fixedTheme: string;
 }
