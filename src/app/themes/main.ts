@@ -1,4 +1,5 @@
 const theme = {
+    name: 'main',
     color: {
         neutral: {
             0: '#fff',

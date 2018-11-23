@@ -1,6 +1,7 @@
 import Theme from './theme';
 
 const theme: Theme = {
+    name: 'crab',
     color: {
         neutral: {
             0: '#fff',
