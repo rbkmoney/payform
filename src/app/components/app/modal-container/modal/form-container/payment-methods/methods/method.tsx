@@ -27,7 +27,7 @@ export const Method = styled(MethodSimple)`
     }
 
     :active {
-        border-color: ${({ theme }) => theme.color.primary[0.8]};
-        background-color: ${({ theme }) => theme.color.primary[0.8]};
+        border-color: ${({ theme }) => theme.color.primary[1.1]};
+        background-color: ${({ theme }) => theme.color.primary[1.1]};
     }
 `;

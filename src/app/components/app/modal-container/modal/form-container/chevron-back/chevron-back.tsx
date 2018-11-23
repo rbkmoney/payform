@@ -16,7 +16,7 @@ export const ChevronBack = styled<
 
     :hover {
         g {
-            stroke: ${({ theme }) => theme.color.primary[0.9]};
+            stroke: ${({ theme }) => theme.color.primary[1.2]};
         }
     }
 `;

@@ -14,6 +14,6 @@ export const Link = styled.a`
 
     :hover,
     :active {
-        color: ${({ theme }) => theme.color.secondary[0.8]};
+        color: ${({ theme }) => theme.color.secondary[1.1]};
     }
 `;

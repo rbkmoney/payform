@@ -11,18 +11,29 @@ const theme: Theme = {
             1: '#000'
         },
         primary: {
-            0.9: '#ff8454',
-            1: '#d1658e'
+            0.1: '#ff8454',
+            1: '#d1658e',
+            1.1: '#d1658e',
+            1.2: '#d1658e'
         },
-        secondary: { 1: '#8330ec' },
-        error: { 1: '#e75542' },
-        warning: { 1: '#ffe05c' },
-        info: { 1: '#00f' },
-        success: { 1: '#00ff00' }
+        secondary: {
+            1: '#8330ec',
+            0.9: '#8330ec',
+            0.7: '#8330ec',
+            1.1: '#8330ec'
+        },
+        error: {
+            1: '#e75542'
+        },
+        warning: {
+            1: '#ffe05c'
+        },
+        info: {},
+        success: {}
     },
     font: {
         family: "'Roboto', sans-serif"
     }
-} as any;
+};
 
 export default theme;

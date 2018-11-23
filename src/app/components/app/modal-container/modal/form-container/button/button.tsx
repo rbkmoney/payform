@@ -30,23 +30,23 @@ export const Button = styled.button<{ color?: ButtonType }>`
                   background: ${theme.color.primary[1]};
 
                   :hover {
-                      background: ${theme.color.primary[0.8]};
-                      border-color: ${theme.color.primary[0.8]};
+                      background: ${theme.color.primary[1.1]};
+                      border-color: ${theme.color.primary[1.1]};
                   }
 
                   :active {
-                      background: ${theme.color.primary[0.9]};
-                      border-color: ${theme.color.primary[0.9]};
+                      background: ${theme.color.primary[1.2]};
+                      border-color: ${theme.color.primary[1.2]};
                   }
               `
             : css`
                   :hover,
                   :active {
-                      border-color: ${theme.color.secondary[0.8]};
+                      border-color: ${theme.color.secondary[1.1]};
                   }
 
                   :active {
-                      color: ${theme.color.secondary[0.8]};
+                      color: ${theme.color.secondary[1.1]};
                   }
               `};
 `;
