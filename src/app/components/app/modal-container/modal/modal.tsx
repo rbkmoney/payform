@@ -16,11 +16,7 @@ const FormBlock = styled.div<{ inFrame: boolean }>`
     height: 100%;
     min-height: 100%;
     width: 100%;
-    background-image: linear-gradient(
-        45deg,
-        ${({ theme }) => theme.color.secondary[1]} 0%,
-        ${({ theme }) => theme.color.secondary[0.9]} 100%
-    );
+    background-image: ${({ theme }) => theme.gradients.bg};
 
     footer {
         display: block;
@@ -36,11 +32,7 @@ const FormBlock = styled.div<{ inFrame: boolean }>`
         flex-direction: row;
         padding: 30px;
         box-sizing: border-box;
-        background-image: linear-gradient(
-            45deg,
-            ${({ theme }) => theme.color.secondary[1]} -20%,
-            ${({ theme }) => theme.color.secondary[0.9]} 90%
-        );
+        background-image: ${({ theme }) => theme.gradients.bg};
 
         footer {
             display: none !important;

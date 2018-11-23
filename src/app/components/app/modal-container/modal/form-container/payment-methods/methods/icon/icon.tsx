@@ -30,4 +30,8 @@ export const Icon = styled<React.FC<{ name: name; className?: string }>>((props)
     height: 40px;
     width: 40px;
     margin-right: 15px;
+
+    path {
+        fill: ${({ theme }) => theme.color.secondary[0.9]};
+    }
 `;

@@ -42,9 +42,9 @@ const StyledInput = styled.input`
     }
 
     :focus {
-        border-color: ${({ theme }) => theme.color.secondary[0.9]} !important;
+        border-color: ${({ theme }) => theme.color.focus[1]} !important;
         border-width: 2px !important;
-        box-shadow: 0 0 4px 0 ${({ theme }) => theme.color.secondary[0.9]} !important;
+        box-shadow: 0 0 4px 0 ${({ theme }) => theme.color.focus[1]} !important;
         padding-left: 39px;
         padding-right: 12px;
     }

@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 const theme = {
     name: 'main',
     color: {
@@ -28,7 +30,13 @@ const theme = {
             1: '#ffe05c'
         },
         info: {},
-        success: {}
+        success: {},
+        focus: {
+            1: '#685bff'
+        }
+    },
+    gradients: {
+        bg: css`linear-gradient(45deg, #8330ec -20%, #685bff 90%)`
     },
     font: {
         family: "'Roboto', sans-serif"
