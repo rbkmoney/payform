@@ -30,7 +30,9 @@ const HelpDef: React.FC<HelpDefProps> = (props) => {
                 </p>
                 <NumerableList id="help-form-steps">
                     {steps.map((step, i) => (
-                        <ListItem number={i + 1}>{step}</ListItem>
+                        <ListItem number={i + 1} key={i}>
+                            {step}
+                        </ListItem>
                     ))}
                 </NumerableList>
             </div>
