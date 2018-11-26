@@ -33,7 +33,7 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
 
-    ${({ inFrame }) =>
+    ${({ inFrame, theme }) =>
         !!inFrame &&
         css`
             background: transparent url(${backgrounds[Math.floor(Math.random() * backgrounds.length)]}) bottom center;
@@ -48,7 +48,7 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
                 width: 100%;
                 height: 100%;
                 opacity: 0.35;
-                background-image: linear-gradient(to top right, #9016f6, #6b35ff);
+                background-image: ${theme.gradients.bg};
             }
         `}
 `;

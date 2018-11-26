@@ -16,7 +16,7 @@ const FormBlock = styled.div<{ inFrame: boolean }>`
     height: 100%;
     min-height: 100%;
     width: 100%;
-    background-image: ${({ theme }) => theme.gradients.bg};
+    background-image: ${({ theme }) => theme.gradients.form};
 
     footer {
         display: block;
@@ -32,7 +32,7 @@ const FormBlock = styled.div<{ inFrame: boolean }>`
         flex-direction: row;
         padding: 30px;
         box-sizing: border-box;
-        background-image: ${({ theme }) => theme.gradients.bg};
+        background-image: ${({ theme }) => theme.gradients.form};
 
         footer {
             display: none !important;

@@ -36,7 +36,8 @@ const theme = {
         }
     },
     gradients: {
-        bg: css`linear-gradient(45deg, #8330ec -20%, #685bff 90%)`
+        form: css`linear-gradient(45deg, #8330ec -20%, #685bff 90%)`,
+        bg: css`linear-gradient(to top right, #9016f6, #6b35ff)`
     },
     font: {
         family: "'Roboto', sans-serif"
