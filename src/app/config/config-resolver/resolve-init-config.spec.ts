@@ -26,7 +26,8 @@ it('should return resolved init config', () => {
         description: 'some description',
         email: 'test@test.com',
         redirectUrl: 'some url',
-        initialPaymentMethod: 'bankCard'
+        initialPaymentMethod: 'bankCard',
+        theme: 'main'
     };
     resolveIntegrationTypeMocked.mockReturnValueOnce({
         integrationType: IntegrationType.invoice,
