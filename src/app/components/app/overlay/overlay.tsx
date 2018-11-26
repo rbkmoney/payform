@@ -15,6 +15,7 @@ import * as bg6 from './backgrounds/6.jpg';
 import * as bg7 from './backgrounds/7.jpg';
 import * as bg8 from './backgrounds/8.jpg';
 import * as bg9 from './backgrounds/9.jpg';
+import { device } from 'checkout/utils/device';
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9];
 // нужно подготовить фон, чтобы он не перерендеревался
@@ -33,14 +34,14 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+
+    @media ${device.desktop} {
+        background: rgba(0, 0, 0, 0.7);
+    }
 
     ${({ inFrame, theme }) =>
         !!inFrame &&
         css`
-            background: transparent url(${bg}) bottom center;
-            background-size: cover;
-
             :before {
                 content: '';
                 display: block;
@@ -49,8 +50,13 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
                 top: 0;
                 width: 100%;
                 height: 100%;
-                opacity: 0.35;
                 background-image: ${theme.gradients.bg};
+                opacity: 0.35;
+            }
+
+            @media ${device.desktop} {
+                background: transparent url(${bg}) bottom center;
+                background-size: cover;
             }
         `}
 `;

@@ -11,7 +11,7 @@ const ModalErrorWrapper = styled.div`
     padding: 50px 60px 60px;
     box-sizing: border-box;
 
-    @media ${device.mobile} {
+    @media ${device.desktop} {
         max-height: 690px;
         width: 680px;
         position: relative;

@@ -14,7 +14,7 @@ import { device } from 'checkout/utils/device';
 const FormBlock = styled.div<{ inFrame: boolean }>`
     position: relative;
     height: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
     background-image: ${({ theme }) => theme.gradients.form};
 
@@ -22,7 +22,7 @@ const FormBlock = styled.div<{ inFrame: boolean }>`
         display: block;
     }
 
-    @media ${device.mobile} {
+    @media ${device.desktop} {
         height: auto;
         min-height: auto;
         width: 680px;

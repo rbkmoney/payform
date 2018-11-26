@@ -15,7 +15,7 @@ import styled from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 
 const StyledFooter = styled(Footer)`
-    @media ${device.desktop} {
+    @media ${device.mobile} {
         display: none;
     }
 `;

@@ -20,7 +20,7 @@ const Header = styled.header`
     padding: 0 25px;
     justify-content: center;
 
-    @media ${device.mobile} {
+    @media ${device.desktop} {
         display: none;
     }
 `;
@@ -51,7 +51,7 @@ const Back = styled(ChevronBack)`
     width: 20px;
     z-index: 1;
 
-    @media ${device.mobile} {
+    @media ${device.desktop} {
         display: none;
     }
 

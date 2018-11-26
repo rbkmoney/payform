@@ -32,12 +32,12 @@ const GlobalStyle = createGlobalStyle`
             height: 100%;
         }
 
-        @media ${device.mobile} {
+        @media ${device.desktop} {
             height: 100%;
             min-width: 680px;
         }
 
-        @media (min-height: 701px) and ${device.mobile} {
+        @media (min-height: 701px) and ${device.desktop} {
             overflow-y: hidden;
         }
     }
@@ -54,7 +54,7 @@ const AppWrapper = styled.div`
         font-family: ${({ theme }) => theme.font.family};
     }
 
-    @media ${device.mobile} {
+    @media ${device.desktop} {
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
