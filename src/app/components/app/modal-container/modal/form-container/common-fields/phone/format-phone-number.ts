@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import { AsYouType } from 'libphonenumber-js/custom';
 
-import * as metadata from './metadata.json';
+import metadata from './metadata.json';
 
 export const formatPhoneNumber = (e: FormEvent<HTMLInputElement>) => {
     const target = e.currentTarget as HTMLInputElement;
