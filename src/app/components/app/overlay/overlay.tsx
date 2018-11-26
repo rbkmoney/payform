@@ -17,6 +17,8 @@ import * as bg8 from './backgrounds/8.jpg';
 import * as bg9 from './backgrounds/9.jpg';
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9];
+// нужно подготовить фон, чтобы он не перерендеревался
+const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
 interface OverlayDefProps {
     inFrame: boolean;
@@ -36,7 +38,7 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     ${({ inFrame, theme }) =>
         !!inFrame &&
         css`
-            background: transparent url(${backgrounds[Math.floor(Math.random() * backgrounds.length)]}) bottom center;
+            background: transparent url(${bg}) bottom center;
             background-size: cover;
 
             :before {
