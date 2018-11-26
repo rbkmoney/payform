@@ -13,7 +13,7 @@ import { ThemeProvider } from 'checkout/styled-components';
 import styled from 'checkout/styled-components';
 import { createGlobalStyle } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
-import { themes } from 'checkout/themes';
+import { DEFAULT_THEME, themes } from 'checkout/themes';
 
 const GlobalStyle = createGlobalStyle`
     body,
@@ -74,7 +74,7 @@ class AppDef extends React.Component<AppProps> {
     render() {
         const { initialized, error } = this.props.initializeApp;
         return (
-            <ThemeProvider theme={this.props.fixedTheme ? themes[this.props.fixedTheme] : themes[this.props.theme]}>
+            <ThemeProvider theme={get(themes, this.props.fixedTheme || this.props.theme, DEFAULT_THEME)}>
                 <>
                     <GlobalStyle />
                     <AppWrapper>
