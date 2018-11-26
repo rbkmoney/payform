@@ -19,7 +19,7 @@ const rules = [
                 }
             }
         ],
-        exclude: '/node_modules/'
+        exclude: /node_modules/
     },
     {
         test: /\.(css|scss)$/,
@@ -65,16 +65,17 @@ const rules = [
     },
     {
         test: /\.svg$/,
-        use: [
+        oneOf: [
             {
                 loader: 'svg-react-loader',
+                issuer: /\.tsx?$/,
                 options: {
                     classIdPrefix: '[name]-[hash:8]__',
                     uniqueIdPrefix: true
                 }
             }
         ],
-        exclude: '/node_modules/'
+        exclude: /node_modules/
     }
 ];
 
