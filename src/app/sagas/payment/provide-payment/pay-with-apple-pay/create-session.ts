@@ -1,14 +1,6 @@
 import { PaymentSystem } from 'checkout/backend';
-import { AmountInfoState, AmountInfoStatus } from 'checkout/state';
-
-const toRequestAmount = (amount: AmountInfoState, formAmount: string): string => {
-    switch (amount.status) {
-        case AmountInfoStatus.final:
-            return amount.minorValue / 100 + '';
-        case AmountInfoStatus.notKnown:
-            return formAmount;
-    }
-};
+import { AmountInfoState } from 'checkout/state';
+import { toDisplayAmount } from 'checkout/utils';
 
 const toPaymentRequest = (
     label: string,
@@ -46,7 +38,7 @@ export const createSession = (
 ): ApplePaySession => {
     try {
         const supportedNetworks = toSupportedNetworks(paymentSystems);
-        const requestAmount = toRequestAmount(amount, formAmount);
+        const requestAmount = toDisplayAmount(amount, formAmount);
         const paymentRequest = toPaymentRequest(product, requestAmount, amount.currencyCode, supportedNetworks);
         return new ApplePaySession(2, paymentRequest);
     } catch (e) {
