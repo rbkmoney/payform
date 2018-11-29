@@ -1,16 +1,7 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { logPrefix } from 'checkout/log-messages';
 import { AmountInfoState } from 'checkout/state';
-import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
-
-const toTotalPrice = (amountInfo: AmountInfoState, formAmount: string) => {
-    switch (amountInfo.status) {
-        case AmountInfoStatus.final:
-            return amountInfo.minorValue / 100 + '';
-        case AmountInfoStatus.notKnown:
-            return formAmount;
-    }
-};
+import { toDisplayAmount } from 'checkout/utils';
 
 const getPaymentDataRequest = (
     merchantId: string,
@@ -37,7 +28,7 @@ const getPaymentDataRequest = (
     transactionInfo: {
         currencyCode: amountInfo.currencyCode,
         totalPriceStatus: 'FINAL',
-        totalPrice: toTotalPrice(amountInfo, formAmount)
+        totalPrice: toDisplayAmount(amountInfo, formAmount)
     }
 });
 
