@@ -10,8 +10,6 @@ import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
 
-import './styles/forms.scss';
-
 initialize().then((res) => {
     const [transport, config] = res;
     const app = document.getElementById('app');
