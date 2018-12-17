@@ -1,8 +1,8 @@
-import crab from './crab';
+import coral from './coral';
 import main from './main';
 import Theme from './theme';
 
-export const themes = [crab, main].reduce(
+export const themes = [coral, main].reduce(
     (accumulatedThemes, theme) => {
         accumulatedThemes[theme.name] = theme;
         return accumulatedThemes;

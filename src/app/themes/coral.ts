@@ -2,7 +2,7 @@ import Theme from './theme';
 import { css } from 'checkout/styled-components';
 
 const theme: Theme = {
-    name: 'crab',
+    name: 'coral',
     color: {
         neutral: {
             0: '#fff',
