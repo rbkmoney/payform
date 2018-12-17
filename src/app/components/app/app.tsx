@@ -10,61 +10,9 @@ import { AppProps } from './app-props';
 import { State } from 'checkout/state';
 import { initializeApp } from 'checkout/actions';
 import { ThemeProvider } from 'checkout/styled-components';
-import styled from 'checkout/styled-components';
-import { createGlobalStyle } from 'checkout/styled-components';
-import { device } from 'checkout/utils/device';
 import { DEFAULT_THEME, themes } from 'checkout/themes';
-
-const GlobalStyle = createGlobalStyle`
-    body,
-    html,
-    #app {
-        margin: 0;
-        position: relative;
-        height: auto;
-        min-height: 100%;
-        width: 100%;
-        min-width: 320px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-
-        &._loading {
-            height: 100%;
-        }
-
-        @media ${device.desktop} {
-            height: 100%;
-            min-width: 680px;
-        }
-
-        @media (min-height: 701px) and ${device.desktop} {
-            overflow-y: hidden;
-        }
-    }
-`;
-
-const AppWrapper = styled.div`
-    position: relative;
-    height: 100%;
-    min-height: 100%;
-    width: 100%;
-
-    &,
-    * {
-        font-family: ${({ theme }) => theme.font.family};
-    }
-
-    @media ${device.desktop} {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: nowrap;
-        justify-content: center;
-        align-items: center;
-        height: auto;
-        padding: 45px 0;
-        box-sizing: border-box;
-    }
-`;
+import { AppWrapper } from 'checkout/components/app/app-wrapper';
+import { GlobalStyle } from 'checkout/components/app/global-style';
 
 class AppDef extends React.Component<AppProps> {
     componentWillMount() {
