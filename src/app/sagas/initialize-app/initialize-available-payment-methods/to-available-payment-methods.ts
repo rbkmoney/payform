@@ -15,30 +15,24 @@ export function* toAvailablePaymentMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     let result: PaymentMethodState[] = [];
-    if (config.appConfig.brandless) {
+    const { wallets, terminals, paymentFlowHold, recurring } = config.initConfig;
+    for (const method of paymentMethods) {
+        switch (method.method) {
+            case PaymentMethodName.BankCard:
+                const bankCardMethods = yield call(bankCardToMethods, method, config, amountInfo);
+                result = result.concat(bankCardMethods);
+                break;
+            case PaymentMethodName.DigitalWallet:
+                result = result.concat(getDigitalWalletPaymentMethods(wallets, paymentFlowHold, recurring));
+                break;
+            case PaymentMethodName.PaymentTerminal:
+                result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold, recurring));
+                break;
+        }
+    }
+    if (result.length === 0) {
         result.push({ name: PaymentMethodNameState.BankCard });
-    } else {
-        const { wallets, terminals, paymentFlowHold, recurring } = config.initConfig;
-        for (const method of paymentMethods) {
-            switch (method.method) {
-                case PaymentMethodName.BankCard:
-                    const bankCardMethods = yield call(bankCardToMethods, method, config, amountInfo);
-                    result = result.concat(bankCardMethods);
-                    break;
-                case PaymentMethodName.DigitalWallet:
-                    result = result.concat(getDigitalWalletPaymentMethods(wallets, paymentFlowHold, recurring));
-                    break;
-                case PaymentMethodName.PaymentTerminal:
-                    result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold, recurring));
-                    break;
-            }
-        }
-        if (result.length === 0) {
-            result.push({ name: PaymentMethodNameState.BankCard });
-            console.warn(
-                "Selected payment methods are currently unavailable. The parameter 'bankCard' has been enabled."
-            );
-        }
+        console.warn("Selected payment methods are currently unavailable. The parameter 'bankCard' has been enabled.");
     }
     return result;
 }
