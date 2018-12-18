@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-const theme = {
+export default {
     name: 'main',
     color: {
         neutral: {
@@ -43,5 +43,3 @@ const theme = {
         family: "'Roboto', sans-serif"
     }
 };
-
-export default theme;

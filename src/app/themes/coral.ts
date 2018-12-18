@@ -1,4 +1,4 @@
-import Theme from './theme';
+import { Theme } from './theme';
 import { css } from 'checkout/styled-components';
 
 const theme: Theme = {

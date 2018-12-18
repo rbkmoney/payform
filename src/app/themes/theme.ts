@@ -1,5 +1,3 @@
 import theme from './main';
 
-type Theme = typeof theme;
-
-export default Theme;
+export type Theme = typeof theme;

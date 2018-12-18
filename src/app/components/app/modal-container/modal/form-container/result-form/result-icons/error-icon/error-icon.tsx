@@ -4,8 +4,7 @@ import styled, { css, withTheme } from 'checkout/styled-components';
 import { growth } from 'checkout/styled-components/animations';
 import Error from './error-icon.svg';
 import NeutralError from './neutral-error-icon.svg';
-import { themes } from 'checkout/themes';
-import Theme from 'checkout/themes/theme';
+import { Theme, themes } from 'checkout/themes';
 
 export const ErrorIcon = styled(
     withTheme(({ theme, ...props }: { theme: Theme }) => {

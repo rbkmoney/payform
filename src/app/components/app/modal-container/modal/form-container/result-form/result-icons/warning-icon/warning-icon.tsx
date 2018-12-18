@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { keyframes } from 'checkout/styled-components';
 import styled from 'checkout/styled-components';
-import Theme from 'checkout/themes/theme';
+import { Theme } from 'checkout/themes/theme';
 
 const fillYellow = ({ theme }: { theme: Theme }) => keyframes`
     100% {
