@@ -4,11 +4,11 @@ import styled, { css, withTheme } from 'checkout/styled-components';
 import { growth } from 'checkout/styled-components/animations';
 import Error from './error-icon.svg';
 import NeutralError from './neutral-error-icon.svg';
-import { Theme, themes } from 'checkout/themes';
+import { Theme, ThemeName } from 'checkout/themes';
 
 export const ErrorIcon = styled(
     withTheme(({ theme, ...props }: { theme: Theme }) => {
-        const Icon = theme.name === themes.main.name ? Error : NeutralError;
+        const Icon = theme.name === ThemeName.main ? Error : NeutralError;
         return <Icon {...props} id="error-icon" />;
     })
 )`
@@ -18,7 +18,7 @@ export const ErrorIcon = styled(
     margin: auto;
 
     ${({ theme }) =>
-        theme.name === themes.main.name &&
+        theme.name === ThemeName.main &&
         css`
             g path {
                 transform-origin: 30% 0%;

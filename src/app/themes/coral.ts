@@ -1,8 +1,9 @@
-import { Theme } from './theme';
 import { css } from 'checkout/styled-components';
+import { ThemeName } from './theme-name';
+import main from 'checkout/themes/main';
 
-const theme: Theme = {
-    name: 'coral',
+const theme: typeof main = {
+    name: ThemeName.coral,
     color: {
         neutral: {
             0: '#fff',

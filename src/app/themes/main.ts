@@ -1,7 +1,8 @@
-import { css } from 'styled-components';
+import { css } from 'checkout/styled-components';
+import { ThemeName } from './theme-name';
 
 export default {
-    name: 'main',
+    name: ThemeName.main,
     color: {
         neutral: {
             0: '#fff',

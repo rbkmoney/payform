@@ -10,7 +10,7 @@ import { AppProps } from './app-props';
 import { State } from 'checkout/state';
 import { initializeApp } from 'checkout/actions';
 import { ThemeProvider } from 'checkout/styled-components';
-import { DEFAULT_THEME, themes } from 'checkout/themes';
+import { getTheme, ThemeName } from 'checkout/themes';
 import { AppWrapper } from 'checkout/components/app/app-wrapper';
 import { GlobalStyle } from 'checkout/components/app/global-style';
 
@@ -21,10 +21,11 @@ class AppDef extends React.Component<AppProps> {
 
     render() {
         const { initialized, error } = this.props.initializeApp;
+        const theme = getTheme((this.props.fixedTheme as ThemeName) || this.props.theme);
         return (
-            <ThemeProvider theme={get(themes, this.props.fixedTheme || this.props.theme, DEFAULT_THEME)}>
+            <ThemeProvider theme={theme}>
                 <>
-                    <GlobalStyle />
+                    <GlobalStyle theme={theme} />
                     <AppWrapper>
                         <Overlay />
                         {initialized || error ? <ModalContainer /> : <LayoutLoader />}

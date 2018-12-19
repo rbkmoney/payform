@@ -1,24 +1,18 @@
-import coral from './coral';
-import main from './main';
 import { Theme } from './theme';
+import { ThemeName } from './theme-name';
+import main from './main';
+import coral from './coral';
 
-export const themes = {
-    coral,
-    main
-};
+const themes = [main, coral];
 
-export const themesNames: { [name in keyof typeof themes]: string } = Object.keys(themes).reduce(
-    (accThemeNames, name) => {
-        accThemeNames[name] = name;
-        return accThemeNames;
-    },
-    {} as any
-);
-
-export const DEFAULT_THEME = themes.main;
+export const DEFAULT_THEME = main;
 
 export interface WithThemeProps {
     theme: Theme;
 }
 
-export { Theme };
+export function getTheme(themeName: ThemeName): Theme {
+    return themes.find(({ name }) => name === themeName) || DEFAULT_THEME;
+}
+
+export { ThemeName, Theme };
