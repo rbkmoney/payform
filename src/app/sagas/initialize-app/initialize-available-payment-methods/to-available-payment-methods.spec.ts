@@ -24,9 +24,6 @@ describe('All payment methods', () => {
             bankCard: true,
             wallets: true,
             terminals: true
-        },
-        appConfig: {
-            brandless: false
         }
     } as any;
     const paymentMethods = [bankCard, digitalWallet, paymentTerminal];
