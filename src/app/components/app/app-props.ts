@@ -7,5 +7,5 @@ export interface AppProps {
     initializeApp: InitializeAppState;
     initApp: (config: InitConfig) => any;
     theme: ThemeName;
-    fixedTheme: string;
+    fixedTheme: ThemeName;
 }
