@@ -26,7 +26,7 @@ const mapStateToProps = (s: State) => {
     };
 };
 
-const InfoDef: React.SFC<InfoProps> = (props) => {
+const InfoDef: React.FC<InfoProps> = (props) => {
     const { formattedAmount, locale, name, description, email } = props;
     return (
         <div className={styles.info}>

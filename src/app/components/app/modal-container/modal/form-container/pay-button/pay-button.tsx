@@ -11,8 +11,8 @@ export interface PayButtonProps {
     label: string;
 }
 
-const PayButtonDef: React.SFC<PayButtonProps> = (props) => (
-    <Button type="submit" style="primary" id="pay-btn" className={pay_button}>
+const PayButtonDef: React.FC<PayButtonProps> = (props) => (
+    <Button type="submit" color="primary" id="pay-btn" className={pay_button}>
         {props.label}
     </Button>
 );

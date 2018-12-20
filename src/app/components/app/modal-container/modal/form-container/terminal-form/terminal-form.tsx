@@ -3,7 +3,8 @@ import { InjectedFormProps, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
-import * as formStyles from 'checkout/styles/forms.scss';
+
+import { FormGroup } from '../form-group';
 import * as styles from '../form-container.scss';
 import {
     CardFormValues,
@@ -93,19 +94,15 @@ export class TerminalFormDef extends React.Component<Props> {
                     <Header title={locale['form.header.pay.euroset.label']} />
                     <p className={styles.text}>{locale['form.pay.terminals.info.text']}.</p>
                     {!amount.visible ? <AmountInfo amount={this.props.amount} locale={locale} /> : false}
-                    {email.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!email.visible && (
+                        <FormGroup>
                             <Email />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
-                    {amount.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!amount.visible && (
+                        <FormGroup>
                             <Amount cost={amount.cost} />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
                 </div>
                 <NextButton locale={locale} />

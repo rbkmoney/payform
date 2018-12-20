@@ -6,6 +6,6 @@ export interface ApplePayButtonProps {
     onClick: MouseEventHandler<any>;
 }
 
-export const ApplePayButton: React.SFC<ApplePayButtonProps> = (props) => (
+export const ApplePayButton: React.FC<ApplePayButtonProps> = (props) => (
     <button type="button" id="apple-pay-button" className={apple_pay_button} onClick={props.onClick} />
 );

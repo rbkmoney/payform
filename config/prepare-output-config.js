@@ -1,5 +1,5 @@
 const helpers = require('./helpers');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const prepareOutputConfig = (outputPath, jsFilenamePattern = '[name]', cssFilenamePattern = '[name]') => ({
     output: {
@@ -7,7 +7,7 @@ const prepareOutputConfig = (outputPath, jsFilenamePattern = '[name]', cssFilena
         path: helpers.root(outputPath),
         publicPath: './'
     },
-    plugins: [new ExtractTextPlugin({ filename: `${cssFilenamePattern}.css` })]
+    plugins: [new MiniCssExtractPlugin({ filename: `${cssFilenamePattern}.css` })]
 });
 
 module.exports = prepareOutputConfig;

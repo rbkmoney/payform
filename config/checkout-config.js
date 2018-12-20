@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -29,9 +28,6 @@ module.exports = {
         rules
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['app', 'react', 'vendor', 'polyfills']
-        }),
         new ForkTsCheckerWebpackPlugin({
             checkSyntacticErrors: true,
             formatter: 'codeframe',
@@ -45,8 +41,7 @@ module.exports = {
             [
                 { from: './src/app/finish-interaction.html' },
                 { from: './src/appConfig.json', to: '..' },
-                { from: './src/locale/*.json', to: './locale', flatten: true },
-                { from: './src/app/assets/icons', to: './assets/icons' }
+                { from: './src/locale/*.json', to: './locale', flatten: true }
             ],
             { debug: 'warning' }
         )

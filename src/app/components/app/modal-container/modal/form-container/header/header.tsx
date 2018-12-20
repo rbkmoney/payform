@@ -1,11 +1,13 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import * as formStyles from '../form-container.scss';
 import { Direction, goToFormInfo } from 'checkout/actions';
 import { findInfoWithPrevious, findNamed } from 'checkout/utils';
 import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/title';
 
 export interface HeaderProps {
     title: string;
@@ -27,16 +29,16 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-const HeaderDef: React.SFC<HeaderProps> = (props) => (
+const HeaderDef: React.FC<HeaderProps> = (props) => (
     <div className={formStyles.header}>
         {props.destination ? (
             <ChevronBack
                 className={formStyles.back_btn}
-                back={props.goToFormInfo.bind(null, props.destination, Direction.back)}
+                onClick={props.goToFormInfo.bind(null, props.destination, Direction.back)}
                 id="desktop-back-btn"
             />
         ) : null}
-        <div className={formStyles.title}>{props.title}</div>
+        <Title>{props.title}</Title>
     </div>
 );
 

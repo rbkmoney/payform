@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StylizedSvgIcon } from './stylized-svg-icon';
 
-export const PciDssIcon: React.SFC<StylizedSvgIcon> = (props) => (
+export const PciDssIcon: React.FC<StylizedSvgIcon> = (props) => (
     <svg className={props.className} width="63" height="24">
         <g className={props.fillStyle} fill="none" fillRule="evenodd">
             <path

@@ -1,4 +1,4 @@
-import { AppConfig } from '../backend/app-config';
+import { AppConfig } from '../backend';
 import { InitConfig } from './init-config';
 import { Locale } from 'checkout/locale';
 

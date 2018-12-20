@@ -3,5 +3,11 @@
     "tabWidth": 4,
     "singleQuote": true,
     "jsxBracketSameLine": true,
-    "arrowParens": "always"
+    "arrowParens": "always",
+    "overrides": [
+        {
+            "files": "*.svg",
+            "options": { "parser": "html" }
+        }
+    ]
 }

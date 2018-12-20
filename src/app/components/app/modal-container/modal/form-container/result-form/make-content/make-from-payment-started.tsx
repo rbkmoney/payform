@@ -1,14 +1,15 @@
 import * as React from 'react';
+
 import { Locale } from 'checkout/locale';
 import { InvoiceEvent } from 'checkout/backend';
 import { ResultFormContent, ResultFormType } from './result-form-content';
-import * as styles from '../result-form.scss';
 import { getInvoicePaymentDetails } from './payment-details';
+import { Text } from './text';
 
 const getDescription = (description: string, e: InvoiceEvent[]): JSX.Element => (
-    <p className={styles.text}>
+    <Text>
         {description} {getInvoicePaymentDetails(e).info}.
-    </p>
+    </Text>
 );
 
 const started = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({

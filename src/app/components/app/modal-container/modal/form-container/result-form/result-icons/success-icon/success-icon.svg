@@ -1,0 +1,22 @@
+<svg viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path
+            d="M46 23C46 10.536 36.086.388 23.714.01 23.477.005 23.239 0 23 0 10.297 0 0 10.297 0 23"
+            id="semicircle"
+        />
+        <mask id="semicircle2" fill="#fff"><use xlink:href="#semicircle" /></mask>
+        <mask id="semicircle3" fill="#fff"><use transform="rotate(180 23 11.5)" xlink:href="#semicircle" /></mask>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <circle fill="#38CD8F" fill-rule="nonzero" cx="43" cy="43" r="43" />
+        <g fill-rule="nonzero" stroke="#000" stroke-linecap="round" stroke-width="2">
+            <path
+                d="M65.093 35c0-3.314-2.707-6-6.046-6C55.707 29 53 31.686 53 35M33.093 35c0-3.314-2.707-6-6.046-6C23.707 29 21 31.686 21 35"
+            />
+        </g>
+        <g transform="translate(20 48)">
+            <use fill="#000" fill-rule="nonzero" transform="rotate(180 23 11.5)" xlink:href="#semicircle" />
+            <ellipse fill="#E75542" fill-rule="nonzero" mask="url(#semicircle3)" cx="23" cy="23.5" rx="14" ry="8.5" />
+        </g>
+    </g>
+</svg>

@@ -18,14 +18,13 @@ export function fetchCapi<T>(param: FetchCapiParams): Promise<T> {
             },
             body: param.body ? JSON.stringify(param.body) : undefined
         })
-            .then(
-                (res) =>
-                    res.status >= 200 && res.status <= 300
-                        ? resolve(res.json())
-                        : res
-                              .json()
-                              .then((ex) => reject(ex))
-                              .catch(() => reject({ code: res.status }))
+            .then((res) =>
+                res.status >= 200 && res.status <= 300
+                    ? resolve(res.json())
+                    : res
+                          .json()
+                          .then((ex) => reject(ex))
+                          .catch(() => reject({ code: res.status }))
             )
             .catch((ex) => reject({ code: `${ex}` }));
     });

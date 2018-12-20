@@ -1,34 +1,52 @@
 import * as React from 'react';
-import { MouseEventHandler } from 'react';
-import * as styles from './button.scss';
-import * as cx from 'classnames';
+
+import styled from 'checkout/styled-components';
+import { css } from 'checkout/styled-components';
 
 type ButtonType = 'primary' | 'default';
 
-export interface ButtonProps {
-    style: ButtonType;
-    type?: 'submit';
-    children: React.ReactNode;
-    className?: string;
-    id?: string;
-    onClick?: MouseEventHandler<HTMLButtonElement>;
-}
+export const Button = styled.button<{ color?: ButtonType }>`
+    color: ${({ theme }) => theme.color.secondary[0.9]};
+    background: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+    width: 100%;
+    outline: none;
+    border: 2px solid ${({ theme }) => theme.color.secondary[0.9]};
 
-const getClass = (type: ButtonType) => {
-    switch (type) {
-        case 'primary':
-            return styles._primary;
-        default:
-            return '';
-    }
-};
+    ${({ theme, color }) =>
+        color === 'primary'
+            ? css`
+                  border-radius: 32px;
+                  color: #fff;
+                  border-color: ${theme.color.primary[1]};
+                  background: ${theme.color.primary[1]};
 
-export const Button: React.SFC<ButtonProps> = (props) => (
-    <button
-        type={props.type}
-        onClick={props.onClick}
-        className={cx(styles.button, getClass(props.style), props.className)}
-        id={props.id}>
-        {props.children}
-    </button>
-);
+                  :hover {
+                      background: ${theme.color.primary[1.1]};
+                      border-color: ${theme.color.primary[1.1]};
+                  }
+
+                  :active {
+                      background: ${theme.color.primary[1.2]};
+                      border-color: ${theme.color.primary[1.2]};
+                  }
+              `
+            : css`
+                  :hover,
+                  :active {
+                      border-color: ${theme.color.secondary[1.1]};
+                  }
+
+                  :active {
+                      color: ${theme.color.secondary[1.1]};
+                  }
+              `};
+`;

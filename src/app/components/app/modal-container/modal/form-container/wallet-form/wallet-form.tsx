@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import get from 'lodash-es/get';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
+
 import { WalletFormProps } from './wallet-form-props';
-import * as formStyles from 'checkout/styles/forms.scss';
+import { FormGroup } from '../form-group';
 import {
     FormName,
     ModalForms,
@@ -92,22 +93,18 @@ class WalletFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)} id="wallet-form">
                 <div>
                     <Header title={this.props.locale['form.header.pay.qiwi.label']} />
-                    <div className={formStyles.formGroup}>
+                    <FormGroup>
                         <Phone />
-                    </div>
-                    {email.visible ? (
-                        <div className={formStyles.formGroup}>
+                    </FormGroup>
+                    {!!email.visible && (
+                        <FormGroup>
                             <Email />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
-                    {amount.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!amount.visible && (
+                        <FormGroup>
                             <Amount cost={amount.cost} />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
                 </div>
                 <PayButton />

@@ -1,5 +1,4 @@
 @import '../../../../../../styles/responsive';
-@import '../../../../../../styles/variables';
 @import '../../../../../../styles/animations';
 
 .form {
@@ -29,35 +28,8 @@
     flex-direction: column;
 }
 
-.title {
-    font-family: $font-family;
-    font-weight: 500;
-    font-size: 30px;
-    color: $deep-gray;
-    letter-spacing: 0;
-    line-height: 35px;
-    text-align: center;
-    padding: 0;
-    margin: 0 0 30px;
-
-    &_error {
-        color: $red-v2;
-    }
-}
-
 .image {
     width: 75%;
-}
-
-.text {
-    font-family: $font-family;
-    font-weight: 500;
-    font-size: 16px;
-    color: $deep-gray;
-    letter-spacing: 0;
-    line-height: 20px;
-    text-align: center;
-    margin-bottom: 20px;
 }
 
 .help {

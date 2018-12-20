@@ -1,17 +1,21 @@
 import * as React from 'react';
-import { method, text, title, description } from './methods.scss';
-import { TerminalsIcon } from './icons/terminals-icon';
+
 import { FormName, TerminalFormInfo } from 'checkout/state';
 import { MethodProps } from './method-props';
+import { Description } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/description';
+import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
+import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
 
 const toTerminals = (props: MethodProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
 
-export const Terminals: React.SFC<MethodProps> = (props) => (
-    <li className={method} onClick={toTerminals.bind(null, props)} id="terminal-payment-method">
-        <TerminalsIcon />
-        <div className={text}>
-            <h5 className={title}>{props.locale['form.payment.method.name.cash.label']}</h5>
-            <p className={description}>{props.locale['form.payment.method.description.euroset.text']}</p>
-        </div>
-    </li>
+export const Terminals: React.FC<MethodProps> = (props) => (
+    <Method onClick={toTerminals.bind(null, props)} id="terminal-payment-method">
+        <Icon name="terminals" />
+        <Text>
+            <Title>{props.locale['form.payment.method.name.cash.label']}</Title>
+            <Description>{props.locale['form.payment.method.description.euroset.text']}</Description>
+        </Text>
+    </Method>
 );

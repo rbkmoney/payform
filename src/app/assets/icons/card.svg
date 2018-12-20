@@ -1,7 +1,0 @@
-<svg width="19" height="18" xmlns="http://www.w3.org/2000/svg">
-    <g id="icon" fill="none" fill-rule="evenodd">
-        <path fill="#FFF" d="M.5 0h18v18H.5z"/>
-        <rect stroke="#181818" stroke-width="2" x="2" y="4" width="15" height="10" rx="2"/>
-        <path fill="#181818" d="M1 7h16v1H1zM5 10h4v1H5z"/>
-    </g>
-</svg>

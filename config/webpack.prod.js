@@ -10,7 +10,6 @@ const prepareOutputConfig = require('./prepare-output-config');
 const commonProdConfig = {
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
@@ -20,7 +19,7 @@ const commonProdConfig = {
             analyzerMode: 'disabled'
         }),
         new CompressionPlugin({
-            asset: '[path].gz[query]',
+            filename: '[path].gz[query]',
             algorithm: 'gzip',
             test: /\.js$|\.css$|\.html$|\.json$/,
             threshold: 10240,

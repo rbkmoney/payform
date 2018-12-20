@@ -4,7 +4,7 @@ import * as cx from 'classnames';
 import * as styles from './modal-loader.scss';
 import { Loader } from 'checkout/components';
 
-export const ModalLoader: React.SFC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({
+export const ModalLoader: React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = ({
     className,
     ...restProps
 }) => (

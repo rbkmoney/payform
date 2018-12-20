@@ -6,7 +6,7 @@ export interface SamsungPayButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const SamsungPayButton: React.SFC<SamsungPayButtonProps> = (props) => (
+export const SamsungPayButton: React.FC<SamsungPayButtonProps> = (props) => (
     <button type="button" id="samsung-pay-button" className={samsung_pay_button} onClick={props.onClick}>
         <svg width="100%" viewBox="-150 -9 750 75">
             <path

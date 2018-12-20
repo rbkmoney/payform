@@ -22,4 +22,5 @@ export class InitConfig {
     requireCardHolder?: boolean;
     initialPaymentMethod?: PaymentMethodName;
     recurring?: boolean;
+    theme?: string;
 }

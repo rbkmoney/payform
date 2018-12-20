@@ -1,14 +1,22 @@
 import * as React from 'react';
-import { Icon, IconType } from 'checkout/components';
 
-interface ChevronBackProps {
-    className: string;
-    back: () => any;
-    id: string;
-}
+import { ChevronLeft } from 'checkout/components';
+import styled from 'checkout/styled-components';
 
-export const ChevronBack: React.SFC<ChevronBackProps> = (props) => (
-    <div className={props.className} onClick={props.back} id={props.id}>
-        <Icon icon={IconType.chevronLeft} />
+export const ChevronBack = styled<
+    React.FC<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>
+>((props) => (
+    <div {...props}>
+        <ChevronLeft />
     </div>
-);
+))`
+    g {
+        stroke: ${({ theme }) => theme.color.primary[1]};
+    }
+
+    :hover {
+        g {
+            stroke: ${({ theme }) => theme.color.primary[1.2]};
+        }
+    }
+`;

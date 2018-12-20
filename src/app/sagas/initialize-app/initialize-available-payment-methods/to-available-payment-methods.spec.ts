@@ -51,6 +51,9 @@ describe('BankCard', () => {
     const config = {
         initConfig: {
             bankCard: true
+        },
+        appConfig: {
+            brandless: false
         }
     } as any;
     const iterator = toAvailablePaymentMethods([bankCard], config, amountInfo);
@@ -74,6 +77,9 @@ describe('DigitalWallet', () => {
         const config = {
             initConfig: {
                 wallets: true
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -90,6 +96,9 @@ describe('DigitalWallet', () => {
         const config = {
             initConfig: {
                 wallets: false
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -109,6 +118,9 @@ describe('PaymentTerminal', () => {
         const config = {
             initConfig: {
                 terminals: true
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -126,6 +138,9 @@ describe('PaymentTerminal', () => {
             initConfig: {
                 terminals: true,
                 paymentFlowHold: true
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
@@ -142,6 +157,9 @@ describe('PaymentTerminal', () => {
         const config = {
             initConfig: {
                 terminals: false
+            },
+            appConfig: {
+                brandless: false
             }
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);

@@ -3,13 +3,14 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Transport } from 'cross-origin-communicator';
-import './styles/main.scss';
-import './styles/forms.scss';
+
+import { setResult } from 'checkout/actions';
 import { configureStore } from './configure-store';
 import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
-import { setResult } from 'checkout/actions';
+
+import './styles/font-face.scss';
 
 initialize().then((res) => {
     const [transport, config] = res;

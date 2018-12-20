@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldProps } from 'redux-form';
-import { IconType } from 'checkout/components/ui';
+
 import { State } from 'checkout/state';
 import { Input } from '../../input';
 import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
 import { validatePhone } from './validate-phone';
 import { formatPhoneNumber } from './format-phone-number';
+import { Phone as PhoneIcon } from 'checkout/components';
 
 export interface PhoneProps {
     locale: Locale;
@@ -18,7 +19,7 @@ const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
         {...fieldProps.input}
         {...fieldProps.meta}
         error={isError(fieldProps.meta)}
-        icon={IconType.phone}
+        icon={<PhoneIcon />}
         placeholder={props.locale['form.input.phone.placeholder']}
         mark={true}
         type="tel"
@@ -28,7 +29,7 @@ const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
     />
 );
 
-export const PhoneDef: React.SFC<PhoneProps> = (props) => (
+export const PhoneDef: React.FC<PhoneProps> = (props) => (
     <Field name="phone" component={getCustomInput.bind(null, props)} validate={validatePhone} />
 );
 

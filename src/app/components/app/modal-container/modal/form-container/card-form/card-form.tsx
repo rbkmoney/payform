@@ -3,7 +3,8 @@ import * as React from 'react';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
-import * as formStyles from 'checkout/styles/forms.scss';
+
+import { FormGroup } from '../form-group';
 import { CardFormProps } from './card-form-props';
 import { CardHolder, CardNumber, ExpireDate, SecureCode } from './fields';
 import {
@@ -21,7 +22,7 @@ import { pay, setViewInfoError, subscribe } from 'checkout/actions';
 import { PayButton } from '../pay-button';
 import { Header } from '../header/header';
 import { toFieldsConfig } from '../fields-config';
-import { Email, Amount } from '../common-fields';
+import { Amount, Email } from '../common-fields';
 import { IntegrationType } from 'checkout/config';
 
 const toCardFormInfo = (modals: ModalState[]) => {
@@ -82,33 +83,27 @@ class CardFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)} id="card-form">
                 <div>
                     <Header title={this.getHeaderTitle()} />
-                    <div className={formStyles.formGroup}>
+                    <FormGroup>
                         <CardNumber />
-                    </div>
-                    <div className={formStyles.formGroup}>
+                    </FormGroup>
+                    <FormGroup>
                         <ExpireDate />
                         <SecureCode />
-                    </div>
-                    {cardHolder.visible ? (
-                        <div className={formStyles.formGroup}>
+                    </FormGroup>
+                    {!!cardHolder.visible && (
+                        <FormGroup>
                             <CardHolder />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
-                    {email.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!email.visible && (
+                        <FormGroup>
                             <Email />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
-                    {amount.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!amount.visible && (
+                        <FormGroup>
                             <Amount cost={amount.cost} />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
                 </div>
                 <PayButton />

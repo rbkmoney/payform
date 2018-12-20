@@ -1,24 +1,27 @@
 import * as React from 'react';
+
 import { MethodProps } from './method-props';
-import { method, method_simple, title } from './methods.scss';
-import { GooglePayIcon } from './icons/google-pay-icon';
 import { FormName, PaymentMethodName, TokenProviderFormInfo } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
+import { MethodSimple } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/mthod-simple';
+import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
+import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
 
 const toTokenProvider = (props: MethodProps) =>
     props.setFormInfo(new TokenProviderFormInfo(BankCardTokenProvider.googlepay, FormName.paymentMethods));
 
-const TokenProviderFormLink: React.SFC<MethodProps> = (props) => (
-    <li className={method} onClick={toTokenProvider.bind(null, props)} id="google-pay-payment-method">
-        <GooglePayIcon />
-        <div className={title}>{props.locale['form.payment.method.name.google.pay.label']}</div>
-    </li>
+const TokenProviderFormLink: React.FC<MethodProps> = (props) => (
+    <Method onClick={toTokenProvider.bind(null, props)} id="google-pay-payment-method">
+        <Icon name="google-pay" />
+        <Title>{props.locale['form.payment.method.name.google.pay.label']}</Title>
+    </Method>
 );
 
 const pay = (props: MethodProps) => props.pay({ method: PaymentMethodName.GooglePay });
 
-const GooglePayLink: React.SFC<MethodProps> = (props) => (
-    <li className={method_simple} onClick={pay.bind(null, props)} id="google-pay-payment-method">
+const GooglePayLink: React.FC<MethodProps> = (props) => (
+    <MethodSimple onClick={pay.bind(null, props)} id="google-pay-payment-method">
         <svg viewBox="0 -20 435 195" width="100%" height="40">
             <g fill="none">
                 <path
@@ -43,10 +46,10 @@ const GooglePayLink: React.SFC<MethodProps> = (props) => (
                 />
             </g>
         </svg>
-    </li>
+    </MethodSimple>
 );
 
-export const GooglePay: React.SFC<MethodProps> = (props) => {
+export const GooglePay: React.FC<MethodProps> = (props) => {
     return props.amountPrefilled && props.emailPrefilled ? (
         <GooglePayLink {...props} />
     ) : (

@@ -15,7 +15,7 @@ export interface MethodsProps {
     emailPrefilled: boolean;
 }
 
-export const Methods: React.SFC<MethodsProps> = (props) => {
+export const Methods: React.FC<MethodsProps> = (props) => {
     const { methods, locale, setFormInfo, pay, amountPrefilled, emailPrefilled } = props;
     return (
         <CSSTransitionGroup

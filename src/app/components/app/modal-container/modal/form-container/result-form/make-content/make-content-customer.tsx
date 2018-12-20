@@ -1,6 +1,6 @@
 import * as React from 'react';
+
 import { Locale } from 'checkout/locale';
-import * as styles from '../result-form.scss';
 import {
     CustomerBindingStatus,
     CustomerBindingStatusChanged,
@@ -13,11 +13,12 @@ import { getCustomerPaymentDetails } from './payment-details';
 import { getFailedDescription } from './get-failed-description';
 import { ResultFormType } from 'checkout/components/app/modal-container/modal/form-container/result-form/make-content/result-form-content';
 import { EventsStatus } from 'checkout/state';
+import { Text } from './text';
 
 const getDescription = (prefix: string, e: CustomerEvent[]): JSX.Element => (
-    <p className={styles.text}>
+    <Text>
         {prefix} {getCustomerPaymentDetails(e).info}.
-    </p>
+    </Text>
 );
 
 const failed = (l: Locale, e: CustomerBindingStatusChanged) => ({

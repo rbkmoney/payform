@@ -1,4 +1,3 @@
-@import '../../../../styles/variables';
 @import '../../../../styles/responsive';
 @import '../../../../styles/animations';
 
@@ -6,7 +5,7 @@
     height: 100%; // for cross-browser 100vh
     height: 100vh;
     width: 100%;
-    background: $white;
+    background: #fff;
 
     @include responsive(sm) {
         height: 690px;

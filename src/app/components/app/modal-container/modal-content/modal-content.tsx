@@ -11,6 +11,14 @@ import { ModalLoader } from 'checkout/components/app/modal-container/modal-loade
 import * as styles from 'checkout/components/app/modal-container/modal-container.scss';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { Close } from 'checkout/components/app/modal-container/modal/close';
+import styled from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
+
+const StyledFooter = styled(Footer)`
+    @media ${device.mobile} {
+        display: none;
+    }
+`;
 
 export interface ModalContentProps {
     activeModal: ModalState;
@@ -56,7 +64,7 @@ class ModalContentDef extends React.Component<ModalContentProps> {
                 return (
                     <>
                         <Modal />
-                        <Footer />
+                        <StyledFooter />
                     </>
                 );
             case ModalName.modalInteraction:

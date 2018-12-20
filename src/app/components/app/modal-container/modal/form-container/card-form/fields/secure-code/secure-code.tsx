@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, WrappedFieldProps } from 'redux-form';
+
 import { Input } from '../../../input';
-import { IconType } from 'checkout/components';
 import { validateSecureCode } from './validate-secure-code';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
 import { formatCVC } from './format-cvc';
+import { Lock } from 'checkout/components';
 
 export interface SecureCodeProps {
     locale: Locale;
@@ -19,7 +20,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
         {...fieldProps.input}
         {...fieldProps.meta}
         error={isError(fieldProps.meta)}
-        icon={IconType.lock}
+        icon={<Lock />}
         placeholder={props.locale['form.input.secure.placeholder']}
         mark={true}
         type={props.obscureCardCvv ? 'password' : 'tel'}
@@ -28,7 +29,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
     />
 );
 
-export const SecureCodeDef: React.SFC<SecureCodeProps> = (props) => (
+export const SecureCodeDef: React.FC<SecureCodeProps> = (props) => (
     <Field name="secureCode" component={getCustomInput.bind(null, props)} validate={validateSecureCode} />
 );
 

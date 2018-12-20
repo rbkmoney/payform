@@ -56,12 +56,12 @@ class ActionBlockDef extends React.Component<ActionBlockProps> {
         return (
             <div className={styles.errorBlock}>
                 {retryCapability(startedInfo) && (
-                    <Button style="primary" onClick={(e) => this.retry(e)} id="retry-btn">
+                    <Button color="primary" onClick={(e) => this.retry(e)} id="retry-btn">
                         {locale['form.button.pay.again.label']}
                     </Button>
                 )}
                 {payOtherCapability(startedInfo) && (
-                    <Button style="default" onClick={(e) => this.retry(e, true)} id="reenter-btn">
+                    <Button onClick={(e) => this.retry(e, true)} id="reenter-btn">
                         {toReenterButtonText(startedInfo, locale)}
                     </Button>
                 )}

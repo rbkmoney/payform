@@ -3,7 +3,8 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import get from 'lodash-es/get';
-import * as formStyles from 'checkout/styles/forms.scss';
+
+import { FormGroup } from '../form-group';
 import { TokenProviderFormProps } from './token-provider-form-props';
 import { Header } from '../header';
 import {
@@ -86,19 +87,15 @@ export class TokenProviderFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)} id="token-provider-form">
                 <div>
                     <Header title={getTitle(provider)} />
-                    {email.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!email.visible && (
+                        <FormGroup>
                             <Email />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
-                    {amount.visible ? (
-                        <div className={formStyles.formGroup}>
+                    {!!amount.visible && (
+                        <FormGroup>
                             <Amount cost={amount.cost} />
-                        </div>
-                    ) : (
-                        false
+                        </FormGroup>
                     )}
                 </div>
                 {getPayButton(provider, handleSubmit(this.submit))}

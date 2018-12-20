@@ -1,7 +1,37 @@
 import * as React from 'react';
 import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+
+import { Checkmark, BoldCross } from 'checkout/components/ui/icon';
 import * as styles from '../input.scss';
-import { Icon, IconType } from 'checkout/components/ui';
+import styled, { css } from 'checkout/styled-components';
+
+const iconStyle = css`
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+`;
+
+const CheckmarkIcon = styled(Checkmark)`
+    ${iconStyle};
+    height: 9px;
+    width: 13px;
+    margin: 19px 15px 0 19px;
+    g {
+        stroke: ${({ theme }) => theme.color.primary[1]};
+    }
+`;
+
+const ErrorCrossIcon = styled(BoldCross)`
+    ${iconStyle};
+    height: 18px;
+    width: 18px;
+    margin: 15px 15px 0 19px;
+    transform: scale(0.7);
+`;
 
 interface MarksProps {
     active: boolean;
@@ -9,7 +39,7 @@ interface MarksProps {
     error: boolean;
 }
 
-export const Marks: React.SFC<MarksProps> = (props) => (
+export const Marks: React.FC<MarksProps> = (props) => (
     <CSSTransitionGroup
         component="div"
         transitionName={{
@@ -23,11 +53,6 @@ export const Marks: React.SFC<MarksProps> = (props) => (
         transitionAppear={true}
         transitionEnter={true}
         transitionLeave={true}>
-        {!props.active && !props.error && !props.pristine ? (
-            <Icon className={styles.checkmark} icon={IconType.checkmark} />
-        ) : (
-            false
-        )}
-        {!props.active && props.error ? <Icon className={styles.errorCross} icon={IconType.redCross} /> : false}
+        {!props.active && (props.error ? <ErrorCrossIcon /> : !props.pristine && <CheckmarkIcon />)}
     </CSSTransitionGroup>
 );

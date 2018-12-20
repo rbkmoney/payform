@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const rules = [
     {
@@ -19,25 +19,23 @@ const rules = [
                 }
             }
         ],
-        exclude: '/node_modules/'
+        exclude: /node_modules/
     },
     {
         test: /\.(css|scss)$/,
-        use: ExtractTextPlugin.extract({
-            use: [
-                {
-                    loader: 'css-loader',
-                    options: {
-                        minimize: true,
-                        modules: true,
-                        namedExport: true,
-                        localIdentName: '[local]__[hash:5]'
-                    }
-                },
-                'sass-loader'
-            ],
-            fallback: 'style-loader'
-        })
+        use: [
+            MiniCssExtractPlugin.loader,
+            {
+                loader: 'css-loader',
+                options: {
+                    minimize: true,
+                    modules: true,
+                    namedExport: true,
+                    localIdentName: '[local]__[hash:5]'
+                }
+            },
+            'sass-loader'
+        ]
     },
     {
         test: /\.(jpeg|jpg)$/,
@@ -64,6 +62,20 @@ const rules = [
                 }
             }
         ]
+    },
+    {
+        test: /\.svg$/,
+        oneOf: [
+            {
+                loader: 'svg-react-loader',
+                issuer: /\.tsx?$/,
+                options: {
+                    classIdPrefix: '[name]-[hash:8]__',
+                    uniqueIdPrefix: true
+                }
+            }
+        ],
+        exclude: /node_modules/
     }
 ];
 

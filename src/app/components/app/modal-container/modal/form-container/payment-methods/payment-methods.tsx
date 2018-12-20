@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+
 import * as formStyles from '../form-container.scss';
 import { FormInfo, PaymentMethod, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
@@ -8,6 +9,7 @@ import { goToFormInfo, pay as payAction, PaymentRequestedPayload, setViewInfoHei
 import { Methods } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
+import { Title } from 'checkout/components/app/modal-container/modal/form-container/title';
 
 export interface PaymentMethodsProps {
     locale: Locale;
@@ -66,7 +68,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
             <form ref={this.setFormElement}>
                 <div>
                     <div className={formStyles.header}>
-                        <div className={formStyles.title}>{locale['form.header.payment.methods.label']}</div>
+                        <Title>{locale['form.header.payment.methods.label']}</Title>
                     </div>
                     <Methods
                         methods={visibleMethods}
@@ -76,9 +78,9 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                         amountPrefilled={amountPrefilled}
                         emailPrefilled={emailPrefilled}
                     />
-                    {methods > visibleMethods ? (
+                    {methods > visibleMethods && (
                         <OtherPaymentMethodsLink onClick={this.showAllMethods} locale={locale} />
-                    ) : null}
+                    )}
                 </div>
             </form>
         );

@@ -6,6 +6,6 @@ export interface GooglePayButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const GooglePayButton: React.SFC<GooglePayButtonProps> = (props) => (
+export const GooglePayButton: React.FC<GooglePayButtonProps> = (props) => (
     <button type="button" id="google-pay-button" className={google_pay_button} onClick={props.onClick} />
 );
