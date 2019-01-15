@@ -22,15 +22,3 @@
 .leaveActiveContainer {
     opacity: 0;
 }
-
-.container {
-    height: 100%;
-    position: relative;
-
-    .modalInteractionLoader {
-        position: fixed;
-        @include responsive(sm) {
-            position: absolute;
-        }
-    }
-}

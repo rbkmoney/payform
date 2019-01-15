@@ -7,6 +7,12 @@ import { State, ResultState, InitializeAppState } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { ModalContent } from './modal-content';
 import { ModalError } from './modal-error';
+import styled from 'checkout/styled-components';
+
+const Container = styled.div`
+    height: 100%;
+    position: relative;
+`;
 
 export interface ModalContainerProps {
     config: Config;
@@ -24,7 +30,6 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
         return (
             <CSSTransitionGroup
                 component="div"
-                className={styles.animationContainer}
                 transitionName={{
                     appear: styles.appearContainer,
                     enter: styles.enterContainer,
@@ -38,9 +43,9 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
                 transitionEnter={true}
                 transitionLeave={true}>
                 {result !== ResultState.close && result !== ResultState.closeAfterDone && (
-                    <div className={styles.container}>
+                    <Container>
                         {error ? <ModalError inFrame={inFrame} error={error} /> : <ModalContent inFrame={inFrame} />}
-                    </div>
+                    </Container>
                 )}
             </CSSTransitionGroup>
         );

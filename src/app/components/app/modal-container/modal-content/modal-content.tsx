@@ -8,7 +8,6 @@ import { UserInteractionModal } from '../user-interaction-modal';
 import { ModalName, ModalState, State, ModalInteraction } from 'checkout/state';
 import { finishInteraction } from 'checkout/actions';
 import { ModalLoader } from 'checkout/components/app/modal-container/modal-loader';
-import * as styles from 'checkout/components/app/modal-container/modal-container.scss';
 import { CSSTransitionGroup } from 'react-transition-group';
 import { Close } from 'checkout/components/app/modal-container/modal/close';
 import styled from 'checkout/styled-components';
@@ -71,9 +70,7 @@ class ModalContentDef extends React.Component<ModalContentProps> {
                 return (
                     <>
                         <UserInteractionModal />
-                        {(activeModal as ModalInteraction).pollingEvents && (
-                            <ModalLoader className={styles.modalInteractionLoader} />
-                        )}
+                        {(activeModal as ModalInteraction).pollingEvents && <ModalLoader />}
                     </>
                 );
             default:
