@@ -5,11 +5,7 @@ import styled from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { growth } from 'checkout/styled-components/animations';
 
-export const LayoutLoader = styled((props) => (
-    <div {...props}>
-        <Loader />
-    </div>
-))`
+const LayoutLoaderWrapper = styled.div`
     position: fixed;
     top: 50%;
     left: 50%;
@@ -30,3 +26,9 @@ export const LayoutLoader = styled((props) => (
         animation: ${growth} 0.75s;
     }
 `;
+
+export const LayoutLoader = () => (
+    <LayoutLoaderWrapper>
+        <Loader />
+    </LayoutLoaderWrapper>
+);
