@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { Config } from 'checkout/config';
-import { SecureIcon } from './secure-icon';
+import SecureIcon from './secure-icon.svg';
 import { VisaIcon } from './visa-icon';
 import { McIcon } from './mc-icon';
 import { PciDssIcon } from './pci-dss-icon';
-import { Logo } from './logo';
+import Logo from './logo.svg';
 import { device } from 'checkout/utils/device';
 import styled, { css } from 'checkout/styled-components';
 
@@ -40,12 +40,6 @@ const StyledSecureIcon = styled(SecureIcon)`
     margin-right: 8px;
     position: relative;
     top: -2px;
-    path {
-        stroke: #fff;
-    }
-    rect {
-        fill: #fff;
-    }
 `;
 
 const Label = styled.p`
@@ -91,6 +85,11 @@ const StyledPciDssIcon = styled(PciDssIcon)`
     ${alignFix}
 `;
 
+const LogoWrapper = styled.div`
+    padding-left: 6px;
+    fill: #fff;
+`;
+
 export interface FooterProps {
     locale: Locale;
     config: Config;
@@ -109,7 +108,9 @@ const FooterDef: React.FC<FooterProps> = (props) => (
                 <SafePayment>
                     <StyledSecureIcon />
                     <Label>{props.locale['footer.pay.label']}</Label>
-                    <Logo />
+                    <LogoWrapper>
+                        <Logo />
+                    </LogoWrapper>
                 </SafePayment>
             )}
             <SafeLogos>
