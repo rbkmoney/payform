@@ -1,16 +1,19 @@
 import * as React from 'react';
+
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
-import { next_button } from './next-button.scss';
+import styled from 'checkout/styled-components';
 
 export interface NextButtonProps {
     locale: Locale;
 }
 
-const NextButtonDef: React.FC<NextButtonProps> = (props) => (
-    <Button type="submit" color="primary" id="next-btn" className={next_button}>
-        {props.locale['form.button.next.label']}
-    </Button>
-);
+export const StyledButton = styled(Button)`
+    margin-top: 20px;
+`;
 
-export const NextButton = NextButtonDef;
+export const NextButton: React.FC<NextButtonProps> = (props) => (
+    <StyledButton type="submit" color="primary" id="next-btn">
+        {props.locale['form.button.next.label']}
+    </StyledButton>
+);
