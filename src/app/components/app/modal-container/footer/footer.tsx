@@ -91,11 +91,6 @@ const StyledPciDssIcon = styled(PciDssIcon)`
     ${alignFix}
 `;
 
-const StyledLogo = styled(Logo)`
-    padding-left: 6px;
-    fill: #fff;
-`;
-
 export interface FooterProps {
     locale: Locale;
     config: Config;
@@ -114,7 +109,7 @@ const FooterDef: React.FC<FooterProps> = (props) => (
                 <SafePayment>
                     <StyledSecureIcon />
                     <Label>{props.locale['footer.pay.label']}</Label>
-                    <StyledLogo />
+                    <Logo />
                 </SafePayment>
             )}
             <SafeLogos>

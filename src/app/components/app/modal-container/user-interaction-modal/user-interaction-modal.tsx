@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash-es/get';
-import * as styles from './user-interaction-modal.scss';
+
 import {
     EventInteractionObject,
     ModalInteraction,
@@ -12,6 +12,39 @@ import {
 } from 'checkout/state';
 import { findNamed } from 'checkout/utils';
 import { prepareForm } from './interaction-form';
+import styled from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
+
+const Container = styled.div`
+    height: 100%; // for cross-browser 100vh
+    height: 100vh;
+    width: 100%;
+    background: #fff;
+
+    @media ${device.desktop} {
+        height: 690px;
+        width: 680px;
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+`;
+
+const IFrame = styled.iframe`
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    border: none;
+
+    @media ${device.desktop} {
+        border-radius: 6px;
+        position: absolute;
+    }
+`;
 
 export interface UserInteractionModalProps {
     modal: ModalInteraction;
@@ -40,9 +73,9 @@ class UserInteractionModalDef extends React.Component<UserInteractionModalProps>
             src = (interactionObject as TokenizedInteractionObject).uri;
         }
         return (
-            <div className={styles.container} key="3ds" id="interact-container">
-                <iframe id="interactionFrame" ref={this.setIFrameElement} src={src} />
-            </div>
+            <Container key="3ds" id="interact-container">
+                <IFrame id="interactionFrame" ref={this.setIFrameElement} src={src} />
+            </Container>
         );
     }
 
