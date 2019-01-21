@@ -3,7 +3,6 @@ import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
 
 import { Marks } from './marks';
 import { default as styled, css } from 'checkout/styled-components';
-import { ReactNode } from 'react';
 
 const Icon = styled.div`
     position: absolute;
@@ -50,36 +49,7 @@ const StyledInput = styled.input`
     }
 `;
 
-export interface CustomProps {
-    icon?: ReactNode;
-    placeholder?: string;
-    mark?: boolean; // TODO mark always true
-    className?: string;
-    type?: 'text' | 'number' | 'value' | 'tel' | 'email' | 'password';
-    id?: string;
-    onInput?: React.FormEventHandler<HTMLInputElement>;
-}
-
-type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
-
-export const Input = styled<React.FC<InputProps>>((props) => (
-    <div className={props.className}>
-        {!!props.icon && <Icon>{props.icon}</Icon>}
-        <StyledInput
-            onChange={props.onChange}
-            onBlur={props.onBlur}
-            onFocus={props.onFocus}
-            onDrop={props.onDrop}
-            onDragStart={props.onDragStart}
-            onInput={props.onInput}
-            placeholder={props.placeholder}
-            type={props.type}
-            value={props.value}
-            id={props.id}
-        />
-        {!!props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
-    </div>
-))`
+const InputWrapper = styled.div<{ error?: any; mark?: boolean }>`
     position: relative;
     width: 100%;
 
@@ -107,3 +77,34 @@ export const Input = styled<React.FC<InputProps>>((props) => (
             }
         `};
 `;
+
+export interface CustomProps {
+    icon?: React.ReactNode;
+    placeholder?: string;
+    mark?: boolean; // TODO mark always true
+    className?: string;
+    type?: 'text' | 'number' | 'value' | 'tel' | 'email' | 'password';
+    id?: string;
+    onInput?: React.FormEventHandler<HTMLInputElement>;
+}
+
+type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
+
+export const Input: React.FC<InputProps> = (props) => (
+    <InputWrapper className={props.className} error={props.error} mark={props.mark}>
+        {!!props.icon && <Icon>{props.icon}</Icon>}
+        <StyledInput
+            onChange={props.onChange}
+            onBlur={props.onBlur}
+            onFocus={props.onFocus}
+            onDrop={props.onDrop}
+            onDragStart={props.onDragStart}
+            onInput={props.onInput}
+            placeholder={props.placeholder}
+            type={props.type}
+            value={props.value}
+            id={props.id}
+        />
+        {!!props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
+    </InputWrapper>
+);
