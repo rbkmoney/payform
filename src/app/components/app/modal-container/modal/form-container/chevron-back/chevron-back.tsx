@@ -15,7 +15,7 @@ const ChevronBackWrapper = styled.div`
     }
 `;
 
-export const ChevronBack: React.FC<Omit<React.Props<typeof ChevronBackWrapper>, 'ref'>> = (props) => (
+export const ChevronBack: React.FC<React.ComponentProps<typeof ChevronBackWrapper>> = (props) => (
     <ChevronBackWrapper {...props}>
         <ChevronLeft />
     </ChevronBackWrapper>
