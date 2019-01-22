@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
 
 import { FormGroup } from '../form-group';
-import * as styles from '../form-container.scss';
 import {
     CardFormValues,
     FormName,
@@ -25,6 +24,7 @@ import { TerminalFormProps } from './terminal-form-props';
 import { NextButton } from './next-button';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
+import { Text } from '../text';
 
 const toTerminalFormInfo = (modals: ModalState[]) => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -92,7 +92,7 @@ export class TerminalFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)} id="terminal-form">
                 <div>
                     <Header title={locale['form.header.pay.euroset.label']} />
-                    <p className={styles.text}>{locale['form.pay.terminals.info.text']}.</p>
+                    <Text>{locale['form.pay.terminals.info.text']}.</Text>
                     {!amount.visible ? <AmountInfo amount={this.props.amount} locale={locale} /> : false}
                     {!!email.visible && (
                         <FormGroup>

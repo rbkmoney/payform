@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as format from 'date-fns/format';
 
-import * as formStyles from '../../../form-container.scss';
 import { PaymentTerminalReceipt } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { FormattedAmount } from 'checkout/utils';
 import { Highlight } from 'checkout/components/app/modal-container/modal/form-container/highlight';
 import { ListItem, NumerableList } from 'checkout/components/app/modal-container/modal/form-container/numerable-list';
+import { Text } from '../../../text';
 
 interface ReceiptInfo {
     locale: Locale;
@@ -21,10 +21,10 @@ const Instruction: React.FC<ReceiptInfo> = (props) => {
     const formattedDate = format(props.receipt.dueDate, 'D.MM.YYYY HH:mm');
     const amount = `${props.amount.value} ${props.amount.symbol}`;
     return (
-        <p className={formStyles.text}>
+        <Text>
             {props.locale['form.pay.terminals.instruction.to.pay']} <Highlight>{amount}</Highlight>.
             {props.locale['form.pay.terminals.instruction.dueDate']} <Highlight>{formattedDate}</Highlight>.
-        </p>
+        </Text>
     );
 };
 

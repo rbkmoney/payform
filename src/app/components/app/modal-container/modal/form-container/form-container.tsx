@@ -2,9 +2,7 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { CSSTransitionGroup } from 'react-transition-group';
-import * as cx from 'classnames';
 
-import * as styles from './form-container.scss';
 import { CardForm } from './card-form';
 import { FormName, ModalForms, ModalName, State } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
@@ -18,6 +16,53 @@ import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
 import { Help } from './help';
 import { setViewInfoHeight } from 'checkout/actions';
+import styled, { css } from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
+import { shake } from 'checkout/styled-components/animations';
+
+const Container = styled.div`
+    padding: 0 5px;
+
+    @media ${device.desktop} {
+        width: 360px;
+        padding: 0;
+    }
+`;
+
+const Form = styled.div<{ error?: any; height?: number }>`
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.25);
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.4s;
+    height: ${({ height }) => (height ? `${height}px` : 'auto')};
+
+    @media ${device.desktop} {
+        padding: 30px;
+        min-height: auto;
+    }
+
+    ${({ error }) =>
+        error &&
+        css`
+            animation: ${shake} 0.82s;
+        `}
+`;
+
+const AnimationFormContainer = styled(CSSTransitionGroup)`
+    height: 100%;
+    position: relative;
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+`;
 
 const mapStateToProps = (state: State) => {
     const modalForms = findNamed(state.modals, ModalName.modalForms) as ModalForms;
@@ -50,24 +95,21 @@ class FormContainerDef extends React.Component<FormContainerProps> {
             viewInfo
         } = this.props;
         return (
-            <div className={styles.container}>
-                <div
-                    className={cx(styles.form, { [styles._error]: viewInfo.error })}
-                    style={{ height: viewInfo.height || 'auto' }}>
+            <Container>
+                <Form error={viewInfo.error} height={viewInfo.height}>
                     <div ref={this.setContentElement}>
-                        <CSSTransitionGroup
+                        <AnimationFormContainer
                             component="div"
-                            className={styles.animationFormContainer}
                             transitionName={viewInfo.slideDirection}
                             transitionEnterTimeout={500}
                             transitionLeaveTimeout={500}
                             onTransitionEnd={this.setHeight}>
                             <div key={name}>{this.renderForm(name)}</div>
-                        </CSSTransitionGroup>
+                        </AnimationFormContainer>
                         {!!viewInfo.inProcess && <FormLoader />}
                     </div>
-                </div>
-            </div>
+                </Form>
+            </Container>
         );
     }
 

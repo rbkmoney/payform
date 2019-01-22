@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as formStyles from '../../form-container.scss';
 import { State } from 'checkout/state';
 import { Header } from '../../header';
 import { formatInvoiceAmount, FormattedAmount } from 'checkout/utils';
@@ -17,6 +16,12 @@ const Container = styled.div`
     flex-direction: column;
     align-content: center;
     width: 100%;
+`;
+
+const SystemLogo = styled(EurosetLogo)`
+    max-height: 50px;
+    max-width: 105px;
+    margin-bottom: 25px;
 `;
 
 const mapStateToProps = (s: State) => ({
@@ -36,7 +41,7 @@ class InteractionTerminalFormDef extends React.Component<InteractionTerminalForm
         return (
             <Container id="terminal-interaction">
                 <Header title={this.props.locale['form.header.pay.euroset.label']} />
-                <EurosetLogo className={formStyles.systemLogo} />
+                <SystemLogo />
                 <ReceiptInfo amount={amount} receipt={receipt} locale={locale} />
             </Container>
         );
