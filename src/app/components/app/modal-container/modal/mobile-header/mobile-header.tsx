@@ -84,7 +84,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 
 const MobileHeaderDef: React.FC<MobileHeaderProps> = (props) => (
     <Header>
-        {!!props.destination && (
+        {props.destination && (
             <Back onClick={props.goToFormInfo.bind(null, props.destination, Direction.back)} id="mobile-back-btn" />
         )}
         <Text>{props.initConfig.name}</Text>

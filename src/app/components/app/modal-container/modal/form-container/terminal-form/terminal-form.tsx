@@ -94,12 +94,12 @@ export class TerminalFormDef extends React.Component<Props> {
                     <Header title={locale['form.header.pay.euroset.label']} />
                     <Text>{locale['form.pay.terminals.info.text']}.</Text>
                     {!amount.visible ? <AmountInfo amount={this.props.amount} locale={locale} /> : false}
-                    {!!email.visible && (
+                    {email.visible && (
                         <FormGroup>
                             <Email />
                         </FormGroup>
                     )}
-                    {!!amount.visible && (
+                    {amount.visible && (
                         <FormGroup>
                             <Amount cost={amount.cost} />
                         </FormGroup>

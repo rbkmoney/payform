@@ -58,7 +58,7 @@ const InputWrapper = styled.div<{ error?: any; mark?: boolean }>`
     }
 
     ${(props) =>
-        !!props.error &&
+        props.error &&
         css`
             ${StyledInput} {
                 border-color: ${props.theme.color.error[1]};
@@ -66,7 +66,7 @@ const InputWrapper = styled.div<{ error?: any; mark?: boolean }>`
         `};
 
     ${(props) =>
-        !!props.mark &&
+        props.mark &&
         css`
             ${StyledInput} {
                 padding-right: 30px;
@@ -92,7 +92,7 @@ type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
 export const Input: React.FC<InputProps> = (props) => (
     <InputWrapper className={props.className} error={props.error} mark={props.mark}>
-        {!!props.icon && <Icon>{props.icon}</Icon>}
+        {props.icon && <Icon>{props.icon}</Icon>}
         <StyledInput
             onChange={props.onChange}
             onBlur={props.onBlur}
@@ -105,6 +105,6 @@ export const Input: React.FC<InputProps> = (props) => (
             value={props.value}
             id={props.id}
         />
-        {!!props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
+        {props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
     </InputWrapper>
 );

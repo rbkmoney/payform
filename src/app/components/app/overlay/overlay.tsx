@@ -40,7 +40,7 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     }
 
     ${({ inFrame, theme }) =>
-        !!inFrame &&
+        inFrame &&
         css`
             :before {
                 content: '';

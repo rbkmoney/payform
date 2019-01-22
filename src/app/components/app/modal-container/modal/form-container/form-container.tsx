@@ -106,7 +106,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                             onTransitionEnd={this.setHeight}>
                             <div key={name}>{this.renderForm(name)}</div>
                         </AnimationFormContainer>
-                        {!!viewInfo.inProcess && <FormLoader />}
+                        {viewInfo.inProcess && <FormLoader />}
                     </div>
                 </Form>
             </Container>

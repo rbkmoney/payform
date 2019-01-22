@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as cx from 'classnames';
 
 import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
 import { goToFormInfo, setResult } from 'checkout/actions';

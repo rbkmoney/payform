@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
+
 import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { InteractionType, PaymentTerminalReceipt } from 'checkout/backend';
 import { findNamed } from 'checkout/utils';
@@ -28,9 +29,9 @@ export class InteractionFormDef extends React.Component<Props> {
         return (
             <form>
                 <div>
-                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt ? (
+                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt && (
                         <InteractionTerminalForm receipt={terminalReceipt} />
-                    ) : null}
+                    )}
                 </div>
             </form>
         );

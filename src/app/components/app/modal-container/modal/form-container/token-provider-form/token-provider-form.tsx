@@ -87,12 +87,12 @@ export class TokenProviderFormDef extends React.Component<Props> {
             <form onSubmit={handleSubmit(this.submit)} id="token-provider-form">
                 <div>
                     <Header title={getTitle(provider)} />
-                    {!!email.visible && (
+                    {email.visible && (
                         <FormGroup>
                             <Email />
                         </FormGroup>
                     )}
-                    {!!amount.visible && (
+                    {amount.visible && (
                         <FormGroup>
                             <Amount cost={amount.cost} />
                         </FormGroup>
