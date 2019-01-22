@@ -49,14 +49,14 @@ const Form = styled.form<{ hasActions: boolean }>`
     @media ${device.desktop} {
         // The amount of indentations from the top and bottom should be the same for different window sizes,
         // so that when the window size is changed, it does not break
-        padding: 50px 0 0;
-    }
+        padding-top: 50px;
 
-    ${({ hasActions }) =>
-        !hasActions &&
-        css`
-            padding: 50px 0;
-        `}
+        ${({ hasActions }) =>
+            !hasActions &&
+            css`
+                padding-bottom: 50px;
+            `}
+    }
 
     ${Container} {
         width: 100%;
