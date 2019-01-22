@@ -34,3 +34,12 @@ export const shake = keyframes`
         transform: translate3d(4px, 0, 0);
     }
 `;
+
+export const fadein = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;

@@ -1,9 +1,79 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as styles from './info.scss';
+
 import { State } from 'checkout/state';
 import { formatAmount, FormattedAmount } from 'checkout/utils';
 import { Locale } from 'checkout/locale';
+import { device } from 'checkout/utils/device';
+import styled from 'checkout/styled-components';
+import { fadein } from 'checkout/styled-components/animations';
+
+const InfoWrapper = styled.div`
+    padding: 30px 25px;
+
+    @media ${device.desktop} {
+        padding: 0;
+        width: 230px;
+        margin-right: 30px;
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+`;
+
+const CompanyName = styled.h4`
+    display: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin: 0 0 30px;
+
+    @media ${device.desktop} {
+        display: block;
+    }
+`;
+
+const Amount = styled.h1`
+    font-weight: 500;
+    font-size: 30px;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 35px;
+    margin: 0 0 20px;
+    animation: ${fadein} 0.5s;
+`;
+
+const Order = styled.div`
+    font-weight: 900;
+    font-size: 11px;
+    color: #fff;
+    opacity: 0.4;
+    letter-spacing: 2px;
+    line-height: 15px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+`;
+
+const ProductDescription = styled.div`
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-bottom: 20px;
+`;
+
+const Email = styled.div`
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 0;
+    line-height: 20px;
+    margin-bottom: 20px;
+`;
 
 export interface InfoProps {
     locale: Locale;
@@ -29,46 +99,38 @@ const mapStateToProps = (s: State) => {
 const InfoDef: React.FC<InfoProps> = (props) => {
     const { formattedAmount, locale, name, description, email } = props;
     return (
-        <div className={styles.info}>
+        <InfoWrapper>
             <div>
-                {name ? (
-                    <h4 className={styles.company_name} id="company-name-label">
-                        {name}
-                    </h4>
-                ) : (
-                    false
-                )}
+                {name ? <CompanyName id="company-name-label">{name}</CompanyName> : false}
                 {formattedAmount ? (
-                    <h1 className={styles.amount}>
+                    <Amount>
                         {formattedAmount.value}
                         <span>
                             &nbsp;
                             {formattedAmount.symbol}
                         </span>
-                    </h1>
+                    </Amount>
                 ) : (
                     false
                 )}
                 {description ? (
                     <div>
-                        <div className={styles.order}>{locale['info.order.label']}</div>
-                        <div className={styles.product_description} id="product-description">
-                            {description}
-                        </div>
+                        <Order>{locale['info.order.label']}</Order>
+                        <ProductDescription id="product-description">{description}</ProductDescription>
                     </div>
                 ) : (
                     false
                 )}
                 {email ? (
                     <div>
-                        <div className={styles.order}>{locale['info.email.label']}</div>
-                        <div className={styles.email}>{email}</div>
+                        <Order>{locale['info.email.label']}</Order>
+                        <Email>{email}</Email>
                     </div>
                 ) : (
                     false
                 )}
             </div>
-        </div>
+        </InfoWrapper>
     );
 };
 
