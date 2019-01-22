@@ -81,6 +81,11 @@ class FormContainerDef extends React.Component<FormContainerProps> {
 
     componentDidMount() {
         this.setHeight();
+        window.addEventListener('resize', this.setHeight);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.setHeight);
     }
 
     componentDidUpdate(prevProps: FormContainerProps) {
