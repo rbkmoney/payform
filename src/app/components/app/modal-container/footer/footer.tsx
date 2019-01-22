@@ -59,30 +59,24 @@ const SafeLogos = styled.div`
     flex-grow: 1;
 `;
 
-const iconStyle = css`
+const StyledVisaIcon = styled(VisaIcon)`
     margin-right: 25px;
     * {
         fill: #fff;
     }
 `;
 
-const alignFix = css`
+const fixPosition = css`
     position: relative;
     top: 4px;
 `;
 
-const StyledVisaIcon = styled(VisaIcon)`
-    ${iconStyle}
+const StyledMcIcon = styled(StyledVisaIcon.withComponent(McIcon))`
+    ${fixPosition}
 `;
 
-const StyledMcIcon = styled(McIcon)`
-    ${iconStyle}
-    ${alignFix}
-`;
-
-const StyledPciDssIcon = styled(PciDssIcon)`
-    ${iconStyle}
-    ${alignFix}
+const StyledPciDssIcon = styled(StyledVisaIcon.withComponent(PciDssIcon))`
+    ${fixPosition}
 `;
 
 const LogoWrapper = styled.div`
