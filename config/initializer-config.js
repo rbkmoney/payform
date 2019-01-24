@@ -1,6 +1,4 @@
 const path = require('path');
-const { CheckerPlugin } = require('awesome-typescript-loader');
-const rules = require('./common-rules');
 
 module.exports = {
     name: 'initializer',
@@ -15,9 +13,5 @@ module.exports = {
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/initializer')],
         extensions: ['.ts', '.js']
-    },
-    module: {
-        rules
-    },
-    plugins: [new CheckerPlugin()]
+    }
 };

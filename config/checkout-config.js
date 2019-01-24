@@ -1,8 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
-const rules = require('./common-rules');
 
 module.exports = {
     name: 'checkout',
@@ -24,11 +22,7 @@ module.exports = {
             checkout: __dirname + '/../src/app'
         }
     },
-    module: {
-        rules
-    },
     plugins: [
-        new CheckerPlugin(),
         new HtmlWebpackPlugin({
             template: './src/app/index.html',
             filename: 'checkout.html'
