@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "clear": "rimraf dist && rimraf .cache-loader",
+    "clear": "rimraf dist",
     "build": "npm run clear && webpack --mode production --colors --progress --config config/webpack.prod.js",
     "start": "npm run clear && webpack-dev-server --mode development --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
     "test": "jest --silent",
