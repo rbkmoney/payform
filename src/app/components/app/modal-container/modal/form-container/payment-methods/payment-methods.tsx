@@ -9,7 +9,7 @@ import { Methods } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
 import { Title } from '../title';
-import { Header } from '../header';
+import { HeaderWrapper } from '../header-wrapper';
 
 export interface PaymentMethodsProps {
     locale: Locale;
@@ -67,9 +67,9 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
         return (
             <form ref={this.setFormElement}>
                 <div>
-                    <Header>
+                    <HeaderWrapper>
                         <Title>{locale['form.header.payment.methods.label']}</Title>
-                    </Header>
+                    </HeaderWrapper>
                     <Methods
                         methods={visibleMethods}
                         locale={locale}

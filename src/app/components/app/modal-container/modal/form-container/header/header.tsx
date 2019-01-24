@@ -7,7 +7,7 @@ import { findInfoWithPrevious, findNamed } from 'checkout/utils';
 import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
 import { Title } from 'checkout/components/app/modal-container/modal/form-container/title';
-import { Header as HeaderWrapper } from '../header';
+import { HeaderWrapper } from '../header-wrapper';
 import { device } from 'checkout/utils/device';
 import styled from 'checkout/styled-components';
 
