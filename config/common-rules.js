@@ -2,20 +2,45 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const rules = [
     {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx?$/,
+        enforce: 'pre',
         use: [
             {
-                loader: 'thread-loader',
-                options: {
-                    workers: require('os').cpus().length - 1
-                }
-            },
-            'cache-loader',
+                loader: 'tslint-loader',
+                options: {}
+            }
+        ]
+    },
+    {
+        test: /\.tsx?$/,
+        use: [
             {
-                loader: 'ts-loader',
+                loader: 'awesome-typescript-loader',
                 options: {
-                    transpileOnly: true,
-                    happyPackMode: true
+                    useBabel: true,
+                    babelOptions: {
+                        babelrc: false,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                { targets: '> 0.5%, last 2 versions, ie >= 9, Firefox ESR, not dead', modules: false }
+                            ]
+                        ],
+                        plugins: [
+                            '@babel/plugin-transform-runtime',
+                            [
+                                'babel-plugin-styled-components',
+                                {
+                                    ssr: false,
+                                    displayName: false,
+                                    minify: true,
+                                    pure: true,
+                                    transpileTemplateLiterals: true
+                                }
+                            ]
+                        ]
+                    },
+                    babelCore: '@babel/core'
                 }
             }
         ],

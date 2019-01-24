@@ -1,5 +1,5 @@
 const path = require('path');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { CheckerPlugin } = require('awesome-typescript-loader');
 const rules = require('./common-rules');
 
 module.exports = {
@@ -19,11 +19,5 @@ module.exports = {
     module: {
         rules
     },
-    plugins: [
-        new ForkTsCheckerWebpackPlugin({
-            checkSyntacticErrors: true,
-            formatter: 'codeframe',
-            tslint: true
-        })
-    ]
+    plugins: [new CheckerPlugin()]
 };
