@@ -45,16 +45,6 @@
         }
     }
 
-    /* GROWTH ANIMATION */
-    @keyframes growth {
-        from {
-            transform: scale(0);
-        }
-        to {
-            transform: scale(1);
-        }
-    }
-
     /* POPUP ROTATE ANIMATION */
     @keyframes popup {
         from {
@@ -100,45 +90,6 @@
         }
         to {
             transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);
-        }
-    }
-
-    /* SHAKE ANIMATION */
-    @keyframes shake {
-        10%,
-        90% {
-            transform: translate3d(-1px, 0, 0);
-        }
-        20%,
-        80% {
-            transform: translate3d(2px, 0, 0);
-        }
-        30%,
-        50%,
-        70% {
-            transform: translate3d(-4px, 0, 0);
-        }
-        40%,
-        60% {
-            transform: translate3d(4px, 0, 0);
-        }
-    }
-
-    /* STROKE ANIMATION */
-    @keyframes stroke {
-        100% {
-            stroke-dashoffset: 0;
-        }
-    }
-
-    /* SCALE ANIMATION */
-    @keyframes scale {
-        0%,
-        100% {
-            transform: none;
-        }
-        50% {
-            transform: scale3d(1.1, 1.1, 1);
         }
     }
 
