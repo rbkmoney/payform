@@ -1,9 +1,19 @@
 import * as React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
 
-import { appear, leave } from './form-loader.scss';
 import { Loader } from 'checkout/components';
 import styled from 'checkout/styled-components';
+import { stylableTransition, APPEAR, LEAVE } from 'checkout/styled-transition';
+import { fadein, fadeout } from 'checkout/styled-components/animations';
+
+const Animation = styled(stylableTransition)`
+    ${APPEAR} {
+        animation: ${fadein} 0.5s;
+    }
+
+    ${LEAVE} {
+        animation: ${fadeout} 0.2s;
+    }
+`;
 
 const LoaderWrapper = styled.div`
     position: absolute;
@@ -21,14 +31,9 @@ const LoaderWrapper = styled.div`
 `;
 
 export const FormLoader: React.FC = () => (
-    <CSSTransitionGroup
-        transitionName={{ enter: null, appear, leave }}
-        transitionEnter={false}
-        transitionAppear={true}
-        transitionAppearTimeout={500}
-        transitionLeaveTimeout={200}>
+    <Animation appear={500} leave={200}>
         <LoaderWrapper key="form-loader" id="form-loader">
             <Loader />
         </LoaderWrapper>
-    </CSSTransitionGroup>
+    </Animation>
 );
