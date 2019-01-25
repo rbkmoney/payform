@@ -1,51 +1,31 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CheckerPlugin } = require('awesome-typescript-loader');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const path = require('path');
+const os = require('os');
 
 module.exports = (env) => ({
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                enforce: 'pre',
+                test: /\.(ts|tsx)$/,
                 use: [
                     {
-                        loader: 'tslint-loader',
-                        options: {}
-                    }
-                ]
-            },
-            {
-                test: /\.tsx?$/,
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
+                        loader: 'thread-loader',
                         options: {
-                            useBabel: true,
-                            babelOptions: {
-                                babelrc: false,
-                                presets: [
-                                    [
-                                        '@babel/preset-env',
-                                        {
-                                            targets: '> 0.5%, last 2 versions, ie >= 9, Firefox ESR, not dead',
-                                            modules: false
-                                        }
-                                    ]
-                                ],
-                                plugins: [
-                                    '@babel/plugin-transform-runtime',
-                                    [
-                                        'babel-plugin-styled-components',
-                                        {
-                                            ssr: false,
-                                            displayName: env === 'development',
-                                            minify: env === 'production',
-                                            transpileTemplateLiterals: env === 'production'
-                                        }
-                                    ]
-                                ]
-                            },
-                            babelCore: '@babel/core'
+                            workers: Math.round(os.cpus().length / 2)
+                        }
+                    },
+                    'cache-loader',
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            happyPackMode: true,
+                            // TODO: после закрытия issue https://github.com/Igorbek/typescript-plugin-styled-components/issues/14
+                            // добавить минификацию styled-components под prod
+                            ...(env === 'development'
+                                ? { getCustomTransformers: path.join(__dirname, './ts-transformers.js') }
+                                : {})
                         }
                     }
                 ],
@@ -109,5 +89,11 @@ module.exports = (env) => ({
             }
         ]
     },
-    plugins: [new CheckerPlugin()]
+    plugins: [
+        new ForkTsCheckerWebpackPlugin({
+            checkSyntacticErrors: true,
+            formatter: 'codeframe',
+            tslint: true
+        })
+    ]
 });
