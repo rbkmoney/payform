@@ -78,3 +78,21 @@ export const popout = keyframes`
         opacity: 0;
     }
 `;
+
+export const rotatein = keyframes`
+    from {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);
+    }
+    to {
+        transform: perspective(1000px) rotate3d(0, 1, 0, 0);
+    }
+`;
+
+export const rotateout = keyframes`
+    from {
+        transform: perspective(1000px) rotate3d(0, 1, 0, 0);
+    }
+    to {
+        transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);
+    }
+`;
