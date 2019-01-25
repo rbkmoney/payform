@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "clear": "rimraf dist .cache-loader",
+    "clear": "rimraf dist && rimraf .cache-loader",
     "build": "npm run clear && webpack --mode production --colors --progress --config config/webpack.prod.js",
     "start": "npm run clear && webpack-dev-server --mode development --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
     "test": "jest --silent",
@@ -76,9 +76,7 @@
     "@types/redux-form": "~7.2.6",
     "@types/styled-components": "~4.1.0",
     "@types/url-parse": "~1.1.0",
-    "awesome-typescript-loader": "~5.2.1",
     "babel-jest": "~22.4.1",
-    "babel-loader": "~8.0.5",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.26.2",
     "babel-preset-env": "~1.7.0",
     "cache-loader": "~2.0.1",
