@@ -1,13 +1,38 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
 
-import * as styles from './modal-container.scss';
 import { State, ResultState, InitializeAppState } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { ModalContent } from './modal-content';
 import { ModalError } from './modal-error';
 import styled from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
+import { fadein, fadeout, popup, popout } from 'checkout/styled-components/animations';
+import { stylableTransition, APPEAR, ENTER, LEAVE, LEAVE_ACTIVE } from 'checkout/styled-transition';
+
+const Animation = styled(stylableTransition)`
+    ${APPEAR} {
+        animation: ${fadein} 0.75s;
+        @media ${device.desktop} {
+            animation-name: ${popup};
+        }
+    }
+
+    ${ENTER} {
+        background: transparent;
+    }
+
+    ${LEAVE} {
+        animation: ${fadeout} 0.75s;
+        @media ${device.desktop} {
+            animation-name: ${popout};
+        }
+    }
+
+    ${LEAVE_ACTIVE} {
+        opacity: 0;
+    }
+`;
 
 const Container = styled.div`
     height: 100%;
@@ -28,26 +53,13 @@ class ModalContainerDef extends React.Component<ModalContainerProps> {
             initializeApp: { error }
         } = this.props;
         return (
-            <CSSTransitionGroup
-                component="div"
-                transitionName={{
-                    appear: styles.appearContainer,
-                    enter: styles.enterContainer,
-                    leave: styles.leaveContainer,
-                    leaveActive: styles.leaveActiveContainer
-                }}
-                transitionEnterTimeout={750}
-                transitionLeaveTimeout={750}
-                transitionAppearTimeout={750}
-                transitionAppear={true}
-                transitionEnter={true}
-                transitionLeave={true}>
+            <Animation enter={750} appear={750} leave={750}>
                 {result !== ResultState.close && result !== ResultState.closeAfterDone && (
                     <Container>
                         {error ? <ModalError inFrame={inFrame} error={error} /> : <ModalContent inFrame={inFrame} />}
                     </Container>
                 )}
-            </CSSTransitionGroup>
+            </Animation>
         );
     }
 }
