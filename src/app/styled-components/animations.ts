@@ -96,3 +96,25 @@ export const rotateout = keyframes`
         transform: perspective(1000px) rotate3d(0, 0, 0, 90deg);
     }
 `;
+
+export const slidedown = keyframes`
+    from {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+`;
+
+export const slideup = keyframes`
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+`;
