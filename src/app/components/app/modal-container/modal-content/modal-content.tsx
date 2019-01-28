@@ -11,7 +11,7 @@ import { ModalLoader } from 'checkout/components/app/modal-container/modal-loade
 import { Close } from 'checkout/components/app/modal-container/modal/close';
 import styled from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
-import { stylableTransition, LEAVE, ENTER, LEAVE_ACTIVE, ENTER_ACTIVE } from 'checkout/styled-transition';
+import { stylableTransition, LEAVE, ENTER, ACTIVE } from 'checkout/styled-transition';
 
 const interactionTransitionTime = '0.5s';
 
@@ -23,15 +23,15 @@ const Animation = styled(stylableTransition)`
             opacity: 1;
             transform: perspective(1000px) rotateY(90deg);
         }
-    }
 
-    ${ENTER_ACTIVE} {
-        opacity: 1;
-        transition: all ${interactionTransitionTime} ease-out;
+        ${ACTIVE} {
+            opacity: 1;
+            transition: all ${interactionTransitionTime} ease-out;
 
-        @media ${device.desktop} {
-            transform: perspective(1000px) rotateY(0deg);
-            transition-delay: ${interactionTransitionTime};
+            @media ${device.desktop} {
+                transform: perspective(1000px) rotateY(0deg);
+                transition-delay: ${interactionTransitionTime};
+            }
         }
     }
 
@@ -43,16 +43,16 @@ const Animation = styled(stylableTransition)`
             position: absolute;
             top: 50%;
         }
-    }
 
-    ${LEAVE_ACTIVE} {
-        opacity: 0;
-        transition: all ${interactionTransitionTime} ease-in;
+        ${ACTIVE} {
+            opacity: 0;
+            transition: all ${interactionTransitionTime} ease-in;
 
-        @media ${device.desktop} {
-            opacity: 1;
-            top: 50%;
-            transform: translateY(-50%) perspective(1000px) rotateY(-90deg);
+            @media ${device.desktop} {
+                opacity: 1;
+                top: 50%;
+                transform: translateY(-50%) perspective(1000px) rotateY(-90deg);
+            }
         }
     }
 `;

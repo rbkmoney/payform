@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { CSSTransitionGroup } from 'react-transition-group';
 
 import { CardForm } from './card-form';
-import { FormName, ModalForms, ModalName, State } from 'checkout/state';
+import { FormName, ModalForms, ModalName, State, SlideDirection } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
@@ -19,6 +18,7 @@ import { setViewInfoHeight } from 'checkout/actions';
 import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
+import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
 
 const Container = styled.div`
     padding: 0 5px;
@@ -51,7 +51,63 @@ const Form = styled.div<{ error?: any; height?: number }>`
         `}
 `;
 
-const AnimationFormContainer = styled(CSSTransitionGroup)`
+const slideTransitionTime = '0.5s';
+
+const slideLeftAnimation = css`
+    ${ENTER} {
+        transform: translateX(-100%);
+        opacity: 0;
+        transition: all ${slideTransitionTime};
+
+        ${ACTIVE} {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    ${LEAVE} {
+        transform: translateX(0);
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        transition: all ${slideTransitionTime};
+        width: 100%;
+
+        ${ACTIVE} {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+
+const slideRightAnimation = css`
+    ${ENTER} {
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all ${slideTransitionTime};
+
+        ${ACTIVE} {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    ${LEAVE} {
+        transform: translateX(0);
+        opacity: 1;
+        position: absolute;
+        top: 0;
+        transition: all ${slideTransitionTime};
+        width: 100%;
+
+        ${ACTIVE} {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    }
+`;
+
+const FormContainerAnimation = styled(stylableTransition)<{ direction: SlideDirection }>`
     height: 100%;
     position: relative;
 
@@ -62,6 +118,8 @@ const AnimationFormContainer = styled(CSSTransitionGroup)`
         flex-direction: column;
         justify-content: space-between;
     }
+
+    ${({ direction }) => (direction === SlideDirection.left ? slideLeftAnimation : slideRightAnimation)}
 `;
 
 const mapStateToProps = (state: State) => {
@@ -103,14 +161,14 @@ class FormContainerDef extends React.Component<FormContainerProps> {
             <Container>
                 <Form error={viewInfo.error} height={viewInfo.height}>
                     <div ref={this.setContentElement}>
-                        <AnimationFormContainer
+                        <FormContainerAnimation
                             component="div"
-                            transitionName={viewInfo.slideDirection}
-                            transitionEnterTimeout={500}
-                            transitionLeaveTimeout={500}
+                            direction={viewInfo.slideDirection}
+                            enter={500}
+                            leave={500}
                             onTransitionEnd={this.setHeight}>
                             <div key={name}>{this.renderForm(name)}</div>
-                        </AnimationFormContainer>
+                        </FormContainerAnimation>
                         {viewInfo.inProcess && <FormLoader />}
                     </div>
                 </Form>

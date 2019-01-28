@@ -8,11 +8,12 @@ import { ModalError } from './modal-error';
 import styled from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { fadein, fadeout, popup, popout } from 'checkout/styled-components/animations';
-import { stylableTransition, APPEAR, ENTER, LEAVE, LEAVE_ACTIVE } from 'checkout/styled-transition';
+import { stylableTransition, APPEAR, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
 
 const Animation = styled(stylableTransition)`
     ${APPEAR} {
         animation: ${fadein} 0.75s;
+
         @media ${device.desktop} {
             animation-name: ${popup};
         }
@@ -24,13 +25,14 @@ const Animation = styled(stylableTransition)`
 
     ${LEAVE} {
         animation: ${fadeout} 0.75s;
+
         @media ${device.desktop} {
             animation-name: ${popout};
         }
-    }
 
-    ${LEAVE_ACTIVE} {
-        opacity: 0;
+        ${ACTIVE} {
+            opacity: 0;
+        }
     }
 `;
 

@@ -14,7 +14,7 @@ import * as bg9 from './backgrounds/9.jpg';
 import { ResultState, State } from 'checkout/state';
 import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
-import { stylableTransition, APPEAR, LEAVE, LEAVE_ACTIVE } from 'checkout/styled-transition';
+import { stylableTransition, APPEAR, LEAVE, ACTIVE } from 'checkout/styled-transition';
 import { fadein, fadeout } from 'checkout/styled-components/animations';
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9];
@@ -28,10 +28,10 @@ const Animation = styled(stylableTransition)`
 
     ${LEAVE} {
         animation: ${fadeout} 0.75s;
-    }
 
-    ${LEAVE_ACTIVE} {
-        opacity: 0;
+        ${ACTIVE} {
+            opacity: 0;
+        }
     }
 `;
 
