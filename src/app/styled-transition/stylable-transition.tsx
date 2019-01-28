@@ -24,9 +24,9 @@ export const stylableTransition: React.FC<Props> = ({ enter, appear, leave, time
         transitionName={props.className.split(' ')[1]}
         transitionAppear={appear === true || typeof appear === 'number'}
         transitionAppearTimeout={typeof appear === 'number' ? appear : timeout}
-        transitionEnter={enter === true || typeof appear === 'number'}
+        transitionEnter={enter === true || typeof enter === 'number'}
         transitionEnterTimeout={typeof enter === 'number' ? enter : timeout}
-        transitionLeave={leave === true || typeof appear === 'number'}
+        transitionLeave={leave === true || typeof leave === 'number'}
         transitionLeaveTimeout={typeof leave === 'number' ? leave : timeout}
     />
 );
