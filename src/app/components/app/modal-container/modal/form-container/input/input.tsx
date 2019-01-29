@@ -3,7 +3,6 @@ import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form';
 
 import { Marks } from './marks';
 import { default as styled, css } from 'checkout/styled-components';
-import { ReactNode } from 'react';
 
 const Icon = styled.div`
     position: absolute;
@@ -50,8 +49,37 @@ const StyledInput = styled.input`
     }
 `;
 
+const InputWrapper = styled.div<{ error?: any; mark?: boolean }>`
+    position: relative;
+    width: 100%;
+
+    :nth-child(2) {
+        margin-left: 10px;
+    }
+
+    ${(props) =>
+        props.error &&
+        css`
+            ${StyledInput} {
+                border-color: ${props.theme.color.error[1]};
+            }
+        `};
+
+    ${(props) =>
+        props.mark &&
+        css`
+            ${StyledInput} {
+                padding-right: 30px;
+
+                :focus {
+                    padding-right: 29px;
+                }
+            }
+        `};
+`;
+
 export interface CustomProps {
-    icon?: ReactNode;
+    icon?: React.ReactNode;
     placeholder?: string;
     mark?: boolean; // TODO mark always true
     className?: string;
@@ -62,9 +90,9 @@ export interface CustomProps {
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
 
-export const Input = styled<React.FC<InputProps>>((props) => (
-    <div className={props.className}>
-        {!!props.icon && <Icon>{props.icon}</Icon>}
+export const Input: React.FC<InputProps> = (props) => (
+    <InputWrapper className={props.className} error={props.error} mark={props.mark}>
+        {props.icon && <Icon>{props.icon}</Icon>}
         <StyledInput
             onChange={props.onChange}
             onBlur={props.onBlur}
@@ -77,33 +105,6 @@ export const Input = styled<React.FC<InputProps>>((props) => (
             value={props.value}
             id={props.id}
         />
-        {!!props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
-    </div>
-))`
-    position: relative;
-    width: 100%;
-
-    :nth-child(2) {
-        margin-left: 10px;
-    }
-
-    ${(props) =>
-        !!props.error &&
-        css`
-            ${StyledInput} {
-                border-color: ${props.theme.color.error[1]};
-            }
-        `};
-
-    ${(props) =>
-        !!props.mark &&
-        css`
-            ${StyledInput} {
-                padding-right: 30px;
-
-                :focus {
-                    padding-right: 29px;
-                }
-            }
-        `};
-`;
+        {props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
+    </InputWrapper>
+);

@@ -5,6 +5,7 @@ const checkoutConfig = require('./checkout-config');
 const initializerConfig = require('./initializer-config');
 const prepareOutputConfig = require('./prepare-output-config');
 const samsungPayConfig = require('./samsung-pay-config');
+const commonConfig = require('./common-config');
 
 const commonDevConfig = {
     devtool: 'source-map',
@@ -23,11 +24,11 @@ const commonDevConfig = {
 
 const baseOutput = 'dist';
 
-const prepareModule = (baseConfig, outputPath) =>
-    merge(merge(baseConfig, prepareOutputConfig(outputPath)), commonDevConfig);
+const prepareModule = (env, baseConfig, outputPath) =>
+    merge(baseConfig, commonConfig(env), prepareOutputConfig(outputPath), commonDevConfig);
 
-module.exports = [
-    prepareModule(checkoutConfig, `${baseOutput}/v1`),
-    prepareModule(samsungPayConfig, `${baseOutput}/v1`),
-    prepareModule(initializerConfig, baseOutput)
+module.exports = (env, { mode }) => [
+    prepareModule(mode, checkoutConfig, `${baseOutput}/v1`),
+    prepareModule(mode, samsungPayConfig, `${baseOutput}/v1`),
+    prepareModule(mode, initializerConfig, baseOutput)
 ];

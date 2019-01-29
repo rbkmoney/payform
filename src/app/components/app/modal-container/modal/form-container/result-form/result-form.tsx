@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as cx from 'classnames';
-import * as styles from './result-form.scss';
+
 import { FormName, ModalForms, ModalName, ResultFormInfo, ResultState, ResultType, State } from 'checkout/state';
 import { goToFormInfo, setResult } from 'checkout/actions';
 import { ResultFormProps } from './result-form-props';
@@ -20,7 +19,8 @@ import { getErrorCodeFromEvents } from '../get-error-code-from-changes';
 import { isHelpAvailable } from './is-help-available';
 import { ErrorDescriptionBlock } from './error-description-block';
 import { ResultIcon } from 'checkout/components/app/modal-container/modal/form-container/result-form/result-icons';
-import styled from 'styled-components';
+import styled, { css } from 'checkout/styled-components';
+import { device } from 'checkout/utils/device';
 
 const Title = styled.h2<{ type: ResultFormType }>`
     font-weight: 500;
@@ -33,6 +33,35 @@ const Title = styled.h2<{ type: ResultFormType }>`
     margin: 0 0 30px;
 `;
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const Form = styled.form<{ hasActions: boolean }>`
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0;
+
+    @media ${device.desktop} {
+        // The amount of indentations from the top and bottom should be the same for different window sizes,
+        // so that when the window size is changed, it does not break
+        padding-top: 50px;
+
+        ${({ hasActions }) =>
+            !hasActions &&
+            css`
+                padding-bottom: 50px;
+            `}
+    }
+
+    ${Container} {
+        width: 100%;
+    }
+`;
+
 class ResultFormDef extends React.Component<ResultFormProps> {
     render() {
         const { header, description, type, hasActions, hasDone } = this.makeContent();
@@ -41,15 +70,15 @@ class ResultFormDef extends React.Component<ResultFormProps> {
             this.props.setResult(ResultState.done);
         }
         return (
-            <form className={cx(styles.form, { [styles.form_withoutActions]: !hasActions })}>
-                <div className={styles.container}>
+            <Form hasActions={hasActions}>
+                <Container>
                     <Title type={type}>{header}</Title>
                     <ResultIcon type={type} />
                     {description}
                     {hasErrorDescription ? <ErrorDescriptionBlock /> : false}
                     {hasActions ? <ActionBlock /> : false}
-                </div>
-            </form>
+                </Container>
+            </Form>
         );
     }
 

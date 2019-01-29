@@ -10,7 +10,7 @@ import { App } from './components/app';
 import { finalize } from './finalize';
 import { initialize } from './initialize';
 
-import './styles/font-face.scss';
+import './styles/font-face.css';
 
 initialize().then((res) => {
     const [transport, config] = res;

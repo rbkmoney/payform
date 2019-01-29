@@ -90,17 +90,17 @@ class CardFormDef extends React.Component<Props> {
                         <ExpireDate />
                         <SecureCode />
                     </FormGroup>
-                    {!!cardHolder.visible && (
+                    {cardHolder.visible && (
                         <FormGroup>
                             <CardHolder />
                         </FormGroup>
                     )}
-                    {!!email.visible && (
+                    {email.visible && (
                         <FormGroup>
                             <Email />
                         </FormGroup>
                     )}
-                    {!!amount.visible && (
+                    {amount.visible && (
                         <FormGroup>
                             <Amount cost={amount.cost} />
                         </FormGroup>

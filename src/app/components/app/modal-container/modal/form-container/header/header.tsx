@@ -2,12 +2,34 @@ import { bindActionCreators, Dispatch } from 'redux';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import * as formStyles from '../form-container.scss';
 import { Direction, goToFormInfo } from 'checkout/actions';
 import { findInfoWithPrevious, findNamed } from 'checkout/utils';
 import { FormInfo, ModalForms, ModalName, ModalState, State } from 'checkout/state';
 import { ChevronBack } from '../chevron-back';
 import { Title } from 'checkout/components/app/modal-container/modal/form-container/title';
+import { HeaderWrapper } from '../header-wrapper';
+import { device } from 'checkout/utils/device';
+import styled from 'checkout/styled-components';
+
+const BackButton = styled(ChevronBack)`
+    height: 20px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    display: none;
+
+    @media ${device.desktop} {
+        display: flex;
+    }
+
+    svg {
+        height: 15px;
+        width: 9px;
+    }
+`;
 
 export interface HeaderProps {
     title: string;
@@ -30,16 +52,15 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 });
 
 const HeaderDef: React.FC<HeaderProps> = (props) => (
-    <div className={formStyles.header}>
-        {props.destination ? (
-            <ChevronBack
-                className={formStyles.back_btn}
+    <HeaderWrapper>
+        {props.destination && (
+            <BackButton
                 onClick={props.goToFormInfo.bind(null, props.destination, Direction.back)}
                 id="desktop-back-btn"
             />
-        ) : null}
+        )}
         <Title>{props.title}</Title>
-    </div>
+    </HeaderWrapper>
 );
 
 export const Header = connect(

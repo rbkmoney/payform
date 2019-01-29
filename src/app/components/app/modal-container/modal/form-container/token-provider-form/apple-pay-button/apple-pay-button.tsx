@@ -1,11 +1,15 @@
-import * as React from 'react';
-import { apple_pay_button } from './apple-pay-button.scss';
-import { MouseEventHandler } from 'react';
+import styled from 'checkout/styled-components';
 
-export interface ApplePayButtonProps {
-    onClick: MouseEventHandler<any>;
-}
-
-export const ApplePayButton: React.FC<ApplePayButtonProps> = (props) => (
-    <button type="button" id="apple-pay-button" className={apple_pay_button} onClick={props.onClick} />
-);
+export const ApplePayButton = styled.button.attrs({
+    type: 'button',
+    id: 'apple-pay-button'
+})`
+    cursor: pointer;
+    width: 100%;
+    padding: 22px;
+    transition: all 0.3s;
+    -webkit-appearance: -apple-pay-button;
+    // -apple-pay-button-style: white-outline;
+    -apple-pay-button-style: black;
+    margin-top: 20px;
+`;

@@ -1,11 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import * as styles from './result-form.scss';
+
 import { FormInfo, FormName, HelpFormInfo, State } from 'checkout/state';
 import { goToFormInfo } from 'checkout/actions';
 import { Locale } from 'checkout/locale';
 import { Link } from 'checkout/components/ui/link';
+import styled from 'checkout/styled-components';
+
+const HelpBlock = styled(Link)`
+    margin: 0 auto 25px auto;
+`;
 
 export interface ErrorDescriptionBlockProps {
     locale: Locale;
@@ -15,9 +20,9 @@ export interface ErrorDescriptionBlockProps {
 class ErrorDescriptionBlockDef extends React.Component<ErrorDescriptionBlockProps> {
     render() {
         return (
-            <Link className={styles.helpBlock} onClick={() => this.goToHelp()} id="help-btn">
+            <HelpBlock onClick={() => this.goToHelp()} id="help-btn">
                 {this.props.locale['form.final.need.help']}
-            </Link>
+            </HelpBlock>
         );
     }
 

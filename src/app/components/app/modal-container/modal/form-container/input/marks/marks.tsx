@@ -1,9 +1,23 @@
 import * as React from 'react';
-import * as CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import { Checkmark, BoldCross } from 'checkout/components/ui/icon';
-import * as styles from '../input.scss';
 import styled, { css } from 'checkout/styled-components';
+import { stylableTransition, APPEAR, ENTER, LEAVE } from 'checkout/styled-transition';
+import { fadein, fadeout } from 'checkout/styled-components/animations';
+
+const FadeAnimation = styled(stylableTransition).attrs({
+    appear: 450,
+    leave: 450,
+    enter: 450
+})`
+    ${APPEAR}, ${ENTER} {
+        animation: ${fadein} 0.5s;
+    }
+
+    ${LEAVE} {
+        animation: ${fadeout} 0.5s;
+    }
+`;
 
 const iconStyle = css`
     display: flex;
@@ -40,19 +54,7 @@ interface MarksProps {
 }
 
 export const Marks: React.FC<MarksProps> = (props) => (
-    <CSSTransitionGroup
-        component="div"
-        transitionName={{
-            appear: styles.appearMarks,
-            enter: styles.enterMarks,
-            leave: styles.leaveMarks
-        }}
-        transitionEnterTimeout={450}
-        transitionLeaveTimeout={450}
-        transitionAppearTimeout={450}
-        transitionAppear={true}
-        transitionEnter={true}
-        transitionLeave={true}>
+    <FadeAnimation>
         {!props.active && (props.error ? <ErrorCrossIcon /> : !props.pristine && <CheckmarkIcon />)}
-    </CSSTransitionGroup>
+    </FadeAnimation>
 );

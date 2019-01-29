@@ -1,8 +1,8 @@
 import { css } from 'checkout/styled-components';
 import { ThemeName } from './theme-name';
-import main from 'checkout/themes/main';
+import { Theme } from './theme';
 
-const theme: typeof main = {
+const theme: Theme = {
     name: ThemeName.coral,
     color: {
         neutral: {
@@ -39,7 +39,8 @@ const theme: typeof main = {
     },
     gradients: {
         form: css`linear-gradient(45deg, #8330ec -20%, #ff8454 90%)`,
-        bg: css`linear-gradient(to top right, #9016f6, #b85c76)`
+        bg: css`linear-gradient(to top right, #9016f6, #b85c76)`,
+        loader: [['#7854CD', '0%'], ['#FF8353', '100%']]
     },
     font: {
         family: "'Roboto', sans-serif"

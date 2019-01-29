@@ -1,20 +1,25 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+
 import { AmountInfoState, ConfigState, State } from 'checkout/state';
 import { IntegrationType } from 'checkout/config';
 import { formatAmount } from 'checkout/utils';
 import { Button } from 'checkout/components';
 import { Locale } from 'checkout/locale';
-import { pay_button } from './pay-button.scss';
+import styled from 'checkout/styled-components';
+
+const PayButtonWrapper = styled(Button)`
+    margin-top: 20px;
+`;
 
 export interface PayButtonProps {
     label: string;
 }
 
 const PayButtonDef: React.FC<PayButtonProps> = (props) => (
-    <Button type="submit" color="primary" id="pay-btn" className={pay_button}>
+    <PayButtonWrapper type="submit" color="primary" id="pay-btn">
         {props.label}
-    </Button>
+    </PayButtonWrapper>
 );
 
 const toInvoiceLabel = (locale: Locale, amountInfo: AmountInfoState): string => {

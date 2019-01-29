@@ -6,6 +6,7 @@ const checkoutConfig = require('./checkout-config');
 const initializerConfig = require('./initializer-config');
 const samsungPayConfig = require('./samsung-pay-config');
 const prepareOutputConfig = require('./prepare-output-config');
+const commonConfig = require('./common-config');
 
 const commonProdConfig = {
     plugins: [
@@ -30,11 +31,11 @@ const commonProdConfig = {
 
 const baseOutput = 'dist';
 
-const prepareModule = (baseConfig, outputPath, jsPattern, cssPattern) =>
-    merge(merge(baseConfig, prepareOutputConfig(outputPath, jsPattern, cssPattern)), commonProdConfig);
+const prepareModule = (env, baseConfig, outputPath, jsPattern, cssPattern) =>
+    merge(baseConfig, commonConfig(env), prepareOutputConfig(outputPath, jsPattern, cssPattern), commonProdConfig);
 
-module.exports = [
-    prepareModule(checkoutConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
-    prepareModule(samsungPayConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
-    prepareModule(initializerConfig, baseOutput)
+module.exports = (env, { mode }) => [
+    prepareModule(mode, checkoutConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
+    prepareModule(mode, samsungPayConfig, `${baseOutput}/v1`, '[name].[hash:20]', '[hash:20]'),
+    prepareModule(mode, initializerConfig, baseOutput)
 ];

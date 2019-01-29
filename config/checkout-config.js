@@ -1,8 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const rules = require('./common-rules');
 
 module.exports = {
     name: 'checkout',
@@ -12,10 +10,18 @@ module.exports = {
         modules: false
     },
     entry: {
-        app: './src/app/index.tsx',
-        react: './src/app/react.ts',
-        vendor: './src/app/vendor.ts',
-        polyfills: './src/app/polyfills.ts'
+        app: ['./src/app/polyfills.ts', './src/app/index.tsx']
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'all'
+                }
+            }
+        }
     },
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/app')],
@@ -24,15 +30,7 @@ module.exports = {
             checkout: __dirname + '/../src/app'
         }
     },
-    module: {
-        rules
-    },
     plugins: [
-        new ForkTsCheckerWebpackPlugin({
-            checkSyntacticErrors: true,
-            formatter: 'codeframe',
-            tslint: true
-        }),
         new HtmlWebpackPlugin({
             template: './src/app/index.html',
             filename: 'checkout.html'

@@ -96,12 +96,12 @@ class WalletFormDef extends React.Component<Props> {
                     <FormGroup>
                         <Phone />
                     </FormGroup>
-                    {!!email.visible && (
+                    {email.visible && (
                         <FormGroup>
                             <Email />
                         </FormGroup>
                     )}
-                    {!!amount.visible && (
+                    {amount.visible && (
                         <FormGroup>
                             <Amount cost={amount.cost} />
                         </FormGroup>

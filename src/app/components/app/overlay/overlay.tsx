@@ -1,10 +1,5 @@
 import * as React from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-
-import { appear, leave, leaveActive } from './overlay.scss';
-import { ResultState, State } from 'checkout/state';
-import styled, { css } from 'checkout/styled-components';
 
 import * as bg1 from './backgrounds/1.jpg';
 import * as bg2 from './backgrounds/2.jpg';
@@ -15,11 +10,30 @@ import * as bg6 from './backgrounds/6.jpg';
 import * as bg7 from './backgrounds/7.jpg';
 import * as bg8 from './backgrounds/8.jpg';
 import * as bg9 from './backgrounds/9.jpg';
+
+import { ResultState, State } from 'checkout/state';
+import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
+import { stylableTransition, APPEAR, LEAVE, ACTIVE } from 'checkout/styled-transition';
+import { fadein, fadeout } from 'checkout/styled-components/animations';
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9];
 // нужно подготовить фон, чтобы он не перерендеревался
 const bg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+const Animation = styled(stylableTransition)`
+    ${APPEAR} {
+        animation: ${fadein} 0.75s;
+    }
+
+    ${LEAVE} {
+        animation: ${fadeout} 0.75s;
+
+        ${ACTIVE} {
+            opacity: 0;
+        }
+    }
+`;
 
 interface OverlayDefProps {
     inFrame: boolean;
@@ -40,7 +54,7 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     }
 
     ${({ inFrame, theme }) =>
-        !!inFrame &&
+        inFrame &&
         css`
             :before {
                 content: '';
@@ -62,14 +76,9 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
 `;
 
 const OverlayDef: React.FC<OverlayDefProps> = ({ result, inFrame }) => (
-    <CSSTransitionGroup
-        transitionName={{ enter: null, appear, leave, leaveActive }}
-        transitionEnter={false}
-        transitionAppear={true}
-        transitionAppearTimeout={750}
-        transitionLeaveTimeout={750}>
+    <Animation appear={750} leave={750}>
         {result !== ResultState.close && <OverlayBg inFrame={inFrame} key="overlay" />}
-    </CSSTransitionGroup>
+    </Animation>
 );
 
 const mapStateToProps = (state: State) => ({
