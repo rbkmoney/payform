@@ -1,4 +1,4 @@
-import { initButton } from './init-button.scss';
+import { initButton } from './init-button.css';
 import { detectLocale } from '../../locale';
 
 const getDefaultLabel = (): string => (detectLocale() === 'ru' ? 'Оплатить' : 'Pay');

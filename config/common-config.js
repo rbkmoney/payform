@@ -32,7 +32,7 @@ module.exports = (env) => ({
                 exclude: /node_modules/
             },
             {
-                test: /\.(css|scss)$/,
+                test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
@@ -43,8 +43,7 @@ module.exports = (env) => ({
                             namedExport: true,
                             localIdentName: '[local]__[hash:5]'
                         }
-                    },
-                    'sass-loader'
+                    }
                 ]
             },
             {
