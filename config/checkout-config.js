@@ -10,10 +10,18 @@ module.exports = {
         modules: false
     },
     entry: {
-        app: './src/app/index.tsx',
-        react: './src/app/react.ts',
-        vendor: './src/app/vendor.ts',
-        polyfills: './src/app/polyfills.ts'
+        app: ['./src/app/polyfills.ts', './src/app/index.tsx']
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'all'
+                }
+            }
+        }
     },
     resolve: {
         modules: ['node_modules', path.join(__dirname, 'src/app')],
