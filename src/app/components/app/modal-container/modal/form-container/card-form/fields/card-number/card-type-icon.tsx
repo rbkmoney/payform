@@ -28,7 +28,7 @@ function findIconClass(brand: CardTypes): React.ComponentType<any> {
 const CardTypeIconDef = styled<React.FC<CardTypeIconProps>>((props) => {
     const cardType = getCardType(props.cardNumber);
     const IconClass = cardType ? findIconClass(cardType.type) : null;
-    return IconClass && <IconClass className={props.className} />;
+    return IconClass ? <IconClass className={props.className} /> : null;
 })`
     position: absolute;
     top: 15px;
