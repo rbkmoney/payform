@@ -10,5 +10,5 @@ export const detectLocale = (locale: string = 'auto'): string => {
     } else {
         result = locales.find((item) => item === locale);
     }
-    return result || 'ru';
+    return result || 'en';
 };
