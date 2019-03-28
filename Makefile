@@ -11,11 +11,13 @@ SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
 # The tag for service image to be pushed with
 SERVICE_IMAGE_PUSH_TAG ?= $(SERVICE_IMAGE_TAG)
 
+REGISTRY ?= dr2.rbkmoney.com
+
 # Base image for the service
 BASE_IMAGE_NAME := service-fe
-BASE_IMAGE_TAG := 768cf0f40600e290060502e047dd2e86d4fd6020
+BASE_IMAGE_TAG := 2b4570bc1d9631c10aaed2132eb87eb9003f3471
 
-BUILD_IMAGE_TAG := 1862224e600e34a9bd04327db7b3186fa4d31ceb
+BUILD_IMAGE_TAG := f3732d29a5e622aabf80542b5138b3631a726adb
 
 CALL_W_CONTAINER := init check test build clean submodules
 
@@ -33,7 +35,7 @@ $(SUBTARGETS): %/.git: %
 submodules: $(SUBTARGETS)
 
 init:
-	npm install
+	npm ci
 
 check:
 	npm run check
