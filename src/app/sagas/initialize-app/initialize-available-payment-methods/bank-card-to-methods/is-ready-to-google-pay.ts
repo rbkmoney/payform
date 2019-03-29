@@ -18,7 +18,7 @@ async function isReadyToPay(): Promise<boolean> {
          */
         const { result } = (await Promise.race([
             paymentsClient.isReadyToPay({ allowedPaymentMethods }),
-            new Promise((res, rej) => setTimeout(() => rej(new Error('timeout')), 4000))
+            new Promise((res, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
         ])) as ReadyToPayResponse;
         return result;
     } catch (e) {
