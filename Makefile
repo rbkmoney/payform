@@ -17,7 +17,7 @@ REGISTRY ?= dr2.rbkmoney.com
 BASE_IMAGE_NAME := service-fe
 BASE_IMAGE_TAG := 2b4570bc1d9631c10aaed2132eb87eb9003f3471
 
-BUILD_IMAGE_TAG := f3732d29a5e622aabf80542b5138b3631a726adb
+BUILD_IMAGE_TAG := 903ec30497023cef050d8f281ac0bfad668dc5f4
 
 CALL_W_CONTAINER := init check test build clean submodules
 
@@ -35,7 +35,7 @@ $(SUBTARGETS): %/.git: %
 submodules: $(SUBTARGETS)
 
 init:
-	npm ci
+	npm i
 
 check:
 	npm run check
