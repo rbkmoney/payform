@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Field, WrappedFieldProps } from 'redux-form';
+import { Field, WrappedFieldProps, formValueSelector } from 'redux-form';
+import { number } from 'card-validator';
+import { get } from 'lodash-es';
 
 import { Input } from '../../../input';
 import { validateSecureCode } from './validate-secure-code';
-import { State } from 'checkout/state';
+import { State, FormName } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { isError } from '../../../common-fields/error-predicate';
 import { formatCVC } from './format-cvc';
@@ -13,6 +15,7 @@ import { Lock } from 'checkout/components';
 export interface SecureCodeProps {
     locale: Locale;
     obscureCardCvv: boolean;
+    cardNumber: string;
 }
 
 const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) => (
@@ -21,7 +24,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
         {...fieldProps.meta}
         error={isError(fieldProps.meta)}
         icon={<Lock />}
-        placeholder={props.locale['form.input.secure.placeholder']}
+        placeholder={get(number(props.cardNumber), 'card.code.name', props.locale['form.input.secure.placeholder'])}
         mark={true}
         type={props.obscureCardCvv ? 'password' : 'tel'}
         id="secure-code-input"
@@ -37,9 +40,12 @@ export const SecureCodeDef: React.FC<SecureCodeProps> = (props) => (
     />
 );
 
+const selector = formValueSelector(FormName.cardForm);
+
 const mapStateToProps = (state: State) => ({
     locale: state.config.locale,
-    obscureCardCvv: state.config.initConfig.obscureCardCvv
+    obscureCardCvv: state.config.initConfig.obscureCardCvv,
+    cardNumber: selector(state, 'cardNumber')
 });
 
 export const SecureCode = connect(mapStateToProps)(SecureCodeDef);
