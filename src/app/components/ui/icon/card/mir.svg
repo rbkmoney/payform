@@ -1,12 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg
-    width="696px"
-    height="197px"
-    viewBox="0 0 696 197"
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
->
+<svg width="696px" height="197px" viewBox="0 0 696 197" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <linearGradient x1="3.061617e-15%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
             <stop stop-color="#00A0E5" offset="0%"></stop>

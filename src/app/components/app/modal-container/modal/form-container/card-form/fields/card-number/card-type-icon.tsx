@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { number } from 'card-validator';
 
 import { FormName, State } from 'checkout/state';
-import * as icons from 'checkout/components/ui/icon';
+import * as cardIcons from 'checkout/components/ui/icon/card';
 import styled from 'checkout/styled-components';
 import { growth } from 'checkout/styled-components/animations';
 
@@ -13,16 +13,20 @@ interface CardTypeIconProps {
     className?: string;
 }
 
+const cardIconsMapping = {
+    visa: cardIcons.Visa,
+    mastercard: cardIcons.Mastercard,
+    maestro: cardIcons.Maestro,
+    mir: cardIcons.Mir,
+    'american-express': cardIcons.AmericanExpress
+};
+
 export function getCardIconClass(cardNumber: string) {
     const { card } = number(cardNumber);
     if (!card) {
         return;
     }
-    const icon = (Object.entries(icons).find(([key]) => key.toLowerCase() === card.type) || [])[1];
-    if (!icon) {
-        return;
-    }
-    return icon;
+    return (cardIconsMapping as any)[card.type];
 }
 
 const CardTypeIconDef = styled<React.FC<CardTypeIconProps>>(({ cardNumber, className }) => {
@@ -35,6 +39,7 @@ const CardTypeIconDef = styled<React.FC<CardTypeIconProps>>(({ cardNumber, class
     width: 31px;
     height: 19px;
     animation: ${growth} 0.5s;
+    background: #fff;
 `;
 
 const selector = formValueSelector(FormName.cardForm);
