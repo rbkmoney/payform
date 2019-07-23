@@ -95,7 +95,7 @@
     "identity-obj-proxy": "~3.0.0",
     "jest": "~23.6.0",
     "mini-css-extract-plugin": "~0.4.5",
-    "prettier": "~1.15.2",
+    "prettier": "~1.18.2",
     "react-docgen": "~2.21.0",
     "react-docgen-typescript": "~1.6.2",
     "react-styleguidist": "~7.1.3",
