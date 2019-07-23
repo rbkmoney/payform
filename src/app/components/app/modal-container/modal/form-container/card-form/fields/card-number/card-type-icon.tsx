@@ -20,7 +20,11 @@ const cardIconsMapping = {
     mir: cardIcons.Mir,
     'american-express': cardIcons.AmericanExpress,
     'diners-club': cardIcons.DinersClub,
-    discover: cardIcons.Discover
+    discover: cardIcons.Discover,
+    jcb: cardIcons.Jcb,
+    unionpay: cardIcons.Unionpay,
+    elo: cardIcons.Elo,
+    hipercard: cardIcons.Hipercard
 };
 
 export function getCardIconClass(cardNumber: string) {

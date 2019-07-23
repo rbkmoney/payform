@@ -5,3 +5,7 @@ export { default as Maestro } from './maestro.svg';
 export { default as AmericanExpress } from './american-express.svg';
 export { default as DinersClub } from './diners-club.svg';
 export { default as Discover } from './discover.svg';
+export { default as Elo } from './elo.svg';
+export { default as Hipercard } from './hipercard.svg';
+export { default as Unionpay } from './unionpay.svg';
+export { default as Jcb } from './jcb.svg';
