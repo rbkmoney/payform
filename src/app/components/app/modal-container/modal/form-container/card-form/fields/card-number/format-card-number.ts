@@ -1,27 +1,20 @@
 import { FormEvent } from 'react';
 import { replaceFullWidthChars, safeVal } from '../../../common-fields/format-utils';
-import { cardFromNumber } from '../card-info';
+import { number } from 'card-validator';
 
 function format(num: string): string {
     num = num.replace(/\D/g, '');
-    const card = cardFromNumber(num);
+    const { card } = number(num);
     if (!card) {
         return num;
     }
-    const upperLength = card.length[card.length.length - 1];
+    const upperLength = card.lengths[card.lengths.length - 1];
     num = num.slice(0, upperLength);
-    if (card.format.global) {
-        const ref = num.match(card.format);
-        return ref != null ? ref.join(' ') : void 0;
-    } else {
-        let groups: any = card.format.exec(num);
-        if (groups == null) {
-            return;
-        }
-        groups.shift();
-        groups = groups.filter((n: any) => n);
-        return groups.join(' ');
+    const nums = num.split('');
+    for (const gap of card.gaps.reverse()) {
+        nums.splice(gap, 0, ' ');
     }
+    return nums.join('').trim();
 }
 
 export function formatCardNumber(e: FormEvent<HTMLInputElement>): number {

@@ -12,3 +12,4 @@ export { default as Mastercard } from './mastercard.svg';
 export { default as Phone } from './phone.svg';
 export { default as User } from './user.svg';
 export { default as Visa } from './visa.svg';
+export { default as Mir } from './mir.svg';

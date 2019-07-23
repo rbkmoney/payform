@@ -44,6 +44,8 @@
     ]
   },
   "dependencies": {
+    "card-validator": "~6.2.0",
+    "credit-card-type": "~8.2.0",
     "currency-formatter": "~1.2.1",
     "date-fns": "~1.28.5",
     "fingerprintjs2": "~1.6.1",
@@ -63,6 +65,8 @@
     "whatwg-fetch": "~2.0.3"
   },
   "devDependencies": {
+    "@types/card-validator": "~4.1.0",
+    "@types/credit-card-type": "~7.0.0",
     "@types/currency-formatter": "~1.3.0",
     "@types/ismobilejs": "~0.4.1",
     "@types/jest": "~23.3.14",
@@ -108,7 +112,7 @@
     "tslint-immutable": "~4.5.1",
     "tslint-loader": "~3.5.4",
     "tslint-react": "~3.6.0",
-    "typescript": "~3.3.4000",
+    "typescript": "~3.5.3",
     "typescript-plugin-styled-components": "~1.0.0",
     "webpack": "~4.29.0",
     "webpack-bundle-analyzer": "~2.10.0",

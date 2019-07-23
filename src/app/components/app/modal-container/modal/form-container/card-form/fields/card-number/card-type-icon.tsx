@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
+import { number } from 'card-validator';
 
-import { Card, CardTypes, cardFromNumber } from '../card-info';
 import { FormName, State } from 'checkout/state';
 import * as icons from 'checkout/components/ui/icon';
 import styled from 'checkout/styled-components';
@@ -13,22 +13,21 @@ interface CardTypeIconProps {
     className?: string;
 }
 
-function getCardType(cardNumber: string): Card | null {
-    if (!cardNumber) {
-        return null;
+export function getCardIconClass(cardNumber: string) {
+    const { card } = number(cardNumber);
+    if (!card) {
+        return;
     }
-    const typeInfo = cardFromNumber(cardNumber.replace(/\s/g, ''));
-    return typeInfo ? typeInfo : null;
+    const icon = (Object.entries(icons).find(([key]) => key.toLowerCase() === card.type) || [])[1];
+    if (!icon) {
+        return;
+    }
+    return icon;
 }
 
-function findIconClass(brand: CardTypes): React.ComponentType<any> {
-    return (icons as any)[Object.keys(icons).find((key) => key.toLowerCase() === brand)];
-}
-
-const CardTypeIconDef = styled<React.FC<CardTypeIconProps>>((props) => {
-    const cardType = getCardType(props.cardNumber);
-    const IconClass = cardType ? findIconClass(cardType.type) : null;
-    return IconClass ? <IconClass className={props.className} /> : null;
+const CardTypeIconDef = styled<React.FC<CardTypeIconProps>>(({ cardNumber, className }) => {
+    const Icon = getCardIconClass(cardNumber);
+    return Icon ? <Icon className={className} /> : null;
 })`
     position: absolute;
     top: 15px;

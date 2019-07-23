@@ -18,7 +18,7 @@ const InputContainer = styled.div`
 
 const CardNumberInput = styled(Input)`
     input {
-        padding-right: 45px !important;
+        padding-right: 50px !important;
     }
 `;
 
@@ -26,7 +26,7 @@ export interface CardNumberProps {
     locale: Locale;
 }
 
-const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) => (
+const getCardNumberInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) => (
     <CardNumberInput
         {...fieldProps.input}
         {...fieldProps.meta}
@@ -42,7 +42,7 @@ const getCustomInput = (props: CardNumberProps, fieldProps: WrappedFieldProps) =
 
 const CardNumberDef: React.FC<CardNumberProps> = (props) => (
     <InputContainer>
-        <Field name="cardNumber" component={getCustomInput.bind(null, props)} validate={validateCardNumber} />
+        <Field name="cardNumber" component={getCardNumberInput.bind(null, props)} validate={validateCardNumber} />
         <CardTypeIcon />
     </InputContainer>
 );

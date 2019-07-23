@@ -25,12 +25,16 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
         mark={true}
         type={props.obscureCardCvv ? 'password' : 'tel'}
         id="secure-code-input"
-        onInput={formatCVC}
     />
 );
 
 export const SecureCodeDef: React.FC<SecureCodeProps> = (props) => (
-    <Field name="secureCode" component={getCustomInput.bind(null, props)} validate={validateSecureCode} />
+    <Field
+        name="secureCode"
+        component={getCustomInput.bind(null, props)}
+        validate={validateSecureCode}
+        normalize={(value, p, { cardNumber }) => formatCVC(value, cardNumber)}
+    />
 );
 
 const mapStateToProps = (state: State) => ({
