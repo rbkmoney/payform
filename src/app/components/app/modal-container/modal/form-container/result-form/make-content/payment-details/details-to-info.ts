@@ -7,7 +7,7 @@ import {
 import { PaymentToolDetailsBankCard } from 'checkout/backend';
 
 export const toCardInfo = (details: PaymentToolDetailsBankCard): string =>
-    `${details.paymentSystem} *${details.lastDigits}`;
+    `${details.paymentSystem} ${details.cardNumberMask}`;
 
 const toDigitalWalletQiwiInfo = (details: DigitalWalletDetailsQiwi): string => `qiwi ${details.phoneNumberMask}`;
 
