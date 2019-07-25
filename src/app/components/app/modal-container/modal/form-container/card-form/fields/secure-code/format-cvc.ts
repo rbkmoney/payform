@@ -1,10 +1,11 @@
-import { FormEvent } from 'react';
-import { safeVal, replaceFullWidthChars } from '../../../common-fields/format-utils';
+import { number } from 'card-validator';
+import { get } from 'lodash-es';
 
-export function formatCVC(e: FormEvent<HTMLInputElement>): number {
-    const target = e.currentTarget as HTMLInputElement;
-    let value = target.value;
+import { replaceFullWidthChars } from '../../../common-fields/format-utils';
+
+export function formatCVC(value: string, cardNumber: string): string {
     value = replaceFullWidthChars(value);
-    value = value.replace(/\D/g, '').slice(0, 4);
-    return safeVal(value, target);
+    const { card } = number(cardNumber);
+    value = value.replace(/\D/g, '').slice(0, get(card, 'code.size', 4));
+    return value;
 }
