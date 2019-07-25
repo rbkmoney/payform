@@ -46,6 +46,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         initialPaymentMethod,
         recurring,
         theme,
+        metadata,
         ...restParams
     } = userConfig;
     checkUnknown(resolvedIntegrationType, restParams);
@@ -72,6 +73,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
         initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
         recurring: setDefault(resolveBoolean(recurring, 'recurring'), false),
-        theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name)
+        theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name),
+        metadata
     };
 };

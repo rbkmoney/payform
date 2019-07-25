@@ -6,3 +6,4 @@ export * from './integration-type';
 export * from './invoice-init-config';
 export * from './invoice-template-init-config';
 export * from './payment-method-name';
+export * from './open-config';

@@ -1,6 +1,8 @@
 import mapValues from 'lodash-es/mapValues';
 import isFunction from 'lodash-es/isFunction';
 
+import { OpenConfig } from '../app/config';
+
 const mapBoolean = (obj: object): object =>
     mapValues(obj, (value: any) => {
         switch (value) {
@@ -41,7 +43,7 @@ export abstract class Initializer {
         this.finished = initCallback(userConfig.finished);
     }
 
-    abstract open(): void;
+    abstract open(config?: OpenConfig): void;
 
     abstract close(): void;
 }

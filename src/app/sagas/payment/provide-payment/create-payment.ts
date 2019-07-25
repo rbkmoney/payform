@@ -1,4 +1,5 @@
 import { call, CallEffect } from 'redux-saga/effects';
+
 import {
     PaymentResource,
     PaymentFlow,
@@ -7,13 +8,13 @@ import {
     FlowType,
     PaymentFlowHold
 } from 'checkout/backend';
-import { Payment } from 'checkout/backend/model';
+import { Payment, PaymentFlowInstant } from 'checkout/backend/model';
 import { InitConfig } from 'checkout/config';
 
 type Effects = CallEffect | Payment;
 
 const toPaymentFlow = (c: InitConfig): PaymentFlow => {
-    const instant = { type: FlowType.PaymentFlowInstant };
+    const instant: PaymentFlowInstant = { type: FlowType.PaymentFlowInstant };
     const hold: PaymentFlowHold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;
 };
@@ -38,7 +39,8 @@ export function* createPayment(
                 email
             }
         },
-        makeRecurrent: initConfig.recurring
+        makeRecurrent: initConfig.recurring,
+        metadata: initConfig.metadata
     };
     return yield call(request, endpoint, token, invoiceID, params);
 }

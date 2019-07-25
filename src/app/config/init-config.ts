@@ -1,8 +1,9 @@
 import { HoldExpirationType } from 'checkout/backend';
 import { IntegrationType } from './integration-type';
 import { PaymentMethodName } from './payment-method-name';
+import { ExtInitConfig } from './ext-init-config';
 
-export class InitConfig {
+export class InitConfig extends ExtInitConfig {
     integrationType: IntegrationType;
     bankCard: boolean;
     applePay: boolean;

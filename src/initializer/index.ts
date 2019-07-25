@@ -1,6 +1,7 @@
 import 'url-polyfill';
 import 'core-js/es6/promise';
 import * as isMobile from 'ismobilejs';
+
 import { domReady } from './dom-ready';
 import { Initializer } from './initializer';
 import { HtmlIntegration } from './html-integration';
