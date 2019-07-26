@@ -13,13 +13,12 @@ export class IframeInitializer extends Initializer {
         this.container = new IframeContainer(origin);
     }
 
-    open({ metadata, ...config }: OpenConfig = {}) {
+    open(openConfig: OpenConfig = {}) {
         const target = (window.frames as any)[this.container.getName()];
         this.container.show();
         initialize(target, this.origin, communicatorInstanceName).then((transport) => {
             this.opened();
-            transport.emit(CommunicatorEvents.init, { ...this.config, ...config });
-            transport.emit(CommunicatorEvents.extInit, { metadata });
+            transport.emit(CommunicatorEvents.init, { ...this.config, ...openConfig });
             transport.on(CommunicatorEvents.finished, () => {
                 transport.destroy();
                 this.container.reinitialize();

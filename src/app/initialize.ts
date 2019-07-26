@@ -7,44 +7,35 @@ import { StubTransport } from './stub-transport';
 import { Config, resolveInitConfig } from 'checkout/config';
 import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 import { UserConfig } from 'checkout/config/config-resolver/user-config';
-import { ExtInitConfig } from './config/ext-init-config';
 
 const isUriContext = () => !!location.search;
 
-const getTransport = async (): Promise<Transport> => {
-    if (isUriContext()) {
-        try {
-            return await listen(communicatorInstanceName, window.opener ? 2000 : 0);
-        } catch (e) {
-            return new StubTransport();
-        }
-    }
-    return await listen(communicatorInstanceName);
+const resolveCommunicatorParams = async (): Promise<[Transport, UserConfig]> => {
+    const transport = await listen(communicatorInstanceName);
+    const userConfig = await new Promise<UserConfig>((resolve) => transport.on(CommunicatorEvents.init, resolve));
+    return [transport, userConfig];
 };
 
-const resolveInitParams = async (transport: Transport): Promise<UserConfig> => {
-    if (isUriContext()) {
-        return getUrlParams(location.search);
+const resolveUriParams = async (): Promise<[Transport, UserConfig]> => {
+    let transport;
+    try {
+        transport = await listen(communicatorInstanceName, window.opener ? 2000 : 0);
+    } catch (e) {
+        transport = new StubTransport();
     }
-    return await new Promise<UserConfig>((resolve) => transport.on(CommunicatorEvents.init, resolve));
+    const userConfig: UserConfig = getUrlParams(location.search);
+    return [transport, userConfig];
 };
 
-const resolveExtInitParams = (transport: Transport): Promise<ExtInitConfig> => {
-    return new Promise<ExtInitConfig>((resolve) => transport.on(CommunicatorEvents.extInit, resolve));
-};
+const resolveInitParams = () => (isUriContext() ? resolveUriParams() : resolveCommunicatorParams());
 
 export const initialize = async (): Promise<[Transport, Config]> => {
-    const transport = await getTransport();
-    const [basicInitParams, extInitParams] = await Promise.all([
-        resolveInitParams(transport),
-        resolveExtInitParams(transport)
-    ]);
-    const initParams = { ...basicInitParams, ...extInitParams };
+    const [transport, params] = await resolveInitParams();
     try {
         const config: Config = {
             origin: getOrigin(),
             inFrame: isInFrame(),
-            initConfig: resolveInitConfig(initParams)
+            initConfig: resolveInitConfig(params)
         };
         return [transport, config];
     } catch (e) {

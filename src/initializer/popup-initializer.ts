@@ -22,12 +22,11 @@ export const serialize = (params: any): string => {
 };
 
 export class PopupInitializer extends Initializer {
-    open({ metadata, ...config }: OpenConfig) {
-        const url = `${this.origin}/v1/checkout.html?${serialize({ ...this.config, ...config })}`;
+    open(openConfig: OpenConfig = {}) {
+        const url = `${this.origin}/v1/checkout.html?${serialize({ ...this.config, ...openConfig })}`;
         const target = window.open(url);
         initialize(target, this.origin, communicatorInstanceName).then((transport) => {
             this.opened();
-            transport.emit(CommunicatorEvents.extInit, { metadata });
             transport.on(CommunicatorEvents.finished, () => {
                 transport.destroy();
                 this.finished();
