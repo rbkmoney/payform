@@ -7,6 +7,7 @@ import { resolveString } from './resolve-string';
 import { HoldExpirationType } from 'checkout/backend';
 import { PaymentMethodName } from 'checkout/config/payment-method-name';
 import { DEFAULT_THEME } from 'checkout/themes';
+import { resolveObject } from './resolve-object';
 
 const setDefault = <P, D>(userParam: P, defaultValue: D): P | D =>
     userParam === null || userParam === undefined ? defaultValue : userParam;
@@ -46,6 +47,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         initialPaymentMethod,
         recurring,
         theme,
+        metadata,
         ...restParams
     } = userConfig;
     checkUnknown(resolvedIntegrationType, restParams);
@@ -72,6 +74,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         locale: setDefault(resolveString(locale, 'locale'), 'auto'),
         initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
         recurring: setDefault(resolveBoolean(recurring, 'recurring'), false),
-        theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name)
+        theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name),
+        metadata: setDefault(resolveObject(metadata, 'metadata'), undefined)
     };
 };

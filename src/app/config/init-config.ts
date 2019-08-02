@@ -23,4 +23,5 @@ export class InitConfig {
     initialPaymentMethod?: PaymentMethodName;
     recurring?: boolean;
     theme?: string;
+    metadata?: object;
 }

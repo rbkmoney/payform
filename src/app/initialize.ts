@@ -1,4 +1,5 @@
 import { listen, Transport } from 'cross-origin-communicator';
+
 import { getUrlParams } from 'checkout/utils';
 import { isInFrame } from '../is-in-iframe';
 import { getOrigin } from '../get-origin';

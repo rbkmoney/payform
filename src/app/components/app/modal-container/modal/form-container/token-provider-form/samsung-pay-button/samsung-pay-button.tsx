@@ -27,6 +27,10 @@ const SamsungPayButtonWrapper = styled.button`
     &:active {
         background-color: #5f6368;
     }
+
+    svg {
+        max-height: 100%;
+    }
 `;
 
 export const SamsungPayButton: React.FC<React.ComponentProps<typeof SamsungPayButtonWrapper>> = (props) => (
