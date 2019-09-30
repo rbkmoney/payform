@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
-import { replaceFullWidthChars, safeVal } from '../../../common-fields/format-utils';
 import { number } from 'card-validator';
+
+import { replaceFullWidthChars, safeVal } from '../../../common-fields/format-utils';
 
 function format(num: string): string {
     num = num.replace(/\D/g, '');

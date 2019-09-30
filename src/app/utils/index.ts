@@ -9,3 +9,4 @@ export * from './get-script';
 export * from './guid';
 export * from './amount';
 export * from './split-by-first';
+export * from './is-contain-card-number';
