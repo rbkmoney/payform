@@ -8,6 +8,7 @@ import { Locale } from 'checkout/locale';
 import { isError } from '../error-predicate';
 import { validateEmail } from './validate-email';
 import { Letter } from 'checkout/components';
+import { formatEmail } from './format-email';
 
 export interface EmailDefProps {
     locale: Locale;
@@ -23,6 +24,7 @@ const getCustomInput = (props: EmailDefProps, fieldProps: WrappedFieldProps) => 
         mark={true}
         type="email"
         id="email-input"
+        onInput={formatEmail}
     />
 );
 
