@@ -86,6 +86,8 @@ export interface CustomProps {
     type?: 'text' | 'number' | 'value' | 'tel' | 'email' | 'password';
     id?: string;
     onInput?: React.FormEventHandler<HTMLInputElement>;
+    autocomplete?: string;
+    spellcheck?: boolean;
 }
 
 type InputProps = WrappedFieldInputProps & WrappedFieldMetaProps & CustomProps;
@@ -104,6 +106,7 @@ export const Input: React.FC<InputProps> = (props) => (
             type={props.type}
             value={props.value}
             id={props.id}
+            autoComplete={props.autocomplete}
         />
         {props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
     </InputWrapper>

@@ -25,6 +25,7 @@ const getCustomInput = (props: ExpireDateProps, fieldProps: WrappedFieldProps) =
         type="tel"
         id="expire-date-input"
         onInput={formatExpiry}
+        autocomplete="cc-exp"
     />
 );
 
