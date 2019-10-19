@@ -107,6 +107,7 @@ export const Input: React.FC<InputProps> = (props) => (
             value={props.value}
             id={props.id}
             autoComplete={props.autocomplete}
+            spellCheck={props.spellcheck}
         />
         {props.mark && <Marks active={props.active} pristine={props.pristine} error={props.error} />}
     </InputWrapper>
