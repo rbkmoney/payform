@@ -25,6 +25,7 @@ const getCustomInput = (props: EmailDefProps, fieldProps: WrappedFieldProps) => 
         type="email"
         id="email-input"
         onInput={formatEmail}
+        autocomplete="email"
     />
 );
 

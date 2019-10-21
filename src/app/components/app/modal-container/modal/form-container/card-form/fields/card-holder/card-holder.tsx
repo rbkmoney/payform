@@ -24,6 +24,8 @@ const getCustomInput = (props: CardHolderProps, fieldProps: WrappedFieldProps) =
         mark={true}
         id="card-holder-input"
         onInput={formatCardHolder}
+        autocomplete="cc-name"
+        spellcheck={false}
     />
 );
 

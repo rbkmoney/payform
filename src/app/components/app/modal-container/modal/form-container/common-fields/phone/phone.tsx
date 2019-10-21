@@ -26,6 +26,7 @@ const getCustomInput = (props: PhoneProps, fieldProps: WrappedFieldProps) => (
         id="phone-input"
         onInput={formatPhoneNumber}
         onFocus={formatPhoneNumber}
+        autocomplete="tel"
     />
 );
 
