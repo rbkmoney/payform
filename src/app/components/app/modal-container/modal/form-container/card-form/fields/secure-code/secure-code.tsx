@@ -28,6 +28,7 @@ const getCustomInput = (props: SecureCodeProps, fieldProps: WrappedFieldProps) =
         mark={true}
         type={props.obscureCardCvv ? 'password' : 'tel'}
         id="secure-code-input"
+        autocomplete="cc-csc"
     />
 );
 
