@@ -13,8 +13,11 @@ const appendPayButtonStyles = (origin: string) => {
 
 export const appendInitButton = (origin: string, appendEl: HTMLScriptElement, label: string): HTMLButtonElement => {
     appendPayButtonStyles(origin);
-    const button = document.createElement('button');
-    button.id = 'rbkmoney-button';
+    const id = 'rbkmoney-button';
+    // TODO: Temporary fix of button duplication when page has >1 scripts
+    const button: HTMLButtonElement =
+        (document.getElementById(id) as HTMLButtonElement) || document.createElement('button');
+    button.id = id;
     button.className = initButton;
     button.innerHTML = label || getDefaultLabel();
     appendEl.parentNode.appendChild(button);
