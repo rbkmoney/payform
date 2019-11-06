@@ -9,8 +9,7 @@
     "test": "jest --silent",
     "check": "npm run prettier:check",
     "prettier": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc,html,svg}\" --write",
-    "prettier:check": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc,html,svg}\" --list-different",
-    "styleguidist": "styleguidist server --config styleguide.config.js"
+    "prettier:check": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc,html,svg}\" --list-different"
   },
   "repository": {
     "type": "git",
@@ -90,15 +89,11 @@
     "css-loader": "~1.0.1",
     "file-loader": "~2.0.0",
     "fork-ts-checker-webpack-plugin": "~0.5.2",
-    "glob": "~7.1.2",
     "html-webpack-plugin": "~3.2.0",
     "identity-obj-proxy": "~3.0.0",
     "jest": "~23.6.0",
     "mini-css-extract-plugin": "~0.4.5",
     "prettier": "~1.18.2",
-    "react-docgen": "~2.21.0",
-    "react-docgen-typescript": "~1.6.2",
-    "react-styleguidist": "~7.1.3",
     "react-test-renderer": "~16.2.0",
     "redux-devtools-extension": "~2.13.2",
     "rimraf": "~2.6.2",
