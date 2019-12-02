@@ -14,7 +14,6 @@ export function* toAvailablePaymentMethods(
     config: Config,
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
-    // let result: PaymentMethodState[] = [{ name: PaymentMethodNameState.Mobile }];
     let result: PaymentMethodState[] = [];
     const { wallets, terminals, paymentFlowHold, recurring } = config.initConfig;
     for (const method of paymentMethods) {
