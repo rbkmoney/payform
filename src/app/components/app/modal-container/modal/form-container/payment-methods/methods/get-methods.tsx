@@ -7,6 +7,7 @@ import { BankCard } from './bank-card';
 import { GooglePay } from './google-pay';
 import { MethodProps } from './method-props';
 import { SamsungPay } from './samsung-pay';
+import { Mobile } from './mobile';
 
 export const getMethods = (methods: PaymentMethod[], props: MethodProps): JSX.Element[] =>
     methods.map((method) => {
@@ -23,6 +24,8 @@ export const getMethods = (methods: PaymentMethod[], props: MethodProps): JSX.El
                 return <GooglePay key={method.name} {...props} />;
             case PaymentMethodName.SamsungPay:
                 return <SamsungPay key={method.name} {...props} />;
+            case PaymentMethodName.Mobile:
+                return <Mobile key={method.name} {...props} />;
             default:
                 return null;
         }
