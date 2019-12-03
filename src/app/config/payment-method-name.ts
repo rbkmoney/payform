@@ -6,5 +6,6 @@ export enum PaymentMethodName {
     walletQiwi = 'walletQiwi',
     applePay = 'applePay',
     googlePay = 'googlePay',
-    samsungPay = 'samsungPay'
+    samsungPay = 'samsungPay',
+    mobileCommerce = 'mobileCommerce'
 }
