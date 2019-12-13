@@ -1,0 +1,124 @@
+import * as React from 'react';
+import { connect } from 'react-redux';
+import get from 'lodash-es/get';
+import { InjectedFormProps, reduxForm } from 'redux-form';
+import { bindActionCreators, Dispatch } from 'redux';
+
+import { MobileFormProps } from './mobile-form-props';
+import { FormGroup } from '../form-group';
+import {
+    FormName,
+    ModalForms,
+    ModalName,
+    ModalState,
+    PaymentMethodName,
+    PaymentStatus,
+    State,
+    MobileFormValues
+} from 'checkout/state';
+import { PayButton } from '../pay-button';
+import { Header } from '../header';
+import { Amount, Email, Phone } from '../common-fields';
+import { toFieldsConfig } from '../fields-config';
+import { findNamed } from 'checkout/utils';
+import { pay, setViewInfoError } from 'checkout/actions';
+
+const toMobileFormInfo = (m: ModalState[]) => {
+    const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
+    return findNamed(info, FormName.mobileForm);
+};
+
+const mapStateToProps = (state: State) => ({
+    config: state.config,
+    model: state.model,
+    formValues: get(state.form, 'mobileForm.values'),
+    locale: state.config.locale,
+    fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
+    mobileFormInfo: toMobileFormInfo(state.modals)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
+    pay: bindActionCreators(pay, dispatch)
+});
+
+type Props = MobileFormProps & InjectedFormProps;
+
+class MobileFormDef extends React.Component<Props> {
+    constructor(props: Props) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
+
+    init(values: MobileFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
+    }
+
+    submit(values: MobileFormValues) {
+        (document.activeElement as HTMLElement).blur();
+        this.props.pay({ method: PaymentMethodName.Mobile, values });
+    }
+
+    componentWillMount() {
+        const {
+            mobileFormInfo: { paymentStatus },
+            formValues
+        } = this.props;
+        this.props.setViewInfoError(false);
+        switch (paymentStatus) {
+            case PaymentStatus.pristine:
+                this.init(formValues);
+                break;
+            case PaymentStatus.needRetry:
+                this.submit(formValues);
+                break;
+        }
+    }
+
+    componentWillReceiveProps(props: Props) {
+        if (props.submitFailed) {
+            props.setViewInfoError(true);
+        }
+    }
+
+    render() {
+        const {
+            handleSubmit,
+            fieldsConfig: { email, amount }
+        } = this.props;
+        return (
+            <form onSubmit={handleSubmit(this.submit)} id="mobile-form">
+                <div>
+                    <Header title={this.props.locale['form.header.pay.phone.label']} />
+                    <FormGroup>
+                        <Phone />
+                    </FormGroup>
+                    {email.visible && (
+                        <FormGroup>
+                            <Email />
+                        </FormGroup>
+                    )}
+                    {amount.visible && (
+                        <FormGroup>
+                            <Amount cost={amount.cost} />
+                        </FormGroup>
+                    )}
+                </div>
+                <PayButton />
+            </form>
+        );
+    }
+}
+
+const ReduxForm = reduxForm({
+    form: FormName.mobileForm,
+    destroyOnUnmount: false
+})(MobileFormDef);
+
+export const MobileForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReduxForm as any);
