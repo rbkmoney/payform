@@ -6,6 +6,7 @@ import { payWithDigitalWalletQiwi } from './pay-with-digital-wallet-qiwi';
 import { payWithTerminalEuroset } from './pay-with-terminal-euroset';
 import { payWithGooglePay } from './pay-with-google-pay';
 import { payWithSamsungPay } from './pay-with-samsung-pay';
+import { payWithPhoneAccount } from './pay-with-phone-account';
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
@@ -21,6 +22,8 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithDigitalWalletQiwi);
         case PaymentMethodName.PaymentTerminal:
             return call.bind(null, payWithTerminalEuroset);
+        case PaymentMethodName.Mobile:
+            return call.bind(null, payWithPhoneAccount);
         default:
             throw { code: 'error.unsupported.payment.method' };
     }

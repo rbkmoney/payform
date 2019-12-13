@@ -4,3 +4,4 @@ export * from './payment-tool';
 export * from './payment-tool-type';
 export * from './digital-wallet-data';
 export * from './tokenized-card-data';
+export * from './mobile-commerce-data';
