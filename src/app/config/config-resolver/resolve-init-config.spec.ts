@@ -63,6 +63,7 @@ it('should return resolved init config', () => {
         applePay: true,
         googlePay: true,
         samsungPay: true,
+        phoneAccount: true,
         paymentFlowHold: false,
         recurring: false,
         holdExpiration: HoldExpirationType.cancel,
