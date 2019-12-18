@@ -91,8 +91,36 @@ const checkTokenizedBankCard = (
           };
 };
 
+const checkPhoneAccount = (phoneAccount: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
+    if (!phoneAccount) {
+        return {
+            available: false,
+            reason: UnavailableReason.capability,
+            message: "Digital phoneAccount disabled (Integration param 'phoneAccount':'false')."
+        };
+    }
+    const found = paymentMethods.find((method) => method.method === PaymentMethodName.PhoneAccount);
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message:
+                  "Value 'phoneAccount' can not applied. Payment method phoneAccount is not available for merchant."
+          };
+};
+
 const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const { initialPaymentMethod, bankCard, terminals, wallets, applePay, googlePay, samsungPay } = initConfig;
+    const {
+        initialPaymentMethod,
+        bankCard,
+        terminals,
+        wallets,
+        applePay,
+        googlePay,
+        samsungPay,
+        phoneAccount
+    } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
             return checkBankCard(bankCard, paymentMethods);
@@ -124,6 +152,8 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
                 'samsung pay',
                 'samsungPay'
             );
+        case PaymentMethodNameConfig.phoneAccount:
+            return checkPhoneAccount(phoneAccount, paymentMethods);
         default:
             return {
                 available: false,
