@@ -22,7 +22,7 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithDigitalWalletQiwi);
         case PaymentMethodName.PaymentTerminal:
             return call.bind(null, payWithTerminalEuroset);
-        case PaymentMethodName.Mobile:
+        case PaymentMethodName.MobileCommerce:
             return call.bind(null, payWithPhoneAccount);
         default:
             throw { code: 'error.unsupported.payment.method' };

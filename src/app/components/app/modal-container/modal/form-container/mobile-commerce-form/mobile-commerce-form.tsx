@@ -4,7 +4,7 @@ import get from 'lodash-es/get';
 import { InjectedFormProps, reduxForm } from 'redux-form';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { MobileFormProps } from './mobile-form-props';
+import { MobileCommerceFormProps } from './mobile-commerce-form-props';
 import { FormGroup } from '../form-group';
 import {
     FormName,
@@ -14,7 +14,7 @@ import {
     PaymentMethodName,
     PaymentStatus,
     State,
-    MobileFormValues
+    MobileCommerceFormValues
 } from 'checkout/state';
 import { PayButton } from '../pay-button';
 import { Header } from '../header';
@@ -23,18 +23,18 @@ import { toFieldsConfig } from '../fields-config';
 import { findNamed } from 'checkout/utils';
 import { pay, setViewInfoError } from 'checkout/actions';
 
-const toMobileFormInfo = (m: ModalState[]) => {
+const toMobileCommerceFormInfo = (m: ModalState[]) => {
     const info = (findNamed(m, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, FormName.mobileForm);
+    return findNamed(info, FormName.mobileCommerceForm);
 };
 
 const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
-    formValues: get(state.form, 'mobileForm.values'),
+    formValues: get(state.form, 'mobileCommerceForm.values'),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
-    mobileFormInfo: toMobileFormInfo(state.modals)
+    mobileCommerceFormInfo: toMobileCommerceFormInfo(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -42,29 +42,29 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     pay: bindActionCreators(pay, dispatch)
 });
 
-type Props = MobileFormProps & InjectedFormProps;
+type Props = MobileCommerceFormProps & InjectedFormProps;
 
-class MobileFormDef extends React.Component<Props> {
+class MobileCommerceFormDef extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.submit = this.submit.bind(this);
     }
 
-    init(values: MobileFormValues) {
+    init(values: MobileCommerceFormValues) {
         this.props.initialize({
             email: get(values, 'email'),
             amount: get(values, 'amount')
         });
     }
 
-    submit(values: MobileFormValues) {
+    submit(values: MobileCommerceFormValues) {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({ method: PaymentMethodName.Mobile, values });
+        this.props.pay({ method: PaymentMethodName.MobileCommerce, values });
     }
 
     componentWillMount() {
         const {
-            mobileFormInfo: { paymentStatus },
+            mobileCommerceFormInfo: { paymentStatus },
             formValues
         } = this.props;
         this.props.setViewInfoError(false);
@@ -90,7 +90,7 @@ class MobileFormDef extends React.Component<Props> {
             fieldsConfig: { email, amount }
         } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id="mobile-form">
+            <form onSubmit={handleSubmit(this.submit)} id="mobile-commerce-form">
                 <div>
                     <Header title={this.props.locale['form.header.pay.phone.label']} />
                     <FormGroup>
@@ -114,11 +114,11 @@ class MobileFormDef extends React.Component<Props> {
 }
 
 const ReduxForm = reduxForm({
-    form: FormName.mobileForm,
+    form: FormName.mobileCommerceForm,
     destroyOnUnmount: false
-})(MobileFormDef);
+})(MobileCommerceFormDef);
 
-export const MobileForm = connect(
+export const MobileCommerceForm = connect(
     mapStateToProps,
     mapDispatchToProps
 )(ReduxForm as any);

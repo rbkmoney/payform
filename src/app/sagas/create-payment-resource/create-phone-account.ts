@@ -1,11 +1,11 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import { MobileFormValues } from 'checkout/state';
+import { MobileCommerceFormValues } from 'checkout/state';
 import { PaymentResource, PaymentToolType, createPaymentResource } from 'checkout/backend';
 import { replaceSpaces } from './replace-spaces';
 
 export function* createPhoneAccount(
     endpoint: string,
-    formValues: MobileFormValues,
+    formValues: MobileCommerceFormValues,
     token: string
 ): Iterator<CallEffect | PaymentResource> {
     const paymentTool = {
