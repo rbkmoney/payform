@@ -27,7 +27,7 @@ const toInitialFormInfo = (isMultiMethods: boolean, initialPaymentMethod: Paymen
             return new TokenProviderFormInfo(BankCardTokenProvider.googlepay, previous);
         case PaymentMethodName.samsungPay:
             return new TokenProviderFormInfo(BankCardTokenProvider.samsungpay, previous);
-        case PaymentMethodName.phoneAccount:
+        case PaymentMethodName.mobileCommerce:
             return new MobileFormInfo(previous);
         default:
             console.error(`${logPrefix} Unsupported initial payment method ${initialPaymentMethod}`);
