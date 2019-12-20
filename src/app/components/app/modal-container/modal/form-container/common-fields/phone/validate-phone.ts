@@ -1,10 +1,5 @@
-import { isValidNumber } from 'libphonenumber-js/custom';
-
-import metadata from './metadata.json';
+import { validatePhone as _validatePhone } from 'checkout/utils';
 
 export function validatePhone(value: string): boolean {
-    if (!value) {
-        return true;
-    }
-    return !isValidNumber(value, metadata);
+    return _validatePhone(value);
 }
