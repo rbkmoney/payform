@@ -1,13 +1,13 @@
 import { call, CallEffect } from 'redux-saga/effects';
 import { AmountInfoState, ModelState, MobileCommerceFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
-import { createPhoneAccount } from '../../create-payment-resource';
+import { createMobileCommerce } from '../../create-payment-resource';
 import { makePayment } from './make-payment';
 
 const createPaymentResource = (endpoint: string, formValues: MobileCommerceFormValues) =>
-    createPhoneAccount.bind(null, endpoint, formValues);
+    createMobileCommerce.bind(null, endpoint, formValues);
 
-export function* payWithPhoneAccount(
+export function* payWithMobileCommerce(
     c: Config,
     m: ModelState,
     a: AmountInfoState,

@@ -92,7 +92,7 @@ class MobileCommerceFormDef extends React.Component<Props> {
         return (
             <form onSubmit={handleSubmit(this.submit)} id="mobile-commerce-form">
                 <div>
-                    <Header title={this.props.locale['form.header.pay.phone.label']} />
+                    <Header title={this.props.locale['form.header.pay.mobile.commerce.label']} />
                     <FormGroup>
                         <Phone />
                     </FormGroup>

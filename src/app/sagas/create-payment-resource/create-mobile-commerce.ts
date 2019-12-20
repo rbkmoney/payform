@@ -3,7 +3,7 @@ import { MobileCommerceFormValues } from 'checkout/state';
 import { PaymentResource, PaymentToolType, createPaymentResource } from 'checkout/backend';
 import { replaceSpaces } from './replace-spaces';
 
-export function* createPhoneAccount(
+export function* createMobileCommerce(
     endpoint: string,
     formValues: MobileCommerceFormValues,
     token: string
