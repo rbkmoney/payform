@@ -1,5 +1,5 @@
 import { PaymentMethod, PaymentMethodName } from './payment-method';
 
-export class PhoneAccount extends PaymentMethod {
+export class MobileCommerce extends PaymentMethod {
     method: PaymentMethodName = PaymentMethodName.MobileCommerce;
 }
