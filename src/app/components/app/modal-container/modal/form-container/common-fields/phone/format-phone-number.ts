@@ -1,7 +1,14 @@
 import { FormEvent } from 'react';
-import { formatPhoneNumber as _formatPhoneNumber } from 'checkout/utils';
+import { AsYouType } from 'libphonenumber-js/custom';
+
+import metadata from './metadata.json';
 
 export const formatPhoneNumber = (e: FormEvent<HTMLInputElement>) => {
     const target = e.currentTarget as HTMLInputElement;
-    target.value = _formatPhoneNumber(target.value);
+    const value = target.value;
+    if (value.slice(0, 1) === '+') {
+        target.value = new AsYouType('RU', metadata).input(value);
+    } else {
+        target.value = '+';
+    }
 };

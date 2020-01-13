@@ -33,7 +33,7 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
                     ...method,
                     priority: 4
                 };
-            case PaymentMethodNameState.MobileCommerce:
+            case PaymentMethodNameState.Mobile:
                 return {
                     ...method,
                     priority: 7

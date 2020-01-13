@@ -6,7 +6,7 @@ import {
     PaymentMethodName,
     PaymentMethodsFormInfo,
     TerminalFormInfo,
-    MobileCommerceFormInfo,
+    MobileFormInfo,
     WalletFormInfo,
     TokenProviderFormInfo
 } from 'checkout/state';
@@ -26,8 +26,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new TokenProviderFormInfo(BankCardTokenProvider.googlepay);
         case PaymentMethodName.SamsungPay:
             return new TokenProviderFormInfo(BankCardTokenProvider.samsungpay);
-        case PaymentMethodName.MobileCommerce:
-            return new MobileCommerceFormInfo();
+        case PaymentMethodName.Mobile:
+            return new MobileFormInfo();
         default:
             console.error(`${logPrefix} Unsupported initial form for method ${defaultMethod}`);
             return new CardFormInfo();
