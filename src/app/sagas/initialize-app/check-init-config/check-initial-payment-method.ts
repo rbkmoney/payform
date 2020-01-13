@@ -96,7 +96,7 @@ const checkMobileCommerce = (mobileCommerce: boolean, paymentMethods: PaymentMet
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: "Digital mobileCommerce disabled (Integration param 'mobileCommerce':'false')."
+            message: "Mobile commerce disabled (Integration param 'mobileCommerce':'false')."
         };
     }
     const found = paymentMethods.find((method) => method.method === PaymentMethodName.MobileCommerce);
