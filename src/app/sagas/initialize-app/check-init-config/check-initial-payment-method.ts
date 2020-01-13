@@ -91,22 +91,22 @@ const checkTokenizedBankCard = (
           };
 };
 
-const checkPhoneAccount = (phoneAccount: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
-    if (!phoneAccount) {
+const checkMobileCommerce = (mobileCommerce: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
+    if (!mobileCommerce) {
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: "Digital phoneAccount disabled (Integration param 'phoneAccount':'false')."
+            message: "Mobile commerce disabled (Integration param 'mobileCommerce':'false')."
         };
     }
-    const found = paymentMethods.find((method) => method.method === PaymentMethodName.PhoneAccount);
+    const found = paymentMethods.find((method) => method.method === PaymentMethodName.MobileCommerce);
     return found
         ? { available: true }
         : {
               available: false,
               reason: UnavailableReason.capability,
               message:
-                  "Value 'phoneAccount' can not applied. Payment method phoneAccount is not available for merchant."
+                  "Value 'mobileCommerce' can not applied. Payment method mobileCommerce is not available for merchant."
           };
 };
 
@@ -119,7 +119,7 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
         applePay,
         googlePay,
         samsungPay,
-        phoneAccount
+        mobileCommerce
     } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
@@ -152,8 +152,8 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
                 'samsung pay',
                 'samsungPay'
             );
-        case PaymentMethodNameConfig.phoneAccount:
-            return checkPhoneAccount(phoneAccount, paymentMethods);
+        case PaymentMethodNameConfig.mobileCommerce:
+            return checkMobileCommerce(mobileCommerce, paymentMethods);
         default:
             return {
                 available: false,

@@ -7,7 +7,7 @@ import GooglePay from './google-pay.svg';
 import SamsungPay from './samsung-pay.svg';
 import Terminals from './terminals.svg';
 import Wallets from './wallets.svg';
-import Mobile from './mobile.svg';
+import MobileCommerce from './mobile-commerce.svg';
 
 const IconClasses = {
     'apple-pay': ApplePay,
@@ -16,7 +16,7 @@ const IconClasses = {
     'bank-card': BankCard,
     terminals: Terminals,
     wallets: Wallets,
-    mobile: Mobile
+    'mobile-commerce': MobileCommerce
 };
 
 type name = keyof typeof IconClasses;
