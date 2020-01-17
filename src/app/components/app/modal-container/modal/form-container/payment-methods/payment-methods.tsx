@@ -56,9 +56,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
     }
 
     showAllMethods() {
-        this.setState({
-            visibleMethods: this.props.methods
-        });
+        this.setState((_, { methods }) => ({ visibleMethods: methods }));
     }
 
     render() {
