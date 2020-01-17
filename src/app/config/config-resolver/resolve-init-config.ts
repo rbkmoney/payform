@@ -41,6 +41,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         applePay,
         googlePay,
         samsungPay,
+        mobileCommerce,
         paymentFlowHold,
         holdExpiration,
         locale,
@@ -66,6 +67,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         applePay: setDefault(resolveBoolean(applePay, 'applePay'), true),
         googlePay: setDefault(resolveBoolean(googlePay, 'googlePay'), true),
         samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
+        mobileCommerce: setDefault(resolveBoolean(mobileCommerce, 'mobileCommerce'), true),
         paymentFlowHold: setDefault(resolveBoolean(paymentFlowHold, 'paymentFlowHold'), false),
         holdExpiration: setDefault(
             resolveString(holdExpiration, 'holdExpiration') as HoldExpirationType,

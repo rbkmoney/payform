@@ -91,8 +91,36 @@ const checkTokenizedBankCard = (
           };
 };
 
+const checkMobileCommerce = (mobileCommerce: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
+    if (!mobileCommerce) {
+        return {
+            available: false,
+            reason: UnavailableReason.capability,
+            message: "Mobile commerce disabled (Integration param 'mobileCommerce':'false')."
+        };
+    }
+    const found = paymentMethods.find((method) => method.method === PaymentMethodName.MobileCommerce);
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message:
+                  "Value 'mobileCommerce' can not applied. Payment method mobileCommerce is not available for merchant."
+          };
+};
+
 const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const { initialPaymentMethod, bankCard, terminals, wallets, applePay, googlePay, samsungPay } = initConfig;
+    const {
+        initialPaymentMethod,
+        bankCard,
+        terminals,
+        wallets,
+        applePay,
+        googlePay,
+        samsungPay,
+        mobileCommerce
+    } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
             return checkBankCard(bankCard, paymentMethods);
@@ -124,6 +152,8 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
                 'samsung pay',
                 'samsungPay'
             );
+        case PaymentMethodNameConfig.mobileCommerce:
+            return checkMobileCommerce(mobileCommerce, paymentMethods);
         default:
             return {
                 available: false,
