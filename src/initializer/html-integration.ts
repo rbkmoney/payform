@@ -7,7 +7,7 @@ const getOuterForm = (element: HTMLScriptElement) => {
 };
 
 const prepareUserConfig = (element: HTMLScriptElement): object => ({
-    ...mapKeys(element.dataset, (value, key) => key.replace('Id', 'ID')),
+    ...mapKeys(element.dataset, (_value, key) => key.replace('Id', 'ID')),
     finished: () => {
         const outerForm = getOuterForm(element);
         if (outerForm) {
