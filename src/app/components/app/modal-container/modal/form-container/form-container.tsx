@@ -9,7 +9,7 @@ import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
-import { MobileForm } from './mobile-form';
+import { MobileCommerceForm } from './mobile-commerce-form';
 import { TerminalForm } from './terminal-form';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
@@ -195,8 +195,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <InteractionForm />;
             case FormName.tokenProviderForm:
                 return <TokenProviderForm />;
-            case FormName.mobileForm:
-                return <MobileForm />;
+            case FormName.mobileCommerceForm:
+                return <MobileCommerceForm />;
             default:
                 return null;
         }
