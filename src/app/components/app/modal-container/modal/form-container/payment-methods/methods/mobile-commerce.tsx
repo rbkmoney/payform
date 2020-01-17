@@ -11,9 +11,9 @@ const toMobileCommerce = (props: MethodProps) => props.setFormInfo(new MobileCom
 
 export const MobileCommerce: React.FC<MethodProps> = (props) => (
     <Method onClick={toMobileCommerce.bind(null, props)} id="mobile-commerce-payment-method">
-        <Icon name="mobileCommerce" />
+        <Icon name="mobile-commerce" />
         <Text>
-            <Title>{props.locale['form.payment.method.name.phone.label']}</Title>
+            <Title>{props.locale['form.payment.method.name.mobile.commerce.label']}</Title>
         </Text>
     </Method>
 );
