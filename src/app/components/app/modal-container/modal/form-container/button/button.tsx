@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import styled from 'checkout/styled-components';
 import { css } from 'checkout/styled-components';
 

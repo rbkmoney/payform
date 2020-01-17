@@ -1,5 +1,5 @@
 import { Locale } from 'checkout/locale';
-import { ModelState, ResultState, ResultFormInfo, FormInfo, EventsState } from 'checkout/state';
+import { ResultState, ResultFormInfo, FormInfo, EventsState } from 'checkout/state';
 import { LogicError } from 'checkout/backend';
 import { IntegrationType } from 'checkout/config';
 

@@ -23,7 +23,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin(
             [{ from: './src/samsung-pay-interaction/assets/js', to: './assets/samsung-pay-interaction/js' }],
-            { debug: 'warning' }
+            { logLevel: 'warn' }
         )
     ]
 };
