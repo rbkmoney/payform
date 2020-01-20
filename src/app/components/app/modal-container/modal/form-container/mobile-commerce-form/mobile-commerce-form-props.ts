@@ -4,7 +4,7 @@ import { FieldsConfig } from '../fields-config';
 import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface MobileCommerceFormProps {
-    MobileCommerceFormInfo: MobileCommerceFormInfo;
+    mobileCommerceFormInfo: MobileCommerceFormInfo;
     locale: Locale;
     fieldsConfig: FieldsConfig;
     formValues: MobileCommerceFormValues;

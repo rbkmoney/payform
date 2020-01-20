@@ -31,10 +31,10 @@ const toMobileCommerceFormInfo = (m: ModalState[]) => {
 const mapStateToProps = (state: State) => ({
     config: state.config,
     model: state.model,
-    formValues: get(state.form, 'MobileCommerceForm.values'),
+    formValues: get(state.form, 'mobileCommerceForm.values'),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
-    MobileCommerceFormInfo: toMobileCommerceFormInfo(state.modals)
+    mobileCommerceFormInfo: toMobileCommerceFormInfo(state.modals)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
@@ -64,7 +64,7 @@ class MobileCommerceFormDef extends React.Component<Props> {
 
     componentWillMount() {
         const {
-            MobileCommerceFormInfo: { paymentStatus },
+            mobileCommerceFormInfo: { paymentStatus },
             formValues
         } = this.props;
         this.props.setViewInfoError(false);
@@ -92,7 +92,7 @@ class MobileCommerceFormDef extends React.Component<Props> {
         return (
             <form onSubmit={handleSubmit(this.submit)} id="mobile-commerce-form">
                 <div>
-                    <Header title={this.props.locale['form.header.pay.phone.label']} />
+                    <Header title={this.props.locale['form.header.pay.mobile.commerce.label']} />
                     <FormGroup>
                         <Phone />
                     </FormGroup>
