@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { FormInfo, PaymentMethod, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { goToFormInfo, pay as payAction, PaymentRequestedPayload, setViewInfoHeight } from 'checkout/actions';
-import { Methods } from './methods';
+import { MethodsList } from './methods';
 import { OtherPaymentMethodsLink } from './other-payment-methods-link';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
 import { Title } from '../title';
@@ -68,7 +68,7 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                     <HeaderWrapper>
                         <Title>{locale['form.header.payment.methods.label']}</Title>
                     </HeaderWrapper>
-                    <Methods
+                    <MethodsList
                         methods={visibleMethods}
                         locale={locale}
                         setFormInfo={setFormInfo}
