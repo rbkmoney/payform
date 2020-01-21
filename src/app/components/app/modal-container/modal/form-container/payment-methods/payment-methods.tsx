@@ -22,7 +22,7 @@ export interface PaymentMethodsProps {
 }
 
 export interface PaymentMethodsState {
-    visibleMethods: PaymentMethod[];
+    isShowAllMethods: boolean;
 }
 
 const mapStateToProps = (s: State) => ({
@@ -39,31 +39,34 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 });
 
 class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMethodsState> {
-    private formElement: HTMLFormElement;
+    static readonly visibilityThreshold = 3;
 
-    componentWillMount() {
-        const { methods } = this.props;
-        const visibilityThreshold = 3;
-        const visibleMethods = methods.filter((_m, i) => i < visibilityThreshold);
-        this.setState({ visibleMethods });
-        this.showAllMethods = this.showAllMethods.bind(this);
-    }
+    state = {
+        isShowAllMethods: false
+    };
 
-    componentDidUpdate(_prevProps: PaymentMethodsProps, prevState: PaymentMethodsState) {
-        if (prevState.visibleMethods !== this.state.visibleMethods) {
-            this.props.setViewInfoHeight(this.formElement.clientHeight);
+    private formRef = React.createRef<HTMLFormElement>();
+
+    componentDidUpdate(prevProps: PaymentMethodsProps, prevState: PaymentMethodsState) {
+        if (
+            prevState.isShowAllMethods !== this.state.isShowAllMethods ||
+            prevProps.methods.length !== this.props.methods.length
+        ) {
+            this.props.setViewInfoHeight(this.formRef.current.clientHeight);
         }
     }
 
-    showAllMethods() {
-        this.setState((_state, { methods }) => ({ visibleMethods: methods }));
-    }
+    showAllMethods = () => {
+        this.setState({ isShowAllMethods: true });
+    };
 
     render() {
         const { locale, setFormInfo, methods, pay, amountPrefilled, emailPrefilled } = this.props;
-        const { visibleMethods } = this.state;
+        const visibleMethods = this.state.isShowAllMethods
+            ? methods
+            : methods.slice(0, PaymentMethodsDef.visibilityThreshold);
         return (
-            <form ref={this.setFormElement}>
+            <form ref={this.formRef}>
                 <div>
                     <HeaderWrapper>
                         <Title>{locale['form.header.payment.methods.label']}</Title>
@@ -76,17 +79,13 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
                         amountPrefilled={amountPrefilled}
                         emailPrefilled={emailPrefilled}
                     />
-                    {methods > visibleMethods && (
+                    {visibleMethods.length < methods.length && (
                         <OtherPaymentMethodsLink onClick={this.showAllMethods} locale={locale} />
                     )}
                 </div>
             </form>
         );
     }
-
-    private setFormElement = (element: HTMLFormElement) => {
-        this.formElement = element;
-    };
 }
 
 export const PaymentMethods = connect(
