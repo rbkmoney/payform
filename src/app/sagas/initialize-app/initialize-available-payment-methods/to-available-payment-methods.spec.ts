@@ -1,7 +1,7 @@
 import { call } from 'redux-saga/effects';
 import { PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
 import { toAvailablePaymentMethods } from './to-available-payment-methods';
-import { BankCard, DigitalWallet, PaymentTerminal } from 'checkout/backend';
+import { BankCard, DigitalWallet, PaymentTerminal, MobileCommerce } from 'checkout/backend';
 import { bankCardToMethods } from './bank-card-to-methods';
 
 const bankCardState = { name: PaymentMethodNameState.BankCard };
@@ -17,16 +17,20 @@ const digitalWallet = {
 const paymentTerminal = {
     method: 'PaymentTerminal'
 } as PaymentTerminal;
+const mobileCommerce = {
+    method: 'MobileCommerce'
+} as MobileCommerce;
 
 describe('All payment methods', () => {
     const config = {
         initConfig: {
             bankCard: true,
             wallets: true,
-            terminals: true
+            terminals: true,
+            mobileCommerce: true
         }
     } as any;
-    const paymentMethods = [bankCard, digitalWallet, paymentTerminal];
+    const paymentMethods = [bankCard, digitalWallet, paymentTerminal, mobileCommerce];
     const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
 
     it('should call bankCardToMethods', () => {
@@ -40,7 +44,8 @@ describe('All payment methods', () => {
         const expected = [
             { name: PaymentMethodNameState.BankCard },
             { name: PaymentMethodNameState.DigitalWallet },
-            { name: PaymentMethodNameState.PaymentTerminal }
+            { name: PaymentMethodNameState.PaymentTerminal },
+            { name: PaymentMethodNameState.MobileCommerce }
         ];
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBeTruthy();
@@ -171,3 +176,39 @@ describe('PaymentTerminal', () => {
         });
     });
 });
+
+describe('MobileCommerce', () => {
+    const paymentMethods = [mobileCommerce];
+
+    describe('config with truthy mobile commerce', () => {
+        const config = {
+            initConfig: {
+                mobileCommerce: true
+            }
+        } as any;
+        const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+        it('should return PaymentMethodState with MobileCommerce', () => {
+            const actual = iterator.next();
+            const expected = [{ name: PaymentMethodNameState.MobileCommerce }];
+            expect(actual.value).toEqual(expected);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+
+    describe('config with falsy mobile commerce', () => {
+        const config = {
+            initConfig: {
+                mobileCommerce: false
+            }
+        } as any;
+        const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
+
+        it('should return PaymentMethodState without MobileCommerce', () => {
+            const actual = iterator.next([bankCardState]);
+            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
+            expect(actual.done).toBeTruthy();
+        });
+    });
+});
+
