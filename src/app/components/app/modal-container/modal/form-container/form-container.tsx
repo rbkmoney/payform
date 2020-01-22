@@ -9,7 +9,7 @@ import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
-import { TerminalForm } from './terminal-form';
+import { EurosetForm } from './euroset-form';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
@@ -184,8 +184,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <CardForm />;
             case FormName.walletForm:
                 return <WalletForm />;
-            case FormName.terminalForm:
-                return <TerminalForm />;
+            case FormName.eurosetForm:
+                return <EurosetForm />;
             case FormName.resultForm:
                 return <ResultForm />;
             case FormName.helpForm:

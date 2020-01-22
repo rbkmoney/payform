@@ -12,7 +12,7 @@ export const getTerminalsPaymentMethods = (
         } else if (recurring) {
             logUnavailableWithConfig('terminals', 'recurring');
         } else {
-            return [{ name: PaymentMethodNameState.PaymentTerminal }];
+            return [{ name: PaymentMethodNameState.Euroset }];
         }
     }
     return [];

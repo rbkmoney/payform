@@ -6,7 +6,7 @@ export enum FormName {
     cardForm = 'cardForm',
     resultForm = 'resultForm',
     walletForm = 'walletForm',
-    terminalForm = 'terminalForm',
+    eurosetForm = 'eurosetForm',
     interactionForm = 'interactionForm',
     tokenProviderForm = 'tokenProviderForm',
     helpForm = 'helpForm'
@@ -16,9 +16,6 @@ export abstract class FormInfo implements Named {
     name: FormName;
     active: boolean;
     paymentStatus?: PaymentStatus;
-    previous?: FormName;
 
-    protected constructor(previous?: FormName) {
-        this.previous = previous;
-    }
+    constructor(public previous?: FormName) {}
 }

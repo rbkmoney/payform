@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Terminals } from './terminals';
+import { Euroset } from './euroset';
 import { PaymentMethod, PaymentMethodName } from 'checkout/state';
 import { Wallets } from './wallets';
 import { ApplePay } from './apple-pay';
@@ -12,8 +12,8 @@ export const Methods: React.FC<{ methods: PaymentMethod[]; props: MethodProps }>
     <>
         {methods.map((method) => {
             switch (method.name) {
-                case PaymentMethodName.PaymentTerminal:
-                    return <Terminals key={method.name} {...props} />;
+                case PaymentMethodName.Euroset:
+                    return <Euroset key={method.name} {...props} />;
                 case PaymentMethodName.DigitalWallet:
                     return <Wallets key={method.name} {...props} />;
                 case PaymentMethodName.BankCard:

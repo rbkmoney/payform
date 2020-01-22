@@ -28,7 +28,7 @@ export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[]
                     ...method,
                     priority: 3
                 };
-            case PaymentMethodNameState.PaymentTerminal:
+            case PaymentMethodNameState.Euroset:
                 return {
                     ...method,
                     priority: 4

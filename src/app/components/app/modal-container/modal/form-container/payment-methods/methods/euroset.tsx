@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FormName, TerminalFormInfo } from 'checkout/state';
+import { FormName, EurosetFormInfo } from 'checkout/state';
 import { MethodProps } from './method-props';
 import { Description } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/description';
 import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
@@ -8,10 +8,10 @@ import { Title } from 'checkout/components/app/modal-container/modal/form-contai
 import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
 import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
 
-const toTerminals = (props: MethodProps) => props.setFormInfo(new TerminalFormInfo(FormName.paymentMethods));
+const toEuroset = (props: MethodProps) => props.setFormInfo(new EurosetFormInfo(FormName.paymentMethods));
 
-export const Terminals: React.FC<MethodProps> = (props) => (
-    <Method onClick={toTerminals.bind(null, props)} id="terminal-payment-method">
+export const Euroset: React.FC<MethodProps> = (props) => (
+    <Method onClick={toEuroset.bind(null, props)} id="terminal-payment-method">
         <Icon name="terminals" />
         <Text>
             <Title>{props.locale['form.payment.method.name.cash.label']}</Title>

@@ -40,7 +40,7 @@ describe('All payment methods', () => {
         const expected = [
             { name: PaymentMethodNameState.BankCard },
             { name: PaymentMethodNameState.DigitalWallet },
-            { name: PaymentMethodNameState.PaymentTerminal }
+            { name: PaymentMethodNameState.Euroset }
         ];
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBeTruthy();
@@ -127,7 +127,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState with PaymentTerminal', () => {
             const actual = iterator.next();
-            const expected = [{ name: PaymentMethodNameState.PaymentTerminal }];
+            const expected = [{ name: PaymentMethodNameState.Euroset }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
