@@ -4,3 +4,4 @@ node_modules
 dist
 .cache-loader
 build_utils
+.vscode
