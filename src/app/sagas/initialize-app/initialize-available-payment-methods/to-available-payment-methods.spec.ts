@@ -211,4 +211,3 @@ describe('MobileCommerce', () => {
         });
     });
 });
-

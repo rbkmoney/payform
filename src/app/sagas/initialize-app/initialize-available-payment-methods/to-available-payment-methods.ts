@@ -29,7 +29,7 @@ export function* toAvailablePaymentMethods(
                 result = result.concat(getTerminalsPaymentMethods(terminals, paymentFlowHold, recurring));
                 break;
             case PaymentMethodName.MobileCommerce:
-                if (config.initConfig.mobileCommerce){
+                if (config.initConfig.mobileCommerce) {
                     result = result.concat([{ name: PaymentMethodNameState.MobileCommerce }]);
                 }
                 break;
