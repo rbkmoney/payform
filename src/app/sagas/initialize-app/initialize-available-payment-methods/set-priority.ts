@@ -1,37 +1,18 @@
-import { PaymentMethod as PaymentMethodState, PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
+import { PaymentMethod, PaymentMethodName, PaymentMethodGroupName } from 'checkout/state';
 
-export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[] =>
-    methods.map((method) => {
-        switch (method.name) {
-            case PaymentMethodNameState.ApplePay:
-                return {
-                    ...method,
-                    priority: 1
-                };
-            case PaymentMethodNameState.GooglePay:
-                return {
-                    ...method,
-                    priority: 5
-                };
-            case PaymentMethodNameState.SamsungPay:
-                return {
-                    ...method,
-                    priority: 6
-                };
-            case PaymentMethodNameState.BankCard:
-                return {
-                    ...method,
-                    priority: 2
-                };
-            case PaymentMethodNameState.DigitalWallet:
-                return {
-                    ...method,
-                    priority: 3
-                };
-            case PaymentMethodNameState.Euroset:
-                return {
-                    ...method,
-                    priority: 4
-                };
-        }
-    });
+const paymentMethodPriority: { [N in PaymentMethodName | PaymentMethodGroupName]: number } = {
+    [PaymentMethodName.ApplePay]: 1,
+    [PaymentMethodName.BankCard]: 2,
+    [PaymentMethodName.DigitalWallet]: 3,
+    [PaymentMethodGroupName.Terminals]: 4,
+    [PaymentMethodName.Euroset]: 5,
+    [PaymentMethodName.GooglePay]: 6,
+    [PaymentMethodName.SamsungPay]: 7
+};
+
+export const setPriority = (methods: PaymentMethod[]): PaymentMethod[] =>
+    methods.map((method) => ({
+        ...method,
+        ...(method.children ? { children: setPriority(method.children) } : {}),
+        priority: paymentMethodPriority[method.name]
+    }));

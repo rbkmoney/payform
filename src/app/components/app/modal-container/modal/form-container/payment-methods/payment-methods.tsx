@@ -25,14 +25,14 @@ export interface PaymentMethodsState {
     isShowAllMethods: boolean;
 }
 
-const mapStateToProps = (s: State) => ({
+const mapStateToProps = (s: State): Partial<PaymentMethodsProps> => ({
     locale: s.config.locale,
     methods: s.availablePaymentMethods.sort((m1, m2) => (m1.priority > m2.priority ? 1 : -1)),
     amountPrefilled: s.amountInfo.status === AmountInfoStatus.final,
     emailPrefilled: !!s.config.initConfig.email
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<PaymentMethodsProps> => ({
     setFormInfo: bindActionCreators(goToFormInfo, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     pay: bindActionCreators(payAction, dispatch)

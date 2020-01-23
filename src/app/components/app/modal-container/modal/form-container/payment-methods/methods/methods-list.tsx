@@ -32,15 +32,8 @@ export interface MethodsProps {
     emailPrefilled: boolean;
 }
 
-export const MethodsList: React.FC<MethodsProps> = ({
-    methods,
-    locale,
-    setFormInfo,
-    pay,
-    amountPrefilled,
-    emailPrefilled
-}) => (
+export const MethodsList: React.FC<MethodsProps> = ({ methods, ...props }) => (
     <List component="ul" appear={1000} leave={1000}>
-        <Methods methods={methods} props={{ locale, setFormInfo, pay, amountPrefilled, emailPrefilled }} />
+        <Methods methods={methods} props={props} />
     </List>
 );

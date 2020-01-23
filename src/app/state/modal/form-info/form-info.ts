@@ -3,6 +3,7 @@ import { PaymentStatus } from './payment-status';
 
 export enum FormName {
     paymentMethods = 'paymentMethods',
+    paymentMethodsGroup = 'paymentMethodsGroup',
     cardForm = 'cardForm',
     resultForm = 'resultForm',
     walletForm = 'walletForm',
