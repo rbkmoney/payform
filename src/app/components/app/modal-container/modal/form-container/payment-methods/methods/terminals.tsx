@@ -6,7 +6,9 @@ import {
     PaymentMethodGroupName,
     EurosetFormInfo,
     FormInfo,
-    PaymentMethod
+    PaymentMethod,
+    PaymentMethodName,
+    AlipayFormInfo
 } from 'checkout/state';
 import { MethodProps } from './method-props';
 import { Description } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/description';
@@ -15,10 +17,21 @@ import { Title } from 'checkout/components/app/modal-container/modal/form-contai
 import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
 import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
 
+function createForm(paymentMethodName: PaymentMethodName | PaymentMethodGroupName) {
+    switch (paymentMethodName) {
+        case PaymentMethodName.Euroset:
+            return new EurosetFormInfo(FormName.paymentMethods);
+        case PaymentMethodName.Alipay:
+            return new AlipayFormInfo(FormName.paymentMethods);
+        default:
+            return null;
+    }
+}
+
 const toTerminals = (setFormInfo: (formInfo: FormInfo) => any, paymentMethods: PaymentMethod[]) =>
     setFormInfo(
         paymentMethods.length === 1
-            ? new EurosetFormInfo(FormName.paymentMethods)
+            ? createForm(paymentMethods[0].name)
             : new PaymentMethodsGroupForm(PaymentMethodGroupName.Terminals, FormName.paymentMethods)
     );
 

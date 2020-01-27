@@ -8,11 +8,14 @@ import { GooglePay } from './google-pay';
 import { MethodProps } from './method-props';
 import { SamsungPay } from './samsung-pay';
 import { Terminals } from './terminals';
+import { Alipay } from './alipay';
 
 const Method: React.FC<MethodProps> = (props) => {
     switch (props.method.name) {
         case PaymentMethodName.Euroset:
             return <Euroset {...props} />;
+        case PaymentMethodName.Alipay:
+            return <Alipay {...props} />;
         case PaymentMethodName.DigitalWallet:
             return <Wallets {...props} />;
         case PaymentMethodName.BankCard:

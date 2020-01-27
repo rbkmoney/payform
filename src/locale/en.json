@@ -15,6 +15,7 @@
     "form.header.pay.card.customer.label": "Bank card",
     "form.header.pay.cash.label": "Cash",
     "form.header.pay.euroset.label": "Euroset",
+    "form.header.pay.alipay.label": "Alipay",
     "form.header.pay.wallet.label": "E-Wallets",
     "form.header.pay.qiwi.label": "QIWI Wallet",
     "form.header.pay.bank.label": "Online banks",
