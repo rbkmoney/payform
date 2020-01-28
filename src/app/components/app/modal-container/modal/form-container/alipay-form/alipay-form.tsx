@@ -22,7 +22,6 @@ import { Email } from '..';
 import { toFieldsConfig } from '../fields-config';
 import { pay, setViewInfoError } from 'checkout/actions';
 import { AlipayFormProps } from './alipay-form-props';
-import { NextButton } from './next-button';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { QRCode } from './qr-code';
 
@@ -84,16 +83,13 @@ export class AlipayFormDef extends React.Component<Props> {
         } = this.props;
         return (
             <form onSubmit={handleSubmit(this.submit)} id="terminal-form">
-                <div>
-                    <Header title={locale['form.header.pay.alipay.label']} />
-                    <QRCode text="https://qr.alipay.com/ocx02573uqygoindre2dtf3" />
-                    {email.visible && (
-                        <FormGroup>
-                            <Email />
-                        </FormGroup>
-                    )}
-                </div>
-                <NextButton locale={locale} />
+                <Header title={locale['form.header.pay.alipay.label']} />
+                <QRCode text="https://qr.alipay.com/ocx02573uqygoindre2dtf3" />
+                {email.visible && (
+                    <FormGroup>
+                        <Email />
+                    </FormGroup>
+                )}
             </form>
         );
     }
