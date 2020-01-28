@@ -11,7 +11,7 @@ const toAlipay = (props: MethodProps) => props.setFormInfo(new AlipayFormInfo(pr
 
 export const Alipay: React.FC<MethodProps> = (props) => (
     <Method onClick={toAlipay.bind(null, props)} id="alipay-payment-method">
-        <Icon name="terminals" />
+        <Icon name="alipay" />
         <Text>
             <Title>{props.locale['form.payment.method.name.alipay.label']}</Title>
         </Text>
