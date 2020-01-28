@@ -16,6 +16,7 @@ import { Method } from 'checkout/components/app/modal-container/modal/form-conta
 import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
 import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
 import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
+import { Locale } from '../../../../../../../../locale';
 
 function createForm(paymentMethodName: PaymentMethodName | PaymentMethodGroupName) {
     switch (paymentMethodName) {
@@ -28,6 +29,22 @@ function createForm(paymentMethodName: PaymentMethodName | PaymentMethodGroupNam
     }
 }
 
+function getDescription(paymentMethodName: PaymentMethodName | PaymentMethodGroupName): keyof Locale {
+    switch (paymentMethodName) {
+        case PaymentMethodName.Euroset:
+            return 'form.payment.method.description.euroset.text';
+        case PaymentMethodName.Alipay:
+            return 'form.payment.method.description.alipay.text';
+        default:
+            return null;
+    }
+}
+
+const mapShortDescription: { [N in PaymentMethodName]?: keyof Locale } = {
+    [PaymentMethodName.Euroset]: 'form.payment.method.description.short.euroset.text',
+    [PaymentMethodName.Alipay]: 'form.payment.method.description.short.alipay.text'
+};
+
 const toTerminals = (setFormInfo: (formInfo: FormInfo) => any, paymentMethods: PaymentMethod[]) =>
     setFormInfo(
         paymentMethods.length === 1
@@ -35,12 +52,25 @@ const toTerminals = (setFormInfo: (formInfo: FormInfo) => any, paymentMethods: P
             : new PaymentMethodsGroupForm(PaymentMethodGroupName.Terminals, FormName.paymentMethods)
     );
 
-export const Terminals: React.FC<MethodProps> = (props) => (
-    <Method onClick={toTerminals.bind(null, props.setFormInfo, props.method.children)} id="terminals-payment-method">
-        <Icon name="terminals" />
-        <Text>
-            <Title>{props.locale['form.payment.method.name.terminals.label']}</Title>
-            <Description>{props.locale['form.payment.method.description.euroset.text']}</Description>
-        </Text>
-    </Method>
-);
+export const Terminals: React.FC<MethodProps> = (props) => {
+    const description: string =
+        props.method.children.length === 1
+            ? props.locale[getDescription(props.method.children[0].name)]
+            : props.method.children
+                  .sort((a, b) => a.priority - b.priority)
+                  .map(({ name }) => props.locale[mapShortDescription[name as PaymentMethodName]])
+                  .filter((d) => d)
+                  .slice(0, 2)
+                  .join(', ');
+    return (
+        <Method
+            onClick={toTerminals.bind(null, props.setFormInfo, props.method.children)}
+            id="terminals-payment-method">
+            <Icon name="terminals" />
+            <Text>
+                <Title>{props.locale['form.payment.method.name.terminals.label']}</Title>
+                <Description>{description}</Description>
+            </Text>
+        </Method>
+    );
+};
