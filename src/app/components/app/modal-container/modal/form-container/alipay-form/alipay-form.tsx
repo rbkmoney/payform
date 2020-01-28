@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
 
-import { FormGroup } from '../form-group';
 import {
     CardFormValues,
     FormName,
@@ -18,7 +17,6 @@ import {
     AlipayFormInfo
 } from 'checkout/state';
 import { Header } from '../header';
-import { Email } from '..';
 import { toFieldsConfig } from '../fields-config';
 import { pay, setViewInfoError } from 'checkout/actions';
 import { AlipayFormProps } from './alipay-form-props';
@@ -76,21 +74,12 @@ export class AlipayFormDef extends React.Component<Props> {
     }
 
     render() {
-        const {
-            handleSubmit,
-            locale,
-            fieldsConfig: { email }
-        } = this.props;
+        const { locale } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id="terminal-form">
+            <div id="terminal-form">
                 <Header title={locale['form.header.pay.alipay.label']} />
                 <QRCode text="https://qr.alipay.com/ocx02573uqygoindre2dtf3" />
-                {email.visible && (
-                    <FormGroup>
-                        <Email />
-                    </FormGroup>
-                )}
-            </form>
+            </div>
         );
     }
 

@@ -20,7 +20,7 @@ import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
 import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
-import { PaymentMethodsGroup } from './payment-methods-group';
+import { PaymentMethodsGroup } from './payment-methods';
 
 const Container = styled.div`
     padding: 0 5px;
