@@ -13,8 +13,8 @@ it('should set priority', () => {
     const actual = setPriority(methodsState);
     const expected: PaymentMethodState[] = [
         { name: PaymentMethodName.ApplePay, priority: 1 },
-        { name: PaymentMethodName.GooglePay, priority: 6 },
-        { name: PaymentMethodName.SamsungPay, priority: 7 },
+        { name: PaymentMethodName.GooglePay, priority: 7 },
+        { name: PaymentMethodName.SamsungPay, priority: 8 },
         { name: PaymentMethodName.BankCard, priority: 2 },
         { name: PaymentMethodName.DigitalWallet, priority: 3 },
         {
