@@ -100,6 +100,7 @@
     "form.pay.terminals.step.four.text": "Внесите наличные",
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
+    "form.pay.alipay.info.text": "Будет сформирован QR-код для оплаты через приложение Alipay",
     "form.help.header": "Как решить проблему?",
     "form.help.codes": {
         "InvalidPaymentTool": {

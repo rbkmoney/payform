@@ -19,11 +19,11 @@ import {
 import { Header } from '../header';
 import { toFieldsConfig } from '../fields-config';
 import { pay, setViewInfoError } from 'checkout/actions';
-import { AlipayFormProps } from './alipay-form-props';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { QRCode } from './qr-code';
+import { AlipayInteractionFormProps } from './alipay-interaction-form-props';
 
-type Props = AlipayFormProps & InjectedFormProps;
+type Props = AlipayInteractionFormProps & InjectedFormProps;
 
 const terminalFormInfo = (modals: ModalState[]): AlipayFormInfo => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
 });
 
-export class AlipayFormDef extends React.Component<Props> {
+export class AlipayInteractionFormDef extends React.Component<Props> {
     init(values: TerminalFormValues) {
         this.props.initialize({
             email: get(values, 'email'),
@@ -76,7 +76,7 @@ export class AlipayFormDef extends React.Component<Props> {
     render() {
         const { locale } = this.props;
         return (
-            <div id="terminal-form">
+            <div id="alipay-started-form">
                 <Header title={locale['form.header.pay.alipay.label']} />
                 <QRCode text="https://qr.alipay.com/ocx02573uqygoindre2dtf3" />
             </div>
@@ -85,16 +85,16 @@ export class AlipayFormDef extends React.Component<Props> {
 
     private submit = (values: CardFormValues) => {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({ method: PaymentMethodName.Alipay, values });
+        this.props.pay({ method: PaymentMethodName.Euroset, values });
     };
 }
 
 const ReduxForm = reduxForm({
     form: FormName.alipayForm,
     destroyOnUnmount: false
-})(AlipayFormDef);
+})(AlipayInteractionFormDef);
 
-export const AlipayForm = connect(
+export const AlipayInteractionForm = connect<Partial<Props>, Partial<Props>, Pick<Props, 'interaction'>, State>(
     mapStateToProps,
     mapDispatchToProps
 )(ReduxForm as any);

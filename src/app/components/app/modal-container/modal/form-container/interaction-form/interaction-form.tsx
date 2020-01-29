@@ -3,34 +3,45 @@ import { InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
-import { InteractionType, PaymentTerminalReceipt } from 'checkout/backend';
+import { InteractionType, PaymentTerminalReceipt, UserInteraction, QrCodeDisplayRequest } from 'checkout/backend';
 import { findNamed } from 'checkout/utils';
 import { InteractionTerminalForm } from './interaction-terminal-form';
 import { InteractionFormInfo } from 'checkout/state/modal/form-info';
+import { AlipayInteractionForm } from '../alipay-forms';
 
-const toInteractionFormReceipt = (modals: ModalState[]): PaymentTerminalReceipt => {
+const toInteractionFormReceipt = (modals: ModalState[]): UserInteraction => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return (findNamed(info, FormName.interactionForm) as InteractionFormInfo).terminalReceipt;
+    return (findNamed(info, FormName.interactionForm) as InteractionFormInfo).interaction;
 };
 
-const mapStateToProps = (state: State) => ({
-    terminalReceipt: toInteractionFormReceipt(state.modals)
+const mapStateToProps = (state: State): Partial<InteractionFormProps> => ({
+    interaction: toInteractionFormReceipt(state.modals)
 });
 
 interface InteractionFormProps {
-    terminalReceipt: PaymentTerminalReceipt;
+    interaction: UserInteraction;
 }
 
 type Props = InteractionFormProps & InjectedFormProps;
 
+function isInteraction<T extends UserInteraction>(
+    interaction: UserInteraction,
+    type: InteractionType
+): interaction is T {
+    return interaction.interactionType === InteractionType[type];
+}
+
 export class InteractionFormDef extends React.Component<Props> {
     render() {
-        const { terminalReceipt } = this.props;
+        const { interaction } = this.props;
         return (
             <form>
                 <div>
-                    {terminalReceipt.interactionType === InteractionType.PaymentTerminalReceipt && (
-                        <InteractionTerminalForm receipt={terminalReceipt} />
+                    {isInteraction<PaymentTerminalReceipt>(interaction, InteractionType.PaymentTerminalReceipt) && (
+                        <InteractionTerminalForm receipt={interaction} />
+                    )}
+                    {isInteraction<QrCodeDisplayRequest>(interaction, InteractionType.QrCodeDisplayRequest) && (
+                        <AlipayInteractionForm interaction={interaction} />
                     )}
                 </div>
             </form>

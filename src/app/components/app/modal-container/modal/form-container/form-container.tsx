@@ -3,14 +3,14 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import { CardForm } from './card-form';
-import { FormName, ModalForms, ModalName, State, SlideDirection } from 'checkout/state';
+import { FormName, ModalForms, ModalName, State, SlideDirection, FormInfo, InteractionFormInfo } from 'checkout/state';
 import { PaymentMethods } from './payment-methods';
 import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
 import { EurosetForm } from './euroset-form';
-import { AlipayForm } from './alipay-form';
+import { AlipayForm } from './alipay-forms';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
@@ -155,10 +155,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     }
 
     render() {
-        const {
-            activeFormInfo: { name },
-            viewInfo
-        } = this.props;
+        const { activeFormInfo, viewInfo } = this.props;
         return (
             <Container>
                 <Form error={viewInfo.error} height={viewInfo.height}>
@@ -169,7 +166,7 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                             enter={500}
                             leave={500}
                             onTransitionEnd={this.setHeight}>
-                            <div key={name}>{this.renderForm(name)}</div>
+                            {this.renderForm(activeFormInfo)}
                         </FormContainerAnimation>
                         {viewInfo.inProcess && <FormLoader />}
                     </div>
@@ -178,28 +175,32 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         );
     }
 
-    private renderForm = (name: FormName): React.ReactNode => {
+    private renderForm = (info: FormInfo): React.ReactNode => {
+        const { name } = info;
         switch (name) {
             case FormName.paymentMethods:
-                return <PaymentMethods />;
+                return <PaymentMethods key={name} />;
             case FormName.paymentMethodsGroup:
-                return <PaymentMethodsGroup />;
+                return <PaymentMethodsGroup key={name} />;
             case FormName.cardForm:
-                return <CardForm />;
+                return <CardForm key={name} />;
             case FormName.walletForm:
-                return <WalletForm />;
+                return <WalletForm key={name} />;
             case FormName.eurosetForm:
-                return <EurosetForm />;
+                return <EurosetForm key={name} />;
             case FormName.alipayForm:
-                return <AlipayForm />;
+                return <AlipayForm key={name} />;
             case FormName.resultForm:
-                return <ResultForm />;
+                return <ResultForm key={name} />;
             case FormName.helpForm:
-                return <Help />;
+                return <Help key={name} />;
             case FormName.interactionForm:
-                return <InteractionForm />;
+                const {
+                    interaction: { interactionType }
+                } = info as InteractionFormInfo;
+                return <InteractionForm key={`${name}-${interactionType}`} />;
             case FormName.tokenProviderForm:
-                return <TokenProviderForm />;
+                return <TokenProviderForm key={name} />;
             default:
                 return null;
         }
