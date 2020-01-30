@@ -1,3 +1,1 @@
-export interface Locale {
-    [key: string]: any;
-}
+export type Locale = typeof import('./ru.json') | typeof import('./en.json');

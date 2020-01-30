@@ -5,7 +5,7 @@ import { LogicError } from 'checkout/backend';
 import { Text } from './text';
 
 const getDescription = (l: Locale, e: LogicError): string => {
-    const result = l[e.code] ? l[e.code] : e.code;
+    const result: string = (l[e.code as keyof Locale] as string) || e.code;
     if (e.message) {
         return result ? result.concat(`.\n${e.message}`) : e.message;
     } else {

@@ -9,7 +9,7 @@ import { NumerableList, ListItem } from 'checkout/components/app/modal-container
 import { Text } from '../text';
 
 interface HelpDefProps {
-    errorCode: string;
+    errorCode: keyof Locale['form.help.codes'];
     locale: Locale;
 }
 
