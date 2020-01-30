@@ -15,7 +15,7 @@ import { AppWrapper } from 'checkout/components/app/app-wrapper';
 import { GlobalStyle } from 'checkout/components/app/global-style';
 
 class AppDef extends React.Component<AppProps> {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.props.initApp(this.props.initConfig);
     }
 

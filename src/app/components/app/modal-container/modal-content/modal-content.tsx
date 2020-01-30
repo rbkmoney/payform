@@ -70,7 +70,7 @@ export interface ModalContentProps {
 }
 
 class ModalContentDef extends React.Component<ModalContentProps> {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         window.addEventListener('message', (e) => {
             if (e.data === 'finish-interaction') {
                 this.props.finishInteraction();

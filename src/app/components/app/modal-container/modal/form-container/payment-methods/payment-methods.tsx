@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
 class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMethodsState> {
     private formElement: HTMLFormElement;
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const { methods } = this.props;
         const visibilityThreshold = 3;
         const visibleMethods = methods.filter((_m, i) => i < visibilityThreshold);
