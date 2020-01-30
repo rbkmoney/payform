@@ -1,4 +1,4 @@
-import { call, CallEffect } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 import {
     AmountInfoState,
     PaymentMethod as PaymentMethodState,
@@ -13,7 +13,7 @@ export function* toAvailablePaymentMethods(
     paymentMethods: PaymentMethod[],
     config: Config,
     amountInfo: AmountInfoState
-): Iterator<CallEffect | PaymentMethodState[]> {
+) {
     let result: PaymentMethodState[] = [];
     const { wallets, terminals, paymentFlowHold, recurring } = config.initConfig;
     for (const method of paymentMethods) {

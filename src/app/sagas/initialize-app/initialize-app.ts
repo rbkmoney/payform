@@ -1,4 +1,4 @@
-import { put, call, CallEffect, ForkEffect, PutEffect, takeLatest } from 'redux-saga/effects';
+import { put, call, takeLatest } from 'redux-saga/effects';
 import { TypeKeys, InitializeAppFailed, InitializeAppRequested, InitializeAppCompleted } from 'checkout/actions';
 import { InitConfig } from 'checkout/config';
 import { loadConfig } from './load-config';
@@ -8,11 +8,7 @@ import { initializeModal } from './initialize-modal';
 import { initializeAmountInfo } from './initialize-amount-info';
 import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
 
-type InitializeAppPutEffect = InitializeAppCompleted | InitializeAppFailed;
-
-export type InitializeAppEffect = CallEffect | PutEffect<InitializeAppPutEffect>;
-
-export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
+export function* initialize(userInitConfig: InitConfig) {
     const configChunk = yield call(loadConfig, userInitConfig.locale);
     const { model, events } = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
     const initConfig = yield call(checkInitConfig, userInitConfig, model);
@@ -26,7 +22,7 @@ export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
     yield call(initializeModal, initConfig, events, methods);
 }
 
-export function* initializeApp(action: InitializeAppRequested): Iterator<InitializeAppEffect> {
+export function* initializeApp(action: InitializeAppRequested) {
     try {
         yield call(initialize, action.payload);
         yield put({
@@ -40,6 +36,6 @@ export function* initializeApp(action: InitializeAppRequested): Iterator<Initial
     }
 }
 
-export function* watchInitializeApp(): Iterator<ForkEffect> {
+export function* watchInitializeApp() {
     yield takeLatest(TypeKeys.INITIALIZE_APP_REQUESTED, initializeApp);
 }

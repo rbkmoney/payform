@@ -1,7 +1,6 @@
-import { call, CallEffect, ForkEffect, put, PutEffect, select, SelectEffect, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import last from 'lodash-es/last';
 import {
-    GoToFormInfo,
     goToFormInfo,
     PaymentCompleted,
     PaymentFailed,
@@ -13,17 +12,13 @@ import { providePayment } from './provide-payment';
 import { EventsStatus, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
-function* paymentComplete(): Iterator<SelectEffect | CallEffect | PutEffect<PaymentCompleted>> {
+function* paymentComplete() {
     const event = yield select((state: State) => last(state.events.events));
     yield call(provideFromInvoiceEvent, event);
     yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);
 }
 
-type PayPutEffect = PrepareToPay | PaymentFailed | PaymentCompleted | GoToFormInfo;
-
-type PayEffect = SelectEffect | CallEffect | PutEffect<PayPutEffect>;
-
-export function* pay(action: PaymentRequested): Iterator<PayEffect> {
+export function* pay(action: PaymentRequested) {
     try {
         const { config, model, amountInfo } = yield select((s: State) => ({
             config: s.config,
@@ -51,6 +46,6 @@ export function* pay(action: PaymentRequested): Iterator<PayEffect> {
     }
 }
 
-export function* watchPayment(): Iterator<ForkEffect> {
+export function* watchPayment() {
     yield takeLatest(TypeKeys.PAYMENT_REQUESTED, pay);
 }

@@ -47,7 +47,7 @@ describe('initializeModel', () => {
     });
 
     it('should put model', () => {
-        const model = {};
+        const model = { events: {} };
         const actual = iterator.next(model).value;
         const expected = put({ type: TypeKeys.INITIALIZE_MODEL_COMPLETED, payload: model });
         expect(actual).toEqual(expected);
