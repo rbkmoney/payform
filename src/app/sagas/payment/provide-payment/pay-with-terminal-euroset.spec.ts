@@ -13,7 +13,7 @@ it('payWithTerminalEuroset', () => {
     const a = 'AmountInfoStateMock' as any;
     const v = 'PayableFormValuesMock' as any;
     const fn = createPaymentResource(c.appConfig.capiEndpoint);
-    
+
     const iterator = payWithTerminalEuroset(c, m, a, v);
     const actual = iterator.next().value;
     const expected = call(makePayment, c, m, v, a, fn);

@@ -13,7 +13,7 @@ it('payWithBankCard', () => {
     const a = 'AmountInfoStateMock' as any;
     const v = 'PayableFormValuesMock' as any;
     const fn = createPaymentResource(c.appConfig.capiEndpoint, v);
-    
+
     const iterator = payWithBankCard(c, m, a, v);
     const actual = iterator.next().value;
     const expected = call(makePayment, c, m, v, a, fn);

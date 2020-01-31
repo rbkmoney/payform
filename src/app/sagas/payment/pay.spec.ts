@@ -33,7 +33,7 @@ describe('pay', () => {
     const { values, method } = action.payload;
 
     const gen = cloneableGenerator(() => pay(action) as SagaIterator)();
-    
+
     it('should select config, model, amountInfo', () => {
         const actual = gen.next().value;
         const expected = select((s: State) => ({

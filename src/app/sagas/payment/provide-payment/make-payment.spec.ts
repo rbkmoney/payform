@@ -27,11 +27,11 @@ describe('makePayment', () => {
 
     const m = 'ModelStateMock' as any;
     const a = 'AmountInfoStateMock' as any;
-    const v = {amount: 'amountMock', mail: 'mailMock'} as any;
+    const v = { amount: 'amountMock', mail: 'mailMock' } as any;
     const fn = () => [] as any;
     const gen = cloneableGenerator(() => makePayment(c, m, a, v, fn) as SagaIterator)();
-    
-    it('should call getPayableInvoice', () => {        
+
+    it('should call getPayableInvoice', () => {
         const actual = gen.next().value;
         const expected = call(getPayableInvoice, initConfig, capiEndpoint, m, a, v.amount);
         expect(actual.toString()).toEqual(expected.toString());
@@ -52,7 +52,7 @@ describe('makePayment', () => {
 
     it('should get logic error', () => {
         const clone = gen.clone();
-        const error = {code: LogicErrorCode.invalidInvoiceStatus};
+        const error = { code: LogicErrorCode.invalidInvoiceStatus };
         const actual = clone.throw(error).value;
         const expected = put<SetAcceptedError>({ type: TypeKeys.SET_ACCEPTED_ERROR, payload: error });
         expect(actual).toEqual(expected);
@@ -60,7 +60,7 @@ describe('makePayment', () => {
 
     it('should get untyped error', () => {
         const clone = gen.clone();
-        const error = {code: LogicErrorCode.operationNotPermitted};
+        const error = { code: LogicErrorCode.operationNotPermitted };
         let actual;
         try {
             actual = clone.throw(error).value;

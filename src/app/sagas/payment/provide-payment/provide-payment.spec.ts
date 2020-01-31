@@ -14,7 +14,7 @@ describe('providePayment', () => {
     const a = 'AmountInfoStateMock' as any;
     const v = 'PayableFormValuesMock' as any;
     const values = v ? v : { amount: null, email: null };
-    
+
     it('provide payment with ApplePay', () => {
         const method = PaymentMethodName.ApplePay;
         const iterator = providePayment(method, c, m, a, v);

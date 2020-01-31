@@ -17,20 +17,20 @@ describe('payWithSamsungPay', () => {
         capiEndpoint: endpoint,
         samsungPayServiceID
     } as any;
-    const c = {appConfig, initConfig: {locale}} as any;
-    const resultData = {refId: 'refIdMock', type: Type.SUCCESS} as any;
+    const c = { appConfig, initConfig: { locale } } as any;
+    const resultData = { refId: 'refIdMock', type: Type.SUCCESS } as any;
     const m = 'ModelStateMock' as any;
     const a = 'AmountInfoStateMock' as any;
     const v = 'PayableFormValuesMock' as any;
     const gen = cloneableGenerator(() => payWithSamsungPay(c, m, a, v) as SagaIterator)();
-    
-    it('should call createTransaction', () => {        
+
+    it('should call createTransaction', () => {
         const actual = gen.next().value;
         const expected = createTransaction(appConfig, a);
         expect(actual).toEqual(expected);
     });
 
-    it('should put set modal state', () => {        
+    it('should put set modal state', () => {
         const actual = gen.next().value;
         const expected = put<SetModalState>({
             type: TypeKeys.SET_MODAL_STATE,
@@ -62,7 +62,7 @@ describe('payWithSamsungPay', () => {
 
     it('should throw error', () => {
         const clone = gen.clone();
-        const error = {code: 'error.samsung.pay.cancel'};
+        const error = { code: 'error.samsung.pay.cancel' };
         resultData.type = Type.ERROR;
         let actual;
         try {
@@ -72,5 +72,4 @@ describe('payWithSamsungPay', () => {
         }
         expect(actual).toEqual(error);
     });
-
 });

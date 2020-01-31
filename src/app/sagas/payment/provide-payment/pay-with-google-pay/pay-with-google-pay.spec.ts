@@ -13,15 +13,15 @@ describe('payWithGooglePay', () => {
         googlePayMerchantID,
         googlePayGatewayMerchantID
     } as any;
-    const c = {appConfig, initConfig: {locale}} as any;
+    const c = { appConfig, initConfig: { locale } } as any;
     const m = 'ModelStateMock' as any;
     const a = 'AmountInfoStateMock' as any;
-    const v = {amount: 'PayableFormValuesMock'} as any;
+    const v = { amount: 'PayableFormValuesMock' } as any;
     const iterator = payWithGooglePay(c, m, a, v);
-    
-    it('should call getPaymentData', () => {        
+
+    it('should call getPaymentData', () => {
         const actual = iterator.next().value;
-        const expected = call(getPaymentData, googlePayMerchantID, googlePayGatewayMerchantID, a, v.amount);;
+        const expected = call(getPaymentData, googlePayMerchantID, googlePayGatewayMerchantID, a, v.amount);
         expect(actual).toEqual(expected);
     });
 

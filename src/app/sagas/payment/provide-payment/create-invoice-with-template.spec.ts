@@ -5,8 +5,8 @@ import { TypeKeys, InvoiceCreated } from 'checkout/actions';
 
 describe('createInvoiceWithTemplate', () => {
     const endpoint = 'http://test.endpoint';
-    const invoiceTemplate = {id: 'idMock', metadata: 'InvoiceTemplateMock'} as any;
-    const a = {amountInfo: 'AmountInfoStateMock'} as any;
+    const invoiceTemplate = { id: 'idMock', metadata: 'InvoiceTemplateMock' } as any;
+    const a = { amountInfo: 'AmountInfoStateMock' } as any;
     const formAmount = 'formAmountMock';
     const params = {
         amount: getAmount(a, formAmount),
@@ -17,16 +17,16 @@ describe('createInvoiceWithTemplate', () => {
     const token = 'invoiceAccessTokenMock';
 
     const iterator = createInvoiceWithTemplate(endpoint, token, invoiceTemplate, a, formAmount);
-    
-    it('should call createInvoiceWithTemplate', () => {        
+
+    it('should call createInvoiceWithTemplate', () => {
         const actual = iterator.next().value;
         const expected = call(request, endpoint, token, invoiceTemplate.id, params);
         expect(actual).toEqual(expected);
     });
 
     it('should put invoice created', () => {
-        const invoice = 'invoiceMock' as any;    
-        const invoiceAccessToken = {payload: 'invoiceAccessTokenMock'};    
+        const invoice = 'invoiceMock' as any;
+        const invoiceAccessToken = { payload: 'invoiceAccessTokenMock' };
         const actual = iterator.next({ invoice, invoiceAccessToken } as any).value;
         const expected = put({
             type: TypeKeys.INVOICE_CREATED,
