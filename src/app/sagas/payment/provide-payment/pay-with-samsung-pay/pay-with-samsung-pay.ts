@@ -17,7 +17,7 @@ import { getResultData } from './get-result-data';
 import { SetModalState } from 'checkout/actions/modal-actions/set-modal-state';
 import { TokenizedInteractionObject } from 'checkout/state/modal/modal-interaction';
 
-const createPaymentResource = (endpoint: string, referenceID: string, serviceID: string) =>
+export const createPaymentResource = (endpoint: string, referenceID: string, serviceID: string) =>
     createSamsungPay.bind(null, endpoint, referenceID, serviceID);
 
 export function* payWithSamsungPay(

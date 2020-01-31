@@ -4,7 +4,7 @@ import { Config } from 'checkout/config';
 import { createCardData } from '../../create-payment-resource';
 import { makePayment } from './make-payment';
 
-const createPaymentResource = (endpoint: string, formValues: CardFormValues) =>
+export const createPaymentResource = (endpoint: string, formValues: CardFormValues) =>
     createCardData.bind(null, endpoint, formValues);
 
 export function* payWithBankCard(
