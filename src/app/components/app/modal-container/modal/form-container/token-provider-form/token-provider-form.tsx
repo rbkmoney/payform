@@ -115,7 +115,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(TokenProviderFormDef);
 
-export const TokenProviderForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReduxForm as any);
+export const TokenProviderForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);

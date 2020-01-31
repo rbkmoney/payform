@@ -121,7 +121,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(TerminalFormDef);
 
-export const TerminalForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReduxForm as any);
+export const TerminalForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);

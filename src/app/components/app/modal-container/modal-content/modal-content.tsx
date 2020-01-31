@@ -127,7 +127,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     finishInteraction: bindActionCreators(finishInteraction, dispatch)
 });
 
-export const ModalContent = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ModalContentDef);
+export const ModalContent = connect(mapStateToProps, mapDispatchToProps)(ModalContentDef);

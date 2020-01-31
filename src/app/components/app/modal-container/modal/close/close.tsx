@@ -40,7 +40,4 @@ const CloseDef: React.FC<CloseProps> = (props) => (
     </CloseWrapper>
 );
 
-export const Close = connect(
-    null,
-    mapDispatchToProps
-)(CloseDef);
+export const Close = connect(null, mapDispatchToProps)(CloseDef);
