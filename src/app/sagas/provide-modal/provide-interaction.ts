@@ -10,7 +10,6 @@ import {
     CustomerBindingInteractionRequested,
     InteractionType,
     PaymentInteractionRequested,
-    PaymentTerminalReceipt,
     Redirect
 } from 'checkout/backend';
 
@@ -26,7 +25,8 @@ export const providePaymentInteraction = (change: PaymentInteractionRequested): 
                 true
             );
         case InteractionType.PaymentTerminalReceipt:
-            const formInfo = new InteractionFormInfo(userInteraction as PaymentTerminalReceipt);
+        case InteractionType.QrCodeDisplayRequest:
+            const formInfo = new InteractionFormInfo(userInteraction);
             return new ModalForms([formInfo], true);
         default:
             throw { code: 'error.unsupported.user.interaction.type' };

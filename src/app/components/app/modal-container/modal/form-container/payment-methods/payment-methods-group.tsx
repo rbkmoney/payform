@@ -2,15 +2,23 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { FormInfo, PaymentMethod, State, ModalForms, ModalName, PaymentMethodsGroupForm } from 'checkout/state';
+import {
+    FormInfo,
+    PaymentMethod,
+    State,
+    ModalForms,
+    ModalName,
+    PaymentMethodsGroupForm,
+    FormName
+} from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { goToFormInfo, pay as payAction, PaymentRequestedPayload, setViewInfoHeight } from 'checkout/actions';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
-import { MethodsList } from '../payment-methods/methods';
+import { MethodsList } from './methods';
 import { Header } from '../header';
 import { findNamed } from '../../../../../../utils';
 
-export interface PaymentMethodsProps {
+export interface PaymentMethodsGroupProps {
     locale: Locale;
     methods: PaymentMethod[];
     amountPrefilled: boolean;
@@ -21,7 +29,7 @@ export interface PaymentMethodsProps {
     activeFormInfo: PaymentMethodsGroupForm;
 }
 
-const mapStateToProps = (s: State): Partial<PaymentMethodsProps> => {
+const mapStateToProps = (s: State): Partial<PaymentMethodsGroupProps> => {
     const modalForms = findNamed(s.modals, ModalName.modalForms) as ModalForms;
     return {
         locale: s.config.locale,
@@ -32,13 +40,13 @@ const mapStateToProps = (s: State): Partial<PaymentMethodsProps> => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<PaymentMethodsProps> => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<PaymentMethodsGroupProps> => ({
     setFormInfo: bindActionCreators(goToFormInfo, dispatch),
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch),
     pay: bindActionCreators(payAction, dispatch)
 });
 
-class PaymentMethodsGroupDef extends React.Component<PaymentMethodsProps> {
+class PaymentMethodsGroupDef extends React.Component<PaymentMethodsGroupProps> {
     private formRef = React.createRef<HTMLFormElement>();
 
     render() {
@@ -56,6 +64,7 @@ class PaymentMethodsGroupDef extends React.Component<PaymentMethodsProps> {
                             pay={pay}
                             amountPrefilled={amountPrefilled}
                             emailPrefilled={emailPrefilled}
+                            prevFormName={FormName.paymentMethodsGroup}
                         />
                     )}
                 </div>

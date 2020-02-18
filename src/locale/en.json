@@ -15,6 +15,7 @@
     "form.header.pay.card.customer.label": "Bank card",
     "form.header.pay.cash.label": "Cash",
     "form.header.pay.euroset.label": "Euroset",
+    "form.header.pay.alipay.label": "Alipay",
     "form.header.pay.wallet.label": "E-Wallets",
     "form.header.pay.qiwi.label": "QIWI Wallet",
     "form.header.pay.bank.label": "Online banks",
@@ -84,6 +85,9 @@
     "form.payment.method.name.others.label": "All payment methods",
     "form.payment.method.description.cash.text": "Payment kiosks",
     "form.payment.method.description.euroset.text": "Pay with Euroset terminal",
+    "form.payment.method.description.alipay.text": "Pay with Alipay",
+    "form.payment.method.description.short.euroset.text": "Euroset",
+    "form.payment.method.description.short.alipay.text": "Alipay",
     "form.payment.method.description.qiwi.text": "Pay with QIWI Wallet",
     "form.payment.method.description.bonus.text": "Sberbank \"Spasibo\", Aeroflot Bonus miles",
     "form.payment.terminal.email.label": "Where to send the payment code",
@@ -95,6 +99,7 @@
     "form.pay.terminals.step.four.text": "Pay with cash",
     "form.pay.terminals.step.five.text": "Don’t forget the receipt",
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
+    "form.pay.alipay.info.text": "QR code will be generated for payment through the Alipay app",
     "form.help.header": "How to solve a problem?",
     "form.help.codes": {
         "InvalidPaymentTool": {

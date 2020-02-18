@@ -49,6 +49,7 @@
     "date-fns": "~1.28.5",
     "fingerprintjs2": "~1.6.1",
     "ismobilejs": "~0.4.1",
+    "kjua": "~0.6.0",
     "libphonenumber-js": "1.1.4",
     "lodash-es": "~4.17.15",
     "react": "~16.6.3",
