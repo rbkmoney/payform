@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FormInfo, PaymentMethod } from 'checkout/state';
+import { FormInfo, PaymentMethod, FormName } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { Methods } from './methods';
 import { PaymentRequestedPayload } from 'checkout/actions';
@@ -30,6 +30,7 @@ export interface MethodsProps {
     pay: (payload: PaymentRequestedPayload) => any;
     amountPrefilled: boolean;
     emailPrefilled: boolean;
+    prevFormName: FormName;
 }
 
 export const MethodsList: React.FC<MethodsProps> = ({ methods, ...props }) => (

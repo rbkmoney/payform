@@ -2,7 +2,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 
-import { FormInfo, PaymentMethod, State, ModalForms, ModalName, PaymentMethodsGroupForm } from 'checkout/state';
+import {
+    FormInfo,
+    PaymentMethod,
+    State,
+    ModalForms,
+    ModalName,
+    PaymentMethodsGroupForm,
+    FormName
+} from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { goToFormInfo, pay as payAction, PaymentRequestedPayload, setViewInfoHeight } from 'checkout/actions';
 import { AmountInfoStatus } from 'checkout/state/amount-info/amount-info-type';
@@ -56,6 +64,7 @@ class PaymentMethodsGroupDef extends React.Component<PaymentMethodsProps> {
                             pay={pay}
                             amountPrefilled={amountPrefilled}
                             emailPrefilled={emailPrefilled}
+                            prevFormName={FormName.paymentMethodsGroup}
                         />
                     )}
                 </div>

@@ -39,7 +39,7 @@ export const Methods: React.FC<{ methods: PaymentMethod[]; props: Omit<MethodPro
 }) => (
     <>
         {methods.map((method) => (
-            <Method {...{ ...props, method }} key={method.name} />
+            <Method key={method.name} method={method} {...props} />
         ))}
     </>
 );
