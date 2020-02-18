@@ -4,7 +4,7 @@ import {
     FormInfo,
     FormName,
     PaymentMethodsFormInfo,
-    TerminalFormInfo,
+    EurosetFormInfo,
     WalletFormInfo,
     TokenProviderFormInfo
 } from 'checkout/state';
@@ -17,7 +17,7 @@ const toInitialFormInfo = (isMultiMethods: boolean, initialPaymentMethod: Paymen
         case PaymentMethodName.bankCard:
             return new CardFormInfo(previous);
         case PaymentMethodName.terminalEuroset:
-            return new TerminalFormInfo(previous);
+            return new EurosetFormInfo(previous);
         case PaymentMethodName.walletQiwi:
             return new WalletFormInfo(previous);
         case PaymentMethodName.applePay:
