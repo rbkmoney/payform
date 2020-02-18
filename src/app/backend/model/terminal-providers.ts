@@ -1,1 +1,1 @@
-export type TerminalProviders = 'euroset'; // TODO: | 'alipay' | 'wechat';
+export type TerminalProviders = 'euroset' | 'zotapay';
