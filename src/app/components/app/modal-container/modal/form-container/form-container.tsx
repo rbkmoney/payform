@@ -9,7 +9,7 @@ import { FormContainerProps } from './form-container-props';
 import { FormLoader } from './form-loader';
 import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
-import { TerminalForm } from './terminal-form';
+import { EurosetForm } from './euroset-form';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
 import { findNamed } from 'checkout/utils';
@@ -19,6 +19,7 @@ import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
 import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
+import { PaymentMethodsGroup } from './payment-methods-group';
 
 const Container = styled.div`
     padding: 0 5px;
@@ -122,7 +123,7 @@ const FormContainerAnimation = styled(stylableTransition)<{ direction: SlideDire
     ${({ direction }) => (direction === SlideDirection.left ? slideLeftAnimation : slideRightAnimation)}
 `;
 
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State): Partial<FormContainerProps> => {
     const modalForms = findNamed(state.modals, ModalName.modalForms) as ModalForms;
     return {
         activeFormInfo: modalForms.formsInfo.find((item) => item.active),
@@ -130,7 +131,7 @@ const mapStateToProps = (state: State) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<FormContainerProps> => ({
     setViewInfoHeight: bindActionCreators(setViewInfoHeight, dispatch)
 });
 
@@ -180,12 +181,14 @@ class FormContainerDef extends React.Component<FormContainerProps> {
         switch (name) {
             case FormName.paymentMethods:
                 return <PaymentMethods />;
+            case FormName.paymentMethodsGroup:
+                return <PaymentMethodsGroup />;
             case FormName.cardForm:
                 return <CardForm />;
             case FormName.walletForm:
                 return <WalletForm />;
-            case FormName.terminalForm:
-                return <TerminalForm />;
+            case FormName.eurosetForm:
+                return <EurosetForm />;
             case FormName.resultForm:
                 return <ResultForm />;
             case FormName.helpForm:
