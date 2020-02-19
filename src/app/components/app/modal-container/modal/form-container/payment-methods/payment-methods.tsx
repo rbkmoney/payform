@@ -89,7 +89,4 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
     };
 }
 
-export const PaymentMethods = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PaymentMethodsDef);
+export const PaymentMethods = connect(mapStateToProps, mapDispatchToProps)(PaymentMethodsDef);

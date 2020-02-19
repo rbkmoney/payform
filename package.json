@@ -8,8 +8,8 @@
     "start": "npm run clear && webpack-dev-server --mode development --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
     "test": "jest --silent",
     "check": "npm run prettier:check",
-    "prettier": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc,html,svg}\" --write",
-    "prettier:check": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,md,json,prettierrc,babelrc,html,svg}\" --list-different"
+    "prettier": "prettier \"**\" --write",
+    "prettier:check": "prettier \"**\" --list-different"
   },
   "repository": {
     "type": "git",
@@ -94,7 +94,7 @@
     "identity-obj-proxy": "~3.0.0",
     "jest": "~23.6.0",
     "mini-css-extract-plugin": "~0.4.5",
-    "prettier": "~1.18.2",
+    "prettier": "~1.19.1",
     "react-test-renderer": "~16.2.0",
     "redux-devtools-extension": "~2.13.2",
     "rimraf": "~2.6.2",
@@ -104,7 +104,7 @@
     "ts-jest": "~23.10.5",
     "ts-loader": "~5.3.3",
     "tslint": "~5.11.0",
-    "tslint-config-prettier": "~1.16.0",
+    "tslint-config-prettier": "~1.18.0",
     "tslint-immutable": "~4.5.1",
     "tslint-loader": "~3.5.4",
     "tslint-react": "~3.6.0",

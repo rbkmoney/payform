@@ -3,7 +3,7 @@ import { appendInitButton } from './init-button/append-init-button';
 
 const getOuterForm = (element: HTMLScriptElement) => {
     const node = element.parentNode as HTMLFormElement;
-    return node && (node.nodeName === 'FORM' && node.action) ? node : null;
+    return node && node.nodeName === 'FORM' && node.action ? node : null;
 };
 
 const prepareUserConfig = (element: HTMLScriptElement): object => ({
