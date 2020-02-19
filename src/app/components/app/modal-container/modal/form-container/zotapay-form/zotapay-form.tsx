@@ -84,7 +84,7 @@ export class ZotapayFormDef extends React.Component<Props> {
             fieldsConfig: { email, amount }
         } = this.props;
         return (
-            <form onSubmit={handleSubmit(this.submit)} id="terminal-form">
+            <form onSubmit={handleSubmit(this.submit)} id="zotapay-form">
                 <div>
                     <Header title={locale['form.header.pay.zotapay.label']} />
                     <Text>{locale['form.pay.terminals.info.text']}.</Text>
