@@ -7,7 +7,8 @@ import {
     PaymentMethodsFormInfo,
     EurosetFormInfo,
     WalletFormInfo,
-    TokenProviderFormInfo
+    TokenProviderFormInfo,
+    ZotapayFormInfo
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
 
@@ -17,6 +18,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new CardFormInfo();
         case PaymentMethodName.Euroset:
             return new EurosetFormInfo();
+        case PaymentMethodName.ZotaPay:
+            return new ZotapayFormInfo();
         case PaymentMethodName.DigitalWallet:
             return new WalletFormInfo();
         case PaymentMethodName.ApplePay:

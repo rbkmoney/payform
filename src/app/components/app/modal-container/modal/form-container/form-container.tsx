@@ -20,6 +20,7 @@ import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
 import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
 import { PaymentMethodsGroup } from './payment-methods-group';
+import { ZotapayForm } from './zotapay-form';
 
 const Container = styled.div`
     padding: 0 5px;
@@ -189,6 +190,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <WalletForm />;
             case FormName.eurosetForm:
                 return <EurosetForm />;
+            case FormName.zotapayForm:
+                return <ZotapayForm />;
             case FormName.resultForm:
                 return <ResultForm />;
             case FormName.helpForm:

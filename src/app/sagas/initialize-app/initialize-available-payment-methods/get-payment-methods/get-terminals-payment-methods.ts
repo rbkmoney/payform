@@ -4,7 +4,8 @@ import { TerminalProviders } from '../../../../backend';
 import { isEmpty } from 'lodash-es';
 
 const mapPaymentMethodNameByProvider: { [P in TerminalProviders]: PaymentMethodName } = {
-    euroset: PaymentMethodName.Euroset
+    euroset: PaymentMethodName.Euroset,
+    zotapay: PaymentMethodName.ZotaPay
 };
 
 export const getTerminalsPaymentMethods = (

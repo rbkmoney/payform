@@ -8,11 +8,14 @@ import { GooglePay } from './google-pay';
 import { MethodProps } from './method-props';
 import { SamsungPay } from './samsung-pay';
 import { Terminals } from './terminals';
+import { Zotapay } from './zotapay';
 
 const Method: React.FC<MethodProps> = (props) => {
     switch (props.method.name) {
         case PaymentMethodName.Euroset:
             return <Euroset {...props} />;
+        case PaymentMethodName.ZotaPay:
+            return <Zotapay {...props} />;
         case PaymentMethodName.DigitalWallet:
             return <Wallets {...props} />;
         case PaymentMethodName.BankCard:
@@ -36,7 +39,7 @@ export const Methods: React.FC<{ methods: PaymentMethod[]; props: Omit<MethodPro
 }) => (
     <>
         {methods.map((method) => (
-            <Method {...{ ...props, method }} key={method.name} />
+            <Method key={method.name} method={method} {...props} />
         ))}
     </>
 );

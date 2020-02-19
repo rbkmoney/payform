@@ -38,14 +38,13 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
             return locale['form.button.use.other.card.label'];
         case FormName.walletForm:
             return locale['form.button.use.other.wallet.label'];
-        case FormName.eurosetForm:
-            return locale['form.button.use.other.terminal.label'];
     }
     throw new Error('Unsupported form type');
 };
 
 const payOtherCapability = (startedInfo: FormInfo): boolean =>
     startedInfo &&
+    startedInfo.name !== FormName.zotapayForm &&
     startedInfo.name !== FormName.eurosetForm &&
     startedInfo.name !== FormName.tokenProviderForm &&
     startedInfo.name !== FormName.paymentMethods;

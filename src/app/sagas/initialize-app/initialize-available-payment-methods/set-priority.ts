@@ -6,8 +6,9 @@ const paymentMethodPriority: { [N in PaymentMethodName | PaymentMethodGroupName]
     [PaymentMethodName.DigitalWallet]: 3,
     [PaymentMethodGroupName.Terminals]: 4,
     [PaymentMethodName.Euroset]: 5,
-    [PaymentMethodName.GooglePay]: 6,
-    [PaymentMethodName.SamsungPay]: 7
+    [PaymentMethodName.ZotaPay]: 6,
+    [PaymentMethodName.GooglePay]: 7,
+    [PaymentMethodName.SamsungPay]: 8
 };
 
 export const setPriority = (methods: PaymentMethod[]): PaymentMethod[] =>

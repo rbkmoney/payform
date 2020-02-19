@@ -1,5 +1,5 @@
 import { Locale } from 'checkout/locale';
-import { FormInfo, PaymentMethod } from 'checkout/state';
+import { FormInfo, PaymentMethod, FormName } from 'checkout/state';
 import { PaymentRequestedPayload } from 'checkout/actions';
 
 export interface MethodProps {
@@ -9,4 +9,5 @@ export interface MethodProps {
     amountPrefilled: boolean;
     emailPrefilled: boolean;
     method: PaymentMethod;
+    prevFormName: FormName;
 }

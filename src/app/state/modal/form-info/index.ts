@@ -10,3 +10,4 @@ export * from './euroset-form-info';
 export * from './token-provider-form-info';
 export * from './help-form-info';
 export * from './payment-methods-group-form';
+export * from './zotapay-form-info';
