@@ -39,7 +39,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-export const ErrorDescriptionBlock = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ErrorDescriptionBlockDef);
+export const ErrorDescriptionBlock = connect(mapStateToProps, mapDispatchToProps)(ErrorDescriptionBlockDef);

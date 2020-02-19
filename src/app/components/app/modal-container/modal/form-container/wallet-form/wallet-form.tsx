@@ -118,7 +118,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(WalletFormDef);
 
-export const WalletForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReduxForm as any);
+export const WalletForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);

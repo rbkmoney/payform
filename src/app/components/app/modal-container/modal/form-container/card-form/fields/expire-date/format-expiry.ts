@@ -16,7 +16,7 @@ function format(expiry: string): string {
         sep = '';
     } else if (mon.length === 2 || sep.length > 0) {
         sep = ' / ';
-    } else if (mon.length === 1 && (mon !== '0' && mon !== '1')) {
+    } else if (mon.length === 1 && mon !== '0' && mon !== '1') {
         mon = '0' + mon;
         sep = ' / ';
     }

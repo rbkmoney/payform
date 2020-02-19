@@ -63,7 +63,4 @@ const HeaderDef: React.FC<HeaderProps> = (props) => (
     </HeaderWrapper>
 );
 
-export const Header = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(HeaderDef);
+export const Header = connect(mapStateToProps, mapDispatchToProps)(HeaderDef);
