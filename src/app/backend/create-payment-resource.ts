@@ -3,6 +3,11 @@ import { PaymentResource, PaymentTool } from 'checkout/backend/model';
 import v from './capi-version';
 import { fetchCapi } from './fetch-capi';
 
+function getFingerprintFromComponents(components: Fingerprint2.Component[]) {
+    const values = components.map(({ value }) => value);
+    return Fingerprint2.x64hash128(values.join(''), 31);
+}
+
 export const createPaymentResource = (
     capiEndpoint: string,
     accessToken: string,
@@ -16,7 +21,7 @@ export const createPaymentResource = (
             body: {
                 paymentTool,
                 clientInfo: {
-                    fingerprint: Fingerprint2.x64hash128(fingerprintComponents.join(''), 31)
+                    fingerprint: getFingerprintFromComponents(fingerprintComponents)
                 }
             }
         })
