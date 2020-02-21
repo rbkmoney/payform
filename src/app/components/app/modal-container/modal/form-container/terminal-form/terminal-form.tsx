@@ -60,7 +60,7 @@ export class TerminalFormDef extends React.Component<Props> {
         });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {
             terminalFormInfo: { paymentStatus },
             formValues
@@ -76,7 +76,7 @@ export class TerminalFormDef extends React.Component<Props> {
         }
     }
 
-    componentWillReceiveProps(props: Props) {
+    UNSAFE_componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
             props.setViewInfoError(true);
         }

@@ -1,4 +1,4 @@
-import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { AmountInfoState, ModelState, PayableFormValues } from 'checkout/state';
 import { getPayableInvoice } from './get-payable-invoice';
 import { LogicErrorCode, PaymentResource } from 'checkout/backend';
@@ -16,7 +16,7 @@ export function* makePayment(
     values: PayableFormValues,
     amountInfo: AmountInfoState,
     fn: CreatePaymentResourceFn
-): Iterator<CallEffect | PutEffect<SetAcceptedError>> {
+) {
     const { initConfig, appConfig } = config;
     const { capiEndpoint } = appConfig;
     const {

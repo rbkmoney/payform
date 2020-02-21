@@ -55,7 +55,7 @@ export class TokenProviderFormDef extends React.Component<Props> {
         });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {
             tokenProviderFormInfo: { paymentStatus },
             formValues
@@ -71,7 +71,7 @@ export class TokenProviderFormDef extends React.Component<Props> {
         }
     }
 
-    componentWillReceiveProps(props: Props) {
+    UNSAFE_componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
             props.setViewInfoError(true);
         }

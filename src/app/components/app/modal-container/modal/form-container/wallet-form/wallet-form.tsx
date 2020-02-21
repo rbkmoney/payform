@@ -62,7 +62,7 @@ class WalletFormDef extends React.Component<Props> {
         this.props.pay({ method: PaymentMethodName.DigitalWallet, values });
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {
             walletFormInfo: { paymentStatus },
             formValues
@@ -78,7 +78,7 @@ class WalletFormDef extends React.Component<Props> {
         }
     }
 
-    componentWillReceiveProps(props: Props) {
+    UNSAFE_componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
             props.setViewInfoError(true);
         }

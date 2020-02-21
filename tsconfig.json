@@ -14,7 +14,10 @@
         },
         "pretty": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true
     },
     "include": ["./src/**/*", "./types/**/*"]
 }

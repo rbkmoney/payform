@@ -52,7 +52,7 @@ class CardFormDef extends React.Component<Props> {
         this.submit = this.submit.bind(this);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         const {
             cardFormInfo: { paymentStatus },
             formValues
@@ -68,7 +68,7 @@ class CardFormDef extends React.Component<Props> {
         }
     }
 
-    componentWillReceiveProps(props: Props) {
+    UNSAFE_componentWillReceiveProps(props: Props) {
         if (props.submitFailed) {
             props.setViewInfoError(true);
         }
