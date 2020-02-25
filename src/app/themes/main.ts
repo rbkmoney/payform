@@ -40,7 +40,11 @@ const theme: Theme = {
     gradients: {
         form: css`linear-gradient(45deg, #8330ec -20%, #685bff 90%)`,
         bg: css`linear-gradient(to top right, #9016f6, #6b35ff)`,
-        loader: [['#8330EC', '0%'], ['#5A46F9', '38%'], ['#38CD8F', '100%']]
+        loader: [
+            ['#8330EC', '0%'],
+            ['#5A46F9', '38%'],
+            ['#38CD8F', '100%']
+        ]
     },
     font: {
         family: "'Roboto', sans-serif"

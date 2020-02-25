@@ -113,7 +113,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     forgetPaymentAttempt: bindActionCreators(forgetPaymentAttempt, dispatch)
 });
 
-export const ActionBlock = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ActionBlockDef);
+export const ActionBlock = connect(mapStateToProps, mapDispatchToProps)(ActionBlockDef);

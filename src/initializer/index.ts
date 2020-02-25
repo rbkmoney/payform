@@ -10,7 +10,7 @@ import { IframeInitializer } from './iframe-initializer';
 import { environment, Configurator, isApplePayAvailable } from '../environment';
 
 const isPopupMode = (userConfig: any): boolean =>
-    isMobile.any || (userConfig.popupMode === true || userConfig.popupMode === 'true') || isApplePayAvailable();
+    isMobile.any || userConfig.popupMode === true || userConfig.popupMode === 'true' || isApplePayAvailable();
 
 const getInstance = (origin: string, userConfig: any): Initializer =>
     isPopupMode(userConfig) ? new PopupInitializer(origin, userConfig) : new IframeInitializer(origin, userConfig);
