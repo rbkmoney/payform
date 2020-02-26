@@ -5,7 +5,7 @@ import { makePayment } from '../make-payment';
 import { getPaymentData } from './get-payment-data';
 import { createGooglePay } from '../../../create-payment-resource';
 
-const createPaymentResource = (endpoint: string, googlePayMerchantID: string, paymentData: PaymentData) =>
+export const createPaymentResource = (endpoint: string, googlePayMerchantID: string, paymentData: PaymentData) =>
     createGooglePay.bind(null, endpoint, googlePayMerchantID, paymentData);
 
 export function* payWithGooglePay(
