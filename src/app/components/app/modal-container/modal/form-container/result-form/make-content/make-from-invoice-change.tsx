@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { InvoiceEvent, InvoiceStatusChanged, InvoiceStatuses, LogicError, LogicErrorCode } from 'checkout/backend';
 import { Locale } from 'checkout/locale';
 import { ResultFormContent, ResultFormType } from './result-form-content';
@@ -22,7 +21,7 @@ const alreadyPaid = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
 
 const paid = (l: Locale, e: InvoiceEvent[]): ResultFormContent => ({
     hasActions: false,
-    hasDone: false,
+    hasDone: true,
     header: l['form.header.final.invoice.paid.label'],
     description: getSuccessDescription(l, e),
     type: ResultFormType.SUCCESS

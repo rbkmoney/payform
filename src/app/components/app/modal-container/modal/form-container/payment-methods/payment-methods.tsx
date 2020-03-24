@@ -44,21 +44,19 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
     componentWillMount() {
         const { methods } = this.props;
         const visibilityThreshold = 3;
-        const visibleMethods = methods.filter((m, i) => i < visibilityThreshold);
+        const visibleMethods = methods.filter((_m, i) => i < visibilityThreshold);
         this.setState({ visibleMethods });
         this.showAllMethods = this.showAllMethods.bind(this);
     }
 
-    componentDidUpdate(prevProps: PaymentMethodsProps, prevState: PaymentMethodsState) {
+    componentDidUpdate(_prevProps: PaymentMethodsProps, prevState: PaymentMethodsState) {
         if (prevState.visibleMethods !== this.state.visibleMethods) {
             this.props.setViewInfoHeight(this.formElement.clientHeight);
         }
     }
 
     showAllMethods() {
-        this.setState({
-            visibleMethods: this.props.methods
-        });
+        this.setState((_state, { methods }) => ({ visibleMethods: methods }));
     }
 
     render() {
@@ -91,7 +89,4 @@ class PaymentMethodsDef extends React.Component<PaymentMethodsProps, PaymentMeth
     };
 }
 
-export const PaymentMethods = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PaymentMethodsDef);
+export const PaymentMethods = connect(mapStateToProps, mapDispatchToProps)(PaymentMethodsDef);

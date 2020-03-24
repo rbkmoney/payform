@@ -1,4 +1,3 @@
-import { InvoiceTemplateLineCostFixed } from 'checkout/backend';
 import { getAmountFromSingleLine } from './get-amount-from-single-line';
 import { AmountInfoStatus } from 'checkout/state';
 

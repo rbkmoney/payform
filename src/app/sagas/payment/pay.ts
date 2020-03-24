@@ -13,7 +13,7 @@ import { providePayment } from './provide-payment';
 import { EventsStatus, ResultFormInfo, ResultType, State } from 'checkout/state';
 import { provideFromInvoiceEvent } from '../provide-modal';
 
-function* paymentComplete(): Iterator<SelectEffect | CallEffect | PutEffect<PaymentCompleted>> {
+export function* paymentComplete(): Iterator<SelectEffect | CallEffect | PutEffect<PaymentCompleted>> {
     const event = yield select((state: State) => last(state.events.events));
     yield call(provideFromInvoiceEvent, event);
     yield put({ type: TypeKeys.PAYMENT_COMPLETED } as PaymentCompleted);

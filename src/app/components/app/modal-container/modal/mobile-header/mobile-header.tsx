@@ -91,7 +91,4 @@ const MobileHeaderDef: React.FC<MobileHeaderProps> = (props) => (
     </Header>
 );
 
-export const MobileHeader = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MobileHeaderDef);
+export const MobileHeader = connect(mapStateToProps, mapDispatchToProps)(MobileHeaderDef);
