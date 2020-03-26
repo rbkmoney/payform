@@ -147,7 +147,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(CardFormDef);
 
-export const CardForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReduxForm as any);
+export const CardForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);

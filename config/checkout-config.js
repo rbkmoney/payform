@@ -41,7 +41,7 @@ module.exports = {
                 { from: './src/appConfig.json', to: '..' },
                 { from: './src/locale/*.json', to: './locale', flatten: true }
             ],
-            { debug: 'warning' }
+            { logLevel: 'warn' }
         )
     ]
 };

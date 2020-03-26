@@ -47,7 +47,4 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     initApp: bindActionCreators(initializeApp, dispatch)
 });
 
-export const App = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AppDef);
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppDef);

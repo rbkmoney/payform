@@ -589,7 +589,7 @@ function nbits(_0x187f21) {
         _0x48f2f4 += 0x2;
     }
     if ((_0x1cc802 = _0x187f21 >> 0x1) != 0x0) {
-        _0x187f21 = _0x1cc802;
+        _0x187f21 = _0x1cc802; // lgtm[js/useless-assignment-to-local]
         _0x48f2f4 += 0x1;
     }
     return _0x48f2f4;

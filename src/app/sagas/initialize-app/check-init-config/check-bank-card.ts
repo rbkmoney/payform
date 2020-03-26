@@ -15,15 +15,15 @@ const checkForInvoiceAndTemplate = (paymentMethods: PaymentMethod[]): CheckResul
 
 export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
     const { bankCard, googlePay, applePay, samsungPay, wallets, terminals, integrationType } = initConfig;
-    if (bankCard) {
-        return { available: true };
-    }
     if (!(bankCard || wallets || terminals || googlePay || samsungPay || applePay)) {
         return {
             available: false,
             reason: UnavailableReason.capability,
             message: 'You can not disable all payment methods.'
         };
+    }
+    if (bankCard) {
+        return { available: true };
     }
     switch (integrationType) {
         case IntegrationType.invoiceTemplate:

@@ -214,7 +214,4 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     };
 }
 
-export const FormContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FormContainerDef);
+export const FormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainerDef);

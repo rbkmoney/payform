@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Locale } from 'checkout/locale';
 import { InvoiceEvent, LogicError, PaymentError, PaymentStatusChanged, PaymentStatuses } from 'checkout/backend';
 import { ResultFormContent } from './result-form-content';

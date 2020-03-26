@@ -6,7 +6,7 @@ import { toMinorAmount } from 'checkout/utils';
 
 export type Effects = CallEffect | PutEffect<InvoiceCreated>;
 
-const getAmount = (amountInfo: AmountInfoState, formAmount: string): number => {
+export const getAmount = (amountInfo: AmountInfoState, formAmount: string): number => {
     switch (amountInfo.status) {
         case AmountInfoStatus.final:
             return amountInfo.minorValue;
