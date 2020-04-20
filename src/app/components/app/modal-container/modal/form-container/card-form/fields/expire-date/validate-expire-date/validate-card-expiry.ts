@@ -26,7 +26,7 @@ export function validateCardExpiry({ month, year }: ExpiryDate): boolean {
         return false;
     }
     const expiry = new Date(year, month);
-    const currentTime = new Date();
+    // const currentTime = new Date();
     expiry.setMonth(expiry.getMonth() - 1);
     expiry.setMonth(expiry.getMonth() + 1, 1);
     //TODO: Bring back the validation for the date when the world goes okay.
