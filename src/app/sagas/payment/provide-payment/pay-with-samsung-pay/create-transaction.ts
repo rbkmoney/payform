@@ -32,7 +32,11 @@ const getTransactionRequestBody = (
     }
 });
 
-export async function createTransaction(appConfig: AppConfig, a: AmountInfoState, v: TokenProviderFormValues): Promise<Transaction> {
+export async function createTransaction(
+    appConfig: AppConfig,
+    a: AmountInfoState,
+    v: TokenProviderFormValues
+): Promise<Transaction> {
     const { currencyCode } = a;
     const { samsungPayMerchantName, samsungPayServiceID, wrapperEndpoint } = appConfig;
     const callbackURL = `${window.location.origin}${URIPath}`;
