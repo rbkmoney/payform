@@ -1,8 +1,9 @@
 import { Transaction } from 'checkout/backend/model';
 import { guid } from 'checkout/utils';
-import { AmountInfoState } from 'checkout/state';
+import { AmountInfoState, TokenProviderFormValues } from 'checkout/state';
 import { AppConfig } from 'checkout/backend';
 import { URIPath } from '../../../../../constants/samsung-pay-communicator';
+import { getAmount } from './get-amount';
 
 const getTransactionRequestBody = (
     totalAmount: number,
@@ -31,12 +32,12 @@ const getTransactionRequestBody = (
     }
 });
 
-export async function createTransaction(appConfig: AppConfig, a: AmountInfoState): Promise<Transaction> {
-    const { minorValue, currencyCode } = a;
+export async function createTransaction(appConfig: AppConfig, a: AmountInfoState, v: TokenProviderFormValues): Promise<Transaction> {
+    const { currencyCode } = a;
     const { samsungPayMerchantName, samsungPayServiceID, wrapperEndpoint } = appConfig;
     const callbackURL = `${window.location.origin}${URIPath}`;
     const body = getTransactionRequestBody(
-        minorValue / 100,
+        getAmount(a, v),
         currencyCode,
         samsungPayMerchantName,
         samsungPayServiceID,
