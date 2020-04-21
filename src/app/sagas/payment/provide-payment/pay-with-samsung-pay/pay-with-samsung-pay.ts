@@ -31,7 +31,7 @@ export function* payWithSamsungPay(
         appConfig: { samsungPayServiceID, capiEndpoint },
         initConfig: { locale }
     } = c;
-    const transaction = yield createTransaction(appConfig, a);
+    const transaction = yield createTransaction(appConfig, a, v);
     yield put<SetModalState>({
         type: TypeKeys.SET_MODAL_STATE,
         payload: new ModalInteraction(
