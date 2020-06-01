@@ -25,9 +25,14 @@ export function validateCardExpiry({ month, year }: ExpiryDate): boolean {
     if (newYear.length !== 4) {
         return false;
     }
-    const expiry = new Date(year, month);
-    const currentTime = new Date();
-    expiry.setMonth(expiry.getMonth() - 1);
-    expiry.setMonth(expiry.getMonth() + 1, 1);
-    return expiry > currentTime;
+
+    //TODO: Bring back the validation for the date when the world goes okay.
+    // https://rbkmoney.atlassian.net/browse/FE-1043
+
+    // const expiry = new Date(year, month);
+    // const currentTime = new Date();
+    // expiry.setMonth(expiry.getMonth() - 1);
+    // expiry.setMonth(expiry.getMonth() + 1, 1);
+    // return expiry > currentTime;
+    return true;
 }

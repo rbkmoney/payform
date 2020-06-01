@@ -120,6 +120,12 @@ const FormContainerAnimation = styled(stylableTransition)<{ direction: SlideDire
         justify-content: space-between;
     }
 
+    ${ENTER},${LEAVE} {
+        * {
+            pointer-events: none !important;
+        }
+    }
+
     ${({ direction }) => (direction === SlideDirection.left ? slideLeftAnimation : slideRightAnimation)}
 `;
 

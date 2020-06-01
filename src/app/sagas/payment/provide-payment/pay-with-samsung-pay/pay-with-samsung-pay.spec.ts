@@ -26,7 +26,7 @@ describe('payWithSamsungPay', () => {
 
     it('should call createTransaction', () => {
         const actual = gen.next().value;
-        const expected = createTransaction(appConfig, a);
+        const expected = createTransaction(appConfig, a, v);
         expect(actual).toEqual(expected);
     });
 
