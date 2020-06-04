@@ -3,6 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import { Modal } from '../modal';
+import { ModalInfo } from '../modal-info';
 import { Footer } from '../footer';
 import { UserInteractionModal } from '../user-interaction-modal';
 import { ModalName, ModalState, State, ModalInteraction } from 'checkout/state';
@@ -111,6 +112,13 @@ class ModalContentDef extends React.Component<ModalContentProps> {
                     <>
                         <UserInteractionModal />
                         {(activeModal as ModalInteraction).pollingEvents && <ModalLoader />}
+                    </>
+                );
+            case ModalName.modalInfo:
+                return (
+                    <>
+                        <ModalInfo />
+                        <StyledFooter />
                     </>
                 );
             default:

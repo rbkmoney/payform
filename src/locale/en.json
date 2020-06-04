@@ -5,6 +5,8 @@
     "info.dueDate.text": "Pay before",
     "info.subscription.label": "Monthly subscription",
     "info.subscription.help.text": "Payment charges at ${day} monthly applied. Cancellation link will be sent via email",
+    "info.modal.mobile.commerce.description.step.one": "Pay info step 1",
+    "info.modal.mobile.commerce.description.step.two": "Pay info step 2",
     "footer.pay.label": "Secure payment with",
     "footer.offer.label": "Public offer",
     "form.header.delivery.label": "Delivery",
