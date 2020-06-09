@@ -8,4 +8,5 @@ export class Config {
     initConfig: InitConfig;
     appConfig?: AppConfig;
     locale?: Locale;
+    needToPollEvents: boolean = true;
 }

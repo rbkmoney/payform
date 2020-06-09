@@ -4,36 +4,39 @@ import { connect } from 'react-redux';
 import { ModalInfo, ModalInfoType, ModalName, State } from 'checkout/state';
 import { Locale } from 'checkout/locale';
 import { device } from 'checkout/utils/device';
-import styled from 'checkout/styled-components';
+import styled, { css } from 'checkout/styled-components';
 import { findNamed } from 'checkout/utils';
 import { ListItem, NumerableList } from '../../modal/form-container/numerable-list';
+import { shake } from 'checkout/styled-components/animations';
 
-const InfoWrapper = styled.div`
-    padding: 30px 25px;
+const Container = styled.div`
+    padding: 0 5px;
 
     @media ${device.desktop} {
         padding: 0;
-        width: 230px;
-        margin-right: 30px;
-        margin-top: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
     }
 `;
 
-const CompanyName = styled.h4`
-    display: none;
-    font-weight: 500;
-    font-size: 16px;
-    color: #fff;
-    letter-spacing: 0;
-    line-height: 20px;
-    margin: 0 0 30px;
+const Form = styled.div<{ error?: any; height?: number }>`
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.25);
+    padding: 30px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.4s;
+    height: ${({ height }) => (height ? `${height}px` : 'auto')};
 
     @media ${device.desktop} {
-        display: block;
+        padding: 30px;
+        min-height: auto;
     }
+
+    ${({ error }) =>
+        error &&
+        css`
+            animation: ${shake} 0.82s;
+        `}
 `;
 
 export interface InfoProps {
@@ -56,8 +59,8 @@ const Instruction: React.FC<InfoProps> = (props) => {
         case ModalInfoType.MobileCommerce:
             return (
                 <NumerableList>
-                    <ListItem number={1}>{props.locale['info.modal.mobile.commerce.description.step.one']}.</ListItem>
-                    <ListItem number={2}>{props.locale['info.modal.mobile.commerce.description.step.two']}.</ListItem>
+                    <ListItem number={1}>{props.locale['info.modal.mobile.commerce.description.step.one']}</ListItem>
+                    <ListItem number={2}>{props.locale['info.modal.mobile.commerce.description.step.two']}</ListItem>
                 </NumerableList>
             );
     }
@@ -65,14 +68,13 @@ const Instruction: React.FC<InfoProps> = (props) => {
 
 const InfoDef: React.FC<InfoProps> = (props) => {
     return (
-        <InfoWrapper>
-            <div>
-                <CompanyName id="info-title">{props.locale['info-title']}</CompanyName>
+        <Container>
+            <Form>
                 <div>
                     <Instruction {...props} />
                 </div>
-            </div>
-        </InfoWrapper>
+            </Form>
+        </Container>
     );
 };
 

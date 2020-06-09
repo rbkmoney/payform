@@ -36,5 +36,7 @@ export function* makePayment(
                 throw e;
         }
     }
-    yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
+    if (config.needToPollEvents || config.needToPollEvents == undefined) {
+        yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
+    }
 }
