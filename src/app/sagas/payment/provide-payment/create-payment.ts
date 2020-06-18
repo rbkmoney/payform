@@ -13,7 +13,7 @@ import { InitConfig } from 'checkout/config';
 
 type Effects = CallEffect | Payment;
 
-const toPaymentFlow = (c: InitConfig): PaymentFlow => {
+export const toPaymentFlow = (c: InitConfig): PaymentFlow => {
     const instant: PaymentFlowInstant = { type: FlowType.PaymentFlowInstant };
     const hold: PaymentFlowHold = { type: FlowType.PaymentFlowHold, onHoldExpiration: c.holdExpiration };
     return c.paymentFlowHold ? hold : instant;

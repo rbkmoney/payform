@@ -11,7 +11,7 @@ interface InvoiceAndToken {
     invoiceAccessToken: string;
 }
 
-function* createInvoice(
+export function* createInvoice(
     initConfig: InvoiceTemplateInitConfig,
     endpoint: string,
     invoiceTemplate: InvoiceTemplate,

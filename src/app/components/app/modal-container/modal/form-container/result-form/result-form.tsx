@@ -119,7 +119,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     goToFormInfo: bindActionCreators(goToFormInfo, dispatch)
 });
 
-export const ResultForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ResultFormDef);
+export const ResultForm = connect(mapStateToProps, mapDispatchToProps)(ResultFormDef);

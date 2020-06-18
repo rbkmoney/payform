@@ -120,6 +120,12 @@ const FormContainerAnimation = styled(stylableTransition)<{ direction: SlideDire
         justify-content: space-between;
     }
 
+    ${ENTER},${LEAVE} {
+        * {
+            pointer-events: none !important;
+        }
+    }
+
     ${({ direction }) => (direction === SlideDirection.left ? slideLeftAnimation : slideRightAnimation)}
 `;
 
@@ -214,7 +220,4 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     };
 }
 
-export const FormContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FormContainerDef);
+export const FormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainerDef);

@@ -12,7 +12,9 @@
         "paths": {
             "checkout/*": ["./src/app/*", "./src/locale/*"]
         },
-        "pretty": true
+        "pretty": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     },
     "include": ["./src/**/*", "./types/**/*"]
 }

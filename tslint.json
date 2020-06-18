@@ -11,6 +11,15 @@
         "no-namespace": false,
         "jsx-alignment": false,
         "jsx-no-multiline-js": false,
-        "jsx-no-lambda": false
+        "jsx-no-lambda": false,
+        "variable-name": {
+            "options": [
+                "ban-keywords",
+                "check-format",
+                "allow-leading-underscore",
+                "allow-pascal-case",
+                "require-const-for-all-caps"
+            ]
+        }
     }
 }
