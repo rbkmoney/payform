@@ -118,7 +118,4 @@ const ReduxForm = reduxForm({
     destroyOnUnmount: false
 })(MobileCommerceFormDef);
 
-export const MobileCommerceForm = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ReduxForm as any);
+export const MobileCommerceForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
