@@ -1,4 +1,4 @@
-import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { AmountInfoState, ModelState, PayableFormValues } from 'checkout/state';
 import { getPayableInvoice } from './get-payable-invoice';
 import { LogicErrorCode, PaymentResource } from 'checkout/backend';
@@ -15,8 +15,9 @@ export function* makePayment(
     model: ModelState,
     values: PayableFormValues,
     amountInfo: AmountInfoState,
-    fn: CreatePaymentResourceFn
-): Iterator<CallEffect | PutEffect<SetAcceptedError>> {
+    fn: CreatePaymentResourceFn,
+    isPoll = true
+) {
     const { initConfig, appConfig } = config;
     const { capiEndpoint } = appConfig;
     const {
@@ -36,5 +37,7 @@ export function* makePayment(
                 throw e;
         }
     }
-    yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
+    if (isPoll) {
+        yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
+    }
 }

@@ -10,7 +10,8 @@ export enum FormName {
     interactionForm = 'interactionForm',
     tokenProviderForm = 'tokenProviderForm',
     helpForm = 'helpForm',
-    mobileCommerceForm = 'mobileCommerceForm'
+    mobileCommerceForm = 'mobileCommerceForm',
+    mobileCommerceReceiptForm = 'mobileCommerceReceiptForm'
 }
 
 export abstract class FormInfo implements Named {
@@ -19,7 +20,7 @@ export abstract class FormInfo implements Named {
     paymentStatus?: PaymentStatus;
     previous?: FormName;
 
-    protected constructor(previous?: FormName) {
+    constructor(previous?: FormName) {
         this.previous = previous;
     }
 }

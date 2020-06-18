@@ -20,6 +20,7 @@ import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
 import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
+import { MobileCommerceReceiptForm } from './mobile-commerce-receipt-form';
 
 const Container = styled.div`
     padding: 0 5px;
@@ -203,6 +204,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <TokenProviderForm />;
             case FormName.mobileCommerceForm:
                 return <MobileCommerceForm />;
+            case FormName.mobileCommerceReceiptForm:
+                return <MobileCommerceReceiptForm />;
             default:
                 return null;
         }
