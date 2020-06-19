@@ -37,7 +37,7 @@ export const SecureCodeDef: React.FC<SecureCodeProps> = (props) => (
         name="secureCode"
         component={getCustomInput.bind(null, props)}
         validate={validateSecureCode}
-        normalize={(value, p, { cardNumber }) => formatCVC(value, cardNumber)}
+        normalize={(value, _p, { cardNumber }) => formatCVC(value, cardNumber)}
     />
 );
 

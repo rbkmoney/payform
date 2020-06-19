@@ -4,7 +4,7 @@ import { AmountInfoState, ModelState, PayableFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { makePayment } from './make-payment';
 
-const createPaymentResource = (endpoint: string) => createTerminalEuroset.bind(null, endpoint);
+export const createPaymentResource = (endpoint: string) => createTerminalEuroset.bind(null, endpoint);
 
 export function* payWithTerminalEuroset(
     c: Config,

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Omit } from 'react-redux';
 
 import { ChevronLeft } from 'checkout/components';
 import styled from 'checkout/styled-components';

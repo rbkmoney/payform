@@ -5,6 +5,10 @@
     "info.dueDate.text": "Pay before",
     "info.subscription.label": "Monthly subscription",
     "info.subscription.help.text": "Payment charges at ${day} monthly applied. Cancellation link will be sent via email",
+    "info.modal.mobile.commerce.description.steps": [
+        "A message has been sent to the indicated phone number. To confirm the payment, follow the steps indicated in the SMS from the operator. You can close this window.",
+        "Usually payment takes several minutes, in rare cases, the process may take up to 3 days. Once the payment has passed, you will receive a message from the operator."
+    ],
     "footer.pay.label": "Secure payment with",
     "footer.offer.label": "Public offer",
     "form.header.delivery.label": "Delivery",

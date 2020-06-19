@@ -20,6 +20,7 @@ import styled, { css } from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 import { shake } from 'checkout/styled-components/animations';
 import { stylableTransition, ENTER, LEAVE, ACTIVE } from 'checkout/styled-transition';
+import { MobileCommerceReceiptForm } from './mobile-commerce-receipt-form';
 
 const Container = styled.div`
     padding: 0 5px;
@@ -120,6 +121,12 @@ const FormContainerAnimation = styled(stylableTransition)<{ direction: SlideDire
         justify-content: space-between;
     }
 
+    ${ENTER},${LEAVE} {
+        * {
+            pointer-events: none !important;
+        }
+    }
+
     ${({ direction }) => (direction === SlideDirection.left ? slideLeftAnimation : slideRightAnimation)}
 `;
 
@@ -197,6 +204,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <TokenProviderForm />;
             case FormName.mobileCommerceForm:
                 return <MobileCommerceForm />;
+            case FormName.mobileCommerceReceiptForm:
+                return <MobileCommerceReceiptForm />;
             default:
                 return null;
         }
@@ -214,7 +223,4 @@ class FormContainerDef extends React.Component<FormContainerProps> {
     };
 }
 
-export const FormContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FormContainerDef);
+export const FormContainer = connect(mapStateToProps, mapDispatchToProps)(FormContainerDef);

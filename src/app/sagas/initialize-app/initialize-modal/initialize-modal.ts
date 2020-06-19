@@ -1,5 +1,5 @@
 import { call, CallEffect, put, PutEffect } from 'redux-saga/effects';
-import { PaymentMethod, ModelState, EventsState } from 'checkout/state';
+import { PaymentMethod, EventsState } from 'checkout/state';
 import { InitializeModalCompleted, TypeKeys } from 'checkout/actions';
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { toInitialState } from './to-initial-state';

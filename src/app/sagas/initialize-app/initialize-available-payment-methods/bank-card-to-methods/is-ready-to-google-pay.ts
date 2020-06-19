@@ -18,7 +18,7 @@ async function isReadyToPay(): Promise<boolean> {
          */
         const { result } = (await Promise.race([
             paymentsClient.isReadyToPay({ allowedPaymentMethods }),
-            new Promise((res, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
+            new Promise((_res, rej) => setTimeout(() => rej(new Error('timeout')), 3000))
         ])) as ReadyToPayResponse;
         return result;
     } catch (e) {
@@ -27,7 +27,7 @@ async function isReadyToPay(): Promise<boolean> {
     }
 }
 
-export function* isReadyToGooglePay(amountInfo: AmountInfoState): Iterator<CallEffect | boolean> {
+export function* isReadyToGooglePay(_amountInfo: AmountInfoState): Iterator<CallEffect | boolean> {
     if (yield call(loadThirdPartLib, 'https://pay.google.com/gp/p/js/pay.js')) {
         return yield call(isReadyToPay);
     }
