@@ -16,7 +16,7 @@ export function* makePayment(
     values: PayableFormValues,
     amountInfo: AmountInfoState,
     fn: CreatePaymentResourceFn,
-    needPolling = true
+    withPolling = true
 ) {
     const { initConfig, appConfig } = config;
     const { capiEndpoint } = appConfig;
@@ -37,7 +37,7 @@ export function* makePayment(
                 throw e;
         }
     }
-    if (needPolling) {
+    if (withPolling) {
         yield call(pollInvoiceEvents, capiEndpoint, invoiceAccessToken, id);
     }
 }
