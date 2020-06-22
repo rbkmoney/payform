@@ -17,7 +17,7 @@ build('payform', 'docker-host') {
       withGithubSshCredentials {
         sh 'make wc_init'
       }
-      dependencyTrackPublisher artifact: 'bom.xml', artifactType: 'bom', projectName: 'payform', projectVersion: '1.0.0', synchronous: true
+      dependencyTrackPublisher artifact: 'bom.xml', artifactType: 'bom', projectName: env.REPO_NAME, projectVersion: env.BRANCH_NAME, synchronous: true
     }
     runStage('check') {
       sh 'make wc_check'
