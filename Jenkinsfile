@@ -23,6 +23,7 @@ build('payform', 'docker-host') {
     }
     runStage('test') {
       sh 'make wc_test'
+      dependencyTrackPublisher artifact: 'bom.xml', artifactType: 'bom', projectName: 'payform', projectVersion: '1.0.0', synchronous: true
     }
     runStage('build') {
       sh 'make wc_build'
