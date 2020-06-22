@@ -17,8 +17,9 @@ build('payform', 'docker-host') {
       withGithubSshCredentials {
         sh 'make wc_init'
       }
-      dependencyTrackPublisher artifact: 'bom.xml', artifactType: 'bom', projectName: env.REPO_NAME, projectVersion: env.BRANCH_NAME, synchronous: true
     }
+    runFESecurityTools()
+
     runStage('check') {
       sh 'make wc_check'
     }
