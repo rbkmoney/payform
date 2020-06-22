@@ -36,8 +36,6 @@ submodules: $(SUBTARGETS)
 
 init:
 	npm i
-	npm install @cyclonedx/bom
-	node_modules/.bin/cyclonedx-bom -o bom.xml
 
 check:
 	npm run check
