@@ -10,6 +10,7 @@ export class InitConfig {
     samsungPay: boolean;
     terminals: boolean;
     wallets: boolean;
+    mobileCommerce: boolean;
     paymentFlowHold: boolean;
     holdExpiration: HoldExpirationType;
     locale: string;

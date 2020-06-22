@@ -6,6 +6,7 @@ import {
     PaymentMethodsFormInfo,
     TerminalFormInfo,
     WalletFormInfo,
+    MobileCommerceFormInfo,
     TokenProviderFormInfo
 } from 'checkout/state';
 import { PaymentMethodName } from 'checkout/config';
@@ -26,6 +27,8 @@ const toInitialFormInfo = (isMultiMethods: boolean, initialPaymentMethod: Paymen
             return new TokenProviderFormInfo(BankCardTokenProvider.googlepay, previous);
         case PaymentMethodName.samsungPay:
             return new TokenProviderFormInfo(BankCardTokenProvider.samsungpay, previous);
+        case PaymentMethodName.mobileCommerce:
+            return new MobileCommerceFormInfo(previous);
         default:
             console.error(`${logPrefix} Unsupported initial payment method ${initialPaymentMethod}`);
             return new CardFormInfo();

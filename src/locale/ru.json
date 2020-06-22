@@ -5,6 +5,10 @@
     "info.dueDate.text": "Оплатите до",
     "info.subscription.label": "Ежемесячный платёж",
     "info.subscription.help.text": "Деньги списываются ${day} числа каждого месяца. Мы вышлем инструкцию, как отключить автоплатеж на email.",
+    "info.modal.mobile.commerce.description.steps": [
+        "На указанный номер телефона отправлено сообщение. Для подтверждения платежа выполните действия, указанные в SMS от оператора. Вы можете закрыть текущее окно.",
+        "Обычно оплата происходит в течение нескольких минут, в редких случаях процесс может затянуться до 3х дней. Как только платеж пройдет, вам поступит сообщение от оператора связи."
+    ],
     "footer.pay.label": "Безопасная оплата с",
     "footer.offer.label": "Публичная оферта",
     "form.header.delivery.label": "Доставка",
@@ -19,7 +23,7 @@
     "form.header.pay.bank.label": "Оплата через интернет-банк",
     "form.header.pay.bonus.label": "Оплата бонусами",
     "form.header.pay.crypto.label": "Оплата криптовалютой",
-    "form.header.pay.phone.label": "Оплата со счета телефона",
+    "form.header.pay.mobile.commerce.label": "Оплата со счета телефона",
     "form.header.terminals.label": "Все платёжные терминалы",
     "form.header.euroset.label": "Евросеть",
     "form.header.terminal.cashbox.label": "Касса в салоне связи",
@@ -77,7 +81,7 @@
     "form.payment.method.name.euroset.label": "Терминалы Евросеть",
     "form.payment.method.name.wallet.label": "Электронные кошельки",
     "form.payment.method.name.bank.label": "Интернет-банк",
-    "form.payment.method.name.phone.label": "Счет телефона",
+    "form.payment.method.name.mobile.commerce.label": "Счет телефона",
     "form.payment.method.name.bonus.label": "Бонусные баллы",
     "form.payment.method.name.crypto.label": "Криптовалюта",
     "form.payment.method.name.others.label": "Другие способы оплаты",
