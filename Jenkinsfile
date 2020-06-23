@@ -45,5 +45,5 @@ build('payform', 'docker-host') {
       }
     }
   }
-  pipeDefault(pipeline, 'dr2.rbkmoney.com', 'jenkins_harbor')
+  pipeDefault(pipeline)
 }
