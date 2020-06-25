@@ -20,7 +20,7 @@ build('payform', 'docker-host') {
     }
     runStage('test') {
       withGithubSshCredentials {
-        sh "make wc_cmd WC_CMD='(which cyclonedx-bom || npm install @cyclonedx/bom) && PATH=$$PATH:$$(pwd)/node_modules/@cyclonedx/bom/bin/ cyclonedx-bom -o bom.xml'"
+        sh "make wc_cmd WC_CMD='(which cyclonedx-bom || npm install @cyclonedx/bom) && PATH=\$\$PATH:\$\$(pwd)/node_modules/@cyclonedx/bom/bin/ cyclonedx-bom -o bom.xml'"
       }
     }
 
