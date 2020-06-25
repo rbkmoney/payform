@@ -18,11 +18,7 @@ build('payform', 'docker-host') {
         sh 'make wc_init'
       }
     }
-    runStage('test') {
-      withGithubSshCredentials {
-        sh "make wc_cmd WC_CMD='(which cyclonedx-bom || npm install @cyclonedx/bom) && PATH=$$PATH:$$(pwd)/node_modules/@cyclonedx/bom/bin/ cyclonedx-bom -o bom.xml'"
-      }
-    }
+    runFESecurityTools()
 
     runStage('check') {
       sh 'make wc_check'
