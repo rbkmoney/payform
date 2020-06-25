@@ -18,8 +18,6 @@ build('payform', 'docker-host') {
         sh 'make wc_init'
       }
     }
-    runFESecurityTools()
-
     runStage('check') {
       sh 'make wc_check'
     }
@@ -32,7 +30,7 @@ build('payform', 'docker-host') {
     runStage('build image') {
       sh 'make build_image'
     }
-
+    runFESecurityTools()
     try {
       if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic')) {
         runStage('push image') {
