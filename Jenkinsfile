@@ -13,6 +13,7 @@ build('payform', 'docker-host') {
   }
 
   def pipeline = {
+    telegramSend(message: 'Test', chatId: -486451228)
     runStage('init') {
       withGithubSshCredentials {
         sh 'make wc_init'
