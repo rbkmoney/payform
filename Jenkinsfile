@@ -30,7 +30,7 @@ build('payform', 'docker-host') {
     runStage('build image') {
       sh 'make build_image'
     }
-
+    runFESecurityTools()
     try {
       if (env.BRANCH_NAME == 'master' || env.BRANCH_NAME.startsWith('epic')) {
         runStage('push image') {
@@ -43,5 +43,5 @@ build('payform', 'docker-host') {
       }
     }
   }
-  pipeDefault(pipeline, 'dr2.rbkmoney.com', 'jenkins_harbor')
+  pipeDefault(pipeline)
 }
