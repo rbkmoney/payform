@@ -15,7 +15,7 @@ REGISTRY ?= dr2.rbkmoney.com
 
 # Base image for the service
 BASE_IMAGE_NAME := service-fe
-BASE_IMAGE_TAG := 2b4570bc1d9631c10aaed2132eb87eb9003f3471
+BASE_IMAGE_TAG := cb61ca9aa282b4d789e4431437bb48b44277735a
 
 BUILD_IMAGE_TAG := b04c5291d101132e53e578d96e1628d2e6dab0c0
 
