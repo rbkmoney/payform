@@ -1,10 +1,10 @@
 import { call } from 'redux-saga/effects';
-import { PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
+import { PaymentMethodName, PaymentMethod } from 'checkout/state';
 import { toAvailablePaymentMethods } from './to-available-payment-methods';
 import { BankCard, DigitalWallet, PaymentTerminal, MobileCommerce } from 'checkout/backend';
 import { bankCardToMethods } from './bank-card-to-methods';
 
-const bankCardState = { name: PaymentMethodNameState.BankCard };
+const bankCardState = { name: PaymentMethodName.BankCard };
 const amountInfo = 'amountInfoMock' as any;
 
 const bankCard = {
@@ -15,7 +15,8 @@ const digitalWallet = {
     method: 'DigitalWallet'
 } as DigitalWallet;
 const paymentTerminal = {
-    method: 'PaymentTerminal'
+    method: 'PaymentTerminal',
+    providers: ['euroset']
 } as PaymentTerminal;
 const mobileCommerce = {
     method: 'MobileCommerce'
@@ -40,12 +41,12 @@ describe('All payment methods', () => {
     });
 
     it('should return PaymentMethodState with DigitalWallet, PaymentTerminal', () => {
-        const actual = iterator.next({ name: PaymentMethodNameState.BankCard });
+        const actual = iterator.next({ name: PaymentMethodName.BankCard });
         const expected = [
-            { name: PaymentMethodNameState.BankCard },
-            { name: PaymentMethodNameState.DigitalWallet },
-            { name: PaymentMethodNameState.PaymentTerminal },
-            { name: PaymentMethodNameState.MobileCommerce }
+            { name: PaymentMethodName.BankCard },
+            { name: PaymentMethodName.DigitalWallet },
+            { name: PaymentMethodName.Euroset },
+            { name: PaymentMethodName.MobileCommerce }
         ];
         expect(actual.value).toEqual(expected);
         expect(actual.done).toBeTruthy();
@@ -91,7 +92,7 @@ describe('DigitalWallet', () => {
 
         it('should return PaymentMethodState with DigitalWallet', () => {
             const actual = iterator.next();
-            const expected = [{ name: PaymentMethodNameState.DigitalWallet }];
+            const expected = [{ name: PaymentMethodName.DigitalWallet }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -110,7 +111,7 @@ describe('DigitalWallet', () => {
 
         it('should return PaymentMethodState without DigitalWallet', () => {
             const actual = iterator.next([bankCardState]);
-            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
+            expect(actual.value).toEqual([{ name: PaymentMethodName.BankCard }]);
             expect(actual.done).toBeTruthy();
         });
     });
@@ -130,9 +131,9 @@ describe('PaymentTerminal', () => {
         } as any;
         const iterator = toAvailablePaymentMethods(paymentMethods, config, amountInfo);
 
-        it('should return PaymentMethodState with PaymentTerminal', () => {
+        it('should return PaymentMethodState with Euroset', () => {
             const actual = iterator.next();
-            const expected = [{ name: PaymentMethodNameState.PaymentTerminal }];
+            const expected: PaymentMethod[] = [{ name: PaymentMethodName.Euroset }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -152,7 +153,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState without PaymentTerminal', () => {
             const actual = iterator.next();
-            const expected = [{ name: PaymentMethodNameState.BankCard }];
+            const expected = [{ name: PaymentMethodName.BankCard }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -171,7 +172,7 @@ describe('PaymentTerminal', () => {
 
         it('should return PaymentMethodState without PaymentTerminal', () => {
             const actual = iterator.next();
-            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
+            expect(actual.value).toEqual([{ name: PaymentMethodName.BankCard }]);
             expect(actual.done).toBeTruthy();
         });
     });
@@ -190,7 +191,7 @@ describe('MobileCommerce', () => {
 
         it('should return PaymentMethodState with MobileCommerce', () => {
             const actual = iterator.next();
-            const expected = [{ name: PaymentMethodNameState.MobileCommerce }];
+            const expected = [{ name: PaymentMethodName.MobileCommerce }];
             expect(actual.value).toEqual(expected);
             expect(actual.done).toBeTruthy();
         });
@@ -206,7 +207,7 @@ describe('MobileCommerce', () => {
 
         it('should return PaymentMethodState without MobileCommerce', () => {
             const actual = iterator.next([bankCardState]);
-            expect(actual.value).toEqual([{ name: PaymentMethodNameState.BankCard }]);
+            expect(actual.value).toEqual([{ name: PaymentMethodName.BankCard }]);
             expect(actual.done).toBeTruthy();
         });
     });

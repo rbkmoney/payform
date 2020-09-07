@@ -1,7 +1,8 @@
 export enum PaymentMethodName {
     BankCard = 'BankCard',
     DigitalWallet = 'DigitalWallet',
-    PaymentTerminal = 'PaymentTerminal',
+    Euroset = 'Euroset',
+    QPS = 'QPS',
     ApplePay = 'ApplePay',
     GooglePay = 'GooglePay',
     SamsungPay = 'SamsungPay',

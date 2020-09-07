@@ -1,25 +1,27 @@
-import { PaymentMethod as PaymentMethodState } from 'checkout/state';
+import { PaymentMethod as PaymentMethodState, PaymentMethodName } from 'checkout/state';
 import { setPriority } from './set-priority';
 
 it('should set priority', () => {
-    const methodsState = [
-        { name: 'ApplePay' },
-        { name: 'GooglePay' },
-        { name: 'SamsungPay' },
-        { name: 'BankCard' },
-        { name: 'DigitalWallet' },
-        { name: 'PaymentTerminal' },
-        { name: 'MobileCommerce' }
-    ] as PaymentMethodState[];
+    const methodsState: PaymentMethodState[] = [
+        { name: PaymentMethodName.ApplePay },
+        { name: PaymentMethodName.GooglePay },
+        { name: PaymentMethodName.SamsungPay },
+        { name: PaymentMethodName.BankCard },
+        { name: PaymentMethodName.DigitalWallet },
+        { name: PaymentMethodName.Euroset },
+        { name: PaymentMethodName.MobileCommerce },
+        { name: PaymentMethodName.QPS }
+    ];
     const actual = setPriority(methodsState);
-    const expected = [
-        { name: 'ApplePay', priority: 1 },
-        { name: 'GooglePay', priority: 5 },
-        { name: 'SamsungPay', priority: 6 },
-        { name: 'BankCard', priority: 2 },
-        { name: 'DigitalWallet', priority: 3 },
-        { name: 'PaymentTerminal', priority: 4 },
-        { name: 'MobileCommerce', priority: 7 }
+    const expected: PaymentMethodState[] = [
+        { name: PaymentMethodName.ApplePay, priority: 1 },
+        { name: PaymentMethodName.GooglePay, priority: 5 },
+        { name: PaymentMethodName.SamsungPay, priority: 6 },
+        { name: PaymentMethodName.BankCard, priority: 2 },
+        { name: PaymentMethodName.DigitalWallet, priority: 3 },
+        { name: PaymentMethodName.Euroset, priority: 4 },
+        { name: PaymentMethodName.MobileCommerce, priority: 7 },
+        { name: PaymentMethodName.QPS, priority: 8 }
     ];
     expect(actual).toEqual(expected);
 });

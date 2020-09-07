@@ -55,8 +55,8 @@ describe('providePayment', () => {
         expect(actual).toEqual(expected);
     });
 
-    it('provide payment with PaymentTerminal', () => {
-        const method = PaymentMethodName.PaymentTerminal;
+    it('provide payment with Euroset', () => {
+        const method = PaymentMethodName.Euroset;
         const iterator = providePayment(method, c, m, a, v);
         const actual = iterator.next().value;
         const expected = call(payWithTerminalEuroset, c, m, a, values);

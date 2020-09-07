@@ -1,4 +1,5 @@
 export enum InteractionType {
     Redirect = 'Redirect',
-    PaymentTerminalReceipt = 'PaymentTerminalReceipt'
+    PaymentTerminalReceipt = 'PaymentTerminalReceipt',
+    QrCodeDisplayRequest = 'QrCodeDisplayRequest'
 }

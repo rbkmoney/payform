@@ -1,42 +1,45 @@
 import * as React from 'react';
+import { Euroset } from './euroset';
+import { PaymentMethod, PaymentMethodName } from 'checkout/state';
+import { Wallets } from './wallets';
+import { ApplePay } from './apple-pay';
+import { BankCard } from './bank-card';
+import { GooglePay } from './google-pay';
+import { MethodProps } from './method-props';
+import { SamsungPay } from './samsung-pay';
+import { QPS } from './qps';
+import { MobileCommerce } from './mobile-commerce';
 
-import { FormInfo, PaymentMethod } from 'checkout/state';
-import { Locale } from 'checkout/locale';
-import { getMethods } from './get-methods';
-import { PaymentRequestedPayload } from 'checkout/actions';
-import styled from 'checkout/styled-components';
-import { stylableTransition, APPEAR, LEAVE } from 'checkout/styled-transition';
-import { slidedown, slideup } from 'checkout/styled-components/animations';
-
-const List = styled(stylableTransition)`
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    min-height: 266px;
-
-    ${APPEAR} {
-        animation: ${slidedown} 0.75s;
+const Method: React.FC<MethodProps> = (props) => {
+    switch (props.method.name) {
+        case PaymentMethodName.Euroset:
+            return <Euroset {...props} />;
+        case PaymentMethodName.QPS:
+            return <QPS {...props} />;
+        case PaymentMethodName.DigitalWallet:
+            return <Wallets {...props} />;
+        case PaymentMethodName.BankCard:
+            return <BankCard {...props} />;
+        case PaymentMethodName.ApplePay:
+            return <ApplePay {...props} />;
+        case PaymentMethodName.GooglePay:
+            return <GooglePay {...props} />;
+        case PaymentMethodName.SamsungPay:
+            return <SamsungPay {...props} />;
+        case PaymentMethodName.MobileCommerce:
+            return <MobileCommerce {...props} />;
+        default:
+            return null;
     }
-
-    ${LEAVE} {
-        animation: ${slideup} 0.75s;
-    }
-`;
-
-export interface MethodsProps {
-    methods: PaymentMethod[];
-    locale: Locale;
-    setFormInfo: (formInfo: FormInfo) => any;
-    pay: (payload: PaymentRequestedPayload) => any;
-    amountPrefilled: boolean;
-    emailPrefilled: boolean;
-}
-
-export const Methods: React.FC<MethodsProps> = (props) => {
-    const { methods, locale, setFormInfo, pay, amountPrefilled, emailPrefilled } = props;
-    return (
-        <List component="ul" appear={1000} leave={1000}>
-            {getMethods(methods, { locale, setFormInfo, pay, amountPrefilled, emailPrefilled })}
-        </List>
-    );
 };
+
+export const Methods: React.FC<{ methods: PaymentMethod[]; props: Omit<MethodProps, 'method'> }> = ({
+    methods,
+    props
+}) => (
+    <>
+        {methods.map((method) => (
+            <Method key={method.name} method={method} {...props} />
+        ))}
+    </>
+);
