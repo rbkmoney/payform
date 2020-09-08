@@ -14,7 +14,6 @@ import {
     PaymentStatus,
     State,
     TerminalFormValues,
-    QPSFormInfo,
     InteractionFormInfo
 } from 'checkout/state';
 import { Header } from '../header';
@@ -24,6 +23,7 @@ import { findNamed, formatAmount } from 'checkout/utils';
 import { QRCode } from './qr-code';
 import { QPSInteractionFormProps } from './qps-interaction-form-props';
 import { QrCodeDisplayRequest } from 'checkout/backend';
+import { Text } from '../text';
 
 type Props = QPSInteractionFormProps & InjectedFormProps;
 
@@ -83,6 +83,7 @@ export class QPSInteractionFormDef extends React.Component<Props> {
         return (
             <div id="qps-started-form">
                 <Header title={locale['form.header.pay.qps.label']} />
+                <Text>{locale['form.qr.qps.info.text']}</Text>
                 <QRCode text={(interaction as QrCodeDisplayRequest).qrCode} />
             </div>
         );

@@ -20,8 +20,8 @@ it('should set priority', () => {
         { name: PaymentMethodName.BankCard, priority: 2 },
         { name: PaymentMethodName.DigitalWallet, priority: 3 },
         { name: PaymentMethodName.Euroset, priority: 4 },
-        { name: PaymentMethodName.MobileCommerce, priority: 7 },
-        { name: PaymentMethodName.QPS, priority: 8 }
+        { name: PaymentMethodName.MobileCommerce, priority: 8 },
+        { name: PaymentMethodName.QPS, priority: 7 }
     ];
     expect(actual).toEqual(expected);
 });

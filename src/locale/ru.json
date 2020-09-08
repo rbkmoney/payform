@@ -21,7 +21,7 @@
     "form.header.pay.wallet.label": "Оплата электронным кошельком",
     "form.header.pay.qiwi.label": "Оплата через QIWI Кошелек",
     "form.header.pay.euroset.label": "Оплата через Евросеть",
-    "form.header.pay.qps.label": "Оплата через систему быстрых платежей (СБП)",
+    "form.header.pay.qps.label": "Оплата через систему быстрых платежей",
     "form.header.pay.bank.label": "Оплата через интернет-банк",
     "form.header.pay.bonus.label": "Оплата бонусами",
     "form.header.pay.crypto.label": "Оплата криптовалютой",
@@ -82,7 +82,7 @@
     "form.payment.method.name.terminals.label": "Терминалы",
     "form.payment.method.name.euroset.label": "Евросеть",
     "form.payment.method.name.qps.label": "СБП",
-    "form.payment.method.name.wallet.label": "Электронные кошельки",
+    "form.payment.method.name.wallet.label": "QIWI Кошелек",
     "form.payment.method.name.bank.label": "Интернет-банк",
     "form.payment.method.name.mobile.commerce.label": "Счет телефона",
     "form.payment.method.name.bonus.label": "Бонусные баллы",
@@ -90,7 +90,6 @@
     "form.payment.method.name.others.label": "Другие способы оплаты",
     "form.payment.method.description.cash.text": "Оплата через терминал, банкомат или салон связи",
     "form.payment.method.description.euroset.text": "Оплата через терминал Евросеть",
-    "form.payment.method.description.qiwi.text": "Оплата через QIWI Кошелек",
     "form.payment.method.description.bonus.text": "Сбербанк Спасибо, программа Аэрофлот Бонус",
     "form.payment.terminal.email.label": "Укажите почту, чтобы получить код для оплаты",
     "form.pay.terminals.instruction.to.pay": "К оплате",
@@ -102,6 +101,7 @@
     "form.pay.terminals.step.five.text": "Обязательно возьмите чек",
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
     "form.pay.qps.info.text": "Будет сформирован QR-код для оплаты через приложение вашего банка",
+    "form.qr.qps.info.text": "Для оплаты отсканируйте QR-код через приложение вашего банка.",
     "form.help.header": "Как решить проблему?",
     "form.help.codes": {
         "InvalidPaymentTool": {

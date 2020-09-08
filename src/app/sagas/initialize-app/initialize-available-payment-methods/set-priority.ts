@@ -7,13 +7,12 @@ const paymentMethodPriorityDesc: PaymentMethodName[] = [
     PaymentMethodName.Euroset,
     PaymentMethodName.GooglePay,
     PaymentMethodName.SamsungPay,
-    PaymentMethodName.MobileCommerce,
-    PaymentMethodName.QPS
+    PaymentMethodName.QPS,
+    PaymentMethodName.MobileCommerce
 ];
 
 export const setPriority = (methods: PaymentMethod[]): PaymentMethod[] =>
     methods.map((method) => ({
         ...method,
-        ...(method.children ? { children: setPriority(method.children) } : {}),
         priority: paymentMethodPriorityDesc.findIndex((m) => m === method.name) + 1
     }));

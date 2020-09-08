@@ -9,6 +9,8 @@ export class InitConfig {
     googlePay: boolean;
     samsungPay: boolean;
     terminals: boolean;
+    euroset: boolean;
+    qps: boolean;
     wallets: boolean;
     mobileCommerce: boolean;
     paymentFlowHold: boolean;
