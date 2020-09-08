@@ -15,17 +15,17 @@ export const getTerminalsPaymentMethods = (
 ): PaymentMethod[] => {
     if (paymentFlowHold) {
         logUnavailableWithConfig('terminals', 'paymentFlowHold');
+        return [];
     }
     if (recurring) {
         logUnavailableWithConfig('terminals', 'recurring');
+        return [];
     }
-    const isQPS = methods.qps || methods.terminals;
-    const isEuroset = methods.euroset || methods.terminals;
-    return providers.reduce((acc, p) => {
-        const name = mapPaymentMethodNameByProvider[p];
-        if ((p === 'qps' && isQPS) || (p === 'euroset' && isEuroset)) {
-            acc.push({ name });
-        }
-        return acc;
-    }, [] as PaymentMethod[]);
+    return providers
+        .filter(
+            (p) =>
+                (p === 'qps' && (methods.qps || methods.terminals)) ||
+                (p === 'euroset' && (methods.euroset || methods.terminals))
+        )
+        .map((p) => ({ name: mapPaymentMethodNameByProvider[p] }));
 };

@@ -27,7 +27,8 @@ it('should return resolved init config', () => {
         email: 'test@test.com',
         redirectUrl: 'some url',
         initialPaymentMethod: 'bankCard',
-        theme: 'main'
+        theme: 'main',
+        euroset: 'false'
     };
     resolveIntegrationTypeMocked.mockReturnValueOnce({
         integrationType: IntegrationType.invoice,
@@ -68,7 +69,9 @@ it('should return resolved init config', () => {
         recurring: false,
         holdExpiration: HoldExpirationType.cancel,
         locale: 'auto',
-        initialPaymentMethod: PaymentMethodName.bankCard
+        initialPaymentMethod: PaymentMethodName.bankCard,
+        euroset: false,
+        qps: true
     };
     expect(actual).toEqual(expected);
 });
