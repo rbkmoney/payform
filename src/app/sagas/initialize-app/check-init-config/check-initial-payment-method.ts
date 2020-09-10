@@ -42,7 +42,7 @@ const checkTerminalEuroset = (euroset: boolean, paymentMethods: PaymentMethod[])
               available: false,
               reason: UnavailableReason.capability,
               message:
-                  "Value 'terminalEuroset' can not applied. Payment method PaymentTerminal is not available for merchant."
+                  "Value 'terminalEuroset' can not applied. Payment method PaymentTerminal/euroset is not available for merchant."
           };
 };
 
@@ -64,7 +64,7 @@ const checkTerminalQPS = (qps: boolean, paymentMethods: PaymentMethod[]): CheckR
               available: false,
               reason: UnavailableReason.capability,
               message:
-                  "Value 'terminalQPS' can not applied. Payment method PaymentTerminal is not available for merchant."
+                  "Value 'terminalQPS' can not applied. Payment method PaymentTerminal/qps is not available for merchant."
           };
 };
 
