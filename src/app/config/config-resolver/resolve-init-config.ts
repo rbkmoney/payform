@@ -54,6 +54,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         ...restParams
     } = userConfig;
     checkUnknown(resolvedIntegrationType, restParams);
+    const allTerminals = setDefault(resolveBoolean(terminals, 'terminals'), true);
     return {
         ...resolvedIntegrationType,
         name: resolveString(name, 'name'),
@@ -73,14 +74,13 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         recurring: setDefault(resolveBoolean(recurring, 'recurring'), false),
         theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name),
         metadata: setDefault(resolveObject(metadata, 'metadata'), undefined),
-        terminals: setDefault(resolveBoolean(terminals, 'terminals'), true),
         wallets: setDefault(resolveBoolean(wallets, 'wallets'), true),
         bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
         applePay: setDefault(resolveBoolean(applePay, 'applePay'), true),
         googlePay: setDefault(resolveBoolean(googlePay, 'googlePay'), true),
         samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
         mobileCommerce: setDefault(resolveBoolean(mobileCommerce, 'mobileCommerce'), true),
-        euroset: setDefault(resolveBoolean(euroset, 'euroset'), true),
-        qps: setDefault(resolveBoolean(qps, 'qps'), true)
+        euroset: setDefault(resolveBoolean(euroset, 'euroset'), allTerminals),
+        qps: setDefault(resolveBoolean(qps, 'qps'), allTerminals)
     };
 };

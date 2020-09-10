@@ -27,7 +27,7 @@ describe('All payment methods', () => {
         initConfig: {
             bankCard: true,
             wallets: true,
-            terminals: true,
+            euroset: true,
             mobileCommerce: true
         }
     } as any;
@@ -123,7 +123,7 @@ describe('PaymentTerminal', () => {
     describe('config with truthy terminals', () => {
         const config = {
             initConfig: {
-                terminals: true
+                euroset: true
             },
             appConfig: {
                 brandless: false

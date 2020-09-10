@@ -27,6 +27,7 @@ const firstCheck = (userConfig: InitConfig, m: ModelState): InitConfig => ({
         : true
 });
 
+// TODO: Description
 export const checkInitConfigCapability = (c: InitConfig, m: ModelState): InitConfig => {
     const checked = firstCheck(c, m);
     return {

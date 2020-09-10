@@ -1,6 +1,6 @@
 import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
 import { InitConfig, IntegrationType, PaymentMethodName as PaymentMethodNameConfig } from 'checkout/config';
-import { BankCardTokenProvider, PaymentMethod, PaymentMethodName } from 'checkout/backend';
+import { BankCardTokenProvider, PaymentMethod, PaymentMethodName, PaymentTerminal } from 'checkout/backend';
 
 const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
     if (!bankCard) {
@@ -23,15 +23,19 @@ const checkBankCard = (bankCard: boolean, paymentMethods: PaymentMethod[]): Chec
           };
 };
 
-const checkTerminalEuroset = (terminals: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
-    if (!terminals) {
+const checkTerminalEuroset = (euroset: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
+    if (!euroset) {
         return {
             available: false,
             reason: UnavailableReason.capability,
-            message: "Terminals disabled (Integration param 'terminals':'false')."
+            message: "Euroset disabled (Integration param 'euroset':'false')."
         };
     }
-    const found = paymentMethods.find((method) => method.method === PaymentMethodName.PaymentTerminal);
+    const found = paymentMethods.find(
+        (method) =>
+            method.method === PaymentMethodName.PaymentTerminal &&
+            (method as PaymentTerminal).providers.includes('euroset')
+    );
     return found
         ? { available: true }
         : {
@@ -39,6 +43,28 @@ const checkTerminalEuroset = (terminals: boolean, paymentMethods: PaymentMethod[
               reason: UnavailableReason.capability,
               message:
                   "Value 'terminalEuroset' can not applied. Payment method PaymentTerminal is not available for merchant."
+          };
+};
+
+const checkTerminalQPS = (qps: boolean, paymentMethods: PaymentMethod[]): CheckResult => {
+    if (!qps) {
+        return {
+            available: false,
+            reason: UnavailableReason.capability,
+            message: "QPS disabled (Integration param 'qps':'false')."
+        };
+    }
+    const found = paymentMethods.find(
+        (method) =>
+            method.method === PaymentMethodName.PaymentTerminal && (method as PaymentTerminal).providers.includes('qps')
+    );
+    return found
+        ? { available: true }
+        : {
+              available: false,
+              reason: UnavailableReason.capability,
+              message:
+                  "Value 'terminalQPS' can not applied. Payment method PaymentTerminal is not available for merchant."
           };
 };
 
@@ -114,18 +140,21 @@ const checkForInvoiceAndTemplate = (initConfig: InitConfig, paymentMethods: Paym
     const {
         initialPaymentMethod,
         bankCard,
-        terminals,
         wallets,
         applePay,
         googlePay,
         samsungPay,
-        mobileCommerce
+        mobileCommerce,
+        euroset,
+        qps
     } = initConfig;
     switch (initialPaymentMethod) {
         case PaymentMethodNameConfig.bankCard:
             return checkBankCard(bankCard, paymentMethods);
         case PaymentMethodNameConfig.terminalEuroset:
-            return checkTerminalEuroset(terminals, paymentMethods);
+            return checkTerminalEuroset(euroset, paymentMethods);
+        case PaymentMethodNameConfig.terminalQPS:
+            return checkTerminalQPS(qps, paymentMethods);
         case PaymentMethodNameConfig.walletQiwi:
             return checkWalletQiwi(wallets, paymentMethods);
         case PaymentMethodNameConfig.applePay:

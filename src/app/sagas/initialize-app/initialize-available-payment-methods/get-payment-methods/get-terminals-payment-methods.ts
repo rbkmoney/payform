@@ -8,7 +8,7 @@ const mapPaymentMethodNameByProvider: { [P in TerminalProviders]: PaymentMethodN
 };
 
 export const getTerminalsPaymentMethods = (
-    methods: { qps?: boolean; euroset?: boolean; terminals?: boolean } = {},
+    methods: { qps?: boolean; euroset?: boolean } = {},
     providers: TerminalProviders[],
     paymentFlowHold: boolean,
     recurring: boolean
@@ -22,10 +22,6 @@ export const getTerminalsPaymentMethods = (
         return [];
     }
     return providers
-        .filter(
-            (p) =>
-                (p === 'qps' && (methods.qps || methods.terminals)) ||
-                (p === 'euroset' && (methods.euroset || methods.terminals))
-        )
+        .filter((p) => (p === 'qps' && methods.qps) || (p === 'euroset' && methods.euroset))
         .map((p) => ({ name: mapPaymentMethodNameByProvider[p] }));
 };
