@@ -26,7 +26,7 @@ export function validateCardExpiry({ month, year }: ExpiryDate): boolean {
         return false;
     }
 
-    //TODO: Bring back the validation for the date when the world goes okay.
+    // TODO: Bring back the validation for the date when the world goes okay.
     // https://rbkmoney.atlassian.net/browse/FE-1043
 
     // const expiry = new Date(year, month);

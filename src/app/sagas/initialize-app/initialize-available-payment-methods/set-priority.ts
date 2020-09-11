@@ -1,42 +1,18 @@
-import { PaymentMethod as PaymentMethodState, PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
+import { PaymentMethod, PaymentMethodName } from 'checkout/state';
 
-export const setPriority = (methods: PaymentMethodState[]): PaymentMethodState[] =>
-    methods.map((method) => {
-        switch (method.name) {
-            case PaymentMethodNameState.ApplePay:
-                return {
-                    ...method,
-                    priority: 1
-                };
-            case PaymentMethodNameState.GooglePay:
-                return {
-                    ...method,
-                    priority: 5
-                };
-            case PaymentMethodNameState.SamsungPay:
-                return {
-                    ...method,
-                    priority: 6
-                };
-            case PaymentMethodNameState.BankCard:
-                return {
-                    ...method,
-                    priority: 2
-                };
-            case PaymentMethodNameState.DigitalWallet:
-                return {
-                    ...method,
-                    priority: 3
-                };
-            case PaymentMethodNameState.PaymentTerminal:
-                return {
-                    ...method,
-                    priority: 4
-                };
-            case PaymentMethodNameState.MobileCommerce:
-                return {
-                    ...method,
-                    priority: 7
-                };
-        }
-    });
+const paymentMethodPriorityDesc: PaymentMethodName[] = [
+    PaymentMethodName.ApplePay,
+    PaymentMethodName.BankCard,
+    PaymentMethodName.DigitalWallet,
+    PaymentMethodName.Euroset,
+    PaymentMethodName.GooglePay,
+    PaymentMethodName.SamsungPay,
+    PaymentMethodName.QPS,
+    PaymentMethodName.MobileCommerce
+];
+
+export const setPriority = (methods: PaymentMethod[]): PaymentMethod[] =>
+    methods.map((method) => ({
+        ...method,
+        priority: paymentMethodPriorityDesc.findIndex((m) => m === method.name) + 1
+    }));

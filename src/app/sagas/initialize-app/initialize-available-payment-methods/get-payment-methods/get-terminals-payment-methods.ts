@@ -1,19 +1,27 @@
-import { PaymentMethod as PaymentMethodState, PaymentMethodName as PaymentMethodNameState } from 'checkout/state';
+import { PaymentMethod, PaymentMethodName } from 'checkout/state';
 import { logUnavailableWithConfig } from './log-unavailable-with-config';
+import { TerminalProviders } from '../../../../backend';
+
+const mapPaymentMethodNameByProvider: { [P in TerminalProviders]: PaymentMethodName } = {
+    euroset: PaymentMethodName.Euroset,
+    qps: PaymentMethodName.QPS
+};
 
 export const getTerminalsPaymentMethods = (
-    isMethod: boolean,
+    methods: { qps?: boolean; euroset?: boolean } = {},
+    providers: TerminalProviders[],
     paymentFlowHold: boolean,
     recurring: boolean
-): PaymentMethodState[] => {
-    if (isMethod) {
-        if (paymentFlowHold) {
-            logUnavailableWithConfig('terminals', 'paymentFlowHold');
-        } else if (recurring) {
-            logUnavailableWithConfig('terminals', 'recurring');
-        } else {
-            return [{ name: PaymentMethodNameState.PaymentTerminal }];
-        }
+): PaymentMethod[] => {
+    if (paymentFlowHold) {
+        logUnavailableWithConfig('terminals', 'paymentFlowHold');
+        return [];
     }
-    return [];
+    if (recurring) {
+        logUnavailableWithConfig('terminals', 'recurring');
+        return [];
+    }
+    return providers
+        .filter((p) => (p === 'qps' && methods.qps) || (p === 'euroset' && methods.euroset))
+        .map((p) => ({ name: mapPaymentMethodNameByProvider[p] }));
 };

@@ -1,6 +1,7 @@
 import { InitConfig, IntegrationType } from 'checkout/config';
 import { PaymentMethod, PaymentMethodName } from 'checkout/backend';
 import { CheckResult, UnavailableReason } from 'checkout/sagas/log-unavailable-result';
+import { PaymentMethodName as AppPaymentMethodName } from 'checkout/state';
 
 const checkForInvoiceAndTemplate = (paymentMethods: PaymentMethod[]): CheckResult => {
     const bankCardOnly = paymentMethods.length === 1 && paymentMethods[0].method === PaymentMethodName.BankCard;
@@ -14,8 +15,28 @@ const checkForInvoiceAndTemplate = (paymentMethods: PaymentMethod[]): CheckResul
 };
 
 export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMethod[]): CheckResult => {
-    const { bankCard, googlePay, applePay, samsungPay, wallets, terminals, integrationType } = initConfig;
-    if (!(bankCard || wallets || terminals || googlePay || samsungPay || applePay)) {
+    const {
+        bankCard,
+        googlePay,
+        applePay,
+        samsungPay,
+        wallets,
+        integrationType,
+        euroset,
+        qps,
+        mobileCommerce
+    } = initConfig;
+    const activePaymentMethods: { [N in AppPaymentMethodName]: boolean } = {
+        BankCard: applePay,
+        DigitalWallet: wallets,
+        Euroset: euroset,
+        QPS: qps,
+        ApplePay: applePay,
+        GooglePay: googlePay,
+        SamsungPay: samsungPay,
+        MobileCommerce: mobileCommerce
+    };
+    if (!Object.values(activePaymentMethods).includes(true)) {
         return {
             available: false,
             reason: UnavailableReason.capability,

@@ -7,6 +7,7 @@ import { payWithTerminalEuroset } from './pay-with-terminal-euroset';
 import { payWithGooglePay } from './pay-with-google-pay';
 import { payWithSamsungPay } from './pay-with-samsung-pay';
 import { payWithMobileCommerce } from './pay-with-mobile-commerce';
+import { payWithTerminalQPS } from './pay-with-terminal-qps';
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
@@ -20,8 +21,10 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithBankCard);
         case PaymentMethodName.DigitalWallet:
             return call.bind(null, payWithDigitalWalletQiwi);
-        case PaymentMethodName.PaymentTerminal:
+        case PaymentMethodName.Euroset:
             return call.bind(null, payWithTerminalEuroset);
+        case PaymentMethodName.QPS:
+            return call.bind(null, payWithTerminalQPS);
         case PaymentMethodName.MobileCommerce:
             return call.bind(null, payWithMobileCommerce);
         default:

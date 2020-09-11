@@ -10,4 +10,4 @@
 
 Например в случае с nginx `appConfig.json` нужно положить в `/usr/share/nginx/html`
 
-### [Описание вариантов интеграции](https://rbkmoney.github.io/docs/integrations/checkout/)
+### [Описание вариантов интеграции](https://rbkmoney.github.io/docs/docs/payments/checkout/)

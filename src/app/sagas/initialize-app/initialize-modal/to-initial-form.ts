@@ -5,8 +5,8 @@ import {
     PaymentMethod,
     PaymentMethodName,
     PaymentMethodsFormInfo,
-    TerminalFormInfo,
     MobileCommerceFormInfo,
+    EurosetFormInfo,
     WalletFormInfo,
     TokenProviderFormInfo
 } from 'checkout/state';
@@ -16,8 +16,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
     switch (defaultMethod.name) {
         case PaymentMethodName.BankCard:
             return new CardFormInfo();
-        case PaymentMethodName.PaymentTerminal:
-            return new TerminalFormInfo();
+        case PaymentMethodName.Euroset:
+            return new EurosetFormInfo();
         case PaymentMethodName.DigitalWallet:
             return new WalletFormInfo();
         case PaymentMethodName.ApplePay:

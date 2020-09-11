@@ -35,13 +35,6 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         obscureCardCvv,
         requireCardHolder,
         redirectUrl,
-        terminals,
-        wallets,
-        bankCard,
-        applePay,
-        googlePay,
-        samsungPay,
-        mobileCommerce,
         paymentFlowHold,
         holdExpiration,
         locale,
@@ -49,9 +42,19 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         recurring,
         theme,
         metadata,
+        wallets,
+        bankCard,
+        applePay,
+        googlePay,
+        samsungPay,
+        mobileCommerce,
+        terminals,
+        euroset,
+        qps,
         ...restParams
     } = userConfig;
     checkUnknown(resolvedIntegrationType, restParams);
+    const allTerminals = setDefault(resolveBoolean(terminals, 'terminals'), true);
     return {
         ...resolvedIntegrationType,
         name: resolveString(name, 'name'),
@@ -61,13 +64,6 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         obscureCardCvv: resolveBoolean(obscureCardCvv, 'obscureCardCvv'),
         requireCardHolder: resolveBoolean(requireCardHolder, 'requireCardHolder'),
         redirectUrl: resolveString(redirectUrl, 'redirectUrl'),
-        terminals: setDefault(resolveBoolean(terminals, 'terminals'), true),
-        wallets: setDefault(resolveBoolean(wallets, 'wallets'), true),
-        bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
-        applePay: setDefault(resolveBoolean(applePay, 'applePay'), true),
-        googlePay: setDefault(resolveBoolean(googlePay, 'googlePay'), true),
-        samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
-        mobileCommerce: setDefault(resolveBoolean(mobileCommerce, 'mobileCommerce'), true),
         paymentFlowHold: setDefault(resolveBoolean(paymentFlowHold, 'paymentFlowHold'), false),
         holdExpiration: setDefault(
             resolveString(holdExpiration, 'holdExpiration') as HoldExpirationType,
@@ -77,6 +73,14 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         initialPaymentMethod: resolveString(initialPaymentMethod, 'initialPaymentMethod') as PaymentMethodName,
         recurring: setDefault(resolveBoolean(recurring, 'recurring'), false),
         theme: setDefault(resolveString(theme, 'theme'), DEFAULT_THEME.name),
-        metadata: setDefault(resolveObject(metadata, 'metadata'), undefined)
+        metadata: setDefault(resolveObject(metadata, 'metadata'), undefined),
+        wallets: setDefault(resolveBoolean(wallets, 'wallets'), true),
+        bankCard: setDefault(resolveBoolean(bankCard, 'bankCard'), true),
+        applePay: setDefault(resolveBoolean(applePay, 'applePay'), true),
+        googlePay: setDefault(resolveBoolean(googlePay, 'googlePay'), true),
+        samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
+        mobileCommerce: setDefault(resolveBoolean(mobileCommerce, 'mobileCommerce'), true),
+        euroset: setDefault(resolveBoolean(euroset, 'euroset'), allTerminals),
+        qps: setDefault(resolveBoolean(qps, 'qps'), allTerminals)
     };
 };

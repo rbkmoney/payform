@@ -1,7 +1,7 @@
 export enum PaymentMethodName {
     bankCard = 'bankCard',
-    terminals = 'terminals',
     terminalEuroset = 'terminalEuroset',
+    terminalQPS = 'terminalQPS',
     wallets = 'wallets',
     walletQiwi = 'walletQiwi',
     applePay = 'applePay',

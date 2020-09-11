@@ -14,45 +14,40 @@ import {
     PaymentMethodName,
     PaymentStatus,
     State,
-    TerminalFormValues
+    TerminalFormValues,
+    EurosetFormInfo
 } from 'checkout/state';
 import { Header } from '../header';
-import { Amount, Email } from '../';
+import { Amount, Email } from '..';
 import { toFieldsConfig } from '../fields-config';
-import { pay, prepareToPay, setViewInfoError } from 'checkout/actions';
-import { TerminalFormProps } from './terminal-form-props';
+import { pay, setViewInfoError } from 'checkout/actions';
+import { EurosetFormProps } from './euroset-form-props';
 import { NextButton } from './next-button';
 import { findNamed, formatAmount } from 'checkout/utils';
 import { AmountInfo } from './amount-info';
 import { Text } from '../text';
 
-const toTerminalFormInfo = (modals: ModalState[]) => {
+type Props = EurosetFormProps & InjectedFormProps;
+
+const terminalFormInfo = (modals: ModalState[]): EurosetFormInfo => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
-    return findNamed(info, FormName.terminalForm);
+    return findNamed(info, FormName.eurosetForm) as EurosetFormInfo;
 };
 
-const mapStateToProps = (state: State) => ({
-    terminalFormInfo: toTerminalFormInfo(state.modals),
+const mapStateToProps = (state: State): Partial<Props> => ({
+    terminalFormInfo: terminalFormInfo(state.modals),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
     formValues: get(state.form, 'terminalForm.values'),
     amount: formatAmount(state.amountInfo)
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
     pay: bindActionCreators(pay, dispatch),
-    setViewInfoError: bindActionCreators(setViewInfoError, dispatch),
-    prepareToPay: bindActionCreators(prepareToPay, dispatch)
+    setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
 });
 
-type Props = TerminalFormProps & InjectedFormProps;
-
-export class TerminalFormDef extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-        this.submit = this.submit.bind(this);
-    }
-
+export class EurosetFormDef extends React.Component<Props> {
     init(values: TerminalFormValues) {
         this.props.initialize({
             email: get(values, 'email'),
@@ -93,7 +88,7 @@ export class TerminalFormDef extends React.Component<Props> {
                 <div>
                     <Header title={locale['form.header.pay.euroset.label']} />
                     <Text>{locale['form.pay.terminals.info.text']}.</Text>
-                    {!amount.visible ? <AmountInfo amount={this.props.amount} locale={locale} /> : false}
+                    {!amount.visible && <AmountInfo amount={this.props.amount} locale={locale} />}
                     {email.visible && (
                         <FormGroup>
                             <Email />
@@ -110,15 +105,15 @@ export class TerminalFormDef extends React.Component<Props> {
         );
     }
 
-    private submit(values: CardFormValues) {
+    private submit = (values: CardFormValues) => {
         (document.activeElement as HTMLElement).blur();
-        this.props.pay({ method: PaymentMethodName.PaymentTerminal, values });
-    }
+        this.props.pay({ method: PaymentMethodName.Euroset, values });
+    };
 }
 
 const ReduxForm = reduxForm({
-    form: FormName.terminalForm,
+    form: FormName.eurosetForm,
     destroyOnUnmount: false
-})(TerminalFormDef);
+})(EurosetFormDef);
 
-export const TerminalForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
+export const EurosetForm = connect(mapStateToProps, mapDispatchToProps)(ReduxForm as any);
