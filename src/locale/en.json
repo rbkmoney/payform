@@ -89,7 +89,6 @@
     "form.payment.method.name.crypto.label": "Cryptocurrency",
     "form.payment.method.name.others.label": "All payment methods",
     "form.payment.method.description.cash.text": "Payment kiosks",
-    "form.payment.method.description.euroset.text": "Pay with Euroset terminal",
     "form.payment.method.description.bonus.text": "Sberbank \"Spasibo\", Aeroflot Bonus miles",
     "form.payment.terminal.email.label": "Where to send the payment code",
     "form.pay.terminals.instruction.to.pay": "To pay",
