@@ -81,7 +81,7 @@
     "form.payment.method.name.samsung.pay.label": "Samsung pay",
     "form.payment.method.name.terminals.label": "Терминалы",
     "form.payment.method.name.euroset.label": "Евросеть",
-    "form.payment.method.name.qps.label": "СБП",
+    "form.payment.method.name.qps.label": "Система быстрых платежей",
     "form.payment.method.name.wallet.label": "QIWI Кошелек",
     "form.payment.method.name.bank.label": "Интернет-банк",
     "form.payment.method.name.mobile.commerce.label": "Счет телефона",
