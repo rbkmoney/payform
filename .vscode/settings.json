@@ -4,7 +4,7 @@
         "Euroset",
         "QPS"
     ],
-    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.tsdk": "./node_modules/typescript/lib",
     "prettier.configPath": ".prettierrc",
     "prettier.prettierPath": "node_modules/prettier",
     "editor.defaultFormatter": "esbenp.prettier-vscode",

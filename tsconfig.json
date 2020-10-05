@@ -3,11 +3,11 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": true,
-        "moduleResolution": "node",
-        "module": "es2015",
-        "target": "es5",
+        "moduleResolution": "Node",
+        "module": "ES2015",
+        "target": "ES5",
         "jsx": "react",
-        "lib": ["es2015", "dom"],
+        "lib": ["ESNext", "DOM"],
         "baseUrl": ".",
         "paths": {
             "checkout/*": ["./src/app/*", "./src/locale/*"]
