@@ -11,3 +11,4 @@ export * from './amount';
 export * from './phone';
 export * from './split-by-first';
 export * from './is-contain-card-number';
+export * from './assert-unreachable';

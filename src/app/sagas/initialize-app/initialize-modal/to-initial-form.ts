@@ -8,9 +8,11 @@ import {
     MobileCommerceFormInfo,
     EurosetFormInfo,
     WalletFormInfo,
-    TokenProviderFormInfo
+    TokenProviderFormInfo,
+    QPSFormInfo
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
+import { assertUnreachable } from 'checkout/utils';
 
 const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
     switch (defaultMethod.name) {
@@ -18,6 +20,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new CardFormInfo();
         case PaymentMethodName.Euroset:
             return new EurosetFormInfo();
+        case PaymentMethodName.QPS:
+            return new QPSFormInfo();
         case PaymentMethodName.DigitalWallet:
             return new WalletFormInfo();
         case PaymentMethodName.ApplePay:
@@ -29,6 +33,7 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
         case PaymentMethodName.MobileCommerce:
             return new MobileCommerceFormInfo();
         default:
+            assertUnreachable(defaultMethod.name);
             console.error(`${logPrefix} Unsupported initial form for method ${defaultMethod}`);
             return new CardFormInfo();
     }
