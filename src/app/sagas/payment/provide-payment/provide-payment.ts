@@ -8,6 +8,7 @@ import { payWithGooglePay } from './pay-with-google-pay';
 import { payWithSamsungPay } from './pay-with-samsung-pay';
 import { payWithMobileCommerce } from './pay-with-mobile-commerce';
 import { payWithTerminalQPS } from './pay-with-terminal-qps';
+import { assertUnreachable } from 'checkout/utils';
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
@@ -28,6 +29,7 @@ const getPayFn = (method: PaymentMethodName) => {
         case PaymentMethodName.MobileCommerce:
             return call.bind(null, payWithMobileCommerce);
         default:
+            assertUnreachable(method);
             throw { code: 'error.unsupported.payment.method' };
     }
 };

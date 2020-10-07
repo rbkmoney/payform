@@ -5,7 +5,6 @@ import { bindActionCreators, Dispatch } from 'redux';
 import get from 'lodash-es/get';
 
 import {
-    CardFormValues,
     FormName,
     ModalForms,
     ModalName,
@@ -103,7 +102,7 @@ export class QPSFormDef extends React.Component<Props> {
         );
     }
 
-    private submit = (values: CardFormValues) => {
+    private submit = (values: TerminalFormValues) => {
         (document.activeElement as HTMLElement).blur();
         this.props.pay({ method: PaymentMethodName.QPS, values });
     };
