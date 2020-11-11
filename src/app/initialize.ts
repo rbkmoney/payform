@@ -1,4 +1,5 @@
 import { listen, Transport } from 'cross-origin-communicator';
+import * as creditCardType from 'credit-card-type';
 
 import { getUrlParams } from 'checkout/utils';
 import { isInFrame } from '../is-in-iframe';
@@ -7,6 +8,22 @@ import { StubTransport } from './stub-transport';
 import { Config, resolveInitConfig } from 'checkout/config';
 import { CommunicatorEvents, communicatorInstanceName } from '../communicator-constants';
 import { UserConfig } from 'checkout/config/config-resolver/user-config';
+
+/**
+ * Adding available bank cards
+ */
+// TODO: update credit-card-type
+(creditCardType as any).addCard({
+    niceType: 'TestCard',
+    type: 'test-card',
+    patterns: [1234],
+    gaps: [4, 8, 12],
+    lengths: [16],
+    code: {
+        name: 'CVV',
+        size: 3
+    }
+});
 
 const isUriContext = () => !!location.search;
 
