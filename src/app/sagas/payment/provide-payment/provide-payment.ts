@@ -9,6 +9,7 @@ import { payWithSamsungPay } from './pay-with-samsung-pay';
 import { payWithMobileCommerce } from './pay-with-mobile-commerce';
 import { payWithTerminalQPS } from './pay-with-terminal-qps';
 import { assertUnreachable } from 'checkout/utils';
+import { payWithTerminalUzcard } from './pay-with-terminal-uzcard';
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
@@ -24,6 +25,8 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithDigitalWalletQiwi);
         case PaymentMethodName.Euroset:
             return call.bind(null, payWithTerminalEuroset);
+        case PaymentMethodName.Uzcard:
+            return call.bind(null, payWithTerminalUzcard);
         case PaymentMethodName.QPS:
             return call.bind(null, payWithTerminalQPS);
         case PaymentMethodName.MobileCommerce:

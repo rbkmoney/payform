@@ -1,8 +1,8 @@
 import styled from 'checkout/styled-components';
-import { MethodSimple } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/mthod-simple';
-import { Description } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/description';
-import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
-import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
+import { MethodSimple } from './mthod-simple';
+import { Description } from './description';
+import { Title } from './title';
+import { Icon } from './icon/icon';
 
 export const Method = styled(MethodSimple)`
     :last-child {

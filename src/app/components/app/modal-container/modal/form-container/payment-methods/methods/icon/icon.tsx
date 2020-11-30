@@ -9,6 +9,7 @@ import Terminals from './terminals.svg';
 import Wallets from './wallets.svg';
 import MobileCommerce from './mobile-commerce.svg';
 import QPS from './qps.svg';
+import Uzcard from './uzcard.svg';
 
 const IconClasses = {
     'apple-pay': ApplePay,
@@ -18,7 +19,8 @@ const IconClasses = {
     terminals: Terminals,
     wallets: Wallets,
     'mobile-commerce': MobileCommerce,
-    qps: QPS
+    qps: QPS,
+    uzcard: Uzcard
 };
 
 type name = keyof typeof IconClasses;

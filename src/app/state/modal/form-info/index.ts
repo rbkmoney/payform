@@ -12,3 +12,4 @@ export * from './help-form-info';
 export * from './mobile-commerce-form-info';
 export * from './mobile-commerce-receipt-form-info';
 export * from './qps-form-info';
+export * from './uzcard-form-info';

@@ -9,11 +9,14 @@ import { MethodProps } from './method-props';
 import { SamsungPay } from './samsung-pay';
 import { QPS } from './qps';
 import { MobileCommerce } from './mobile-commerce';
+import { Uzcard } from './uzcard';
 
 const Method: React.FC<MethodProps> = (props) => {
     switch (props.method.name) {
         case PaymentMethodName.Euroset:
             return <Euroset {...props} />;
+        case PaymentMethodName.Uzcard:
+            return <Uzcard {...props} />;
         case PaymentMethodName.QPS:
             return <QPS {...props} />;
         case PaymentMethodName.DigitalWallet:

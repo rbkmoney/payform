@@ -7,6 +7,7 @@ export enum FormName {
     resultForm = 'resultForm',
     walletForm = 'walletForm',
     eurosetForm = 'eurosetForm',
+    uzcardForm = 'uzcardForm',
     qpsForm = 'qpsForm',
     interactionForm = 'interactionForm',
     tokenProviderForm = 'tokenProviderForm',

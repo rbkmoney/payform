@@ -11,6 +11,7 @@ import { ResultForm } from './result-form';
 import { WalletForm } from './wallet-form';
 import { MobileCommerceForm } from './mobile-commerce-form';
 import { EurosetForm } from './euroset-form';
+import { UzcardForm } from './uzcard-form';
 import { QPSForm } from './qps-forms';
 import { InteractionForm } from './interaction-form';
 import { TokenProviderForm } from './token-provider-form';
@@ -193,6 +194,8 @@ class FormContainerDef extends React.Component<FormContainerProps> {
                 return <WalletForm key={name} />;
             case FormName.eurosetForm:
                 return <EurosetForm key={name} />;
+            case FormName.uzcardForm:
+                return <UzcardForm key={name} />;
             case FormName.qpsForm:
                 return <QPSForm key={name} />;
             case FormName.resultForm:
