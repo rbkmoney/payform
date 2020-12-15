@@ -8,7 +8,8 @@ const paymentMethodPriorityDesc: PaymentMethodName[] = [
     PaymentMethodName.GooglePay,
     PaymentMethodName.SamsungPay,
     PaymentMethodName.QPS,
-    PaymentMethodName.MobileCommerce
+    PaymentMethodName.MobileCommerce,
+    PaymentMethodName.Uzcard
 ];
 
 export const setPriority = (methods: PaymentMethod[]): PaymentMethod[] =>

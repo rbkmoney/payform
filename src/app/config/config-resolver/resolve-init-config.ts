@@ -50,6 +50,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         mobileCommerce,
         terminals,
         euroset,
+        uzcard,
         qps,
         ...restParams
     } = userConfig;
@@ -81,6 +82,7 @@ export const resolveInitConfig = (userConfig: UserConfig): InitConfig => {
         samsungPay: setDefault(resolveBoolean(samsungPay, 'samsungPay'), true),
         mobileCommerce: setDefault(resolveBoolean(mobileCommerce, 'mobileCommerce'), true),
         euroset: setDefault(resolveBoolean(euroset, 'euroset'), allTerminals),
+        uzcard: setDefault(resolveBoolean(uzcard, 'uzcard'), allTerminals),
         qps: setDefault(resolveBoolean(qps, 'qps'), allTerminals)
     };
 };

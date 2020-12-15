@@ -35,6 +35,7 @@ it('should return resolved init config', () => {
         locale: 'auto',
         initialPaymentMethod: PaymentMethodName.bankCard,
         euroset: false,
+        uzcard: true,
         qps: true,
         requireCardHolder: false,
         obscureCardCvv: true,

@@ -15,7 +15,7 @@ export function* toAvailablePaymentMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     let result: PaymentMethodState[] = [];
-    const { wallets, euroset, qps, paymentFlowHold, recurring } = config.initConfig;
+    const { wallets, euroset, qps, uzcard, paymentFlowHold, recurring } = config.initConfig;
     for (const method of paymentMethods) {
         switch (method.method) {
             case PaymentMethodName.BankCard:
@@ -28,7 +28,7 @@ export function* toAvailablePaymentMethods(
             case PaymentMethodName.PaymentTerminal:
                 result = result.concat(
                     getTerminalsPaymentMethods(
-                        { euroset, qps },
+                        { euroset, qps, uzcard },
                         (method as PaymentTerminal).providers,
                         paymentFlowHold,
                         recurring

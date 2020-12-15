@@ -9,7 +9,8 @@ import {
     EurosetFormInfo,
     WalletFormInfo,
     TokenProviderFormInfo,
-    QPSFormInfo
+    QPSFormInfo,
+    UzcardFormInfo
 } from 'checkout/state';
 import { BankCardTokenProvider } from 'checkout/backend/model';
 import { assertUnreachable } from 'checkout/utils';
@@ -20,6 +21,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new CardFormInfo();
         case PaymentMethodName.Euroset:
             return new EurosetFormInfo();
+        case PaymentMethodName.Uzcard:
+            return new UzcardFormInfo();
         case PaymentMethodName.QPS:
             return new QPSFormInfo();
         case PaymentMethodName.DigitalWallet:

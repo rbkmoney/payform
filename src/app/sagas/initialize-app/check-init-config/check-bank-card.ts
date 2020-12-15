@@ -23,6 +23,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
         wallets,
         integrationType,
         euroset,
+        uzcard,
         qps,
         mobileCommerce
     } = initConfig;
@@ -30,6 +31,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
         BankCard: applePay,
         DigitalWallet: wallets,
         Euroset: euroset,
+        Uzcard: uzcard,
         QPS: qps,
         ApplePay: applePay,
         GooglePay: googlePay,

@@ -2,10 +2,10 @@ import * as React from 'react';
 
 import { FormName, WalletFormInfo } from 'checkout/state';
 import { MethodProps } from './method-props';
-import { Method } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/method';
-import { Title } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/title';
-import { Text } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/text';
-import { Icon } from 'checkout/components/app/modal-container/modal/form-container/payment-methods/methods/icon/icon';
+import { Method } from './method';
+import { Title } from './title';
+import { Text } from './text';
+import { Icon } from './icon/icon';
 
 const toWallets = (props: MethodProps) => props.setFormInfo(new WalletFormInfo(FormName.paymentMethods));
 

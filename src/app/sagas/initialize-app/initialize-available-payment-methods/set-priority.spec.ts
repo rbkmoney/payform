@@ -9,6 +9,7 @@ it('should set priority', () => {
         { name: PaymentMethodName.BankCard },
         { name: PaymentMethodName.DigitalWallet },
         { name: PaymentMethodName.Euroset },
+        { name: PaymentMethodName.Uzcard },
         { name: PaymentMethodName.MobileCommerce },
         { name: PaymentMethodName.QPS }
     ];
@@ -20,6 +21,7 @@ it('should set priority', () => {
         { name: PaymentMethodName.BankCard, priority: 2 },
         { name: PaymentMethodName.DigitalWallet, priority: 3 },
         { name: PaymentMethodName.Euroset, priority: 4 },
+        { name: PaymentMethodName.Uzcard, priority: 9 },
         { name: PaymentMethodName.MobileCommerce, priority: 8 },
         { name: PaymentMethodName.QPS, priority: 7 }
     ];

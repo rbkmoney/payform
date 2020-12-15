@@ -1,2 +1,2 @@
-export const terminalProviders = ['euroset', 'qps'] as const;
+export const terminalProviders = ['euroset', 'qps', 'uzcard'] as const;
 export type TerminalProviders = typeof terminalProviders[number];
