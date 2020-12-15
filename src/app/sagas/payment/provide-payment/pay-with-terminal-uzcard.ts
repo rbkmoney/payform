@@ -1,10 +1,10 @@
 import { call, CallEffect } from 'redux-saga/effects';
-import { createTerminalEuroset } from '../../create-payment-resource';
+import { createTerminalUzcard } from '../../create-payment-resource';
 import { AmountInfoState, ModelState, PayableFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
 import { makePayment } from './make-payment';
 
-export const createPaymentResource = (endpoint: string) => createTerminalEuroset.bind(null, endpoint);
+export const createPaymentResource = (endpoint: string) => createTerminalUzcard.bind(null, endpoint);
 
 export function* payWithTerminalUzcard(
     c: Config,
