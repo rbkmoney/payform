@@ -13,14 +13,22 @@ import {
     Redirect
 } from 'checkout/backend';
 
+function shouldOpenInSeparateWindow(url: string) {
+    return url.search('freelanceme.kz') !== -1;
+}
+
 export const providePaymentInteraction = (change: PaymentInteractionRequested): ModalState => {
     const { userInteraction } = change;
     switch (userInteraction.interactionType) {
         case InteractionType.Redirect:
+            const request = (userInteraction as Redirect).request;
+            if (shouldOpenInSeparateWindow(request.uriTemplate)) {
+                return new ModalForms([new InteractionFormInfo(userInteraction)], true);
+            }
             return new ModalInteraction(
                 {
                     type: ModalInteractionType.EventInteraction,
-                    request: (userInteraction as Redirect).request
+                    request
                 } as EventInteractionObject,
                 true
             );
