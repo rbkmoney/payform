@@ -30,8 +30,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
 });
 
 export class RedirectInteractionFormDef extends React.Component<Props> {
-    componentWillMount() {
-        this.tryToOpenWindow();
+    private linkRef = React.createRef<HTMLAnchorElement>();
+
+    componentDidMount() {
+        this.linkRef.current.click();
         this.props.finishInteraction();
     }
 
@@ -46,17 +48,13 @@ export class RedirectInteractionFormDef extends React.Component<Props> {
         return (
             <div id="redirect-interaction-form">
                 <Header title={locale['form.interaction.redirect.header.label']} />
-                <a href={interaction.request.uriTemplate} target="_blank">
+                <a href={interaction.request.uriTemplate} target="_blank" rel="noopener" ref={this.linkRef}>
                     <Button color="primary" type="button">
                         {locale['form.interaction.redirect.button.text']}
                     </Button>
                 </a>
             </div>
         );
-    }
-
-    private tryToOpenWindow() {
-        window.open(this.props.interaction.request.uriTemplate, '_blank');
     }
 }
 
