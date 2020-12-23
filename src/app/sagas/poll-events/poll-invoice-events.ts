@@ -51,13 +51,11 @@ function* poll(
 }
 
 function isEventToWait(event: InvoiceEvent): boolean {
-    return (
-        event &&
-        get(last(event.changes), ['userInteraction', 'interactionType']) === InteractionType.QrCodeDisplayRequest
-    );
+    return get(last(event.changes), ['userInteraction', 'interactionType']) === InteractionType.QrCodeDisplayRequest;
 }
 
 const POLLING_TIME_MS = 60 * 1000;
+const POLLING_INTEVAL_MS = 1000;
 const EVENTS_WAIT_POLLING_TIME_MS = 10 * 60 * 1000;
 const EVENTS_WAIT_INTERVAL_MS = 5 * 1000;
 
@@ -66,7 +64,13 @@ export function* pollInvoiceEvents(
     token: string,
     invoiceID: string
 ): Iterator<RaceEffect | PutEffect<SetEventsAction> | CallEffect> {
-    let [result] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, POLLING_TIME_MS)]);
+    let result: InvoiceEvent;
+    for (let i = 1; !result && i < 5; i += 1) {
+        [result] = yield race<any>([
+            call(poll, endpoint, token, invoiceID),
+            call(delay, POLLING_TIME_MS * i, POLLING_INTEVAL_MS * 2 ** i)
+        ]);
+    }
     if (isEventToWait(result)) {
         yield call(provideFromInvoiceEvent, result);
         [result] = yield race<any>([
