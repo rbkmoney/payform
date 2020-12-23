@@ -8,7 +8,7 @@ import { Header } from '../header';
 import { toFieldsConfig } from '../fields-config';
 import { setViewInfoError, finishInteraction } from 'checkout/actions';
 import { findNamed } from 'checkout/utils';
-import { QPSInteractionFormProps as RedirectInteractionFormProps } from './redirect-interaction-form-props';
+import { RedirectInteractionFormProps } from './redirect-interaction-form-props';
 import { Button } from '../button';
 
 type Props = RedirectInteractionFormProps & InjectedFormProps & { finishInteraction: () => void };
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
     setViewInfoError: bindActionCreators(setViewInfoError, dispatch)
 });
 
-export class QPSInteractionFormDef extends React.Component<Props> {
+export class RedirectInteractionFormDef extends React.Component<Props> {
     componentWillMount() {
         this.tryToOpenWindow();
         this.props.finishInteraction();
@@ -61,9 +61,9 @@ export class QPSInteractionFormDef extends React.Component<Props> {
 }
 
 const ReduxForm = reduxForm({
-    form: FormName.qpsForm,
+    form: FormName.redirectInteractionForm,
     destroyOnUnmount: false
-})(QPSInteractionFormDef);
+})(RedirectInteractionFormDef);
 
 export const RedirectInteractionForm = connect<Partial<Props>, Partial<Props>, Pick<Props, 'interaction'>, State>(
     mapStateToProps,

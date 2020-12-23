@@ -5,7 +5,7 @@ import { FormattedAmount } from 'checkout/utils';
 import { PaymentRequestedPayload } from 'checkout/actions';
 import { Redirect } from '../../../../../../backend';
 
-export interface QPSInteractionFormProps {
+export interface RedirectInteractionFormProps {
     terminalFormInfo: InteractionFormInfo;
     locale: Locale;
     fieldsConfig: FieldsConfig;
