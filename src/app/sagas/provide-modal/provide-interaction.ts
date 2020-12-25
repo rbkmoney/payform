@@ -12,11 +12,18 @@ import {
     PaymentInteractionRequested,
     Redirect
 } from 'checkout/backend';
+import { select, SelectEffect } from 'redux-saga/effects';
+import { isInteractionPopOutSelector } from '../../selectors';
 
-export const providePaymentInteraction = (change: PaymentInteractionRequested): ModalState => {
+export function* providePaymentInteraction(
+    change: PaymentInteractionRequested
+): IterableIterator<ModalForms | ModalInteraction | SelectEffect> {
     const { userInteraction } = change;
     switch (userInteraction.interactionType) {
         case InteractionType.Redirect:
+            if (yield select(isInteractionPopOutSelector)) {
+                return new ModalForms([new InteractionFormInfo(userInteraction)], true);
+            }
             return new ModalInteraction(
                 {
                     type: ModalInteractionType.EventInteraction,
@@ -31,7 +38,7 @@ export const providePaymentInteraction = (change: PaymentInteractionRequested): 
         default:
             throw { code: 'error.unsupported.user.interaction.type' };
     }
-};
+}
 
 export const provideCustomerInteraction = (change: CustomerBindingInteractionRequested): ModalState => {
     const { userInteraction } = change;

@@ -3,11 +3,18 @@ import { InjectedFormProps } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { FormName, ModalForms, ModalName, ModalState, State } from 'checkout/state';
-import { InteractionType, PaymentTerminalReceipt, UserInteraction, QrCodeDisplayRequest } from 'checkout/backend';
+import {
+    InteractionType,
+    PaymentTerminalReceipt,
+    UserInteraction,
+    QrCodeDisplayRequest,
+    Redirect
+} from 'checkout/backend';
 import { findNamed } from 'checkout/utils';
 import { InteractionTerminalForm } from './interaction-terminal-form';
 import { InteractionFormInfo } from 'checkout/state/modal/form-info';
 import { QPSInteractionForm } from '../qps-forms';
+import { RedirectInteractionForm } from '../redirect-interaction-form/redirect-interaction-form';
 
 const toInteractionFormReceipt = (modals: ModalState[]): UserInteraction => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -42,6 +49,9 @@ export class InteractionFormDef extends React.Component<Props> {
                     )}
                     {isInteraction<QrCodeDisplayRequest>(interaction, InteractionType.QrCodeDisplayRequest) && (
                         <QPSInteractionForm interaction={interaction} />
+                    )}
+                    {isInteraction<Redirect>(interaction, InteractionType.Redirect) && (
+                        <RedirectInteractionForm interaction={interaction} />
                     )}
                 </div>
             </form>

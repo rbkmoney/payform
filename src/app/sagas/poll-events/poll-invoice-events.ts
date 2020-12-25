@@ -57,15 +57,29 @@ function isEventToWait(event: InvoiceEvent): boolean {
     );
 }
 
+const POLLING_TIME_MS = 60 * 1000;
+const POLLING_INTEVAL_MS = 1000;
+const EVENTS_WAIT_POLLING_TIME_MS = 10 * 60 * 1000;
+const EVENTS_WAIT_INTERVAL_MS = 5 * 1000;
+
 export function* pollInvoiceEvents(
     endpoint: string,
     token: string,
     invoiceID: string
 ): Iterator<RaceEffect | PutEffect<SetEventsAction> | CallEffect> {
-    let [result] = yield race<any>([call(poll, endpoint, token, invoiceID), call(delay, 60000)]);
+    let result: InvoiceEvent;
+    for (let i = 1; !result && i < 5; i += 1) {
+        [result] = yield race<any>([
+            call(poll, endpoint, token, invoiceID),
+            call(delay, POLLING_TIME_MS * i, POLLING_INTEVAL_MS * 2 ** i)
+        ]);
+    }
     if (isEventToWait(result)) {
         yield call(provideFromInvoiceEvent, result);
-        [result] = yield race<any>([call(poll, endpoint, token, invoiceID, 5000), call(delay, 600000)]);
+        [result] = yield race<any>([
+            call(poll, endpoint, token, invoiceID, EVENTS_WAIT_INTERVAL_MS),
+            call(delay, EVENTS_WAIT_POLLING_TIME_MS)
+        ]);
     }
     if (result) {
         return yield put({

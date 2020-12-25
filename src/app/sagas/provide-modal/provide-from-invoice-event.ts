@@ -1,4 +1,4 @@
-import { put, PutEffect } from 'redux-saga/effects';
+import { put, call, CallEffect, PutEffect } from 'redux-saga/effects';
 import last from 'lodash-es/last';
 import { InvoiceEvent, InvoiceChangeType, PaymentInteractionRequested } from 'checkout/backend';
 import { Direction, GoToFormInfo, TypeKeys, SetModalState } from 'checkout/actions';
@@ -7,7 +7,7 @@ import { providePaymentInteraction } from './provide-interaction';
 
 type SetStateFromEvents = GoToFormInfo | SetModalState;
 
-const toPayload = (event: InvoiceEvent): SetStateFromEvents => {
+function* toPayload(event: InvoiceEvent): IterableIterator<CallEffect | SetStateFromEvents> {
     const change = last(event.changes);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentStatusChanged:
@@ -22,13 +22,16 @@ const toPayload = (event: InvoiceEvent): SetStateFromEvents => {
         case InvoiceChangeType.PaymentInteractionRequested:
             return {
                 type: TypeKeys.SET_MODAL_STATE,
-                payload: providePaymentInteraction(change as PaymentInteractionRequested)
+                payload: yield call(providePaymentInteraction, change as PaymentInteractionRequested)
             };
         default:
             throw { code: 'error.unsupported.invoice.change.type' };
     }
-};
+}
 
-export function* provideFromInvoiceEvent(event: InvoiceEvent): Iterator<PutEffect<SetStateFromEvents>> {
-    return yield put(toPayload(event));
+export function* provideFromInvoiceEvent(
+    event: InvoiceEvent
+): IterableIterator<CallEffect | PutEffect<SetStateFromEvents>> {
+    const payload = yield call(toPayload, event);
+    return yield put<SetStateFromEvents>(payload);
 }

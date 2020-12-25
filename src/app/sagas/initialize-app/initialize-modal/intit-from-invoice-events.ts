@@ -11,6 +11,7 @@ import { providePaymentInteraction } from '../../provide-modal';
 import { toModalResult } from './to-modal-result';
 import { toInitialState } from './to-initial-state';
 import { getLastChange } from 'checkout/utils';
+import { call, CallEffect } from 'redux-saga/effects';
 
 const initFormPaymentStatusChanged = (
     change: PaymentStatusChanged,
@@ -31,15 +32,15 @@ const initFormPaymentStatusChanged = (
     }
 };
 
-export const initFromInvoiceEvents = (
+export function* initFromInvoiceEvents(
     events: InvoiceEvent[],
     methods: PaymentMethod[],
     initialPaymentMethod: PaymentMethodName
-): ModalState => {
+): IterableIterator<ModalState | CallEffect> {
     const change = getLastChange(events);
     switch (change.changeType) {
         case InvoiceChangeType.PaymentInteractionRequested:
-            return providePaymentInteraction(change as PaymentInteractionRequested);
+            return yield call(providePaymentInteraction, change as PaymentInteractionRequested);
         case InvoiceChangeType.PaymentStarted:
         case InvoiceChangeType.InvoiceStatusChanged:
             return toModalResult();
@@ -50,4 +51,4 @@ export const initFromInvoiceEvents = (
         default:
             throw { code: 'error.unsupported.invoice.change.type' };
     }
-};
+}

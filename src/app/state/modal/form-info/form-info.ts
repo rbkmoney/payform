@@ -13,7 +13,8 @@ export enum FormName {
     tokenProviderForm = 'tokenProviderForm',
     helpForm = 'helpForm',
     mobileCommerceForm = 'mobileCommerceForm',
-    mobileCommerceReceiptForm = 'mobileCommerceReceiptForm'
+    mobileCommerceReceiptForm = 'mobileCommerceReceiptForm',
+    redirectInteractionForm = 'redirectInteractionForm'
 }
 
 export abstract class FormInfo implements Named {
