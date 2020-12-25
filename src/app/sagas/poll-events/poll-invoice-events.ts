@@ -51,7 +51,10 @@ function* poll(
 }
 
 function isEventToWait(event: InvoiceEvent): boolean {
-    return get(last(event.changes), ['userInteraction', 'interactionType']) === InteractionType.QrCodeDisplayRequest;
+    return (
+        event &&
+        get(last(event.changes), ['userInteraction', 'interactionType']) === InteractionType.QrCodeDisplayRequest
+    );
 }
 
 const POLLING_TIME_MS = 60 * 1000;
