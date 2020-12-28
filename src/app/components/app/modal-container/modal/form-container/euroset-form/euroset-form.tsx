@@ -38,7 +38,7 @@ const mapStateToProps = (state: State): Partial<Props> => ({
     terminalFormInfo: terminalFormInfo(state.modals),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
-    formValues: get(state.form, 'terminalForm.values'),
+    formValues: get(state.form, 'eurosetForm.values'),
     amount: formatAmount(state.amountInfo)
 });
 
@@ -48,13 +48,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
 });
 
 export class EurosetFormDef extends React.Component<Props> {
-    init(values: TerminalFormValues) {
-        this.props.initialize({
-            email: get(values, 'email'),
-            amount: get(values, 'amount')
-        });
-    }
-
     componentWillMount() {
         const {
             terminalFormInfo: { paymentStatus },
@@ -103,6 +96,13 @@ export class EurosetFormDef extends React.Component<Props> {
                 <NextButton locale={locale} />
             </form>
         );
+    }
+
+    private init(values: TerminalFormValues) {
+        this.props.initialize({
+            email: get(values, 'email'),
+            amount: get(values, 'amount')
+        });
     }
 
     private submit = (values: CardFormValues) => {

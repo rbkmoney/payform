@@ -39,9 +39,10 @@ const toReenterButtonText = (startedInfo: FormInfo, locale: Locale): string => {
         case FormName.walletForm:
             return locale['form.button.use.other.wallet.label'];
         case FormName.mobileCommerceForm:
-            return locale['form.button.use.other.wallet.label'];
+            return locale['form.button.use.other.mobileCommerce.label'];
+        default:
+            return locale['form.button.use.other.default.label'];
     }
-    throw new Error('Unsupported form type');
 };
 
 const payOtherCapability = (startedInfo: FormInfo): boolean =>
