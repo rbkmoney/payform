@@ -1,8 +1,7 @@
-import { AsYouType, getPhoneCode } from 'libphonenumber-js/custom';
-import metadata from './metadata.json';
+import { AsYouType, getCountryCallingCode, CountryCode } from 'libphonenumber-js/min';
 
 export function getPhoneCountryCode(value: string): string {
-    const formatter = new AsYouType('RU', metadata);
+    const formatter = (new AsYouType('RU') as any) as AsYouType & { country: CountryCode };
     formatter.input(value);
-    return getPhoneCode(formatter.country, metadata).toString();
+    return getCountryCallingCode(formatter.country).toString();
 }

@@ -1,6 +1,5 @@
-import { AsYouType } from 'libphonenumber-js/custom';
-import metadata from './metadata.json';
+import { AsYouType } from 'libphonenumber-js/min';
 
 export const formatPhoneNumber = (value: string): string => {
-    return value.slice(0, 1) === '+' ? new AsYouType('RU', metadata).input(value) : '+';
+    return value.slice(0, 1) === '+' ? new AsYouType('RU').input(value) : '+';
 };
