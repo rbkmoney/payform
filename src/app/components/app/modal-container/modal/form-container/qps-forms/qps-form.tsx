@@ -37,7 +37,7 @@ const mapStateToProps = (state: State): Partial<Props> => ({
     terminalFormInfo: terminalFormInfo(state.modals),
     locale: state.config.locale,
     fieldsConfig: toFieldsConfig(state.config.initConfig, state.model.invoiceTemplate),
-    formValues: get(state.form, 'terminalForm.values'),
+    formValues: get(state.form, 'qpsForm.values'),
     amount: formatAmount(state.amountInfo)
 });
 

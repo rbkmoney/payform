@@ -73,6 +73,8 @@
     "form.button.download.check.label": "Скачать чек",
     "form.button.use.other.card.label": "Использовать другую карту",
     "form.button.use.other.wallet.label": "Ввести другой номер телефона",
+    "form.button.use.other.mobileCommerce.label": "Ввести другой номер телефона",
+    "form.button.use.other.default.label": "Попробовать с другими данными",
     "form.button.pay.again.label": "Попробовать ещё раз",
     "form.button.pay.label": "Оплатить",
     "form.button.bind.label": "Привязать",
