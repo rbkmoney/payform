@@ -11,7 +11,10 @@ import { findNamed } from 'checkout/utils';
 import { RedirectInteractionFormProps } from './redirect-interaction-form-props';
 import { Button } from '../button';
 
-type Props = RedirectInteractionFormProps & InjectedFormProps & { finishInteraction: () => void };
+type Props = RedirectInteractionFormProps &
+    InjectedFormProps & {
+        finishInteraction: typeof finishInteraction;
+    };
 
 const terminalFormInfo = (modals: ModalState[]): InteractionFormInfo => {
     const info = (findNamed(modals, ModalName.modalForms) as ModalForms).formsInfo;
@@ -30,10 +33,8 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): Partial<Props> => ({
 });
 
 export class RedirectInteractionFormDef extends React.Component<Props> {
-    private linkRef = React.createRef<HTMLAnchorElement>();
-
     componentDidMount() {
-        this.linkRef.current.click();
+        this.open();
         this.props.finishInteraction();
     }
 
@@ -44,18 +45,20 @@ export class RedirectInteractionFormDef extends React.Component<Props> {
     }
 
     render() {
-        const { locale, interaction } = this.props;
+        const { locale } = this.props;
         return (
             <div id="redirect-interaction-form">
                 <Header title={locale['form.interaction.redirect.header.label']} />
-                <a href={interaction.request.uriTemplate} target="_blank" rel="noopener" ref={this.linkRef}>
-                    <Button color="primary" type="button">
-                        {locale['form.interaction.redirect.button.text']}
-                    </Button>
-                </a>
+                <Button onClick={this.open} color="primary" type="button">
+                    {locale['form.interaction.redirect.button.text']}
+                </Button>
             </div>
         );
     }
+
+    private open = () => {
+        window.open(this.props.interaction.request.uriTemplate, '_blank', 'noopener');
+    };
 }
 
 const ReduxForm = reduxForm({
