@@ -57,7 +57,7 @@ export class RedirectInteractionFormDef extends React.Component<Props> {
     }
 
     private open = () => {
-        window.open(this.props.interaction.request.uriTemplate, '_blank', 'noopener');
+        window.open(this.props.interaction.request.uriTemplate, '_blank');
     };
 }
 
