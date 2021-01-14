@@ -104,8 +104,10 @@
     "form.pay.terminals.info.text": "Будет сформирован номер счета для оплаты через платежный терминал",
     "form.pay.qps.info.text": "Будет сформирован QR-код для оплаты через приложение вашего банка",
     "form.qr.qps.info.text": "Для оплаты отсканируйте QR-код через приложение вашего банка.",
-    "form.interaction.redirect.header.label": "Форма оплаты сформирована",
+    "form.interaction.redirect.header.label": "Uzcard",
+    "form.interaction.redirect.text": "Следуйте инструкциям формы оплаты Uzcard",
     "form.interaction.redirect.button.text": "Открыть форму оплаты",
+    "form.interaction.redirect.wait.text": "Ожидание результата оплаты от формы Uzcard",
     "form.help.header": "Как решить проблему?",
     "form.help.codes": {
         "InvalidPaymentTool": {

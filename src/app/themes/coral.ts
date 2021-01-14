@@ -7,6 +7,7 @@ const theme: Theme = {
     color: {
         neutral: {
             0: '#fff',
+            0.1: '#d0d0d0',
             0.2: '#bababa',
             0.3: '#afafaf',
             0.8: '#333',

@@ -68,7 +68,7 @@ export function* pollInvoiceEvents(
     invoiceID: string
 ): Iterator<RaceEffect | PutEffect<SetEventsAction> | CallEffect> {
     let result: InvoiceEvent;
-    for (let i = 1; !result && i < 5; i += 1) {
+    for (let i = 1; !result && i < 6; i += 1) {
         [result] = yield race<any>([
             call(poll, endpoint, token, invoiceID),
             call(delay, POLLING_TIME_MS * i, POLLING_INTEVAL_MS * 2 ** i)
