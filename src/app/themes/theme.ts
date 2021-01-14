@@ -6,6 +6,7 @@ export interface Theme {
     color: {
         neutral: {
             0: string;
+            0.1: string;
             0.2: string;
             0.3: string;
             0.8: string;

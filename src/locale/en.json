@@ -104,8 +104,10 @@
     "form.pay.terminals.info.text": "An account number will be generated for payment through the payment kiosks",
     "form.pay.qps.info.text": "QR code will be generated for payment through the bank app",
     "form.qr.qps.info.text": "Scan the QR code through your bank's app for your payment.",
-    "form.interaction.redirect.header.label": "Payment form generated",
+    "form.interaction.redirect.header.label": "Uzcard",
+    "form.interaction.redirect.text": "You should follow the Uzcard payment form instruction",
     "form.interaction.redirect.button.text": "Open payment form",
+    "form.interaction.redirect.wait.text": "Waiting for payment result from Uzcard form",
     "form.help.header": "How to solve a problem?",
     "form.help.codes": {
         "InvalidPaymentTool": {
