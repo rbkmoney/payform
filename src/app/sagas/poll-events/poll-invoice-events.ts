@@ -39,7 +39,12 @@ function* poll(
     let lastEvent = null;
     while (!isStop(lastEvent)) {
         yield call(delay, interval);
-        const chunk: InvoiceEvent[] = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
+        let chunk: InvoiceEvent[] = [];
+        try {
+            chunk = yield call(getInvoiceEvents, endpoint, token, invoiceID, 5, lastEventID);
+        } catch (e) {
+            console.error(e);
+        }
         yield put({
             type: TypeKeys.EVENTS_POLLING,
             payload: chunk
