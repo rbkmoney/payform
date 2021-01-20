@@ -1,4 +1,5 @@
 export enum ThemeName {
     main = 'main',
-    coral = 'coral'
+    coral = 'coral',
+    persianGreen = 'persianGreen'
 }
