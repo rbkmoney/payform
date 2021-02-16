@@ -8,6 +8,7 @@ export class InitConfig {
     applePay: boolean;
     googlePay: boolean;
     samsungPay: boolean;
+    yandexPay: boolean;
     euroset: boolean;
     uzcard: boolean;
     qps: boolean;

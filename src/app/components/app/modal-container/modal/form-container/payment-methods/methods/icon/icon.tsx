@@ -10,11 +10,13 @@ import Wallets from './wallets.svg';
 import MobileCommerce from './mobile-commerce.svg';
 import QPS from './qps.svg';
 import Uzcard from './uzcard.svg';
+import YandexPay from './yandex-pay.svg';
 
 const IconClasses = {
     'apple-pay': ApplePay,
     'google-pay': GooglePay,
     'samsung-pay': SamsungPay,
+    'yandex-pay': YandexPay,
     'bank-card': BankCard,
     terminals: Terminals,
     wallets: Wallets,

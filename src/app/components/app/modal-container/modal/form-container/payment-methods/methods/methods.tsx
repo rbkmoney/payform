@@ -10,6 +10,7 @@ import { SamsungPay } from './samsung-pay';
 import { QPS } from './qps';
 import { MobileCommerce } from './mobile-commerce';
 import { Uzcard } from './uzcard';
+import { YandexPay } from './yandex-pay';
 
 const Method: React.FC<MethodProps> = (props) => {
     switch (props.method.name) {
@@ -29,6 +30,8 @@ const Method: React.FC<MethodProps> = (props) => {
             return <GooglePay {...props} />;
         case PaymentMethodName.SamsungPay:
             return <SamsungPay {...props} />;
+        case PaymentMethodName.YandexPay:
+            return <YandexPay {...props} />;
         case PaymentMethodName.MobileCommerce:
             return <MobileCommerce {...props} />;
         default:
