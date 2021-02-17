@@ -5,7 +5,7 @@ export interface Environment extends Window {
     ApplePaySession?: ApplePaySession;
     PaymentRequest?: PaymentRequest;
     google?: any;
-    YaPay?: any; // TODO d.ts for yandexpay is requered
+    YaPay?: YaPay;
 }
 
 export interface Configurator {

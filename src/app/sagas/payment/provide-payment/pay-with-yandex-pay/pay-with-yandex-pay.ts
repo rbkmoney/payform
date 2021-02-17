@@ -1,14 +1,38 @@
-import { CallEffect } from 'redux-saga/effects';
+import { call, CallEffect, SelectEffect } from 'redux-saga/effects';
+
 import { AmountInfoState, ModelState, TokenProviderFormValues } from 'checkout/state';
 import { Config } from 'checkout/config';
+import { createYandexPay } from '../../../create-payment-resource';
+import { makePayment } from '../make-payment';
+import { getPaymentData } from './get-payment-data';
+import { processYaCheckout } from './process-ya-checkout';
+import { completeYaPayment } from './complete-ya-payment';
+
+const createPaymentResource = (endpoint: string, merchantID: string, paymentToken: object) =>
+    createYandexPay.bind(null, endpoint, merchantID, paymentToken);
 
 export function* payWithYandexPay(
     c: Config,
     m: ModelState,
     a: AmountInfoState,
     v: TokenProviderFormValues
-): Iterator<CallEffect> {
-    console.log(c, m, a, v);
-    throw new Error('Unimplemented');
-    return null;
+): Iterator<SelectEffect | CallEffect> {
+    const { appConfig } = c;
+    const paymentData = getPaymentData(
+        appConfig.yandexPayMerchantID,
+        appConfig.yandexPayGatewayMerchantID,
+        a,
+        v.amount
+    );
+    const yaPayment = YaPay.Payment.create(paymentData);
+    const yaProcessEvent = yield call(processYaCheckout, yaPayment);
+    try {
+        const { capiEndpoint, yandexPayGatewayMerchantID } = appConfig;
+        const fn = createPaymentResource(capiEndpoint, yandexPayGatewayMerchantID, yaProcessEvent);
+        yield call(makePayment, c, m, v, a, fn);
+        yield call(completeYaPayment, yaPayment);
+    } catch (error) {
+        yaPayment.complete(YaPay.CompleteReason.Error, null);
+        throw error;
+    }
 }
