@@ -171,6 +171,7 @@
     "error.samsung.pay.cancel": "Интерфейс оплаты Samsung Pay отклонен",
     "error.samsung.pay.not.available": "Интерфейс оплаты Samsung Pay payment не доступен",
     "error.yandex.pay.unknown": "Неизвестная ошибка Yandex Pay",
+    "error.yandex.pay.unavailable": "Оплата Yandex Pay недоступна",
     "error.yandex.pay.event.abort.no.reason": "Оплата Yandex Pay отменена",
     "error.yandex.pay.event.abort.close": "Интерфейс оплаты Yandex Pay закрыт",
     "error.yandex.pay.event.abort.timeout": "Оплата Yandex Pay отменена (timeout)",

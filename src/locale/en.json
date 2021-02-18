@@ -171,6 +171,7 @@
     "error.samsung.pay.cancel": "Samsung Pay payment UI is dismissed",
     "error.samsung.pay.not.available": "Samsung Pay payment UI is not available",
     "error.yandex.pay.unknown": "Unknown Yandex Pay error",
+    "error.yandex.pay.unavailable": "Yandex Pay payment is unavailable",
     "error.yandex.pay.event.abort.no.reason": "Yandex Pay UI is aborted",
     "error.yandex.pay.event.abort.close": "Yandex Pay UI is closed",
     "error.yandex.pay.event.abort.timeout": "Yandex Pay UI is aborted (timeout)",
