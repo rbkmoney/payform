@@ -5,22 +5,13 @@ import { Locale } from 'checkout/locale';
 import { Methods } from './methods';
 import { PaymentRequestedPayload } from 'checkout/actions';
 import styled from 'checkout/styled-components';
-import { stylableTransition, APPEAR, LEAVE } from 'checkout/styled-transition';
-import { slidedown, slideup } from 'checkout/styled-components/animations';
+import { stylableTransition } from 'checkout/styled-transition';
 
 const List = styled(stylableTransition)`
     margin: 0;
     padding: 0;
     list-style: none;
     min-height: 266px;
-
-    ${APPEAR} {
-        animation: ${slidedown} 0.75s;
-    }
-
-    ${LEAVE} {
-        animation: ${slideup} 0.75s;
-    }
 `;
 
 export interface MethodsProps {

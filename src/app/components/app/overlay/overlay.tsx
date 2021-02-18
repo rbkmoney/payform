@@ -41,6 +41,9 @@ interface OverlayDefProps {
 }
 
 const OverlayBg = styled.div<{ inFrame: boolean }>`
+    // Safari popup animation fix
+    -webkit-transform: translateZ(-1000px);
+
     position: fixed;
     width: 100%;
     height: 100%;
