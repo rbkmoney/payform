@@ -254,11 +254,7 @@ declare namespace YaPay {
      */
     class Payment {
         constructor(paymentData: PaymentData);
-        static create(paymentData: PaymentData): Payment;
-        /**
-         * Проверяет данные платежа.
-         */
-        prepare(): Promise<void>;
+
         /**
          * Запускает процесс оплаты.
          */
@@ -366,6 +362,8 @@ declare namespace YaPay {
          */
         on(type: ButtonEventType.Click, listener: Listener<MouseEvent>): void;
     }
+
+    function createPayment(paymentData: PaymentData): Promise<YaPay.Payment>;
 }
 
 declare interface YaPay {

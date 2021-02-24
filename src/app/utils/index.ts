@@ -13,3 +13,4 @@ export * from './split-by-first';
 export * from './is-contain-card-number';
 export * from './assert-unreachable';
 export * from './is-payment-result-success';
+export * from './get-ya-pay-payment-data';

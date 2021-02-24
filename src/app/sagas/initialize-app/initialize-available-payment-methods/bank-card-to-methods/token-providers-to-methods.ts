@@ -46,7 +46,10 @@ export function* tokenProvidersToMethods(
                 break;
             case BankCardTokenProvider.yandexpay:
                 if (yandexPay) {
-                    const isYandexPay = yield call(isReadyToYandexPay, amountInfo);
+                    const {
+                        appConfig: { yandexPayMerchantID, yandexPayGatewayMerchantID }
+                    } = config;
+                    const isYandexPay = yield call(isReadyToYandexPay, yandexPayMerchantID, yandexPayGatewayMerchantID);
                     if (isYandexPay) {
                         result.push({ name: PaymentMethodNameState.YandexPay });
                     }
