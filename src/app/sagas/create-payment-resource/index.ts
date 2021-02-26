@@ -6,3 +6,4 @@ export * from './create-terminal-uzcard';
 export * from './create-digital-wallet-qiwi';
 export * from './create-google-pay';
 export * from './create-mobile-commerce';
+export * from './create-yandex-pay';

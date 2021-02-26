@@ -8,6 +8,7 @@ import {
 import { BankCardTokenProvider } from 'checkout/backend';
 import { isReadyToApplePay } from './is-ready-to-apple-pay';
 import { isReadyToGooglePay } from './is-ready-to-google-pay';
+import { isReadyToYandexPay } from './is-ready-to-yandex-pay';
 
 export function* tokenProvidersToMethods(
     providers: BankCardTokenProvider[],
@@ -15,7 +16,7 @@ export function* tokenProvidersToMethods(
     amountInfo: AmountInfoState
 ): Iterator<CallEffect | PaymentMethodState[]> {
     const result = [];
-    const { applePay, googlePay, samsungPay } = config.initConfig;
+    const { applePay, googlePay, samsungPay, yandexPay } = config.initConfig;
     for (const provider of providers) {
         switch (provider) {
             case BankCardTokenProvider.applepay:
@@ -43,6 +44,16 @@ export function* tokenProvidersToMethods(
                     result.push({ name: PaymentMethodNameState.SamsungPay });
                 }
                 break;
+            case BankCardTokenProvider.yandexpay:
+                if (yandexPay) {
+                    const {
+                        appConfig: { yandexPayMerchantID, yandexPayGatewayMerchantID }
+                    } = config;
+                    const isYandexPay = yield call(isReadyToYandexPay, yandexPayMerchantID, yandexPayGatewayMerchantID);
+                    if (isYandexPay) {
+                        result.push({ name: PaymentMethodNameState.YandexPay });
+                    }
+                }
         }
     }
     return result;

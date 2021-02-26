@@ -5,6 +5,7 @@ export interface Environment extends Window {
     ApplePaySession?: ApplePaySession;
     PaymentRequest?: PaymentRequest;
     google?: any;
+    YaPay?: YaPay;
 }
 
 export interface Configurator {
@@ -26,3 +27,5 @@ export const isGooglePaymentClientAvailable = (): boolean =>
     !!environment.google && !!environment.google.payments.api.PaymentsClient;
 
 export const isPaymentRequestAvailable = (): boolean => !!environment.PaymentRequest;
+
+export const isYandexPayAvailable = (): boolean => !!environment.YaPay;

@@ -20,6 +20,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
         googlePay,
         applePay,
         samsungPay,
+        yandexPay,
         wallets,
         integrationType,
         euroset,
@@ -36,6 +37,7 @@ export const checkBankCard = (initConfig: InitConfig, paymentMethods: PaymentMet
         ApplePay: applePay,
         GooglePay: googlePay,
         SamsungPay: samsungPay,
+        YandexPay: yandexPay,
         MobileCommerce: mobileCommerce
     };
     if (!Object.values(activePaymentMethods).includes(true)) {
