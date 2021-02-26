@@ -3,7 +3,7 @@ export const getYaPayPaymentData = (
     gatewayMerchantId: string,
     order?: YaPay.Order
 ): YaPay.PaymentData => ({
-    env: YaPay.PaymentEnv.Sandbox,
+    env: YaPay.PaymentEnv.Production,
     version: 2,
     countryCode: YaPay.CountryCode.Ru,
     currencyCode: YaPay.CurrencyCode.Rub,
