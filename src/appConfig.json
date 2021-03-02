@@ -7,5 +7,7 @@
     "samsungPayMerchantName": "<samsung pay merchant name>",
     "samsungPayServiceID": "<samsung pay service id>",
     "brandless": false,
-    "fixedTheme": ""
+    "fixedTheme": "",
+    "yandexPayMerchantID": "<yandex pay merchant id>",
+    "yandexPayGatewayMerchantID": "<yandex pay gateway merchant id>"
 }

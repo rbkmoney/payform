@@ -8,6 +8,8 @@ export class AppConfig {
     googlePayGatewayMerchantID: string;
     samsungPayMerchantName: string;
     samsungPayServiceID: string;
+    yandexPayMerchantID: string;
+    yandexPayGatewayMerchantID: string;
     brandless: boolean;
     fixedTheme: ThemeName;
 }

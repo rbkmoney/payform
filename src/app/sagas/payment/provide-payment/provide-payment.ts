@@ -10,6 +10,7 @@ import { payWithMobileCommerce } from './pay-with-mobile-commerce';
 import { payWithTerminalQPS } from './pay-with-terminal-qps';
 import { assertUnreachable } from 'checkout/utils';
 import { payWithTerminalUzcard } from './pay-with-terminal-uzcard';
+import { payWithYandexPay } from './pay-with-yandex-pay';
 
 const getPayFn = (method: PaymentMethodName) => {
     switch (method) {
@@ -19,6 +20,8 @@ const getPayFn = (method: PaymentMethodName) => {
             return call.bind(null, payWithGooglePay);
         case PaymentMethodName.SamsungPay:
             return call.bind(null, payWithSamsungPay);
+        case PaymentMethodName.YandexPay:
+            return call.bind(null, payWithYandexPay);
         case PaymentMethodName.BankCard:
             return call.bind(null, payWithBankCard);
         case PaymentMethodName.DigitalWallet:

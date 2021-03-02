@@ -33,6 +33,8 @@ const resolveDefaultMethod = (defaultMethod: PaymentMethod): FormInfo => {
             return new TokenProviderFormInfo(BankCardTokenProvider.googlepay);
         case PaymentMethodName.SamsungPay:
             return new TokenProviderFormInfo(BankCardTokenProvider.samsungpay);
+        case PaymentMethodName.YandexPay:
+            return new TokenProviderFormInfo(BankCardTokenProvider.yandexpay);
         case PaymentMethodName.MobileCommerce:
             return new MobileCommerceFormInfo();
         default:

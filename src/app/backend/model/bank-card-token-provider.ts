@@ -1,5 +1,6 @@
 export enum BankCardTokenProvider {
     applepay = 'applepay',
     googlepay = 'googlepay',
-    samsungpay = 'samsungpay'
+    samsungpay = 'samsungpay',
+    yandexpay = 'yandexpay'
 }
