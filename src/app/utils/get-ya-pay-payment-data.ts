@@ -1,3 +1,11 @@
+enum AllowedCardNetwork {
+    Mastercard = 'MASTERCARD',
+    Visa = 'VISA',
+    Mir = 'MIR',
+    Maestro = 'MAESTRO',
+    Visaelectron = 'VISAELECTRON'
+}
+
 export const getYaPayPaymentData = (
     merchantID: string,
     gatewayMerchantId: string,
@@ -19,10 +27,11 @@ export const getYaPayPaymentData = (
             gatewayMerchantId,
             allowedAuthMethods: [YaPay.AllowedAuthMethod.PanOnly],
             allowedCardNetworks: [
-                YaPay.AllowedCardNetwork.Visa,
-                YaPay.AllowedCardNetwork.Mastercard,
-                YaPay.AllowedCardNetwork.Mir,
-                YaPay.AllowedCardNetwork.Uzcard
+                AllowedCardNetwork.Visa,
+                AllowedCardNetwork.Mastercard,
+                AllowedCardNetwork.Mir,
+                AllowedCardNetwork.Maestro,
+                AllowedCardNetwork.Visaelectron
             ]
         }
     ]

@@ -96,7 +96,9 @@ declare namespace YaPay {
         Visa = 'VISA',
         Mir = 'MIR',
         UnionPay = 'UNIONPAY',
-        Uzcard = 'UZCARD'
+        Uzcard = 'UZCARD',
+        Visaelectron = 'VISAELECTRON',
+        Maestro = 'MAESTRO'
     }
     interface CardPaymentMethod extends TypedObject<PaymentMethodType.Card> {
         /**
