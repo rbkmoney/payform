@@ -9,6 +9,7 @@ import VisaIcon from './visa-icon.svg';
 import McIcon from './mc-icon.svg';
 import PciDssIcon from './pci-dss-icon.svg';
 import Logo from './logo.svg';
+import MirAcceptIcon from './mir-accept.svg';
 import { device } from 'checkout/utils/device';
 import styled, { css } from 'checkout/styled-components';
 
@@ -59,23 +60,40 @@ const SafeLogos = styled.div`
     flex-grow: 1;
 `;
 
-const StyledVisaIcon = styled(VisaIcon)`
-    margin-right: 25px;
-    * {
-        fill: #fff;
-    }
-`;
-
 const fixPosition = css`
     position: relative;
     top: 4px;
 `;
 
-const StyledMcIcon = styled(StyledVisaIcon.withComponent(McIcon))`
-    ${fixPosition}
+const iconGap = css`
+    margin-right: 16px;
 `;
 
-const StyledPciDssIcon = styled(StyledVisaIcon.withComponent(PciDssIcon))`
+const fillIconWhite = css`
+    * {
+        fill: #fff;
+    }
+`;
+
+const StyledVisaIcon = styled(VisaIcon)`
+    ${iconGap}
+    ${fillIconWhite}
+`;
+
+const StyledMcIcon = styled(McIcon)`
+    ${iconGap}
+    ${fixPosition}
+    ${fillIconWhite}
+`;
+
+const StyledPciDssIcon = styled(PciDssIcon)`
+    ${iconGap}
+    ${fixPosition}
+    ${fillIconWhite}
+`;
+
+const StyledMirAcceptIcon = styled(MirAcceptIcon)`
+    ${iconGap}
     ${fixPosition}
 `;
 
@@ -110,6 +128,7 @@ const FooterDef: React.FC<FooterProps> = (props) => (
             <SafeLogos>
                 <StyledVisaIcon />
                 <StyledMcIcon />
+                <StyledMirAcceptIcon />
                 <StyledPciDssIcon />
             </SafeLogos>
         </SafePaymentContainer>
