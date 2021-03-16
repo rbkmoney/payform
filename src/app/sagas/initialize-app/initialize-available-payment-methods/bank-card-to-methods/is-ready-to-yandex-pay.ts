@@ -26,12 +26,13 @@ export function* isReadyToYandexPay(
         if (!available) {
             return false;
         }
+        const paymentData = getYaPayPaymentData(yaPayMerchantID, yaPayGatewayMerchantId);
+        try {
+            return yield call(createYaPayment, paymentData, delayMs);
+        } catch (error) {
+            console.error(`${logPrefix} YaPay is not available`, error);
+            return false;
+        }
     }
-    const paymentData = getYaPayPaymentData(yaPayMerchantID, yaPayGatewayMerchantId);
-    try {
-        return yield call(createYaPayment, paymentData, delayMs);
-    } catch (error) {
-        console.error(`${logPrefix} YaPay is not available`, error);
-        return false;
-    }
+    return false;
 }
