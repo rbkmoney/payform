@@ -3,6 +3,10 @@ import styled from 'checkout/styled-components';
 
 const YandexPayButtonWrapper = styled.div`
     margin-top: 20px;
+
+    & > * {
+        width: 100%;
+    }
 `;
 
 export class YandexPayButton extends React.Component<
