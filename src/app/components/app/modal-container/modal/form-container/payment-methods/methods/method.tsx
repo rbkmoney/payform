@@ -24,6 +24,10 @@ export const Method = styled(MethodSimple)`
         ${Icon} svg path {
             fill: #fff;
         }
+
+        ${Icon} svg path[fill="white"] {
+            fill: ${({ theme }) => theme.color.primary[1]};
+        }
     }
 
     :active {

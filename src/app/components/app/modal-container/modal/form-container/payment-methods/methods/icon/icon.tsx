@@ -42,4 +42,8 @@ export const Icon = styled<React.FC<{ name: name; className?: string }>>((props)
     path {
         fill: ${({ theme }) => theme.color.secondary[0.9]};
     }
+
+    path[fill='white'] {
+        fill: #ffffff;
+    }
 `;
