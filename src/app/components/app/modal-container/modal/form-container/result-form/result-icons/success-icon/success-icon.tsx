@@ -1,18 +1,15 @@
 import * as React from 'react';
 
-import Success from './success-icon.svg';
-import NeutralSuccess from './neutral-success-icon.svg';
-import styled, { withTheme } from 'checkout/styled-components';
+import { withTheme } from 'checkout/styled-components';
 import { ThemeName, WithThemeProps } from 'checkout/themes';
+import { NeutralSuccessIcon } from './neutral-success-icon';
+import { MainSuccessIcon } from './main-success-icon';
 
-export const SuccessIcon = styled(
-    withTheme(({ theme, ...props }: WithThemeProps) => {
-        const Icon = theme.name === ThemeName.main ? Success : NeutralSuccess;
-        return <Icon {...props} id="success-icon" />;
-    })
-)`
-    width: 100px;
-    height: 100px;
-    display: block;
-    margin: auto;
-`;
+export const SuccessIcon = withTheme(({ theme }: WithThemeProps) => {
+    switch (theme.name) {
+        case ThemeName.main:
+            return <MainSuccessIcon />;
+        default:
+            return <NeutralSuccessIcon />;
+    }
+});

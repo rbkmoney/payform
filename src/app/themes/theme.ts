@@ -32,7 +32,9 @@ export interface Theme {
             1: string;
         };
         info: {};
-        success: {};
+        success: {
+            1?: string;
+        };
         focus: {
             1: string;
         };
