@@ -6,7 +6,7 @@
     "clear": "rimraf dist && rimraf .cache-loader",
     "build": "npm run clear && webpack --mode production --colors --progress --config config/webpack.prod.js",
     "start": "npm run clear && webpack-dev-server --mode development --colors --progress --config config/webpack.dev.js --port 7050 --host ::",
-    "test": "jest --silent",
+    "test": "jest",
     "check": "npm run lint:fix; npm run prettier:check",
     "fix": "npm run lint:fix; npm run prettier:fix",
     "prettier:fix": "prettier \"**\" --write",
@@ -20,30 +20,6 @@
   "author": "rbkmoney",
   "license": "",
   "private": true,
-  "jest": {
-    "transform": {
-      "^.+\\.js?$": "babel-jest",
-      "^.+\\.ts(x)?$": "ts-jest"
-    },
-    "testMatch": [
-      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.scss$": "identity-obj-proxy",
-      "^checkout/(.*)": "<rootDir>/src/app/$1"
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!lodash-es)"
-    ]
-  },
   "dependencies": {
     "card-validator": "~6.2.0",
     "credit-card-type": "~8.2.0",
