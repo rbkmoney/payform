@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 enum AllowedCardNetwork {
     Mastercard = 'MASTERCARD',
     Visa = 'VISA',
@@ -19,7 +21,10 @@ export const getYaPayPaymentData = (
         id: merchantID,
         name: 'RBKmoney'
     },
-    order,
+    order: {
+        ...(order || {}),
+        id: order && order.id ? order.id : uuid()
+    } as YaPay.Order,
     paymentMethods: [
         {
             type: YaPay.PaymentMethodType.Card,
