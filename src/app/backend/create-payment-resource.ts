@@ -22,7 +22,7 @@ export const createPaymentResource = (
                 paymentTool,
                 clientInfo: {
                     fingerprint: getFingerprintFromComponents(fingerprintComponents),
-                    url: (document.referrer || '').slice(0, 100)
+                    url: (document.referrer || '').slice(0, 599)
                 }
             }
         })
