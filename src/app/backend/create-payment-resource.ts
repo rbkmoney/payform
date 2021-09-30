@@ -21,7 +21,12 @@ export const createPaymentResource = (
             body: {
                 paymentTool,
                 clientInfo: {
-                    fingerprint: getFingerprintFromComponents(fingerprintComponents)
+                    fingerprint: getFingerprintFromComponents(fingerprintComponents),
+                    url: (document.referrer || '').slice(
+                        0,
+                        // URL max length (API constraint)
+                        599
+                    )
                 }
             }
         })

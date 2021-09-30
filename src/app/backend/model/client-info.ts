@@ -1,4 +1,5 @@
 export class ClientInfo {
-    ip: string;
     fingerprint: string;
+    ip?: string;
+    url?: string;
 }
