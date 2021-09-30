@@ -9,5 +9,6 @@
     "brandless": false,
     "fixedTheme": "",
     "yandexPayMerchantID": "<yandex pay merchant id>",
-    "yandexPayGatewayMerchantID": "<yandex pay gateway merchant id>"
+    "yandexPayGatewayMerchantID": "<yandex pay gateway merchant id>",
+    "sentryDsn": "<Sentry DS: https://sentry.io/settings/<company>/projects/<project>/keys/>"
 }
