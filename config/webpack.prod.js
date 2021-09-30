@@ -7,6 +7,7 @@ const initializerConfig = require('./initializer-config');
 const samsungPayConfig = require('./samsung-pay-config');
 const prepareOutputConfig = require('./prepare-output-config');
 const commonConfig = require('./common-config');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const commonProdConfig = {
     plugins: [
@@ -25,7 +26,18 @@ const commonProdConfig = {
             test: /\.js$|\.css$|\.html$|\.json$/,
             threshold: 10240,
             minRatio: 0.8
-        })
+        }),
+        ...(process.env.SENTRY_AUTH_TOKEN
+            ? [
+                  new SentryWebpackPlugin({
+                      authToken: process.env.SENTRY_AUTH_TOKEN,
+                      org: 'rbkmoney-fd',
+                      project: 'payform',
+                      include: './dist',
+                      ignore: ['node_modules', 'webpack.config.js']
+                  })
+              ]
+            : [])
     ]
 };
 

@@ -21,6 +21,8 @@
   "license": "",
   "private": true,
   "dependencies": {
+    "@sentry/react": "~6.13.2",
+    "@sentry/tracing": "~6.13.2",
     "card-validator": "~6.2.0",
     "credit-card-type": "~8.2.0",
     "currency-formatter": "~1.2.1",
@@ -46,6 +48,7 @@
     "whatwg-fetch": "~2.0.3"
   },
   "devDependencies": {
+    "@sentry/webpack-plugin": "~1.17.1",
     "@types/card-validator": "~4.1.0",
     "@types/credit-card-type": "~7.0.0",
     "@types/currency-formatter": "~1.3.0",
