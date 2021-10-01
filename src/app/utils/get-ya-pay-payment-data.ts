@@ -30,7 +30,7 @@ export const getYaPayPaymentData = (
             type: YaPay.PaymentMethodType.Card,
             gateway: 'rbkmoney',
             gatewayMerchantId,
-            allowedAuthMethods: [YaPay.AllowedAuthMethod.PanOnly],
+            allowedAuthMethods: [YaPay.AllowedAuthMethod.PanOnly, YaPay.AllowedAuthMethod.CloudToken],
             allowedCardNetworks: [
                 AllowedCardNetwork.Visa,
                 AllowedCardNetwork.Mastercard,
