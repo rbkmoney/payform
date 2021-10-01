@@ -7,6 +7,8 @@ import { initializeModel } from './initialize-model';
 import { initializeModal } from './initialize-modal';
 import { initializeAmountInfo } from './initialize-amount-info';
 import { initializeAvailablePaymentMethods } from './initialize-available-payment-methods';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 
 type InitializeAppPutEffect = InitializeAppCompleted | InitializeAppFailed;
 
@@ -14,6 +16,16 @@ export type InitializeAppEffect = CallEffect | PutEffect<InitializeAppPutEffect>
 
 export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
     const configChunk = yield call(loadConfig, userInitConfig.locale);
+    if (configChunk.appConfig.sentryDsn) {
+        Sentry.init({
+            dsn: configChunk.appConfig.sentryDsn,
+            integrations: [new Integrations.BrowserTracing()],
+
+            // We recommend adjusting this value in production, or using tracesSampler
+            // for finer control
+            tracesSampleRate: 1.0
+        });
+    }
     const { model, events } = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
     const initConfig = yield call(checkInitConfig, userInitConfig, model);
     const amountInfo = yield call(initializeAmountInfo, initConfig, model);
