@@ -1,19 +1,12 @@
 import { css } from 'checkout/styled-components';
 import { ThemeName } from './theme-name';
 import { Theme } from './theme';
+import { error, neutral, warning } from './common-palettes';
 
 const theme: Theme = {
     name: ThemeName.coral,
     color: {
-        neutral: {
-            0: '#fff',
-            0.1: '#d0d0d0',
-            0.2: '#bababa',
-            0.3: '#afafaf',
-            0.8: '#333',
-            0.9: '#292929',
-            1: '#000'
-        },
+        neutral,
         primary: {
             0.1: '#ff8454',
             1: '#d1658e',
@@ -26,14 +19,12 @@ const theme: Theme = {
             1: '#8330ec',
             1.1: '#9b4f69'
         },
-        error: {
-            1: '#e75542'
-        },
-        warning: {
-            1: '#ffe05c'
-        },
+        error,
+        warning,
         info: {},
-        success: {},
+        success: {
+            1: '#d1658e'
+        },
         focus: {
             1: '#d1658e'
         }

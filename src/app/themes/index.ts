@@ -2,8 +2,9 @@ import { Theme } from './theme';
 import { ThemeName } from './theme-name';
 import main from './main';
 import coral from './coral';
+import persianGreen from './persian-green';
 
-const themes = [main, coral];
+const themes = [main, coral, persianGreen];
 
 export const DEFAULT_THEME = main;
 

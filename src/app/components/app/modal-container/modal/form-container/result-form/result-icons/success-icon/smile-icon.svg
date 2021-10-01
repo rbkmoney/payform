@@ -1,0 +1,19 @@
+<svg viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M46 23C46 10.536 36.086.388 23.714.01 23.477.005 23.239 0 23 0 10.297 0 0 10.297 0 23" id="a" />
+        <mask id="b" fill="#fff"><use transform="rotate(180 23 11.5)" xlink:href="#a" /></mask>
+    </defs>
+    <g fill="none" fill-rule="nonzero">
+        <circle fill="#38CD8F" cx="43" cy="43" r="43" />
+        <path
+            d="M65.093 35c0-3.314-2.707-6-6.046-6C55.707 29 53 31.686 53 35m-19.907 0c0-3.314-2.707-6-6.046-6C23.707 29 21 31.686 21 35"
+            stroke="#000"
+            stroke-linecap="round"
+            stroke-width="2"
+        />
+        <g transform="translate(20 48)">
+            <use fill="#000" transform="rotate(180 23 11.5)" xlink:href="#a" />
+            <ellipse fill="#E75542" mask="url(#b)" cx="23" cy="23.5" rx="14" ry="8.5" />
+        </g>
+    </g>
+</svg>
