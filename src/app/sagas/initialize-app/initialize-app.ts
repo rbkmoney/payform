@@ -16,14 +16,16 @@ export type InitializeAppEffect = CallEffect | PutEffect<InitializeAppPutEffect>
 
 export function* initialize(userInitConfig: InitConfig): Iterator<CallEffect> {
     const configChunk = yield call(loadConfig, userInitConfig.locale);
-    Sentry.init({
-        dsn: configChunk.appConfig.sentryDsn,
-        integrations: [new Integrations.BrowserTracing()],
+    if (configChunk.appConfig.sentryDsn) {
+        Sentry.init({
+            dsn: configChunk.appConfig.sentryDsn,
+            integrations: [new Integrations.BrowserTracing()],
 
-        // We recommend adjusting this value in production, or using tracesSampler
-        // for finer control
-        tracesSampleRate: 1.0
-    });
+            // We recommend adjusting this value in production, or using tracesSampler
+            // for finer control
+            tracesSampleRate: 1.0
+        });
+    }
     const { model, events } = yield call(initializeModel, configChunk.appConfig.capiEndpoint, userInitConfig);
     const initConfig = yield call(checkInitConfig, userInitConfig, model);
     const amountInfo = yield call(initializeAmountInfo, initConfig, model);
