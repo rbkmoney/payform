@@ -20,7 +20,6 @@ export interface Theme {
             1.2: string;
         };
         secondary: {
-            0.7: string;
             0.9: string;
             1: string;
             1.1: string;
@@ -44,10 +43,13 @@ export interface Theme {
     };
     gradients: {
         form: ReturnType<typeof css>;
-        bg: ReturnType<typeof css>;
         loader: string[][];
     };
     font: {
         family: string;
+    };
+    background: {
+        image: boolean;
+        color: ReturnType<typeof css>;
     };
 }

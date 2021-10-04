@@ -22,7 +22,6 @@ const theme: Theme = {
             1.2: palette.Black
         },
         secondary: {
-            0.7: palette.Silver,
             0.9: palette.Black,
             1: palette.Black,
             1.1: palette.Black
@@ -42,9 +41,6 @@ const theme: Theme = {
     },
     gradients: {
         form: css`linear-gradient(-45deg, ${palette.Fog} 0%, ${palette.Solitude} 50%, ${palette.PastelPink} 100%)`,
-        bg: css`
-            ${palette.Black}
-        `,
         loader: [
             [palette.Silver, '0%'],
             [palette.Black, '100%']
@@ -52,6 +48,12 @@ const theme: Theme = {
     },
     font: {
         family: "'Roboto', sans-serif"
+    },
+    background: {
+        image: false,
+        color: css`
+            ${palette.Black}
+        `
     }
 };
 

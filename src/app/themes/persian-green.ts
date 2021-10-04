@@ -24,7 +24,6 @@ const theme: Theme = {
             1.2: palette.Teal
         },
         secondary: {
-            0.7: palette.Wistful,
             0.9: palette.PersianGreen,
             1: palette.Smalt,
             1.1: palette.Teal
@@ -44,7 +43,6 @@ const theme: Theme = {
     },
     gradients: {
         form: css`linear-gradient(45deg, ${palette.BayOfMany} -20%, ${palette.PersianGreen} 90%)`,
-        bg: css`linear-gradient(to top right, ${palette.Smalt}, ${palette.Pelorous})`,
         loader: [
             [palette.Pelorous, '0%'],
             [palette.BayOfMany, '100%']
@@ -52,6 +50,10 @@ const theme: Theme = {
     },
     font: {
         family: "'Roboto', sans-serif"
+    },
+    background: {
+        image: true,
+        color: css`linear-gradient(to top right, ${palette.Smalt}, ${palette.Pelorous})`
     }
 };
 

@@ -18,7 +18,6 @@ const theme: Theme = {
             1.2: '#29996a'
         },
         secondary: {
-            0.7: '#9088dd',
             0.9: '#685bff',
             1: '#8330ec',
             1.1: '#5248c9'
@@ -36,7 +35,6 @@ const theme: Theme = {
     },
     gradients: {
         form: css`linear-gradient(45deg, #8330ec -20%, #685bff 90%)`,
-        bg: css`linear-gradient(to top right, #9016f6, #6b35ff)`,
         loader: [
             ['#8330EC', '0%'],
             ['#5A46F9', '38%'],
@@ -45,6 +43,10 @@ const theme: Theme = {
     },
     font: {
         family: "'Roboto', sans-serif"
+    },
+    background: {
+        image: true,
+        color: css`linear-gradient(to top right, #9016f6, #6b35ff)`
     }
 };
 

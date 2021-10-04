@@ -52,30 +52,37 @@ const OverlayBg = styled.div<{ inFrame: boolean }>`
     right: 0;
     bottom: 0;
 
-    @media ${device.desktop} {
-        background: rgba(0, 0, 0, 0.7);
-    }
+    ${({ inFrame, theme }) => {
+        if (!inFrame) {
+            return css`
+                @media ${device.desktop} {
+                    background: rgba(0, 0, 0, 0.7);
+                }
+            `;
+        }
+        return theme.background.image
+            ? css`
+                  :before {
+                      content: '';
+                      display: block;
+                      position: absolute;
+                      left: 0;
+                      top: 0;
+                      width: 100%;
+                      height: 100%;
+                      background-image: ${theme.background.color};
+                      opacity: 0.35;
+                  }
 
-    ${({ inFrame, theme }) =>
-        inFrame &&
-        css`
-            :before {
-                content: '';
-                display: block;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-image: ${theme.gradients.bg};
-                opacity: 0.35;
-            }
-
-            @media ${device.desktop} {
-                background: transparent url(${bg}) bottom center;
-                background-size: cover;
-            }
-        `}
+                  @media ${device.desktop} {
+                      background: transparent url(${bg}) bottom center;
+                      background-size: cover;
+                  }
+              `
+            : css`
+                  background: ${theme.background.color};
+              `;
+    }}
 `;
 
 const OverlayDef: React.FC<OverlayDefProps> = ({ result, inFrame }) => (
