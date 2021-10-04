@@ -38,6 +38,9 @@ export interface Theme {
         focus: {
             1: string;
         };
+        font: {
+            infoBlock: string;
+        };
     };
     gradients: {
         form: ReturnType<typeof css>;

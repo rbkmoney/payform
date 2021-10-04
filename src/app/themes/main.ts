@@ -3,6 +3,10 @@ import { ThemeName } from './theme-name';
 import { Theme } from './theme';
 import { error, neutral, warning } from './common-palettes';
 
+const palette = {
+    White: '#fff'
+};
+
 const theme: Theme = {
     name: ThemeName.main,
     color: {
@@ -25,6 +29,9 @@ const theme: Theme = {
         success: {},
         focus: {
             1: '#685bff'
+        },
+        font: {
+            infoBlock: palette.White
         }
     },
     gradients: {

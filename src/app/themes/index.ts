@@ -3,8 +3,9 @@ import { ThemeName } from './theme-name';
 import main from './main';
 import coral from './coral';
 import persianGreen from './persian-green';
+import solitude from './solitude';
 
-const themes = [main, coral, persianGreen];
+const themes = [main, coral, persianGreen, solitude];
 
 export const DEFAULT_THEME = main;
 

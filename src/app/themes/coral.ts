@@ -3,6 +3,10 @@ import { ThemeName } from './theme-name';
 import { Theme } from './theme';
 import { error, neutral, warning } from './common-palettes';
 
+const palette = {
+    White: '#fff'
+};
+
 const theme: Theme = {
     name: ThemeName.coral,
     color: {
@@ -27,6 +31,9 @@ const theme: Theme = {
         },
         focus: {
             1: '#d1658e'
+        },
+        font: {
+            infoBlock: palette.White
         }
     },
     gradients: {

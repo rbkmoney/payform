@@ -9,7 +9,8 @@ const palette = {
     Teal: '#008E89',
     Wistful: '#9CA8CF',
     Smalt: '#003A8E',
-    BayOfMany: '#213980'
+    BayOfMany: '#213980',
+    White: '#fff'
 };
 
 const theme: Theme = {
@@ -36,6 +37,9 @@ const theme: Theme = {
         },
         focus: {
             1: palette.PersianGreen
+        },
+        font: {
+            infoBlock: palette.White
         }
     },
     gradients: {
