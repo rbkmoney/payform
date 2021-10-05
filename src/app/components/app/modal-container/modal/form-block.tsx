@@ -1,4 +1,4 @@
-import styled, { css } from 'checkout/styled-components';
+import styled from 'checkout/styled-components';
 import { device } from 'checkout/utils/device';
 
 export const FormBlock = styled.div<{ inFrame: boolean }>`
@@ -28,10 +28,4 @@ export const FormBlock = styled.div<{ inFrame: boolean }>`
             display: none !important;
         }
     }
-
-    ${({ theme, inFrame }) =>
-        inFrame &&
-        css`
-            box-shadow: 0 15px 49px 0 ${theme.color.secondary[0.7]};
-        `};
 `;

@@ -9,7 +9,8 @@ const palette = {
     Teal: '#008E89',
     Wistful: '#9CA8CF',
     Smalt: '#003A8E',
-    BayOfMany: '#213980'
+    BayOfMany: '#213980',
+    White: '#fff'
 };
 
 const theme: Theme = {
@@ -23,7 +24,6 @@ const theme: Theme = {
             1.2: palette.Teal
         },
         secondary: {
-            0.7: palette.Wistful,
             0.9: palette.PersianGreen,
             1: palette.Smalt,
             1.1: palette.Teal
@@ -36,11 +36,13 @@ const theme: Theme = {
         },
         focus: {
             1: palette.PersianGreen
+        },
+        font: {
+            infoBlock: palette.White
         }
     },
     gradients: {
         form: css`linear-gradient(45deg, ${palette.BayOfMany} -20%, ${palette.PersianGreen} 90%)`,
-        bg: css`linear-gradient(to top right, ${palette.Smalt}, ${palette.Pelorous})`,
         loader: [
             [palette.Pelorous, '0%'],
             [palette.BayOfMany, '100%']
@@ -48,6 +50,10 @@ const theme: Theme = {
     },
     font: {
         family: "'Roboto', sans-serif"
+    },
+    background: {
+        image: true,
+        color: css`linear-gradient(to top right, ${palette.Smalt}, ${palette.Pelorous})`
     }
 };
 
